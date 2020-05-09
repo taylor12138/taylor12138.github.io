@@ -459,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    746
+                    745
                 </div>
                 
 
@@ -476,14 +476,12 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id=""><a href="#" class="headerlink" title=""></a></h3><p>如定义单链表结构体，注意引用单链表元素用”  -&gt;  “,因为是*LinkList，使用单链表用的是LinkList</p>
-<pre class=" language-c++"><code class="language-c++">typedef struct LNode
+                <h3 id=""><a href="#" class="headerlink" title=""></a></h3><h4 id="如定义单链表结构体，注意引用单链表元素用”-gt-“-因为是-LinkList，使用单链表用的是LinkList"><a href="#如定义单链表结构体，注意引用单链表元素用”-gt-“-因为是-LinkList，使用单链表用的是LinkList" class="headerlink" title="如定义单链表结构体，注意引用单链表元素用”  -&gt;  “,因为是*LinkList，使用单链表用的是LinkList"></a>如定义单链表结构体，注意引用单链表元素用”  -&gt;  “,因为是*LinkList，使用单链表用的是LinkList</h4><pre class=" language-c++"><code class="language-c++">typedef struct LNode
 {
     ElemType data;    //结点的数据域
     struct LNode *next;        //结点的指针域
 }LNode,*LinkList;  //LinkList为指向结构体LNode的指针类型</code></pre>
-<p>前插法创建单链表</p>
-<pre><code>void CreateList_F(LinkList &amp;L,int n){ //算法2.10 前插法创建单链表
+<h4 id="前插法创建单链表"><a href="#前插法创建单链表" class="headerlink" title="前插法创建单链表"></a>前插法创建单链表</h4><pre><code>void CreateList_F(LinkList &amp;L,int n){ //算法2.10 前插法创建单链表
     //逆位序输入n个元素的值，建立到头结点的单链表L
     LinkList p;
     L=new LNode;
@@ -494,8 +492,7 @@
         cin&gt;&gt;p-&gt;data;   //输入元素值
         p-&gt;next=L-&gt;next;L-&gt;next=p;  //插入到表头
     }
-}</code></pre><p>后插法创建单链表</p>
-<pre><code>void CreateList_F(LinkList &amp;L,int n){ //算法2.10 前插法创建单链表
+}</code></pre><h4 id="后插法创建单链表"><a href="#后插法创建单链表" class="headerlink" title="后插法创建单链表"></a>后插法创建单链表</h4><pre><code>void CreateList_F(LinkList &amp;L,int n){ //算法2.10 前插法创建单链表
     //逆位序输入n个元素的值，建立到头结点的单链表L
     LinkList p,r;
     L=new LNode;
@@ -509,15 +506,13 @@
         r-&gt;next=p;
         r=p;  
     }
-}</code></pre><p>单链表的初始化，它的头节点（为了处理方便，在第一个节点之前增加的结点）没有赋值</p>
-<pre class=" language-c++"><code class="language-c++">Status InitList_L(LinkList &L){    //功能1---算法2.5 单链表的初始化
+}</code></pre><h4 id="单链表的初始化，它的头节点（为了处理方便，在第一个节点之前增加的结点）没有赋值"><a href="#单链表的初始化，它的头节点（为了处理方便，在第一个节点之前增加的结点）没有赋值" class="headerlink" title="单链表的初始化，它的头节点（为了处理方便，在第一个节点之前增加的结点）没有赋值"></a>单链表的初始化，它的头节点（为了处理方便，在第一个节点之前增加的结点）没有赋值</h4><pre class=" language-c++"><code class="language-c++">Status InitList_L(LinkList &L){    //功能1---算法2.5 单链表的初始化
     //构造一个空的单链表L
     L=new LNode;    //生成新结点作为头结点，用头指针L指向头结点
     L->next=NULL;    //头结点的指针域置空
     return OK;
 }</code></pre>
-<p>它不能像顺序表一样随机取值，所以需要一一查找</p>
-<pre><code>ElemType FindList(LinkList &amp;L,int i,ElemType &amp;x){
+<h4 id="它不能像顺序表一样随机取值，所以需要一一查找"><a href="#它不能像顺序表一样随机取值，所以需要一一查找" class="headerlink" title="它不能像顺序表一样随机取值，所以需要一一查找"></a>它不能像顺序表一样随机取值，所以需要一一查找</h4><pre><code>ElemType FindList(LinkList &amp;L,int i,ElemType &amp;x){
     LinkList p=L;
     for(int j=0;j&lt;i;j++){
         if(!(p-&gt;next))return ERROR;
@@ -525,8 +520,7 @@
     }
     x=p-&gt;data;
     return OK;
-}</code></pre><p>查找，按值查找</p>
-<pre class=" language-c++"><code class="language-c++">int GetElem(LinkList &L,int &i,ElemType e)
+}</code></pre><h4 id="查找，按值查找"><a href="#查找，按值查找" class="headerlink" title="查找，按值查找"></a>查找，按值查找</h4><pre class=" language-c++"><code class="language-c++">int GetElem(LinkList &L,int &i,ElemType e)
 {
     LinkList p=L; int j=1;
     while(p->next)
@@ -540,8 +534,7 @@
     }
     return ERROR;                     //循环至查找失败
 }</code></pre>
-<p>单链表的插入</p>
-<pre><code>Status ListInsert_L(LinkList &amp;L,int i,ElemType &amp;e){ //功能3---算法2.8 单链表的插入
+<h4 id="单链表的插入"><a href="#单链表的插入" class="headerlink" title="单链表的插入"></a>单链表的插入</h4><pre><code>Status ListInsert_L(LinkList &amp;L,int i,ElemType &amp;e){ //功能3---算法2.8 单链表的插入
     //在带头结点的单链表L中第i个位置之前插入元素e
     int j;
     LinkList p,s;
@@ -553,8 +546,7 @@
     s-&gt;next=p-&gt;next;                //将结点s插入L中
     p-&gt;next=s;
     return OK;
-}</code></pre><p>删除指定序号数据元素</p>
-<pre class=" language-c++"><code class="language-c++">Status ListDelete(LinkList &L,int i){
+}</code></pre><h4 id="删除指定序号数据元素"><a href="#删除指定序号数据元素" class="headerlink" title="删除指定序号数据元素"></a>删除指定序号数据元素</h4><pre class=" language-c++"><code class="language-c++">Status ListDelete(LinkList &L,int i){
     LinkList p=L;
     int j=1;
     while(p->next&&j<i){
@@ -851,10 +843,9 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            如定义s顺序表结构体，注意引用顺序表元素用”  .  “,因为是SqList不是*S’q’List
-typedef struct{
+                            如定义s顺序表结构体，注意引用顺序表元素用”  .  “,因为是SqList不是*S’q’Listtypedef struct{
     ElemType *elem;      //存储空间的基地址
-    int length;   
+    int length;    
                         
                     </div>
                     <div class="publish-info">
@@ -1066,7 +1057,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">2.9k</span>&nbsp;字
+                class="white-color">4.1k</span>&nbsp;字
             
             
             

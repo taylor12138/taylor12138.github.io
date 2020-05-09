@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="双向链表, Hexo">
+    <meta name="keywords" content="栈, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>双向链表 | Hexo</title>
+    <title>栈 | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">双向链表</h1>
+                    <h1 class="description center-align post-title">栈</h1>
                 </div>
             </div>
         </div>
@@ -450,7 +450,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-05-07
+                    2020-05-09
                 </div>
                 
 
@@ -459,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    45
+                    445
                 </div>
                 
 
@@ -476,17 +476,63 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="双向链表的定义"><a href="#双向链表的定义" class="headerlink" title="双向链表的定义"></a>双向链表的定义</h3><pre class=" language-c++"><code class="language-c++">typedef struct DuLNode{
-    ElemType data;
-    struct DuLNode *prior;  
-    struct DuLNode *next;             //前驱和后继
-}DuLNode，*DuLinkList</code></pre>
-<p>插入顺序</p>
-<pre class=" language-c++"><code class="language-c++">s=data;
-s->prior=p->prior;
-p->prior->next=s;
-s->next=p;
-p->prior=s;</code></pre>
+                <h2 id="顺序栈"><a href="#顺序栈" class="headerlink" title="顺序栈"></a>顺序栈</h2><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><pre class=" language-c++"><code class="language-c++">typedef struct {
+    SElemType *base;//栈底指针
+    SElemType *top;//栈顶指针
+    int stacksize;//栈可用的最大容量
+} SqStack;</code></pre>
+<h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><pre class=" language-c++"><code class="language-c++">Status InitStack(SqStack &S) {
+    //构造一个空栈S
+    S.base = new SElemType[MAXSIZE];//为顺序栈动态分配一个最大容量为MAXSIZE的数组空间
+    if (!S.base)
+        exit(OVERFLOW); //存储分配失败
+    S.top = S.base; //top初始为base，空栈
+    S.stacksize = MAXSIZE; //stacksize置为栈的最大容量MAXSIZE
+    return OK;
+}</code></pre>
+<h4 id="入栈和出栈（top无元素）"><a href="#入栈和出栈（top无元素）" class="headerlink" title="入栈和出栈（top无元素）"></a>入栈和出栈（top无元素）</h4><pre class=" language-c++"><code class="language-c++">//算法3.2　顺序栈的入栈
+Status Push(SqStack &S, SElemType e) {
+    // 插入元素e为新的栈顶元素
+    if (S.top - S.base == S.stacksize)
+        return ERROR; //栈满
+    *(S.top++) = e; //元素e压入栈顶，栈顶指针加1
+    return OK;
+}
+//算法3.3　顺序栈的出栈
+Status Pop(SqStack &S, SElemType &e) {
+    //删除S的栈顶元素，用e返回其值
+    if (S.base == S.top)
+        return ERROR;//栈空
+    e = *(--S.top); //栈顶指针减1，将栈顶元素赋给e
+    return OK;
+}</code></pre>
+<h2 id="链栈"><a href="#链栈" class="headerlink" title="链栈"></a>链栈</h2><h4 id="定义，有点像链表"><a href="#定义，有点像链表" class="headerlink" title="定义，有点像链表"></a>定义，有点像链表</h4><pre><code>typedef struct StackNode {
+    SElemType data;
+    struct StackNode *next;
+} StackNode, *LinkStack;</code></pre><h4 id="初始化，无需链表的”头结点“"><a href="#初始化，无需链表的”头结点“" class="headerlink" title="初始化，无需链表的”头结点“"></a>初始化，无需链表的”头结点“</h4><pre><code>Status InitStack(LinkStack &amp;S) { // 构造一个空栈 S，栈顶指针置空
+    S = NULL;
+    return OK;
+}</code></pre><h4 id="入栈和出栈"><a href="#入栈和出栈" class="headerlink" title="入栈和出栈"></a>入栈和出栈</h4><pre class=" language-c++"><code class="language-c++">//算法3.6　链栈的入栈
+Status Push(LinkStack &S, SElemType e) {//在栈顶插入元素e
+    LinkStack p;
+    p = new StackNode; //生成新结点
+    p->data = e; //将新结点数据域置为e
+    p->next = S; //将新结点插入栈顶
+    S = p; //修改栈顶指针为p
+    return OK;
+}
+
+//算法3.7　链栈的出栈
+Status Pop(LinkStack &S, SElemType &e) {//删除S的栈顶元素，用e返回其值
+    LinkStack p;
+    if (S == NULL)
+        return ERROR; //栈空
+    e = S->data; //将栈顶元素赋给e
+    p = S; //用p临时保存栈顶元素空间，以备释放
+    S = S->next; //修改栈顶指针
+    delete p; //释放原栈顶元素的空间
+    return OK;
+}</code></pre>
 
             </div>
             <hr/>
@@ -512,7 +558,7 @@ p->prior=s;</code></pre>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2020/05/07/shuang-xiang-lian-biao/">https://taylor12138.github.io/2020/05/07/shuang-xiang-lian-biao/</a>
+                    <a href="https://taylor12138.github.io/2020/05/09/zhan/">https://taylor12138.github.io/2020/05/09/zhan/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -719,6 +765,48 @@ p->prior=s;</code></pre>
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
+                <a href="/2020/05/09/xun-huan-dui-lie/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="循环队列">
+                        
+                        <span class="card-title">循环队列</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            循环队列顺序定义typedef struct {
+    QElemType *base;//初始化时动态分配存储空间
+    int front;//头指针
+    int rear;//尾指针
+} SqQueue;
+初始化//算法3.1
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-09
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Hello
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
                 <a href="/2020/05/08/css-yang-shi/">
                     <div class="card-image">
                         
@@ -744,48 +832,8 @@ p->prior=s;</code></pre>
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-08
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-user fa-fw"></i>
-                            Hello
-                            
-                        </span>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2020/05/07/dan-lian-biao/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="单链表">
-                        
-                        <span class="card-title">单链表</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            如定义单链表结构体，注意引用单链表元素用”  -&gt;  “,因为是*LinkList，使用单链表用的是LinkListtypedef struct LNode
-{
-    ElemType data;    //结点的数据域
-    s
-                        
-                    </div>
-                    <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-07
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-08
                             </span>
                         <span class="publish-author">
                             

@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="双向链表, Hexo">
+    <meta name="keywords" content="循环队列, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>双向链表 | Hexo</title>
+    <title>循环队列 | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">双向链表</h1>
+                    <h1 class="description center-align post-title">循环队列</h1>
                 </div>
             </div>
         </div>
@@ -450,7 +450,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-05-07
+                    2020-05-09
                 </div>
                 
 
@@ -459,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    45
+                    731
                 </div>
                 
 
@@ -476,17 +476,82 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="双向链表的定义"><a href="#双向链表的定义" class="headerlink" title="双向链表的定义"></a>双向链表的定义</h3><pre class=" language-c++"><code class="language-c++">typedef struct DuLNode{
-    ElemType data;
-    struct DuLNode *prior;  
-    struct DuLNode *next;             //前驱和后继
-}DuLNode，*DuLinkList</code></pre>
-<p>插入顺序</p>
-<pre class=" language-c++"><code class="language-c++">s=data;
-s->prior=p->prior;
-p->prior->next=s;
-s->next=p;
-p->prior=s;</code></pre>
+                <h3 id=""><a href="#" class="headerlink" title=""></a></h3><h2 id="循环队列"><a href="#循环队列" class="headerlink" title="循环队列"></a>循环队列</h2><h4 id="顺序"><a href="#顺序" class="headerlink" title="顺序"></a>顺序</h4><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><pre class=" language-c++"><code class="language-c++">typedef struct {
+    QElemType *base;//初始化时动态分配存储空间
+    int front;//头指针
+    int rear;//尾指针
+} SqQueue;</code></pre>
+<h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><pre class=" language-c++"><code class="language-c++">//算法3.11　循环队列的初始化
+Status InitQueue(SqQueue &Q) {//构造一个空队列Q
+    Q.base = new QElemType[MAXQSIZE]; //为队列分配一个最大容量为MAXSIZE的数组空间
+    if (!Q.base)
+        exit(OVERFLOW); //存储分配失败
+    Q.front = Q.rear = 0; //头指针和尾指针置为零，队列为空
+    return OK;
+}</code></pre>
+<h4 id="求队列长度"><a href="#求队列长度" class="headerlink" title="求队列长度"></a>求队列长度</h4><pre class=" language-c++"><code class="language-c++">//算法3.12　求循环队列的长度
+int QueueLength(SqQueue Q) {//返回Q的元素个数，即队列的长度
+    return (Q.rear - Q.front + MAXQSIZE) % MAXQSIZE;
+}</code></pre>
+<h4 id="入队和出队（防止假溢出）（出头front，入尾rear）（rear无元素，front有元素）"><a href="#入队和出队（防止假溢出）（出头front，入尾rear）（rear无元素，front有元素）" class="headerlink" title="入队和出队（防止假溢出）（出头front，入尾rear）（rear无元素，front有元素）"></a>入队和出队（防止假溢出）（出头front，入尾rear）（rear无元素，front有元素）</h4><pre class=" language-c++"><code class="language-c++">//算法3.13　循环队列的入队
+Status EnQueue(SqQueue &Q, QElemType e) {//插入元素e为Q的新的队尾元素
+    if ((Q.rear + 1) % MAXQSIZE == Q.front) //尾指针在循环意义上加1后等于头指针，表明队满
+        return ERROR;
+    Q.base[Q.rear] = e; //新元素插入队尾
+    Q.rear = (Q.rear + 1) % MAXQSIZE; //队尾指针加1
+    return OK;
+}
+
+//算法3.14　循环队列的出队
+Status DeQueue(SqQueue &Q, QElemType &e) {//删除Q的队头元素，用e返回其值
+    if (Q.front == Q.rear)
+        return ERROR; //队空
+    e = Q.base[Q.front]; //保存队头元素
+    Q.front = (Q.front + 1) % MAXQSIZE; //队头指针加1
+    return OK;
+}</code></pre>
+<h2 id="链队"><a href="#链队" class="headerlink" title="链队"></a>链队</h2><h4 id="定义（还是像极了单链表，可知X链的形式一般都是单链表拓展）"><a href="#定义（还是像极了单链表，可知X链的形式一般都是单链表拓展）" class="headerlink" title="定义（还是像极了单链表，可知X链的形式一般都是单链表拓展）"></a>定义（还是像极了单链表，可知X链的形式一般都是单链表拓展）</h4><pre class=" language-c++"><code class="language-c++">typedef struct QNode {
+    QElemType data;
+    struct QNode *next;
+} QNode, *QueuePtr;
+typedef struct {
+    QueuePtr front; //队头指针
+    QueuePtr rear; //队尾指针
+} LinkQueue;</code></pre>
+<h4 id="链队的初始化"><a href="#链队的初始化" class="headerlink" title="链队的初始化"></a>链队的初始化</h4><pre class=" language-c++"><code class="language-c++">Status InitQueue(LinkQueue &Q) {//构造一个空队列Q
+    Q.front = Q.rear = new QNode; //生成新结点作为头结点，队头和队尾指针指向此结点
+    Q.front->next = NULL; //头结点的指针域置空
+    return OK;
+}</code></pre>
+<h4 id="入队和出队（队头front无元素）"><a href="#入队和出队（队头front无元素）" class="headerlink" title="入队和出队（队头front无元素）"></a>入队和出队（队头front无元素）</h4><pre class=" language-c++"><code class="language-c++">//算法3.17　链队的入队
+Status EnQueue(LinkQueue &Q, QElemType e) {//插入元素e为Q的新的队尾元素
+    QueuePtr p;
+    p = new QNode; //为入队元素分配结点空间，用指针p指向
+    p->data = e; //将新结点数据域置为e
+    p->next = NULL;
+    Q.rear->next = p; //将新结点插入到队尾
+    Q.rear = p; //修改队尾指针
+    return OK;
+}
+
+//算法3.18　链队的出队
+Status DeQueue(LinkQueue &Q, QElemType &e) {//删除Q的队头元素，用e返回其值 
+    QueuePtr p;
+    if (Q.front == Q.rear)
+        return ERROR; //若队列空，则返回ERROR
+    p = Q.front->next; //p指向队头元素
+    e = p->data; //e保存队头元素的值
+    Q.front->next = p->next; //修改头指针
+    if (Q.rear == p)
+        Q.rear = Q.front; //最后一个元素被删，队尾指针指向头结点
+    delete p; //释放原队头元素的空间
+    return OK;
+}</code></pre>
+<h4 id="取队头元素"><a href="#取队头元素" class="headerlink" title="取队头元素"></a>取队头元素</h4><pre class=" language-c++"><code class="language-c++">//算法3.19　取链队的队头元素
+SElemType GetHead(LinkQueue Q) {//返回Q的队头元素，不修改队头指针
+    if (Q.front != Q.rear) //队列非空
+        return Q.front->next->data; //返回队头元素的值，队头指针不变
+}</code></pre>
 
             </div>
             <hr/>
@@ -512,7 +577,7 @@ p->prior=s;</code></pre>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2020/05/07/shuang-xiang-lian-biao/">https://taylor12138.github.io/2020/05/07/shuang-xiang-lian-biao/</a>
+                    <a href="https://taylor12138.github.io/2020/05/09/xun-huan-dui-lie/">https://taylor12138.github.io/2020/05/09/xun-huan-dui-lie/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -715,38 +780,35 @@ p->prior=s;</code></pre>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/05/08/css-yang-shi/">
+                <a href="/2020/05/09/xun-huan-dui-lie/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="CSS样式">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="循环队列">
                         
-                        <span class="card-title">CSS样式</span>
+                        <span class="card-title">循环队列</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            a {
-    //是类型选择,标签选择器
-}
-* {
-    //选择所有元素
-}
-.class(类名) {
-    //类的选择
-}
-选择多个类可以 &lt;div class=&quot;类1 类2&quot;&gt;&lt;/div
+                            循环队列顺序定义typedef struct {
+    QElemType *base;//初始化时动态分配存储空间
+    int front;//头指针
+    int rear;//尾指针
+} SqQueue;
+初始化//算法3.1
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-08
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-09
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -755,6 +817,7 @@ p->prior=s;</code></pre>
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -765,27 +828,29 @@ p->prior=s;</code></pre>
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/07/dan-lian-biao/">
+                <a href="/2020/05/09/zhan/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="单链表">
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="栈">
                         
-                        <span class="card-title">单链表</span>
+                        <span class="card-title">栈</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            如定义单链表结构体，注意引用单链表元素用”  -&gt;  “,因为是*LinkList，使用单链表用的是LinkListtypedef struct LNode
-{
-    ElemType data;    //结点的数据域
-    s
+                            顺序栈定义typedef struct {
+    SElemType *base;//栈底指针
+    SElemType *top;//栈顶指针
+    int stacksize;//栈可用的最大容量
+} SqStack;
+初始化St
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-07
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-09
                             </span>
                         <span class="publish-author">
                             

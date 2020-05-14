@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="顺序表, Hexo">
+    <meta name="keywords" content="CSS样式, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>顺序表 | Hexo</title>
+    <title>CSS样式 | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -313,7 +313,7 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">顺序表</h1>
+                    <h1 class="description center-align post-title">CSS样式</h1>
                 </div>
             </div>
         </div>
@@ -450,7 +450,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-05-07
+                    2020-05-10
                 </div>
                 
 
@@ -459,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    369
+                    628
                 </div>
                 
 
@@ -476,47 +476,63 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id=""><a href="#" class="headerlink" title=""></a></h3><h4 id="如定义s顺序表结构体，注意引用顺序表元素用”-“-因为是SqList不是-S’q’List"><a href="#如定义s顺序表结构体，注意引用顺序表元素用”-“-因为是SqList不是-S’q’List" class="headerlink" title="如定义s顺序表结构体，注意引用顺序表元素用”  .  “,因为是SqList不是*S’q’List"></a>如定义s顺序表结构体，注意引用顺序表元素用”  .  “,因为是SqList不是*S’q’List</h4><pre class=" language-c++"><code class="language-c++">typedef struct{
-    ElemType *elem;      //存储空间的基地址
-    int length;          //当前长度
-}SqList;</code></pre>
-<h4 id="顺序表的初始化"><a href="#顺序表的初始化" class="headerlink" title="顺序表的初始化"></a>顺序表的初始化</h4><pre class=" language-c++"><code class="language-c++">Status InitList_Sq(SqList &L){ //功能1--算法2.1 顺序表的初始化
-    //构造一个空的顺序表L
-    L.elem=new ElemType[MAXSIZE]; //为顺序表分配一个大小为MAXSIZE的数组空间
-    if(!L.elem)  return OVERFLOW;  //存储分配失败，overflow为-2
-    L.length=0;            //空表长度为0
-    return OK;
-}</code></pre>
-<h4 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h4><pre class=" language-c++"><code class="language-c++">Status LocateElem(SqList *L, ElemType e)    //按元素值查找
-{
-    int i=0;
-    while (i<L->length && L->elem[i]!=e)
-        i++;                    //查找元素e
-    if (i>=L->length)            //未找到时返回0
-        return 0;
-    else
-        return i+1;                //找到后返回其逻辑序号</code></pre>
-<h4 id="顺序表的插入"><a href="#顺序表的插入" class="headerlink" title="顺序表的插入"></a>顺序表的插入</h4><pre><code>Status ListInsert_Sq(SqList &amp;L,int i,ElemType e){ //功能3--算法2.3 顺序表的插入
-    //在顺序表L中第i个位置之前插入新的元素e
-    //i值的合法范围是1&lt;=i&lt;=L.length+1
-    if(i&lt;1 || i&gt;L.length+1)    return ERROR;        //i值不合法,error为0
-    if(L.length==MAXSIZE)    return ERROR;        //当前存储空间已满
-    for(int j=L.length-1;j&gt;=i-1;j--)
-        L.elem[j+1]=L.elem[j];                    //插入位置及之后的元素后移
-    L.elem[i-1]=e;                                //将新元素e放入第i个位置
-    ++L.length;                                    //表长增1
-    return OK;
-}</code></pre><h4 id="删除数据元素"><a href="#删除数据元素" class="headerlink" title="删除数据元素"></a>删除数据元素</h4><pre class=" language-c++"><code class="language-c++">bool ListDelete(SqList &L,int i)    //删除数据元素
-{
-    int j;
-    if (i<1 || i>L.length)        //参数错误时返回false
-        return false;
-    for (j=i-1;j<L.length-1;j++)    //将data[i]之后的元素前移一个位置
-        L.elem[j]=L.elem[j+1];
-    L.length--;                //顺序表长度减1
-    return true;                //成功删除返回true
-}</code></pre>
+                <h3 id="声明：可以使用chrome的F12浏览学习别人的样式并且调试你的代码"><a href="#声明：可以使用chrome的F12浏览学习别人的样式并且调试你的代码" class="headerlink" title="声明：可以使用chrome的F12浏览学习别人的样式并且调试你的代码"></a>声明：<strong>可以使用chrome的F12浏览学习别人的样式并且调试你的代码</strong></h3><h4 id="引入CSS"><a href="#引入CSS" class="headerlink" title="引入CSS"></a>引入CSS</h4><pre class=" language-css"><code class="language-css">&lt;link rel=<span class="token string">"stylesheet"</span> href=<span class="token string">"css文件路径"</span>></code></pre>
+<h2 id="1-主要定义"><a href="#1-主要定义" class="headerlink" title="1.主要定义"></a>1.主要定义</h2><pre class=" language-css"><code class="language-css"><span class="token selector">//是类型选择,标签选择器
+元素（标签） </span><span class="token punctuation">{</span>
 
+<span class="token punctuation">}</span>
+<span class="token selector">//选择所有元素
+* </span><span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span>
+<span class="token selector">//类的选择    选择多个类可以 &lt;div class="类1 类2">&lt;/div>
+<span class="token class">.class</span>(类名) </span><span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span>
+<span class="token selector">//id的选择,有点类似class，只能调用一次，别人切勿使用
+#(id名) </span><span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span>
+<span class="token selector">//复合，后代选择器
+元素1（可以是类名） 元素2（可以是类名） </span><span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span>
+<span class="token selector">//只选择亲儿子，孙子不选
+元素1（可以是类名）>元素2（可以是类名） </span><span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span>
+<span class="token selector">//并集选择器，多个统一
+元素1,
+元素2</span><span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span></code></pre>
+<h4 id="文字"><a href="#文字" class="headerlink" title="文字"></a>文字</h4><p><code>font-size: 12px</code>    //12像素大小文字   谷歌默认16px</p>
+<p><code>font-weight: xxx</code>    //字体加粗</p>
+<p><code>text-align: center</code>    //文字水平居中对齐</p>
+<p><code>text-indent: 10px</code>    //文本首行缩进,最好使用em，如<code>text-indent: 2em</code>,em是相对单位，当前1个文字元素的大小</p>
+<p><code>text-decoration: none</code>//取消下划线</p>
+<p><code>line-height: 26px</code>    //行间距，用QQ截图可以偷偷测量</p>
+<h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p><code>background-color</code>  //背景颜色 </p>
+<p><code>background: rgba(red（数值）,green(数值),blue（数值），透明度（0-1）)</code>  //背景颜色 透明化</p>
+<p><code>background-image: url(地址)</code>//背景图片，常见于标志，logo或者超大背景图片，有点是便于控制位置</p>
+<p><code>baackground-repeat: no-repeat</code>//背景平铺，默认为平铺，可以改成取消平铺</p>
+<p><code>background-position: x  y</code>//背景图片的位置 ，可以使用方位名词，前后顺序可可以不一样top，center ，botton，left等（只写一个另外一个默认居中）。也可以使用精确单位x轴长度，y轴长度，（只写一个另外一个默认居中）</p>
+<p><code>background-attachment: scroll||fixed</code>//背景图像随对象内容滚动||背景图像固定</p>
+<p>复合：<code>background: 颜色  图片地址  平铺  图像滚动  图片位置</code></p>
+<h2 id="2-伪类选择器"><a href="#2-伪类选择器" class="headerlink" title="2.伪类选择器"></a>2.伪类选择器</h2><pre><code>//a超链接类
+a:link            选择所有未访问的链接
+a:visited         选择所有已被访问的链接
+a:hover           常用，选择鼠标指向的链接
+a:ative           鼠标按下未弹起的链接
+//如果全部都写，请按照LVHA的顺序写
+
+//input类，把获得光标的inut选取出来改写CSS
+input:focus </code></pre><h2 id="3-行块转换（块元素和行元素相互转换）"><a href="#3-行块转换（块元素和行元素相互转换）" class="headerlink" title="3.行块转换（块元素和行元素相互转换）"></a>3.行块转换（块元素和行元素相互转换）</h2><pre><code>display:block     //转块元素
+display:inline    //转行内元素
+display: inline-block    //转行内块
+
+//使文字垂直居中  让文字行高=盒子的行高  行高&gt;盒子高度偏下，&lt;偏上
+line-height: 盒子高度</code></pre>
             </div>
             <hr/>
 
@@ -541,7 +557,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2020/05/07/shun-xu-biao/">https://taylor12138.github.io/2020/05/07/shun-xu-biao/</a>
+                    <a href="https://taylor12138.github.io/2020/05/10/css-yang-shi/">https://taylor12138.github.io/2020/05/10/css-yang-shi/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -748,27 +764,25 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/05/07/dan-lian-biao/">
+                <a href="/2020/05/10/emmet-yu-fa/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="单链表">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="emmet语法">
                         
-                        <span class="card-title">单链表</span>
+                        <span class="card-title">emmet语法</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            如定义单链表结构体，注意引用单链表元素用”  -&gt;  “,因为是*LinkList，使用单链表用的是LinkListtypedef struct LNode
-{
-    ElemType data;    //结点的数据域
-    s
+                            Emmet语法插件于市面上大多前端编译软件，如VScode所带有的，便于快速写html和CSSh5想要生成多个标签：div*10，再回车（或者tab），即可生成10个div标签。
+生成父子关系标签：div&gt;span,再回车（或者tab
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-07
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-10
                         </span>
                         <span class="publish-author">
                             
@@ -788,28 +802,29 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/07/c-jie-gou-ti-chu-shi-hua/">
+                <a href="/2020/05/09/xun-huan-dui-lie/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="C++结构体初始化">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="循环队列">
                         
-                        <span class="card-title">C++结构体初始化</span>
+                        <span class="card-title">循环队列</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            如定义药品结构体
-typedef struct node{                                     //定义结构体
-    string name;
-    float price;
-    int coun
+                            循环队列顺序定义typedef struct {
+    QElemType *base;//初始化时动态分配存储空间
+    int front;//头指针
+    int rear;//尾指针
+} SqQueue;
+初始化//算法3.1
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-07
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-09
                             </span>
                         <span class="publish-author">
                             

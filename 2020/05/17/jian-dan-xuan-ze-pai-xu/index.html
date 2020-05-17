@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="栈, Hexo">
+    <meta name="keywords" content="简单选择排序, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>栈 | Hexo</title>
+    <title>简单选择排序 | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">栈</h1>
+                    <h1 class="description center-align post-title">简单选择排序</h1>
                 </div>
             </div>
         </div>
@@ -446,8 +446,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/C/" class="post-category">
-                                C++
+                            <a href="/categories/%E6%8E%92%E5%BA%8F/" class="post-category">
+                                排序
                             </a>
                         
                     </div>
@@ -459,7 +459,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-05-09
+                    2020-05-17
                 </div>
                 
 
@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    445
+                    459
                 </div>
                 
 
@@ -485,63 +485,74 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="顺序栈"><a href="#顺序栈" class="headerlink" title="顺序栈"></a>顺序栈</h2><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><pre class=" language-c++"><code class="language-c++">typedef struct {
-    SElemType *base;//栈底指针
-    SElemType *top;//栈顶指针
-    int stacksize;//栈可用的最大容量
-} SqStack;</code></pre>
-<h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><pre class=" language-c++"><code class="language-c++">Status InitStack(SqStack &S) {
-    //构造一个空栈S
-    S.base = new SElemType[MAXSIZE];//为顺序栈动态分配一个最大容量为MAXSIZE的数组空间
-    if (!S.base)
-        exit(OVERFLOW); //存储分配失败
-    S.top = S.base; //top初始为base，空栈
-    S.stacksize = MAXSIZE; //stacksize置为栈的最大容量MAXSIZE
-    return OK;
-}</code></pre>
-<h4 id="入栈和出栈（top无元素）"><a href="#入栈和出栈（top无元素）" class="headerlink" title="入栈和出栈（top无元素）"></a>入栈和出栈（top无元素）</h4><pre class=" language-c++"><code class="language-c++">//算法3.2　顺序栈的入栈
-Status Push(SqStack &S, SElemType e) {
-    // 插入元素e为新的栈顶元素
-    if (S.top - S.base == S.stacksize)
-        return ERROR; //栈满
-    *(S.top++) = e; //元素e压入栈顶，栈顶指针加1
-    return OK;
-}
-//算法3.3　顺序栈的出栈
-Status Pop(SqStack &S, SElemType &e) {
-    //删除S的栈顶元素，用e返回其值
-    if (S.base == S.top)
-        return ERROR;//栈空
-    e = *(--S.top); //栈顶指针减1，将栈顶元素赋给e
-    return OK;
-}</code></pre>
-<h2 id="链栈"><a href="#链栈" class="headerlink" title="链栈"></a>链栈</h2><h4 id="定义，有点像链表"><a href="#定义，有点像链表" class="headerlink" title="定义，有点像链表"></a>定义，有点像链表</h4><pre><code>typedef struct StackNode {
-    SElemType data;
-    struct StackNode *next;
-} StackNode, *LinkStack;</code></pre><h4 id="初始化，无需链表的”头结点“"><a href="#初始化，无需链表的”头结点“" class="headerlink" title="初始化，无需链表的”头结点“"></a>初始化，无需链表的”头结点“</h4><pre><code>Status InitStack(LinkStack &amp;S) { // 构造一个空栈 S，栈顶指针置空
-    S = NULL;
-    return OK;
-}</code></pre><h4 id="入栈和出栈"><a href="#入栈和出栈" class="headerlink" title="入栈和出栈"></a>入栈和出栈</h4><pre class=" language-c++"><code class="language-c++">//算法3.6　链栈的入栈
-Status Push(LinkStack &S, SElemType e) {//在栈顶插入元素e
-    LinkStack p;
-    p = new StackNode; //生成新结点
-    p->data = e; //将新结点数据域置为e
-    p->next = S; //将新结点插入栈顶
-    S = p; //修改栈顶指针为p
-    return OK;
+                <h3 id=""><a href="#" class="headerlink" title=""></a></h3><h2 id="简单选择排序"><a href="#简单选择排序" class="headerlink" title="简单选择排序"></a>简单选择排序</h2><p>选择关键字储存最小的记录：和表中的记录进行一一对比，选出最小记录放在开头，接着从第二个记录继续开始</p>
+<pre><code>//算法8.6 简单选择排序
+#include &lt;iostream&gt;
+using namespace std;
+#define  MAXSIZE  20                                  //顺序表的最大长度
+typedef struct
+{
+    int key;
+    char *otherinfo;
+}ElemType;
+//顺序表的存储结构                         
+typedef struct
+{
+    ElemType *r;                                     //存储空间的基地址
+    int  length;                                    //顺序表长度
+}SqList;                                            //顺序表类型
+
+void SelectSort(SqList &amp;L) 
+{ 
+   //对顺序表L做简单选择排序
+    int i,j,k;
+    ElemType t;
+    for(i=1;i&lt;L.length;++i) 
+    {                                                  //在L.r[i..L.length] 中选择关键字最小的记录
+        k=i;                 
+        for(j=i+1;j&lt;=L.length;++j)
+            if(L.r[j].key&lt;L.r[k].key)  k=j;            //k指向此趟排序中关键字最小的记录
+        if(k!=i) {t=L.r[i];L.r[i]=L.r[k];L.r[k]=t;} //交换r[i]与r[k]        
+     }                                                //for  
+}                                                    // SelectSort
+
+void Create_Sq(SqList &amp;L)
+{
+    int i,n;
+    cout&lt;&lt;&quot;请输入数据个数，不超过&quot;&lt;&lt;MAXSIZE&lt;&lt;&quot;个。&quot;&lt;&lt;endl;
+    cin&gt;&gt;n;                                            //输入个数
+    cout&lt;&lt;&quot;请输入待排序的数据:\n&quot;;
+    while(n&gt;MAXSIZE)
+    {
+        cout&lt;&lt;&quot;个数超过上限，不能超过&quot;&lt;&lt;MAXSIZE&lt;&lt;&quot;，请重新输入&quot;&lt;&lt;endl;
+        cin&gt;&gt;n;
+    }
+    for(i=1;i&lt;=n;i++)
+    {
+        cin&gt;&gt;L.r[i].key;
+        L.length++;
+    }
 }
 
-//算法3.7　链栈的出栈
-Status Pop(LinkStack &S, SElemType &e) {//删除S的栈顶元素，用e返回其值
-    LinkStack p;
-    if (S == NULL)
-        return ERROR; //栈空
-    e = S->data; //将栈顶元素赋给e
-    p = S; //用p临时保存栈顶元素空间，以备释放
-    S = S->next; //修改栈顶指针
-    delete p; //释放原栈顶元素的空间
-    return OK;
-}</code></pre>
+void show(SqList L)
+{
+    int i;
+    for(i=1;i&lt;=L.length;i++)
+        cout&lt;&lt;L.r[i].key&lt;&lt;endl;
+}
+
+void main()
+{
+    SqList L;
+    L.r=new ElemType[MAXSIZE+1];
+    L.length=0;
+    Create_Sq(L);
+    SelectSort(L);
+    cout&lt;&lt;&quot;排序后的结果为：&quot;&lt;&lt;endl;
+    show(L);
+}</code></pre><p>1.稳定排序，但如果是采用“交换记录”，则会导致不稳定现象</p>
+<p>2.顺序，链式皆可以使用</p>
+<p>3.时间复杂度O( n^2 ),比直接插入快。   空间复杂度为O(l1).</p>
 
             </div>
             <hr/>
@@ -567,7 +578,7 @@ Status Pop(LinkStack &S, SElemType &e) {//删除S的栈顶元素，用e返回其
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2020/05/09/zhan/">https://taylor12138.github.io/2020/05/09/zhan/</a>
+                    <a href="https://taylor12138.github.io/2020/05/17/jian-dan-xuan-ze-pai-xu/">https://taylor12138.github.io/2020/05/17/jian-dan-xuan-ze-pai-xu/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -774,36 +785,35 @@ Status Pop(LinkStack &S, SElemType &e) {//删除S的栈顶元素，用e返回其
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/05/09/xun-huan-dui-lie/">
+                <a href="/2020/05/17/gui-bing-pai-xu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="循环队列">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="归并排序">
                         
-                        <span class="card-title">循环队列</span>
+                        <span class="card-title">归并排序</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            循环队列顺序定义typedef struct {
-    QElemType *base;//初始化时动态分配存储空间
-    int front;//头指针
-    int rear;//尾指针
-} SqQueue;
-初始化//算法3.1
+                            归并排序将相邻的两个记录（序列）排序，并成一个有序序列，并继续上述操作
+//算法8.11 归并排序
+#include 
+using namespace std;
+#define  MAXSIZE  20                   
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-09
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-17
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C/" class="post-category">
-                                    C++
+                            <a href="/categories/%E6%8E%92%E5%BA%8F/" class="post-category">
+                                    排序
                                 </a>
                             
                             
@@ -820,34 +830,35 @@ Status Pop(LinkStack &S, SElemType &e) {//删除S的栈顶元素，用e返回其
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/07/shuang-xiang-lian-biao/">
+                <a href="/2020/05/17/kuai-su-pai-xu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="双向链表">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="快速排序">
                         
-                        <span class="card-title">双向链表</span>
+                        <span class="card-title">快速排序</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            双向链表的定义typedef struct DuLNode{
-    ElemType data;
-    struct DuLNode *prior;  
-    struct DuLNode *next;             //前
+                            快速排序设置个关键字，将大的放在它后面，小的放在前面，分成两个子表，并且重复上述过程，直到每一个子表只有一个记录为止
+//算法8.5 快速排序
+#include &lt;iostream&gt;
+using namespace std;
+#
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-07
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-17
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C/" class="post-category">
-                                    C++
+                            <a href="/categories/%E6%8E%92%E5%BA%8F/" class="post-category">
+                                    排序
                                 </a>
                             
                             

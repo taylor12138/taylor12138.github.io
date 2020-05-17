@@ -459,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    628
+                    1.1k
                 </div>
                 
 
@@ -507,11 +507,12 @@
 
 <span class="token punctuation">}</span></code></pre>
 <h4 id="文字"><a href="#文字" class="headerlink" title="文字"></a>文字</h4><p><code>font-size: 12px</code>    //12像素大小文字   谷歌默认16px</p>
+<p><code>font-size: 12px</code>/1.5    //12像素大小文字   行高为12*1.5=18</p>
 <p><code>font-weight: xxx</code>    //字体加粗</p>
 <p><code>text-align: center</code>    //文字水平居中对齐</p>
 <p><code>text-indent: 10px</code>    //文本首行缩进,最好使用em，如<code>text-indent: 2em</code>,em是相对单位，当前1个文字元素的大小</p>
 <p><code>text-decoration: none</code>//取消下划线</p>
-<p><code>line-height: 26px</code>    //行间距，用QQ截图可以偷偷测量</p>
+<p><code>line-height: 26px</code>    //行间距，用QQ截图可以偷偷测量，等于盒子高度时垂直居中</p>
 <h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p><code>background-color</code>  //背景颜色 </p>
 <p><code>background: rgba(red（数值）,green(数值),blue（数值），透明度（0-1）)</code>  //背景颜色 透明化</p>
 <p><code>background-image: url(地址)</code>//背景图片，常见于标志，logo或者超大背景图片，有点是便于控制位置</p>
@@ -519,7 +520,8 @@
 <p><code>background-position: x  y</code>//背景图片的位置 ，可以使用方位名词，前后顺序可可以不一样top，center ，botton，left等（只写一个另外一个默认居中）。也可以使用精确单位x轴长度，y轴长度，（只写一个另外一个默认居中）</p>
 <p><code>background-attachment: scroll||fixed</code>//背景图像随对象内容滚动||背景图像固定</p>
 <p>复合：<code>background: 颜色  图片地址  平铺  图像滚动  图片位置</code></p>
-<h2 id="2-伪类选择器"><a href="#2-伪类选择器" class="headerlink" title="2.伪类选择器"></a>2.伪类选择器</h2><pre><code>//a超链接类
+<h4 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h4><p><code>list-style: none</code>//去掉无序列表里 li  列表前面的小圆点</p>
+<h2 id="2-伪类选择器"><a href="#2-伪类选择器" class="headerlink" title="2.伪类选择器"></a>2.伪类选择器</h2><pre><code>//a超链接类   或者写成   a的类名:XXX{}
 a:link            选择所有未访问的链接
 a:visited         选择所有已被访问的链接
 a:hover           常用，选择鼠标指向的链接
@@ -532,7 +534,28 @@ display:inline    //转行内元素
 display: inline-block    //转行内块
 
 //使文字垂直居中  让文字行高=盒子的行高  行高&gt;盒子高度偏下，&lt;偏上
-line-height: 盒子高度</code></pre>
+line-height: 盒子高度</code></pre><h2 id="4-CSS的三大特性"><a href="#4-CSS的三大特性" class="headerlink" title="4.CSS的三大特性"></a>4.CSS的三大特性</h2><h4 id="1-层叠性"><a href="#1-层叠性" class="headerlink" title="1.层叠性"></a>1.层叠性</h4><p>样式冲突选择就近原则，把前面的覆盖掉，不冲突的不覆盖</p>
+<h4 id="2-继承性"><a href="#2-继承性" class="headerlink" title="2.继承性"></a>2.继承性</h4><p>子标签会继承父标签的属性</p>
+<h4 id="3-优先级"><a href="#3-优先级" class="headerlink" title="3.优先级"></a>3.优先级</h4><p>1.选择器相同，执行层叠性</p>
+<p>2.选择器不同，继承/*(0,0,0,0)&lt;元素(0,0,0,1)&lt;类(0,0,1,0)&lt;id(0,1,0,0)&lt;行内样式style(1,0,0,0)&lt;！important无限大</p>
+<p>（！important加在某属性后面，如color: green!important）</p>
+<p>继承的你加了！important，权值还是（0，0，0，0），毕竟是继承过来的</p>
+<p>3.复合选择器有权重叠加的问题</p>
+<p>ul li{}权重为(0,0,0,1)+(0,0,0,1)                   li为(0,0,0,1)            .nav li为（0，0，1，1）</p>
+<p>权重会叠加，但是永不进位，不是二进制           （a:hover为(0,0,1,1)）</p>
+<h2 id="5-CSS盒子"><a href="#5-CSS盒子" class="headerlink" title="5.CSS盒子"></a>5.CSS盒子</h2><h4 id="border（会影响盒子大小）"><a href="#border（会影响盒子大小）" class="headerlink" title="border（会影响盒子大小）"></a>border（会影响盒子大小）</h4><pre><code>border-style: solid(实线边框，最常用) dashed(虚线)  dotted（点线边框） 
+border-width: XXpx
+border-color: XX
+复写： border: 1px solid red
+边框分开写法： border-top: 1px solid red
+
+border-collapse:collapse      //相邻边框合并</code></pre><h4 id="padding，内边距（会影响盒子大小，要设置了盒子宽高才会撑开）"><a href="#padding，内边距（会影响盒子大小，要设置了盒子宽高才会撑开）" class="headerlink" title="padding，内边距（会影响盒子大小，要设置了盒子宽高才会撑开）"></a>padding，内边距（会影响盒子大小，要设置了盒子宽高才会撑开）</h4><p>适用于文字大小不一的盒子，不设置宽高，直接设置padding，字少空间小。字多空间大</p>
+<p>子容器盒子没设置宽高，父容器盒子padding不会被撑开</p>
+<pre><code>padding: 5px;
+padding-top: 5px;    //仅写上方内边距</code></pre><h4 id="margin，外边距，盒子和盒子之间的距离（不会撑开）"><a href="#margin，外边距，盒子和盒子之间的距离（不会撑开）" class="headerlink" title="margin，外边距，盒子和盒子之间的距离（不会撑开）"></a>margin，外边距，盒子和盒子之间的距离（不会撑开）</h4><p>使用方法和padding是一致的    </p>
+<p>margin可以让块级盒子水平居中：1盒子必须有宽度，盒子左右外边距设置为auto</p>
+<p>行内元素或者行内块元素居中只需在其父元素CSS样式中添加：text-align: center;    </p>
+
             </div>
             <hr/>
 
@@ -764,25 +787,27 @@ line-height: 盒子高度</code></pre>
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/05/10/emmet-yu-fa/">
+                <a href="/2020/05/13/c-string-zhuan-huan-int-double/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="emmet语法">
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="C++string转换int，double">
                         
-                        <span class="card-title">emmet语法</span>
+                        <span class="card-title">C++string转换int，double</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Emmet语法插件于市面上大多前端编译软件，如VScode所带有的，便于快速写html和CSSh5想要生成多个标签：div*10，再回车（或者tab），即可生成10个div标签。
-生成父子关系标签：div&gt;span,再回车（或者tab
+                            头文件#include &quot;iostream&quot;
+#include &quot;stdlib.h&quot;
+#include &quot;cstdlib&quot;
+#include &quot;string&quot;使
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-10
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-13
                         </span>
                         <span class="publish-author">
                             
@@ -802,29 +827,25 @@ line-height: 盒子高度</code></pre>
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/09/xun-huan-dui-lie/">
+                <a href="/2020/05/10/emmet-yu-fa/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="循环队列">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="emmet语法">
                         
-                        <span class="card-title">循环队列</span>
+                        <span class="card-title">emmet语法</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            循环队列顺序定义typedef struct {
-    QElemType *base;//初始化时动态分配存储空间
-    int front;//头指针
-    int rear;//尾指针
-} SqQueue;
-初始化//算法3.1
+                            Emmet语法插件于市面上大多前端编译软件，如VScode所带有的，便于快速写html和CSSh5想要生成多个标签：div*10，再回车（或者tab），即可生成10个div标签。
+生成父子关系标签：div&gt;span,再回车（或者tab
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-09
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-10
                             </span>
                         <span class="publish-author">
                             
@@ -1031,7 +1052,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">6k</span>&nbsp;字
+                class="white-color">8.3k</span>&nbsp;字
             
             
             

@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="personnel note, Hexo">
+    <meta name="keywords" content="牛客算法课personnel note, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>personnel note | Hexo</title>
+    <title>牛客算法课personnel note | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">personnel note</h1>
+                    <h1 class="description center-align post-title">牛客算法课personnel note</h1>
                 </div>
             </div>
         </div>
@@ -443,6 +443,15 @@
                 </div>
                 <div class="col s5 right-align">
                     
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/personnel/" class="post-category">
+                                personnel
+                            </a>
+                        
+                    </div>
+                    
                 </div>
             </div>
 
@@ -459,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    386
+                    813
                 </div>
                 
 
@@ -476,12 +485,18 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="小基础"><a href="#小基础" class="headerlink" title="小基础"></a>小基础</h3><p>floor[x]  小于等于x的最大值整数（向下取整）   ceil[x] 大于等于x的最小整数（向上取整）</p>
+                <h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="小基础"><a href="#小基础" class="headerlink" title="小基础"></a>小基础</h3><p>floor(x) 小于等于x的最大值整数（向下取整）   ceil(x) 大于等于x的最小整数（向上取整）( #include&lt;math.h&gt; )</p>
 <p>int 32位二进制  第一个是符号位正数为0，负数为1，后面是数值位 -2^31——2^31-1 </p>
 <p>long long 64位二进制</p>
 <p>double 64位二进制  （float别用了，太垃圾了）</p>
 <p>~ 取反</p>
 <p><code>&gt;&gt;</code>右移   <code>&lt;&lt;</code>左移</p>
+<p>pow(a,b) a的b次方</p>
+<h2 id="一维前缀和"><a href="#一维前缀和" class="headerlink" title="一维前缀和"></a>一维前缀和</h2><p>拥有数组x和数组y，满足：</p>
+<p>y0=x0;</p>
+<p>y1=x0+x1;</p>
+<p>y2=x0+x1+x2;</p>
+<p>即想要求某区间和，可用y数组来相减得到结果</p>
 <h2 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h2><p>一一举例，不重复</p>
 <p>先列举出（求第x数到第y数的和，先求数组所有和，直接减），（求四个点的位置，并且四个点组成正方形，先求四个点中的两个点，），（求一排树数量，部份树被整段移走（可能重叠），直接标记1，移走的树部分-1）</p>
 <h3 id="取尺法"><a href="#取尺法" class="headerlink" title="取尺法"></a>取尺法</h3><p>分L，R两个指针，求数组区域&lt;=s的连续数组的个数，&lt;s  R右移，              &gt;=s    L右移</p>
@@ -490,9 +505,22 @@
 <p>2.维护的具体操作可以左边移动一位、右边移动一位。</p>
 <p>3.区间的变化是连续的而不是跳跃的。问题1就是比较跳跃的，双指针比较好，问题2不能跳跃。</p>
 <h2 id="贪心算法"><a href="#贪心算法" class="headerlink" title="贪心算法"></a>贪心算法</h2><p>局部最优解，然后发现局部最优=整体最优解</p>
-<h2 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h2><p>列出数组，讲数据对比，有则让数组对应的数据+1，然后依次输出，</p>
-<p>这里有位大佬我觉得写得很好，可以看一下</p>
+<h2 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h2><p>列出数组， 将数组分到有限数量的桶里，将数据对比，有则让数组对应的数据+1，每个桶再个别排序 ，然后依次输出</p>
+<p> 桶越多，时间效率就越高，而桶越多，空间就越大 </p>
+<p>这里有位大佬我觉得写得很好，外加动漫配图，可以看一下（简单桶排序）</p>
 <p> <a href="https://www.cnblogs.com/bqwzx/p/11029264.html" target="_blank" rel="noopener">https://www.cnblogs.com/bqwzx/p/11029264.html</a> </p>
+<h4 id="计数排序"><a href="#计数排序" class="headerlink" title="计数排序"></a>计数排序</h4><p>基数排序和计数排序都可以看做桶排序，计数排序的思路是开一个长度为 maxValue-minValue+1 的数组，进行分配+收集:</p>
+<p> 分配。扫描一遍原始数组，以当前值- minValue 作为下标，将该下标的计数器增1。 收集。扫描一遍计数器数组，按顺序把值收集起来。 </p>
+<p> 计数排序本质上是一种特殊的桶排序，当桶的个数最大的时候，就是计数排序 ， <strong>计数排序非常浪费空间</strong> </p>
+<h2 id="VECTOR"><a href="#VECTOR" class="headerlink" title="VECTOR"></a>VECTOR</h2><p><strong>vector是一个不限制数组长度的数组</strong></p>
+<p>top()返回第一个元素    back()返回最后一个元素</p>
+<p>erase（int index,int size）删除</p>
+<p>vector<int> a;</p>
+<h2 id="迭代器Iterator"><a href="#迭代器Iterator" class="headerlink" title="迭代器Iterator"></a>迭代器Iterator</h2><p>用于访问问一个容器内的数据的指针</p>
+<p>vector<int>:: iterator it;</p>
+<h2 id="C-STL的二分查找"><a href="#C-STL的二分查找" class="headerlink" title="C++ STL的二分查找"></a>C++ STL的二分查找</h2><p>binary search 返回bool，是否存在</p>
+<p>low_bound 返回可插入的最小位置的迭代器，即返回第一个符合条件的元素位置，low_bound(a,a+11,55), a[0]到a[10]找55，返回迭代器，可将结果  -a  得到它的下标   第一个&lt;=x的位置</p>
+<p>upper_bound 返回可插入的最大位置的迭代器，即返回最后一个符合条件的元素位置      第一个&gt;x的位置</p>
 
             </div>
             <hr/>
@@ -518,7 +546,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2020/05/14/personnel-note/">https://taylor12138.github.io/2020/05/14/personnel-note/</a>
+                    <a href="https://taylor12138.github.io/2020/05/14/niu-ke-suan-fa-ke-personnel-note/">https://taylor12138.github.io/2020/05/14/niu-ke-suan-fa-ke-personnel-note/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -725,48 +753,6 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/05/17/css-fu-dong-chang-jian-de-wang-ye-bu-ju/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="CSS浮动+常见的网页布局">
-                        
-                        <span class="card-title">CSS浮动+常见的网页布局</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            浮动CSS三种传统布局：普通流  浮动   定位
-标准流：标签按照默认排序
-多个块级元素纵向排列用标准流，横向排列用浮动
-选择器{
-    float: 属性值;   //none不浮动   left向左浮动    right向右浮动
-}/
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-17
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-user fa-fw"></i>
-                            Hello
-                            
-                        </span>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
                 <a href="/2020/05/14/zi-dian-pai-xu/">
                     <div class="card-image">
                         
@@ -786,15 +772,59 @@
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-14
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-14
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
                             <a href="/categories/%E6%8E%92%E5%BA%8F/" class="post-category">
                                     排序
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/05/13/c-string-zhuan-huan-int-double/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="C++string转换int，double">
+                        
+                        <span class="card-title">C++string转换int，double</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            头文件#include &quot;iostream&quot;
+#include &quot;stdlib.h&quot;
+#include &quot;cstdlib&quot;
+#include &quot;string&quot;使
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-13
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/C/" class="post-category">
+                                    C++
                                 </a>
                             
                             
@@ -998,7 +1028,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">9.9k</span>&nbsp;字
+                class="white-color">11.8k</span>&nbsp;字
             
             
             

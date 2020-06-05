@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="CSS浮动+常见的网页布局, Hexo">
+    <meta name="keywords" content="CSS高级, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>CSS浮动+常见的网页布局 | Hexo</title>
+    <title>CSS高级 | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">CSS浮动+常见的网页布局</h1>
+                    <h1 class="description center-align post-title">CSS高级</h1>
                 </div>
             </div>
         </div>
@@ -459,7 +459,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-05-17
+                    2020-05-31
                 </div>
                 
 
@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    732
+                    941
                 </div>
                 
 
@@ -485,58 +485,46 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="浮动"><a href="#浮动" class="headerlink" title="浮动"></a>浮动</h2><p><strong>CSS三种传统布局：普通流  浮动   定位</strong></p>
-<p>标准流：标签按照默认排序</p>
-<p>多个块级元素纵向排列用标准流，横向排列用浮动</p>
-<pre class=" language-css"><code class="language-css"><span class="token selector">选择器</span><span class="token punctuation">{</span>
-    <span class="token property">float</span><span class="token punctuation">:</span> 属性值<span class="token punctuation">;</span>   //none不浮动   left向左浮动    right向右浮动
-<span class="token punctuation">}</span>//创建浮动框，将其移动到一边，知道左边缘或右边缘触及包含块或另一个浮动框的边缘</code></pre>
-<h4 id="浮动特性："><a href="#浮动特性：" class="headerlink" title="浮动特性："></a>浮动特性：</h4><h4 id="1-浮动元素会脱离标准流"><a href="#1-浮动元素会脱离标准流" class="headerlink" title="1.浮动元素会脱离标准流"></a>1.浮动元素会脱离标准流</h4><p>原来（排在浮动后面的）标准流的标签会顶上你原来的位置（但标准流之后的浮动挤不上去）</p>
-<p>（但是！！不会覆盖掉你的文字！，因为本身浮动是为环绕图片而设计的）</p>
-<h4 id="2-浮动元素会一行内显示并且元素顶部对齐"><a href="#2-浮动元素会一行内显示并且元素顶部对齐" class="headerlink" title="2.浮动元素会一行内显示并且元素顶部对齐"></a>2.浮动元素会一行内显示并且元素顶部对齐</h4><p>紧贴在一起，不会有缝隙，装不开会另起一行</p>
-<h4 id="3-浮动元素具有行内块元素的特性"><a href="#3-浮动元素具有行内块元素的特性" class="headerlink" title="3.浮动元素具有行内块元素的特性"></a>3.浮动元素具有行内块元素的特性</h4><p>添加浮动后自动附带行内块元素的特性</p>
-<h4 id="4-浮动自带文字环绕效果"><a href="#4-浮动自带文字环绕效果" class="headerlink" title="4.浮动自带文字环绕效果"></a>4.浮动自带文字环绕效果</h4><h4 id="浮动的使用："><a href="#浮动的使用：" class="headerlink" title="浮动的使用："></a>浮动的使用：</h4><p>一般采取先用标准流父元素排列上下位置，之后在子元素采取浮动，使得浮动在网页中间而不是左右侧</p>
-<p>一般一个元素浮动了，他的兄弟标签最好也使用浮动</p>
-<h2 id="清除浮动"><a href="#清除浮动" class="headerlink" title="清除浮动"></a>清除浮动</h2><h4 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h4><p>1.父盒子不给高度，子盒子会自动撑开</p>
-<p>2.父盒子不给高度的话，子盒子如果是浮动，父盒子会发生高度塌陷，导致高度变成0</p>
-<p>所以总结：需要清除浮动！！！</p>
-<p><code>clear: 属性值</code>   一般属性值取both（常用）清楚两侧浮动，也有left，right</p>
-<h4 id="1-额外标签法，隔墙法，W3C推荐做法"><a href="#1-额外标签法，隔墙法，W3C推荐做法" class="headerlink" title="1.额外标签法，隔墙法，W3C推荐做法"></a>1.额外标签法，隔墙法，W3C推荐做法</h4><p>在浮动标签最后加多个一子标签（必须是块级元素），如：</p>
-<pre><code>.clear{
-    clear: both;
-}
-&lt;div class=&quot;clear&quot;&gt;&lt;/div&gt;</code></pre><p>优点：通俗易懂，书写方便              缺点：结构化差</p>
-<h4 id="2-父级添加overflow"><a href="#2-父级添加overflow" class="headerlink" title="2.父级添加overflow"></a>2.父级添加overflow</h4><pre class=" language-css"><code class="language-css"><span class="token selector">//父级盒子
-<span class="token class">.box</span></span><span class="token punctuation">{</span>
-    <span class="token property">overflow</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>            //或者auto
-<span class="token punctuation">}</span></code></pre>
-<p>优点：代码简洁               缺点：无法显示出溢出部分</p>
-<h4 id="3-：after伪元素法"><a href="#3-：after伪元素法" class="headerlink" title="3.：after伪元素法"></a>3.：after伪元素法</h4><p>额外标签的升级版，给父元素添加</p>
-<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.clearfix</span><span class="token pseudo-element">:after</span> </span><span class="token punctuation">{</span>
-    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">""</span><span class="token punctuation">;</span>
-    <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span>                //伪元素默认是行内元素，所以得转
-    <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
-    <span class="token property">clear</span><span class="token punctuation">:</span> both<span class="token punctuation">;</span>
-    <span class="token property">visibility</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-<span class="token selector"><span class="token class">.clearfix</span> </span><span class="token punctuation">{</span>
-    *<span class="token property">zoom</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">;</span>                    //兼容ie<span class="token number">6</span>，ie<span class="token number">7</span>
-<span class="token punctuation">}</span>
-//一般类名定义为clearfix</code></pre>
-<p>优点：结构简单                缺点：需要照顾低版本浏览器                代表网站：百度，淘宝，网易</p>
-<h4 id="4-双伪元素清除浮动"><a href="#4-双伪元素清除浮动" class="headerlink" title="4.双伪元素清除浮动"></a>4.双伪元素清除浮动</h4><pre><code>.clearfix:before,
-.clearfix:after {
-    content: &quot;&quot;;
-    display: table;                
-}
-.clear:after {
-    clear: both;
-}
-.clearfix {
-    *zoom: 1;                    //兼容ie6，ie7
-}</code></pre><p>优缺点同上，代表网站：小米，腾讯</p>
-<h2 id="学成在线案例"><a href="#学成在线案例" class="headerlink" title="学成在线案例"></a>学成在线案例</h2><p>实际开发中导航栏不会直接用a标签，而是用li（列表）包含a标签的做法，1.语义更加清晰  2.故意对其关键字有被搜索引擎降权的风险</p>
-<p>导航栏不给宽度是不想定死，让其自动适应</p>
+                <h2 id="精灵图"><a href="#精灵图" class="headerlink" title="精灵图"></a>精灵图</h2><p>为了有效减少服务器接收和发射请求次数，提高速度出现的CSS技术。即将网页小背景图合成一张大图。</p>
+<p>主要针对于背景图片（非产品类等更新换代图片）</p>
+<p>主要使用background-position+x和y轴配合使用，x轴向右，y轴向下</p>
+<pre><code>background: url()no-repeat    -182px 0;        //分别对应x轴，y轴,基本都是负值</code></pre><p>缺点：文件大，放大缩小会失真，更换复杂</p>
+<h2 id="字体图标"><a href="#字体图标" class="headerlink" title="字体图标"></a>字体图标</h2><p>iconfont常用于一些小图标（样式简单），展示状态时图标，实际上是字体</p>
+<p>优点1.轻量级，够小      2.灵活性，可改多种效果      3.几乎支持所有浏览器</p>
+<p>下载：相应网站（如<a href="https://icomoon.io/）下载后得到压缩包，解压后，把下载包里的fonts放入页面根目录下" target="_blank" rel="noopener">https://icomoon.io/）下载后得到压缩包，解压后，把下载包里的fonts放入页面根目录下</a></p>
+<p>使用：在CSS中根据说明引用全局声明，然后再在个体css中再次引用你想要的声明，同时可以自己调色和字体大小（font-size）</p>
+<p>这里以阿里的图标为例子，把项目添加好之后，根据操作<a href="https://www.iconfont.cn/help/detail?spm=a313x.7781069.1998910419.16&amp;helptype=code一步一步来（这里是unicode引用），注意：**复制代码的时候，一定要在url的值中补充" target="_blank" rel="noopener">https://www.iconfont.cn/help/detail?spm=a313x.7781069.1998910419.16&amp;helptype=code一步一步来（这里是unicode引用），注意：**复制代码的时候，一定要在url的值中补充</a> “http:”** </p>
+<h2 id="三角形"><a href="#三角形" class="headerlink" title="三角形"></a>三角形</h2><p>若盒子设置宽高为0；此时又设置边框，则会形成组成一个正方形的4个三角形，实际上我们写三角形可以利用这个原理，把其他三个三角形隐藏起来则就只有一个三角形了</p>
+<pre class=" language-css"><code class="language-css"><span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">/*line-height: 0;    font-size: 0;    有时需要添加，看浏览器*/</span>
+<span class="token property">border</span><span class="token punctuation">:</span> <span class="token number">50</span>px solid tranparent<span class="token punctuation">;</span>        //先全部设置为透明
+<span class="token property">border-bottom-color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">/*或者*/</span>
+<span class="token property">border-color</span><span class="token punctuation">:</span> transparent red transparent transparent //上右下左的颜色</code></pre>
+<h2 id="用户界面"><a href="#用户界面" class="headerlink" title="用户界面"></a>用户界面</h2><h4 id="鼠标样式-cursor"><a href="#鼠标样式-cursor" class="headerlink" title="鼠标样式    cursor"></a>鼠标样式    cursor</h4><p><code>cursor: defalut</code>    默认无样式</p>
+<p><code>cursor: pointer</code>    小手</p>
+<p><code>cursor: move</code>    移动</p>
+<p><code>cursor: text</code>    文本</p>
+<p><code>cursor: not-allowed</code>    禁止</p>
+<h4 id="轮廓线"><a href="#轮廓线" class="headerlink" title="轮廓线"></a>轮廓线</h4><p>给表单（input）添加 <code>outline: 0;</code>，点击表单时，会去掉默认的l蓝色光标</p>
+<h4 id="防止拖拽文本域"><a href="#防止拖拽文本域" class="headerlink" title="防止拖拽文本域"></a>防止拖拽文本域</h4><p><code>textarea{ resize: none }</code>可以使文本框没有拖拽选项</p>
+<h2 id="Vertical-align"><a href="#Vertical-align" class="headerlink" title="Vertical-align"></a>Vertical-align</h2><p>css常用vertical-align让图片和文字对齐（但是只能针对行内元素或者行内块元素）</p>
+<p><code>vertical-align: middle;</code>    中线对齐（一般使用这个来对齐）</p>
+<p>图片底侧放置于盒子内时，时常有一个空白缝隙，可以使用<code>vertical-align: middle||top||bottom;</code>将其解决    （其实还可以直接转成块元素，但是此方法不提倡）</p>
+<h2 id="文字溢出变省略号（推荐让后端写）"><a href="#文字溢出变省略号（推荐让后端写）" class="headerlink" title="文字溢出变省略号（推荐让后端写）"></a>文字溢出变省略号（推荐让后端写）</h2><p>单行文本：<code>white-space: nowrap</code>        //强制一行内显示</p>
+<p>​                    <code>overflow: hidden;</code>        //溢出隐藏            </p>
+<p>​                    <code>text-overflow: ellipsis</code>        ///变成省略号</p>
+<p>多行文本：（有较大兼容性问题，适用于移动端或者webkit浏览器）</p>
+<p>​                    <code>overflow: hidden;</code>        +    <code>text-overflow: ellipsis</code>        </p>
+<p>display: -webkit-box;    //单行伸缩盒子</p>
+<p>-webkit-line-clamp: 2;    //限制其文本行数</p>
+<p>-webkit-box-orient: vertical;     //设置盒子的子元素排列方式，（垂直居中）</p>
+<h2 id="常见布局技巧"><a href="#常见布局技巧" class="headerlink" title="常见布局技巧"></a>常见布局技巧</h2><p>可以使用margin的负值来<strong>消除浮动边框的重合</strong>（消除产生的巨大影子）如：</p>
+<p><code>margin-left: -Xpx;</code></p>
+<p>想要<strong>移动到某个边框内自动变色</strong>可以使用hover，但是当排列方式为每个盒子的右边框被另外一个盒子的左边框压住时，变色效果会出bug，正确做法是：<code>xx:hover{ position: relative; }</code>添加相对定位使其马上覆盖当前所有单位</p>
+<p>如果失败，有可能是因为当前已经添加了绝对定位了，此时只需要提高层级：<code>z-index: 1;</code></p>
+<h2 id="CSS初始化"><a href="#CSS初始化" class="headerlink" title="CSS初始化"></a>CSS初始化</h2><p>为了照顾浏览器兼容，必须首先进行CSS初始化，即重新设定CSS个标签的初始默认值</p>
 
             </div>
             <hr/>
@@ -562,7 +550,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2020/05/17/css-fu-dong-chang-jian-de-wang-ye-bu-ju/">https://taylor12138.github.io/2020/05/17/css-fu-dong-chang-jian-de-wang-ye-bu-ju/</a>
+                    <a href="https://taylor12138.github.io/2020/05/31/css-gao-ji/">https://taylor12138.github.io/2020/05/31/css-gao-ji/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -765,46 +753,46 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/05/17/zhi-jie-cha-ru-pai-xu/">
+                <a href="/2020/05/31/css-gao-ji/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="直接插入排序">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="CSS高级">
                         
-                        <span class="card-title">直接插入排序</span>
+                        <span class="card-title">CSS高级</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            直接插入排序这里采用的是从后向前的比较方式，（从前向后其实也可以）
-有点像打牌，抽牌，然后选择地方放好
-//算法8.1 直接插入排序
-#include &lt;iostream&gt;
-using namespace std;
-#defin
+                            精灵图为了有效减少服务器接收和发射请求次数，提高速度出现的CSS技术。即将网页小背景图合成一张大图。
+主要针对于背景图片（非产品类等更新换代图片）
+主要使用background-position+x和y轴配合使用，x轴向右，y轴向下
+bac
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-17
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-31
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%8E%92%E5%BA%8F/" class="post-category">
-                                    排序
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -815,34 +803,36 @@ using namespace std;
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/14/zi-dian-pai-xu/">
+                <a href="/2020/05/28/css-ding-wei-xian-shi/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="字典排序">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="CSS定位&amp;显示">
                         
-                        <span class="card-title">字典排序</span>
+                        <span class="card-title">CSS定位&amp;显示</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            字典排序实现“ 1 2 3 ， 1 3 2 ， 2 1 3 ， 2 3 1 ， 3 1 2 ， 3 2 1 ”的序列排序方法
-代码实现如下
-#include 
-#define swap(a,b) {int temp=a;a=b;b=temp
+                            CSS定位1.某个元素可以在盒子内移动位置，并且压住其他盒子。
+2.滚动窗口时，盒子固定于屏幕某个位置。
+定位=定位模式+边偏移量
+定位选择器{
+    position: static;    
+    position: relativ
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-14
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-28
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%8E%92%E5%BA%8F/" class="post-category">
-                                    排序
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
                                 </a>
                             
                             

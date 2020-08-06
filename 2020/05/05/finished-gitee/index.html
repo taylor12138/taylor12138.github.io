@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="归并排序, Hexo">
+    <meta name="keywords" content="finished gitee, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>归并排序 | Hexo</title>
+    <title>finished gitee | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">归并排序</h1>
+                    <h1 class="description center-align post-title">finished gitee</h1>
                 </div>
             </div>
         </div>
@@ -443,15 +443,6 @@
                 </div>
                 <div class="col s5 right-align">
                     
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/%E6%8E%92%E5%BA%8F/" class="post-category">
-                                排序
-                            </a>
-                        
-                    </div>
-                    
                 </div>
             </div>
 
@@ -459,7 +450,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-05-17
+                    2020-05-05
                 </div>
                 
 
@@ -468,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    76
+                    62
                 </div>
                 
 
@@ -485,98 +476,8 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id=""><a href="#" class="headerlink" title=""></a></h3><h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p>将相邻的两个记录（序列）排序，并成一个有序序列，并继续上述操作</p>
-<pre class=" language-c++"><code class="language-c++">//算法8.11 归并排序
-#include <iostream>
-using namespace std;
-#define  MAXSIZE  20                                  //顺序表的最大长度
-typedef struct
-{
-    int key;
-    char *otherinfo;
-}RedType;
-
-typedef struct
-{
-    RedType *r;
-    int length;
-}SqList;
-
-void Create_Sq(SqList &L)
-{
-    int i,n;
-    cout<<"请输入数据个数，不超过"<<MAXSIZE<<"个。"<<endl;
-    cin>>n;                                            //输入个数
-    cout<<"请输入待排序的数据:\n";
-    while(n>MAXSIZE)
-    {
-        cout<<"个数超过上限，不能超过"<<MAXSIZE<<"，请重新输入"<<endl;
-        cin>>n;
-    }
-    for(i=1;i<=n;i++)
-    {
-        cin>>L.r[i].key;
-        L.length++;
-    }
-}
-
-//用算法8.10 相邻两个有序子序列的归并
-void Merge(RedType R[],RedType T[],int low,int mid,int high)
-{ 
-   //将有序表R[low..mid]和R[mid+1..high]归并为有序表T[low..high] 
-    int i,j,k;
-    i=low; j=mid+1;k=low; 
-    while(i<=mid&&j<=high)
-    {                     
-        //将R中记录由小到大地并入T中 
-        if(R[i].key<=R[j].key) T[k++]=R[i++]; 
-        else T[k++]=R[j++]; 
-    } 
-    while(i<=mid)                                    //将剩余的R[low..mid]复制到T中 
-        T[k++]=R[i++];                 
-    while(j<=high)                                   //将剩余的R[j.high]复制到T中 
-        T[k++]=R[j++];                       
-}//Merge 
-
-void MSort(RedType R[],RedType T[],int low,int high)
-{ 
-    //R[low..high]归并排序后放入T[low..high]中 
-    int mid;
-    RedType *S=new RedType[MAXSIZE];
-    if(low==high) T[low]=R[low];                    //序列长度为1，直接结束
-    else
-    { 
-        mid=(low+high)/2;                           //将当前序列一分为二，求出分裂点mid 
-        MSort(R,S,low,mid);                            //对子序列R[low..mid] 递归归并排序，结果放入S[low..mid] 
-        MSort(R,S,mid+1,high);                        //对子序列R[mid+1..high] 递归归并排序，结果放入S[mid+1..high] 
-        Merge(S,T,low,mid,high);                    //将S[low..mid]和S [mid+1..high]归并到T[low..high]  
-    }//else 
-}// MSort 
-
-void MergeSort(SqList &L)
-{ 
-    //对顺序表L做归并排序 
-    MSort(L.r,L.r,1,L.length); 
-}//MergeSort 
-void show(SqList L)
-{
-    int i;
-    for(i=1;i<=L.length;i++)
-        cout<<L.r[i].key<<endl;
-}
-void main()
-{
-    SqList R;
-    R.r=new RedType[MAXSIZE+1];
-    R.length=0;
-    Create_Sq(R);
-    MergeSort(R);
-    cout<<"排序后的结果为："<<endl;
-    show(R);
-}</code></pre>
-<p>1.稳定排序</p>
-<p>2.顺序，链式皆可以使用</p>
-<p>3.时间复杂度O( nlog2 n ),   空间复杂度为O(n).</p>
+                <p>原来是个人邮箱的设置必须得是公开的，我一直是设置为private，搞得一直错，终于搞出来了。</p>
+<p>但是发现了gitee的一个缺点，每次部署完后都要去码云更新一次。。。</p>
 
             </div>
             <hr/>
@@ -602,7 +503,7 @@ void main()
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2020/05/17/gui-bing-pai-xu/">https://taylor12138.github.io/2020/05/17/gui-bing-pai-xu/</a>
+                    <a href="https://taylor12138.github.io/2020/05/05/finished-gitee/">https://taylor12138.github.io/2020/05/05/finished-gitee/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -809,33 +710,35 @@ void main()
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/05/17/ji-shu-pai-xu/">
+                <a href="/2020/05/06/c-qiu-string-shu-zu-de-yuan-su-ge-shu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="基数排序">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="C++求string数组元素个数">
                         
-                        <span class="card-title">基数排序</span>
+                        <span class="card-title">C++求string数组元素个数</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            基数排序使用的大致思路是：根据关键字进行分类，再次排序，在分类，在排序，以此类推直至完成结果
-如扑克牌中根据分13类，排序，再根据花色分类，再排序；  对百位数排序，先根据个位分类，排，再根据十位分类，排，再根据百位分类，排
-//算法8.1
+                            不能使用str.length(),这个求的是单个字符串的大小，可以使用以下求得到长度
+sizeof(str)/sizeof(str[0])
+int[] a={1,2,3,4,5};  
+数组长度为 a.length
+
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-17
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-06
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%8E%92%E5%BA%8F/" class="post-category">
-                                    排序
+                            <a href="/categories/C/" class="post-category">
+                                    C++
                                 </a>
                             
                             
@@ -852,35 +755,34 @@ void main()
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/17/jian-dan-xuan-ze-pai-xu/">
+                <a href="/2020/05/05/html5-de-ji-ben-shu-xing/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="简单选择排序">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="HTML5的基本属性">
                         
-                        <span class="card-title">简单选择排序</span>
+                        <span class="card-title">HTML5的基本属性</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            简单选择排序选择关键字储存最小的记录：和表中的记录进行一一对比，选出最小记录放在开头，接着从第二个记录继续开始
-//算法8.6 简单选择排序
-#include &lt;iostream&gt;
-using namespace std;
-#d
+                            1.基本标签介绍&lt;html&gt;&lt;/html&gt;``根标签
+&lt;head&gt; &lt;/head&gt;   文档头部
+ &lt; title&gt; &lt;/title&gt;  文档标题   
+&lt;bod
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-17
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-05
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%8E%92%E5%BA%8F/" class="post-category">
-                                    排序
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
                                 </a>
                             
                             

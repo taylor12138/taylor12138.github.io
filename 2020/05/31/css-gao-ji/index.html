@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.6k
+                    2.5k
                 </div>
                 
 
@@ -559,7 +559,70 @@ content: &#39;XX&#39;;
 <h4 id="CSS过渡（重点）"><a href="#CSS过渡（重点）" class="headerlink" title="CSS过渡（重点）"></a>CSS过渡（重点）</h4><p>一些变化的动画效果（时间缓滞），经常和 :hover 一起搭配</p>
 <pre><code>transition: 要过渡的属性 花费的时间（单位为s） 运动曲线（默认ease，可以省略） 何时开始（默认0s，可省略）;
 transition: width 0.5s,heigh 0.5s;    //多个属性&quot;,&quot;分割，想要更多属性，直接属性值写all
-xx:hover{width:100px;heigh:100px;}</code></pre>
+xx:hover{width:100px;heigh:100px;}</code></pre><p>transition: all 0.xs;  使用的比较多</p>
+<h2 id="10-CSS的more"><a href="#10-CSS的more" class="headerlink" title="10.CSS的more"></a>10.CSS的more</h2><h3 id="css的2D转换"><a href="#css的2D转换" class="headerlink" title="css的2D转换"></a>css的2D转换</h3><p><code>transform</code>可以理解为变形  移动：translate   旋转：rotate   缩放：scale</p>
+<p>2d为二维坐标，x轴向右，y轴向下</p>
+<h4 id="translate类似于定位"><a href="#translate类似于定位" class="headerlink" title="translate类似于定位"></a>translate类似于定位</h4><pre><code>transform:translate(x,y);
+transform:translateX(n);
+transform:translateY(n);  //单位是px，如果是百分号，则它的距离是盒子自身高宽对比出来的</code></pre><p>translate最大的优点：不会影响其他元素的位置，绝对定位会脱标，margin会影响，（有点像相对定位，但是更方便，可以加过渡效果）</p>
+<p>可用于定位父盒子的中间位置 使用：</p>
+<pre><code>position: absolute;
+top: 50%;
+left: 50%;
+transform:translate(-50%,-50%);</code></pre><p>但是它对行内标签没有效果</p>
+<h4 id="rotate旋转"><a href="#rotate旋转" class="headerlink" title="rotate旋转"></a>rotate旋转</h4><pre class=" language-css"><code class="language-css"><span class="token property">transform</span><span class="token punctuation">:</span><span class="token function">rotate</span><span class="token punctuation">(</span>度数deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token property">transform-origin</span><span class="token punctuation">:</span>x y<span class="token punctuation">;</span>   //设置元素旋转依靠的中心点</code></pre>
+<p>x，y默认为50%，50%，设置x，y可以可是bottom，left等，如transform-origin:left bottom;为设置左下角为中心点</p>
+<h4 id="scale之缩放"><a href="#scale之缩放" class="headerlink" title="scale之缩放"></a>scale之缩放</h4><pre class=" language-css"><code class="language-css"><span class="token property">transform</span><span class="token punctuation">:</span><span class="token function">scale</span><span class="token punctuation">(</span>x,y<span class="token punctuation">)</span><span class="token punctuation">;</span>//里面的数字不跟单位，是倍数，x，y分别是宽，高
+<span class="token property">transform-origin</span><span class="token punctuation">:</span>x y<span class="token punctuation">;</span>   //设置元素旋转依靠的中心点</code></pre>
+<p>若只有一个参数，则同比放大</p>
+<p>使用scale的优点：变大时不会影响其他盒子的位置，且放大是以中心向外扩张的放大，直接修改width和heigh放大是直接往下放大</p>
+<h3 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h3><p>用keyframes定义动画</p>
+<pre class=" language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@keyframes</span> 动画名称</span> <span class="token punctuation">{</span>
+    <span class="token selector">0%</span><span class="token punctuation">{</span>
+        <span class="token property">width</span><span class="token punctuation">:</span><span class="token number">100</span>px<span class="token number">....</span>
+    <span class="token punctuation">}</span>
+    <span class="token selector">100%</span><span class="token punctuation">{</span>
+        <span class="token property">width</span><span class="token punctuation">:</span><span class="token number">200</span>px<span class="token number">....</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>//可以设置<span class="token number">25%</span>，<span class="token number">75%</span>等多个状态，习惯上把<span class="token number">0%</span>也写了
+//以下也可以
+<span class="token atrule"><span class="token rule">@keyframes</span> 动画名称</span> <span class="token punctuation">{</span>
+    <span class="token selector">form</span><span class="token punctuation">{</span>
+        <span class="token property">width</span><span class="token punctuation">:</span><span class="token number">100</span>px<span class="token number">....</span>
+    <span class="token punctuation">}</span>
+    <span class="token selector">to</span><span class="token punctuation">{</span>
+        <span class="token property">width</span><span class="token punctuation">:</span><span class="token number">200</span>px<span class="token number">....</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>0%动画的开始    100%动画的结束</p>
+<p>1.可以做多个状态变化 keyframe关键帧</p>
+<p>2.里面的数字为整数</p>
+<p>3.百分比为时间的划分</p>
+<p>使用动画：</p>
+<pre><code>div {
+    animation-name:动画名称;
+    animation-duration:持续时间;
+    animation-iteration-count:播放次数，可以为infinite;
+    animation-direction:xx; //默认normal，alternate为设置逆向播放
+    animation-fill-mode:xx; //默认backwards，动画结束后返回原来位置，forwards可取消该功能
+    animation-play-state:xx; //running/paused  是动画运行或者暂停
+    animation-timing-fuction: ease; //默认ease加速度，linear匀速，step分步。。。
+}</code></pre><p>使用多个动画用“，”分隔，如animation: bear 0.7s steps(8) infinite, move 0.7s ……</p>
+<h3 id="3D转换"><a href="#3D转换" class="headerlink" title="3D转换"></a>3D转换</h3><p>x轴向右，y轴向下，z轴向外，最常用的是3d位移和3d旋转,以下许多功能与2d十分相似</p>
+<h4 id="3d移动"><a href="#3d移动" class="headerlink" title="3d移动"></a>3d移动</h4><pre class=" language-css"><code class="language-css"><span class="token property">transform</span><span class="token punctuation">:</span> translate<span class="token number">3</span><span class="token function">d</span><span class="token punctuation">(</span>x,y,z<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token property">transform</span><span class="token punctuation">:</span><span class="token function">translateZ</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">;</span>  //translateZ一般采用px，<span class="token number">3</span>d的z轴显现出来需要透视功能</code></pre>
+<h4 id="透视"><a href="#透视" class="headerlink" title="透视"></a>透视</h4><p>透视我们也成为视距，即眼睛到屏幕的距离，透视的单位是像素，透视越小，盒子越大</p>
+<p>透视写在被观察元素的父盒子上</p>
+<pre><code>perspective: xxpx;</code></pre><h4 id="3d旋转"><a href="#3d旋转" class="headerlink" title="3d旋转"></a>3d旋转</h4><p>一般加上透视效果会比较明显，3d<strong>旋转方向</strong>遵循左手定则：</p>
+<p>左手大拇指指向x轴正方向，手指弯曲的方向则为旋转的方向</p>
+<pre><code>transform: rotateX(度数); //沿着X轴旋转
+transform: rotateY(度数);
+transform: rotateZ(度数); //z轴旋转和2d普通rotate有点像
+transform: rotate3d(x,y,z,度数); //自定义轴旋转</code></pre><p>自定义旋转只对x轴选取为transform: rotate3d(1,0,0,度数);    对角线旋转为transform: rotate3d(1,1,0,度数)</p>
+<p>transform要看情况选择：先写旋转rotate再写移动translate或者相反情况</p>
+<h4 id="3d呈现transform-style"><a href="#3d呈现transform-style" class="headerlink" title="3d呈现transform-style"></a>3d呈现transform-style</h4><p>控制子元素是否开启三维立体环境，代码要写给父级（一定是父级，不能爷爷级别，亲测过），此属性很重要</p>
+<pre><code>transform-style: preserve-3d //此为开启立体空间，但是默认值为flat，不开启立体空间</code></pre>
             </div>
             <hr/>
 
@@ -1062,7 +1125,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">17.4k</span>&nbsp;字
+                class="white-color">20.8k</span>&nbsp;字
             
             
             

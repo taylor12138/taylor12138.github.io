@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="PS切图, Hexo">
+    <meta name="keywords" content="数学建模国赛matlab知识点, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>PS切图 | Hexo</title>
+    <title>数学建模国赛matlab知识点 | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">PS切图</h1>
+                    <h1 class="description center-align post-title">数学建模国赛matlab知识点</h1>
                 </div>
             </div>
         </div>
@@ -446,8 +446,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/PS/" class="post-category">
-                                PS
+                            <a href="/categories/matlab/" class="post-category">
+                                matlab
                             </a>
                         
                     </div>
@@ -459,7 +459,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-05-10
+                    2020-08-06
                 </div>
                 
 
@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    127
+                    1.3k
                 </div>
                 
 
@@ -485,16 +485,77 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>jpg： JPEG对色彩保留好，高清颜色多</p>
-<p>gif：常用于小图片动画，可保留透明背景</p>
-<p>png：结合jpg和gif，储存形式丰富，支持透明背景</p>
-<p>PSD：保存PS设计稿</p>
-<p>图层切图：</p>
-<p>选定图层，右键，快速导出为png</p>
-<p>切片切图：</p>
-<p>切片工具—》选中—》左上角文件—》导出—》存储为Web所用格式—》JPEG（png可用于保存透明图）（保存的时候选”选中的切片“）</p>
-<p>ps插件切图：需要下载Cutterman插件</p>
-
+                <h2 id="1-基础"><a href="#1-基础" class="headerlink" title="1.基础"></a>1.基础</h2><p>命令行太长，可加上三个小数点：“…”   进行分割（续行符），如</p>
+<pre><code>s=1-1/2+1/3-1/4...
++1/5-1/6+1/7</code></pre><p>数值数据默认双精度double</p>
+<p><code>clear</code>命令，清除工作区的所有变量</p>
+<p><code>class(变量)</code>得到变量类型</p>
+<p>复型数据，虚数部分用i或j表示，如6+5i ，real函数求复数实部，imag函数求复数的虚部</p>
+<p>以角度为单位的函数，在函数名后加“d”，如sin(pi/2)=sind(90)</p>
+<p><code>abs(xx)</code>可求实数绝对值，复数的模，字符串的ascii码</p>
+<p><code>rem(m,10)</code>求m/10的余数 </p>
+<p><code>isprime(n)</code>求n是否为素数，是返回1，否返回0</p>
+<p><code>exp(pi/2)</code>为e的2/Π次方</p>
+<h4 id="整形转换"><a href="#整形转换" class="headerlink" title="整形转换"></a>整形转换</h4><pre class=" language-matlab"><code class="language-matlab">x<span class="token operator">=</span><span class="token function">int8</span><span class="token punctuation">(</span><span class="token number">129</span><span class="token punctuation">)</span>        <span class="token operator">/</span><span class="token operator">/</span>转有符号的int，最大<span class="token number">127</span>，即这里x<span class="token operator">=</span><span class="token number">127</span>
+x<span class="token operator">=</span><span class="token function">uint</span><span class="token punctuation">(</span><span class="token number">129</span><span class="token punctuation">)</span>        <span class="token operator">/</span><span class="token operator">/</span>转无符号uint，即x<span class="token operator">=</span><span class="token number">129</span></code></pre>
+<h4 id="取整函数"><a href="#取整函数" class="headerlink" title="取整函数"></a>取整函数</h4><pre><code>round()函数按照四舍五入
+ceil()向上取整
+floor()向下取整
+fix()取靠近0的整数</code></pre><h4 id="矩阵的建立"><a href="#矩阵的建立" class="headerlink" title="矩阵的建立"></a>矩阵的建立</h4><pre><code>//no.1
+A=[1,2,3;4,5,6;7,8,9]  //第一行1，2，3，第二行4，5，6</code></pre><h4 id="冒号表达式"><a href="#冒号表达式" class="headerlink" title="冒号表达式"></a>冒号表达式</h4><pre><code>e1:e2:e3   //分别为初始值，步长（两两之间间隔的大小，如果省略步长，则步长为1），终止值
+inspace(a,b,n)//分别对应第一个元素，最后一个元素，元素总数（省略时为100）</code></pre><h4 id="结构矩阵-amp-单位矩阵"><a href="#结构矩阵-amp-单位矩阵" class="headerlink" title="结构矩阵&amp;单位矩阵"></a>结构矩阵&amp;单位矩阵</h4><pre><code>//结构矩阵   结构矩阵元素.成员名=表达式
+a(1).x1=10;  a(1).x2=&#39;liu&#39;;  a(1).x3=[11,21;34,78];
+//单元矩阵，用大括号
+b={10,&#39;liu&#39;,[11,21;34,78]}</code></pre><h2 id="2-矩阵"><a href="#2-矩阵" class="headerlink" title="2.矩阵"></a>2.矩阵</h2><h4 id="引用矩阵元素"><a href="#引用矩阵元素" class="headerlink" title="引用矩阵元素"></a>引用矩阵元素</h4><p><code>A(3,2)</code>表示A矩阵第三行，第二列元素</p>
+<p>可用序号引用，如在A=[1,2,3;4,5,6;7,8,9]中，A(3)=7     (矩阵元素按列储存)</p>
+<p><code>D=sub2ind(S,I,J)</code>,分别为行数和列数组成的向量，转换矩阵元素的行下标，转换矩阵元素的列下标，D为序号（下标转序号）</p>
+<p><code>size(A)</code>求矩阵A的行列数</p>
+<p><code>[I,J]=ind2sub(S,D)</code>,分别为行数和列数组成的向量，序号（序号转下标）</p>
+<p><code>k=find(ch&gt;=&#39;a&#39;&amp;ch&lt;&#39;z&#39;)</code> 找到符合条件的元素的序号</p>
+<h4 id="利用冒号获得子矩阵"><a href="#利用冒号获得子矩阵" class="headerlink" title="利用冒号获得子矩阵"></a>利用冒号获得子矩阵</h4><pre><code>A(i,:)   第i行的所有元素
+A(:,j)   第j列的所有元素
+A(i:i+m,k:k+m)   第i~i+m行且在第k~k+m行的所有元素</code></pre><p>end运算符：表示某一维末尾下标    如：A(end,:)，是指A矩阵最后一行所有元素</p>
+<h4 id="利用空矩阵删除矩阵的元素"><a href="#利用空矩阵删除矩阵的元素" class="headerlink" title="利用空矩阵删除矩阵的元素"></a>利用空矩阵删除矩阵的元素</h4><p>将想要的元素范围赋值空矩阵[]即可，如A(:,[2,4])=[]，删除第二列，第四列元素</p>
+<h4 id="改变矩阵形状"><a href="#改变矩阵形状" class="headerlink" title="改变矩阵形状"></a>改变矩阵形状</h4><p><code>reshape(A,m,n)</code>：在矩阵综援素不变的情况下，将A重新排列成m×n的二维矩阵</p>
+<p>注意：并不改变元素个数及其储存顺序</p>
+<p><code>A(:)</code>：将矩阵A每一列元素堆叠起来成为一个列向量 </p>
+<h2 id="3-算术运算-amp-字符串"><a href="#3-算术运算-amp-字符串" class="headerlink" title="3.算术运算&amp;字符串"></a>3.算术运算&amp;字符串</h2><p>须知：加减运算两矩阵必须同型，乘法运算要求A行数和B的列数相同</p>
+<p>点运算：两矩阵进行点运算是指它们对应元素进行运算，要求两矩阵同型</p>
+<p>逻辑运算符：&amp;，|，~</p>
+<p>字符串和数值之间的转换：数值（ASCII码）=abs(字符串)    字符串=char(ASCII码)</p>
+<p><code>strncmp(s1,s2)</code>：用于比较字符串s1，s2是否相等</p>
+<p><code>strncmp(s1,s2,n)</code>：用于比较字符串s1，s2前n个字符是否相等</p>
+<p><code>strcmpi(s1,s2)</code>：忽略大小写</p>
+<h2 id="4-特殊矩阵"><a href="#4-特殊矩阵" class="headerlink" title="4.特殊矩阵"></a>4.特殊矩阵</h2><p>zeros函数：产生全零矩阵</p>
+<p>ones函数：产生全1矩阵</p>
+<p>eye函数：产生对角线为1的函数</p>
+<p>rand函数：产生（0,1）区间均匀分布的随机矩阵</p>
+<p>randn函数：产生均值为0，方差为1的标准正态分布随机矩阵</p>
+<p>inv(矩阵)：求其逆矩阵</p>
+<pre><code>zeros(m):产生m×m零矩阵
+zeros(m,n):产生m×n零矩阵</code></pre><p>特殊矩阵介绍：</p>
+<p>魔方矩阵M=magic(8)             (8行8列)</p>
+<p>范德蒙矩阵vander(1:5)</p>
+<p>希尔伯特矩阵：H=hilb(4)</p>
+<p>伴随矩阵：A=compan(P)</p>
+<p>帕斯卡矩阵：P=pascal(5)</p>
+<h4 id="对角阵"><a href="#对角阵" class="headerlink" title="对角阵"></a>对角阵</h4><p>对角矩阵：对角线上元素非零</p>
+<p>数量矩阵：对角线上元素相等</p>
+<p>对角矩阵：对角线上元素为1</p>
+<p>diag(A)：提取矩阵A对角线元素，产生一个列向量</p>
+<p>diag(A,k)：提取矩阵A第k条对角线元素，产生一个列向量</p>
+<p>构造对角矩阵：diag(V)：以向量V为主对角线元素，产生对角矩阵</p>
+<h4 id="三角阵"><a href="#三角阵" class="headerlink" title="三角阵"></a>三角阵</h4><p><code>triu(A)</code>：提取矩阵A的主对角线及以上的元素</p>
+<p><code>tril(A)</code>：提取矩阵A的主对角线及以下的元素</p>
+<p><code>triu(A,k)</code>：提取矩阵A的第k条主对角线及以上的元素</p>
+<h4 id="矩阵的转置"><a href="#矩阵的转置" class="headerlink" title="矩阵的转置"></a>矩阵的转置</h4><p>A=[1,3;3+4i,1-2i]</p>
+<p>转置：A.’</p>
+<p>共轭转置：A’</p>
+<p>若矩阵为实数，转置和共轭转置是一样的</p>
+<p>矩阵旋转：rot90(A,k)，将矩阵A逆时针旋转90°的k倍，k为1可省略</p>
+<p>矩阵左右翻转：fliplr(A) </p>
+<p>矩阵上下翻转：flipud(A) </p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3>
             </div>
             <hr/>
 
@@ -519,7 +580,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2020/05/10/ps-qie-tu/">https://taylor12138.github.io/2020/05/10/ps-qie-tu/</a>
+                    <a href="https://taylor12138.github.io/2020/08/06/shu-xue-jian-mo-guo-sai-matlab-zhi-shi-dian/">https://taylor12138.github.io/2020/08/06/shu-xue-jian-mo-guo-sai-matlab-zhi-shi-dian/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -722,46 +783,48 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/05/10/css-yang-shi/">
+                <a href="/2020/08/06/shu-xue-jian-mo-guo-sai-matlab-zhi-shi-dian/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="CSS样式">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="数学建模国赛matlab知识点">
                         
-                        <span class="card-title">CSS样式</span>
+                        <span class="card-title">数学建模国赛matlab知识点</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            声明：可以使用chrome的F12浏览学习别人的样式并且调试你的代码引入CSS&lt;link rel="stylesheet" href="css文件路径">
-1.主要定义//是类型选择,标签选择器
-元素（标签） {
-
-}
-//选择所有元
+                            1.基础命令行太长，可加上三个小数点：“…”   进行分割（续行符），如
+s=1-1/2+1/3-1/4...
++1/5-1/6+1/7数值数据默认双精度double
+clear命令，清除工作区的所有变量
+class(变量)得到变量类型
+复
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-10
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-06
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                    前端
+                            <a href="/categories/matlab/" class="post-category">
+                                    matlab
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -772,30 +835,35 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/10/emmet-yu-fa/">
+                <a href="/2020/08/06/mo-ni-tui-huo-suan-fa/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="emmet语法">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="模拟退火算法">
                         
-                        <span class="card-title">emmet语法</span>
+                        <span class="card-title">模拟退火算法</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Emmet语法插件于市面上大多前端编译软件，如VScode所带有的，便于快速写html和CSSh5想要生成多个标签：div*10，再回车（或者tab），即可生成10个div标签。
-生成父子关系标签：div&gt;span,再回车（或者tab
+                            模拟退火算法可能的情况很多，数据量太大，用模拟退火搜索出需要的解（求最值）（最大值问题可以添加负号转换成求最小值问题）
+启发式搜索：利用搜索过程中获取的信息改进搜索策略。启发式搜索有利于找到问题最优解，且有助于加速求解过程。
+模拟退火可以说
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-10
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-06
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            Hello
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Matlab/" class="post-category">
+                                    Matlab
+                                </a>
+                            
                             
                         </span>
                     </div>
@@ -997,7 +1065,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">17.4k</span>&nbsp;字
+                class="white-color">20.8k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    122
+                    527
                 </div>
                 
 
@@ -485,9 +485,23 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="模拟退火算法"><a href="#模拟退火算法" class="headerlink" title="模拟退火算法"></a>模拟退火算法</h2><p>可能的情况很多，数据量太大，用模拟退火搜索出需要的解（求最值）（最大值问题可以添加负号转换成求最小值问题）</p>
+                <h2 id="1-模拟退火算法"><a href="#1-模拟退火算法" class="headerlink" title="1.模拟退火算法"></a>1.模拟退火算法</h2><p>可能的情况很多，数据量太大，用模拟退火搜索出需要的解（求最值）（最大值问题可以添加负号转换成求最小值问题）</p>
 <p><strong>启发式搜索</strong>：利用搜索过程中获取的信息改进搜索策略。启发式搜索有利于找到问题最优解，且有助于加速求解过程。</p>
 <p>模拟退火可以说是最简单（应用）的启发式搜索之一</p>
+<p>相比起爬山法（找到局部最优解），模拟退火算法有<strong>一定概率</strong>能接受比当前还要差的解，概率p位于[0,1]，旧解和新解的函数值越接近，p值就越大（概率为0对应爬山法，概率为1对应蒙特卡洛算法）；时间越长，p值越小；搜索前期p大，后期p小</p>
+<h2 id="2-搜索过程"><a href="#2-搜索过程" class="headerlink" title="2.搜索过程"></a>2.搜索过程</h2><p>1.随机生成一个解A，计算F(A)</p>
+<p>2.在A附近随机生成一个解B，计算F(B)</p>
+<p>3.对比F(A)和F(B)，进行对比，若F(B)&gt;F(A)（求最大值）,B赋值A，F(B)&lt;F(A)，计算接受B的概率，接受则B赋值A，且重复以上操作，否则返回第2步，在原来A附近再生成一个B继续下去</p>
+<p>如果优化问题有约束条件： 1.生成B是查看是否符合要求  2.使用罚函数</p>
+<p>与时间相关的系数Ct如何设置：Ct是温度t的倒数（模拟退火）</p>
+<p>如何再A附近随机生成一个解B：没有统一规定，需要具体问题具体分析</p>
+<h4 id="停止搜索"><a href="#停止搜索" class="headerlink" title="停止搜索"></a>停止搜索</h4><p>1.达到迭代次数      2.达到指定温度     3.找到连续最优解，M（如30次）次迭代还未改变</p>
+<h2 id="3-实现"><a href="#3-实现" class="headerlink" title="3.实现"></a>3.实现</h2><p>产生新解：</p>
+<p>1.matlab内置工具    </p>
+<p>根据温度不同，新解距离旧解的步长改变，温度高步长高，温度低步长短，由全局缩短为</p>
+<p>x_new=x_i+T×z_i        然后检查x_new是否位于上下界</p>
+<p>2.旅行商问题</p>
+<p>交换法，位移法，倒置法</p>
 
             </div>
             <hr/>
@@ -720,24 +734,20 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/08/06/shu-xue-jian-mo-guo-sai-matlab-zhi-shi-dian/">
+                <a href="/2020/08/06/matlab-qi-mo-zhi-shi-dian-hui-zong/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="数学建模国赛matlab知识点">
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="matlab期末知识点汇总">
                         
-                        <span class="card-title">数学建模国赛matlab知识点</span>
+                        <span class="card-title">matlab期末知识点汇总</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.基础命令行太长，可加上三个小数点：“…”   进行分割（续行符），如
-s=1-1/2+1/3-1/4...
-+1/5-1/6+1/7数值数据默认双精度double
-clear命令，清除工作区的所有变量
-class(变量)得到变量类型
-复
+                            regress命令  用于一元及多元线性回归
+B = regress(Y,X)[B,BINT] = regress(Y,X)[B,BINT,R] = regress(Y,X)[B,BINT,R,RINT] = regress(Y,X)B,B
                         
                     </div>
                     <div class="publish-info">
@@ -766,33 +776,36 @@ class(变量)得到变量类型
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/07/21/javasript/">
+                <a href="/2020/08/06/shu-xue-jian-mo-guo-sai-matlab-zhi-shi-dian/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="JavaSript">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="数学建模国赛matlab知识点">
                         
-                        <span class="card-title">JavaSript</span>
+                        <span class="card-title">数学建模国赛matlab知识点</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.JS的介绍JS是脚本语言，不需要编译，直接由js解释器逐行进行解释并执行，现在也可以基于node.js技术（后台）进行服务器编程
-实现业务逻辑和页面控制功能，浏览器的JS引擎，也就是JS解释器，用来读取JS代码
-JS的组成JavaScr
+                            1.基础命令行太长，可加上三个小数点：“…”   进行分割（续行符），如
+s=1-1/2+1/3-1/4...
++1/5-1/6+1/7数值数据默认双精度double
+clear命令，清除工作区的所有变量
+class(变量)得到变量类型
+复
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-21
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-06
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                    前端
+                            <a href="/categories/matlab/" class="post-category">
+                                    matlab
                                 </a>
                             
                             
@@ -996,7 +1009,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">20.8k</span>&nbsp;字
+                class="white-color">22k</span>&nbsp;字
             
             
             

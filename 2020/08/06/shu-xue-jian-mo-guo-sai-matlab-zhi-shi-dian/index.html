@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.3k
+                    2k
                 </div>
                 
 
@@ -555,7 +555,33 @@ zeros(m,n):产生m×n零矩阵</code></pre><p>特殊矩阵介绍：</p>
 <p>矩阵旋转：rot90(A,k)，将矩阵A逆时针旋转90°的k倍，k为1可省略</p>
 <p>矩阵左右翻转：fliplr(A) </p>
 <p>矩阵上下翻转：flipud(A) </p>
-<h3 id=""><a href="#" class="headerlink" title=""></a></h3>
+<h4 id="矩阵其他功能"><a href="#矩阵其他功能" class="headerlink" title="矩阵其他功能"></a>矩阵其他功能</h4><p>把一个方阵看作一行列式，并对其按行列式的规则求值：det(A)</p>
+<p>求矩阵的秩：rank(A)</p>
+<p>求矩阵的迹，即对角线元素之和：trace(A)</p>
+<p>求矩阵A全部特征值，构成向量E：E=eig(A)</p>
+<p>或者 [X,D]=eig(A) A的全部特征值构成对角阵D，X的各列是对应的特征向量</p>
+<h2 id="5-subplot画图"><a href="#5-subplot画图" class="headerlink" title="5.subplot画图"></a>5.subplot画图</h2><p>subplot（m,n,p）或者subplot（mnp）此函数最常用：subplot是<br>将多个图画到一个平面上的工具。其中，m表示是图排成m行，n表示图排成n列，<br>也就是整个figure中有n个图是排成一行的，一共m行，<br>如果第一个数字是2就是表示2行图。p是指你现在要把曲线画到figure中哪个图上，<br>最后一个如果是1表示是从左到右第一个位置。 ）</p>
+<h2 id="6-MatLab中关于程序的操作"><a href="#6-MatLab中关于程序的操作" class="headerlink" title="6.MatLab中关于程序的操作"></a>6.MatLab中关于程序的操作</h2><p>建立函数，新建脚本，开头为： function C = 函数名( 参数A,参数B)，并且通过C返回（当有多个形参时，可用逗号分隔，而C为输出形参表，多个输出形参需要用方括号[] 括起来）</p>
+<p>数据的输入：A=input(‘请输入A的值：’);</p>
+<p>数据的输出：disp(输出项)</p>
+<p>程序暂停：pause(延迟数秒),如果省略参数，则一直暂停，除非用户按任意键就可以继续执行</p>
+<p>x^(1/3)=power(x,1/3) </p>
+<p>matlab中的switch case相对于C，java不需要break，且最后一个的default改成otherwise</p>
+<p>匿名函数：简化了函数的过程：如f=@(x,y)x^2+y^2，f(3,4)进行调用，但是不适用于复杂函数</p>
+<h2 id="7-Plot函数"><a href="#7-Plot函数" class="headerlink" title="7.Plot函数"></a>7.Plot函数</h2><p>plot(x,y)，x，y分别存储x，y坐标的数据</p>
+<p>最简单的plot调用格式：plot(x)，下标为横坐标，值为纵坐标</p>
+<p>x,y为同型矩阵，则分别对应x，y坐标绘画出曲线图</p>
+<p>多条曲线可以plot(x1,y1,x2,y2,x3,y3……)</p>
+<p>x=linspace(0,2*pi,100)  ,位置0到2pi的100个元素存于x</p>
+<h4 id="plot（x-y-选项）"><a href="#plot（x-y-选项）" class="headerlink" title="plot（x,y,选项）"></a>plot（x,y,选项）</h4><p>选项有线性，颜色，数据点标记</p>
+<p>线型：“ - ”  实线,   “ : ”虚线,    “ -. ”点画线,    “ – ”  双画线</p>
+<p>颜色：“  r ”红，“  g ”绿，“  b ”蓝。。。。。。</p>
+<p>数据点标记：“  * ”星号，“  o ”圆圈，”  s “方块。。。。</p>
+<h2 id="8-fplot函数"><a href="#8-fplot函数" class="headerlink" title="8.fplot函数"></a>8.fplot函数</h2><p>fplot（f,lim,选项），f是函数，lim是x的取值范围，用二元向量[xmin,xmax]表示，默认[-5,5]，选项和plot相同</p>
+<p>自变量无法间隔采样时使用fplot（函数变化趋势未知，或者在不同区间函数变化频率过大，如sin（x/1））</p>
+<h2 id="9-曲线拟合"><a href="#9-曲线拟合" class="headerlink" title="9.曲线拟合"></a>9.曲线拟合</h2><p>polyfit（）进行拟合，找一个函数去逼近数据，再根据找到的函数预测下一个点的值（如    人口预测问题）（它实际上是求得最小二乘法拟合的多项式系数）</p>
+<p>p=ployfit（x,y,3）生成三次多项式函数，调用ployval（p,2020）进行计算（求2020年的人口）</p>
+
             </div>
             <hr/>
 
@@ -787,20 +813,21 @@ zeros(m,n):产生m×n零矩阵</code></pre><p>特殊矩阵介绍：</p>
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/08/06/matlab-qi-mo-zhi-shi-dian-hui-zong/">
+                <a href="/2020/08/06/mo-ni-tui-huo-suan-fa/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="matlab期末知识点汇总">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="模拟退火算法">
                         
-                        <span class="card-title">matlab期末知识点汇总</span>
+                        <span class="card-title">模拟退火算法</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            regress命令  用于一元及多元线性回归
-B = regress(Y,X)[B,BINT] = regress(Y,X)[B,BINT,R] = regress(Y,X)[B,BINT,R,RINT] = regress(Y,X)B,B
+                            1.模拟退火算法可能的情况很多，数据量太大，用模拟退火搜索出需要的解（求最值）（最大值问题可以添加负号转换成求最小值问题）
+启发式搜索：利用搜索过程中获取的信息改进搜索策略。启发式搜索有利于找到问题最优解，且有助于加速求解过程。
+模拟退火可
                         
                     </div>
                     <div class="publish-info">
@@ -829,33 +856,33 @@ B = regress(Y,X)[B,BINT] = regress(Y,X)[B,BINT,R] = regress(Y,X)[B,BINT,R,RINT] 
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/08/06/mo-ni-tui-huo-suan-fa/">
+                <a href="/2020/07/21/javasript/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="模拟退火算法">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="JavaSript">
                         
-                        <span class="card-title">模拟退火算法</span>
+                        <span class="card-title">JavaSript</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            模拟退火算法可能的情况很多，数据量太大，用模拟退火搜索出需要的解（求最值）（最大值问题可以添加负号转换成求最小值问题）
-启发式搜索：利用搜索过程中获取的信息改进搜索策略。启发式搜索有利于找到问题最优解，且有助于加速求解过程。
-模拟退火可以说
+                            1.JS的介绍JS是脚本语言，不需要编译，直接由js解释器逐行进行解释并执行，现在也可以基于node.js技术（后台）进行服务器编程
+实现业务逻辑和页面控制功能，浏览器的JS引擎，也就是JS解释器，用来读取JS代码
+JS的组成JavaScr
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-06
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-21
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/matlab/" class="post-category">
-                                    matlab
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
                                 </a>
                             
                             
@@ -1059,7 +1086,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">20.8k</span>&nbsp;字
+                class="white-color">22k</span>&nbsp;字
             
             
             

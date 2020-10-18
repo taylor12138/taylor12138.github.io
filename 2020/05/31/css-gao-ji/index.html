@@ -509,7 +509,7 @@
 <p><code>cursor: not-allowed</code>    禁止</p>
 <h4 id="轮廓线"><a href="#轮廓线" class="headerlink" title="轮廓线"></a>轮廓线</h4><p>给表单（input）添加 <code>outline: 0;</code>，点击表单时，会去掉默认的l蓝色光标</p>
 <h4 id="防止拖拽文本域"><a href="#防止拖拽文本域" class="headerlink" title="防止拖拽文本域"></a>防止拖拽文本域</h4><p><code>textarea{ resize: none }</code>可以使文本框没有拖拽选项</p>
-<h2 id="5-Vertical-align"><a href="#5-Vertical-align" class="headerlink" title="5.Vertical-align"></a>5.Vertical-align</h2><p>css常用vertical-align让图片和文字对齐（但是只能针对行内元素或者行内块元素）</p>
+<h2 id="5-Vertical-align-图片"><a href="#5-Vertical-align-图片" class="headerlink" title="5.Vertical-align(图片)"></a>5.Vertical-align(图片)</h2><p>css常用vertical-align让图片和文字对齐（但是只能针对行内元素或者行内块元素）</p>
 <p><code>vertical-align: middle;</code>    中线对齐（一般使用这个来对齐）</p>
 <p>图片底侧放置于盒子内时，时常有一个空白缝隙，可以使用<code>vertical-align: middle||top||bottom;</code>将其解决    （其实还可以直接转成块元素，但是此方法不提倡）</p>
 <h2 id="6-文字溢出变省略号（推荐让后端写）"><a href="#6-文字溢出变省略号（推荐让后端写）" class="headerlink" title="6.文字溢出变省略号（推荐让后端写）"></a>6.文字溢出变省略号（推荐让后端写）</h2><p>单行文本：<code>white-space: nowrap</code>        //强制一行内显示</p>
@@ -531,6 +531,10 @@
 <p><code>input[class^=icon]{}</code>    选择类属性以icon开头的所有标签</p>
 <p><code>input[class$=icon]{}</code>    选择类属性以icon结尾的所有标签</p>
 <p><code>input[class*=icon]{}</code>    选择类属性含有icon的所有标签</p>
+<p>如</p>
+<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.local-nav</span> li <span class="token attribute">[class^="local-nav-icon"]</span> </span><span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span></code></pre>
 <p>类选择器，伪类选择器，属性选择器（这个一般是11，因为包含标签名+属性名=1+10=11）它们权重都为10</p>
 <h4 id="结构伪类选择器"><a href="#结构伪类选择器" class="headerlink" title="结构伪类选择器"></a>结构伪类选择器</h4><p>first和last等可以来了解一下，实际开发不太建议使用，也比较少使用。</p>
 <p>值得注意的是 <code>nth-child(n)</code>比较重要</p>
@@ -543,38 +547,42 @@
 <p><code>section div:nth-child(1){ }</code>    //先排序，再看是否符合div，如果是div就渲染</p>
 <p><code>section div:nth-type(1){ }</code>    //先看是否符合div，如果是就在div里排序，选择第一个就渲染</p>
 <h4 id="伪元素选择器"><a href="#伪元素选择器" class="headerlink" title="伪元素选择器"></a>伪元素选择器</h4><p>通过CSS创建新的子标签（比较简单的），从而简化html结构，（<strong>还与之前清除浮动使用的伪元素方法有关</strong>）</p>
-<pre><code>element::before{ 
-content：&#39;XX&#39;;       //必须要有content属性，为内容
-样式 }      //在元素内部前面（左）插入内容
-element::after{ 
-content: &#39;XX&#39;;
-样式 }      //在元素内部后面（右）插入内容</code></pre><p>它和标签选择器一样，权重=1，且为行内元素，想要设置大小必须转行内块</p>
+<pre class=" language-css"><code class="language-css"><span class="token selector">element<span class="token pseudo-element">::before</span></span><span class="token punctuation">{</span> 
+content：<span class="token string">'XX'</span><span class="token punctuation">;</span>       <span class="token comment" spellcheck="true">/*必须要有content属性，为内容*/</span>
+样式 <span class="token punctuation">}</span>      <span class="token comment" spellcheck="true">/*在元素内部前面（左）插入内容*/</span>
+<span class="token selector">element<span class="token pseudo-element">::after</span></span><span class="token punctuation">{</span> 
+<span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">'XX'</span><span class="token punctuation">;</span>
+样式 <span class="token punctuation">}</span>      <span class="token comment" spellcheck="true">/*在元素内部后面（右）插入内容*/</span></code></pre>
+<p>它和标签选择器一样，权重=1，且为行内元素，想要设置大小必须转行内块</p>
 <p>（还可以有element:hover::before{}的操作）</p>
 <h4 id="CSS3盒子模型"><a href="#CSS3盒子模型" class="headerlink" title="CSS3盒子模型"></a>CSS3盒子模型</h4><p>只需增加如下代码</p>
-<pre><code>box-sizing: border-box;   //只看盒子大小，不考虑border和padding因素</code></pre><p>即可不用考虑border和padding因素是否会将盒子本身撑大。</p>
+<pre class=" language-css"><code class="language-css"><span class="token property">box-sizing</span><span class="token punctuation">:</span> border-box<span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">/*只看盒子大小，不考虑border和padding因素*/</span></code></pre>
+<p>即可不用考虑border和padding因素是否会将盒子本身撑大。</p>
 <h4 id="CSS3滤镜filter"><a href="#CSS3滤镜filter" class="headerlink" title="CSS3滤镜filter"></a>CSS3滤镜filter</h4><p>用于模糊图形效果，<code>filter: 函数();</code></p>
 <p>如：<code>filter:blur(5px);</code>        //模糊处理，数值越大越模糊</p>
 <p>……</p>
 <h4 id="CSS3calc函数-计算函数"><a href="#CSS3calc函数-计算函数" class="headerlink" title="CSS3calc函数(计算函数)"></a>CSS3calc函数(计算函数)</h4><p><code>width: calc(100% - 80px);</code>    //宽度永远比父盒子宽度小30px</p>
 <h4 id="CSS过渡（重点）"><a href="#CSS过渡（重点）" class="headerlink" title="CSS过渡（重点）"></a>CSS过渡（重点）</h4><p>一些变化的动画效果（时间缓滞），经常和 :hover 一起搭配</p>
-<pre><code>transition: 要过渡的属性 花费的时间（单位为s） 运动曲线（默认ease，可以省略） 何时开始（默认0s，可省略）;
-transition: width 0.5s,heigh 0.5s;    //多个属性&quot;,&quot;分割，想要更多属性，直接属性值写all
-xx:hover{width:100px;heigh:100px;}</code></pre><p>transition: all 0.xs;  使用的比较多</p>
+<pre class=" language-css"><code class="language-css"><span class="token property">transition</span><span class="token punctuation">:</span> 要过渡的属性 花费的时间（单位为s） 运动曲线（默认ease，可以省略） 何时开始（默认<span class="token number">0</span>s，可省略）<span class="token punctuation">;</span>
+<span class="token property">transition</span><span class="token punctuation">:</span> width <span class="token number">0.5</span>s,heigh <span class="token number">0.5</span>s<span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">/*多个属性","分割，想要更多属性，直接属性值写all*/</span>
+<span class="token selector">xx<span class="token pseudo-class">:hover</span></span><span class="token punctuation">{</span><span class="token property">width</span><span class="token punctuation">:</span><span class="token number">100</span>px<span class="token punctuation">;</span><span class="token property">heigh</span><span class="token punctuation">:</span><span class="token number">100</span>px<span class="token punctuation">;</span><span class="token punctuation">}</span></code></pre>
+<p>transition: all 0.xs;  使用的比较多</p>
 <h2 id="10-CSS的more"><a href="#10-CSS的more" class="headerlink" title="10.CSS的more"></a>10.CSS的more</h2><h3 id="css的2D转换"><a href="#css的2D转换" class="headerlink" title="css的2D转换"></a>css的2D转换</h3><p><code>transform</code>可以理解为变形  移动：translate   旋转：rotate   缩放：scale</p>
 <p>2d为二维坐标，x轴向右，y轴向下</p>
-<h4 id="translate类似于定位"><a href="#translate类似于定位" class="headerlink" title="translate类似于定位"></a>translate类似于定位</h4><pre><code>transform:translate(x,y);
-transform:translateX(n);
-transform:translateY(n);  //单位是px，如果是百分号，则它的距离是盒子自身高宽对比出来的</code></pre><p>translate最大的优点：不会影响其他元素的位置，绝对定位会脱标，margin会影响，（有点像相对定位，但是更方便，可以加过渡效果）</p>
+<h4 id="translate类似于定位"><a href="#translate类似于定位" class="headerlink" title="translate类似于定位"></a>translate类似于定位</h4><pre class=" language-css"><code class="language-css"><span class="token property">transform</span><span class="token punctuation">:</span><span class="token function">translate</span><span class="token punctuation">(</span>x,y<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token property">transform</span><span class="token punctuation">:</span><span class="token function">translateX</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token property">transform</span><span class="token punctuation">:</span><span class="token function">translateY</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">/*单位是px，如果是百分号，则它的距离是盒子自身高宽对比出来的*/</span></code></pre>
+<p>translate最大的优点：不会影响其他元素的位置，绝对定位会脱标，margin会影响，（有点像相对定位，但是更方便，可以加过渡效果）</p>
 <p>可用于定位父盒子的中间位置 使用：</p>
 <pre><code>position: absolute;
 top: 50%;
 left: 50%;
 transform:translate(-50%,-50%);</code></pre><p>但是它对行内标签没有效果</p>
 <h4 id="rotate旋转"><a href="#rotate旋转" class="headerlink" title="rotate旋转"></a>rotate旋转</h4><pre class=" language-css"><code class="language-css"><span class="token property">transform</span><span class="token punctuation">:</span><span class="token function">rotate</span><span class="token punctuation">(</span>度数deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token property">transform-origin</span><span class="token punctuation">:</span>x y<span class="token punctuation">;</span>   //设置元素旋转依靠的中心点</code></pre>
+<span class="token property">transform-origin</span><span class="token punctuation">:</span>x y<span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">/*设置元素旋转依靠的中心点*/</span></code></pre>
 <p>x，y默认为50%，50%，设置x，y可以可是bottom，left等，如transform-origin:left bottom;为设置左下角为中心点</p>
-<h4 id="scale之缩放"><a href="#scale之缩放" class="headerlink" title="scale之缩放"></a>scale之缩放</h4><pre class=" language-css"><code class="language-css"><span class="token property">transform</span><span class="token punctuation">:</span><span class="token function">scale</span><span class="token punctuation">(</span>x,y<span class="token punctuation">)</span><span class="token punctuation">;</span>//里面的数字不跟单位，是倍数，x，y分别是宽，高
-<span class="token property">transform-origin</span><span class="token punctuation">:</span>x y<span class="token punctuation">;</span>   //设置元素旋转依靠的中心点</code></pre>
+<h4 id="scale之缩放"><a href="#scale之缩放" class="headerlink" title="scale之缩放"></a>scale之缩放</h4><pre class=" language-css"><code class="language-css"><span class="token property">transform</span><span class="token punctuation">:</span><span class="token function">scale</span><span class="token punctuation">(</span>x,y<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">/*里面的数字不跟单位，是倍数，x，y分别是宽，高*/</span>
+<span class="token property">transform-origin</span><span class="token punctuation">:</span>x y<span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">/*设置元素旋转依靠的中心点*/</span></code></pre>
 <p>若只有一个参数，则同比放大</p>
 <p>使用scale的优点：变大时不会影响其他盒子的位置，且放大是以中心向外扩张的放大，直接修改width和heigh放大是直接往下放大</p>
 <h3 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h3><p>用keyframes定义动画</p>
@@ -611,18 +619,20 @@ transform:translate(-50%,-50%);</code></pre><p>但是它对行内标签没有效
 }</code></pre><p>使用多个动画用“，”分隔，如animation: bear 0.7s steps(8) infinite, move 0.7s ……</p>
 <h3 id="3D转换"><a href="#3D转换" class="headerlink" title="3D转换"></a>3D转换</h3><p>x轴向右，y轴向下，z轴向外，最常用的是3d位移和3d旋转,以下许多功能与2d十分相似</p>
 <h4 id="3d移动"><a href="#3d移动" class="headerlink" title="3d移动"></a>3d移动</h4><pre class=" language-css"><code class="language-css"><span class="token property">transform</span><span class="token punctuation">:</span> translate<span class="token number">3</span><span class="token function">d</span><span class="token punctuation">(</span>x,y,z<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token property">transform</span><span class="token punctuation">:</span><span class="token function">translateZ</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">;</span>  //translateZ一般采用px，<span class="token number">3</span>d的z轴显现出来需要透视功能</code></pre>
+<span class="token property">transform</span><span class="token punctuation">:</span><span class="token function">translateZ</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">/*translateZ一般采用px，3d的z轴显现出来需要透视功能*/</span></code></pre>
 <h4 id="透视"><a href="#透视" class="headerlink" title="透视"></a>透视</h4><p>透视我们也成为视距，即眼睛到屏幕的距离，透视的单位是像素，透视越小，盒子越大</p>
 <p>透视写在被观察元素的父盒子上</p>
 <pre><code>perspective: xxpx;</code></pre><h4 id="3d旋转"><a href="#3d旋转" class="headerlink" title="3d旋转"></a>3d旋转</h4><p>一般加上透视效果会比较明显，3d<strong>旋转方向</strong>遵循左手定则：</p>
 <p>左手大拇指指向x轴正方向，手指弯曲的方向则为旋转的方向</p>
-<pre><code>transform: rotateX(度数); //沿着X轴旋转
-transform: rotateY(度数);
-transform: rotateZ(度数); //z轴旋转和2d普通rotate有点像
-transform: rotate3d(x,y,z,度数); //自定义轴旋转</code></pre><p>自定义旋转只对x轴选取为transform: rotate3d(1,0,0,度数);    对角线旋转为transform: rotate3d(1,1,0,度数)</p>
+<pre class=" language-css"><code class="language-css"><span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>度数<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/*沿着X轴旋转*/</span>
+<span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>度数<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">rotateZ</span><span class="token punctuation">(</span>度数<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/*z轴旋转和2d普通rotate有点像*/</span>
+<span class="token property">transform</span><span class="token punctuation">:</span> rotate<span class="token number">3</span><span class="token function">d</span><span class="token punctuation">(</span>x,y,z,度数<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/*自定义轴旋转*/</span></code></pre>
+<p>自定义旋转只对x轴选取为transform: rotate3d(1,0,0,度数);    对角线旋转为transform: rotate3d(1,1,0,度数)</p>
 <p>transform要看情况选择：先写旋转rotate再写移动translate或者相反情况</p>
 <h4 id="3d呈现transform-style"><a href="#3d呈现transform-style" class="headerlink" title="3d呈现transform-style"></a>3d呈现transform-style</h4><p>控制子元素是否开启三维立体环境，代码要写给父级（一定是父级，不能爷爷级别，亲测过），此属性很重要</p>
-<pre><code>transform-style: preserve-3d //此为开启立体空间，但是默认值为flat，不开启立体空间</code></pre>
+<pre class=" language-css"><code class="language-css"><span class="token property">transform-style</span><span class="token punctuation">:</span> preserve-<span class="token number">3</span>d <span class="token comment" spellcheck="true">/*此为开启立体空间，但是默认值为flat，不开启立体空间*/</span></code></pre>
+
             </div>
             <hr/>
 
@@ -1130,7 +1140,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">22.2k</span>&nbsp;字
+                class="white-color">26.2k</span>&nbsp;字
             
             
             

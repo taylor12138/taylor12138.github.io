@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="单链表, Hexo">
+    <meta name="keywords" content="移动Web开发及其常见布局, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>单链表 | Hexo</title>
+    <title>移动Web开发及其常见布局 | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">单链表</h1>
+                    <h1 class="description center-align post-title">移动Web开发及其常见布局</h1>
                 </div>
             </div>
         </div>
@@ -446,8 +446,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/C/" class="post-category">
-                                C++
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                前端
                             </a>
                         
                     </div>
@@ -459,7 +459,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-05-07
+                    2020-10-02
                 </div>
                 
 
@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    745
+                    2.7k
                 </div>
                 
 
@@ -485,89 +485,155 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id=""><a href="#" class="headerlink" title=""></a></h3><h4 id="如定义单链表结构体，注意引用单链表元素用”-gt-“-因为是-LinkList，使用单链表用的是LinkList"><a href="#如定义单链表结构体，注意引用单链表元素用”-gt-“-因为是-LinkList，使用单链表用的是LinkList" class="headerlink" title="如定义单链表结构体，注意引用单链表元素用”  -&gt;  “,因为是*LinkList，使用单链表用的是LinkList"></a>如定义单链表结构体，注意引用单链表元素用”  -&gt;  “,因为是*LinkList，使用单链表用的是LinkList</h4><pre class=" language-c++"><code class="language-c++">typedef struct LNode
-{
-    ElemType data;    //结点的数据域
-    struct LNode *next;        //结点的指针域
-}LNode,*LinkList;  //LinkList为指向结构体LNode的指针类型</code></pre>
-<h4 id="前插法创建单链表"><a href="#前插法创建单链表" class="headerlink" title="前插法创建单链表"></a>前插法创建单链表</h4><pre><code>void CreateList_F(LinkList &amp;L,int n){ //算法2.10 前插法创建单链表
-    //逆位序输入n个元素的值，建立到头结点的单链表L
-    LinkList p;
-    L=new LNode;
-    L-&gt;next=NULL;     //先建立一个带头结点的空链表
-    cout&lt;&lt;&quot;请输入 &quot;&lt;&lt;n&lt;&lt;&quot; 个数(以空格隔开，按回车结束)：&quot;;
-    for(int i=n;i&gt;0;--i){
-        p=new LNode;     //生成新结点
-        cin&gt;&gt;p-&gt;data;   //输入元素值
-        p-&gt;next=L-&gt;next;L-&gt;next=p;  //插入到表头
-    }
-}</code></pre><h4 id="后插法创建单链表"><a href="#后插法创建单链表" class="headerlink" title="后插法创建单链表"></a>后插法创建单链表</h4><pre><code>void CreateList_F(LinkList &amp;L,int n){ //算法2.10 前插法创建单链表
-    //逆位序输入n个元素的值，建立到头结点的单链表L
-    LinkList p,r;
-    L=new LNode;
-    L-&gt;next=NULL;     //先建立一个带头结点的空链表
-    r=L;            //尾指针r指向头结点
-    cout&lt;&lt;&quot;请输入 &quot;&lt;&lt;n&lt;&lt;&quot; 个数(以空格隔开，按回车结束)：&quot;;
-    for(int i=n;i&gt;0;--i){
-        p=new LNode;     //生成新结点
-        cin&gt;&gt;p-&gt;data;   //输入元素值
-        p-&gt;next=NULL;
-        r-&gt;next=p;
-        r=p;  
-    }
-}</code></pre><h4 id="单链表的初始化，它的头节点（为了处理方便，在第一个节点之前增加的结点）没有赋值"><a href="#单链表的初始化，它的头节点（为了处理方便，在第一个节点之前增加的结点）没有赋值" class="headerlink" title="单链表的初始化，它的头节点（为了处理方便，在第一个节点之前增加的结点）没有赋值"></a>单链表的初始化，它的头节点（为了处理方便，在第一个节点之前增加的结点）没有赋值</h4><pre class=" language-c++"><code class="language-c++">Status InitList_L(LinkList &L){    //功能1---算法2.5 单链表的初始化
-    //构造一个空的单链表L
-    L=new LNode;    //生成新结点作为头结点，用头指针L指向头结点
-    L->next=NULL;    //头结点的指针域置空
-    return OK;
-}</code></pre>
-<h4 id="它不能像顺序表一样随机取值，所以需要一一查找"><a href="#它不能像顺序表一样随机取值，所以需要一一查找" class="headerlink" title="它不能像顺序表一样随机取值，所以需要一一查找"></a>它不能像顺序表一样随机取值，所以需要一一查找</h4><pre><code>ElemType FindList(LinkList &amp;L,int i,ElemType &amp;x){
-    LinkList p=L;
-    for(int j=0;j&lt;i;j++){
-        if(!(p-&gt;next))return ERROR;
-        p=p-&gt;next;
-    }
-    x=p-&gt;data;
-    return OK;
-}</code></pre><h4 id="查找，按值查找"><a href="#查找，按值查找" class="headerlink" title="查找，按值查找"></a>查找，按值查找</h4><pre class=" language-c++"><code class="language-c++">int GetElem(LinkList &L,int &i,ElemType e)
-{
-    LinkList p=L; int j=1;
-    while(p->next)
-    {
-        p=p->next;
-        if(p->data==e){               //查找成功
-            i=j;
-            return OK;
-        }
-        j++;
-    }
-    return ERROR;                     //循环至查找失败
-}</code></pre>
-<h4 id="单链表的插入"><a href="#单链表的插入" class="headerlink" title="单链表的插入"></a>单链表的插入</h4><pre><code>Status ListInsert_L(LinkList &amp;L,int i,ElemType &amp;e){ //功能3---算法2.8 单链表的插入
-    //在带头结点的单链表L中第i个位置之前插入元素e
-    int j;
-    LinkList p,s;
-    p=L;j=0;
-    while(p &amp;&amp; j&lt;i-1){p=p-&gt;next;++j;} //寻找第i-1个结点
-    if(!p||j&gt;i-1)    return ERROR;    //i大于表长+1或者小于1
-    s=new LNode;                    //生成新结点s
-    s-&gt;data=e;                        //将结点s的数据域置为e
-    s-&gt;next=p-&gt;next;                //将结点s插入L中
-    p-&gt;next=s;
-    return OK;
-}</code></pre><h4 id="删除指定序号数据元素"><a href="#删除指定序号数据元素" class="headerlink" title="删除指定序号数据元素"></a>删除指定序号数据元素</h4><pre class=" language-c++"><code class="language-c++">Status ListDelete(LinkList &L,int i){
-    LinkList p=L;
-    int j=1;
-    while(p->next&&j<i){
-        p=p->next;
-        j++;
-    }
-    if(!(p->next)||j>i)return ERROR;
-    LinkList q=p->next;
-    p->next=q->next;
-    delete q;
-    return OK;
-}</code></pre>
+                <p>兼容移动端主流浏览器，处理Webkit内核浏览器即可</p>
+<h2 id="1-视口"><a href="#1-视口" class="headerlink" title="1.视口"></a>1.视口</h2><h4 id="视口分类"><a href="#视口分类" class="headerlink" title="视口分类"></a>视口分类</h4><p>视口可以分为布局视口，视觉视口和理想视口</p>
+<p>布局视口：一般移动设备浏览器都默认设置一个布局视口（980px），用于早期PC端页面在手机上显示的问题</p>
+<p>缺点：使得元素看上去很小，字体小</p>
+<p>视觉视口：用户正在看的<strong>网站区域</strong>，我们可以通过缩放操作视觉视口，但是不影响布局视口</p>
+<p>理想视口：设定最理想的浏览和阅读宽度，与要手动添加meta视口标签通知浏览器（乔布斯发明）</p>
+<pre class=" language-css"><code class="language-css">&lt;meta name=<span class="token string">"viewport"</span> content=<span class="token string">"width-device-width, user-scalable=no,initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"</span>></code></pre>
+<p>content=”width-device-width 适应窗口大小</p>
+<p>user-scalable=no 不允许用户缩放</p>
+<p>maximum-scale=1.0 初始的最小缩放比</p>
+<p>minimum-scale=1.0 初始的最大缩放比</p>
+<h2 id="2-二倍图"><a href="#2-二倍图" class="headerlink" title="2.二倍图"></a>2.二倍图</h2><p>在移动端，1px=一个物理像素，但是移动端不尽相同</p>
+<p>移动端有物理像素比，可从px转化移动端时，（开发尺寸）px × 物理像素比 = 移动端显示的像素</p>
+<p>此做法可以使得在移动端上显示更加高清</p>
+<h4 id="背景缩放background-size"><a href="#背景缩放background-size" class="headerlink" title="背景缩放background-size"></a>背景缩放background-size</h4><p>background-size用于规定背景尺寸</p>
+<pre class=" language-css"><code class="language-css"><span class="token comment" spellcheck="true">/*现有background:  才能设置*/</span>
+<span class="token property">background-size</span><span class="token punctuation">:</span> 图片宽度,图片高度<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/*可以px，可以百分比（相对于父盒子）*/</span>
+<span class="token property">background-size</span><span class="token punctuation">:</span> cover<span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">/*完全盖住盒子，可能图片显示不全*/</span>
+<span class="token property">background-size</span><span class="token punctuation">:</span> contain<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/*宽高完全适应父盒子，父盒子可能有空白区域*/</span></code></pre>
+<p>切图时可以用ps里的cutterman多倍切图</p>
+<h4 id="精灵图缩放"><a href="#精灵图缩放" class="headerlink" title="精灵图缩放"></a>精灵图缩放</h4><p>1.使用工具（如firework）把精灵图缩放为原来的一半</p>
+<p>2.根据大小测量坐标</p>
+<p>3.注意代码里面的background-size也要写：精灵图原来的一半</p>
+<p>（原图进行修改查看， 但是不要保存）</p>
+<p>（或者直接上，用chrome调试就行了）</p>
+<p><code>background-size: 宽度（原来的大小/倍数）  高度auto</code></p>
+<h2 id="3-移动端开发的选择"><a href="#3-移动端开发的选择" class="headerlink" title="3.移动端开发的选择"></a>3.移动端开发的选择</h2><p>1.单独移动端页面（主流）：京东、淘宝</p>
+<p>pc和手机打开后显示的网页布局不同</p>
+<p>2.响应式页面兼容移动端：三星官网</p>
+<p>响应屏幕宽度，制作麻烦，需要大量调整兼容性</p>
+<h4 id="CSS的初始化"><a href="#CSS的初始化" class="headerlink" title="CSS的初始化"></a>CSS的初始化</h4><p>推荐使用 normalize.css</p>
+<h4 id="CSS3盒子模型"><a href="#CSS3盒子模型" class="headerlink" title="CSS3盒子模型"></a>CSS3盒子模型</h4><p>传统盒子计算方式：CSS设置的width+border+padding</p>
+<p>CSS3盒子模型：盒子宽度=CSS设置的宽度width包含了border+padding</p>
+<p>设置方式：(CSS高级部分讲过，但是使用此方法后文字使用line-heigh居中会有所影响,原因是我们要对其的是盒子内部中间的位置，即去除掉边框的高度的中间位置，但是line-heigh会把所有方框所有高度算进去)</p>
+<pre class=" language-css"><code class="language-css"><span class="token property">box-sizing</span><span class="token punctuation">:</span>border-box<span class="token punctuation">;</span></code></pre>
+<h4 id="移动端链接清除高亮"><a href="#移动端链接清除高亮" class="headerlink" title="移动端链接清除高亮"></a>移动端链接清除高亮</h4><p>移动端点击完链接 <code>&lt;a&gt;</code> 会出现高亮 ，清除高亮可用</p>
+<pre class=" language-css"><code class="language-css"><span class="token property">-webkit-tap-highlight-color</span><span class="token punctuation">:</span>transparent<span class="token punctuation">;</span></code></pre>
+<h4 id="移动端链接清除外观效果"><a href="#移动端链接清除外观效果" class="headerlink" title="移动端链接清除外观效果"></a>移动端链接清除外观效果</h4><p>在移动端浏览器默认的外观上在ios上加上这个属性才能给按钮和输入框自定义样式（清除原来的样式）</p>
+<pre class=" language-css"><code class="language-css"><span class="token property">-webkit-appearance</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span></code></pre>
+<h4 id="禁用长安页面弹出菜单"><a href="#禁用长安页面弹出菜单" class="headerlink" title="禁用长安页面弹出菜单"></a>禁用长安页面弹出菜单</h4><pre class=" language-css"><code class="language-css"><span class="token selector">img, a </span><span class="token punctuation">{</span><span class="token property">-webkit-touch-callout</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span> <span class="token punctuation">}</span></code></pre>
+<h2 id="4-移动端常见布局"><a href="#4-移动端常见布局" class="headerlink" title="4.移动端常见布局"></a>4.移动端常见布局</h2><p>不需要像pc端一样排列版心</p>
+<p>单独移动端页面（主流）：流式布局（百分比布局）（京东）、flex弹性布局（新闻网，强烈推荐）、less+rem+媒体查询布局（苏宁）、混合布局</p>
+<h3 id="流式布局"><a href="#流式布局" class="headerlink" title="流式布局"></a>流式布局</h3><p>也就是百分比布局，非固定像素布局，可自由伸缩</p>
+<p>为了保护屏幕不被拉过宽（缩过窄），导致里面的元素显示出现问题，设置最大最小宽度</p>
+<pre class=" language-css"><code class="language-css"><span class="token property">max-width</span><span class="token punctuation">:</span> xxpx<span class="token punctuation">;</span>
+<span class="token property">min-width</span><span class="token punctuation">:</span> xxpx<span class="token punctuation">;</span></code></pre>
+<h3 id="flex布局"><a href="#flex布局" class="headerlink" title="flex布局"></a>flex布局</h3><p>传统布局：兼容性好，布局繁琐，有一定局限</p>
+<p>flex布局：操作方便，pc端浏览器支持差，IE11或者更低版本不支持或仅部分支持</p>
+<p>flex可以让原本span（无法设置宽高）成功使用宽高属性，即不需要浮动，更不用清除浮动</p>
+<h4 id="（1）flex原理"><a href="#（1）flex原理" class="headerlink" title="（1）flex原理"></a>（1）flex原理</h4><p>flex是flexible box的缩写，意为弹性布局，任何一个容器都可以指定为flex布局（谁都可以用，除了IE）</p>
+<p>父盒子设置为flex后，子元素的float、clear、vertical属性都失效</p>
+<p>采用flex布局的元素称为flex容器，他的所有子元素自动成为容器成员，称为flex项目，即它是通过给父盒子添加flex属性，来控制子盒子的位置和排列</p>
+<h4 id="（2）flex常见父项属性"><a href="#（2）flex常见父项属性" class="headerlink" title="（2）flex常见父项属性"></a>（2）flex常见父项属性</h4><p><strong>默认主轴方向是x轴，水平向右  侧轴方向是y轴  水平向下</strong>，我们的元素是跟着主轴排列地</p>
+<p><code>flex-direction</code>   设置主轴方向，剩下那个就自动变成侧轴</p>
+<p>1.默认值row从左到右</p>
+<p>2.row-reverse从右到左</p>
+<p>3.column从上到下</p>
+<p>4.column-reverse从下到上</p>
+<p><code>justify-content</code>  设置主轴上子元素的排列方式</p>
+<p>1.flex-start默认</p>
+<p>2.flex-end从尾部开始排列</p>
+<p>3.center在主轴居中对齐</p>
+<p>4.space-around平分剩余空间</p>
+<p>5.space-between先两边贴边，再平分剩余空间</p>
+<p><code>flex-wrap</code>  设置子元素是否换行</p>
+<p>默认不换行，装不开会缩小子元素的宽度，自动适应</p>
+<p>wrap：换行</p>
+<p><code>align-content</code>  设置侧轴上的子元素的排列方式（多行）（即有换行情况）（单行情况下没用）</p>
+<p>1.flex-start</p>
+<p>2.flex-end从尾部开始排列</p>
+<p>3.center在主轴居中对齐</p>
+<p>4.stretch拉伸，默认</p>
+<p>5.space-around平分剩余空间</p>
+<p>6.space-between先两边贴边，再平分剩余空间</p>
+<p><code>align-items</code>    设置侧轴上的子元素的排列方式（单行）</p>
+<p>1.flex-start</p>
+<p>2.flex-end从尾部开始排列</p>
+<p>3.center在主轴居中对齐</p>
+<p>4.stretch拉伸，默认，但是子盒子不要带高度</p>
+<p><code>flex-flow</code>  复合属性，相当于同时设置flex-direction和flex-wrap</p>
+<pre class=" language-css"><code class="language-css"><span class="token property">flex-flow</span><span class="token punctuation">:</span> column wrap<span class="token punctuation">;</span></code></pre>
+<h4 id="（3）flex常见子项属性"><a href="#（3）flex常见子项属性" class="headerlink" title="（3）flex常见子项属性"></a>（3）flex常见子项属性</h4><p><code>flex</code>属性，定义子项目分配<strong>剩余空间</strong>，用flex表示占有份数</p>
+<pre class=" language-css"><code class="language-css"><span class="token property">flex</span><span class="token punctuation">:</span> number<span class="token punctuation">;</span><span class="token comment" spellcheck="true">/*默认为0*/</span>  </code></pre>
+<p>如果是flex：1的话，则将改行剩余空间全部划分给该子元素，不用设置宽高，且类似于百分比流式布局，可以根据窗口大小调节剩余空间大小</p>
+<p>如果该行没有设置任何子元素在该行（假设当前主轴为x轴），然后将三个子元素设置flex：1，则每个盒子占33.33%的宽度（即设置该盒子的主轴长度）</p>
+<p>A设置flex:2 ， B设置flex:1 则A占比2/3，B占比1/3</p>
+<p>(其实可以写百分比 即flex: 20%, 相对父级来说)</p>
+<p><code>align-self</code>，控制子项自己在侧轴上的排列方式。</p>
+<p>它允许单个项目与其他项目不一样的对齐方式，可以覆盖align-items属性，默认值为auto，表示继承align-items的属性</p>
+<pre class=" language-css"><code class="language-css"><span class="token selector">span<span class="token pseudo-class">:nth-child(3)</span> </span><span class="token punctuation">{</span>
+    <span class="token property">align-self</span><span class="token punctuation">:</span> flex-end<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/*只让第三个盒子在侧轴上从尾部开始排列*/</span>
+<span class="token punctuation">}</span></code></pre>
+<p><code>oder</code>定义项目的排列顺序，数值越小，排名越靠前，注意，和z-index不一样（定位属性）</p>
+<pre class=" language-css"><code class="language-css"><span class="token selector">span<span class="token pseudo-class">:nth-child(2)</span> </span><span class="token punctuation">{</span>
+    <span class="token property">order</span><span class="token punctuation">:</span>-<span class="token number">1</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">/*让2号盒子跑到1号盒子前面，因为默认是0，0&lt;1*/</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="Rem适配布局"><a href="#Rem适配布局" class="headerlink" title="Rem适配布局"></a>Rem适配布局</h3><h4 id="（1）rem基础"><a href="#（1）rem基础" class="headerlink" title="（1）rem基础"></a>（1）rem基础</h4><p>rem是一个单位（root em），是一个相对单位，类似于em，em是父元素的字体大小，如父元素的font-size为12px，子元素设置宽高为10em，则大小实际为10*12=120px；而不同的地方在于rem是相对于html元素的字体大小，rem的优点是可以通过修改html的文字大小来改变页面中的元素大小</p>
+<h4 id="（2）媒体查询"><a href="#（2）媒体查询" class="headerlink" title="（2）媒体查询"></a>（2）媒体查询</h4><p>媒体查询是CSS3的新语法，使用@media可以针对不同屏幕尺寸设置不同的屏幕样式</p>
+<pre class=" language-css"><code class="language-css"><span class="token comment" spellcheck="true">/*用@media开头，mediatype是媒体类型，关键字and、not、only，media feature是媒体特性，要用小括号包含*/</span>
+<span class="token atrule"><span class="token rule">@media</span> mediatype and|not|only <span class="token punctuation">(</span>media feature<span class="token punctuation">)</span></span> <span class="token punctuation">{</span>
+    CSS-Code<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>mediatype查询类型： all 用于所有设备      print 用于打印机和打印预览        <strong>screen</strong>用于电脑屏幕，智能手机</p>
+<p>媒体特性：暂且先了解三个 </p>
+<p>1.width 定义输出设备页面可见区域的宽度</p>
+<p>2.min-width 定义输出设备页面最小可见区域宽度</p>
+<p>3.max-width 定义输出设备页面最大可见区域宽度</p>
+<pre class=" language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@media</span> screen and <span class="token punctuation">(</span><span class="token property">max-width</span><span class="token punctuation">:</span> 800px<span class="token punctuation">)</span> and <span class="token punctuation">(</span><span class="token property">min-width</span><span class="token punctuation">:</span> 540px<span class="token punctuation">)</span></span> <span class="token punctuation">{</span>   <span class="token comment" spellcheck="true">/*在屏幕上且最大宽度为800px且最小宽度为540px则设置该样式*/</span>
+    <span class="token selector">body </span><span class="token punctuation">{</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> pink<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>当样式改变比较多的时候（如三星官网首页根据页面不同大小的变化样式的改变），可以针对不同的媒体使用不同的stylesheets（样式表）原理，直接在link中判断设备的尺寸，引用不同的CSS文件</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>style320.css<span class="token punctuation">"</span></span> <span class="token attr-name">media</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>screen and (min-width: 320px)<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></code></pre>
+<p>媒体查询最好的方法是从小到大</p>
+<h3 id="less基础"><a href="#less基础" class="headerlink" title="less基础"></a>less基础</h3><p>CSS的冗余度比较高，需要书写大量看似没有逻辑的代码，不方便维护，且无计算能力</p>
+<p>而Less是CSS的拓展语言，也成为CSS预处理器（常见的CSS预处理器：Less、Sass、Stylus），可以计算（<strong>运算符的左右两侧必须加一个空格</strong>，</p>
+<p>两个数参与运算，如果只有一个数有单位，最后结果以这个单位为准</p>
+<p>两个数参与运算，如果两个数都有单位，以前面那个数字单位为准）</p>
+<p>Less的文件后缀名：.less</p>
+<h4 id="（1）less变量"><a href="#（1）less变量" class="headerlink" title="（1）less变量"></a>（1）less变量</h4><pre class=" language-less"><code class="language-less"><span class="token variable">@color<span class="token punctuation">:</span></span> pink<span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">/*@变量名:值;*/</span>  
+<span class="token variable">@font<span class="token punctuation">:</span></span> <span class="token number">14</span>px<span class="token punctuation">;</span></code></pre>
+<p>使用： background-color: @color ;</p>
+<h4 id="（2）less的编译"><a href="#（2）less的编译" class="headerlink" title="（2）less的编译"></a>（2）less的编译</h4><p>需要把less编译成CSS才能放入H5使用</p>
+<p>在VScode中安装easy-less插件，less文件保存后一键生成CSS文件</p>
+<h4 id="（3）less镶套"><a href="#（3）less镶套" class="headerlink" title="（3）less镶套"></a>（3）less镶套</h4><p>在less不需要再 .header a {}  去选择后代选择器(再见)     可以直接：</p>
+<pre class=" language-less"><code class="language-less"><span class="token selector">.header</span> <span class="token punctuation">{</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">100</span>px<span class="token punctuation">;</span>
+    <span class="token selector">a</span> <span class="token punctuation">{</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>伪类选择器：</p>
+<pre class=" language-less"><code class="language-less"><span class="token selector">.nav</span> <span class="token punctuation">{</span>
+    <span class="token selector">&amp;:hover</span> <span class="token punctuation">{</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> blue<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token selector">&amp;::before</span> <span class="token punctuation">{</span>
+        <span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">""</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="rem的实际适配"><a href="#rem的实际适配" class="headerlink" title="rem的实际适配"></a>rem的实际适配</h3><p>1.按照设计稿与设备宽度比例，动态计算并设置html根标签font-size大小（屏幕宽度/划分的份数=font-size的大小）（划分份数有15、20、10都有可能，苏宁移动端网页是15）</p>
+<p>2.CSS中，设计稿元素宽、高、相对位置等取值，按照同等比例换算为rem</p>
+<p>rem适配方案一：less   媒体查询  rem</p>
+<p>适配方案二：flexible.js    rem   (推荐)</p>
+<h2 id="5-线性渐变颜色（针对于移动端）"><a href="#5-线性渐变颜色（针对于移动端）" class="headerlink" title="5.线性渐变颜色（针对于移动端）"></a>5.线性渐变颜色（针对于移动端）</h2><p>pc端需要很多私有前缀，特别麻烦，但是移动端只需要添加webkit就可以了</p>
+<pre class=" language-css"><code class="language-css"><span class="token property">background</span><span class="token punctuation">:</span> <span class="token function">linear-gradient</span><span class="token punctuation">(</span>起始方向,颜色<span class="token number">1</span>,颜色<span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/*起始方向默认top*/</span>
+<span class="token property">background</span><span class="token punctuation">:</span> <span class="token function">-webkit-linear-gradient</span><span class="token punctuation">(</span>left,red,blue<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/*一般都要添加-webkit-私有前缀*/</span>
+<span class="token property">background</span><span class="token punctuation">:</span> <span class="token function">-webkit-linear-gradient</span><span class="token punctuation">(</span>left top,red,blue<span class="token punctuation">)</span><span class="token punctuation">;</span> </code></pre>
 
             </div>
             <hr/>
@@ -593,7 +659,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2020/05/07/dan-lian-biao/">https://taylor12138.github.io/2020/05/07/dan-lian-biao/</a>
+                    <a href="https://taylor12138.github.io/2020/10/02/yi-dong-web-kai-fa-ji-qi-chang-jian-bu-ju/">https://taylor12138.github.io/2020/10/02/yi-dong-web-kai-fa-ji-qi-chang-jian-bu-ju/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -796,44 +862,46 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/05/07/shuang-xiang-lian-biao/">
+                <a href="/2020/10/02/yi-dong-web-kai-fa-ji-qi-chang-jian-bu-ju/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="双向链表">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="移动Web开发及其常见布局">
                         
-                        <span class="card-title">双向链表</span>
+                        <span class="card-title">移动Web开发及其常见布局</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            双向链表的定义typedef struct DuLNode{
-    ElemType data;
-    struct DuLNode *prior;  
-    struct DuLNode *next;             //前
+                            兼容移动端主流浏览器，处理Webkit内核浏览器即可
+1.视口视口分类视口可以分为布局视口，视觉视口和理想视口
+布局视口：一般移动设备浏览器都默认设置一个布局视口（980px），用于早期PC端页面在手机上显示的问题
+缺点：使得元素看上去很小
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-07
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-02
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C/" class="post-category">
-                                    C++
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -844,33 +912,32 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/07/shun-xu-biao/">
+                <a href="/2020/08/06/matlab-qi-mo-zhi-shi-dian-hui-zong/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="顺序表">
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="matlab期末知识点汇总">
                         
-                        <span class="card-title">顺序表</span>
+                        <span class="card-title">matlab期末知识点汇总</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            如定义s顺序表结构体，注意引用顺序表元素用”  .  “,因为是SqList不是*S’q’Listtypedef struct{
-    ElemType *elem;      //存储空间的基地址
-    int length;    
+                            regress命令  用于一元及多元线性回归
+B = regress(Y,X)[B,BINT] = regress(Y,X)[B,BINT,R] = regress(Y,X)[B,BINT,R,RINT] = regress(Y,X)B,B
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-07
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-06
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C/" class="post-category">
-                                    C++
+                            <a href="/categories/matlab/" class="post-category">
+                                    matlab
                                 </a>
                             
                             

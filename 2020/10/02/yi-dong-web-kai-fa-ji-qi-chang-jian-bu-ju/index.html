@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.7k
+                    4.1k
                 </div>
                 
 
@@ -626,10 +626,91 @@
         <span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">""</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
+<p>在一个less中可以引入另外一个less（套娃）</p>
+<pre class=" language-less"><code class="language-less"><span class="token variable">@import</span> <span class="token string">"common"</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">/*导入conmon.less*/</span></code></pre>
 <h3 id="rem的实际适配"><a href="#rem的实际适配" class="headerlink" title="rem的实际适配"></a>rem的实际适配</h3><p>1.按照设计稿与设备宽度比例，动态计算并设置html根标签font-size大小（屏幕宽度/划分的份数=font-size的大小）（划分份数有15、20、10都有可能，苏宁移动端网页是15）</p>
 <p>2.CSS中，设计稿元素宽、高、相对位置等取值，按照同等比例换算为rem</p>
 <p>rem适配方案一：less   媒体查询  rem</p>
 <p>适配方案二：flexible.js    rem   (推荐)</p>
+<h4 id="适配方案二：rem适配之flexible-js"><a href="#适配方案二：rem适配之flexible-js" class="headerlink" title="适配方案二：rem适配之flexible.js"></a>适配方案二：rem适配之flexible.js</h4><p>再也不用太过繁琐的写下多个媒体查询，使用js做了处理</p>
+<p>它的原理是把当前设备自动划分为10等份</p>
+<p>会根据屏幕自动修改文字大小</p>
+<p>github下载地址：<a href="https://github.com/amfe/lib-flexible" target="_blank" rel="noopener">https://github.com/amfe/lib-flexible</a></p>
+<p>但是需要加一个限定弥补不足：</p>
+<pre><code>/* 如果屏幕超过了750px, 那么我们按照750的设计稿走，不让我们的页面超过750px*/
+@media screen and (min-width: 750px) {
+    html {
+        font-size: 75px!important; /*提权重*/
+    }
+}</code></pre><h4 id="适配方案（add）：Vscode-px转换rem插件cssrem"><a href="#适配方案（add）：Vscode-px转换rem插件cssrem" class="headerlink" title="适配方案（add）：Vscode px转换rem插件cssrem"></a>适配方案（add）：Vscode px转换rem插件cssrem</h4><p><strong>（堪称外挂），及其好用</strong> 可以使得px直接转换rem</p>
+<p>该插件默认的html字体大小为16px（根据当前页面大小（正常大小状态）/划分份数=得到我们应该设置的字体大小）,需要在设置里更改setting.json里的<code>&quot;cssrem.rootFontSize&quot;: 16</code>才可以</p>
+<h3 id="响应式布局"><a href="#响应式布局" class="headerlink" title="响应式布局"></a>响应式布局</h3><p>其原理就是根据媒体查询对不同宽度设备进行布局和样式设置，从而适配不同设备的目的</p>
+<p>小屏幕（手机）&lt;768px </p>
+<p>小屏设备（平板） &gt;=768px~&lt;992px</p>
+<p>中等屏幕（桌面显示器）&gt;=992px~&lt;1200px</p>
+<p>宽屏设备（大桌面显示器）&gt;=1200px</p>
+<pre class=" language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@media</span> screen and <span class="token punctuation">(</span><span class="token property">max-width</span><span class="token punctuation">:</span> 767px<span class="token punctuation">)</span></span> <span class="token punctuation">{</span>
+            <span class="token selector"><span class="token class">.container</span> </span><span class="token punctuation">{</span>
+                <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">100%</span><span class="token punctuation">;</span>
+
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token atrule"><span class="token rule">@media</span> screen and <span class="token punctuation">(</span><span class="token property">min-width</span><span class="token punctuation">:</span> 768px<span class="token punctuation">)</span></span> <span class="token punctuation">{</span>
+            <span class="token selector"><span class="token class">.container</span> </span><span class="token punctuation">{</span>
+                <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">750</span>px<span class="token punctuation">;</span>
+
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token atrule"><span class="token rule">@media</span> screen and <span class="token punctuation">(</span><span class="token property">min-width</span><span class="token punctuation">:</span> 992x<span class="token punctuation">)</span></span> <span class="token punctuation">{</span>
+            <span class="token selector"><span class="token class">.container</span> </span><span class="token punctuation">{</span>
+                <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">970</span>px<span class="token punctuation">;</span>
+
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token atrule"><span class="token rule">@media</span> screen and <span class="token punctuation">(</span><span class="token property">min-width</span><span class="token punctuation">:</span> 1200px<span class="token punctuation">)</span></span> <span class="token punctuation">{</span>
+            <span class="token selector"><span class="token class">.container</span> </span><span class="token punctuation">{</span>
+                <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">1170</span>px<span class="token punctuation">;</span>
+
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span></code></pre>
+<h4 id="1-Bootstrap前端开发框架"><a href="#1-Bootstrap前端开发框架" class="headerlink" title="(1)Bootstrap前端开发框架"></a>(1)Bootstrap前端开发框架</h4><p>来自于twitter，目前最受欢迎的前端框架(拿来主义)</p>
+<p>中文官网：<a href="https://www.bootcss.com/" target="_blank" rel="noopener">https://www.bootcss.com/</a></p>
+<p>官网：<a href="https://getbootstrap.com/" target="_blank" rel="noopener">https://getbootstrap.com/</a></p>
+<p>2.x.x    已经停止维护，功能不够完善</p>
+<p>3.x.x  目前使用最多，但已经放弃了ie6，ie7，对ie8支持但是界面效果不好，偏向于开发响应式布局，移动设备优先的web项目</p>
+<p>4.x.x 最新版，但是目前不流行</p>
+<p><strong>样式库的</strong>使用：1.创建文件夹结构（复制bootstrap的文件夹）-&gt; 2.创建html骨架结构（在bootstrap中文文档官网中找到bootstrap入门-基础模板）-&gt; 3. 引入相关样式文件 -&gt; 使用</p>
+<h4 id="2-Bootstrap的布局容器"><a href="#2-Bootstrap的布局容器" class="headerlink" title="(2)Bootstrap的布局容器"></a>(2)Bootstrap的布局容器</h4><p>bootstrap需要为页面内容和栅格系统包裹一个.container容器，Bootstrap预先定义好了这个类</p>
+<p>.container已经定义好了响应式布局，如<code>@media screen and (max-width: 767px)</code>之类的</p>
+<p>而.container-fluid类定义了流式布局（百分比布局）</p>
+<h4 id="3）Bootstrap的栅格系统"><a href="#3）Bootstrap的栅格系统" class="headerlink" title="(3）Bootstrap的栅格系统"></a>(3）<strong>Bootstrap的栅格系统</strong></h4><p>亦称为网络系统，它指页面布局划分为等宽的列，通过样式定义来模块化页面布局（rem是把整个屏幕划分多个等份，这个是页面内容），bootstrap自动拓展到最多12等份</p>
+<p>bootstrap里面的CSS已经包含了normalize.css即关于网页初始化的内容，所以不用再引入normalize.css进行初始化</p>
+<p>栅格系统用于通过一系列的行row和列coloum的组合来创建页面布局 （行缩小到一定程度，模块进入下一个列）,实现列的平均划分，需要给列添加类前缀（添加类名），分别对应着响应式布局上面定义的四种媒体查询代码</p>
+<p>超小屏幕列前缀<br><code>.col-xs-</code><br>小屏设备列前缀<br><code>.col-sm-</code><br>中等屏幕列前缀<br><code>.col-md-</code><br>宽屏幕列前缀<br><code>.col-lg-</code><br>有12份，让其占4分之一，即3份,所有盒子总和没达到12，则占不满，超过12，则另起一行（像浮动）<br><code>.col-lg-3</code></p>
+<p>大屏幕占4分之一，即3份，中等屏幕占3分之一，即4份，小屏幕占2分之一，即6份</p>
+<p><code>.col-lg-3  col-md-4  col-sm-6</code> </p>
+<p>每一列的盒子里有默认左右15px的padding</p>
+<p>Bootstrap的列嵌套：父盒子会产生一个padding值，使得子盒子划分的时候没有按照父盒子的宽高划分，而是按照父盒子的宽高-padding值划分，所以在嵌套的时候最好加多一个盒子进行包装，并且此时子盒子和父级一样高：</p>
+<pre class=" language-html"><code class="language-html">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>col-md-4<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>col-md-6<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>col-md-6<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>col-md-4<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>col-md-4<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
+<p><code>&lt;div class=&quot;col-mid-4  col-md-offset-4&quot;&gt;&lt;/div&gt;</code>的offset功能，在中间增加了4份的空格（1/3），实现每个盒子不必紧密相连的模型格式，其实可以把offset当成空盒子来看待</p>
+<p><code>&lt;div class=&quot;col-md-4 colmd-push-8&quot;&gt;左侧&lt;/div&gt;</code></p>
+<p><code>&lt;div class=&quot;col-md-4 colmd-pull-4&quot;&gt;右侧&lt;/div&gt;</code>可以实现左右盒子颠倒的状态（做盒子推，右盒子拉）</p>
+<h4 id="4）响应式工具"><a href="#4）响应式工具" class="headerlink" title="(4）响应式工具"></a>(4）响应式工具</h4><p>利用媒体查询功能，使用工具类可以方便针对不同设备展示或者隐藏页面内容（类似淘宝首页某类商品的隐藏）</p>
+<p><code>hidden-xs</code> 超小屏：隐藏      小屏：可见       中屏：可见        大屏：可见</p>
+<p><code>hidden-sm</code> 超小屏：可见     小屏：隐藏       中屏：可见        大屏：可见</p>
+<p><code>hidden-md</code> 超小屏：可见      小屏：可见       中屏：隐藏        大屏：可见</p>
+<p><code>hidden-lg</code> 超小屏：可见      小屏：可见       中屏：可见        大屏：隐藏</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>col-md-3 hidden-xs<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
+<p>与之相反的是visible-xs，visible-sm等，可以实现广东财经大学首页的搜索栏隐藏模块功能</p>
+<p>bootstrap官网里还有字体图标供给使用</p>
+<p>bootstrap已经帮你写好清除浮动，只需添加类名<code>clearfix</code></p>
 <h2 id="5-线性渐变颜色（针对于移动端）"><a href="#5-线性渐变颜色（针对于移动端）" class="headerlink" title="5.线性渐变颜色（针对于移动端）"></a>5.线性渐变颜色（针对于移动端）</h2><p>pc端需要很多私有前缀，特别麻烦，但是移动端只需要添加webkit就可以了</p>
 <pre class=" language-css"><code class="language-css"><span class="token property">background</span><span class="token punctuation">:</span> <span class="token function">linear-gradient</span><span class="token punctuation">(</span>起始方向,颜色<span class="token number">1</span>,颜色<span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/*起始方向默认top*/</span>
 <span class="token property">background</span><span class="token punctuation">:</span> <span class="token function">-webkit-linear-gradient</span><span class="token punctuation">(</span>left,red,blue<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/*一般都要添加-webkit-私有前缀*/</span>
@@ -862,33 +943,31 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/10/02/yi-dong-web-kai-fa-ji-qi-chang-jian-bu-ju/">
+                <a href="/2020/10/24/qian-duan-de-lun-bo-tu-swiper/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="移动Web开发及其常见布局">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="前端的轮播图swiper">
                         
-                        <span class="card-title">移动Web开发及其常见布局</span>
+                        <span class="card-title">前端的轮播图swiper</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            兼容移动端主流浏览器，处理Webkit内核浏览器即可
-1.视口视口分类视口可以分为布局视口，视觉视口和理想视口
-布局视口：一般移动设备浏览器都默认设置一个布局视口（980px），用于早期PC端页面在手机上显示的问题
-缺点：使得元素看上去很小
+                            swiper插件的使用官网地址：https://www.swiper.com.cn
+（1）下载并解压包后，把其中的swiper.min.js和swiper.min.css放入网页文件夹的js和css中
+（2）官网找到类似的案例，复制html
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-02
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-10-24
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -901,7 +980,6 @@
                         </span>
                     </div>
                 </div>
-
                 
             </div>
         </div>
@@ -1141,7 +1219,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">26.2k</span>&nbsp;字
+                class="white-color">30.4k</span>&nbsp;字
             
             
             

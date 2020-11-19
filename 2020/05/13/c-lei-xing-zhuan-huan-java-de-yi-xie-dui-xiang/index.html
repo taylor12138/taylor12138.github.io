@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="JS事件, Hexo">
+    <meta name="keywords" content="C++类型转换&amp;java的一些对象, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>JS事件 | Hexo</title>
+    <title>C++类型转换&amp;java的一些对象 | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">JS事件</h1>
+                    <h1 class="description center-align post-title">C++类型转换&amp;java的一些对象</h1>
                 </div>
             </div>
         </div>
@@ -446,8 +446,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                前端
+                            <a href="/categories/C/" class="post-category">
+                                C++
                             </a>
                         
                     </div>
@@ -459,7 +459,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-11-08
+                    2020-05-13
                 </div>
                 
 
@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    255
+                    479
                 </div>
                 
 
@@ -485,30 +485,22 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="1-注册事件"><a href="#1-注册事件" class="headerlink" title="1.注册事件"></a>1.注册事件</h2><p>传统方式：</p>
-<p><code>btn.onclick = function() {}</code>  注册事件唯一性，最后注册处理的函数会覆盖掉前面注册处理的函数</p>
-<p>w3c标准的推荐方式：（ie9以前不支持此方法）</p>
-<p><code>eventTarget.addEventListener(type, listerner[, useCapture])</code></p>
-<p>（ie9以前使用的是<code>eventTarget.attachEvent(type, listener[, useCapture]);</code>）</p>
-<p>type：事件类型，如click，mouseover，不带on</p>
-<p>listener：事件处理，事件发生时会调用其监听函数</p>
-<p>useCapture：可选参数，默认false</p>
-<pre class=" language-js"><code class="language-js">btn<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  <span class="token comment" spellcheck="true">//必须要字符串</span>
-    <span class="token function">alert</span><span class="token punctuation">(</span>xxx<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
-<p>同一个元素同一个事件可以添加多个监听器，不会覆盖掉</p>
-<h2 id="2-解绑事件"><a href="#2-解绑事件" class="headerlink" title="2.解绑事件"></a>2.解绑事件</h2><p>传统：</p>
-<p><code>eventTarget.onclick = null</code> </p>
-<p>如 <code>div.onclick = function() {alert();  div.onclick = null;}</code>  在点击一次之后删除该事件</p>
-<p>方法监听方式：<code>eventTarget.removeEventListener(type, listener[, useCapture]);</code></p>
-<p>（ie9以前使用的是<code>eventTarget.detach(type, listener[, useCapture]);</code>）</p>
-<p>方法监听方式不能用匿名函数的方法，即 <code>var fun=function(){}</code> 所以使用以下策略</p>
-<pre class=" language-js"><code class="language-js">div<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> fn<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">function</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token function">alert</span><span class="token punctuation">(</span>xx<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    div<span class="token punctuation">.</span><span class="token function">removeEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> fn<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
-<p>使得目标div在点击一次之后解绑事件</p>
+                <h3 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h3><pre><code>#include &quot;iostream&quot;
+#include &quot;stdlib.h&quot;
+#include &quot;cstdlib&quot;
+#include &quot;string&quot;</code></pre><p>使用cstdlib中c_str()使其转换成char，再转int和float/double</p>
+<p> C 库函数 <strong>int atoi(const char *str)</strong> 把参数 <strong>str</strong> 所指向的字符串转换为一个整数（类型为 int 型）。 </p>
+<p> C 库函数 <strong>double atof(const char *str)</strong> 把参数 <strong>str</strong> 所指向的字符串转换为一个浮点数（类型为 double 型）。 </p>
+<pre class=" language-bash"><code class="language-bash">double price<span class="token operator">=</span>atof<span class="token punctuation">(</span>new_str<span class="token punctuation">[</span>2<span class="token punctuation">]</span>.c_str<span class="token punctuation">(</span><span class="token punctuation">))</span><span class="token punctuation">;</span>
+int count<span class="token operator">=</span>atoi<span class="token punctuation">(</span>new_str<span class="token punctuation">[</span>3<span class="token punctuation">]</span>.c_str<span class="token punctuation">(</span><span class="token punctuation">))</span><span class="token punctuation">;</span><span class="token punctuation">;</span></code></pre>
+<h2 id="java"><a href="#java" class="headerlink" title="java"></a>java</h2><p>StringBuilder：动态String<br>StringBuilder str = new StringBuilder(“Hello World!”, 25)//最大长度，可有可无<br>str.append//增加   str.insert(6,”Beautiful”);//在第6个位置插入<br>str.toString转String</p>
+<p>自带栈：import java.until.Stack<br>1    boolean empty()<br>测试堆栈是否为空。<br>2    Object peek( )<br>查看堆栈顶部的对象，但不从堆栈中移除它。<br>3    Object pop( )<br>移除堆栈顶部的对象，并作为此函数的值返回该对象。<br>4    Object push(Object element)<br>把项压入堆栈顶部。<br>5    int search(Object element)<br>返回对象在堆栈中的位置，以 1 为基数。</p>
+<p>用栈Stack 创建对象（类型不同）</p>
+<pre class=" language-java"><code class="language-java">Stack<span class="token operator">&lt;</span>Integer<span class="token operator">></span> stack <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Stack</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Stack<span class="token operator">&lt;</span>Character<span class="token operator">></span> stack <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Stack</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>             <span class="token comment" spellcheck="true">//Stack stack=new Stack()也可</span></code></pre>
+<p>Hashmap的特点：                                                 hashmap和hashset的区别：一个是使用键值对存放（快一点），一个是对象存放<br>底层实现是 链表数组，JDK 8 后又加了 红黑树<br>实现了 Map 全部的方法<br>key 用 Set 存放，所以想做到 key 不允许重复，key 对应的类需要重写 hashCode 和 equals 方法<br>map.put(“zhang”, “31”)//存放键值对<br>map.containsKey(“zhang”);//键中是否包含这个数据<br>map.get(“zhang”);//通过键拿值<br>map.isEmpty();//判空<br>map.remove(“zhang”);//从键值中删除</p>
+<p>利用set帮List去重复：List<String> list  =   new  ArrayList<String>();  。。。。。。。List newList = new ArrayList(new HashSet(list));<br>    或者         Set set = new  HashSet();<br>                 List newList = new  ArrayList();<br>                 set.addAll(list);<br>                 newList.addAll(set);</p>
+<p>String[] s = {“aa”,”bb”,”cc”};                                                    List<String> ebsCodes = new ArrayList();<br>List<String> strlist = Arrays.asList(s);        等同于                    ebsCodes.add(“USERNAME”);                              等同于                    (Arrays.asList(“USERNAME”,”REAP”,”NLS”)但不支持add，remove<br>                                                                                                ebsCodes.add(“REAP”);<br>                                                                                                ebsCodes.add(“NLS”);</p>
 
             </div>
             <hr/>
@@ -534,7 +526,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2020/11/08/js-shi-jian/">https://taylor12138.github.io/2020/11/08/js-shi-jian/</a>
+                    <a href="https://taylor12138.github.io/2020/05/13/c-lei-xing-zhuan-huan-java-de-yi-xie-dui-xiang/">https://taylor12138.github.io/2020/05/13/c-lei-xing-zhuan-huan-java-de-yi-xie-dui-xiang/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -737,46 +729,42 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/11/08/js-shi-jian/">
+                <a href="/2020/05/14/niu-ke-suan-fa-ke-personnel-note/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="JS事件">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="牛客算法课personnel note">
                         
-                        <span class="card-title">JS事件</span>
+                        <span class="card-title">牛客算法课personnel note</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.注册事件传统方式：
-btn.onclick = function() {}  注册事件唯一性，最后注册处理的函数会覆盖掉前面注册处理的函数
-w3c标准的推荐方式：（ie9以前不支持此方法）
-eventTarget.addEventLis
+                            小基础floor(x) 小于等于x的最大值整数（向下取整）   ceil(x) 大于等于x的最小整数（向上取整）( #include&lt;math.h&gt; )
+int 32位二进制  第一个是符号位正数为0，负数为1，后面是数值位 -
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-08
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-14
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                    前端
+                            <a href="/categories/personnel/" class="post-category">
+                                    personnel
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
             </div>
         </div>
@@ -787,26 +775,29 @@ eventTarget.addEventLis
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/10/24/qian-duan-de-lun-bo-tu-swiper/">
+                <a href="/2020/05/10/css-yang-shi/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="前端的轮播图swiper">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="CSS样式">
                         
-                        <span class="card-title">前端的轮播图swiper</span>
+                        <span class="card-title">CSS样式</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            swiper插件的使用官网地址：https://www.swiper.com.cn
-（1）下载并解压包后，把其中的swiper.min.js和swiper.min.css放入网页文件夹的js和css中
-（2）官网找到类似的案例，复制html
+                            声明：可以使用chrome的F12浏览学习别人的样式并且调试你的代码引入CSS&lt;link rel="stylesheet" href="css文件路径">
+1.主要定义/*是类型选择,标签选择器*/
+元素（标签） {
+
+}
+/*选择所
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-24
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-10
                             </span>
                         <span class="publish-author">
                             
@@ -1017,7 +1008,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">30.4k</span>&nbsp;字
+                class="white-color">35k</span>&nbsp;字
             
             
             

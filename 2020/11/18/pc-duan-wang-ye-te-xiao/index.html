@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="C++string转换int，double, Hexo">
+    <meta name="keywords" content="PC端网页特效, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>C++string转换int，double | Hexo</title>
+    <title>PC端网页特效 | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">C++string转换int，double</h1>
+                    <h1 class="description center-align post-title">PC端网页特效</h1>
                 </div>
             </div>
         </div>
@@ -446,8 +446,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/C/" class="post-category">
-                                C++
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                前端
                             </a>
                         
                     </div>
@@ -459,7 +459,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-05-13
+                    2020-11-18
                 </div>
                 
 
@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    112
+                    711
                 </div>
                 
 
@@ -485,14 +485,41 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h3><pre><code>#include &quot;iostream&quot;
-#include &quot;stdlib.h&quot;
-#include &quot;cstdlib&quot;
-#include &quot;string&quot;</code></pre><p>使用cstdlib中c_str()使其转换成char，再转int和float/double</p>
-<p> C 库函数 <strong>int atoi(const char *str)</strong> 把参数 <strong>str</strong> 所指向的字符串转换为一个整数（类型为 int 型）。 </p>
-<p> C 库函数 <strong>double atof(const char *str)</strong> 把参数 <strong>str</strong> 所指向的字符串转换为一个浮点数（类型为 double 型）。 </p>
-<pre class=" language-bash"><code class="language-bash">double price<span class="token operator">=</span>atof<span class="token punctuation">(</span>new_str<span class="token punctuation">[</span>2<span class="token punctuation">]</span>.c_str<span class="token punctuation">(</span><span class="token punctuation">))</span><span class="token punctuation">;</span>
-int count<span class="token operator">=</span>atoi<span class="token punctuation">(</span>new_str<span class="token punctuation">[</span>3<span class="token punctuation">]</span>.c_str<span class="token punctuation">(</span><span class="token punctuation">))</span><span class="token punctuation">;</span><span class="token punctuation">;</span></code></pre>
+                <h2 id="1-offset元素偏移量"><a href="#1-offset元素偏移量" class="headerlink" title="1.offset元素偏移量"></a>1.offset元素偏移量</h2><p>我们使用offset系列相关属性可以<strong>动态</strong>获取元素的位置（大小）（父亲要定位此功能才有用</p>
+<p><code>element.offsetTop</code>  返回元素相对带有定位父元素上方的偏移，不带单位，如果没有定位或者没有父元素则以body为准</p>
+<p><code>element.offsetLeft</code>  返回元素相对带有定位父元素左方的偏移，情况同上</p>
+<p><code>element.offsetWidth</code> 返回自身宽度大小，自身宽度+padding+border</p>
+<p><code>element.offsetHeight</code> 返回自身高度大小，同上</p>
+<p><code>element.offsetParent</code> 返回带有定位的父亲，否则返回body（element.parentNode 直接返回最近一级的父节点，不管父节点是否有定位）</p>
+<h4 id="offset和style的区别："><a href="#offset和style的区别：" class="headerlink" title="offset和style的区别："></a>offset和style的区别：</h4><p>offset可以得到任意样式表的样式值                                         style只能得到行内样式表的样式值</p>
+<p>offset系列获得的数值没有带单位                                             style.width获得的是带单位的字符串</p>
+<p>offsetWidth等是包含padding+border                                    style.width获得不包含padding和border的值</p>
+<p>offsetWidth等属性是只读属性，只能获取不能赋值                style.width是可读写属性，可以赋值</p>
+<p>所以offset适合读值，style适合赋值改值</p>
+<h2 id="2-元素可视区client"><a href="#2-元素可视区client" class="headerlink" title="2.元素可视区client"></a>2.元素可视区client</h2><p>通过client系列的相关属性可以动态得到该元素的边框大小、元素大小等（与offset不同点是边框是否囊括其中）</p>
+<p><code>element.clientTop</code>      返回元素上边框的大小</p>
+<p><code>element.clientLeft</code>    返回元素左边框的大小</p>
+<p><code>element.clientWidth</code>   返回自身包括padding、内容区的宽度，不包含边框，返回数值不带单位</p>
+<p><code>element.clientHeight</code>  同上，返回高度</p>
+<h2 id="（番外）立即执行函数"><a href="#（番外）立即执行函数" class="headerlink" title="（番外）立即执行函数"></a>（番外）立即执行函数</h2><p>立即执行函数，不需要调用，直接执行</p>
+<p>传统：</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>立执：</p>
+<pre class=" language-js"><code class="language-js"><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span>   <span class="token comment" spellcheck="true">//第一种</span>
+<span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>   <span class="token comment" spellcheck="true">//第二种</span></code></pre>
+<p>立即执行函数最大的优点就是独立创建了一个作用域</p>
+<h2 id="3-元素滚动scroll"><a href="#3-元素滚动scroll" class="headerlink" title="3.元素滚动scroll"></a>3.元素滚动scroll</h2><p>有点像client，但是client是盒子的大小宽高，即使内容溢出后保持不变，但是scroll面对溢出状态的盒子，它提供的宽高与内容溢出的宽高相互关联。</p>
+<p><code>element.scrollHeigh</code>  返回自身高度，不含边框，不带单位</p>
+<p><code>element.scrollWidth</code>  返回自身宽度，不含边框，不带单位</p>
+<p><code>element.scrollTop</code>   返回被滚动条卷上去的上方距离，返回数值不带单位（要有滚动条，且内容大于盒子，往下拉的时候才会有）</p>
+<p><code>element.scrollLeft</code>  返回被滚动条卷左的左侧距离，同上</p>
+<p><img src="C:%5CUsers%5Cok-pc%5Cblog%5Cimg%5Cscroll.jpg" alt=""></p>
+<p>滚动条在滚动时发生的事件：onscroll事件</p>
+<p>检测整个页面的滚动属性： <code>window.pageYOffset</code>    <code>window.pageXOffset</code>等  (ie9以上才支持)</p>
+<h2 id="三大系列总结："><a href="#三大系列总结：" class="headerlink" title="三大系列总结："></a>三大系列总结：</h2><p>offset常用于获取元素位置  <code>element.offsetTop</code>   <code>element.offsetLeft</code> </p>
+<p>client常用于获取元素大小 <code>element.clientWidth</code>   <code>element.clientHeight</code> </p>
+<p>scroll常用于获取滚动距离  <code>element.scrollTop</code>    <code>element.scrollLeft</code> </p>
 
             </div>
             <hr/>
@@ -518,7 +545,7 @@ int count<span class="token operator">=</span>atoi<span class="token punctuation
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2020/05/13/c-string-zhuan-huan-int-double/">https://taylor12138.github.io/2020/05/13/c-string-zhuan-huan-int-double/</a>
+                    <a href="https://taylor12138.github.io/2020/11/18/pc-duan-wang-ye-te-xiao/">https://taylor12138.github.io/2020/11/18/pc-duan-wang-ye-te-xiao/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -721,42 +748,44 @@ int count<span class="token operator">=</span>atoi<span class="token punctuation
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/05/14/niu-ke-suan-fa-ke-personnel-note/">
+                <a href="/2020/11/18/pc-duan-wang-ye-te-xiao/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="牛客算法课personnel note">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="PC端网页特效">
                         
-                        <span class="card-title">牛客算法课personnel note</span>
+                        <span class="card-title">PC端网页特效</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            小基础floor(x) 小于等于x的最大值整数（向下取整）   ceil(x) 大于等于x的最小整数（向上取整）( #include&lt;math.h&gt; )
-int 32位二进制  第一个是符号位正数为0，负数为1，后面是数值位 -
+                            1.offset元素偏移量我们使用offset系列相关属性可以动态获取元素的位置（大小）（父亲要定位此功能才有用
+element.offsetTop  返回元素相对带有定位父元素上方的偏移，不带单位，如果没有定位或者没有父元素则以body为
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-14
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-18
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/personnel/" class="post-category">
-                                    personnel
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -767,29 +796,25 @@ int 32位二进制  第一个是符号位正数为0，负数为1，后面是数�
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/10/css-yang-shi/">
+                <a href="/2020/11/14/bom/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="CSS样式">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="BOM">
                         
-                        <span class="card-title">CSS样式</span>
+                        <span class="card-title">BOM</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            声明：可以使用chrome的F12浏览学习别人的样式并且调试你的代码引入CSS&lt;link rel="stylesheet" href="css文件路径">
-1.主要定义/*是类型选择,标签选择器*/
-元素（标签） {
-
-}
-/*选择所
+                            1.BOM概述BOM是浏览器对象模型，他提供独立于内容而与浏览器窗口进行交互的对象，其核心对象是window
+BOM缺乏标准，Javascript语法的标准化组织是ECMA，DOM标准化组织是W3C，BOM最初是Netscape浏览器标准的
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-10
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-14
                             </span>
                         <span class="publish-author">
                             
@@ -1000,7 +1025,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">30.4k</span>&nbsp;字
+                class="white-color">35k</span>&nbsp;字
             
             
             

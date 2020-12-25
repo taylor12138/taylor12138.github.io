@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.1k
+                    2.2k
                 </div>
                 
 
@@ -498,7 +498,8 @@
         }
 &lt;/script&gt;
 &lt;button&gt;&lt;/button&gt;</code></pre><p>但是window.onlaod传统注册方式只能写一次，如果写多个，只以最后一个onload为准，所以推荐</p>
-<p><code>window.addEventListener(&#39;load&#39;, function() {})</code></p>
+<pre class=" language-javascript"><code class="language-javascript">window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'load'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p>所以一般情况下引入js文件，则该js文件都要添加 ↑  </p>
 <h5 id="pageshow事件"><a href="#pageshow事件" class="headerlink" title="pageshow事件"></a>pageshow事件</h5><p>下面三种情况会触发load事件：</p>
 <p>1.a标签的超链接</p>
 <p>2.F5刷新（或者强制刷新）</p>
@@ -536,6 +537,12 @@
 <h5 id="停止定时器"><a href="#停止定时器" class="headerlink" title="停止定时器"></a>停止定时器</h5><p><code>window.clearTimeout (timeoutID)</code>    timeID为定时器的名字（所以我们上方说明了经常要给定时器加名字），这里的window也可以省略，调用该停止定时器方法后，定时器的调用函数不执行，时间被停止了</p>
 <h5 id="setInterval-定时器"><a href="#setInterval-定时器" class="headerlink" title="setInterval() 定时器"></a>setInterval() 定时器</h5><p><code>window.setInterval(回调函数, [间隔毫秒数])</code> 重复调用一个函数，每隔这个时间就去调用一次，写函数名函数不加括号、不带参数；window也可以省略，默认省略的话为0，同样我们也经常给该定时器加标识符（名字）</p>
 <h5 id="停止setInterval定时器"><a href="#停止setInterval定时器" class="headerlink" title="停止setInterval定时器"></a>停止setInterval定时器</h5><p><code>window.clearInterval(intervalID)</code> 同停止定时器</p>
+<h5 id="利用定时器自动调用事件"><a href="#利用定时器自动调用事件" class="headerlink" title="利用定时器自动调用事件"></a>利用定时器自动调用事件</h5><p>例如调用在js中的某点击事件</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 自动播放轮播图</span>
+    <span class="token keyword">let</span> timer <span class="token operator">=</span> <span class="token function">setInterval</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        arrow_r<span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <h4 id="（4）this"><a href="#（4）this" class="headerlink" title="（4）this"></a>（4）this</h4><p>this的指向在函数定义的时候是确定不了的，只有函数执行的时候才能知道this的指向，一般this最终指向调用它的对象</p>
 <p><strong>全局作用域或者普通函数</strong>中this指向window, 如</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">Fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -589,7 +596,7 @@
 <p>实际开发用的少，但是一些OA办公系统会用到</p>
 <p><code>history.back()</code>    后退功能</p>
 <p><code>history.forward()</code>   前进功能</p>
-<p><code>history.go(参数)</code>   前进后退功能，参数是1前进一个页面，-1后退一个页面</p>
+<p><code>history.go(参数)</code>   前进后退功能，参数是1前进一个页面，-1后退一个页面 </p>
 
             </div>
             <hr/>
@@ -822,20 +829,20 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/11/18/pc-duan-wang-ye-te-xiao/">
+                <a href="/2020/11/18/pc-yi-dong-duan-wang-ye-te-xiao-js/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="PC端网页特效">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="PC&amp;移动端网页特效(JS)">
                         
-                        <span class="card-title">PC端网页特效</span>
+                        <span class="card-title">PC&amp;移动端网页特效(JS)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.offset元素偏移量我们使用offset系列相关属性可以动态获取元素的位置（大小）（父亲要定位此功能才有用
-element.offsetTop  返回元素相对带有定位父元素上方的偏移，不带单位，如果没有定位或者没有父元素则以body为
+                            PC端1.offset元素偏移量我们使用offset系列相关属性可以动态获取元素的位置（大小）（父亲要定位此功能才有用
+element.offsetTop  返回元素相对带有定位父元素上方的偏移，不带单位，如果没有定位或者没有父元素则以bo
                         
                     </div>
                     <div class="publish-info">
@@ -1095,7 +1102,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">35k</span>&nbsp;字
+                class="white-color">46.9k</span>&nbsp;字
             
             
             

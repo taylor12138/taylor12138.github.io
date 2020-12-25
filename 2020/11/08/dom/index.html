@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.9k
+                    4.3k
                 </div>
                 
 
@@ -577,7 +577,7 @@ text<span class="token punctuation">.</span>onblur <span class="token operator">
     <span class="token punctuation">}</span>
     <span class="token keyword">this</span><span class="token punctuation">.</span>style<span class="token punctuation">.</span>color <span class="token operator">=</span> <span class="token string">'#999'</span>
 <span class="token punctuation">}</span></code></pre>
-<p>表单经过事件（类似于“  :hover ”）（而mousemove是鼠标指针在元素内部移动式重复触发的事件，可用于鼠标指针定位实时变化的案例）</p>
+<p>表单经过事件（类似于“  :hover ”）</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 1.获取元素 获取的是 tbody 里面所有的行</span>
 <span class="token keyword">var</span> trs <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'tbody'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">querySelectorAll</span><span class="token punctuation">(</span><span class="token string">'tr'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">// 2. 利用循环绑定注册事件</span>
@@ -591,7 +591,6 @@ text<span class="token punctuation">.</span>onblur <span class="token operator">
         <span class="token keyword">this</span><span class="token punctuation">.</span>className <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
-<p>鼠标按下mousedown  鼠标移动mousemove  鼠标松开mouseup</p>
 <p>全选框小案例：</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 获取元素</span>
 <span class="token keyword">var</span> Btn_All <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'Btn_All'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 全选按钮</span>
@@ -646,7 +645,7 @@ for (var i = 0; i &lt; ul.childNodes.length; i++) {
 <p>上一个兄弟元素节点：<code>node.previousElementSibling</code>    找不到返回null  </p>
 <p>这两个方法有兼容问题ie9以上才能使用 </p>
 <p><strong>创建节点</strong> <code>document.createElement(&#39;targetName&#39;)</code>  动态创建节点</p>
-<p><strong>添加节点</strong> <code>node.appendChild(child)</code> 创建完后需要添加节点，此方法是将一个节点添加到指定父节点的子节点列表末尾，类似于CSS中的after伪元素 </p>
+<p><strong>添加节点</strong> <code>node.appendChild(child)</code> 创建完后需要添加节点，此方法是将一个节点添加到指定父节点的子节点列表末尾，类似于CSS中的after伪元素 ,child写名称不用加 ‘  ’（不支持追加字符串子元素）</p>
 <p>or： <code>node.insertBefore(child, 指定元素（子节点）)</code> 将一个节点添加到父节点指定的子节点<strong>前面</strong></p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> li <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'li'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">var</span> ul <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'ul'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -669,6 +668,7 @@ ul<span class="token punctuation">.</span><span class="token function">insertBef
                 <span class="token keyword">var</span> li <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'li'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
                 <span class="token comment" spellcheck="true">//并且添加删除功能</span>
                 li<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> text<span class="token punctuation">.</span>value <span class="token operator">+</span> <span class="token string">"&lt;a href='javascript:;'>删除&lt;/a>"</span><span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">//javascript:;意思是页面不发生跳转</span>
                 ul<span class="token punctuation">.</span><span class="token function">insertBefore</span><span class="token punctuation">(</span>li<span class="token punctuation">,</span> ul<span class="token punctuation">.</span>children<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
                 <span class="token comment" spellcheck="true">//删除元素</span>
                 <span class="token keyword">var</span> <span class="token keyword">as</span> <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelectorAll</span><span class="token punctuation">(</span><span class="token string">'a'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -681,13 +681,14 @@ ul<span class="token punctuation">.</span><span class="token function">insertBef
         <span class="token punctuation">}</span>
     <span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span></code></pre>
 <p>删除节点：<code>node.removeChild(child)</code> 返回删除的节点</p>
+<p><code>node.remove()</code>  返回删除的节点（）删除本身</p>
 <p>复制节点： <code>node.cloneNode()</code>  克隆完节点之后，和创建节点一样也必须要添加节点才能显示出来</p>
 <p>1.如果括号参数为空，是浅拷贝，只克隆该节点本身，不克隆其子节点，即没有任何内容    </p>
 <p> <code>node.cloneNode(true)</code> 深拷贝  复制标签并且复制里面的内容 </p>
-<h3 id="（6）创建标签的三种方法："><a href="#（6）创建标签的三种方法：" class="headerlink" title="（6）创建标签的三种方法："></a>（6）创建标签的三种方法：</h3><p><code>element.write()</code> 写入内容（标签），但是页面文档流加载完毕，再调用会导致页面重绘，不好用</p>
-<p><code>element.innerHTML</code>    从起始位置到终止位置的内容，保留（识别）html标签和空格，换行（W3C标准）</p>
+<h3 id="（6）创建标签的四种方法："><a href="#（6）创建标签的四种方法：" class="headerlink" title="（6）创建标签的四种方法："></a>（6）创建标签的四种方法：</h3><p>1.<code>element.write()</code> 写入内容（标签），但是页面文档流加载完毕，再调用会导致页面重绘，不好用</p>
+<p>2.<code>element.innerHTML</code>    从起始位置到终止位置的内容，保留（识别）html标签和空格，换行（W3C标准）</p>
 <p>同时，这两个标签是可读写的，可以获取元素里面的内容</p>
-<p> <code>document.createElement(&#39;targetName&#39;)</code>  动态创建节点</p>
+<p> 3.<code>document.createElement(&#39;targetName&#39;)</code>  动态创建节点</p>
 <p> <code>document.createElement(&#39;targetName&#39;)</code>对比使用<code>element.innerHTML</code> 写多个标签会更省时，省空间，因为他创建多个标签时不用开辟新的空间，而innerHTML使用拼接的原理，所以每次都要要开辟新的空间</p>
 <p>但是，如果<code>element.innerHTML</code> 不用拼接字符串的方法来实现创建多个标签，而是采用数组的形式拼接，结构写麻烦一点：</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> arr<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
@@ -697,6 +698,14 @@ ul<span class="token punctuation">.</span><span class="token function">insertBef
 <span class="token comment" spellcheck="true">//以''进行拼接，并且转化为字符串</span>
 xx<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> arr<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>执行起来会比 <code>document.createElement(&#39;targetName&#39;)</code> 更快，但是结构不太清晰    </p>
+<ol start="4">
+<li><p><code>element.insertAdjacentHTML(插入的位置, 插入的字符串)</code>可以直接把字符串格式元素添加到父元素中</p>
+<p>(如：<code>&quot;&lt;a href=&quot;#&quot;&gt;百度&lt;/a&gt;&quot;</code>)</p>
+</li>
+</ol>
+<p>插入位置：beforebegin 元素自身前面                                             afterbegin  插入元素内部第一个子节点之前</p>
+<p>​                   beforeend  插入元素内部的最后一个子节点之后        afterend  元素自身的后面</p>
+<p>（注意：appendChild不支持追加字符串子元素，insertAdjacentHTML支持追加字符串子元素）</p>
 <h2 id="事件部分"><a href="#事件部分" class="headerlink" title="事件部分"></a>事件部分</h2><h3 id="1-注册事件"><a href="#1-注册事件" class="headerlink" title="1.注册事件"></a>1.注册事件</h3><p>传统方式：</p>
 <p><code>btn.onclick = function() {}</code>  注册事件唯一性，最后注册处理的函数会覆盖掉前面注册处理的函数，即一个元素只能设置一个处理函数</p>
 <p>w3c标准的推荐方式：（ie9以前不支持此方法）</p>
@@ -755,7 +764,7 @@ btn<span class="token punctuation">.</span><span class="token function">addEvent
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">/*两者有些许相似，但是e.target返回的是触发事件得元素，this返回的是绑定事件的对象（元素）*/</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>type<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//返回事件类型</span>
     e<span class="token punctuation">.</span><span class="token function">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//阻止默认事件，让它成为一个普通盒子，比如让链接不跳转，让input不提交等</span>
-    e<span class="token punctuation">.</span><span class="token function">stopPropagantion</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//阻止事件冒泡，使得触发子事件后，不会相应触发父事件，不会向外传播</span>
+    e<span class="token punctuation">.</span><span class="token function">stopPropagation</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//阻止事件冒泡，使得触发子事件后，不会相应触发父事件，不会向外传播</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <p>ie6\7\8</p>
 <pre class=" language-js"><code class="language-js">div<span class="token punctuation">.</span>onclick <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -768,6 +777,13 @@ btn<span class="token punctuation">.</span><span class="token function">addEvent
 <h3 id="5-事件委托"><a href="#5-事件委托" class="headerlink" title="5.事件委托"></a>5.事件委托</h3><p>事件委托也称为事件代理，再JQuery称为事件委派，它提高了程序性能</p>
 <p>若多个子节点同时有事件，不需要将每个子结点单独设置事件监听器，而是将事件监听器设置在父节点上，然后利用冒泡原理影响每个子节点，使得每个子节点反馈到父节点，触发父节点的事件</p>
 <h3 id="6-常用的鼠标事件"><a href="#6-常用的鼠标事件" class="headerlink" title="6.常用的鼠标事件"></a>6.常用的鼠标事件</h3><p>鼠标右键菜单： <code>contextmenu</code>         鼠标选中：<code>selectstart</code></p>
+<p><code>dblclick</code> 鼠标双击事件</p>
+<p><code>mousedown</code>  鼠标按下</p>
+<p><code>mousemove</code>  鼠标移动 ，mousemove是鼠标指针在元素内部移动式重复触发的事件，可用于鼠标指针定位实时变化的案例</p>
+<p><code>mouseup</code>  鼠标松开</p>
+<p><code>mouseover</code>  鼠标经过， 类似于“  :hover ”    它不仅经过自身盒子会触发，经过子盒子还会再触发一次</p>
+<p> <code>mouseenter</code>  鼠标移动到元素上，只会经过自身盒子才触发一次，之所以会这样，是因为mouseenter不会冒泡</p>
+<p><code>mouseleave</code>  鼠标离开元素，和mouseenter相互搭配，同样不会冒泡</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//禁用鼠标右键 </span>
 document<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'contextmenu'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     e<span class="token punctuation">.</span><span class="token function">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -812,6 +828,20 @@ document<span class="token punctuation">.</span><span class="token function">add
 <p><code>e.keyCode</code>    返回该键ASCII码值</p>
 <p>注意（）：keydown 和 keypress 在文本框（input）比较特殊，当它们两个事件触发的时候，文字还没落入文本框中</p>
 <p>而keyup事件触发的时候，文字已经落入文本框，</p>
+<h3 id="8-input事件"><a href="#8-input事件" class="headerlink" title="8.input事件"></a>8.input事件</h3><p><code>onchange</code> 事件会在域的内容改变时发生。</p>
+<p><code>onchange</code> 事件也可用于单选框与复选框改变后触发的事件。</p>
+<p>比如复选框发生改变（单击鼠标切换“打勾”/“不打勾”状态）</p>
+<p><code>onfocus</code>   获得焦点事件</p>
+<p><code>onblur</code>  失去焦点事件</p>
+<p><code>input.select()</code>      让文本框里的文字处于选定状态</p>
+<pre class=" language-js"><code class="language-js">remember<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'change'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 勾选上</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>checked<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'username'</span><span class="token punctuation">,</span> username<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                localStorage<span class="token punctuation">.</span><span class="token function">removeItem</span><span class="token punctuation">(</span><span class="token string">'username'</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 
             </div>
             <hr/>
@@ -1086,13 +1116,13 @@ BOM缺乏标准，Javascript语法的标准化组织是ECMA，DOM标准化组织
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/10/02/yi-dong-web-kai-fa-ji-qi-chang-jian-bu-ju/">
+                <a href="/2020/10/02/yi-dong-web-kai-fa-ji-qi-chang-jian-bu-ju-css/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="移动Web开发及其常见布局">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="移动Web开发及其常见布局(CSS)">
                         
-                        <span class="card-title">移动Web开发及其常见布局</span>
+                        <span class="card-title">移动Web开发及其常见布局(CSS)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1317,7 +1347,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">35k</span>&nbsp;字
+                class="white-color">46.9k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    428
+                    220
                 </div>
                 
 
@@ -486,8 +486,8 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h2><p>将关键字大的记录“下沉”,与小的记录进行交换</p>
-<pre><code>//算法8.4 冒泡排序
-#include &lt;iostream&gt;
+<pre class=" language-c++"><code class="language-c++">//算法8.4 冒泡排序
+#include <iostream>
 using namespace std;
 #define  MAXSIZE  20                      //顺序表的最大长度
 typedef struct
@@ -502,17 +502,17 @@ typedef struct
     int  length;                                    //顺序表长度
 }SqList;                                            //顺序表类型
 
-void BubbleSort(SqList &amp;L)
+void BubbleSort(SqList &L)
 {
     //对顺序表L做冒泡排序
     int m,j,flag;
     ElemType t;
     m=L.length-1; flag=1;                 //flag用来标记某一趟排序是否发生交换
-    while((m&gt;0)&amp;&amp;(flag==1))
+    while((m>0)&&(flag==1))
     {
         flag=0;                           //flag置为0，如果本趟排序没有发生交换，则不会执行下一趟排序
-        for(j=1;j&lt;=m;j++)
-            if(L.r[j].key&gt;L.r[j+1].key) 
+        for(j=1;j<=m;j++)
+            if(L.r[j].key>L.r[j+1].key) 
             {
                 flag=1;                    //flag置为1，表示本趟排序发生了交换
                 t=L.r[j];L.r[j]=L.r[j+1];L.r[j+1]=t;    //交换前后两个记录
@@ -521,20 +521,20 @@ void BubbleSort(SqList &amp;L)
     }                                    //while
 }                                        //BubbleSort
 
-void Create_Sq(SqList &amp;L)
+void Create_Sq(SqList &L)
 {
     int i,n;
-    cout&lt;&lt;&quot;请输入数据个数，不超过&quot;&lt;&lt;MAXSIZE&lt;&lt;&quot;个。&quot;&lt;&lt;endl;
-    cin&gt;&gt;n;                                            //输入个数
-    cout&lt;&lt;&quot;请输入待排序的数据:\n&quot;;
-    while(n&gt;MAXSIZE)
+    cout<<"请输入数据个数，不超过"<<MAXSIZE<<"个。"<<endl;
+    cin>>n;                                            //输入个数
+    cout<<"请输入待排序的数据:\n";
+    while(n>MAXSIZE)
     {
-        cout&lt;&lt;&quot;个数超过上限，不能超过&quot;&lt;&lt;MAXSIZE&lt;&lt;&quot;，请重新输入&quot;&lt;&lt;endl;
-        cin&gt;&gt;n;
+        cout<<"个数超过上限，不能超过"<<MAXSIZE<<"，请重新输入"<<endl;
+        cin>>n;
     }
-    for(i=1;i&lt;=n;i++)
+    for(i=1;i<=n;i++)
     {
-        cin&gt;&gt;L.r[i].key;
+        cin>>L.r[i].key;
         L.length++;
     }
 }
@@ -542,8 +542,8 @@ void Create_Sq(SqList &amp;L)
 void show(SqList L)
 {
     int i;
-    for(i=1;i&lt;=L.length;i++)
-        cout&lt;&lt;L.r[i].key&lt;&lt;endl;
+    for(i=1;i<=L.length;i++)
+        cout<<L.r[i].key<<endl;
 }
 
 void main()
@@ -553,9 +553,10 @@ void main()
     L.length=0;
     Create_Sq(L);
     BubbleSort(L);
-    cout&lt;&lt;&quot;排序后的结果为：&quot;&lt;&lt;endl;
+    cout<<"排序后的结果为："<<endl;
     show(L);
-}</code></pre><p>1.稳定排序</p>
+}</code></pre>
+<p>1.稳定排序</p>
 <p>2.顺序链式都适用</p>
 <p>3.时间复杂度O(n^2)。   空间复杂度为O(1).</p>
 
@@ -1067,7 +1068,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">35k</span>&nbsp;字
+                class="white-color">46.9k</span>&nbsp;字
             
             
             

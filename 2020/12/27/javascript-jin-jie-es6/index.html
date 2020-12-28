@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="字典排序, Hexo">
+    <meta name="keywords" content="JavaScript进阶ES6, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>字典排序 | Hexo</title>
+    <title>JavaScript进阶ES6 | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">字典排序</h1>
+                    <h1 class="description center-align post-title">JavaScript进阶ES6</h1>
                 </div>
             </div>
         </div>
@@ -446,8 +446,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E6%8E%92%E5%BA%8F/" class="post-category">
-                                排序
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                前端
                             </a>
                         
                     </div>
@@ -459,7 +459,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-05-14
+                    2020-12-27
                 </div>
                 
 
@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    435
+                    889
                 </div>
                 
 
@@ -485,66 +485,101 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id=""><a href="#" class="headerlink" title=""></a></h3><h2 id="字典排序"><a href="#字典排序" class="headerlink" title="字典排序"></a>字典排序</h2><p>实现“ 1 2 3 ， 1 3 2 ， 2 1 3 ， 2 3 1 ， 3 1 2 ， 3 2 1 ”的序列排序方法</p>
-<p>代码实现如下</p>
-<pre class=" language-c++"><code class="language-c++">#include <stdio.h>
-#define swap(a,b) {int temp=a;a=b;b=temp;} //交换a，b值
-void sort(int arr[],int start,int end)//冒泡排序，从start到end的排序，使用时注意是数组的下标，如数组下标0-3排序，sort（arr,0,3）
-{
-    int i,j;
-    for(i=0;i<=end-start;i++)
-    {
-        for(j=start;j<=end-i-1;j++)
-        {
-            if(arr[j]>arr[j+1])
-                swap(arr[j],arr[j+1]);
-        }
-    }
-}
-void permutation(int arr[],int n) //字典排序
-{
-    int num=1,i=0,j=0,j1=0,k=0,a,b;
-    for(i=1;i<=n;i++)//算出需要执行的次数，即全排列的次数，共n！种排法
-    {
-        num=num*i;
-    }
-    sort(arr,0,n-1);//先对数组进行一次按从小到大排列排序
-    for(k=num;k>0;k--) //进行num次循环
-    {
-        for(i=0;i<n;i++) //输出排好的数组，第一次直接按最小的输出
-        {
-            printf("%d",arr[i]);
-        }
-        printf("\n");
-        for(j=n-1;j>0;j--)
-        {
-            if(arr[j-1]<arr[j]) //这是字典排序的第一步，自己定义的四步法，获取arr[a]值
-            {
-                a=j-1;
-                break;
-            }
-        }
-        for(j1=n-1;j1>=0;j1--)
-        {
-            if(arr[j1]>arr[a]) //这是字典排序第二步，获取arr[b]的值
-            {
-                b=j1;
-                break;
-            }
-        }
-        swap(arr[a],arr[b]); //这是第三步
-        sort(arr,a+1,n-1); //这是第四步
-    }
-}
-int main()
-{
-    int arr[]={1,2,4,3};
-    permutation(arr,4);
-    return 0;
-}</code></pre>
-<p>总结得出字典排序算法四步法：</p>
-<p>字典排序：<br>第一步：从右至左找第一个左邻小于右邻的数，记下位置i，值list[a]<br>第二部：从右边往左找第一个右边大于list[a]的第一个值，记下位置j，值list[b]<br>第三步：交换list[a]和list[b]的值<br>第四步：将i以后的元素重新按从小到大的顺序排列</p>
-<p>举例：125643的下一个字典序列<br>第一步：右边值大于左边的3&lt;4,4&lt;6,6&gt;5,则i=2，list[a]=5<br>第二步：从右往左找出第一个右边大于list[a]=5的值，找到6&gt;5,j=3;list[b]=6;<br>第三步：交换list[a]和list[b]的值，序列125643-&gt;126543<br>第四步：将位置2以后的元素重新排序,126543-&gt;126345;<br>结束： 126345即125643的下一个序列<br>————————————————<br>版权声明：本文为CSDN博主「Hi,Mr.Wang」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a href="https://blog.csdn.net/qq_34672688/article/details/79557380" target="_blank" rel="noopener">https://blog.csdn.net/qq_34672688/article/details/79557380</a></p>
+                <h2 id="1-ESMAScript6"><a href="#1-ESMAScript6" class="headerlink" title="1.ESMAScript6"></a>1.ESMAScript6</h2><p>ES6其实是一个泛指，泛指ES2015后续的版本</p>
+<h2 id="2-新增语法"><a href="#2-新增语法" class="headerlink" title="2.新增语法"></a>2.新增语法</h2><h4 id="声明变量"><a href="#声明变量" class="headerlink" title="声明变量"></a>声明变量</h4><p>let 声明的变量</p>
+<p>1.只在所处块级有效（大括号中有效），可以防止循环变量变成全局变量</p>
+<p>2.不存在变量提升，只能先声明再使用</p>
+<p>3.暂时性死区（即在块级作用域中使用某变量，则会先在该块级中查找次变量）</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> num <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>num<span class="token punctuation">)</span><span class="token punctuation">;</span>        <span class="token comment" spellcheck="true">//报错，变量声明在后面</span>
+    <span class="token keyword">let</span> num <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>const声明常量，常量就是值（内存地址）不能变化的量（值可以改，内存地址不能变）</p>
+<p>1.具有块级作用域</p>
+<p>2.const声明常量时必须赋值</p>
+<p>3.基本数据类型：常量赋值后，不可修改；复杂数据类型：对象赋值后（数组之类的）不可更改，但是可以更改数据结构内部的值</p>
+<p>4.不存在变量提升，只能先声明再使用</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> ary <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+ary<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'a'</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//可以</span>
+<span class="token comment" spellcheck="true">//ary = ['a', 200];  //不可以</span></code></pre>
+<h4 id="解构赋值"><a href="#解构赋值" class="headerlink" title="解构赋值"></a>解构赋值</h4><p>ES6允许从数组或者对象（分别使用[]、{}）中一一提取值，按照对应的位置，对变量赋值</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//数组</span>
+<span class="token keyword">let</span> ary <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> <span class="token punctuation">[</span>a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c<span class="token punctuation">,</span> d<span class="token punctuation">,</span> e<span class="token punctuation">]</span> <span class="token operator">=</span> ary<span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//1, 2, 3, undefined, undefined</span>
+<span class="token comment" spellcheck="true">//也可以 let [a, b, c] = [1, 2, 3];</span>
+<span class="token comment" spellcheck="true">//对象</span>
+<span class="token keyword">let</span> person <span class="token operator">=</span> <span class="token punctuation">{</span>name<span class="token punctuation">:</span> <span class="token string">'zhangsan'</span><span class="token punctuation">,</span> age<span class="token punctuation">:</span> <span class="token number">20</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span><span class="token punctuation">{</span>name<span class="token punctuation">,</span> age<span class="token punctuation">}</span> <span class="token operator">=</span> person<span class="token punctuation">;</span></code></pre>
+<p>对象的另一解构写法</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> <span class="token punctuation">{</span>name<span class="token punctuation">:</span> myName<span class="token punctuation">,</span> age<span class="token punctuation">:</span> myAge<span class="token punctuation">}</span> <span class="token operator">=</span> person<span class="token punctuation">;</span></code></pre>
+<p>如果name和age分别和person中的属性值匹配成功，则将右侧该属性值赋值给左边myName，myAge变量</p>
+<h4 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h4><p><code>(形参) =&gt; {函数体}</code> 箭头函数用来简化定义函数语法</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> fn <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'xx'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>如果函数体只有一句话，且代码执行结果就是返回值，则可以省略大括号</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//传统</span>
+<span class="token keyword">function</span> <span class="token function">sum</span><span class="token punctuation">(</span>num1<span class="token punctuation">,</span> num2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> num1<span class="token operator">+</span>num2<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//new</span>
+<span class="token keyword">const</span> sum1 <span class="token operator">=</span> <span class="token punctuation">(</span>num1<span class="token punctuation">,</span> num2<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> num1<span class="token operator">+</span>num2<span class="token punctuation">;</span> </code></pre>
+<p>如果形参只有一个，小括号可以省略</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//传统</span>
+<span class="token keyword">function</span> <span class="token function">sum</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> a<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//new</span>
+<span class="token keyword">const</span> sum1 <span class="token operator">=</span> a <span class="token operator">=</span><span class="token operator">></span> a<span class="token punctuation">;</span> </code></pre>
+<p>箭头函数和传统函数不一样，箭头函数的this指向函数定义位置的上下文this</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">const</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span>name<span class="token punctuation">:</span> <span class="token string">'zhangsan'</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> resFn <span class="token operator">=</span> fn<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//这时this指向obj，所以箭头函数跟着指向obj</span>
+<span class="token function">resFn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//返回obj  obj</span></code></pre>
+<p>对象不能产生作用域，所以箭头函数实际被定义在全局作用域下，所以此处的this指向window，所以箭头函数处的this.age未定义</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span>
+        age<span class="token punctuation">:</span> <span class="token number">20</span><span class="token punctuation">,</span>
+        say<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            <span class="token function">alert</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>age<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//undefined</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        con<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//obj</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span></code></pre>
+<p>注意：箭头函数是用不了arguments</p>
+<h4 id="剩余参数"><a href="#剩余参数" class="headerlink" title="剩余参数"></a>剩余参数</h4><p>剩余参数语法允许我们将一个不定数量的参数表示为一个数组  <code>...args</code></p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">sum</span><span class="token punctuation">(</span>first<span class="token punctuation">,</span> <span class="token operator">...</span>args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>first<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//10</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>args<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//20, 30</span>
+<span class="token punctuation">}</span>
+<span class="token function">sum</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//剩余参数配合解构</span>
+<span class="token keyword">let</span> students <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'allen'</span><span class="token punctuation">,</span> <span class="token string">'berry'</span><span class="token punctuation">,</span> <span class="token string">'david'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> <span class="token punctuation">[</span>s1<span class="token punctuation">,</span> <span class="token operator">...</span>s2<span class="token punctuation">]</span> <span class="token operator">=</span> students<span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//s1为allen，s2为[berry. david]</span></code></pre>
+<h2 id="3-ES6内置对象的扩展"><a href="#3-ES6内置对象的扩展" class="headerlink" title="3.ES6内置对象的扩展"></a>3.ES6内置对象的扩展</h2><h4 id="array的扩展"><a href="#array的扩展" class="headerlink" title="array的扩展"></a>array的扩展</h4><p>扩展运算符是和剩余参数相反的原理，它可以将数组或者对象转为用逗号分隔的参数序列  <code>...ary</code></p>
+<pre><code>let ary = [1, 2, 3];
+console.log(...ary); // 1, 2, 3
+//相当于 console.log(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;);</code></pre><p>扩展运算符应用：数组合并</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//方法一：</span>
+<span class="token keyword">let</span> ary1 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> ary2 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> ary3 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span>ary1<span class="token punctuation">,</span> <span class="token operator">...</span>ary2<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//方法二</span>
+ary1<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token operator">...</span>ary2<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><code>...ary</code>扩展运算符还能把伪数组转换成真正的数组，然后可以使用数组的方法</p>
+<p>同样的，构造函数方法<code>Array.from()</code> 也可以将类数组或可遍历对象转换成真正的数组</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> arraylike <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token number">0</span><span class="token punctuation">:</span> <span class="token string">'a'</span><span class="token punctuation">,</span>
+    <span class="token number">1</span><span class="token punctuation">;</span> <span class="token string">'b'</span><span class="token punctuation">,</span>
+    length<span class="token punctuation">:</span> <span class="token number">2</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> arr2 <span class="token operator">=</span> Array<span class="token punctuation">.</span><span class="token keyword">from</span><span class="token punctuation">(</span>arraylike<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//[a, b]</span></code></pre>
 
             </div>
             <hr/>
@@ -570,7 +605,7 @@ int main()
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2020/05/14/zi-dian-pai-xu/">https://taylor12138.github.io/2020/05/14/zi-dian-pai-xu/</a>
+                    <a href="https://taylor12138.github.io/2020/12/27/javascript-jin-jie-es6/">https://taylor12138.github.io/2020/12/27/javascript-jin-jie-es6/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -773,34 +808,34 @@ int main()
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/05/17/css-fu-dong-chang-jian-de-wang-ye-bu-ju/">
+                <a href="/2020/12/27/javascript-jin-jie-es6/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="CSS浮动+常见的网页布局">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="JavaScript进阶ES6">
                         
-                        <span class="card-title">CSS浮动+常见的网页布局</span>
+                        <span class="card-title">JavaScript进阶ES6</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            浮动CSS三种传统布局：普通流  浮动   定位
-标准流：标签按照默认排序
-多个块级元素纵向排列用标准流，横向排列用浮动
-选择器{
-    float: 属性值;   //none不浮动   left向左浮动    right向右浮动
-}/
+                            1.ESMAScript6ES6其实是一个泛指，泛指ES2015后续的版本
+2.新增语法声明变量let 声明的变量
+1.只在所处块级有效（大括号中有效），可以防止循环变量变成全局变量
+2.不存在变量提升，只能先声明再使用
+3.暂时性死区（即
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-17
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-27
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -813,6 +848,7 @@ int main()
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -823,32 +859,36 @@ int main()
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/14/niu-ke-suan-fa-ke-personnel-note/">
+                <a href="/2020/12/26/node-gulp-mongodb-express-ajax/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="牛客算法课personnel note">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Node+Gulp+MongoDB+Express+ajax">
                         
-                        <span class="card-title">牛客算法课personnel note</span>
+                        <span class="card-title">Node+Gulp+MongoDB+Express+ajax</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            小基础floor(x) 小于等于x的最大值整数（向下取整）   ceil(x) 大于等于x的最小整数（向上取整）( #include&lt;math.h&gt; )
-int 32位二进制  第一个是符号位正数为0，负数为1，后面是数值位 -
+                            Node开发为什么选择node：
+1.node使用JavaScript语法开发后端应用   
+2.一些公司要求前端人员掌握Node开发   
+3.生态系统活跃，有大量开源库
+4.现有前端开发工具大多居于node开发
+node是基于chrom
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-14
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-26
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/personnel/" class="post-category">
-                                    personnel
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
                                 </a>
                             
                             

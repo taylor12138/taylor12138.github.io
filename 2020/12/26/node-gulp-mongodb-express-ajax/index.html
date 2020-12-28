@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="字典排序, Hexo">
+    <meta name="keywords" content="Node+Gulp+MongoDB+Express+ajax, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>字典排序 | Hexo</title>
+    <title>Node+Gulp+MongoDB+Express+ajax | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">字典排序</h1>
+                    <h1 class="description center-align post-title">Node+Gulp+MongoDB+Express+ajax</h1>
                 </div>
             </div>
         </div>
@@ -446,8 +446,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E6%8E%92%E5%BA%8F/" class="post-category">
-                                排序
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                前端
                             </a>
                         
                     </div>
@@ -459,7 +459,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-05-14
+                    2020-12-26
                 </div>
                 
 
@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    435
+                    460
                 </div>
                 
 
@@ -485,66 +485,29 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id=""><a href="#" class="headerlink" title=""></a></h3><h2 id="字典排序"><a href="#字典排序" class="headerlink" title="字典排序"></a>字典排序</h2><p>实现“ 1 2 3 ， 1 3 2 ， 2 1 3 ， 2 3 1 ， 3 1 2 ， 3 2 1 ”的序列排序方法</p>
-<p>代码实现如下</p>
-<pre class=" language-c++"><code class="language-c++">#include <stdio.h>
-#define swap(a,b) {int temp=a;a=b;b=temp;} //交换a，b值
-void sort(int arr[],int start,int end)//冒泡排序，从start到end的排序，使用时注意是数组的下标，如数组下标0-3排序，sort（arr,0,3）
-{
-    int i,j;
-    for(i=0;i<=end-start;i++)
-    {
-        for(j=start;j<=end-i-1;j++)
-        {
-            if(arr[j]>arr[j+1])
-                swap(arr[j],arr[j+1]);
-        }
-    }
-}
-void permutation(int arr[],int n) //字典排序
-{
-    int num=1,i=0,j=0,j1=0,k=0,a,b;
-    for(i=1;i<=n;i++)//算出需要执行的次数，即全排列的次数，共n！种排法
-    {
-        num=num*i;
-    }
-    sort(arr,0,n-1);//先对数组进行一次按从小到大排列排序
-    for(k=num;k>0;k--) //进行num次循环
-    {
-        for(i=0;i<n;i++) //输出排好的数组，第一次直接按最小的输出
-        {
-            printf("%d",arr[i]);
-        }
-        printf("\n");
-        for(j=n-1;j>0;j--)
-        {
-            if(arr[j-1]<arr[j]) //这是字典排序的第一步，自己定义的四步法，获取arr[a]值
-            {
-                a=j-1;
-                break;
-            }
-        }
-        for(j1=n-1;j1>=0;j1--)
-        {
-            if(arr[j1]>arr[a]) //这是字典排序第二步，获取arr[b]的值
-            {
-                b=j1;
-                break;
-            }
-        }
-        swap(arr[a],arr[b]); //这是第三步
-        sort(arr,a+1,n-1); //这是第四步
-    }
-}
-int main()
-{
-    int arr[]={1,2,4,3};
-    permutation(arr,4);
-    return 0;
-}</code></pre>
-<p>总结得出字典排序算法四步法：</p>
-<p>字典排序：<br>第一步：从右至左找第一个左邻小于右邻的数，记下位置i，值list[a]<br>第二部：从右边往左找第一个右边大于list[a]的第一个值，记下位置j，值list[b]<br>第三步：交换list[a]和list[b]的值<br>第四步：将i以后的元素重新按从小到大的顺序排列</p>
-<p>举例：125643的下一个字典序列<br>第一步：右边值大于左边的3&lt;4,4&lt;6,6&gt;5,则i=2，list[a]=5<br>第二步：从右往左找出第一个右边大于list[a]=5的值，找到6&gt;5,j=3;list[b]=6;<br>第三步：交换list[a]和list[b]的值，序列125643-&gt;126543<br>第四步：将位置2以后的元素重新排序,126543-&gt;126345;<br>结束： 126345即125643的下一个序列<br>————————————————<br>版权声明：本文为CSDN博主「Hi,Mr.Wang」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a href="https://blog.csdn.net/qq_34672688/article/details/79557380" target="_blank" rel="noopener">https://blog.csdn.net/qq_34672688/article/details/79557380</a></p>
+                <h2 id="Node开发"><a href="#Node开发" class="headerlink" title="Node开发"></a>Node开发</h2><p>为什么选择node：</p>
+<p>1.node使用JavaScript语法开发后端应用   </p>
+<p>2.一些公司要求前端人员掌握Node开发   </p>
+<p>3.生态系统活跃，有大量开源库</p>
+<p>4.现有前端开发工具大多居于node开发</p>
+<p>node是基于chrome V8引擎的JavaScript代码运行环境（浏览器也是JavaScript代码运行环境）</p>
+<p>在命令行工具中输入  <code>node -v</code>  即可查看nodejs是否安装成功</p>
+<h4 id="node-js的组成："><a href="#node-js的组成：" class="headerlink" title="node.js的组成："></a>node.js的组成：</h4><p>JavaScript由3部分组成，ECMAScript，DOM，BOM</p>
+<p>Node.js由ECMAScript及Node环境提供的一些附加API组成的，包括文件、网络、路径等一些更强大的API</p>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>在cmd命令符窗口中使用 <code>node xx.js</code> 即可完成（在执行文件的目录下按住shift+鼠标右键可快速进入当前目录的命令符窗口，然后配合tab键位快速打开）</p>
+<h2 id="Node-js模块化开发"><a href="#Node-js模块化开发" class="headerlink" title="Node.js模块化开发"></a>Node.js模块化开发</h2><p>JavaScript弊端：文件依赖（a.js-&gt;b.js-&gt;c.js，相互依赖，但是很难直接看出来，分析完后才知道要一个一个引入）和命名冲突（在相互依赖的js中声明同样的变量名导致的错误）</p>
+<p>模块化开发：一个功能一个模块，多模块组合完整应用，抽离一个模块不会影响其他功能的运行</p>
+<p>node.js规定一个JavaScript文件就是一个模块，模块内部定义的变量和函数默认情况下在外部无法得到模块内部使用exports 对象进行成员导出，使用require方法导入其他模块（注意ES6使用require而是使用import）</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//a.js</span>
+<span class="token keyword">let</span> version <span class="token operator">=</span> <span class="token number">1.0</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> sayHi <span class="token operator">=</span> name <span class="token operator">=</span><span class="token operator">></span> <span class="token template-string"><span class="token string">`你好, </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//向模块外导出数据</span>
+exports<span class="token punctuation">.</span>version <span class="token operator">=</span> version<span class="token punctuation">;</span>
+exports<span class="token punctuation">.</span>sayHi <span class="token operator">=</span> sayHi<span class="token punctuation">;</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//b.js</span>
+<span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./a.js'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//b.js导入a.js, ./b.js是b.js的目录</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span>version<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span><span class="token function">sayHi</span><span class="token punctuation">(</span><span class="token string">'xx'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 
             </div>
             <hr/>
@@ -570,7 +533,7 @@ int main()
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2020/05/14/zi-dian-pai-xu/">https://taylor12138.github.io/2020/05/14/zi-dian-pai-xu/</a>
+                    <a href="https://taylor12138.github.io/2020/12/26/node-gulp-mongodb-express-ajax/">https://taylor12138.github.io/2020/12/26/node-gulp-mongodb-express-ajax/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -777,29 +740,28 @@ int main()
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/05/17/css-fu-dong-chang-jian-de-wang-ye-bu-ju/">
+                <a href="/2020/12/27/javascript-jin-jie-es6/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="CSS浮动+常见的网页布局">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="JavaScript进阶ES6">
                         
-                        <span class="card-title">CSS浮动+常见的网页布局</span>
+                        <span class="card-title">JavaScript进阶ES6</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            浮动CSS三种传统布局：普通流  浮动   定位
-标准流：标签按照默认排序
-多个块级元素纵向排列用标准流，横向排列用浮动
-选择器{
-    float: 属性值;   //none不浮动   left向左浮动    right向右浮动
-}/
+                            1.ESMAScript6ES6其实是一个泛指，泛指ES2015后续的版本
+2.新增语法声明变量let 声明的变量
+1.只在所处块级有效（大括号中有效），可以防止循环变量变成全局变量
+2.不存在变量提升，只能先声明再使用
+3.暂时性死区（即
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-17
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-12-27
                         </span>
                         <span class="publish-author">
                             
@@ -823,32 +785,33 @@ int main()
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/14/niu-ke-suan-fa-ke-personnel-note/">
+                <a href="/2020/12/08/javascript-jin-jie-es5-mian-xiang-dui-xiang/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="牛客算法课personnel note">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="JavaScript进阶ES5+面向对象">
                         
-                        <span class="card-title">牛客算法课personnel note</span>
+                        <span class="card-title">JavaScript进阶ES5+面向对象</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            小基础floor(x) 小于等于x的最大值整数（向下取整）   ceil(x) 大于等于x的最小整数（向上取整）( #include&lt;math.h&gt; )
-int 32位二进制  第一个是符号位正数为0，负数为1，后面是数值位 -
+                            1.编程思想介绍面向过程（POP）：分析解决问题所需要的步骤，然后用函数把这些步骤一步一步实现，使用的时候再一步一步调用就行了
+面向对象（OOP）：把事物分解成一个个对象，然后由对象之间分工合作（找出对象出来，然后写出这些对象的功能）
+面向
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-14
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-08
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/personnel/" class="post-category">
-                                    personnel
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
                                 </a>
                             
                             

@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="JavaScript进阶ES6面向对象, Hexo">
+    <meta name="keywords" content="JavaScript进阶ES5+面向对象, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>JavaScript进阶ES6面向对象 | Hexo</title>
+    <title>JavaScript进阶ES5+面向对象 | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">JavaScript进阶ES6面向对象</h1>
+                    <h1 class="description center-align post-title">JavaScript进阶ES5+面向对象</h1>
                 </div>
             </div>
         </div>
@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6k
+                    6.3k
                 </div>
                 
 
@@ -613,7 +613,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 Star<span class="token punctuation">.</span>sex <span class="token operator">=</span> <span class="token string">'male'</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Star<span class="token punctuation">.</span>sex<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>构造函数虽然好用，但是存在浪费内存的问题</p>
-<p><img src="../images/JavaScript%E8%BF%9B%E9%98%B6ES6%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/gouzao.jpg" alt=""></p>
+<p><img src="/JavaScript%E8%BF%9B%E9%98%B6ES6%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/gouzao.jpg" alt=""></p>
 <h4 id="构造函数原型对象prototype"><a href="#构造函数原型对象prototype" class="headerlink" title="构造函数原型对象prototype"></a>构造函数原型对象prototype</h4><p>构造函数通过原型分配的函数是所有对象所共享的</p>
 <p>JavaScript规定，每个构造函数都有一个prototype属性，指向另一个对象，注意这个prototype（原型）就是一个对象，这个对象的所有属性和方法，都会被构造函数所拥有</p>
 <p>因此，我们把那些不变的方法，直接定义在prototype对象上，这样所有对象的实例就可以共享这个方法</p>
@@ -640,10 +640,10 @@ Star<span class="token punctuation">.</span>prototype <span class="token operato
 <h4 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h4><p>任何构造函数原型对象<code>prototype</code>，它作为一个对象，也有它自己的对象原型 <code>__proto__</code> ，而此时原型对象的 <code>__proto__</code> 指向的是<code>Object.prototype</code>， 即<code>某构造函数名.prototype.__proto__ === Object.prototype</code></p>
 <p>而我们Object也有prototype原型对象，而它作为一个对象，也有它自己的对象原型 <code>__proto__</code> ，而此时指向null（到达了终点）</p>
 <p>即<code>Object.prototype.__proto__ === null</code></p>
-<p><img src="../images/JavaScript%E8%BF%9B%E9%98%B6ES6%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/yuanxinglian.jpg" alt=""></p>
 <p><strong>JavaScript成员查找机制</strong>：</p>
 <p>所以在成员查找时，先查找最底层，没有则根据它 的<code>__proto__</code>查找至他的原型对象，看看有没有该成员，没有的话继续一层一层往上查找，如果找不到该成员 ，最后返回undefined (undefined是由null派生而来的)</p>
 <p>而根据查找规则，使用就近原则来处理重复成员定义问题（即先找到，先使用）</p>
+<p><img src="/JavaScript%E8%BF%9B%E9%98%B6ES6%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/yuanxinglian.jpg" alt=""></p>
 <h4 id="拓展内置对象"><a href="#拓展内置对象" class="headerlink" title="拓展内置对象"></a>拓展内置对象</h4><p>可以通过原型对象，对原来的内置对象进行拓展自定义的方法，比如给数组增加自定义求偶数和的功能</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//在Array原型对象上追加函数，不能采取Array.prototype = {}形式</span>
 Array<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>sum <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -950,7 +950,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token keyword">var</span> rg1 <span class="token operator">=</span> <span class="token regex">/^a+$/</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//a可以出现1-n次，n>=1</span>
 <span class="token keyword">var</span> rg2 <span class="token operator">=</span> <span class="token regex">/^a?$/</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//a可以出现1或0次 </span>
 <span class="token keyword">var</span> rg3 <span class="token operator">=</span> <span class="token regex">/^a{3}$/</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//a只能可以出现3次</span>
-<span class="token keyword">var</span> rg4 <span class="token operator">=</span> <span class="token regex">/^a{3, }$/</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//a只可以出现3-n次 n>=3 </span>
+<span class="token keyword">var</span> rg4 <span class="token operator">=</span> <span class="token regex">/^a{3,}$/</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//a只可以出现3-n次 n>=3 </span>
 <span class="token keyword">var</span> rg5 <span class="token operator">=</span> <span class="token regex">/^a{3,16}$/</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//a只可以出现3-16次</span>
 <span class="token comment" spellcheck="true">//普遍的用户名规定：</span>
 <span class="token keyword">var</span> name <span class="token operator">=</span> <span class="token regex">/^[a-zA-Z0-9_-]{6, 16}$/</span></code></pre>
@@ -958,6 +958,24 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p><code>[]</code>中括号：字符集合，匹配方括号中的任意字符</p>
 <p><code>{}</code> 大括号：量词符，里面表示重复次数，但只让大括号前面一个字符重复 （注意：<code>/^abc{3}$/</code>，只让c重复三次，即abccc）</p>
 <p><code>()</code> 小括号：表示优先级 可以用来：<code>/^(abc){3}$/</code>，表示让abc重复三次，即abcabc</p>
+<h4 id="预定义类"><a href="#预定义类" class="headerlink" title="预定义类"></a>预定义类</h4><p><code>\d</code> 匹配到0-9任意一数字，相当于<code>[0-9]</code>      (<code>var rg = /\d/;</code>)</p>
+<p><code>\D</code> 匹配到0-9以外的数字，相当于<code>[^0-9]</code></p>
+<p><code>\w</code> 匹配任意字母、数字、下划线，相当于<code>[A-Za-z0-9_]</code></p>
+<p><code>\W</code>匹配除字母数字下划线以外的字符，相当于<code>[^A-Za-z0-9_]</code></p>
+<p><code>\s</code> 匹配空格（包括换行符、制表符、空格符等），相当于<code>[\t\r\n\v\f]</code></p>
+<p><code>\S</code>匹配非空格字符，相当于<code>[^\t\r\n\v\f]</code>  </p>
+<p>正则里的或者符号：<code>|</code>    (<code>var rg = /^\d{3}-\d{8}|\d{4}-\d{7}$/;</code>)</p>
+<h4 id="正则替换"><a href="#正则替换" class="headerlink" title="正则替换"></a>正则替换</h4><p>replace()方法可以实现替换字符串的操作，用来替换的参数可以是一个字符串或者是一个字符表达式  <code>stringObject.replace(regexp/substr, replacement)</code></p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">'red and blue and red'</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> newstr <span class="token operator">=</span> str<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token string">'red'</span><span class="token punctuation">,</span> <span class="token string">'yellow'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//结果为yellow and blue and red</span>
+<span class="token comment" spellcheck="true">//var newstr = str.replace(/red/, 'yellow'); 同理</span></code></pre>
+<p>但是replace只能替换掉第一个匹配的字符/正则表达式，无法满足替换掉多个敏感词</p>
+<p>可以使用: <code>/表达式/[switch]</code> swtich也成为修饰符，即按照什么样的模式来匹配</p>
+<p>g: 全局匹配</p>
+<p>i: 忽略大小写</p>
+<p>gi: 全局匹配+忽略大小写</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">'red and blue and red'</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> newstr <span class="token operator">=</span> str<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token regex">/red/g</span><span class="token punctuation">,</span> <span class="token string">'yellow'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//结果为yellow and blue and yellow</span></code></pre>
 
             </div>
             <hr/>
@@ -983,7 +1001,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2020/12/08/javascript-jin-jie-es6-mian-xiang-dui-xiang/">https://taylor12138.github.io/2020/12/08/javascript-jin-jie-es6-mian-xiang-dui-xiang/</a>
+                    <a href="https://taylor12138.github.io/2020/12/08/javascript-jin-jie-es5-mian-xiang-dui-xiang/">https://taylor12138.github.io/2020/12/08/javascript-jin-jie-es5-mian-xiang-dui-xiang/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1186,32 +1204,34 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/12/08/javascript-jin-jie-es6-mian-xiang-dui-xiang/">
+                <a href="/2020/12/26/node-gulp-mongodb-express-ajax/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="JavaScript进阶ES6面向对象">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Node+Gulp+MongoDB+Express+ajax">
                         
-                        <span class="card-title">JavaScript进阶ES6面向对象</span>
+                        <span class="card-title">Node+Gulp+MongoDB+Express+ajax</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.编程思想介绍面向过程（POP）：分析解决问题所需要的步骤，然后用函数把这些步骤一步一步实现，使用的时候再一步一步调用就行了
-面向对象（OOP）：把事物分解成一个个对象，然后由对象之间分工合作（找出对象出来，然后写出这些对象的功能）
-面向
+                            Node开发为什么选择node：
+1.node使用JavaScript语法开发后端应用   
+2.一些公司要求前端人员掌握Node开发   
+3.生态系统活跃，有大量开源库
+4.现有前端开发工具大多居于node开发
+node是基于chrom
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-08
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-12-26
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1224,7 +1244,6 @@ console<span class="token punctuation">.</span><span class="token function">log<
                         </span>
                     </div>
                 </div>
-
                 
             </div>
         </div>
@@ -1464,7 +1483,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">46.9k</span>&nbsp;字
+                class="white-color">48.6k</span>&nbsp;字
             
             
             

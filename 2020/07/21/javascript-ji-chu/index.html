@@ -528,6 +528,7 @@ prompt(info) //弹出输入框，提供用户输入 但是都是以字符的形�
 <p>函数没有return，则返回的是undefined</p>
 <p><strong>注意</strong>在函数内部没有声明直接赋值的变量，也属于全局变量</p>
 <h4 id="arguments的使用"><a href="#arguments的使用" class="headerlink" title="arguments的使用"></a>arguments的使用</h4><p>当我们不确定函数用多少个参数来传递的时候，arguments实际上是当前函数的一个内置对象（函数才拥有），arguments储存了传递的所有实参,它展示的方式是伪数组，因此可以进行遍历（使用for等）</p>
+<p><strong>注意：箭头函数是用不了arguments</strong></p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>agruments<span class="token punctuation">)</span><span class="token punctuation">;</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>agruments<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -606,7 +607,7 @@ Date<span class="token punctuation">.</span><span class="token function">now</sp
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">var</span> arr1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Array</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//相当于[2,3]的数组</span>
 arr1 <span class="token keyword">instanceof</span> <span class="token class-name">Array</span> <span class="token comment" spellcheck="true">//检验是否为数组，是返回true，否则false</span>
 Array<span class="token punctuation">.</span><span class="token function">isArray</span><span class="token punctuation">(</span>arr1<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//同上,H5新增,但这个效果好，防止多个不同版本的Array构造函数</span>
-arr1<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>xx<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//    在数组末尾增加数组元素，push完毕之后，返回结果是新数组的长度</span>
+arr1<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>xx<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//    在数组末尾增加数组元素，push完毕之后，返回结果是新数组的长度,push实际上可以接收多个参数一次增加</span>
 arr1<span class="token punctuation">.</span><span class="token function">unshift</span><span class="token punctuation">(</span>xx<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//    在数组开头增加数组元素，unshift完毕之后，返回结果是新数组的长度</span>
 arr1<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 删除数组的最后一个元素  返回值为被删除的元素值</span>
 arr1<span class="token punctuation">.</span><span class="token function">shift</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 删除数组的第一个元素  返回值为被删除的元素值</span>
@@ -1177,7 +1178,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">46.9k</span>&nbsp;字
+                class="white-color">48.6k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.8k
+                    2.9k
                 </div>
                 
 
@@ -503,9 +503,15 @@ prompt(info) //弹出输入框，提供用户输入 但是都是以字符的形�
 <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>使用var，自动确定类型（JS拥有动态类型）</p>
 <h4 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h4><p>isNaN()   判断是否<strong>非</strong>数字</p>
 <p>typeof 变量名    查看数据类型</p>
-<h4 id="转换"><a href="#转换" class="headerlink" title="转换"></a>转换</h4><p>转字符串： 变量名.toString()            强制转换：String(变量名)      隐式转换：变量名+”xxxx”(拼接字符串)</p>
-<p>String转数字类型：（1）String-&gt;int：    parseInt(String)；           （2） String-&gt;float:    parseFloat(String)；</p>
-<p>​       （3）Number强制转换（String转数值）：Number(String)    （4）利用加减乘除：String-String或String-int之类的</p>
+<h4 id="转换"><a href="#转换" class="headerlink" title="转换"></a>转换</h4><p>转字符串： </p>
+<p>​    变量名.toString()    number类型时，变量名.toString(16) 转换成16进制字符串</p>
+<p>​    强制转换：String(变量名)      </p>
+<p>​    隐式转换：变量名+”xxxx”(拼接字符串)</p>
+<p>String转数字类型：</p>
+<p>（1）String-&gt;int：    parseInt(String)；           </p>
+<p>（2） String-&gt;float:    parseFloat(String)；</p>
+<p>（3）Number强制转换（String转数值）：Number(String)    </p>
+<p>（4）利用加减乘除：String-String或String-int之类的</p>
 <h4 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h4><p>18==‘18’  成立true，默认转换数据类型   ===为全等需要完全一致， 18===‘18’为false</p>
 <p>逻辑与短路运算：123&amp;&amp;456，返回456，左式为真返回右式子，为假返回左式</p>
 <p>逻辑或短路运算：123||456，返回123，左式为真返回左式子，为假返回右式</p>
@@ -661,6 +667,15 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>简单数据类型放入栈里面（操作系统），栈里开辟的空间存放的是值  （用函数传参是不会影响变量的值）</p>
 <p>复杂数据类型（引用类型）：Object、 Array、 Date</p>
 <p>复杂数据类型放入堆里面（操作系统），于栈里存放地址，十六进制表示，然后这个地址指向堆里的数值；一般由程序员分配释放，若程序员不释放，由垃圾回收机制释放 （用函数传参是会影响对象的值）</p>
+<p>但是复杂数据类型null赋值时断了地址联系</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+obj<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">'allen'</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> obj2 <span class="token operator">=</span> obj<span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>obj2<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//allen</span>
+obj<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">'bllen'</span><span class="token punctuation">;</span>         <span class="token comment" spellcheck="true">//改对象</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>obj2<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//bllen</span>
+obj <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>              <span class="token comment" spellcheck="true">//改变量</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>obj2<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//bllen</span></code></pre>
 <p>但是JS里没有堆栈的概念，只是通过堆栈的方式理解代码的执行方式</p>
 <h2 id="8-APIs介绍"><a href="#8-APIs介绍" class="headerlink" title="8.APIs介绍"></a>8.APIs介绍</h2><p>Web APIs我们主要学习的是DOM和BOM，进行页面交互</p>
 <p>API是预先定义的函数，提供给开发人员直接调用，无需访问源码工作细节</p>
@@ -1175,7 +1190,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">48.6k</span>&nbsp;字
+                class="white-color">55.4k</span>&nbsp;字
             
             
             

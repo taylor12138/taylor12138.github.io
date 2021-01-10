@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.4k
+                    1.8k
                 </div>
                 
 
@@ -517,27 +517,41 @@
 <p>4.体   html的内容</p>
 <h5 id="响应状态码"><a href="#响应状态码" class="headerlink" title="响应状态码"></a>响应状态码</h5><p>（一般2xx表示成功）</p>
 <p>200是ok，</p>
+<p>301永久重定向   第一次进入a.com，请求-&gt;b.com，以后每次进入a.com就不用请求直接去b.com</p>
+<p>302临时重定向（暂时性转移）  每一次都会进入a.com，然后请求-&gt;b.com</p>
 <p>404是找不到，</p>
 <p>403是服务器理解了请求但拒绝对其进行授权，被禁止</p>
 <p>401是未授权</p>
 <p>500内部错误</p>
-<h2 id="2-Express框架"><a href="#2-Express框架" class="headerlink" title="2.Express框架"></a>2.Express框架</h2><p>基于Node.js平台快速、开放、极简的Web开发框架</p>
-<p>安装：用VScode打开文件目录，然后在该目录下右键-&gt;在集成终端打开-&gt;输入命令 <code>npm init --yes</code>  进行初始化</p>
-<p>-&gt; <code>npm i express</code> 安装框架 -&gt;  在js中输入</p>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//1.引入express</span>
-<span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'express'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">//2.创建应用对象</span>
-<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">//3.创建路由规则 request是对请求报文的封装、response是对响应报文的封装</span>
-app<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">,</span><span class="token punctuation">(</span>request<span class="token punctuation">,</span> response<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-     <span class="token comment" spellcheck="true">//设置响应头 设置允许跨域</span>
-    response<span class="token punctuation">.</span><span class="token function">setHeader</span><span class="token punctuation">(</span><span class="token string">'Access-Control-Allow-Origin'</span><span class="token punctuation">,</span> <span class="token string">'*'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-     <span class="token comment" spellcheck="true">//设置响应体</span>
-    response<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">'hello, express'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">//4.监听窗口启动服务</span>
-app<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">8000</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=</span><span class="token operator">></span><span class="token punctuation">{</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"服务已启动，8000端口监听中"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<h2 id="2-Express框架"><a href="#2-Express框架" class="headerlink" title="2.Express框架"></a>2.Express框架</h2><p>基于Node.js平台快速、开放、极简的Web开发框架，高度封装了http模块</p>
+<p>安装：用VScode打开文件目录，然后在该目录下右键-&gt;在集成终端打开-&gt;输入命令 <code>npm init --yes</code>  进行初始化，创建一个package.json文件-&gt; <code>npm i express --save</code> 安装框架 -&gt;  在js中输入</p>
+<p><code>http.createServer()</code>  =&gt;  <code>express()</code>    创建服务器</p>
+<p> <code>if (url.parse(req.url, true).pathname === 路径){}</code> =&gt; <code>app.get(路径, fn)</code> 判断路径进行处理</p>
+<p><code>app.use(&#39;public&#39;, express.static(&#39;./public/&#39;));</code>    处理公开目录</p>
+<p>  <code>url.parse(req.url, true).query</code>=&gt; <code>req.query</code>  原来的get获取url <code>?</code> 后的参数的方法的改变</p>
+<p>模板对象：在Express中，模板引擎的使用有更好的方式res.render(‘文件名’, {模板对象})，可以自己尝试看art-template官方文档，让它们结合使用</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 引包</span>
+<span class="token keyword">var</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'express'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 创建服务器，相当于原来的http.createServer()</span>
+<span class="token keyword">var</span> app <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//当服务器收到get请求 '/' 的时候，执行回调函数</span>
+<span class="token comment" spellcheck="true">// 不用再设置http头部文件，并且不用设置charset=utf-8:防止中文乱码，它会根据你的语言更改language</span>
+<span class="token comment" spellcheck="true">//内置处理有不认识的路径时，自动发404</span>
+app<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">'Hello, world!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+app<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'/about'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 拿出get请求参数：在Express中可以直接通过req.query来获取查询字符串参数</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>req<span class="token punctuation">.</span>query<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">'你好！！!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// 公开指定目录（处理静态资源public那块）</span>
+<span class="token comment" spellcheck="true">// 之后你就可以通过public的方式访问public目录的所有资源了</span>
+<span class="token comment" spellcheck="true">// 替代了原来判断路径+读文件+end结束的过程</span>
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">'/notebook/'</span><span class="token punctuation">,</span> express<span class="token punctuation">.</span><span class="token keyword">static</span><span class="token punctuation">(</span><span class="token string">'./notebook/'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 相当于server.listen</span>
+app<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">5208</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'app is running at port!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <p>然后继续右键在集成终端打开-&gt;输入命令  <code>node 该js的文件名</code>  </p>
 <p>这里的 <code>app.get(&#39;/&#39;,(request, response)</code> 中的 / 是路径（当然可以写成<code>/路径名</code>  之类的），当客户端浏览器向服务器发送请求时，如果url的路径，也就是请求行的第二部分，它的路径对应该路径的话，就会执行这个回调函数里面的 代码，并且由response做出响应  </p>
@@ -812,44 +826,43 @@ app<span class="token punctuation">.</span><span class="token function">listen</
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/12/29/ajax/">
+                <a href="/2021/01/08/ji-wang-personal-note/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="Ajax">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="计网personal note">
                         
-                        <span class="card-title">Ajax</span>
+                        <span class="card-title">计网personal note</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.Ajax概述它最大的特点是可以在网页不刷新的情况下向服务端发送http请求，然后得到http响应
-它全称为 Asynchronous JavaScript And XML，就是异步的JS和XML，通过Ajax可以在浏览器中向服务器发送异
+                            1.计网概念是将一个分散的，具有独立功能的计算机系统，通过通信设备和线路连接起来，由功能完善的软件实现资源共享和信息传递
+计算机网络是互连的、自治的计算机集合
+功能数据通信（连通性）（通信子网：网络层、数据链路层、物理层）（是点到点的通信）
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-29
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-01-08
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                    前端
+                            <a href="/categories/personnel/" class="post-category">
+                                    personnel
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
             </div>
         </div>
@@ -1092,7 +1105,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">55.4k</span>&nbsp;字
+                class="white-color">58.4k</span>&nbsp;字
             
             
             

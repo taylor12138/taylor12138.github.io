@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.2k
+                    6.6k
                 </div>
                 
 
@@ -514,10 +514,11 @@ exports<span class="token punctuation">.</span>sayHi <span class="token operator
 <p><code>require</code>,如果直接使用模块名来引入，没有添加路径，它会首先在当前目录的node_modules中寻找是否含有该模块，没有则一直往上一级寻找<code>var math = require(&quot;math&quot;)</code></p>
 <p>（require加载规则：优先从缓存加载，即之前加载过的模块，不再加载）</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//b.js</span>
-<span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./a.js'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//b.js导入a.js, ./b.js是b.js的路径，路径模块必须加./</span>
+<span class="token comment" spellcheck="true">//b.js导入a.js, ./b.js是b.js的路径，路径模块必须加'./', 如果只加了'/'，就当作此盘根目录下路径，也就是绝对路径处理</span>
+<span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./a.js'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span>version<span class="token punctuation">)</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span><span class="token function">sayHi</span><span class="token punctuation">(</span><span class="token string">'xx'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//使用a.js的方法</span></code></pre>
-<p>模块导出的另一种方式(和expors差不多)：</p>
+<p>模块导出的另一种方式(和exports差不多)：</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//a.js</span>
 module<span class="token punctuation">.</span>exports<span class="token punctuation">.</span>version <span class="token operator">=</span> version<span class="token punctuation">;</span>
 module<span class="token punctuation">.</span>exports<span class="token punctuation">.</span>sayHi <span class="token operator">=</span> sayHi<span class="token punctuation">;</span></code></pre>
@@ -537,7 +538,8 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>文件模块   由用户自己定义</p>
 <p>第三方模块（可以通过npm下载，它的查找方式是先找到当前目录下node_modules/xx/package.json文件，查看其中main属性，记录了js文件的入口，当main没有指定，默认执行node_modules/xx/目录下的index.js）（模块查找机制：如果以上任何条件不成立，则会进入上一级目录中的node_modules）</p>
 <h4 id="global"><a href="#global" class="headerlink" title="global"></a>global</h4><p>nodejs的全局变量保存在global里面  <code>global.a</code></p>
-<h4 id="get"><a href="#get" class="headerlink" title="get"></a>get</h4><p>get注重url获得的参数，且只产生以一个数据包</p>
+<h4 id="get"><a href="#get" class="headerlink" title="get"></a>get</h4><p>在地址栏输入网址永远是get</p>
+<p>get注重url获得的参数，且只产生以一个数据包</p>
 <p>获得get请求的内容，它的内容实在url的<code>?</code> 之后的部分</p>
 <p>​    -url 是nodeJs的url模块</p>
 <p>​    -url.parse 解析url请求  (<code>url.parse(req.url, true)</code> 对 url的信息进行解析，得到一个对象，使用true的话，能把里面的重要属性query（查询字符串），也转换成对象)</p>
@@ -557,7 +559,8 @@ http<span class="token punctuation">.</span><span class="token function">createS
     res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">5208</span><span class="token punctuation">)</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"5208服务器已经启动。。。。"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h4 id="post"><a href="#post" class="headerlink" title="post"></a>post</h4><p>post的信息放在Request body中，且产生两个数据包（firefox浏览器除外）</p>
+<h4 id="post"><a href="#post" class="headerlink" title="post"></a>post</h4><p>post请求，要么是表单post请求，要么是api的post请求，只要记得一般情况下，私密数据传输用POST + body就好。</p>
+<p>post的信息放在Request body中，且产生两个数据包（firefox浏览器除外）</p>
 <p><code>querystring</code> 模块从字面上意思就是查询字符串，一般是对http请求所带的数据进行解析</p>
 <p><code>querystring.parse(str[, sep[, eq[, options]]])</code>   将一个字符串反序列化为对象</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> http <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'http'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -600,8 +603,22 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>​    -lib js代码</p>
 <p>​    -doc 文档</p>
 <p>​    -test 单元测试</p>
-<p>包描述文件（上面的那个-package.json 描述文件）：描述包的相关信息，以供外部读取分析。它用于表达非代码相关信息，是一个json格式的文件</p>
-<p>并且建议每个项目里带一个package.json文件<code>npm init</code> </p>
+<p>包描述文件（上面的那个-package.json 描述文件）：描述包的相关信息，以供外部读取分析。它用于表达非代码相关信息，是一个json格式的文件，实际上加载包时使用的原则是：node_modules/express/package.json  main, 而且它其中保存着十分重要的第三方包依赖项信息（dependencies）</p>
+<p>并且建议每个项目里带一个（有且只有一个）package.json文件<code>npm init</code> </p>
+<h4 id="package-json和package-lock-json"><a href="#package-json和package-lock-json" class="headerlink" title="package.json和package-lock.json"></a>package.json和package-lock.json</h4><p>npm 5以前是不会有<code>package-lock.json</code>这个文件的</p>
+<p>npm 5 以后才加入</p>
+<p>从安装上看，npm都会生成或更新<code>package-lock.json</code>这个文件</p>
+<ul>
+<li>npm 5 版本以后的安装包，不用加–save添加依赖，它会自动保存依赖</li>
+<li>它会自动创建或者更新<code>package-lock.json</code></li>
+<li><code>package-lock.json</code>里面保存的是node_modules所有包的依赖，包括依赖的包里<code>package.json</code>所依赖的包名（套娃）</li>
+<li>因此重新<code>npm install</code>时速度会有所提升</li>
+</ul>
+<p>从文件上看</p>
+<ul>
+<li>lock是用来锁定版本的，如果当前项目依赖了1.1版本，但是重新<code>npm install</code> 其实会给你下载最新版本，而不是1.1</li>
+<li>而<code>package-lock.json</code>的另一个作用就是锁定版本号，防止自动升级最新版</li>
+</ul>
 <h4 id="NPM"><a href="#NPM" class="headerlink" title="NPM"></a>NPM</h4><p>（Node Package Manager）</p>
 <p>CommonJS包规范时理论，NPM是其中一种实践，Node包管理器</p>
 <p>对于Node而言，NPM帮助其完成第三方模块的发布，安装和依赖（A-&gt;B-&gt;C，下载C直接A, B也下），借助NPM，Node与第三方模块之间形成良好的一个生态系统（安装了node以后，自带安装npm）</p>
@@ -903,6 +920,7 @@ fs<span class="token punctuation">.</span><span class="token function">createRea
     <span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>fs<span class="token punctuation">.</span><span class="token function">createWriteStream</span><span class="token punctuation">(</span><span class="token string">'copy2.jpg'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"解压缩完毕！！！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h2 id="9-模板引擎"><a href="#9-模板引擎" class="headerlink" title="9.模板引擎"></a>9.模板引擎</h2><p>最早诞生于服务器领域，后来发展到前端</p>
+<p>官方文档：<a href="https://aui.github.io/art-template/" target="_blank" rel="noopener">https://aui.github.io/art-template/</a></p>
 <h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p><code>npm install art-template</code></p>
 <h4 id="浏览器应用"><a href="#浏览器应用" class="headerlink" title="浏览器应用"></a>浏览器应用</h4><p>引入 <code>&lt;script src=&quot;./node_modules/art-template/lib/template-web.js&quot;&gt;&lt;/script&gt;</code></p>
 <p>类型改为 <code>type = &quot;text/template&quot;</code></p>
@@ -941,6 +959,11 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>进程为我们程序的运行提供一个必备的环境（<strong>进程是资源分配的最小单位</strong>）</p>
 <p>线程是计算机中最小的计算单位，线程负责执行保存到进程中的程序（<strong>线程是CPU调度的最小单位</strong>）</p>
 <p>JS、浏览器、nodejs是单线程</p>
+<h4 id="修改完自动重启服务器"><a href="#修改完自动重启服务器" class="headerlink" title="修改完自动重启服务器"></a>修改完自动重启服务器</h4><p>我们这里可以使用一个第三方工具：<code>nodemon</code>来帮我们解决修改代码重启服务器问题</p>
+<pre class=" language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true">#--global 来安装则可以在任意目录执行</span>
+npm install <span class="token operator">--</span>global nodemon</code></pre>
+<p>原来我们在命令行输入：<code>node xxx.js</code></p>
+<p>现在：<code>nodemon xxx.js</code>， 他会监视你的文件变化，当文件变化时，会自动帮你重启服务器</p>
 
             </div>
             <hr/>
@@ -1448,7 +1471,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">58.4k</span>&nbsp;字
+                class="white-color">73.8k</span>&nbsp;字
             
             
             

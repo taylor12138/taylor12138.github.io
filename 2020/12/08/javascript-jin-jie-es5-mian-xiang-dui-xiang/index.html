@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.3k
+                    6.4k
                 </div>
                 
 
@@ -865,6 +865,18 @@ o<span class="token punctuation">.</span><span class="token function">say</span>
         <span class="token punctuation">}</span>
     <span class="token punctuation">}</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
+<p>回调函数：获取异步操作的<strong>结果</strong></p>
+<p>一般情况下，把函数作为参数的目的就是为了获取函数内部的异步操作的结果</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//如果需要获取一个函数中异步操作的结果，则必须通过回调函数来获取</span>
+<span class="token keyword">function</span> <span class="token function">fn</span><span class="token punctuation">(</span>callback<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">var</span> data <span class="token operator">=</span> <span class="token string">'hello'</span><span class="token punctuation">;</span>
+        <span class="token function">callback</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token function">fn</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <h2 id="11-递归"><a href="#11-递归" class="headerlink" title="11.递归"></a>11.递归</h2><p>如果一个函数在内部可以调用其本身，则这个函数是递归（俄罗斯套娃）</p>
 <p>但是容易发生“栈溢出”错误，所以必须加退出条件“return”</p>
 <h4 id="浅拷贝和深拷贝"><a href="#浅拷贝和深拷贝" class="headerlink" title="浅拷贝和深拷贝"></a>浅拷贝和深拷贝</h4><p>（jQuery篇目有提及到（<code>$.extend([deep], target, object1, [objectN])</code>））</p>
@@ -1483,7 +1495,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">58.4k</span>&nbsp;字
+                class="white-color">73.8k</span>&nbsp;字
             
             
             

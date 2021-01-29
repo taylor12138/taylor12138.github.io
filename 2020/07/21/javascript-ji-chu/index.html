@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.9k
+                    3.1k
                 </div>
                 
 
@@ -515,7 +515,7 @@ prompt(info) //弹出输入框，提供用户输入 但是都是以字符的形�
 <h4 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h4><p>18==‘18’  成立true，默认转换数据类型   ===为全等需要完全一致， 18===‘18’为false</p>
 <p>逻辑与短路运算：123&amp;&amp;456，返回456，左式为真返回右式子，为假返回左式</p>
 <p>逻辑或短路运算：123||456，返回123，左式为真返回左式子，为假返回右式</p>
-<p>三元表达式：条件表达式？表达式1：表达式2，条件为真返回表达式1，为假返回表达式2</p>
+<p>三元表达式：   <code>条件表达式？表达式1：表达式2</code>，条件为真返回表达式1，为假返回表达式2</p>
 <h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><p>数组名.length为数组的长度</p>
 <p><strong>数组增加元素</strong> （1）直接设定数组长度arr.length=xx,多出来的变成空</p>
 <p>（2）arr数组有三个元素，直接arr[3]=xx，进行新增元素</p>
@@ -611,6 +611,8 @@ date<span class="token punctuation">.</span><span class="token function">getTime
 Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//H5新增</span></code></pre>
 <h4 id="（3）数组对象"><a href="#（3）数组对象" class="headerlink" title="（3）数组对象"></a>（3）数组对象</h4><p>数组的每个槽位可以储存任意类型数据</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">var</span> arr1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Array</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//相当于[2,3]的数组</span>
+<span class="token keyword">var</span> arr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Array</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//创造一个数组长度为5的数组，但是此方法会自动往里面填undefined值，让数组最起码有值了！</span>
+<span class="token keyword">var</span> arr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Array</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//也可以填写你想要的值，比如0</span>
 arr1 <span class="token keyword">instanceof</span> <span class="token class-name">Array</span> <span class="token comment" spellcheck="true">//检验是否为数组，是返回true，否则false</span>
 Array<span class="token punctuation">.</span><span class="token function">isArray</span><span class="token punctuation">(</span>arr1<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//同上,H5新增,但这个效果好，防止多个不同版本的Array构造函数</span>
 arr1<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>xx<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//    在数组末尾增加数组元素，push完毕之后，返回结果是新数组的长度,push实际上可以接收多个参数一次增加</span>
@@ -684,6 +686,10 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>（1）下载并解压包后，把其中的swiper.min.js和swiper.min.css放入网页文件夹的js和css中</p>
 <p>（2）官网找到类似的案例，复制html，css和js（进入官网swiper演示中，然后新窗口打开，查看网页源代码）</p>
 <p>（3）根据需求修改模块</p>
+<h2 id="10-其他"><a href="#10-其他" class="headerlink" title="10.其他"></a>10.其他</h2><p>JavaScript天生不支持模块化，node.js中才有</p>
+<p>但是在浏览器中也可以像在node.js中模块进行编程，如果 <code>&lt;scirpt&gt;</code>标签进行引用加载，还得考虑加载顺序问题，这时需要第三方库：    require.js（AMD）或sea.js（CMD）</p>
+<p>为了上述方法都是民间自主创造出来的，为了解决模块化问题，官方自己发布了ES6标准，其中包含了官方对JavaScript模块化的支持，虽然标准已经发布，但是JavaScript运行环境还不支持</p>
+<p>目前很多前端都是使用很多新技术，然后利用编译器工具打包，可以在低版本浏览器中运行，类似于less =&gt; css</p>
 
             </div>
             <hr/>
@@ -916,24 +922,21 @@ console<span class="token punctuation">.</span><span class="token function">log<
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/08/06/shu-xue-jian-mo-guo-sai-matlab-zhi-shi-dian/">
+                <a href="/2020/08/06/mo-ni-tui-huo-suan-fa/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="数学建模国赛matlab知识点">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="模拟退火算法">
                         
-                        <span class="card-title">数学建模国赛matlab知识点</span>
+                        <span class="card-title">模拟退火算法</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.基础命令行太长，可加上三个小数点：“…”   进行分割（续行符），如
-s=1-1/2+1/3-1/4...
-+1/5-1/6+1/7数值数据默认双精度double
-clear命令，清除工作区的所有变量
-class(变量)得到变量类型
-复
+                            1.模拟退火算法可能的情况很多，数据量太大，用模拟退火搜索出需要的解（求最值）（最大值问题可以添加负号转换成求最小值问题）
+启发式搜索：利用搜索过程中获取的信息改进搜索策略。启发式搜索有利于找到问题最优解，且有助于加速求解过程。
+模拟退火可
                         
                     </div>
                     <div class="publish-info">
@@ -1193,7 +1196,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">58.4k</span>&nbsp;字
+                class="white-color">73.8k</span>&nbsp;字
             
             
             

@@ -578,7 +578,11 @@ obj<span class="token punctuation">.</span>say<span class="token operator">=</sp
 <h4 id="遍历对象"><a href="#遍历对象" class="headerlink" title="遍历对象"></a>遍历对象</h4><pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> k <span class="token keyword">in</span> obj<span class="token punctuation">)</span><span class="token punctuation">{</span> <span class="token comment" spellcheck="true">//obj为对象</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//k输出的是属性名</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>obj<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//得到的是属性值</span>
-<span class="token punctuation">}</span>  <span class="token comment" spellcheck="true">//我们使用for in 喜欢var k或者key</span></code></pre>
+<span class="token punctuation">}</span>  <span class="token comment" spellcheck="true">//我们使用for in 喜欢var k或者key</span>
+<span class="token comment" spellcheck="true">//或者使用</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> item <span class="token keyword">of</span> obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>book<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//每个属性的属性值</span>
+<span class="token punctuation">}</span></code></pre>
 <h2 id="5-内置对象"><a href="#5-内置对象" class="headerlink" title="5.内置对象"></a>5.内置对象</h2><p>JavaScript中对象分为自定义对象，内置对象，浏览器对象，前两种属于ECMAScript；第三个浏览器对象是js特有的</p>
 <p>Javascript提供了多个和内置对象：Math、Date、Array、String</p>
 <p>可以通过MDN/W3C来查询内置对象的使用</p>
@@ -627,7 +631,8 @@ arr1<span class="token punctuation">.</span><span class="token function">indexOf
 arr1<span class="token punctuation">.</span><span class="token function">lastindexOf</span><span class="token punctuation">(</span>xx<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//同上，只返回倒数第一个满足条件的索引号</span>
 arr1<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//转换成字符串，逗号分隔</span>
 arr1<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">'你想要的分隔符'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//用指定分隔符分割不同的数组元素，并转换成字符串</span>
-array<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span>开始的指针下标<span class="token punctuation">,</span>删除的个数<span class="token punctuation">[</span><span class="token punctuation">,</span> item1<span class="token punctuation">[</span><span class="token punctuation">,</span> item2<span class="token punctuation">[</span><span class="token punctuation">,</span> <span class="token operator">...</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//用于删除多组元素并且天地添加新元素</span></code></pre>
+array<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span>开始的指针下标<span class="token punctuation">,</span>删除的个数<span class="token punctuation">[</span><span class="token punctuation">,</span> item1<span class="token punctuation">[</span><span class="token punctuation">,</span> item2<span class="token punctuation">[</span><span class="token punctuation">,</span> <span class="token operator">...</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//用于删除多组元素并且添加新元素</span>
+arr<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token string">"William"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//从index序号为2地开始，删除掉一个，并添加william元素</span></code></pre>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">//案例，数组去重</span>
 <span class="token comment" spellcheck="true">//利用indexoOf，返回-1则添加入新数组</span>
 <span class="token keyword">function</span> <span class="token function">unique</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -654,11 +659,7 @@ str<span class="token punctuation">.</span><span class="token function">charCode
 str<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//同str.charAt，H5新增</span>
 str<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span>被替换的字符<span class="token punctuation">,</span>替换的字符<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//只替换掉里面第一个字符</span></code></pre>
 <p>判断一个对象是否有该属性 可使用对象[‘属性名’], 返回true则有，反则返回false</p>
-<p>遍历对象可使用</p>
-<pre><code>for (var k in o) {
-    //k得到属性名
-    //o[k]得到的是属性值
-}</code></pre><h4 id="截取字符串"><a href="#截取字符串" class="headerlink" title="截取字符串"></a>截取字符串</h4><pre class=" language-javascript"><code class="language-javascript"><span class="token function">substr</span><span class="token punctuation">(</span>start<span class="token punctuation">,</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//start位置开始，length取的个数，省略length则默认取到最后</span>
+<h4 id="截取字符串"><a href="#截取字符串" class="headerlink" title="截取字符串"></a>截取字符串</h4><pre class=" language-javascript"><code class="language-javascript"><span class="token function">substr</span><span class="token punctuation">(</span>start<span class="token punctuation">,</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//start位置开始，length取的个数，省略length则默认取到最后</span>
 <span class="token function">slice</span><span class="token punctuation">(</span>start<span class="token punctuation">,</span>end<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//start开始，截取到end，但是end截取不到</span></code></pre>
 <p>数组对象转字符用join()，字符转数组用split</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">'red, pink, blue'</span><span class="token punctuation">;</span>
@@ -922,21 +923,24 @@ console<span class="token punctuation">.</span><span class="token function">log<
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/08/06/mo-ni-tui-huo-suan-fa/">
+                <a href="/2020/08/06/shu-xue-jian-mo-guo-sai-matlab-zhi-shi-dian/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="模拟退火算法">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="数学建模国赛matlab知识点">
                         
-                        <span class="card-title">模拟退火算法</span>
+                        <span class="card-title">数学建模国赛matlab知识点</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.模拟退火算法可能的情况很多，数据量太大，用模拟退火搜索出需要的解（求最值）（最大值问题可以添加负号转换成求最小值问题）
-启发式搜索：利用搜索过程中获取的信息改进搜索策略。启发式搜索有利于找到问题最优解，且有助于加速求解过程。
-模拟退火可
+                            1.基础命令行太长，可加上三个小数点：“…”   进行分割（续行符），如
+s=1-1/2+1/3-1/4...
++1/5-1/6+1/7数值数据默认双精度double
+clear命令，清除工作区的所有变量
+class(变量)得到变量类型
+复
                         
                     </div>
                     <div class="publish-info">
@@ -1196,7 +1200,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">73.8k</span>&nbsp;字
+                class="white-color">86.1k</span>&nbsp;字
             
             
             

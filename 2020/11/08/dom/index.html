@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.3k
+                    4.4k
                 </div>
                 
 
@@ -738,7 +738,7 @@ btn<span class="token punctuation">.</span><span class="token function">addEvent
 <p>1.捕获阶段（从大往小传播，从最顶层开始，然后逐级向下传播到具体元素接收的过程） </p>
 <p> 2.当前目标阶段  </p>
 <p>3.冒泡阶段（从小到大，从里到外的传播，由最具体的元素接收，然后逐级向上传播到DOM最顶层节点的过程）</p>
-<p>注意：JS代码只能执行捕获或者冒泡其中一个阶段；  传统注册时间方式（onclick、attachEvent）只能得到冒泡阶段，而<code>eventTarget.addEventListener(type, listerner[, useCapture])</code>第三个参数如果是true，则在事件捕获阶段调用程序，如果是false（默认），则在冒泡阶段调用事件</p>
+<p>注意：JS代码只能执行捕获或者冒泡其中一个阶段；  传统注册事件方式（onclick、attachEvent）只能得到冒泡阶段，而<code>eventTarget.addEventListener(type, listerner[, useCapture])</code>第三个参数如果是true，则在事件捕获阶段调用程序，如果是false（默认），则在冒泡阶段调用事件</p>
 <p>如下代码，son包含于father内，使用捕获阶段（true），则点击son后先执行father再执行son，冒泡阶段则相反</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>father<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>son<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>son盒子<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
@@ -828,20 +828,21 @@ document<span class="token punctuation">.</span><span class="token function">add
 <p><code>e.keyCode</code>    返回该键ASCII码值</p>
 <p>注意（）：keydown 和 keypress 在文本框（input）比较特殊，当它们两个事件触发的时候，文字还没落入文本框中</p>
 <p>而keyup事件触发的时候，文字已经落入文本框，</p>
-<h3 id="8-input事件"><a href="#8-input事件" class="headerlink" title="8.input事件"></a>8.input事件</h3><p><code>onchange</code> 事件会在域的内容改变时发生。</p>
-<p><code>onchange</code> 事件也可用于单选框与复选框改变后触发的事件。</p>
+<h3 id="8-input事件"><a href="#8-input事件" class="headerlink" title="8.input事件"></a>8.input事件</h3><p><code>onchange</code> 当input失去焦点并且它的value值发生变化时触发，它也可用于单选框与复选框改变后触发的事件。</p>
 <p>比如复选框发生改变（单击鼠标切换“打勾”/“不打勾”状态）</p>
+<p><code>oninput</code>  当input的value值发生变化时就会触发，（与onchange的区别是不用等到失去焦点就可以触发了）</p>
+<p>此时通过 <code>event.target.value;</code>事件对象中的target的value可以获取input输入的值</p>
 <p><code>onfocus</code>   获得焦点事件</p>
 <p><code>onblur</code>  失去焦点事件</p>
 <p><code>input.select()</code>      让文本框里的文字处于选定状态</p>
 <pre class=" language-js"><code class="language-js">remember<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'change'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token comment" spellcheck="true">// 勾选上</span>
-            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>checked<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'username'</span><span class="token punctuation">,</span> username<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-                localStorage<span class="token punctuation">.</span><span class="token function">removeItem</span><span class="token punctuation">(</span><span class="token string">'username'</span><span class="token punctuation">)</span>
-            <span class="token punctuation">}</span>
-        <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+    <span class="token comment" spellcheck="true">// 勾选上</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>checked<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'username'</span><span class="token punctuation">,</span> username<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        localStorage<span class="token punctuation">.</span><span class="token function">removeItem</span><span class="token punctuation">(</span><span class="token string">'username'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 
             </div>
             <hr/>
@@ -1347,7 +1348,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">73.8k</span>&nbsp;字
+                class="white-color">86.1k</span>&nbsp;字
             
             
             

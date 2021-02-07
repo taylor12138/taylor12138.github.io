@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.6k
+                    7.2k
                 </div>
                 
 
@@ -502,8 +502,8 @@
 <h4 id="commonJS的提出"><a href="#commonJS的提出" class="headerlink" title="commonJS的提出"></a>commonJS的提出</h4><p>为了弥补JavaScript没有标准的缺陷，希望JS’能在任何和地方运行，CommonJS对模块的定义十分简单</p>
 <h4 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h4><p>node.js规定一个JavaScript文件就是一个模块，模块内部定义的变量和函数默认情况下在外部无法得到（除了console.log的输出内容），因为在node的定义中，每个js文件的js代码都是独立运行在一个函数中，而不是全局作用域。</p>
 <p>当node执行模块中代码，它首先在代码顶部添加：</p>
-<p><code>function(exports, require, module, _filename, _dirname){}</code>  将代码包含进去</p>
-<p>模块内部使用exports 对象进行成员导出，使用require方法导入其他模块（注意ES6使用require而是使用import）</p>
+<p><code>function(exports, require, module, __filename, __dirname){}</code>  将代码包含进去</p>
+<p>模块内部使用exports 对象进行成员导出，使用require方法导入其他模块（注意ES6不使用require而是使用import）</p>
 <p><code>exports</code></p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//a.js</span>
 <span class="token keyword">let</span> version <span class="token operator">=</span> <span class="token number">1.0</span><span class="token punctuation">;</span>
@@ -513,6 +513,7 @@ exports<span class="token punctuation">.</span>version <span class="token operat
 exports<span class="token punctuation">.</span>sayHi <span class="token operator">=</span> sayHi<span class="token punctuation">;</span></code></pre>
 <p><code>require</code>,如果直接使用模块名来引入，没有添加路径，它会首先在当前目录的node_modules中寻找是否含有该模块，没有则一直往上一级寻找<code>var math = require(&quot;math&quot;)</code></p>
 <p>（require加载规则：优先从缓存加载，即之前加载过的模块，不再加载）</p>
+<p>模块中的路径标识是相对于当前文件模块，不受到node命令所处路径影响，想查看路径影响可跳转阅读 <code>10. Path</code></p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//b.js</span>
 <span class="token comment" spellcheck="true">//b.js导入a.js, ./b.js是b.js的路径，路径模块必须加'./', 如果只加了'/'，就当作此盘根目录下路径，也就是绝对路径处理</span>
 <span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./a.js'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   
@@ -531,8 +532,8 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>用<code>module.exports</code>来改动的话，是改对象，更改对象里的值</p>
 <p>用<code>exports</code>以对象方式来改动的话，是改变量，更改了地址</p>
 <p><strong>最后return的是</strong> <code>module.exports</code> ，所以给<code>exports</code>重新赋值不管用</p>
-<p><code>_filename</code> 当前模块的完整路径</p>
-<p><code>_dirname</code> 当前模块所在文件夹完整路径</p>
+<p><code>__filename</code> 当前模块的完整路径</p>
+<p><code>__dirname</code> 当前模块所在文件夹完整路径（所属目录的绝对路径）</p>
 <p><strong>注意</strong>：如果a加载了b ，b又加载了a，（即a require b，b require a）说明思路有问题</p>
 <h4 id="模块分类"><a href="#模块分类" class="headerlink" title="模块分类"></a>模块分类</h4><p>核心模块   由node引擎提供   核心模块的标识就是模块的名字（如node提供的文件模块fs）</p>
 <p>文件模块   由用户自己定义</p>
@@ -605,6 +606,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>​    -test 单元测试</p>
 <p>包描述文件（上面的那个-package.json 描述文件）：描述包的相关信息，以供外部读取分析。它用于表达非代码相关信息，是一个json格式的文件，实际上加载包时使用的原则是：node_modules/express/package.json  main, 而且它其中保存着十分重要的第三方包依赖项信息（dependencies）</p>
 <p>并且建议每个项目里带一个（有且只有一个）package.json文件<code>npm init</code> </p>
+<p><code>npm init -y</code>  里面的-y就是yes的意思，在init的时候省去了敲回车的步骤，生成的默认的package.json</p>
 <h4 id="package-json和package-lock-json"><a href="#package-json和package-lock-json" class="headerlink" title="package.json和package-lock.json"></a>package.json和package-lock.json</h4><p>npm 5以前是不会有<code>package-lock.json</code>这个文件的</p>
 <p>npm 5 以后才加入</p>
 <p>从安装上看，npm都会生成或更新<code>package-lock.json</code>这个文件</p>
@@ -924,23 +926,29 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p><code>npm install art-template</code></p>
 <h4 id="浏览器应用"><a href="#浏览器应用" class="headerlink" title="浏览器应用"></a>浏览器应用</h4><p>引入 <code>&lt;script src=&quot;./node_modules/art-template/lib/template-web.js&quot;&gt;&lt;/script&gt;</code></p>
 <p>类型改为 <code>type = &quot;text/template&quot;</code></p>
-<p>模板引擎不关心字符串内容，只关心自己能认识的模板标记语法，例如 </p>
-<pre><code>{{ 变量名 }}</code></pre><pre><code>{{ each 遍历数组 }}
+<p>模板引擎不关心字符串内容，只关心自己能认识的模板标记语法，例如(包含if语句判断) </p>
+<pre><code>{{ 变量名 }}
+
+{{ if user }}  
+{{ else }}
+{{ /if }}</code></pre><pre><code>{{ each 遍历数组 }}
+&lt;li&gt;{{ $index + 1 }}&lt;/li&gt;
 &lt;li&gt;{{ $value }}&lt;/li&gt;
-{{/each}}</code></pre><p>改语法被称之为mustache语法，八字胡</p>
+{{/each}}</code></pre><p>该语法被称之为mustache语法，八字胡</p>
 <p><code>template(&#39;script 标签 id&#39;, {对象})</code></p>
 <pre class=" language-js"><code class="language-js"> <span class="token operator">&lt;</span>script src<span class="token operator">=</span><span class="token string">"./node_modules/art-template/lib/template-web.js"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
-    <span class="token operator">&lt;</span>script type<span class="token operator">=</span><span class="token string">"text/template"</span> id<span class="token operator">=</span><span class="token string">"tql"</span><span class="token operator">></span>
-        hello<span class="token punctuation">{</span><span class="token punctuation">{</span> name <span class="token punctuation">}</span><span class="token punctuation">}</span>
-        今年 <span class="token punctuation">{</span><span class="token punctuation">{</span> age <span class="token punctuation">}</span><span class="token punctuation">}</span> 岁了        
-    <span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
-    <span class="token operator">&lt;</span>script<span class="token operator">></span>
-        <span class="token keyword">var</span> ret <span class="token operator">=</span> <span class="token function">template</span><span class="token punctuation">(</span><span class="token string">'tql'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
-            name<span class="token punctuation">:</span> <span class="token string">'jack'</span><span class="token punctuation">,</span>
-            age<span class="token punctuation">:</span> <span class="token number">18</span>
-        <span class="token punctuation">}</span><span class="token punctuation">)</span>
-        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>ret<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span></code></pre>
+<span class="token operator">&lt;</span>script type<span class="token operator">=</span><span class="token string">"text/template"</span> id<span class="token operator">=</span><span class="token string">"tql"</span><span class="token operator">></span>
+    hello<span class="token punctuation">{</span><span class="token punctuation">{</span> name <span class="token punctuation">}</span><span class="token punctuation">}</span>
+    今年 <span class="token punctuation">{</span><span class="token punctuation">{</span> age <span class="token punctuation">}</span><span class="token punctuation">}</span> 岁了        
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
+<span class="token operator">&lt;</span>script<span class="token operator">></span>
+    <span class="token keyword">var</span> ret <span class="token operator">=</span> <span class="token function">template</span><span class="token punctuation">(</span><span class="token string">'tql'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+        name<span class="token punctuation">:</span> <span class="token string">'jack'</span><span class="token punctuation">,</span>
+        age<span class="token punctuation">:</span> <span class="token number">18</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>ret<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'#表单id号'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> ret<span class="token punctuation">;</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span></code></pre>
 <h4 id="nodejs应用"><a href="#nodejs应用" class="headerlink" title="nodejs应用"></a>nodejs应用</h4><p>核心方法</p>
 <p>引入： <code>var template = require(&#39;art-template&#39;);</code></p>
 <p>基于模板名渲染模板<br><code>template(filename, data);</code></p>
@@ -956,6 +964,27 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>服务端渲染更快，但是会增大服务端的压力（右键查看网页源代码可以看得到具体内容就是服务端渲染），可以被爬虫抓取到</p>
 <p>客户端渲染有利于用户体验，但是不利于SEO搜索引擎优化</p>
 <p>很多网站是结合两者进行渲染的</p>
+<h2 id="10-Path"><a href="#10-Path" class="headerlink" title="10.Path"></a>10.Path</h2><p>Path是一个核心模块 <code>var path = require(&#39;path&#39;)</code></p>
+<p><code>path.basename(path[,ext])</code> 获取给定路径当中文件名部分，第二个参数可以用来去除指定的后缀名</p>
+<pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">basename</span><span class="token punctuation">(</span><span class="token string">'c:/a/b/c/index.js'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>          <span class="token comment" spellcheck="true">//index.js</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">basename</span><span class="token punctuation">(</span><span class="token string">'c:/a/b/c/index.js'</span><span class="token punctuation">,</span> <span class="token string">'.js'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//index</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">basename</span><span class="token punctuation">(</span><span class="token string">'c:/a/b/c/index.js'</span><span class="token punctuation">,</span> <span class="token string">'.html'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//index.js</span></code></pre>
+<p><code>path.dirname(path)</code> 方法会返回 <code>path</code> 的目录名</p>
+<p><code>path.extname(path)</code> 返回 <code>path</code> 的扩展名</p>
+<pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">extname</span><span class="token punctuation">(</span><span class="token string">'c:/a/b/c/index.html'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>        <span class="token comment" spellcheck="true">//.html</span></code></pre>
+<p><code>path.isAbsolute(path)</code> 检测 <code>path</code> 是否为绝对路径。(‘./c/index.js’是相对路径， ‘/c/index.js’是绝对路径)</p>
+<p><code>path.join([...paths])</code>  方法会将所有给定的 <code>path</code> 片段连接到一起，生成规范化路径</p>
+<pre class=" language-js"><code class="language-js">path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">'/目录1'</span><span class="token punctuation">,</span> <span class="token string">'目录2'</span><span class="token punctuation">,</span> <span class="token string">'目录3/目录4'</span><span class="token punctuation">,</span> <span class="token string">'目录5'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//        \\目录1\\目录2\\目录3\\目录4\\目录5'</span></code></pre>
+<p>更多知识点可查看nodejs官方文档的Path部分</p>
+<p>在文件操作路径中，使用相对路径是不可靠的，因为相对路径设计就是相对于执行node 命令所处的路径，</p>
+<p>所以我们要利用好</p>
+<p> <code>__filename</code> 当前模块的完整路径</p>
+<p><code>__dirname</code> 当前模块所在文件夹完整路径（所属目录的绝对路径）</p>
+<p>配合Path进行操作（比如拼接路径过程中，防止手动拼接带来低级错误，可以使用<code>path.join</code>），把相对路劲变成绝对路径（注意是动态绝对路径）就好了</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//express框架公开指定目录</span>
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">'/node_modules/'</span><span class="token punctuation">,</span> express<span class="token punctuation">.</span><span class="token keyword">static</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'./node_modules/'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><strong>特殊</strong> ：模块中的路径标识（比如：<code>require(&#39;./a.js&#39;)</code>）是相对于当前文件模块，不受到node命令所处路径影响</p>
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>进程为我们程序的运行提供一个必备的环境（<strong>进程是资源分配的最小单位</strong>）</p>
 <p>线程是计算机中最小的计算单位，线程负责执行保存到进程中的程序（<strong>线程是CPU调度的最小单位</strong>）</p>
 <p>JS、浏览器、nodejs是单线程</p>
@@ -963,7 +992,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <pre class=" language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true">#--global 来安装则可以在任意目录执行</span>
 npm install <span class="token operator">--</span>global nodemon</code></pre>
 <p>原来我们在命令行输入：<code>node xxx.js</code></p>
-<p>现在：<code>nodemon xxx.js</code>， 他会监视你的文件变化，当文件变化时，会自动帮你重启服务器</p>
+<p>现在：<code>nodemon xxx.js</code>， 他会监视你的文件变化，当文件变化时，会自动帮你重启服务器        </p>
 
             </div>
             <hr/>
@@ -1209,10 +1238,9 @@ npm install <span class="token operator">--</span>global nodemon</code></pre>
                     <div class="summary block-with-text">
                         
                             1.ESMAScript6ES6其实是一个泛指，泛指ES2015后续的版本
-2.新增语法声明变量let 声明的变量
-1.只在所处块级有效（大括号中有效），可以防止循环变量变成全局变量
-2.不存在变量提升，只能先声明再使用
-3.暂时性死区（即
+2.新增语法声明变量ES5之前因为if、for都没有块级作用域的概念，所以很多时候都需要借助 function的作用域 解决应用外部变量的问题
+let 声明的变量
+
                         
                     </div>
                     <div class="publish-info">
@@ -1471,7 +1499,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">73.8k</span>&nbsp;字
+                class="white-color">86.1k</span>&nbsp;字
             
             
             

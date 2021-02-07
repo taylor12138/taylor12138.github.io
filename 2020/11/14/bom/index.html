@@ -490,14 +490,15 @@
 <p>BOM比DOM更大，它包含着DOM</p>
 <p>window对象是浏览器的顶级对象，它是JS浏览器的一个接口，是一个全局对象，定义在全局作用域的变量（var）、函数都会变成window对象的属性和方法（alert()、prompt() ），在调用的时候可以省略window</p>
 <h2 id="2-window对象常见事件"><a href="#2-window对象常见事件" class="headerlink" title="2.window对象常见事件"></a>2.window对象常见事件</h2><h4 id="（1）onload"><a href="#（1）onload" class="headerlink" title="（1）onload"></a>（1）onload</h4><p>本来我们的内嵌式<code>&lt;script&gt;&lt;/script&gt;</code>只能放在所有标签标签下方  而window.onload可以解决，它是窗口加载事件，当文档内容完全加载以后才会触发该事件（包括图像、脚本、CSS），就调用该函数</p>
-<pre><code>&lt;script&gt;
-        window.onload = function() {
-            var btn = document.querySelector(&#39;button&#39;);
-            btn.onclick = function() { 
-            }
-        }
-&lt;/script&gt;
-&lt;button&gt;&lt;/button&gt;</code></pre><p>但是window.onlaod传统注册方式只能写一次，如果写多个，只以最后一个onload为准，所以推荐</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script language-javascript">
+        window<span class="token punctuation">.</span>onload <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">var</span> btn <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'button'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            btn<span class="token punctuation">.</span>onclick <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span></code></pre>
+<p>但是window.onlaod传统注册方式只能写一次，如果写多个，只以最后一个onload为准，所以推荐</p>
 <pre class=" language-javascript"><code class="language-javascript">window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'load'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <p>所以一般情况下引入js文件，则该js文件都要添加 ↑  </p>
 <h5 id="pageshow事件"><a href="#pageshow事件" class="headerlink" title="pageshow事件"></a>pageshow事件</h5><p>下面三种情况会触发load事件：</p>
@@ -570,6 +571,7 @@
 <p><img src="/images/BOM/JSzhixing.jpg" alt=""></p>
 <p>有异步任务交给异步进程处理，异步任务执行完毕后推入任务队列</p>
 <p>当主线程执行完毕就来查询任务队列，取排在第一位的事件推入主线程处理，执行完再来取，不断循环，这个过程叫作<strong>事件循环</strong>   （实际上细分异步事件的优先级有宏任务和微任务，优先级：微任务&gt;宏任务）</p>
+<p>异步任务执行顺序不一定按照原来顺序，要取决于文件大小、操作系统调度机制等多方面原因</p>
 <h2 id="4-location对象"><a href="#4-location对象" class="headerlink" title="4.location对象"></a>4.location对象</h2><p>location是window对象提供给我们的一个属性，用于获取或设置窗体的URL，并且可以用于解析URL，返回的是一个对象</p>
 <p>URL：统一资源定位符是互联网上标准资源的地址，互联网上每个文件都有唯一的URL，它包含的信息支持文件的位置以及浏览器该如何使用它（URL也就是我们的网址）</p>
 <p>组成：  protocol://host[:port]/path/[?query]#fragment</p>
@@ -1102,7 +1104,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">73.8k</span>&nbsp;字
+                class="white-color">86.1k</span>&nbsp;字
             
             
             

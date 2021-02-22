@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.4k
+                    7.7k
                 </div>
                 
 
@@ -1080,7 +1080,7 @@ btn<span class="token punctuation">[</span><span class="token number">0</span><s
         <span class="token punctuation">}</span>
       <span class="token punctuation">}</span><span class="token punctuation">)</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
-<h2 id="5-AJAX的使用工具"><a href="#5-AJAX的使用工具" class="headerlink" title="5.AJAX的使用工具"></a>5.AJAX的使用工具</h2><h4 id="jQuery中的AJAX"><a href="#jQuery中的AJAX" class="headerlink" title="jQuery中的AJAX"></a>jQuery中的AJAX</h4><p>要去github下载包，或者用script加载工具的网址</p>
+<h2 id="5-AJAX的使用工具"><a href="#5-AJAX的使用工具" class="headerlink" title="5.AJAX的使用工具"></a>5.AJAX的使用工具</h2><h3 id="jQuery中的AJAX"><a href="#jQuery中的AJAX" class="headerlink" title="jQuery中的AJAX"></a>jQuery中的AJAX</h3><p>要去github下载包，或者用script加载工具的网址</p>
 <p>又或者在BootCDN网站上找到工具包网址，用script加载使用（相对于github网址更快速）</p>
 <p><strong>get和post</strong></p>
 <p><code>$.get(url, 参数, callback, type)</code></p>
@@ -1124,55 +1124,28 @@ btn<span class="token punctuation">[</span><span class="token number">0</span><s
          <span class="token comment" spellcheck="true">// }</span>
      <span class="token punctuation">}</span><span class="token punctuation">)</span>
  <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
-<h4 id="axios"><a href="#axios" class="headerlink" title="axios"></a>axios</h4><p>目前（2020）年最热门的ajax工具库，要去github下载包，或者用script加载工具的网址</p>
+<h3 id="Axios"><a href="#Axios" class="headerlink" title="Axios"></a>Axios</h3><p>目前（2020）年最热门的ajax工具库，要去github下载包，或者用script加载工具的网址</p>
 <p>又或者在BootCDN网站上找到工具包网址，用script加载使用（相对于github网址更快速）</p>
-<p>项目中使用axios居多</p>
-<p><strong>get&amp;post</strong></p>
-<p>get方法：<code>axios.get(url[, config])</code></p>
-<p>post方法：<code>axios.post(url[, data[, config]])</code></p>
-<pre class=" language-js"><code class="language-js">btn<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    axios<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'http://127.0.0.1:8000/axios'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">// url参数</span>
-        params<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-            ID<span class="token punctuation">:</span> <span class="token number">12345</span>
-        <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        <span class="token comment" spellcheck="true">// 请求头信息</span>
-        <span class="token comment" spellcheck="true">// headers: {</span>
-        <span class="token comment" spellcheck="true">//     name: 'Allen',</span>
-        <span class="token comment" spellcheck="true">//     age: 18</span>
-        <span class="token comment" spellcheck="true">// },</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>value <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">//这里没有使用回调函数，而是用then处理返回结果</span>
-        <span class="token comment" spellcheck="true">//value是一个对象，里面包含了响应的各类信息</span>
-        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-btn<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    axios<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'http://127.0.0.1:8000/axios'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">// post第二个参数可以设置请求体</span>
-        username<span class="token punctuation">:</span> <span class="token string">'allen'</span><span class="token punctuation">,</span>
-        password<span class="token punctuation">:</span> <span class="token string">'allen'</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">//设置其他参数，如params、headers</span>
-        params<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-            ID<span class="token punctuation">:</span> <span class="token number">12345</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p> <strong>axios的通用方式来发送请求</strong></p>
-<p>和jQuery的方式都很像</p>
+<p>项目中使用axios居多、支持Promise</p>
+<p>axios常见配置</p>
+<ul>
+<li>url：请求地址</li>
+<li>method：请求方法</li>
+<li>baseURL：请求根路径</li>
+<li>transformRequest:[function(data){}]：请求前数据处理</li>
+<li>transformResponse:[function(data){}]：请求后数据处理</li>
+<li>headers:{‘x-Requested-With’:’XMLRequest’}：自定义请求头</li>
+<li>params：URL查询对象（一般用于get请求）</li>
+</ul>
+<h4 id="axios的通用方式"><a href="#axios的通用方式" class="headerlink" title="axios的通用方式"></a><strong>axios的通用方式</strong></h4><p>和jQuery的方式都很像</p>
 <pre class=" language-js"><code class="language-js">btn<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token function">axios</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">// 请求方法</span>
         method<span class="token punctuation">:</span> <span class="token string">'POST'</span><span class="token punctuation">,</span>
-        <span class="token comment" spellcheck="true">//url</span>
         url<span class="token punctuation">:</span> <span class="token string">'http://127.0.0.1:8000/axios'</span><span class="token punctuation">,</span>
-        <span class="token comment" spellcheck="true">//url参数</span>
         params<span class="token punctuation">:</span> <span class="token punctuation">{</span>
             id<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
             level<span class="token punctuation">:</span> <span class="token number">500</span>
         <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        <span class="token comment" spellcheck="true">//头信息</span>
         headers<span class="token punctuation">:</span> <span class="token punctuation">{</span>
             a<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
             b<span class="token punctuation">:</span> <span class="token number">200</span>
@@ -1187,7 +1160,46 @@ btn<span class="token punctuation">[</span><span class="token number">1</span><s
         console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
-<h4 id="利用fetch发送ajax请求"><a href="#利用fetch发送ajax请求" class="headerlink" title="利用fetch发送ajax请求"></a>利用fetch发送ajax请求</h4><p>fetch属于全局对象，可以直接去调用，不同下载什么包，返回的结果是一个promise对象</p>
+<h4 id="get-amp-post"><a href="#get-amp-post" class="headerlink" title="get&amp;post"></a><strong>get&amp;post</strong></h4><p>get方法：<code>axios.get(url[, config])</code></p>
+<p>如果不想把对应参数直接拼接到 url 的后面，则可以把对应参数放到<code>params</code></p>
+<pre class=" language-js"><code class="language-js">btn<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    axios<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'http://127.0.0.1:8000/axios'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// url参数</span>
+        params<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            ID<span class="token punctuation">:</span> <span class="token number">12345</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>value <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//这里没有使用回调函数，因为axios支持Promise，所以使用痛恨处理回调</span>
+        <span class="token comment" spellcheck="true">//value是一个对象，里面包含了响应的各类信息</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>post方法：<code>axios.post(url[, data[, config]])</code></p>
+<p>一般可以把对应参数放到<code>data</code>（即request.body）</p>
+<pre class=" language-js"><code class="language-js">btn<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    axios<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'http://127.0.0.1:8000/axios'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// post第二个参数可以设置请求体</span>
+        username<span class="token punctuation">:</span> <span class="token string">'allen'</span><span class="token punctuation">,</span>
+        password<span class="token punctuation">:</span> <span class="token string">'allen'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//设置其他参数，如headers等</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="axios-all"><a href="#axios-all" class="headerlink" title="axios.all"></a><strong>axios.all</strong></h4><p>我们在Promise中学习过处理<strong>相互依赖</strong>的并发网络请求解决方法（多个并发网络请求的响应全部到达后才去做相应处理）</p>
+<p>但是axios本身支持支持Promise语法，所以可以直接使用 <code>axios.all([axios(), axios().....]).then(result =&gt; {})</code></p>
+<pre class=" language-js"><code class="language-js">axios<span class="token punctuation">.</span><span class="token function">all</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+  <span class="token function">axios</span><span class="token punctuation">(</span><span class="token punctuation">{</span>url<span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token function">axios</span><span class="token punctuation">(</span><span class="token punctuation">{</span>url<span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>results <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// results是一个数组，它包含以上异步操作的结果</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>results<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> results<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<h4 id="全局配置"><a href="#全局配置" class="headerlink" title="全局配置"></a><strong>全局配置</strong></h4><p>事实上，在开发中很多参数都是固定的</p>
+<p>这时候我们可以进行一些抽取，也可以利用axios全局配置 <code>axios.defaults.配置</code></p>
+<pre class=" language-js"><code class="language-js">axios<span class="token punctuation">.</span>defaults<span class="token punctuation">.</span>baseURL <span class="token operator">=</span> <span class="token string">'http://123.207.32.32:8000'</span><span class="token punctuation">;</span>
+axios<span class="token punctuation">.</span>defaults<span class="token punctuation">.</span>timeout <span class="token operator">=</span> <span class="token number">5000</span><span class="token punctuation">;</span> </code></pre>
+<p>之后不用再次在axios中设置了（除非你想更改），已经有了默认值</p>
+<h4 id="axios实例和模块封装"><a href="#axios实例和模块封装" class="headerlink" title="axios实例和模块封装"></a>axios实例和模块封装</h4><h3 id="利用fetch发送ajax请求"><a href="#利用fetch发送ajax请求" class="headerlink" title="利用fetch发送ajax请求"></a>利用fetch发送ajax请求</h3><p>fetch属于全局对象，可以直接去调用，不同下载什么包，返回的结果是一个promise对象</p>
 <p><code>const fetchResponsePromise = fetch(resource [, init])</code></p>
 <p>resource：url，或者一个request对象</p>
 <p>init：可选的配置项</p>
@@ -1817,7 +1829,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">86.1k</span>&nbsp;字
+                class="white-color">95.7k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.2k
+                    7.3k
                 </div>
                 
 
@@ -491,7 +491,7 @@
 <p>2.一些公司要求前端人员掌握Node开发   </p>
 <p>3.生态系统活跃，有大量开源库</p>
 <p>4.现有前端开发工具大多居于node开发</p>
-<p>node是基于chrome V8引擎的JavaScript代码运行环境（浏览器也是JavaScript代码运行环境）</p>
+<p>node是基于chrome V8引擎的JavaScript代码运行环境（浏览器也是JavaScript代码运行环境），源代码-→抽象语法树-→字节码-→JIT-→本地代码(V8引擎没有中间字节码)</p>
 <p>在命令行工具中输入  <code>node -v</code>  即可查看nodejs是否安装成功</p>
 <h4 id="node-js的组成："><a href="#node-js的组成：" class="headerlink" title="node.js的组成："></a>node.js的组成：</h4><p>JavaScript由3部分组成，ECMAScript，DOM，BOM</p>
 <p>Node.js由ECMAScript及Node环境提供的一些附加API组成的，包括文件、网络、路径等一些更强大的API（没有DOM，BOM）</p>
@@ -622,13 +622,14 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <li>而<code>package-lock.json</code>的另一个作用就是锁定版本号，防止自动升级最新版</li>
 </ul>
 <h4 id="NPM"><a href="#NPM" class="headerlink" title="NPM"></a>NPM</h4><p>（Node Package Manager）</p>
-<p>CommonJS包规范时理论，NPM是其中一种实践，Node包管理器</p>
+<p>CommonJS包规范时理论，NPM是其中一种实践，是Node包管理器</p>
 <p>对于Node而言，NPM帮助其完成第三方模块的发布，安装和依赖（A-&gt;B-&gt;C，下载C直接A, B也下），借助NPM，Node与第三方模块之间形成良好的一个生态系统（安装了node以后，自带安装npm）</p>
 <p>在cmd命令行窗口：</p>
 <p><code>npm -v</code> 查看版本</p>
 <p><code>npm</code> 帮助说明</p>
 <p><code>npm search 包名</code> 搜索包</p>
 <p><code>npm install 包名</code> / <code>npm i 包名</code> 当前目录安装包（可以先创建一个文件夹）（尾部加<code>--save</code>，则添加到当前package.json的依赖里）</p>
+<p>如果尾部加 <code>--save-dev</code>则为开发时依赖</p>
 <p><code>npm install</code> 下载当前项目所依赖的包（根据package.json配置里的依赖下载）</p>
 <p><code>npm remove 包名</code> / <code>npm r 包名</code> 删除包</p>
 <p><code>npm install 包名 -g</code> 全局模式安装包（一般都是计算机里的工具）</p>
@@ -976,9 +977,10 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p><code>path.join([...paths])</code>  方法会将所有给定的 <code>path</code> 片段连接到一起，生成规范化路径</p>
 <pre class=" language-js"><code class="language-js">path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">'/目录1'</span><span class="token punctuation">,</span> <span class="token string">'目录2'</span><span class="token punctuation">,</span> <span class="token string">'目录3/目录4'</span><span class="token punctuation">,</span> <span class="token string">'目录5'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">//        \\目录1\\目录2\\目录3\\目录4\\目录5'</span></code></pre>
+<p><code>path.resolve([from...],to)</code> 把一个路径或路径片段的序列解析为一个绝对路径，有点像join，但是解析结果一定是绝对路径</p>
 <p>更多知识点可查看nodejs官方文档的Path部分</p>
 <p>在文件操作路径中，使用相对路径是不可靠的，因为相对路径设计就是相对于执行node 命令所处的路径，</p>
-<p>所以我们要利用好</p>
+<p>所以我们要利用好（以下在node中为全局变量，直接用）</p>
 <p> <code>__filename</code> 当前模块的完整路径</p>
 <p><code>__dirname</code> 当前模块所在文件夹完整路径（所属目录的绝对路径）</p>
 <p>配合Path进行操作（比如拼接路径过程中，防止手动拼接带来低级错误，可以使用<code>path.join</code>），把相对路劲变成绝对路径（注意是动态绝对路径）就好了</p>
@@ -1499,7 +1501,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">86.1k</span>&nbsp;字
+                class="white-color">95.7k</span>&nbsp;字
             
             
             

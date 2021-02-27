@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.7k
+                    8.2k
                 </div>
                 
 
@@ -1126,7 +1126,7 @@ btn<span class="token punctuation">[</span><span class="token number">0</span><s
  <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <h3 id="Axios"><a href="#Axios" class="headerlink" title="Axios"></a>Axios</h3><p>目前（2020）年最热门的ajax工具库，要去github下载包，或者用script加载工具的网址</p>
 <p>又或者在BootCDN网站上找到工具包网址，用script加载使用（相对于github网址更快速）</p>
-<p>项目中使用axios居多、支持Promise</p>
+<p>项目中使用axios居多、支持Promise（当成Promise对象来看待）</p>
 <p>axios常见配置</p>
 <ul>
 <li>url：请求地址</li>
@@ -1199,7 +1199,73 @@ btn<span class="token punctuation">[</span><span class="token number">0</span><s
 <pre class=" language-js"><code class="language-js">axios<span class="token punctuation">.</span>defaults<span class="token punctuation">.</span>baseURL <span class="token operator">=</span> <span class="token string">'http://123.207.32.32:8000'</span><span class="token punctuation">;</span>
 axios<span class="token punctuation">.</span>defaults<span class="token punctuation">.</span>timeout <span class="token operator">=</span> <span class="token number">5000</span><span class="token punctuation">;</span> </code></pre>
 <p>之后不用再次在axios中设置了（除非你想更改），已经有了默认值</p>
-<h4 id="axios实例和模块封装"><a href="#axios实例和模块封装" class="headerlink" title="axios实例和模块封装"></a>axios实例和模块封装</h4><h3 id="利用fetch发送ajax请求"><a href="#利用fetch发送ajax请求" class="headerlink" title="利用fetch发送ajax请求"></a>利用fetch发送ajax请求</h3><p>fetch属于全局对象，可以直接去调用，不同下载什么包，返回的结果是一个promise对象</p>
+<h4 id="axios实例和模块封装"><a href="#axios实例和模块封装" class="headerlink" title="axios实例和模块封装"></a>axios实例和模块封装</h4><p>有时我们需要从不同的服务器发送请求，则需要对应不同的ip地址，这时设置全局配置不太合适</p>
+<p>所以一般都是创建对应axios实例进行配置</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 创建实例</span>
+<span class="token keyword">const</span> instance <span class="token operator">=</span> axios<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// 在里面进行实例的基本配置</span>
+  baseURL<span class="token punctuation">:</span> <span class="token string">'http://123.207.32.32:8000'</span><span class="token punctuation">,</span>
+  timeout<span class="token punctuation">:</span> <span class="token number">5000</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">instance</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  url<span class="token punctuation">:</span><span class="token string">'/home/multidata'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>res <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p>而且在开发过程中，不推荐组件内直接引用第三方的 axios 进行依赖，如果有一天axios不再进行维护，改动时会十分麻烦</p>
+<p>所以我们可以对其进行模块封装：</p>
+<ul>
+<li>在src文件夹下，新建一个network文件夹，然后再该文件夹下新建一个 <code>request.js</code> 文件</li>
+<li>在里面撰写基于 axios 发送网络请求、不同实例的代码</li>
+</ul>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//request.js</span>
+<span class="token keyword">import</span> axios <span class="token keyword">from</span> <span class="token string">'axios'</span>
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">request</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 1.创建axios实例</span>
+    <span class="token keyword">const</span> instance <span class="token operator">=</span> axios<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        baseURL<span class="token punctuation">:</span> <span class="token string">'http://123.207.32.32:8000'</span><span class="token punctuation">,</span>
+        timeout<span class="token punctuation">:</span> <span class="token number">5000</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token function">instance</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//main.js</span>
+<span class="token comment" spellcheck="true">// 使用封装request模块</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> request <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./network/request'</span>
+<span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  url<span class="token punctuation">:</span> <span class="token string">'/home/multidata'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>res <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span>err <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<h4 id="axios拦截器"><a href="#axios拦截器" class="headerlink" title="axios拦截器"></a>axios拦截器</h4><p>axios提供了拦截器，用于我们在每次发送请求或者得到响应后，进行相应的处理</p>
+<p>拦截请求：<code>axios.interceptors.request.use(成功的回调, 失败的回调)</code></p>
+<p>拦截响应：<code>axios.interceptors.response.use(成功的回调, 失败的回调)</code></p>
+<p>下面以instance为实例，进行演示</p>
+<p>request拦截下来的config参数其实就是我们的网络请求的配置（但没有拦截下数据）</p>
+<p>response拦截下来的结果（包含数据）</p>
+<p>request拦截下来进行处理</p>
+<ul>
+<li>比如：config一些信息不符合服务器要求，添加headers之类的</li>
+<li>比如：每次发送网络请求，都希望在界面中显示一个请求的图标</li>
+<li>比如：某些网络请求（登录（token）），必须携带一些特殊的信息</li>
+</ul>
+<pre class=" language-js"><code class="language-js">instance<span class="token punctuation">.</span>interceptors<span class="token punctuation">.</span>request<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>config <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 拦截完后必须把配置给人还回去，不然网络请求会发送失败</span>
+    <span class="token keyword">return</span> config<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> err <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+instance<span class="token punctuation">.</span>interceptors<span class="token punctuation">.</span>response<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>res <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 拦截完后必须把配置给人还回去，不然网络请求无返回结果（undefined）</span>
+    <span class="token comment" spellcheck="true">//一般返回data就可以了(这个才比较有用)</span>
+    <span class="token keyword">return</span> res<span class="token punctuation">.</span>data<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> err <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<h3 id="利用fetch发送ajax请求"><a href="#利用fetch发送ajax请求" class="headerlink" title="利用fetch发送ajax请求"></a>利用fetch发送ajax请求</h3><p>fetch属于全局对象，可以直接去调用，不同下载什么包，返回的结果是一个promise对象</p>
 <p><code>const fetchResponsePromise = fetch(resource [, init])</code></p>
 <p>resource：url，或者一个request对象</p>
 <p>init：可选的配置项</p>
@@ -1829,7 +1895,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">95.7k</span>&nbsp;字
+                class="white-color">97.8k</span>&nbsp;字
             
             
             

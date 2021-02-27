@@ -539,8 +539,8 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>文件模块   由用户自己定义</p>
 <p>第三方模块（可以通过npm下载，它的查找方式是先找到当前目录下node_modules/xx/package.json文件，查看其中main属性，记录了js文件的入口，当main没有指定，默认执行node_modules/xx/目录下的index.js）（模块查找机制：如果以上任何条件不成立，则会进入上一级目录中的node_modules）</p>
 <h4 id="global"><a href="#global" class="headerlink" title="global"></a>global</h4><p>nodejs的全局变量保存在global里面  <code>global.a</code></p>
-<h4 id="get"><a href="#get" class="headerlink" title="get"></a>get</h4><p>在地址栏输入网址永远是get</p>
-<p>get注重url获得的参数，且只产生以一个数据包</p>
+<h4 id="get"><a href="#get" class="headerlink" title="get"></a>get</h4><p>在地址栏输入网址永远是get、get在回退时是无害的</p>
+<p>get注重url获得的参数，且只产生一个TCP数据包</p>
 <p>获得get请求的内容，它的内容实在url的<code>?</code> 之后的部分</p>
 <p>​    -url 是nodeJs的url模块</p>
 <p>​    -url.parse 解析url请求  (<code>url.parse(req.url, true)</code> 对 url的信息进行解析，得到一个对象，使用true的话，能把里面的重要属性query（查询字符串），也转换成对象)</p>
@@ -561,7 +561,8 @@ http<span class="token punctuation">.</span><span class="token function">createS
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">5208</span><span class="token punctuation">)</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"5208服务器已经启动。。。。"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h4 id="post"><a href="#post" class="headerlink" title="post"></a>post</h4><p>post请求，要么是表单post请求，要么是api的post请求，只要记得一般情况下，私密数据传输用POST + body就好。</p>
-<p>post的信息放在Request body中，且产生两个数据包（firefox浏览器除外）</p>
+<p>post的信息放在Request body中，且产生TCP两个数据包（firefox浏览器除外）</p>
+<p>post回退时会再次提交请求</p>
 <p><code>querystring</code> 模块从字面上意思就是查询字符串，一般是对http请求所带的数据进行解析</p>
 <p><code>querystring.parse(str[, sep[, eq[, options]]])</code>   将一个字符串反序列化为对象</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> http <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'http'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -1501,7 +1502,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">95.7k</span>&nbsp;字
+                class="white-color">97.8k</span>&nbsp;字
             
             
             

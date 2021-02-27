@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.4k
+                    3.5k
                 </div>
                 
 
@@ -664,6 +664,111 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>3.x.x  目前使用最多，但已经放弃了ie6，ie7，对ie8支持但是界面效果不好，偏向于开发响应式布局，移动设备优先的web项目</p>
 <p>4.x.x 最新版，但是目前不流行</p>
 <p>根据官网的介绍引入js和结构即可使用</p>
+<h2 id="5-移动端滚动"><a href="#5-移动端滚动" class="headerlink" title="5.移动端滚动"></a>5.移动端滚动</h2><p>默认的滚动原理，在移动端十分卡顿</p>
+<p>可以在github上安装 better-scroll 框架 让你的滚动更加丝滑</p>
+<p>原生 JS 实现局部滚动：给定盒子高度，使用 <code>overflow:scroll</code></p>
+<p>使用better-scroll :（老师用的版本1.13.2）</p>
+<p>安装</p>
+<pre class=" language-shell"><code class="language-shell">npm i better-scroll</code></pre>
+<h4 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h4><p>在滚动内容外面套上一个 div 标签， <code>class=&quot;wrapper&quot;</code></p>
+<p>在js里引入并且使用</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> BScroll <span class="token keyword">from</span> <span class="token string">'better-scroll'</span>
+<span class="token keyword">let</span> wrapper <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">".wrapper"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//滚动内容部分的元素</span>
+<span class="token keyword">let</span> scroll <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BScroll</span><span class="token punctuation">(</span>wrapper<span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>             <span class="token comment" spellcheck="true">//创建BScroll实例</span></code></pre>
+<p>如果在vue内使用，可以把创建<code>BScroll</code>对象放在 <code>mounted</code>生命周期钩子里</p>
+<p>html部分：</p>
+<p><strong>注意</strong>：wrapper子元素只能有一个，所以不能直接绑定在ul上 </p>
+<p><strong>注意</strong>：wrapper 在CSS里必须要有一个固定的高度</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>wrapper<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span><span class="token punctuation">></span></span>
+       <span class="token comment" spellcheck="true">&lt;!--许多的li --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
+<h4 id="事件监听"><a href="#事件监听" class="headerlink" title="事件监听"></a>事件监听</h4><p><code>BScroll</code>创建出来的实例可以使用 <code>on</code> 监听事件</p>
+<ul>
+<li><code>sroll</code>是滚动事件</li>
+<li><code>pullingUp</code>是上拉事件</li>
+</ul>
+<p>但是 *<em>默认 *</em>情况下</p>
+<ul>
+<li><p><code>BScroll</code>是不能实时监听滚动位置的，需要配置<code>probeType</code></p>
+</li>
+<li><p>better-scroll 管理的标签内部默认会阻止浏览器原生的click事件，需要配置<code>click</code></p>
+</li>
+<li><p>必须在实例对象里开启<code>pullUpLoad</code>才能使用<code>pullingUp</code>事件，<code>pullingUp</code>事件只会触发一次，想要在发送网络请求，将新数据展示完毕继续使用该功能的话，需要 <code>scroll.finishPullUp()</code></p>
+</li>
+</ul>
+<p><code>new BScroll(wrapper, {配置option})</code></p>
+<p>1.重要配置属性<code>probeType</code>,   probe：侦测,  默认值0（用scroll事件监听）</p>
+<ul>
+<li>0、1都表示不侦测</li>
+<li>1：非实时（屏幕滑动超过一定时间后）派发scroll 事件；</li>
+<li>2：手指滑动时侦测，惯性滑动不侦测</li>
+<li>3：只要滚动都进行侦测 </li>
+</ul>
+<p>2.click，默认值false</p>
+<ul>
+<li>better-scroll管理的标签内部默认会阻止浏览器原生的click事件</li>
+<li>当设置为true的时候，better-scroll会派发一个click事件</li>
+</ul>
+<p>3.pullUpLoad常用于上拉加载更多 默认值false </p>
+<ul>
+<li>用<code>pullingUp</code>进行事件监听，传入<code>boolean</code> / <code>Object</code> ，设置为true或object开启功能</li>
+</ul>
+<p>还有很多option配置，详情看官网</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> wrapper <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">".wrapper"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>scroll <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BScroll</span><span class="token punctuation">(</span>wrapper<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    probeType<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+    click<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    pullUpLoad<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//监听滚动事件</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>scroll<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">"scroll"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>position<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>position<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//回拉至x,y位置</span>
+<span class="token comment" spellcheck="true">//this.scroll.scrollTo(x, y[, time]);</span>
+<span class="token comment" spellcheck="true">//监听上拉事件</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>scroll<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">"pullingUp"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"上拉加载更多"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//监听加载一次上拉事件，需要使用此函数才可以重新开启监听上拉事件 pullingUp</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>scroll<span class="token punctuation">.</span><span class="token function">finishPullUp</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 修复better-scroll 因异步的网络请求图片到达，却未计算可滚动高度而无法滑动产生的bug，使用refresh进行刷新</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>scroll<span class="token punctuation">.</span><span class="token function">refresh</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="解决better-scroll可滚动区域产生的bug"><a href="#解决better-scroll可滚动区域产生的bug" class="headerlink" title="解决better-scroll可滚动区域产生的bug"></a>解决better-scroll可滚动区域产生的bug</h4><p>better-scroll滚动区域是由 <code>scrollHeight</code>属性决定的，也就是content中子组件的高度</p>
+<p>但有时因为异步操作（比如网络请求），导致 <code>scrollHeight</code>未能够计算出正确的组件高度</p>
+<p>解决：</p>
+<ul>
+<li>监听没一张图片加载完成（每一次的网络请求），只要有一张图片加载完成，就调用 <code>refresh()</code>一次<ul>
+<li><code>img.onload() = funciton(){}</code>（vue中，监听加载则 <code>@load=&quot;函数名&quot;</code>）</li>
+<li>使用事件总线 eventBus，管理、传递该加载事件到对应的组件，然后进行 <code>refresh()</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="防抖函数"><a href="#防抖函数" class="headerlink" title="防抖函数"></a>防抖函数</h4><p>有点像节流阀，防抖：在规定的时间内执行多次事件只执行最后一次</p>
+<p>上述  “解决better-scroll可滚动区域产生的bug”  操作我们可以看到，每有一张图片加载完成，则发送一次请求，这样会大大降低参加程序效率、性能</p>
+<p>为此我们可以封装一个防抖函数</p>
+<pre class=" language-js"><code class="language-js"><span class="token function">debounce</span><span class="token punctuation">(</span>func<span class="token punctuation">,</span> delay<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> timer <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token operator">...</span>args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>timer<span class="token punctuation">)</span> <span class="token function">clearTimeout</span><span class="token punctuation">(</span>timer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        timer <span class="token operator">=</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 这里的apply只用一个传入多个参数作用，箭头函数已经指向环境this，不需要用apply绑定</span>
+            func<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span> delay<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>在vue中，我们可以在mounted里调用该函数</p>
+<pre class=" language-js"><code class="language-js"><span class="token function">mounted</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 监听goodListItem中图片加载完成</span>
+    <span class="token comment" spellcheck="true">// 修复better-scroll 因异步的网络请求图片到达，却未计算可滚动高度而无法滑动产生的bug，使用refresh进行刷新</span>
+    <span class="token comment" spellcheck="true">// 然后用防抖函数优化,减少函数调用频率</span>
+    <span class="token keyword">const</span> refresh <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">debounce</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>$refs<span class="token punctuation">.</span>scroll<span class="token punctuation">.</span>refresh<span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//得到一个带计时器的函数，里面保存着闭包的timer</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>$bus<span class="token punctuation">.</span><span class="token function">$on</span><span class="token punctuation">(</span><span class="token string">"itemImageLoad"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token function">refresh</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//调用refesh进行更新</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
 
             </div>
             <hr/>
@@ -1169,7 +1274,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">95.7k</span>&nbsp;字
+                class="white-color">97.8k</span>&nbsp;字
             
             
             

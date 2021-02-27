@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    13.6k
+                    13.9k
                 </div>
                 
 
@@ -534,6 +534,7 @@
 <p>这样我们才能更好地依照某种顺序（等待某一步的完成），去完成另外一件 “需要上一步已达成” 这个条件下执行的事件</p>
 <p>生命周期就是一个对象（如vue)从声明到使用到销毁的各个阶段，为了开发方便框架会在每个阶段的节点上定义一个特定函数，这个特定函数就是生命周期函数，也叫钩子函数</p>
 <p>官网附有生命周期示意图</p>
+<p><img src="../images/Vue/vue_life.jpg" alt=""></p>
 <h4 id="V-指令"><a href="#V-指令" class="headerlink" title="V-指令"></a>V-指令</h4><p><strong>v-once</strong></p>
 <p>只会在第一次渲染数据，随后数据发生改变，元素内的数据不会再发生改变，阻止了响应式，可以添加在标签属性上</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span> <span class="token attr-name">v-once</span><span class="token punctuation">></span></span>{{message}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span></code></pre>
@@ -762,6 +763,10 @@ data<span class="token punctuation">:</span> <span class="token punctuation">{</
     Vue<span class="token punctuation">.</span><span class="token function">component</span><span class="token punctuation">(</span><span class="token string">'my-cpn'</span><span class="token punctuation">,</span> cpnConstructor<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Vue</span><span class="token punctuation">(</span><span class="token punctuation">{</span>el<span class="token punctuation">:</span> <span class="token string">'#app'</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
+<p>注意：在父组件中使用子组件不能使用 <code>v-on</code> 监听原生事件，必须添加 <code>native</code>修饰符，才能进行监听</p>
+<pre class=" language-HTML"><code class="language-HTML"><div>
+    <back-top @click.native="backClick"></back-top>
+</div></code></pre>
 <h4 id="组件分类"><a href="#组件分类" class="headerlink" title="组件分类"></a>组件分类</h4><p><strong>全局注册&amp;局部注册</strong>：上面的例子为注册全局组件，意味着可以再多个Vue实例下使用</p>
 <p>以下的例子为局部注册组件（局部注册组件自定义标签名不支持 <code>-</code>）</p>
 <p>Vue对象中的components属性来注册局部组件,在开发过程用的最多的还是局部组件</p>
@@ -930,7 +935,7 @@ props<span class="token punctuation">:</span> <span class="token punctuation">{<
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>app<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
     <span class="token comment" spellcheck="true">&lt;!-- 父组件需要使用事件监听 v-on 进行监听，然后自己在methods定义相对应的处理函数就可以了 --></span>
     <span class="token comment" spellcheck="true">&lt;!-- v-on不仅可以监听DOM事件，还可以监听组件之间的事件 --></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mycpn</span> <span class="token attr-name"><span class="token namespace">v-on:</span>itemclick</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>FatherListener<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mycpn</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mycpn</span> <span class="token attr-name"><span class="token namespace">v-on:</span>Bigclick</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>FatherListener<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mycpn</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
 <span class="token comment" spellcheck="true">&lt;!-- 子模版 --></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>cpn<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
@@ -959,7 +964,7 @@ props<span class="token punctuation">:</span> <span class="token punctuation">{<
                 <span class="token punctuation">}</span><span class="token punctuation">,</span>
                 methods<span class="token punctuation">:</span> <span class="token punctuation">{</span>
                     <span class="token function">itemclick</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">$emit</span><span class="token punctuation">(</span><span class="token string">'itemclick'</span><span class="token punctuation">,</span> item<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">$emit</span><span class="token punctuation">(</span><span class="token string">'Bigclick'</span><span class="token punctuation">,</span> item<span class="token punctuation">)</span><span class="token punctuation">;</span>
                     <span class="token punctuation">}</span>
                 <span class="token punctuation">}</span><span class="token punctuation">,</span>
             <span class="token punctuation">}</span>
@@ -982,7 +987,7 @@ props<span class="token punctuation">:</span> <span class="token punctuation">{<
 <p>父组件想要访问子组件：使用 <code>$children</code> 或者 <code>$refs</code></p>
 <p>子组件访问父组件：使用 <code>$parent</code></p>
 <p><strong>父组件想要访问子组件</strong>：</p>
-<p>但是真实开发中，我们不会通过<code>$children</code>去拿子组件对象进行操作，因为<code>$children[索引号]</code>的方式拿取数据，当Vue绑定的标签内在中间新插入新子组件，会导致拿到的是新子组件的数据</p>
+<p>但是真实开发中，我们不会通过<code>$children</code>去拿子组件对象进行操作，这是因为当使用<code>$children[索引号]</code>的方式拿取数据，当Vue绑定的标签内在中间新插入新子组件，会导致拿到的是新子组件的数据</p>
 <p>所以用<code>$refs</code>比较多，无论Vue绑定的标签内是否有子组件，this.$ref都默认为空</p>
 <pre class=" language-html"><code class="language-html"><span class="token comment" spellcheck="true">&lt;!-- 对应的html标签 --></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>app<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
@@ -1010,6 +1015,8 @@ cpn<span class="token punctuation">:</span> <span class="token punctuation">{</s
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>$refs<span class="token punctuation">.</span>cpn2<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <p>使用前要注意：因为 ref 本身是作为渲染结果被创建的，在初始渲染的时候你不能访问它们 - 它们还不存在！<code>$refs</code> 也不是响应式的，因此你不应该试图用它在模板中做数据绑定。</p>
+<p>ref如果绑定在组件中，那么通过 <code>this.refs.ref绑定的名称</code>获取到的是一个组件对象</p>
+<p>ref如果绑定在元素中，那么通过 <code>this.refs.ref绑定的名称</code>获取到的是一个元素对象（此时ref的功能不是用于父组件获取子组件的数据，而是组件自己内部想要在某个地方获取到自己的某个标签（元素），这样有较高安全性，因为类名可能会重复，到时候项目开发时通过类名的获取，不一定能够准确获取目标）</p>
 <p><strong>子组件想要访问父组件</strong>：（开发中不建议用，因为引用了外部组件的数据，还是父组件的数据，这样会导致独立性、可复用性降低，有较大耦合性）<code>$parent</code>    如果想访问根组件数据用 <code>$root</code></p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//cpn的methods中：</span>
 methods<span class="token punctuation">:</span> <span class="token punctuation">{</span>
@@ -1019,6 +1026,7 @@ methods<span class="token punctuation">:</span> <span class="token punctuation">
 <span class="token punctuation">}</span></code></pre>
 <h4 id="插槽slot"><a href="#插槽slot" class="headerlink" title="插槽slot"></a>插槽slot</h4><p>组件的插槽也是为了让封装的组件更具有扩展性（使用同一组件但能自定义特色风格）</p>
 <p>在组件（模板）中增加 <code>&lt;slot&gt;&lt;/slot&gt;</code>，然后在html上使用组件时，往中间添加的标签/文字，都会放在template模板中slot标签内</p>
+<p>推荐使用 div标签先将 slot包起来再使用 <code>&lt;div&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/div&gt;</code>，可以避免很多bug</p>
 <pre class=" language-html"><code class="language-html"><span class="token comment" spellcheck="true">&lt;!-- 组件cpn的模板中添加： --></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">></span></span>我是子组件<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span>
@@ -1157,7 +1165,7 @@ render<span class="token punctuation">:</span> <span class="token function">func
 <p>-&gt; 启动配置服务器（可视化配置）：</p>
 <pre class=" language-shell"><code class="language-shell">vue ui </code></pre>
 <p>导入当前项目脚手架的文件夹，然后可以在当前页面添加需要的插件，配置甚至运行等</p>
-<p>如果真的要手动修改掉基础的配置，需要新建vue.config.js在当前目录下（原来build和Config文件的配置都放在node_modules里面了），在里面进行 <code>module.exports = {}</code>配置，到时会和原来的配置进行合并作为整体配置</p>
+<p>如果真的要手动修改掉基础的配置，需要新建vue.config.js在当前项目目录下（原来build和Config文件的配置都放在node_modules里面了），在里面进行 <code>module.exports = {}</code>配置，到时会和原来的配置进行合并作为整体配置</p>
 <h2 id="5-Vue-router"><a href="#5-Vue-router" class="headerlink" title="5.Vue router"></a>5.Vue router</h2><h4 id="前后端路由概述"><a href="#前后端路由概述" class="headerlink" title="前后端路由概述"></a>前后端路由概述</h4><p>路由就是网络把信息从源地址传输到目的地址的活动</p>
 <p>后端渲染是将数据在后端处理生成html发给浏览器，前端渲染是通过ajax拿到数据，操作dom节点 渲染ui</p>
 <p>（相当于Node.js里的服务器渲染和客户端渲染）</p>
@@ -1539,6 +1547,7 @@ Vue<span class="token punctuation">.</span>config<span class="token punctuation"
   render<span class="token punctuation">:</span> h <span class="token operator">=</span><span class="token operator">></span> <span class="token function">h</span><span class="token punctuation">(</span>App<span class="token punctuation">)</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <p><img src="../images/Vue/vuex.jpg" alt=""></p>
+<p>​                                                                                                       <strong>Vuex状态管理图</strong></p>
 <p>Devtools 是Vue开发的一个浏览器插件，用来记录每一次改变State</p>
 <ul>
 <li>需要在浏览器上安装：可以去谷歌应用商店安装Vue.js devtools 插件</li>
@@ -1632,6 +1641,11 @@ Vue<span class="token punctuation">.</span>config<span class="token punctuation"
             name<span class="token punctuation">:</span> <span class="token string">'Allen'</span><span class="token punctuation">,</span>
             age<span class="token punctuation">:</span> <span class="token number">18</span><span class="token punctuation">,</span>
             feature<span class="token punctuation">:</span> <span class="token string">'始祖巨人'</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    mutations<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token function">update</span><span class="token punctuation">(</span>state<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            Vue<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span>state<span class="token punctuation">.</span>info<span class="token punctuation">,</span> <span class="token string">'address'</span><span class="token punctuation">,</span> <span class="token string">'帕拉迪亚岛'</span><span class="token punctuation">)</span>
         <span class="token punctuation">}</span>
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
     actions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
@@ -1812,7 +1826,12 @@ methods<span class="token punctuation">:</span> <span class="token punctuation">
 <p>导入</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> axios <span class="token keyword">from</span> <span class="token string">'axios'</span></code></pre>
 <p>使用 在Ajax篇章中已经有描述</p>
-<h2 id="8-原理相关"><a href="#8-原理相关" class="headerlink" title="8.原理相关"></a>8.原理相关</h2><h4 id="双向绑定"><a href="#双向绑定" class="headerlink" title="双向绑定"></a>双向绑定</h4><p><code>Object.defineProperty( )</code>的 <code>get</code> （读取属性值触发的函数）和 <code>set</code>（set就是在设置属性值触发的函数），所以Vue会根据数据变化，重新渲染到虚拟DOM，然后根据虚拟DOM，把真实DOM进行修改</p>
+<h2 id="8-其他"><a href="#8-其他" class="headerlink" title="8.其他"></a>8.其他</h2><h4 id="事件总线"><a href="#事件总线" class="headerlink" title="事件总线"></a>事件总线</h4><p>事件总线和vuex的作用很像，只不过vuex用于管理状态（变量），而事件总线用于管理事件</p>
+<p>1.在main.js 文件中 创建一个新的Vue实例，以得到一个bus</p>
+<pre class=" language-js"><code class="language-js">Vue<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>$bus <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Vue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>2.发射 <code>this.$bus.$emit(&#39;事件名&#39;[, 参数])</code> </p>
+<p>3.接受 <code>this.$bus.$on(&quot;事件名&quot;, 回调函数(参数))</code></p>
+<h2 id="9-原理相关"><a href="#9-原理相关" class="headerlink" title="9.原理相关"></a>9.原理相关</h2><h4 id="双向绑定"><a href="#双向绑定" class="headerlink" title="双向绑定"></a>双向绑定</h4><p><code>Object.defineProperty( )</code>的 <code>get</code> （读取属性值触发的函数）和 <code>set</code>（set就是在设置属性值触发的函数），所以Vue会根据数据变化，重新渲染到虚拟DOM，然后根据虚拟DOM，把真实DOM进行修改</p>
 <p><code>Object.freeze()</code>会阻止修改现有的 property，也意味着响应系统无法再<em>追踪</em>双向绑定变化。</p>
 <p><strong>响应式的注意事项</strong></p>
 <p>必须在 <code>data</code> 对象上存在才能让 Vue 将它转换为响应式的</p>
@@ -2327,7 +2346,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">95.7k</span>&nbsp;字
+                class="white-color">97.8k</span>&nbsp;字
             
             
             

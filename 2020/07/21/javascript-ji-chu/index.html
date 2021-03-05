@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.1k
+                    3.2k
                 </div>
                 
 
@@ -599,6 +599,7 @@ Math<span class="token punctuation">.</span><span class="token function">max</sp
 Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//最小值</span>
 Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//随机 0&lt;=x&lt;1  </span>
 Math<span class="token punctuation">.</span><span class="token function">floor</span><span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">(</span>x_max<span class="token operator">-</span>x_min<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">+</span>x_min<span class="token comment" spellcheck="true">//得到两个数之间的随机整数</span></code></pre>
+<p>无穷大：<code>Number.MAX_VALUE</code></p>
 <h4 id="（2）Date对象"><a href="#（2）Date对象" class="headerlink" title="（2）Date对象"></a>（2）Date对象</h4><p>是一个构造函数，必须使用new调用</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">var</span> date <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//无参数，返回当前系统的时间</span>
 <span class="token comment" spellcheck="true">//常用的两种时间写法</span>
@@ -613,6 +614,7 @@ date<span class="token punctuation">.</span><span class="token function">valueOf
 date<span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">var</span> date1<span class="token operator">=</span> <span class="token operator">+</span><span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//最常用</span>
 Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//H5新增</span></code></pre>
+<p>由于开发中时间戳转换为日期太过于常见，所以网上有直接封装好的（使用的是正则表达式）的函数，直接格式化即可</p>
 <h4 id="（3）数组对象"><a href="#（3）数组对象" class="headerlink" title="（3）数组对象"></a>（3）数组对象</h4><p>数组的每个槽位可以储存任意类型数据</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">var</span> arr1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Array</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//相当于[2,3]的数组</span>
 <span class="token keyword">var</span> arr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Array</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//创造一个数组长度为5的数组，但是此方法会自动往里面填undefined值，让数组最起码有值了！</span>
@@ -628,6 +630,7 @@ arr1<span class="token punctuation">.</span><span class="token function">sort</s
     <span class="token keyword">return</span> a<span class="token operator">-</span>b<span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//冒泡排序，自动排序 ,升序 如果不加function则为按照字符串排序</span>
 arr1<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span>xx<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//返回该数组元素的索引号（只返回第一个满足条件的索引号），找不到返回-1</span>
+<span class="token comment" spellcheck="true">// indexOf还可以用于判断对象是否存在</span>
 arr1<span class="token punctuation">.</span><span class="token function">lastindexOf</span><span class="token punctuation">(</span>xx<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//同上，只返回倒数第一个满足条件的索引号</span>
 arr1<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//转换成字符串，逗号分隔</span>
 arr1<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">'你想要的分隔符'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//用指定分隔符分割不同的数组元素，并转换成字符串</span>
@@ -1200,7 +1203,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">97.8k</span>&nbsp;字
+                class="white-color">100k</span>&nbsp;字
             
             
             

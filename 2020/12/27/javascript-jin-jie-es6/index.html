@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.2k
+                    3.4k
                 </div>
                 
 
@@ -686,6 +686,45 @@ obj2 <span class="token operator">=</span> <span class="token punctuation">{</sp
     height<span class="token punctuation">,</span>
     <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>  <span class="token comment" spellcheck="true">//此写法仅支持在字面量中</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<p>判断一个对象是否为空，可以使用</p>
+<pre><code>Object.key(对象名称).length === 0</code></pre><p>js <strong>判断对象的属性是否存在</strong></p>
+<p><strong>in运算符</strong> （属性名 in 对象）</p>
+<p> 情况1:对象自身属性</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> obj<span class="token operator">=</span><span class="token punctuation">{</span>a<span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token string">"a"</span> <span class="token keyword">in</span> obj<span class="token comment" spellcheck="true">//true</span></code></pre>
+<p>情况2:对象继承的属性</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> objA <span class="token operator">=</span> <span class="token punctuation">{</span>a<span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> objB <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>A<span class="token punctuation">)</span>
+<span class="token string">"a"</span> <span class="token keyword">in</span> objB <span class="token comment" spellcheck="true">//true</span></code></pre>
+<p>查找符合条件的第一个对象</p>
+<p><code>find(function(currentValue, index, arr),thisValue)</code></p>
+<table>
+<thead>
+<tr>
+<th align="left">参数</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><em>currentValue</em></td>
+<td align="left">必需。当前元素</td>
+</tr>
+<tr>
+<td align="left"><em>index</em></td>
+<td align="left">可选。当前元素的索引值</td>
+</tr>
+<tr>
+<td align="left"><em>arr</em></td>
+<td align="left">可选。当前元素所属的数组对象</td>
+</tr>
+<tr>
+<td align="left"><em>thisValue</em></td>
+<td align="left">可选。 传递给函数的值一般用 “this” 值。<br/>如果这个参数为空， “undefined” 会传递给 “this” 值</td>
+</tr>
+</tbody></table>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//实现一步查找符合条件的product</span>
+<span class="token keyword">let</span> product <span class="token operator">=</span> state<span class="token punctuation">.</span>cartList<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>item <span class="token operator">=</span><span class="token operator">></span> item<span class="token punctuation">.</span>id <span class="token operator">===</span> payload<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>返回符合测试条件的第一个数组元素值，如果没有符合条件的则返回 undefined。</p>
 <h2 id="4-Promise"><a href="#4-Promise" class="headerlink" title="4.Promise"></a>4.Promise</h2><h4 id="callback-hell"><a href="#callback-hell" class="headerlink" title="callback hell"></a>callback hell</h4><p>回调地狱：callback hell，异步里面套着另一个异步</p>
 <p><img src="../images/JavaScript%E8%BF%9B%E9%98%B6ES6/callback%20hell.jpg" alt=""></p>
 <p>无法保证异步任务执行顺序：</p>
@@ -1368,7 +1407,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">97.8k</span>&nbsp;字
+                class="white-color">100k</span>&nbsp;字
             
             
             

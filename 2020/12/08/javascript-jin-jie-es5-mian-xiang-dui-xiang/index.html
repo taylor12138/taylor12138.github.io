@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.9k
+                    7.1k
                 </div>
                 
 
@@ -554,7 +554,7 @@ son<span class="token punctuation">.</span><span class="token function">sum</spa
 <span class="token keyword">var</span> son <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Son</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
 son<span class="token punctuation">.</span><span class="token function">sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//success</span></code></pre>
 <p>继承中属性或者方法的查找原则：就近原则</p>
-<p>在继承中，如果实例化子类输出一个方法，先看子类有没有这个方法，如果有就执行字类的</p>
+<p>在继承中，如果实例化子类输出一个方法，先看子类有没有这个方法，如果有就执行子类的</p>
 <p>如果没有，就去查找父类有没有此方法，如果有就执行父类的</p>
 <p>如果子类想要直接调用父类的方法，则：</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">class</span> <span class="token class-name">Father</span> <span class="token punctuation">{</span>  
@@ -704,11 +704,24 @@ Array<span class="token punctuation">.</span>prototype<span class="token punctua
 <p><code>array.some(function(currentValue, index, [arr]))</code>  分别对应currentValue（数组当前项的值），index（索引号），arr（数组本身） </p>
 <p>4.<code>map()</code> 方法返回一个新数组，数组中的元素为原始数组元素调用函数处理后的值。和forEach相似，不同在于：</p>
 <p>​        如果更改数组内的值，<code>forEach</code> 不能确保数组的不变性。这个方法只有在你不接触里面的任何值时，才能保证不变性。</p>
-<p>​        由于它们之间的主要区别在于是否有返回值，所以你会希望使用 <code>map</code> 来制作一个新的数组，而使用 <code>forEach</code> 只是为了映射到数组上</p>
+<p>​        由于它们之间的主要区别在于是否有返回值，所以你会希望使用 <code>map</code> 来制作一个新的数组，而使用 <code>forEach</code> 只是为了映射到数组上(修改原来的数组)</p>
 <p>返回值加入新数组中</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> newarr <span class="token operator">=</span> arr<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> index<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> value <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p>map的不变性：当数组为基础类型时原数组不变</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> array<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">]</span>
+<span class="token keyword">let</span> newArray<span class="token operator">=</span>array<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> item<span class="token operator">*</span><span class="token number">2</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>array<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// [1,2,3,4,5]</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>newArray<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//[2, 4, 6, 8, 10]</span></code></pre>
+<p>当数组为引用类型时原数组发生改变：</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> array <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'Anna'</span><span class="token punctuation">,</span> age<span class="token punctuation">:</span> <span class="token number">16</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'James'</span><span class="token punctuation">,</span> age<span class="token punctuation">:</span> <span class="token number">18</span> <span class="token punctuation">}</span><span class="token punctuation">]</span>
+<span class="token keyword">let</span> newArray<span class="token operator">=</span>array<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    item<span class="token punctuation">.</span>like<span class="token operator">=</span><span class="token string">'eat'</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> item<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>array<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// [{ name: 'Anna', age: 16,like: "eat"},{ name: 'James', age: 18,like: "eat"}]</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>newArray<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//[{ name: 'Anna', age: 16,like: "eat"},{ name: 'James', age: 18,like: "eat"}]</span></code></pre>
 <p>5.<code>every()</code> 方法用于检测数组所有元素是否都符合指定条件</p>
 <p>6.<code>arr.reduce(callback(accumulator, currentValue[, index[, array]])[, initialValue])</code></p>
 <p>参数分别对应回调函数和初始值</p>
@@ -718,7 +731,14 @@ Array<span class="token punctuation">.</span>prototype<span class="token punctua
 <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">// 遍历到第一次时，preValue为初始值，currValue为数组里的第一个值</span>
 <span class="token comment" spellcheck="true">// 遍历到第二次时，preValue为第一次返回的值，currValue为数组里第二个数</span></code></pre>
-<p><strong>以上ES5方法有助于链式编程（函数式编程）</strong></p>
+<p><strong>以上ES5数组方法有助于链式编程（函数式编程）</strong>，比如：</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//this.$store.state.cartList 是一个数组</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>$store<span class="token punctuation">.</span>state<span class="token punctuation">.</span>cartList
+    <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> item<span class="token punctuation">.</span>checked <span class="token operator">===</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">reduce</span><span class="token punctuation">(</span><span class="token punctuation">(</span>preValue<span class="token punctuation">,</span> item<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> preValue <span class="token operator">+</span> item<span class="token punctuation">.</span>count <span class="token operator">*</span> item<span class="token punctuation">.</span>price<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">toFixed</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h4 id="字符串方法"><a href="#字符串方法" class="headerlink" title="字符串方法"></a>字符串方法</h4><p><code>trim()</code>方法会从一个字符串的两端删除空白字符，它并不影响本身的字符串，它返回的是一个新的字符串  <code>str.trim()</code></p>
 <h4 id="对象方法"><a href="#对象方法" class="headerlink" title="对象方法"></a>对象方法</h4><p><code>Object.defineProperty()</code> 定义对象中新属性或修改原有的属性（应用于vue响应式双向绑定，还有es5实现const的原理）</p>
 <p><code>Object.defineProperty(obj, prop,desciptor)</code> </p>
@@ -1552,7 +1572,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">97.8k</span>&nbsp;字
+                class="white-color">100k</span>&nbsp;字
             
             
             

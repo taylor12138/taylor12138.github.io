@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.2k
+                    8.3k
                 </div>
                 
 
@@ -595,6 +595,8 @@ res<span class="token punctuation">.</span><span class="token function">end</spa
     <span class="token comment" spellcheck="true">// 3.发送响应</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>因为express内置没有获取表单post的api，所以需要借助第三方插件，在官网-&gt;资源-&gt;body-parser</p>
+<p><strong>注意</strong>：express4不再支持body-parser</p>
+<p>如果仍想使用，可以npm install express@3</p>
 <p>安装</p>
 <pre class=" language-powershell"><code class="language-powershell">npm install <span class="token operator">--</span>save body<span class="token operator">-</span>parser</code></pre>
 <p>然后跟着官网指示一步一步进行配置</p>
@@ -1389,6 +1391,13 @@ app<span class="token punctuation">.</span><span class="token function">all</spa
     <span class="token comment" spellcheck="true">// res.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500");</span>
     res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">'hello world'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p>如果设置请求头不行的话可以安装 CORS</p>
+<p>（1）安装cors： npm install cors express –save</p>
+<p>（2） 然后在文件中引用：</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> cors <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'cors'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'express'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> server <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+server<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token function">cors</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 
             </div>
             <hr/>
@@ -1895,7 +1904,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">100k</span>&nbsp;字
+                class="white-color">100.3k</span>&nbsp;字
             
             
             

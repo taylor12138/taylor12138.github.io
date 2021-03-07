@@ -529,6 +529,7 @@
 <p>方式二：</p>
 <pre class=" language-shell"><code class="language-shell">#mongodb 默认使用执行 mongod 命令所处盘根目录下的/data/db作为自己的数据存储目录
 #所以在第一次执行该命令之前，先手动新建一个 E(MongoDB所属盘):/data/db
+#然后再自己所属盘下 运行该命令
 mongod</code></pre>
 <p>停止服务：ctrl + C或者直接关闭cmd窗口</p>
 <p>如果想要修改默认的数据存储目录路径，可以（但是比较麻烦，不推荐）</p>
@@ -545,7 +546,10 @@ mongo</code></pre>
 <pre class=" language-shell"><code class="language-shell">#在当前数据库的students集合中插入一个数据（对象）
 db.students.insertOne({"name": "Jack"})
 #查看当前数据库的students集合中的数据
-db.students.find()</code></pre>
+db.students.find()
+#移除 title 为“MongoDB”的文档
+db.test.remove({'title': 'MongoDB'})
+WriteResult({ 'nRemoved' : 2 })    #删除了两条数据</code></pre>
 <h2 id="3-在Node中操作MongoDB数据"><a href="#3-在Node中操作MongoDB数据" class="headerlink" title="3.在Node中操作MongoDB数据"></a>3.在Node中操作MongoDB数据</h2><p>方法一：使用官方的<code>mongodb</code>包来操作（并且根据文档提供的使用方法步骤进行操作）</p>
 <p><a href="https://github.com/mongodb/node-mongodb-native" target="_blank" rel="noopener">https://github.com/mongodb/node-mongodb-native</a></p>
 <p>方法二：使用第三方<code>mongoose</code>来操作 MongoDB数据库</p>
@@ -565,7 +569,7 @@ npm i mongoose</code></pre>
 <span class="token comment" spellcheck="true">//连接MongoDB数据库（这里顺便创建了一个叫test的数据库）</span>
 mongoose<span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token string">'mongodb://localhost:27017/test'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> useNewUrlParser<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> useUnifiedTopology<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">//创建一个模型，说白了就是在设计数据库</span>
-<span class="token comment" spellcheck="true">// 这里第一个参数是表名是Cat，第二个参数是数据结构</span>
+<span class="token comment" spellcheck="true">// 这里第一个参数是表名：Cat，第二个参数是数据结构</span>
 <span class="token keyword">const</span> Cat <span class="token operator">=</span> mongoose<span class="token punctuation">.</span><span class="token function">model</span><span class="token punctuation">(</span><span class="token string">'Cat'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> name<span class="token punctuation">:</span> String <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token comment" spellcheck="true">// 实例化一个Cat（往cats集合里面插入每一个kitty数据）</span>
@@ -1189,7 +1193,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">100k</span>&nbsp;字
+                class="white-color">100.3k</span>&nbsp;字
             
             
             

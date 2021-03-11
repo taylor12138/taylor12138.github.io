@@ -459,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    174
+                    1.1k
                 </div>
                 
 
@@ -476,19 +476,63 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="github建立连接的方法"><a href="#github建立连接的方法" class="headerlink" title="github建立连接的方法"></a>github建立连接的方法</h2><h4 id="方法1："><a href="#方法1：" class="headerlink" title="方法1："></a>方法1：</h4><p>在GitHub网站上新建仓库</p>
+                <h2 id="版本控制"><a href="#版本控制" class="headerlink" title="版本控制"></a>版本控制</h2><p>它是一种软件开发过程中，管理我们对文件、目录、或工程等内容的修改历史、方便我们查看更改历史记录，备份以便恢复以前的版本软件工程技术。简单来说就是用于管理多人协同开发项目的技术</p>
+<p>SVN：集中式版本控制、所有版本存在服务器上，需要连网才能看到历史版本，服务器坏了可能导致数据丢失。工作时我们首先需要从中央服务器的到最新版本</p>
+<p>Git：分布式版本控制，每个人都拥有全部的代码（可能有安全隐患），这样就可以在本地查看历史版本，可以离线在本地提交，只需练网时push到相应服务器即可。协同方式：A修改了代码、B也修改了代码，这时只需要你们两人之间把各自修改的代码推送给对方，即可看到对方修改</p>
+<p>Git是目前（2021年）世界上最先进的分布式版本控制系统</p>
+<h4 id="Git启动"><a href="#Git启动" class="headerlink" title="Git启动"></a>Git启动</h4><p><code>Git Bash</code>：Unix与Linux风格的命令行，使用最多，推荐最多</p>
+<p><code>Git CMD</code>：Windows风格命令行</p>
+<p><code>Git GUI</code>：图形界面，不建议初学者使用</p>
+<h2 id="Git基本命令符"><a href="#Git基本命令符" class="headerlink" title="Git基本命令符"></a>Git基本命令符</h2><p>config 配置有system级别 global（用户级别） 和local（当前仓库）三个 设置先从system -&gt; global -&gt; local  底层配置会覆盖顶层配置 分别使用–system/global/local 可以定位到配置文件</p>
+<p>查看系统config</p>
+<pre class=" language-shell"><code class="language-shell">git config --system --list</code></pre>
+<p>查看当前用户（global）配置</p>
+<pre class=" language-shell"><code class="language-shell">git config --global --list</code></pre>
+<p>安装Git后必须执行的(不然提交不了项目)：设置用户名和邮箱</p>
+<pre class=" language-shell"><code class="language-shell">git config --global user.name "taylor12138"
+git config --global user.email "277421392@qq.com"</code></pre>
+<p>查看当前仓库配置信息</p>
+<pre class=" language-shell"><code class="language-shell">git config --local--list</code></pre>
+<h4 id="基本理论"><a href="#基本理论" class="headerlink" title="基本理论"></a>基本理论</h4><p>Git本地有三个工作区域：</p>
+<ul>
+<li>工作目录（Working Directory）：平时存放项目代码的地方（主要跟我们挂钩的两个区域之一）</li>
+<li>暂存区（Stage/Index）：临时存放改动，事实上只是一个文件</li>
+<li>资源库（Respository/Git Directory）：安全存放数据的位置，这里有提交到所有版本的数据</li>
+</ul>
+<ul>
+<li>再加上远程仓库（Remote Directory）：托管代码的服务器（主要跟我们挂钩的两个区域之一）</li>
+</ul>
+<p><img src="/images/git%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E7%AC%A6/git.jpg" alt=""></p>
+<h4 id="忽略文件"><a href="#忽略文件" class="headerlink" title="忽略文件"></a>忽略文件</h4><p>有时我们不想把某些文件也一并上传，比如前端项目中的 <code>npm_modules</code></p>
+<p>可以在 <code>.gitignore</code>文件下添加忽略的文件</p>
+<pre class=" language-shell"><code class="language-shell">*.txt         #忽略所有.txt结尾的文件
+!lib.txt      #将lib.txt除外（不被忽略）
+/temp         #仅忽略根目录下的TODO文件，不包括其他目录的temp文件
+build/        #忽略build/目录下的所有文件
+doc/*.txt     #忽略doc/notes.txt但不包括doc/server/arch.txt</code></pre>
+<h2 id="github建立连接的方法"><a href="#github建立连接的方法" class="headerlink" title="github建立连接的方法"></a>github建立连接的方法</h2><h4 id="方法1："><a href="#方法1：" class="headerlink" title="方法1："></a>方法1：</h4><p>在GitHub网站上新建仓库</p>
 <p>然后拷贝仓库的地址，进行克隆下载到本地</p>
 <p>把自己原来项目除了git文件的所有文件拷贝进下载的文件夹里（克隆下载的文件本身自带<code>.git</code>文件）</p>
-<p>利用工具 进入新的文件夹  可以查看状态：</p>
+<p>利用工具 进入新的文件夹  可以查看状态：（可以查看文件是否被跟踪）</p>
 <pre class=" language-shell"><code class="language-shell">git status</code></pre>
 <p>一般git上传只需要</p>
+<p>1 放入暂存区</p>
 <pre class=" language-shell"><code class="language-shell">git add .</code></pre>
+<p>2 提交到git本地仓库， <code>-m</code>是提交信息</p>
 <pre class=" language-shell"><code class="language-shell">git commit -m '描述'</code></pre>
+<p>3 推送到远程</p>
 <pre class=" language-shell"><code class="language-shell">git push</code></pre>
 <h4 id="方法2："><a href="#方法2：" class="headerlink" title="方法2："></a>方法2：</h4><p>将本地项目直接push，不用拷贝</p>
 <p>创建一个全空的仓库</p>
 <p>然后该项目有提示：<code>git remote add orgin https://github.com/xxxxxxxx.git</code>的指令 和 <code>git push -u origin master</code>指令</p>
 <p>在项目的终端执行 </p>
+<h2 id="Git分支"><a href="#Git分支" class="headerlink" title="Git分支"></a>Git分支</h2><pre class=" language-shell"><code class="language-shell">git branch          #查看所有分支
+git branch -r       #查看远程分支
+git branch dev      #新建dev分支，但是现在仍停留在原分支
+git branch -d dev   #删除dev分支
+git merge [branch]  #合并指定分支到当前分支</code></pre>
+<p>如果多个分支并行执行，会导致代码并不冲突，也就是同时存在多个版本</p>
+<p>一般来说master主分支非常稳定，用来发布新版本，工作一般在新建的dev分支上工作，等待dev分支稳定后才可合并到master主分支上</p>
 
             </div>
             <hr/>
@@ -717,33 +761,33 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/03/01/git-ji-ben-ming-ling-fu/">
+                <a href="/2021/03/08/xiang-mu-bu-shu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="git基本命令符">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="项目部署">
                         
-                        <span class="card-title">git基本命令符</span>
+                        <span class="card-title">项目部署</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            github建立连接的方法方法1：在GitHub网站上新建仓库
-然后拷贝仓库的地址，进行克隆下载到本地
-把自己原来项目除了git文件的所有文件拷贝进下载的文件夹里（克隆下载的文件本身自带.git文件）
-利用工具 进入新的文件夹  可以查看状
+                            部署方式利用脚手架打包后得到dist文件
+将自己电脑作为服务器，部署本地 ：window -&gt; 使用nginx或者tomcat
+远程主机，进行部署：linux centos -&gt; nginx
+如
+注意 ：使用nginx时，关闭不
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-03-01
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-03-08
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -752,7 +796,6 @@
                         </span>
                     </div>
                 </div>
-
                 
             </div>
         </div>
@@ -993,7 +1036,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">100.3k</span>&nbsp;字
+                class="white-color">101.9k</span>&nbsp;字
             
             
             

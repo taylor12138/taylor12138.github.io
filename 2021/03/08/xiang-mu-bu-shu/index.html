@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="主题与2d人物, Hexo">
+    <meta name="keywords" content="项目部署, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>主题与2d人物 | Hexo</title>
+    <title>项目部署 | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">主题与2d人物</h1>
+                    <h1 class="description center-align post-title">项目部署</h1>
                 </div>
             </div>
         </div>
@@ -450,7 +450,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-05-04
+                    2021-03-08
                 </div>
                 
 
@@ -459,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    173
+                    483
                 </div>
                 
 
@@ -476,8 +476,31 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="Start"><a href="#Start" class="headerlink" title="Start"></a>Start</h2><h3 id="人物"><a href="#人物" class="headerlink" title="人物"></a>人物</h3><p>使用命令安装npm：npm uninstall hexo-helper-live2d<br>              npm install –save hexo-helper-live2d<br>此时在blog/node_modeles下多出了一个“live2d-widget”<br>下载动画model：这里是套用别人（大佬）的仓库<a href="https://github.com/xiazeyu/live2d-widget-models.git" target="_blank" rel="noopener">https://github.com/xiazeyu/live2d-widget-models.git</a><br>下载好后将packages里的所有文件拷贝到blog/node_modeles<br>最后在win使用padnote _config.yml，把以下：<br>live2d:<br>  enable: true<br>  pluginModelPath: assets/<br>  model:<br>    use: live2d-widget-model-epsilon2_1  #模板目录，在node_modules里<br>  display:<br>    position: right<br>    width: 150<br>    height: 300<br>  mobile:<br>    show: false  #是否在手机进行显示<br> 复制进去<br> 再使用hexo clean g d进行部署</p>
-<h3 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h3><p>下载好了之后放入blog/themes里面（整个文件）<br>再在win使用padnote _config.yml<br>把theme: xx改成theme: (你要的主题名)<br>最后部署</p>
+                <h2 id="部署方式"><a href="#部署方式" class="headerlink" title="部署方式"></a>部署方式</h2><p>利用脚手架打包后得到dist文件</p>
+<p>将自己电脑作为服务器，部署本地 ：window -&gt; 使用nginx或者tomcat</p>
+<p>远程主机，进行部署：linux centos -&gt; nginx</p>
+<p>如</p>
+<p><strong>注意</strong> ：使用nginx时，关闭不用粗暴乱结束进程关闭，可能会产生一些关不掉等小bug，记得cmd进去nginx根目录下 <code>nginx -s stop</code>即可</p>
+<p>在部署Vue、Node.js和MongoDB部署上给予一定帮助的网址：<a href="https://segmentfault.com/a/1190000022921908" target="_blank" rel="noopener">https://segmentfault.com/a/1190000022921908</a></p>
+<p>部署时踩的坑：</p>
+<ul>
+<li>面对404时，是找不到资源，在本地上可以运行，而部署到服务器上却出现了404，很有可能是api链接等没有写对，导致找不到真正的地址；部署后台项目的时候，我将异步请求的 <code>axios baseURL</code> 改成：自己的公网地址:端口号，实际上是只需改成：自己的公网地址就可以了，害我看了半天</li>
+<li>面对502时，可能是服务器暂未开启</li>
+<li>面对500时，是服务器发生内部错误，我看了半天的服务端代码，发现没错，实际上是请求的数据有一段时number类型，我测试的时候胡乱输入字符串，也会发生500错误</li>
+</ul>
+<h2 id="服务器软件"><a href="#服务器软件" class="headerlink" title="服务器软件"></a>服务器软件</h2><ul>
+<li><p>Web服务器：提供Web化服务，当下几乎所有服务器软件都可以成为Web服务器</p>
+</li>
+<li><p>Http服务器：侧重静态资源传输的支持</p>
+</li>
+<li><p>应用服务器：常被称作动态服务器</p>
+</li>
+</ul>
+<p>1.Nginx：http服务器，性能好、稳定好、一般放在最前面</p>
+<p>2.Tengine：基于Nginx，加强和封装</p>
+<p>3.Apache：静态服务器，性能不如Nginx，所以Nginx使用居多</p>
+<p>4.IIS：微软阵营的Web服务器，只能运行在windows，http静态服务器</p>
+<p>5.Tomcat：典型java应用服务器软件，动态服务器， 一般和Nginx这种静态服务器一起打配合</p>
 
             </div>
             <hr/>
@@ -503,7 +526,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2020/05/04/zhu-ti-yu-2d-ren-wu/">https://taylor12138.github.io/2020/05/04/zhu-ti-yu-2d-ren-wu/</a>
+                    <a href="https://taylor12138.github.io/2021/03/08/xiang-mu-bu-shu/">https://taylor12138.github.io/2021/03/08/xiang-mu-bu-shu/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -706,44 +729,43 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/05/05/html5-de-ji-ben-shu-xing/">
+                <a href="/2021/03/08/xiang-mu-bu-shu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="HTML5的基本属性">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="项目部署">
                         
-                        <span class="card-title">HTML5的基本属性</span>
+                        <span class="card-title">项目部署</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.基本标签介绍&lt;html&gt;&lt;/html&gt;``根标签
-&lt;head&gt; &lt;/head&gt;   文档头部
- &lt; title&gt; &lt;/title&gt;  文档标题   
-&lt;bod
+                            部署方式利用脚手架打包后得到dist文件
+将自己电脑作为服务器，部署本地 ：window -&gt; 使用nginx或者tomcat
+远程主机，进行部署：linux centos -&gt; nginx
+如
+注意 ：使用nginx时，关闭不
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-05
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-03-08
+                            </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                    前端
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Hello
                             
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -754,25 +776,25 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/03/my-first-blog/">
+                <a href="/2021/03/01/git-ji-ben-ming-ling-fu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="My First Blog">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="git基本命令符">
                         
-                        <span class="card-title">My First Blog</span>
+                        <span class="card-title">git基本命令符</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Quick Start打开win+R进入cmd，然后在正确目录下进入：cd source_post(指定blog下)
-基本操作用typora修改完毕后，1.使用“hexo clean”进行清理（1.5.若是发生主题等修改后，要接上hexo 
+                            版本控制它是一种软件开发过程中，管理我们对文件、目录、或工程等内容的修改历史、方便我们查看更改历史记录，备份以便恢复以前的版本软件工程技术。简单来说就是用于管理多人协同开发项目的技术
+SVN：集中式版本控制、所有版本存在服务器上，需要连网才
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-03
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-03-01
                             </span>
                         <span class="publish-author">
                             

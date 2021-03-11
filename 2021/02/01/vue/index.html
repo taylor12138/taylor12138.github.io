@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    15.6k
+                    15.5k
                 </div>
                 
 
@@ -1981,22 +1981,6 @@ Vue<span class="token punctuation">.</span><span class="token function">use</spa
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <p>安装和引用之后，将原来的 </p>
 <p><code>&lt;img :src=&quot;img.src&quot; &gt;</code>    –&gt;   <code>&lt;img v-lazy=&quot;img.src&quot; &gt;</code>即可</p>
-<h4 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h4><p>利用脚手架打包后得到dist文件</p>
-<p>将自己电脑作为服务器，部署本地 ：window -&gt; 使用nginx或者tomcat</p>
-<p>远程主机，进行部署：linux centos -&gt; nginx</p>
-<ul>
-<li><p>Web服务器：提供Web化服务，当下几乎所有服务器软件都可以成为Web服务器</p>
-</li>
-<li><p>Http服务器：侧重静态资源传输的支持</p>
-</li>
-<li><p>应用服务器：常被称作动态服务器</p>
-</li>
-</ul>
-<p>1.Nginx：http服务器，性能好、稳定好、一般放在最前面</p>
-<p>2.Tengine：基于Nginx，加强和封装</p>
-<p>3.Apache：静态服务器，性能不如Nginx，所以Nginx使用居多</p>
-<p>4.IIS：微软阵营的Web服务器，只能运行在windows，http静态服务器</p>
-<p>5.Tomcat：典型java应用服务器软件，动态服务器， 一般和Nginx这种静态服务器一起打配合</p>
 <h2 id="9-原理相关"><a href="#9-原理相关" class="headerlink" title="9.原理相关"></a>9.原理相关</h2><h4 id="双向绑定"><a href="#双向绑定" class="headerlink" title="双向绑定"></a>双向绑定</h4><p><code>Object.defineProperty( )</code>的 <code>get</code> （读取属性值触发的函数）和 <code>set</code>（set就是在设置属性值触发的函数），所以Vue会根据数据变化，重新渲染到虚拟DOM，然后根据虚拟DOM，把真实DOM进行修改</p>
 <p><code>Object.defineProperty(对象名, 属性名, desciptor)</code> </p>
 <pre class=" language-js"><code class="language-js">Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span> key<span class="token punctuation">,</span> <span class="token punctuation">{</span>
@@ -2050,6 +2034,8 @@ dep<span class="token punctuation">.</span><span class="token function">notify</
 <p>谁通过 <code>get(){}</code>对数据进行获取，则对其添加订阅者类（new 一个 订阅者实例），然后将订阅者push进发布者的subs数组中</p>
 <p>当数据发生修改，即触发 <code>set(){}</code>函数，在里面使用notify： <code>set(){ dep.notify(); }</code> 让所有订阅者随之发生更新（调用了所有订阅者的update方法）</p>
 <p><img src="/images/Vue/vue_origin.jpg" alt=""></p>
+<p>Observer：每个属性创建一个Dep对象（发布者），若data数据发生改动，则调用Dep对象的notify方法</p>
+<p>Compile：解析el中的指令，每次使用到data的数据，就创建一个Watcher（订阅者），然后加入到该属性对应的发布者</p>
 <p><strong>响应式的注意事项</strong></p>
 <p>必须在 <code>data</code> 对象上存在才能让 Vue 将它转换为响应式的</p>
 <p>Vue 不能检测以下数组的变动：</p>
@@ -2563,7 +2549,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">100.3k</span>&nbsp;字
+                class="white-color">101.9k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.3k
+                    4.1k
                 </div>
                 
 
@@ -529,6 +529,30 @@ prompt(info) //弹出输入框，提供用户输入 但是都是以字符的形�
 <li>Symbol</li>
 <li>Object</li>
 </ul>
+<p><img src="../images/JavaScript%E5%9F%BA%E7%A1%80/javaScript_base.jpg" alt=""></p>
+<p>总结：USONB  （you are so niubi）</p>
+<p>u：undefined</p>
+<p>s：string、symbol</p>
+<p>o：object</p>
+<p>n：null、number</p>
+<p>b：boolean</p>
+<h4 id="判断JS数据类型的四种方法"><a href="#判断JS数据类型的四种方法" class="headerlink" title="判断JS数据类型的四种方法"></a>判断JS数据类型的四种方法</h4><ul>
+<li><p><strong>typeof</strong> 是一个一元运算，放在一个运算数之前，运算数可以是任意类型。<br>返回值是一个字符串，该字符串说明运算数的类型。注意：<code>typeof null</code> 返回 object</p>
+</li>
+<li><p><strong>instanceof</strong> 用于判断一个变量是否某个对象的实例，如 var a=new Array();alert(a instanceof Array); 会返回 true</p>
+</li>
+<li><p><strong>constructor</strong></p>
+<pre class=" language-js"><code class="language-js"><span class="token function">alert</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span>constructor <span class="token operator">===</span> Array<span class="token punctuation">)</span> <span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">></span> <span class="token boolean">true</span>
+<span class="token function">alert</span><span class="token punctuation">(</span>d<span class="token punctuation">.</span>constructor <span class="token operator">===</span> Date<span class="token punctuation">)</span> <span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">-</span><span class="token operator">></span> <span class="token boolean">true</span>
+<span class="token function">alert</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>constructor <span class="token operator">===</span> Function<span class="token punctuation">)</span> <span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">-</span><span class="token operator">></span> <span class="token boolean">true</span></code></pre>
+<p>注意： constructor 在类继承时会出错， null 和 undefined 是无效的对象，因此是不会有 constructor 存在的</p>
+</li>
+<li><p><strong>toString</strong>，利用toString打印出原型对象</p>
+<pre class=" language-js"><code class="language-js">Object<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>toString<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span> <span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// [object String]</span>
+Object<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>toString<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">// [object Number]</span>
+Object<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>toString<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">;</span><span class="token comment" spellcheck="true">// [object Boolean]</span></code></pre>
+</li>
+</ul>
 <h2 id="3-函数"><a href="#3-函数" class="headerlink" title="3.函数"></a>3.函数</h2><pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//1.利用函数关键字自定义函数</span>
 <span class="token keyword">function</span> <span class="token function">函数名</span><span class="token punctuation">(</span>参数<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     函数体
@@ -543,22 +567,13 @@ prompt(info) //弹出输入框，提供用户输入 但是都是以字符的形�
 <span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>函数没有return，则返回的是undefined</p>
 <p><strong>注意</strong>在函数内部没有声明直接赋值的变量，也属于全局变量</p>
-<h4 id="arguments的使用"><a href="#arguments的使用" class="headerlink" title="arguments的使用"></a>arguments的使用</h4><p>当我们不确定函数用多少个参数来传递的时候，arguments实际上是当前函数的一个内置对象（函数才拥有），arguments储存了传递的所有实参,它展示的方式是伪数组，因此可以进行遍历（使用for等）</p>
-<p><strong>注意：箭头函数是用不了arguments</strong></p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>agruments<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>agruments<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-<span class="token function">fn</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//则输出1，2，3</span></code></pre>
-<p>伪数组：1.具有length属性  2.按索引凡是储存数据   3.不具有push，pop功能</p>
 <h4 id="预解析"><a href="#预解析" class="headerlink" title="预解析"></a>预解析</h4><p>js引擎运行js，分为两步：1.预解析 2.代码执行</p>
 <p>预解析：js会把里面所有var还有function提升到当前作用域的最前面（分别为变量提升和函数提升）</p>
 <p>变量提升：把所有变量声明提升至当前作用于最前，但是不提升赋值操作</p>
 <h2 id="4-对象"><a href="#4-对象" class="headerlink" title="4.对象"></a>4.对象</h2><p>对象一定是一个具体的对象，而不是泛指的东西</p>
 <p>属性：事物的特征，用对象的属性表示</p>
 <p>方法：事物的行为，在对象中方法来表示</p>
-<p><strong>以下方法是利用对象字面量创建对象</strong></p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> obj <span class="token operator">=</span><span class="token punctuation">{</span>
+<h4 id="利用对象字面量创建对象"><a href="#利用对象字面量创建对象" class="headerlink" title="利用对象字面量创建对象"></a><strong>利用对象字面量创建对象</strong></h4><pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> obj <span class="token operator">=</span><span class="token punctuation">{</span>
     uname<span class="token punctuation">:</span><span class="token string">'xx'</span><span class="token punctuation">,</span>
     age<span class="token punctuation">:</span><span class="token number">18</span><span class="token punctuation">,</span>
     sex<span class="token punctuation">:</span><span class="token string">'man'</span><span class="token punctuation">,</span>
@@ -572,14 +587,14 @@ obj<span class="token punctuation">[</span><span class="token string">'uname'</s
 <p>(1)键 属性名: 值 属性值</p>
 <p>(2)用逗号隔开</p>
 <p>(3)方法冒号后面跟的一个匿名函数</p>
-<p><strong>利用new Object创建对象</strong>，再赋值的时候创建属性，因此此方法效率不高</p>
+<h4 id="利用new-Object创建对象"><a href="#利用new-Object创建对象" class="headerlink" title="利用new Object创建对象"></a><strong>利用new Object创建对象</strong></h4><p>再赋值的时候创建属性，因此此方法效率不高</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Object</span>
 obj<span class="token punctuation">.</span>uname<span class="token operator">=</span><span class="token string">'xx'</span><span class="token punctuation">;</span>
 obj<span class="token punctuation">.</span>age<span class="token operator">=</span><span class="token number">18</span><span class="token punctuation">;</span>
 obj<span class="token punctuation">.</span>say<span class="token operator">=</span><span class="token function">funciton</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
 <p>（1）利用等号赋值添加对象的属性和方法</p>
 <p>（2）每个属性和方法用分号</p>
-<p><strong>利用构造函数创建对象，其过程也称为对象的实例化,构造函数是泛指的某一大类，对象是具体的事物</strong></p>
+<h4 id="利用构造函数创建对象"><a href="#利用构造函数创建对象" class="headerlink" title="利用构造函数创建对象"></a><strong>利用构造函数创建对象</strong></h4><p>其过程也称为对象的实例化,构造函数是泛指的某一大类，对象是具体的事物</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">构造函数名</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
     <span class="token keyword">this</span><span class="token punctuation">.</span>属性<span class="token operator">=</span>值<span class="token punctuation">;</span>
     <span class="token keyword">this</span><span class="token punctuation">.</span>方法<span class="token operator">=</span><span class="token keyword">function</span>（）<span class="token punctuation">{</span><span class="token punctuation">}</span>
@@ -593,6 +608,11 @@ obj<span class="token punctuation">.</span>say<span class="token operator">=</sp
 <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> item <span class="token keyword">of</span> obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>book<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//每个属性的属性值</span>
 <span class="token punctuation">}</span></code></pre>
+<h4 id="对象删除键值对"><a href="#对象删除键值对" class="headerlink" title="对象删除键值对"></a>对象删除键值对</h4><pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> json <span class="token operator">=</span> <span class="token punctuation">{</span>
+    name<span class="token punctuation">:</span><span class="token string">'张三'</span><span class="token punctuation">,</span>
+    age<span class="token punctuation">:</span><span class="token string">'23'</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">delete</span>  json<span class="token punctuation">.</span>age<span class="token punctuation">;</span></code></pre>
 <h2 id="5-内置对象"><a href="#5-内置对象" class="headerlink" title="5.内置对象"></a>5.内置对象</h2><p>JavaScript中对象分为自定义对象，内置对象，浏览器对象，前两种属于ECMAScript；第三个浏览器对象是js特有的</p>
 <p>Javascript提供了多个和内置对象：Math、Date、Array、String</p>
 <p>可以通过MDN/W3C来查询内置对象的使用</p>
@@ -645,7 +665,11 @@ arr1<span class="token punctuation">.</span><span class="token function">lastind
 arr1<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">//转换成字符串，逗号分隔</span>
 arr1<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">'你想要的分隔符'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                                     <span class="token comment" spellcheck="true">//用指定分隔符分割不同的数组元素，并转换成字符串</span>
 array<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span>开始的指针下标<span class="token punctuation">,</span>删除的个数<span class="token punctuation">[</span><span class="token punctuation">,</span> item1<span class="token punctuation">[</span><span class="token punctuation">,</span> item2<span class="token punctuation">[</span><span class="token punctuation">,</span> <span class="token operator">...</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//用于删除多组元素并且添加新元素</span>
-arr<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token string">"William"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                                    <span class="token comment" spellcheck="true">//从index序号为2地开始，删除掉一个，并添加william元素</span></code></pre>
+arr<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token string">"William"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                                    <span class="token comment" spellcheck="true">//从index序号为2地开始，删除掉一个，并添加william元素</span>
+arr<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span>start<span class="token punctuation">,</span>end<span class="token punctuation">)</span>                                          <span class="token comment" spellcheck="true">//slice() 方法可从已有的数组中返回选定的元素。</span>
+                                                              <span class="token comment" spellcheck="true">//这里是指从start到end-1，不包含end</span>
+arr<span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>arrayX<span class="token punctuation">,</span>arrayX<span class="token punctuation">)</span>                                     <span class="token comment" spellcheck="true">//concat() 方法用于连接两个或多个数组。</span>
+                                                              <span class="token comment" spellcheck="true">//该方法不会改变现有的数组，而仅仅会返回被连接数组的一                                                               //个副本。</span></code></pre>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">//案例，数组去重</span>
 <span class="token comment" spellcheck="true">//利用indexoOf，返回-1则添加入新数组</span>
 <span class="token keyword">function</span> <span class="token function">unique</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -696,14 +720,34 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <h2 id="8-APIs介绍"><a href="#8-APIs介绍" class="headerlink" title="8.APIs介绍"></a>8.APIs介绍</h2><p>Web APIs我们主要学习的是DOM和BOM，进行页面交互</p>
 <p>API是预先定义的函数，提供给开发人员直接调用，无需访问源码工作细节</p>
 <p>Web API 是浏览器提供的一套操作浏览器功能和页面元素的api（DOM和BOM）</p>
-<h2 id="9-swiper插件的使用"><a href="#9-swiper插件的使用" class="headerlink" title="9.swiper插件的使用"></a>9.swiper插件的使用</h2><p>官网地址：<a href="https://www.swiper.com.cn" target="_blank" rel="noopener">https://www.swiper.com.cn</a></p>
+<h2 id="9-JavaScript的垃圾回收机制"><a href="#9-JavaScript的垃圾回收机制" class="headerlink" title="9.JavaScript的垃圾回收机制"></a>9.JavaScript的垃圾回收机制</h2><h4 id="标记清除算法"><a href="#标记清除算法" class="headerlink" title="标记清除算法"></a>标记清除算法</h4><p>设置一个根对象（root）（在Javascript里，根是全局对象）），然后垃圾回收器会定期从根（root）扫描内存中的对象，凡是能从根到达的对象，就是还需要用的，到达不了的进行标记，稍后回收</p>
+<p>所有标记清除算法有两个阶段：</p>
+<ul>
+<li>标记阶段</li>
+<li>清除阶段</li>
+</ul>
+<p>算法缺陷：无法从根对象查询到的对象都会被清除，垃圾收集完毕后会造成大量内存碎片</p>
+<p>从2012年起，所有现代浏览器都使用了标记-清除垃圾回收算法。所有对JavaScript垃圾回收算法的改进都是基于标记-清除算法的改进</p>
+<h4 id="引用计数算法"><a href="#引用计数算法" class="headerlink" title="引用计数算法"></a><strong>引用计数算法</strong></h4><p>古老的垃圾回收算法，可怜的它现在没人用了</p>
+<p>原理是跟踪记录每个值被引用的次数</p>
+<h4 id="chrome-V8-回收算法"><a href="#chrome-V8-回收算法" class="headerlink" title="chrome V8 回收算法"></a>chrome V8 回收算法</h4><p>Chrome 浏览器所使用的 V8 引擎就是采用的分代回收策略。这个和 Java 回收策略思想是一致的。目的是通过区分「临时」与「持久」对象；多回收「临时对象区」（<strong>新生代</strong>younggeneration），少回收「持久对象区」（<strong>老生代</strong> tenured generation），减少每次需遍历的对象，从而减少每次GC的耗时。</p>
+<p>减少垃圾回收对性能的影响：1.让垃圾回收尽量少地进行 2.避免内存泄露</p>
+<h2 id="10-其他"><a href="#10-其他" class="headerlink" title="10.其他"></a>10.其他</h2><h4 id="swiper插件的使用"><a href="#swiper插件的使用" class="headerlink" title="swiper插件的使用"></a>swiper插件的使用</h4><p>官网地址：<a href="https://www.swiper.com.cn" target="_blank" rel="noopener">https://www.swiper.com.cn</a></p>
 <p>（1）下载并解压包后，把其中的swiper.min.js和swiper.min.css放入网页文件夹的js和css中</p>
 <p>（2）官网找到类似的案例，复制html，css和js（进入官网swiper演示中，然后新窗口打开，查看网页源代码）</p>
 <p>（3）根据需求修改模块</p>
-<h2 id="10-其他"><a href="#10-其他" class="headerlink" title="10.其他"></a>10.其他</h2><p>JavaScript天生不支持模块化，node.js中才有</p>
+<h4 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h4><p>JavaScript天生不支持模块化，node.js中才有</p>
 <p>但是在浏览器中也可以像在node.js中模块进行编程，如果 <code>&lt;scirpt&gt;</code>标签进行引用加载，还得考虑加载顺序问题，这时需要第三方库：    require.js（AMD）或sea.js（CMD）</p>
 <p>为了上述方法都是民间自主创造出来的，为了解决模块化问题，官方自己发布了ES6标准，其中包含了官方对JavaScript模块化的支持，虽然标准已经发布，但是JavaScript运行环境还不支持</p>
 <p>目前很多前端都是使用很多新技术，然后利用编译器工具打包，可以在低版本浏览器中运行，类似于less =&gt; css</p>
+<h4 id="浅拷贝和深拷贝"><a href="#浅拷贝和深拷贝" class="headerlink" title="浅拷贝和深拷贝"></a>浅拷贝和深拷贝</h4><p><strong>深拷贝和浅拷贝是只针对object和Array这样的引用数据类型的</strong></p>
+<h5 id="1-赋值"><a href="#1-赋值" class="headerlink" title="1.赋值"></a>1.赋值</h5><p>当我们把一个对象赋值给一个新的变量时，<strong>赋的其实是该对象在栈中的地址，而不是堆中的数据</strong>，只要修改了里面的的值，原来都都会受到影响</p>
+<h5 id="2-浅拷贝"><a href="#2-浅拷贝" class="headerlink" title="2.浅拷贝"></a>2.浅拷贝</h5><p><strong>他会创建一个新对象</strong>，这个对象有着原始对象属性值的一份精确拷贝。如果属性基本类型，拷贝的基本类型的值（修改后原来的变量的值不会受到影响）；如果属性是内存地址（引用类型，比如数组、对象），拷贝的就是内存地址，即其中一个变量修改了这个地址存放的对象，则另外一个会受到影响</p>
+<p>数组的浅拷贝可以使用：<code>Array.prototype.concat()</code>、<code>Array.prototype.slice()</code>，他们不会修改原数组，只是返回了一个浅拷贝的新数组</p>
+<p>对象可以使用 ：<code>Object.assgin()</code></p>
+<h5 id="3-深拷贝"><a href="#3-深拷贝" class="headerlink" title="3.深拷贝"></a>3.深拷贝</h5><p>所谓”深拷贝”，就是能够实现真正意义上的数组和对象的拷贝，使得两个对象不会相互影响</p>
+<p>具体深拷贝的手写我在 “JavaScript进阶ES5+面向对象”篇章中写过</p>
+<p><img src="../images/JavaScript%E5%9F%BA%E7%A1%80/kaobei.jpg" alt=""></p>
 
             </div>
             <hr/>
@@ -936,21 +980,24 @@ console<span class="token punctuation">.</span><span class="token function">log<
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/08/06/mo-ni-tui-huo-suan-fa/">
+                <a href="/2020/08/06/shu-xue-jian-mo-guo-sai-matlab-zhi-shi-dian/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="模拟退火算法">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="数学建模国赛matlab知识点">
                         
-                        <span class="card-title">模拟退火算法</span>
+                        <span class="card-title">数学建模国赛matlab知识点</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.模拟退火算法可能的情况很多，数据量太大，用模拟退火搜索出需要的解（求最值）（最大值问题可以添加负号转换成求最小值问题）
-启发式搜索：利用搜索过程中获取的信息改进搜索策略。启发式搜索有利于找到问题最优解，且有助于加速求解过程。
-模拟退火可
+                            1.基础命令行太长，可加上三个小数点：“…”   进行分割（续行符），如
+s=1-1/2+1/3-1/4...
++1/5-1/6+1/7数值数据默认双精度double
+clear命令，清除工作区的所有变量
+class(变量)得到变量类型
+复
                         
                     </div>
                     <div class="publish-info">
@@ -1210,7 +1257,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">101.9k</span>&nbsp;字
+                class="white-color">110k</span>&nbsp;字
             
             
             

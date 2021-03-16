@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    631
+                    188
                 </div>
                 
 
@@ -486,8 +486,8 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><p>设置个关键字，将大的放在它后面，小的放在前面，分成两个子表，并且重复上述过程，直到每一个子表只有一个记录为止</p>
-<pre><code>//算法8.5 快速排序
-#include &lt;iostream&gt;
+<pre class=" language-c++"><code class="language-c++">//算法8.5 快速排序
+#include <iostream>
 using namespace std;
 #define  MAXSIZE  20                      //顺序表的最大长度
 typedef struct
@@ -503,28 +503,28 @@ typedef struct
 }SqList;                                            //顺序表类型
 
 
-int Partition(SqList &amp;L,int low,int high)
+int Partition(SqList &L,int low,int high)
 { 
     //对顺序表L中的子表r[low..high]进行一趟排序，返回枢轴位置
     int pivotkey;
     L.r[0]=L.r[low];                        //用子表的第一个记录做枢轴记录
     pivotkey=L.r[low].key;                       //枢轴记录关键字保存在pivotkey中
-    while(low&lt;high)
+    while(low<high)
     {                                        //从表的两端交替地向中间扫描
-        while(low&lt;high&amp;&amp;L.r[high].key&gt;=pivotkey) --high;
+        while(low<high&&L.r[high].key>=pivotkey) --high;
         L.r[low]=L.r[high];                    //将比枢轴记录小的记录移到低端
-        while(low&lt;high&amp;&amp;L.r[low].key&lt;=pivotkey) ++low;
+        while(low<high&&L.r[low].key<=pivotkey) ++low;
         L.r[high]=L.r[low];                    //将比枢轴记录大的记录移到高端
     }//while
     L.r[low]=L.r[0];                        //枢轴记录到位
     return  low;                            //返回枢轴位置
 }//Partition
 
-void QSort(SqList &amp;L,int low,int high)
+void QSort(SqList &L,int low,int high)
 {    //调用前置初值：low=1; high=L.length;
     //对顺序表L中的子序列L.r[low..high]做快速排序
     int pivotloc;
-    if(low&lt;high)
+    if(low<high)
     {                                        //长度大于1
        pivotloc=Partition(L,low,high);         //将L.r[low..high]一分为二，pivotloc是枢轴位置
        QSort(L,low,pivotloc-1);                //对左子表递归排序
@@ -532,26 +532,26 @@ void QSort(SqList &amp;L,int low,int high)
     }
 }                                            //QSort
 
-void QuickSort(SqList &amp;L)
+void QuickSort(SqList &L)
 {
    //对顺序表L做快速排序
    QSort(L,1,L.length);
 }                                            //QuickSort
 
-void Create_Sq(SqList &amp;L)
+void Create_Sq(SqList &L)
 {
     int i,n;
-    cout&lt;&lt;&quot;请输入数据个数，不超过&quot;&lt;&lt;MAXSIZE&lt;&lt;&quot;个。&quot;&lt;&lt;endl;
-    cin&gt;&gt;n;                                            //输入个数
-    cout&lt;&lt;&quot;请输入待排序的数据:\n&quot;;
-    while(n&gt;MAXSIZE)
+    cout<<"请输入数据个数，不超过"<<MAXSIZE<<"个。"<<endl;
+    cin>>n;                                            //输入个数
+    cout<<"请输入待排序的数据:\n";
+    while(n>MAXSIZE)
     {
-        cout&lt;&lt;&quot;个数超过上限，不能超过&quot;&lt;&lt;MAXSIZE&lt;&lt;&quot;，请重新输入&quot;&lt;&lt;endl;
-        cin&gt;&gt;n;
+        cout<<"个数超过上限，不能超过"<<MAXSIZE<<"，请重新输入"<<endl;
+        cin>>n;
     }
-    for(i=1;i&lt;=n;i++)
+    for(i=1;i<=n;i++)
     {
-        cin&gt;&gt;L.r[i].key;
+        cin>>L.r[i].key;
         L.length++;
     }
 }
@@ -560,8 +560,8 @@ void Create_Sq(SqList &amp;L)
 void show(SqList L)
 {
     int i;
-    for(i=1;i&lt;=L.length;i++)
-        cout&lt;&lt;L.r[i].key&lt;&lt;endl;
+    for(i=1;i<=L.length;i++)
+        cout<<L.r[i].key<<endl;
 }
 
 
@@ -572,9 +572,10 @@ void main()
     L.length=0;
     Create_Sq(L);
     QuickSort(L);
-    cout&lt;&lt;&quot;排序后的结果为：&quot;&lt;&lt;endl;
+    cout<<"排序后的结果为："<<endl;
     show(L);
-}</code></pre><p>1.不稳定排序</p>
+}</code></pre>
+<p>1.不稳定排序</p>
 <p>2.多用于顺序结构</p>
 <p>3.时间复杂度O(log2 n)。   空间复杂度为O(log2 n), 最坏O(n).</p>
 <p>最坏情况是逆序，或基本有序（顺序）</p>
@@ -1087,7 +1088,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">101.9k</span>&nbsp;字
+                class="white-color">110k</span>&nbsp;字
             
             
             

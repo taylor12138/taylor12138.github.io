@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.7k
+                    2k
                 </div>
                 
 
@@ -536,6 +536,12 @@
 <p><code>border: 0;</code>   消除输入框的自带边框</p>
 <h4 id="透明"><a href="#透明" class="headerlink" title="透明"></a>透明</h4><p><code>opacity: 0.5</code>   半透明</p>
 <p> <code>opacity: 1</code>   不透明</p>
+<h4 id="box-sizing"><a href="#box-sizing" class="headerlink" title="box-sizing"></a>box-sizing</h4><p>box-sizing 属性可以被用来调整这些表现:</p>
+<ul>
+<li><code>content-box</code> 是默认值。如果你设置一个元素的宽为100px，那么这个元素的内容区会有100px 宽，并且任何边框和内边距的宽度都会被增加到最后绘制出来的元素宽度中。</li>
+<li><code>border-box</code> 告诉浏览器：你想要设置的边框和内边距的值是包含在width内的。也就是说，如果你将一个元素的width设为100px，那么这100px会包含它的border和padding，内容区的实际宽度是width减去(border + padding)的值。大多数情况下，这使得我们更容易地设定一个元素的宽高。</li>
+</ul>
+<p><code>border-box</code>不包含<code>margin</code></p>
 <h2 id="2-伪类选择器"><a href="#2-伪类选择器" class="headerlink" title="2.伪类选择器"></a>2.伪类选择器</h2><pre class=" language-css"><code class="language-css"><span class="token comment" spellcheck="true">/*a超链接类   或者写成   a的类名:XXX{}*/</span>
 <span class="token property">a</span><span class="token punctuation">:</span>link            选择所有未访问的链接
 <span class="token property">a</span><span class="token punctuation">:</span>visited         选择所有已被访问的链接
@@ -545,12 +551,32 @@
 
 <span class="token comment" spellcheck="true">/*input类，把获得光标的inut选取出来改写CSS*/</span>
 <span class="token property">input</span><span class="token punctuation">:</span>focus </code></pre>
-<h2 id="3-行块转换（块元素和行元素相互转换）"><a href="#3-行块转换（块元素和行元素相互转换）" class="headerlink" title="3.行块转换（块元素和行元素相互转换）"></a>3.行块转换（块元素和行元素相互转换）</h2><pre class=" language-css"><code class="language-css"><span class="token property">display</span><span class="token punctuation">:</span>block     <span class="token comment" spellcheck="true">/*转块元素*/</span>
-<span class="token property">display</span><span class="token punctuation">:</span>inline    <span class="token comment" spellcheck="true">/*转行内元素*/</span>
+<h2 id="3-行块转换（块元素和行元素相互转换）"><a href="#3-行块转换（块元素和行元素相互转换）" class="headerlink" title="3.行块转换（块元素和行元素相互转换）"></a>3.行块转换（块元素和行元素相互转换）</h2><pre class=" language-css"><code class="language-css"><span class="token property">display</span><span class="token punctuation">:</span>block            <span class="token comment" spellcheck="true">/*转块元素*/</span>
+<span class="token property">display</span><span class="token punctuation">:</span>inline           <span class="token comment" spellcheck="true">/*转行内元素*/</span>
 <span class="token property">display</span><span class="token punctuation">:</span> inline-block    <span class="token comment" spellcheck="true">/*转行内块*/</span>
-
+<span class="token property">displat</span><span class="token punctuation">:</span> table           <span class="token comment" spellcheck="true">/*成为一个块级表格元素*/</span>
+<span class="token property">display</span><span class="token punctuation">:</span> table-cell      <span class="token comment" spellcheck="true">/*使子元素成为表格单元格*/</span>
 <span class="token comment" spellcheck="true">/*使文字垂直居中  让文字行高=盒子的行高  行高>盒子高度偏下，&lt;偏上*/</span>
 <span class="token property">line-height</span><span class="token punctuation">:</span> 盒子高度</code></pre>
+<h4 id="多行文字居中"><a href="#多行文字居中" class="headerlink" title="多行文字居中"></a>多行文字居中</h4><ol>
+<li><p>display的<code>table</code>和<code>table-cell</code> 配合起来 +  <code>vertical-align: middle</code> 可以实现多行文字居中</p>
+</li>
+<li><p>父元素设置对应的<code>height</code>和<code>line-height</code></p>
+<p>子元素设置<code>display:inline-block</code> + <code>vertical-align:middle</code>() + <code>line-height</code></p>
+<p>(缺点：文本的高度不能超过外部盒子的高度。)</p>
+<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.parent</span> </span><span class="token punctuation">{</span>
+      <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">300</span>px<span class="token punctuation">;</span>
+      <span class="token property">line-height</span><span class="token punctuation">:</span> <span class="token number">300</span>px<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token selector"><span class="token class">.son</span> </span><span class="token punctuation">{</span>
+      <span class="token property">display</span><span class="token punctuation">:</span> inline-block<span class="token punctuation">;</span>
+      <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">300</span>px<span class="token punctuation">;</span>
+      <span class="token property">line-height</span><span class="token punctuation">:</span> <span class="token number">20</span>px<span class="token punctuation">;</span>
+      <span class="token property">vertical-align</span><span class="token punctuation">:</span> middle<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+</li>
+</ol>
 <h2 id="4-CSS的三大特性"><a href="#4-CSS的三大特性" class="headerlink" title="4.CSS的三大特性"></a>4.CSS的三大特性</h2><h4 id="1-层叠性"><a href="#1-层叠性" class="headerlink" title="1.层叠性"></a>1.层叠性</h4><p>样式冲突选择就近原则，把前面的覆盖掉，不冲突的不覆盖</p>
 <h4 id="2-继承性"><a href="#2-继承性" class="headerlink" title="2.继承性"></a>2.继承性</h4><p>子标签会继承父标签的属性</p>
 <h4 id="3-优先级"><a href="#3-优先级" class="headerlink" title="3.优先级"></a>3.优先级</h4><p>1.选择器相同，执行层叠性</p>
@@ -1096,7 +1122,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">101.9k</span>&nbsp;字
+                class="white-color">110k</span>&nbsp;字
             
             
             

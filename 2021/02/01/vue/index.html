@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    15.5k
+                    16.2k
                 </div>
                 
 
@@ -534,7 +534,7 @@
 <p>这样我们才能更好地依照某种顺序（等待某一步的完成），去完成另外一件 “需要上一步已达成” 这个条件下执行的事件</p>
 <p>生命周期就是一个对象（如vue)从声明到使用到销毁的各个阶段，为了开发方便框架会在每个阶段的节点上定义一个特定函数，这个特定函数就是生命周期函数，也叫钩子函数</p>
 <p>官网附有生命周期示意图</p>
-<p><img src="../images/Vue/vue_life.jpg" alt=""></p>
+<p><img src="/images/Vue/vue_life-1615514534331.jpg" alt=""></p>
 <h4 id="V-指令"><a href="#V-指令" class="headerlink" title="V-指令"></a>V-指令</h4><p><strong>v-once</strong></p>
 <p>只会在第一次渲染数据，随后数据发生改变，元素内的数据不会再发生改变，阻止了响应式，可以添加在标签属性上</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span> <span class="token attr-name">v-once</span><span class="token punctuation">></span></span>{{message}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span></code></pre>
@@ -607,6 +607,46 @@
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <p>Computed 默认调用的是get方法 不能传参，想要传递参数得用set设置好，再用get取</p>
+<h4 id="watch属性"><a href="#watch属性" class="headerlink" title="watch属性"></a><strong>watch</strong>属性</h4><p>watch也是属于组件中的属性（和data，props，methods等并列），对应一个对象类型，里面存放函数方法，这些函数适用于监听某些data中属性的改变。当需要在数据变化时执行异步或开销较大的操作时，这个方式是最有用的。</p>
+<p> 函数命名方式：<code>data中的属性名(改变后的值[, 改变前的值]){}</code></p>
+<pre class=" language-js"><code class="language-js">watch<span class="token punctuation">:</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 监听data中message的改变</span>
+    <span class="token function">message</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">//相当于message:function(){console.log("hello")}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>除了传入函数外，其实watch里面传的是键值对，值除了函数还可以包含两个参数</p>
+<ul>
+<li><p>immediate：组件加载立即触发回调函数执行，</p>
+</li>
+<li><p>deep: 深度监听，为了发现<strong>对象内部值</strong>的变化，复杂类型的数据时使用</p>
+</li>
+</ul>
+<pre class=" language-js"><code class="language-js">watch<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    message<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//使用deep、immediate参数时，对应的函数名必须为handler</span>
+        <span class="token function">handler</span><span class="token punctuation">(</span>newVal<span class="token punctuation">,</span> oldVal<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>oldVal<span class="token punctuation">)</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>newVal<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            deep<span class="token punctuation">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
+<p><strong>computed和watch</strong></p>
+<p>computed：</p>
+<ul>
+<li>支持缓存，只有依赖数据发生改变时才会重新计算</li>
+<li>不支持异步，当computed内有异步操作时无效，无法监听数据的变化</li>
+<li>如果一个属性是由其他属性计算而来的，且一对一或者多对一，则一般用computed</li>
+</ul>
+<p>watch：</p>
+<ul>
+<li>不支持缓存，数据变化则会直接触发相应操作</li>
+<li>支持异步</li>
+<li>监听的函数接收两个参数，第一个参数是最新的值（newValue）；第二个参数是输入之前的值（oldValue）</li>
+<li>可以监听具体到数据的某个属性（对象）</li>
+</ul>
 <h4 id="事件监听"><a href="#事件监听" class="headerlink" title="事件监听"></a>事件监听</h4><p><code>v-on</code> 绑定事件监听器，缩写（语法糖）为 <code>@</code> ，类似于jQuery的 <code>on</code> 事件处理</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>increment<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>decrement<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span></code></pre>
@@ -981,18 +1021,12 @@ props<span class="token punctuation">:</span> <span class="token punctuation">{<
         <span class="token punctuation">}</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
-<h4 id="watch属性"><a href="#watch属性" class="headerlink" title="watch属性"></a><strong>watch</strong>属性</h4><p>watch也是属于组件中的属性（和data，props，methods等并列），对应一个对象类型，里面存放函数方法，这些函数适用于监听某些data中属性的改变。当需要在数据变化时执行异步或开销较大的操作时，这个方式是最有用的。</p>
-<p> 函数命名方式：<code>data中的属性名(改变后的值[, 改变前的值]){}</code></p>
-<pre class=" language-js"><code class="language-js">watch<span class="token punctuation">:</span><span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 监听data中message的改变</span>
-    <span class="token function">message</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
 <h4 id="父子组件对象操作"><a href="#父子组件对象操作" class="headerlink" title="父子组件对象操作"></a>父子组件对象操作</h4><p>上面的组件数据访问我们已经提到了父子组件相互通信的方法（子组件传子组件信息给父组件，父组件传父组件的信息给子组件），但有时我们想直接访问组件（父组件获取子组件信息），而不是当子组件触发某个事件时，将子组件数据传给父组件再进行操作</p>
 <p>父组件想要访问子组件：使用 <code>$children</code> 或者 <code>$refs</code></p>
 <p>子组件访问父组件：使用 <code>$parent</code></p>
 <p><strong>父组件想要访问子组件</strong>：</p>
 <p>但是真实开发中，我们不会通过<code>$children</code>去拿子组件对象进行操作，这是因为当使用<code>$children[索引号]</code>的方式拿取数据，当Vue绑定的标签内在中间新插入新子组件，会导致拿到的是新子组件的数据</p>
-<p>所以用<code>$refs</code>比较多，无论Vue绑定的标签内是否有子组件，this.$ref都默认为空</p>
+<p>所以用<code>$refs</code>比较多，无论Vue绑定的标签内是否有子组件，this.$ref 都默认为空</p>
 <pre class=" language-html"><code class="language-html"><span class="token comment" spellcheck="true">&lt;!-- 对应的html标签 --></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>app<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>cpn</span><span class="token punctuation">></span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>cpn</span><span class="token punctuation">></span></span>
@@ -1981,6 +2015,14 @@ Vue<span class="token punctuation">.</span><span class="token function">use</spa
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <p>安装和引用之后，将原来的 </p>
 <p><code>&lt;img :src=&quot;img.src&quot; &gt;</code>    –&gt;   <code>&lt;img v-lazy=&quot;img.src&quot; &gt;</code>即可</p>
+<h4 id="Vue和React"><a href="#Vue和React" class="headerlink" title="Vue和React"></a>Vue和React</h4><p>相同之处：</p>
+<p>React与Vue存在很多相似之处，例如他们都是JavaScript的UI框架，专注于创造前端的富应用。不同于早期的JavaScript框架“功能齐全”，Reat与Vue只有框架的骨架，其他的功能如路由、状态管理等是框架分离的组件。</p>
+<p>Vue.js(2.0版本)与React的其中最大一个相似之处，就是他们都使用了’Virtual DOM’（虚拟DOM），如果需要改变任何元素的状态，那么是先在Virtual DOM上进行改变，而不是直接改变真实的DOM，这样可以减少开销；当有变化产生时，一个新的Virtual DOM对象会被创建并计算新旧Virtual DOM之间的差别。之后这些差别会应用在真实的DOM上。</p>
+<p>不同之处：</p>
+<ul>
+<li>React与Vue最大的不同是<strong>模板的编写</strong>。Vue鼓励你去写近似常规HTML的模板（<code>template</code>），写起来很接近标准HTML元素，只是多了一些属性，然后用类似于Angular风格的方法去动态输出内容；而React推荐你使用 JSX 来写模板，JSX只是JavaScript混合着XML语法，有部分人使用起来会觉得很畅快。<strong>值得一提的是</strong>，与React一样，Vue在技术上也支持render函数和JSX，但只是不是默认的而已</li>
+<li>在Vue中，state对象并不是必须的，数据由data属性在Vue对象中进行管理，而Vue提供反应式的数据，当数据改动时，界面就会自动更新；React的数据使用state对象（状态）保存，在React中你需要使用<code>setState()</code>方法去更新状态</li>
+</ul>
 <h2 id="9-原理相关"><a href="#9-原理相关" class="headerlink" title="9.原理相关"></a>9.原理相关</h2><h4 id="双向绑定"><a href="#双向绑定" class="headerlink" title="双向绑定"></a>双向绑定</h4><p><code>Object.defineProperty( )</code>的 <code>get</code> （读取属性值触发的函数）和 <code>set</code>（set就是在设置属性值触发的函数），所以Vue会根据数据变化，重新渲染到虚拟DOM，然后根据虚拟DOM，把真实DOM进行修改</p>
 <p><code>Object.defineProperty(对象名, 属性名, desciptor)</code> </p>
 <pre class=" language-js"><code class="language-js">Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span> key<span class="token punctuation">,</span> <span class="token punctuation">{</span>
@@ -2043,6 +2085,8 @@ dep<span class="token punctuation">.</span><span class="token function">notify</
 <li>1.当你利用索引直接设置一个数组项时，例如：<code>vm.items[indexOfItem] = newValue</code></li>
 <li>2.当你修改数组的长度时，例如：<code>vm.items.length = newLength</code></li>
 </ul>
+<p>Vue的缺点：</p>
+<p>还不能监听不存在的属性：所以上述数组的改变无法检测得到，使用Vue.set()才能新增一个属性</p>
 <p><strong>注意</strong> 2020年后 Vue3.0已经换成用proxy代理了 </p>
 
             </div>
@@ -2549,7 +2593,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">101.9k</span>&nbsp;字
+                class="white-color">110k</span>&nbsp;字
             
             
             

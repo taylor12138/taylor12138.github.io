@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.5k
+                    2.6k
                 </div>
                 
 
@@ -517,9 +517,9 @@
 <p>​                    <code>text-overflow: ellipsis</code>        ///变成省略号</p>
 <p>多行文本：（有较大兼容性问题，适用于移动端或者webkit浏览器）</p>
 <p>​                    <code>overflow: hidden;</code>        +    <code>text-overflow: ellipsis</code>        </p>
-<p>display: -webkit-box;    //单行伸缩盒子</p>
-<p>-webkit-line-clamp: 2;    //限制其文本行数</p>
-<p>-webkit-box-orient: vertical;     //设置盒子的子元素排列方式，（垂直居中）</p>
+<pre class=" language-css"><code class="language-css"><span class="token property">display</span><span class="token punctuation">:</span> -webkit-box<span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">/*单行伸缩盒子*/</span>
+<span class="token property">-webkit-line-clamp</span><span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">/*限制其文本行数*/</span>
+<span class="token property">-webkit-box-orient</span><span class="token punctuation">:</span> vertical<span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">/*设置盒子的子元素排列方式，（垂直居中）*/</span></code></pre>
 <h2 id="7-常见布局技巧"><a href="#7-常见布局技巧" class="headerlink" title="7.常见布局技巧"></a>7.常见布局技巧</h2><p>可以使用margin的负值来<strong>消除浮动边框的重合</strong>（消除产生的巨大影子）如：</p>
 <p><code>margin-left: -Xpx;</code></p>
 <p>想要<strong>移动到某个边框内自动变色</strong>可以使用hover，但是当排列方式为每个盒子的右边框被另外一个盒子的左边框压住时，变色效果会出bug，正确做法是：<code>xx:hover{ position: relative; }</code>添加相对定位使其马上覆盖当前所有单位</p>
@@ -632,6 +632,23 @@ transform:translate(-50%,-50%);</code></pre><p>但是它对行内标签没有效
 <p>transform要看情况选择：先写旋转rotate再写移动translate或者相反情况</p>
 <h4 id="3d呈现transform-style"><a href="#3d呈现transform-style" class="headerlink" title="3d呈现transform-style"></a>3d呈现transform-style</h4><p>控制子元素是否开启三维立体环境，代码要写给父级（一定是父级，不能爷爷级别，亲测过），此属性很重要</p>
 <pre class=" language-css"><code class="language-css"><span class="token property">transform-style</span><span class="token punctuation">:</span> preserve-<span class="token number">3</span>d <span class="token comment" spellcheck="true">/*此为开启立体空间，但是默认值为flat，不开启立体空间*/</span></code></pre>
+<h2 id="11-CSS动画和JS动画的对比"><a href="#11-CSS动画和JS动画的对比" class="headerlink" title="11.CSS动画和JS动画的对比"></a>11.CSS动画和JS动画的对比</h2><p>CSS动画优点：</p>
+<ul>
+<li>动画流畅</li>
+<li>性能较优</li>
+<li>动画效果对帧速不好的低版本浏览器</li>
+<li>代码简单，调优方向固定</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>运行过程控制较弱,无法附加事件绑定回调函数</li>
+<li>代码冗长</li>
+</ul>
+<p>JS动画优点：</p>
+<ul>
+<li>JavaScript动画控制能力很强，动画能力强</li>
+<li>兼容性好</li>
+</ul>
 
             </div>
             <hr/>
@@ -1140,7 +1157,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">101.9k</span>&nbsp;字
+                class="white-color">110k</span>&nbsp;字
             
             
             

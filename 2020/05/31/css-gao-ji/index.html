@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.6k
+                    3.2k
                 </div>
                 
 
@@ -648,6 +648,30 @@ transform:translate(-50%,-50%);</code></pre><p>但是它对行内标签没有效
 <ul>
 <li>JavaScript动画控制能力很强，动画能力强</li>
 <li>兼容性好</li>
+</ul>
+<h2 id="12-CSS的repaint和reflow"><a href="#12-CSS的repaint和reflow" class="headerlink" title="12.CSS的repaint和reflow"></a>12.CSS的repaint和reflow</h2><p><img src="../images/CSS%E9%AB%98%E7%BA%A7/reflow.jpg" alt=""></p>
+<p>以上为浏览器解析流程图</p>
+<p><strong>1、解析HTML以构建DOM树：</strong>渲染引擎开始解析HTML文档，转换树中的html标签或js生成的标签到DOM节点，它被称为 – 内容树。</p>
+<p><strong>2、构建渲染树：</strong>解析CSS（包括外部CSS文件和样式元素以及js生成的样式），根据CSS选择器计算出节点的样式，创建另一个树 —- 渲染树。<br><strong>3、布局渲染树:</strong> 从根节点递归调用，计算每一个元素的大小、位置等，给每个节点所应该出现在屏幕上的精确坐标。<br><strong>4、绘制渲染树:</strong> 遍历渲染树，每个节点将使用UI后端层来绘制。</p>
+<h4 id="reflow"><a href="#reflow" class="headerlink" title="reflow"></a><strong>reflow</strong></h4><p>对于DOM结构中的各个元素都有自己的盒子（模型），这些都需要浏览器根据各种样式（浏览器的、开发人员定义的等）来计算并根据计算结果将元素放到它该出现的位置，过程称为reflow</p>
+<p>它一般在DOM元素位置发生改变后触发，比如JS添加 <code>DOM</code>元素，CSS <code>width</code>的改变、CSS3的<code>animation</code>、Scroll页面</p>
+<h4 id="repaint"><a href="#repaint" class="headerlink" title="repaint"></a>repaint</h4><p>当各种盒子的位置、大小以及其他属性，例如颜色、字体大小等都确定下来后，浏览器于是便把这些元素都按照各自的特性绘制了一遍，于是页面的内容出现了，过程称为repaint</p>
+<p>它一般在改变 DOM 元素的视觉效果时触发，即不涉及任何排版布局的问题时触发，比如<code>color</code>、<code>text-align</code>、<code>a:hover</code>、``</p>
+<p>我们应该减少reflow和repaint的操作，提高渲染速度</p>
+<p>reflow的成本比repaint高很多</p>
+<p>下面操作可能导致高成本的消耗：</p>
+<ul>
+<li>当你增加、删除、修改 DOM 结点时，会导致 Reflow 或 Repaint。</li>
+<li>当你移动 DOM 的位置，或是搞个动画的时候。</li>
+<li>当你修改 CSS 样式的时候。</li>
+<li>当你 Resize 窗口的时候（移动端没有这个问题），或是滚动的时候。</li>
+<li>当你修改网页的默认字体时。</li>
+<li><code>display:none</code> 会触发 reflow，而 <code>visibility:hidden</code> 只会触发 repaint</li>
+</ul>
+<h4 id="优化方式"><a href="#优化方式" class="headerlink" title="优化方式"></a>优化方式</h4><ul>
+<li>不要一条一条地修改 <code>DOM</code> 的样式。与其这样，还不如预先定义好 <code>css</code> 的 <code>class</code>，然后修改 <code>DOM</code> 的 <code>className</code>：</li>
+<li>减少使用table布局</li>
+<li>不要把 <code>DOM</code> 节点的属性值放在一个循环里当成循环里的变量</li>
 </ul>
 
             </div>
@@ -1157,7 +1181,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">110k</span>&nbsp;字
+                class="white-color">112.3k</span>&nbsp;字
             
             
             

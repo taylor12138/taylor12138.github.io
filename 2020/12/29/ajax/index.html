@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.9k
+                    8.2k
                 </div>
                 
 
@@ -1352,7 +1352,7 @@ app<span class="token punctuation">.</span><span class="token keyword">get</span
     res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>cb<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">(</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">)`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <h4 id="CORS解决跨域问题"><a href="#CORS解决跨域问题" class="headerlink" title="CORS解决跨域问题"></a>CORS解决跨域问题</h4><p>CORS，跨域资源共享，它是官方的跨域解决方案，它的特点是不需要在客户端做任何特殊操作，完全在服务器中进行处理，支持get、post请求，跨域资源共享标准新增了一组http首部字段，允许服务器声明哪些源站通过浏览器权限访问哪些资源</p>
-<p>工作原理：设置一个响应头告诉浏览器，该请求允许跨域，然后浏览器收到该响应以后对响应放行</p>
+<p>工作原理：设置一个响应头（<strong>使用自定义的HTTP头部</strong>）告诉浏览器，该请求允许跨域，然后浏览器收到该响应以后对响应放行</p>
 <p><code>setHeader(&quot;允许跨域响应头&quot;, &quot;*&quot;);</code></p>
 <p>设置允许跨域的响应头,有Access-Control-Allow-Origin、Access-Control-Expose-Headers、Access-Control-Max-Age、Access-Control-Allow-Credentials、Access-Control-Allow-Methods、Access-Control-Allow-Headers</p>
 <p>第二个参数<code>*</code>是通用的意思，也可以设置专用的url</p>
@@ -1372,6 +1372,10 @@ app<span class="token punctuation">.</span><span class="token function">all</spa
 <span class="token keyword">var</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'express'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">var</span> server <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 server<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token function">cors</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="postMessage"><a href="#postMessage" class="headerlink" title="postMessage"></a>postMessage</h4><p>这是由H5提出来的的API，IE8以上支持这个功能。window.postMessage() 方法可以安全地实现跨源通信。通常，对于两个不同页面的脚本，都遵循同源策略才能够实现通信。</p>
+<p><code>window.postMessage()</code> 方法提供了一种受控机制来规避此限制，只要正确的使用，这种方法就很安全</p>
+<h3 id="nginx代理跨域"><a href="#nginx代理跨域" class="headerlink" title="nginx代理跨域"></a>nginx代理跨域</h3><p><strong>跨域原理：</strong> 同源策略是浏览器的安全策略，不是HTTP协议的一部分。服务器端调用HTTP接口只是使用HTTP协议，不会执行JS脚本，不需要同源策略，也就不存在跨越问题。</p>
+<p><strong>实现思路：</strong> 通过nginx配置一个代理服务器（域名与domain1相同，端口不同）做跳板机，反向代理访问domain2接口，并且可以顺便修改cookie中domain信息，方便当前域cookie写入，实现跨域登录。</p>
 
             </div>
             <hr/>
@@ -1878,7 +1882,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">110k</span>&nbsp;字
+                class="white-color">112.3k</span>&nbsp;字
             
             
             

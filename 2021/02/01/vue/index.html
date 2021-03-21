@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    16.2k
+                    17k
                 </div>
                 
 
@@ -691,7 +691,11 @@
       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">v-for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>(value, key) in info<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>{{key}}:{{value}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">v-for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>(value, key, index) in info<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>{{index}}.{{key}}:{{value}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">></span></span></code></pre>
-<p>官方推荐我们使用 <code>v-for</code>的时候，给元素或组件添加上 key属性（能更好的复用，提高增删时的性能，高效更新虚拟DOM），并且此时<code>key</code>属性绑定为<code>item</code>比较好，能形成一一对应（也可以是<code>item</code>对象中的id）。这时候就可以唯一标识元素或组件，用diff算法正确识别节点，找到正确位置插入/删除节点。</p>
+<p>官方推荐我们使用 <code>v-for</code>的时候，给元素或组件添加上 key属性（能更好的复用，提高增删时的性能，高效更新虚拟DOM），并且此时<code>key</code>属性绑定为<code>item</code>或者 <code>item.id</code>  比较好，能形成一一对应（也可以是<code>item</code>对象中的id）。这时候就可以唯一标识元素或组件，用diff算法正确识别节点，找到正确位置插入/删除节点。</p>
+<ul>
+<li>如果key用index，是不可以的，因为index，即下标，会随着DOM元素的位置而改变，导致key = “index”，加了和没加一样！！</li>
+<li>如果item不是字符串、数字之类的，也不推荐使用</li>
+</ul>
 <p>原因：没有key会像操作顺序表（或者数组）一样操作改变位置及之后所有数据，有key就会像链表一样断链后链接，只进行一次操作</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">v-for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item in strs<span class="token punctuation">"</span></span> <span class="token attr-name">:key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>{{item}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span></code></pre>
 <p><strong>哪些数组的方法是响应式的</strong>：</p>
@@ -2021,7 +2025,8 @@ Vue<span class="token punctuation">.</span><span class="token function">use</spa
 <p>不同之处：</p>
 <ul>
 <li>React与Vue最大的不同是<strong>模板的编写</strong>。Vue鼓励你去写近似常规HTML的模板（<code>template</code>），写起来很接近标准HTML元素，只是多了一些属性，然后用类似于Angular风格的方法去动态输出内容；而React推荐你使用 JSX 来写模板，JSX只是JavaScript混合着XML语法，有部分人使用起来会觉得很畅快。<strong>值得一提的是</strong>，与React一样，Vue在技术上也支持render函数和JSX，但只是不是默认的而已</li>
-<li>在Vue中，state对象并不是必须的，数据由data属性在Vue对象中进行管理，而Vue提供反应式的数据，当数据改动时，界面就会自动更新；React的数据使用state对象（状态）保存，在React中你需要使用<code>setState()</code>方法去更新状态</li>
+<li>在Vue中，state对象并不是必须的，数据由data属性在Vue对象中进行管理，而Vue提供响应式的数据，当数据改动时，界面就会自动更新；React的数据使用state对象（状态）保存，在React中你需要使用<code>setState()</code>方法去更新状态</li>
+<li>（我在观看视频老师对比React and Vue的时候看到的结果（虚拟DOM与DOM Diff 的原理，作者饥人谷，第二集））在测试插入10w个div标签的时候，DOM的原生渲染速度是大概2s；React的速度大概接近30s；Vue竟然是接近原生DOM，1s-3s</li>
 </ul>
 <h2 id="9-原理相关"><a href="#9-原理相关" class="headerlink" title="9.原理相关"></a>9.原理相关</h2><h4 id="双向绑定"><a href="#双向绑定" class="headerlink" title="双向绑定"></a>双向绑定</h4><p><code>Object.defineProperty( )</code>的 <code>get</code> （读取属性值触发的函数）和 <code>set</code>（set就是在设置属性值触发的函数），所以Vue会根据数据变化，重新渲染到虚拟DOM，然后根据虚拟DOM，把真实DOM进行修改</p>
 <p><code>Object.defineProperty(对象名, 属性名, desciptor)</code> </p>
@@ -2088,6 +2093,42 @@ dep<span class="token punctuation">.</span><span class="token function">notify</
 <p>Vue的缺点：</p>
 <p>还不能监听不存在的属性：所以上述数组的改变无法检测得到，使用Vue.set()才能新增一个属性</p>
 <p><strong>注意</strong> 2020年后 Vue3.0已经换成用proxy代理了 </p>
+<h4 id="虚拟DOM"><a href="#虚拟DOM" class="headerlink" title="虚拟DOM"></a>虚拟DOM</h4><p>DOM实际操作是挺快的，任何基于DOM的库（Vue/React）都不可能操作DOM时比DOM快</p>
+<p>虚拟DOM：一个能代表DOM树的对象，通常含有标签名、标签上属性、事件监听和子元素们，以及其它属性</p>
+<p>为什么虚拟DOM比真实DOM快？</p>
+<ul>
+<li>减少DOM操作：可以将多次DOM操作合并为一次操作，比如添加100个节点原来是一个一个添加，现在是一次性添加</li>
+<li>虚拟DOM借助DOM diff 可以把多余的操作省略掉，比如如果它发现有一些节点已经在页面里，就不选择更新，只更新不一样的部分（比如上面“虚拟DOM渲染特殊案例”提及到的）</li>
+<li>跨平台，虚拟DOM不仅可以变成DOM，还可以变成小程序、ios应用、安卓应用，因为虚拟DOM本质上只是一个JS对象</li>
+</ul>
+<p><img src="/images/Vue/visualDOM.jpg" alt=""></p>
+<p>（图片源自饥人谷）</p>
+<p>创建虚拟DOM（原始方法）（分别对应React和Vue）</p>
+<p>（将 <code>h</code> 作为 <code>createElement</code> 的别名是 Vue 生态系统中的一个通用惯例，实际上也是 JSX 所要求的）</p>
+<p><img src="/images/Vue/visualDOM2.jpg" alt=""></p>
+<p>虚拟DOM的缺点：需要额外创建函数，如createElement或h，但是有解决方法，如下：（通过babel、vue-loader转换）</p>
+<p>现在创建DOM的方法：</p>
+<p><img src="/images/Vue/visualDOM3.jpg" alt=""></p>
+<p>虽然克服了虚拟DOM的缺点，但是新增了另外一个缺点，也就是严重依赖打包工具！！</p>
+<p>但其实当规模比较合理的时候，比如几千的时候，使用虚拟DOM是很好的，他可以通过算法优化很多多余的操作，但是当规模大到一定的程度，10w以上等等，在这个情况下原生DOM能保持稳定性，而React就崩了（我在Vue和React的对比里面提及到）</p>
+<h4 id="DOM-diff"><a href="#DOM-diff" class="headerlink" title="DOM diff"></a>DOM diff</h4><p>diff就是一个函数，我们称之为<code>patch</code>；</p>
+<p><code>pathces= patch(oldVNode, newVNode)</code>，分别对应旧节点和新节点，patches就是运行的DOM操作</p>
+<p>把虚拟DOM想象成树型</p>
+<p>只更新不一样的部分（比如上面“虚拟DOM渲染特殊案例”提及到的）</p>
+<ul>
+<li><p>Tree diff逐层对比，查看哪里需要更新；看节点（Element diff）/组件（Component diff），查看标签名/组件类型</p>
+</li>
+<li><p>若标签类型没变，只更新div对应的DOM属性，变了的话直接替换</p>
+</li>
+<li><p>没替换的话，进入标签后代/深入组件  后继续做 Tree  diff 递归</p>
+</li>
+</ul>
+<p>但DOM diff也有 bug</p>
+<p><img src="/images/Vue/DOMdiff.jpg" alt=""></p>
+<p>更新的时候，直接看第一个children， 把 hello -&gt; world，然后再删除掉原来的 <code>span -&gt; world</code>；而不是直接删除掉hello的children</p>
+<p>所以我个人理解</p>
+<p>优点就是：复用性提高；</p>
+<p>缺点就是由于diff算法，导致了实际上比较简便的操作变得复杂了（可以使用key避免）</p>
 
             </div>
             <hr/>
@@ -2593,7 +2634,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">112.3k</span>&nbsp;字
+                class="white-color">116k</span>&nbsp;字
             
             
             

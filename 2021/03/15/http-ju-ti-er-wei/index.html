@@ -459,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.4k
+                    4.7k
                 </div>
                 
 
@@ -655,7 +655,7 @@
 <p>预防存储型XSS和反射型XSS攻击：</p>
 <ul>
 <li>纯前端渲染</li>
-<li>同上面常用的防范手段一样的转移html</li>
+<li>同上面常用的防范手段一样的转义html</li>
 </ul>
 <p>预防DOM型XSS攻击</p>
 <p>DOM型XSS攻击实际上是JavaScript代码本身不够严谨，</p>
@@ -682,6 +682,24 @@
 <li>Referer check：请求来源限制，此种方法成本最低，但是并不能保证 100% 有效，因为服务器并不是什么时候都能取到 Referer，而且低版本的浏览器存在伪造 Referer 的风险。</li>
 <li>token：token 验证的 CSRF 防御机制是公认最合适的方案。若网站同时存在 XSS 漏洞的时候，这个方法也是空谈。</li>
 </ul>
+<h4 id="劫持"><a href="#劫持" class="headerlink" title="劫持"></a>劫持</h4><p><strong>DNS劫持</strong></p>
+<p>DNS  ： 域名 -&gt;  ip地址 ，进行域名解析的服务器</p>
+<p>（DNS服务器的IP地址，有可能是动态的，每次上网时由网关分配，这叫做DHCP机制；也有可能是事先指定的固定地址。Linux系统里面，DNS服务器的IP地址保存在<code>/etc/resolv.conf</code>文件。）</p>
+<p>DNS劫持又称域名劫持,是指通过某些手段取得某域名的解析控制权，修改此域名的解析结果，导致对该域名的访问由原IP地址转入到修改后的指定IP，其结果就是对特定的网址不能访问或访问的是假网址。</p>
+<p>DNS劫持其实并不是真的“黑掉”了对方的网站，而是冒名顶替、招摇撞骗罢了</p>
+<p><strong>防止DNS劫持</strong></p>
+<p>网络层面：</p>
+<ul>
+<li>手动修改DNS</li>
+<li>修改路由密码</li>
+</ul>
+<p>应用层面：</p>
+<ul>
+<li>有点复杂，可以网上查询（泪。。）</li>
+</ul>
+<p><strong>HTTP劫持</strong></p>
+<p>你DNS解析的域名的IP地址不变。在和网站交互过程中的劫持了你的请求。在网站发给你信息前就给你返回了请求。</p>
+<p>HTTP劫持很好判断，当年正常访问一个无广告的页面时，页面上出现广告弹窗，八成就是运营商劫持了HTTP。下图中，右下角的广告并不是所访问的网站放置的。</p>
 
             </div>
             <hr/>
@@ -910,42 +928,55 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/03/15/http-ju-ti-er-wei/">
+                <a href="/2021/03/21/shen-ru-javascript-nei-cun/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="http具体而微">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="深入JavaScript内存">
                         
-                        <span class="card-title">http具体而微</span>
+                        <span class="card-title">深入JavaScript内存</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.http概述从计算机网络的学习我们了解到：HTTP协议[超文本传输协议]，协议详细规定了浏览器和万维网服务器之间相互通信的规则
-新的http/2
+                            内存概述内存也是有生命周期的，不管什么程序语言，一般可以按顺序分为三个周期：
 
-使用二进制传输（二进制分帧），减少服务端压力，连接吞吐量更大，改善TCP拥塞状况，同时慢
+分配期
+分配所需要的内存
+
+使用期
+使用分配到的内存（读、写）
+
+释放期
+不需要时将其释放和归还
+
+
+定义变量自动分配内存
+绝大部分情况下也不需要手动释放内存
+
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-03-15
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-03-21
+                        </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            Hello
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
-
                 
             </div>
         </div>
@@ -1184,7 +1215,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">112.3k</span>&nbsp;字
+                class="white-color">116k</span>&nbsp;字
             
             
             

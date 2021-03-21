@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.7k
+                    4.8k
                 </div>
                 
 
@@ -529,6 +529,7 @@
 <span class="token keyword">var</span> htmlEle <span class="token operator">=</span> document<span class="token punctuation">.</span>documentElement<span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">// 获取body元素</span>
 <span class="token keyword">var</span> bodyEle <span class="token operator">=</span> document<span class="token punctuation">.</span>body<span class="token punctuation">;</span></code></pre>
+<p><strong>注意</strong>：获取到的每个DOM元素都作为一个对象来使用！</p>
 <h3 id="（2）事件基础"><a href="#（2）事件基础" class="headerlink" title="（2）事件基础"></a>（2）事件基础</h3><p>事件是可以被js侦测到的行为，触发–响应机制</p>
 <p>事件由三部分组成：事件源（被触发对象）    事件类型（触发类型）   事件处理程序</p>
 <p>一个简单的事件例子：</p>
@@ -542,6 +543,11 @@
 <h3 id="（3）操作元素"><a href="#（3）操作元素" class="headerlink" title="（3）操作元素"></a>（3）操作元素</h3><p>我们可以利用dom操作元素来改变元素里面的内容</p>
 <p><code>element.innnerText</code>  从起始位置到终止位置的内容，但它除去html标签，空格换行也会去掉（非标准）</p>
 <p><code>element.innerHTML</code>    从起始位置到终止位置的内容，保留（识别）html标签和空格，换行（W3C标准）</p>
+<p>（<code>element.textContent</code> 相当于innerText，只不过</p>
+<ul>
+<li>textContent 会获取style= “display:none” 中的文本，而innerText不会</li>
+<li>textContent 会获取style标签里面的文本、script标签里的文本，而innerText 不会 ）</li>
+</ul>
 <p>同时，这两个标签是可读写的，可以获取元素里面的内容</p>
 <pre class=" language-js"><code class="language-js">btn<span class="token punctuation">.</span>onclick <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     div<span class="token punctuation">.</span>innerText <span class="token operator">=</span> <span class="token string">'2020'</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">/*点击后修改它的文字*/</span>
@@ -777,7 +783,7 @@ btn<span class="token punctuation">.</span><span class="token function">addEvent
 <p>常见事件对象属性（对低版本浏览器有兼容性问题）：</p>
 <pre class=" language-js"><code class="language-js">div<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>target<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">/*两者有些许相似，但是e.target返回的是触发事件得元素，this返回的是绑定事件的对象（元素）*/</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">/*两者有些许相似，但是e.target返回的是触发事件的元素，this返回的是绑定事件的对象（元素）*/</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>type<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//返回事件类型</span>
     e<span class="token punctuation">.</span><span class="token function">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//阻止默认事件，让它成为一个普通盒子，比如让链接不跳转，让input不提交等</span>
     e<span class="token punctuation">.</span><span class="token function">stopPropagation</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//阻止事件冒泡，使得触发子事件后，不会相应触发父事件，不会向外传播</span>
@@ -1364,7 +1370,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">112.3k</span>&nbsp;字
+                class="white-color">116k</span>&nbsp;字
             
             
             

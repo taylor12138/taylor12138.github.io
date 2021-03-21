@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.3k
+                    7.8k
                 </div>
                 
 
@@ -849,7 +849,7 @@ myobject<span class="token punctuation">.</span><span class="token function">fun
 <span class="token keyword">const</span> logger <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Logger</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> <span class="token punctuation">{</span> printName <span class="token punctuation">}</span> <span class="token operator">=</span> logger<span class="token punctuation">;</span>
 <span class="token function">printName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// TypeError: Cannot read property 'print' of undefined</span></code></pre>
-<p>上面代码中，<code>printName</code>方法中的<code>this</code>，默认指向<code>Logger</code>类的实例。但是，如果将这个方法提取出来单独使用，<code>this</code>会指向该方法运行时所在的环境（由于 class 内部是严格模式，所以 this 实际指向的是<code>undefined</code>），从而导致找不到<code>print</code>方法而报错。</p>
+<p>上面代码中，<code>printName</code>方法中的<code>this</code>，默认指向<code>Logger</code>类的实例。但是，<strong>如果将这个方法提取出来单独使用</strong>，<code>this</code>会指向该方法运行时所在的环境（由于 class 内部是严格模式，所以 this 实际指向的是<code>undefined</code>），从而导致找不到<code>print</code>方法而报错。</p>
 <p>（1）一个比较简单的解决方法是，在构造方法（constructor）中绑定<code>this</code>，这样就不会找不到<code>print</code>方法了。</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">class</span> <span class="token class-name">Logger</span> <span class="token punctuation">{</span>
   <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -871,8 +871,8 @@ myObj<span class="token punctuation">.</span><span class="token function">getThi
 <p>1.<code>call()</code>前面讲过，call的主要作用可以实现继承</p>
 <p>2.<code>apply()</code>方法调用一个函数，简单理解为调用函数的方式，但是它可以改变this的指向</p>
 <p><code>fun.apply(thisArg, [argsArray])</code> </p>
-<p>thisArg：在函数执行时指定的this对象     </p>
-<p>argsArray: 传递的值，必须包含在数组（伪数组）里面<strong>（这个是和call的不同点）</strong></p>
+<p><code>thisArg</code>：在函数执行时指定的this对象     </p>
+<p><code>argsArray</code>: 传递的值，必须包含在数组（伪数组）里面<strong>（这个是和call的不同点）</strong></p>
 <p>返回值为函数的返回值，因为它就是调用函数</p>
 <p>应用方面：apply传递数组参数，所以可以借助数学内置对象求最大值 <code>Math.max.apply(Math,arr)</code></p>
 <p>（es6拓展运算符…<code>Math.max(...arr)</code>也可以，但是不能 <code>MAth.max(arr)</code>，因为max不接受数组，只接受一个一个的参数）</p>
@@ -942,10 +942,28 @@ myObj<span class="token punctuation">.</span><span class="token function">getThi
 <p>4.严格模式下，如果构造函数不配合new来使用，this就会报错</p>
 <p>5.函数不能有重名参数</p>
 <p>6.函数必须声明在顶层，因为新版本的JavaScript引入了块级作用域，所以不允许在非函数代码块内声明函数</p>
-<h2 id="9-高阶函数"><a href="#9-高阶函数" class="headerlink" title="9.高阶函数"></a>9.高阶函数</h2><p>高阶函数是对其它函数进行操作的函数，它接收函数作为参数或将函数作为返回值输出，最典型的就是作为回调函数</p>
+<h2 id="9-变量的作用域"><a href="#9-变量的作用域" class="headerlink" title="9.变量的作用域"></a>9.变量的作用域</h2><p><code>Javascript</code> 语言的特殊之处，就在于函数内部可以直接读取全局变量。</p>
+<p>另一方面，在函数外部自然无法读取函数内的局部变量。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> n<span class="token operator">=</span><span class="token number">999</span><span class="token punctuation">;</span>
+<span class="token keyword">function</span> <span class="token function">f1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token function">alert</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token function">f1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 999</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">f1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">var</span> n<span class="token operator">=</span><span class="token number">999</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token function">alert</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// error</span></code></pre>
+<p>一定要使用var命令，如果不用的话，你实际上声明了一个全局变量</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">f1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    n<span class="token operator">=</span><span class="token number">999</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token function">f1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">alert</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 999</span></code></pre>
+<p>如果想要从外部读取内部的局部变量，则需要使用到：闭包！</p>
 <h2 id="10-闭包"><a href="#10-闭包" class="headerlink" title="10.闭包"></a>10.闭包</h2><p>闭包指有权访问另外一个函数作用域中变量的<strong>函数</strong>，简单理解就是一个作用域可以访问另外一个函数内部的局部变量</p>
 <p>（被访问作用域的函数就是闭包函数）</p>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//在此处fun函数作用域访问了另外一个函数fn里面的局部变量num，形成了闭包，此时fn就是一个闭包函数 </span>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//在此处fun函数作用域访问了另外一个函数fn里面的局部变量num，形成了闭包，此时fun就是闭包</span>
+<span class="token comment" spellcheck="true">//fun被赋予了一个全局变量，所以fun始终保存在内存中，而fun依赖fn的num，因此num也始终在内存中</span>
 <span class="token keyword">function</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token keyword">var</span> num <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
         <span class="token keyword">function</span> <span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -964,9 +982,17 @@ myObj<span class="token punctuation">.</span><span class="token function">getThi
     <span class="token punctuation">}</span>
 <span class="token keyword">var</span> f <span class="token operator">=</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>闭包的主要作用：延伸了变量的作用范围</p>
+<p>闭包的主要作用：</p>
+<ul>
+<li>延伸了变量的作用范围（读取函数内部的变量）</li>
+<li>让这些变量的值始终保持在内存中</li>
+</ul>
+<p>闭包缺点：</p>
+<ul>
+<li>由于闭包会使得函数中的变量都被保存在内存中，内存消耗很大，所以不能滥用闭包，否则会造成网页的性能问题，在IE中可能导致内存泄露</li>
+</ul>
 <p>利用闭包解决异步问题：（因为函数是一个作用域）</p>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//立即执行函数也成为了小闭包，因为立即执行函数里面任何一个函数都可以使用它的i变量</span>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//立即执行函数也成为了小闭包，因为立即执行函数里面任何一个函数都可以使用它的i变量，此时里面使用外层i的函数，都是闭包</span>
 <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> lis<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
         lis<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>onclick <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -1040,12 +1066,29 @@ myObj<span class="token punctuation">.</span><span class="token function">getThi
 <p>2.可以迅速用极简的形式达到对字符串复杂的控制</p>
 <p>3.对刚接触的人来说，比较晦涩难懂</p>
 <p>4.一般实际开发，都是直接复制写好的正则表达式，但是要求会使用正则表达式且根据实际情况修改正则表达式</p>
-<h4 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h4><p>1.通过调用RegExp对象的构造函数创建  <code>var 变量名 = new RegExp(/表达式/)</code></p>
-<p>2.通过字面量创建   <code>var 变量名 = /表达式/</code>（正则表达式不需要加引号，不管是数字型还是字符串型）</p>
+<h4 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h4><p>1.通过调用RegExp对象的构造函数创建  </p>
+<p><code>var 变量名 = new RegExp(/表达式/修饰符)</code></p>
+<p><code>var 变量名 = new RegExp(&#39;表达式&#39;, &#39;修饰符&#39;)</code></p>
+<p>2.通过字面量创建   <code>var 变量名 = /表达式/修饰符</code>（正则表达式不需要加引号，不管是数字型还是字符串型）</p>
 <p>测试正则表达式是否符合语法规范：test() 正则对象方法，用于检测字符串是否符合该规则，该对象会返回true或false，其参数是测试字符串    <code>regexObj.test(str)</code>  （只要包含有str这个字符串，返回的都是true）</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> rg <span class="token operator">=</span> <span class="token regex">/123/</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> rg2 <span class="token operator">=</span> <span class="token regex">/123/g</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>rg<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token number">123</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//true</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>rg<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token number">12123</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//true</span></code></pre>
+<p>g：全局模式，查找字符串全部内容，不是找到第一个匹配就结束</p>
+<p>i：不区分大小写</p>
+<p>m：多行模式，表示查找到一行末尾会继续查找</p>
+<p>y：粘附模式，表示只查找从lastIndex开始之后的字符串</p>
+<p>u：Unicode模式</p>
+<p>s：dotAll模式，表示元字符 <code>.</code> 可以匹配任何字符</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token string">"address_address"</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> rg <span class="token operator">=</span> <span class="token regex">/a/g</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> reg <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RegExp</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> <span class="token string">"g"</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//在正则中使用变量</span>
+rg<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"字符串"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>             <span class="token comment" spellcheck="true">//是否包含该字符串，返回布尔值</span>
+<span class="token function">eval</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`/a</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>a<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/`</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"字符串"</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//在正则中使用变量 + 其他字符</span>
+a<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span>rg<span class="token punctuation">)</span><span class="token punctuation">;</span>                  <span class="token comment" spellcheck="true">//返回匹配的字符串 + 具体信息，若正则启用全局模式，则返回一个数组，返回所有匹配的字符串</span>
+rg<span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>                   <span class="token comment" spellcheck="true">//和match差不多，只不过不受全局模式的影响，如果开全局模式，下次再匹配一次，则从lastIndex</span>
+                              <span class="token comment" spellcheck="true">//开始匹配，在这里也就是从 下标为1的d 开始匹配</span></code></pre>
 <h4 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h4><p>一个正则表达式可以由简单的字符构成，比如/abc/， 也可以是简单和特殊字符串的组合，比如/ab*c/。其中特殊字符也被称为元字符，在正则表达式中具有特殊意义的专用符号，如^ 、$ 、+  等</p>
 <p>（匹配特殊字符前面增加 <code>\</code>就可以了）</p>
 <p>正则表达式速查表：<a href="https://www.runoob.com/regexp/regexp-metachar.html" target="_blank" rel="noopener">https://www.runoob.com/regexp/regexp-metachar.html</a></p>
@@ -1070,7 +1113,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>量词符：用来设定某个模式出现的次数，有<code>*</code>、 <code>+</code>、 <code>？</code>、 <code>{}</code>，<code>{}</code>的量词间不要有空格，可以用test来检测下方正则表达式</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> rg <span class="token operator">=</span> <span class="token regex">/^a*$/</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//a可以出现0-n次，n>=0 </span>
 <span class="token keyword">var</span> rg1 <span class="token operator">=</span> <span class="token regex">/^a+$/</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//a可以出现1-n次，n>=1</span>
-<span class="token keyword">var</span> rg2 <span class="token operator">=</span> <span class="token regex">/^a?$/</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//a可以出现1或0次 </span>
+<span class="token keyword">var</span> rg2 <span class="token operator">=</span> <span class="token regex">/^a?$/</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//a可以出现1或0次 (?也可以表示禁止贪婪，往最少的匹配方式去选择)</span>
 <span class="token keyword">var</span> rg3 <span class="token operator">=</span> <span class="token regex">/^a{3}$/</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//a只能可以出现3次</span>
 <span class="token keyword">var</span> rg4 <span class="token operator">=</span> <span class="token regex">/^a{3,}$/</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//a只可以出现3-n次 n>=3 </span>
 <span class="token keyword">var</span> rg5 <span class="token operator">=</span> <span class="token regex">/^a{3,16}$/</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//a只可以出现3-16次</span>
@@ -1080,22 +1123,20 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p><code>[]</code>中括号：字符集合，匹配方括号中的任意字符</p>
 <p><code>{}</code> 大括号：量词符，里面表示重复次数，但只让大括号前面一个字符重复 （注意：<code>/^abc{3}$/</code>，只让c重复三次，即abccc）</p>
 <p><code>()</code> 小括号：表示优先级 可以用来：<code>/^(abc){3}$/</code>，表示让abc重复三次，即abcabc</p>
-<h4 id="预定义类"><a href="#预定义类" class="headerlink" title="预定义类"></a>预定义类</h4><p><code>\d</code> 匹配到0-9任意一数字，相当于<code>[0-9]</code>      (<code>var rg = /\d/;</code>)</p>
+<h4 id="预定义类"><a href="#预定义类" class="headerlink" title="预定义类"></a>预定义类</h4><p><code>\d</code> 匹配到0-9任意一数字，相当于<code>[0-9]</code>      (<code>var rg = /\d/;</code> 或者 <code>let reg = new RegExp(&quot;\\d&quot;)</code>)</p>
 <p><code>\D</code> 匹配到0-9以外的数字，相当于<code>[^0-9]</code></p>
 <p><code>\w</code> 匹配任意字母、数字、下划线，相当于<code>[A-Za-z0-9_]</code></p>
 <p><code>\W</code>匹配除字母数字下划线以外的字符，相当于<code>[^A-Za-z0-9_]</code></p>
 <p><code>\s</code> 匹配空格（包括换行符、制表符、空格符等），相当于<code>[\t\r\n\v\f]</code></p>
 <p><code>\S</code>匹配非空格字符，相当于<code>[^\t\r\n\v\f]</code>  </p>
-<p>正则里的或者符号：<code>|</code>    (<code>var rg = /^\d{3}-\d{8}|\d{4}-\d{7}$/;</code>)</p>
+<p>正则里的   “或者符号”：<code>|</code>    (<code>var rg = /^\d{3}-\d{8}|\d{4}-\d{7}$/;</code>)</p>
+<p><code>.</code> 除了换行外的任何字符</p>
 <h4 id="正则替换"><a href="#正则替换" class="headerlink" title="正则替换"></a>正则替换</h4><p>replace()方法可以实现替换字符串的操作，用来替换的参数可以是一个字符串或者是一个字符表达式  <code>stringObject.replace(regexp/substr, replacement)</code></p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">'red and blue and red'</span><span class="token punctuation">;</span>
 <span class="token keyword">var</span> newstr <span class="token operator">=</span> str<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token string">'red'</span><span class="token punctuation">,</span> <span class="token string">'yellow'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//结果为yellow and blue and red</span>
 <span class="token comment" spellcheck="true">//var newstr = str.replace(/red/, 'yellow'); 同理</span></code></pre>
 <p>但是replace只能替换掉第一个匹配的字符/正则表达式，无法满足替换掉多个敏感词</p>
 <p>可以使用: <code>/表达式/[switch]</code> swtich也成为修饰符，即按照什么样的模式来匹配</p>
-<p>g: 全局匹配</p>
-<p>i: 忽略大小写</p>
-<p>gi: 全局匹配+忽略大小写</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">'red and blue and red'</span><span class="token punctuation">;</span>
 <span class="token keyword">var</span> newstr <span class="token operator">=</span> str<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token regex">/red/g</span><span class="token punctuation">,</span> <span class="token string">'yellow'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//结果为yellow and blue and yellow</span></code></pre>
 
@@ -1604,7 +1645,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">112.3k</span>&nbsp;字
+                class="white-color">116k</span>&nbsp;字
             
             
             

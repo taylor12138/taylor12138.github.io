@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.2k
+                    7.4k
                 </div>
                 
 
@@ -1100,6 +1100,12 @@ console<span class="token punctuation">.</span><span class="token function">log<
       console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
     <span class="token function">hd</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="Promise缺点"><a href="#Promise缺点" class="headerlink" title="Promise缺点"></a>Promise缺点</h4><ul>
+<li>无法取消Promise,一旦新建它就会立即执行，无法中途取消。（只能抛出错误中断（throw））</li>
+<li>如果不设置回调函数，promise内部抛出的错误，不会反应到外部。</li>
+<li>当处于pending状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。</li>
+<li>可能代码撰写比较繁琐 + 冗长</li>
+</ul>
 <h2 id="5-Symbol"><a href="#5-Symbol" class="headerlink" title="5.Symbol"></a>5.Symbol</h2><p>Symbol表示独一无二的值，是ES6引入的第七种数据类型，是一种类似于<strong>字符串</strong>的数据类型（永远不会重复的字符串）</p>
 <p>特点：</p>
 <ul>
@@ -1289,26 +1295,42 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p><strong>生成器应用异步编程</strong></p>
 <p>下面使用 <code>setTimeout</code> 模拟异步任务的执行</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">getUser</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
         <span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token string">"用户信息"</span>
         iterator<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">function</span> <span class="token function">getGood</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">function</span> <span class="token function">getGood</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
         <span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token string">"商品信息"</span>
-
-      <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">function</span><span class="token operator">*</span> <span class="token function">gen</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token keyword">yield</span> <span class="token function">getUser</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token keyword">yield</span> <span class="token function">getGood</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">let</span> iterator <span class="token operator">=</span> <span class="token function">gen</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    iterator<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">function</span><span class="token operator">*</span> <span class="token function">gen</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token keyword">yield</span> <span class="token function">getUser</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">yield</span> <span class="token function">getGood</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">let</span> iterator <span class="token operator">=</span> <span class="token function">gen</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+iterator<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>个人感觉比promise麻烦很多。。。，代码太长了</p>
-<h2 id="7-其他"><a href="#7-其他" class="headerlink" title="7.其他"></a>7.其他</h2><h3 id="static"><a href="#static" class="headerlink" title="static"></a>static</h3><p>类（class）通过 <strong>static</strong> 关键字定义静态方法。<strong>不能在类的实例上调用静态方法</strong>，而应该通过类本身调用。这些通常是实用程序方法，例如创建或克隆对象的功能。</p>
+<h2 id="7-其他"><a href="#7-其他" class="headerlink" title="7.其他"></a>7.其他</h2><h4 id="static"><a href="#static" class="headerlink" title="static"></a>static</h4><p>类（class）通过 <strong>static</strong> 关键字定义静态方法。<strong>不能在类的实例上调用静态方法</strong>，而应该通过类本身调用。这些通常是实用程序方法，例如创建或克隆对象的功能。</p>
+<h4 id="关于块级作用域-函数声明的诡异代码"><a href="#关于块级作用域-函数声明的诡异代码" class="headerlink" title="关于块级作用域 + 函数声明的诡异代码"></a>关于块级作用域 + 函数声明的诡异代码</h4><p>先上代码，先上代码</p>
+<pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// undefined</span>
+<span class="token punctuation">{</span>
+a<span class="token operator">=</span><span class="token number">1</span>
+<span class="token keyword">function</span> <span class="token function">a</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 1</span></code></pre>
+<pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// undefined</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">function</span> <span class="token function">a</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+a<span class="token operator">=</span><span class="token number">1</span>
+<span class="token punctuation">}</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// func a</span></code></pre>
+<p>我在网上搜到的解释，希望对你们有帮助（请自行脑部理解！！！）</p>
+<p><img src="../images/JavaScript%E8%BF%9B%E9%98%B6ES6/guiyi.jpg" alt=""></p>
+<p><img src="../images/JavaScript%E8%BF%9B%E9%98%B6ES6/guiyi2.jpg" alt=""></p>
+<p><img src="../images/JavaScript%E8%BF%9B%E9%98%B6ES6/guiyi3.jpg" alt=""></p>
 
             </div>
             <hr/>
@@ -1815,7 +1837,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">116k</span>&nbsp;字
+                class="white-color">119.3k</span>&nbsp;字
             
             
             

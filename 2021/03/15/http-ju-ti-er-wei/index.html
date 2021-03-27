@@ -459,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.7k
+                    5.4k
                 </div>
                 
 
@@ -604,19 +604,50 @@
 <p>301：永久重定向   第一次进入a.com，请求-&gt;b.com，以后每次进入a.com就不用请求直接去b.com（请求的资源已被永久分配了新的 URI）</p>
 <p>302：临时重定向（暂时性转移）  每一次都会进入a.com，然后请求-&gt;b.com（请求的资源已被临时分配了新的 URI）</p>
 <p>303：有点像302，只不过303提醒你应该使用get请求</p>
-<p>304：不满足访问条件，且没有响应主体部分</p>
+<p>304：自从上次请求后，请求的网页未修改过，所以没有响应主体部分</p>
 <p>307：同302</p>
 <p>400：报文存在语法错误</p>
-<p>403：资源访问被服务器拒绝了</p>
-<p>404：找不到，</p>
-<p>403：服务器理解了请求但拒绝对其进行授权，被禁止</p>
 <p>401：未授权</p>
+<p>403：服务器理解了请求但拒绝对其进行授权，被禁止，资源访问被服务器拒绝了</p>
+<p>404：找不到，</p>
+<p>413：表示http请求实体太大。</p>
 <p>500：内部错误</p>
 <p>502：错误网关，从上游服务器收到无效响应，可能也是停机维护，或者服务器暂未开启，</p>
 <p>503：服务器目前无法使用（由于超载或停机维护）通常，这只是暂时状态。（服务不可用）</p>
 <p>504：网关超时</p>
 <p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/ajax.jpg" alt=""></p>
-<h2 id="6-其他"><a href="#6-其他" class="headerlink" title="6.其他"></a>6.其他</h2><h4 id="范围请求"><a href="#范围请求" class="headerlink" title="范围请求"></a>范围请求</h4><p>假设你正在下载一个很大的文件，已经下了四分之三，忽然网络中断了，那下载就必须重头再来一遍。为了解决这个问题，需要一种可恢复的机制，即能从之前下载中断处恢复下载，要实现该功能，这就要用到范围请求。（前提是上一次请求到这一次请求时间段内，下载对象没有发生改变）</p>
+<h2 id="6-http缓存"><a href="#6-http缓存" class="headerlink" title="6.http缓存"></a>6.http缓存</h2><p>常见的http缓存只能缓存get请求响应的资源，对于其他类型的响应则无能为力。对于开发者来说，长久缓存复用重复不变的资源是性能优化的重要组成部分！！！</p>
+<p>浏览器第一次向一个web服务器发起<code>http</code>请求后，服务器会返回请求的资源，并且在响应头中添加一些有关<strong>缓存的字段</strong>（添加后浏览器才知道是否应该缓存资源）如：</p>
+<ul>
+<li><p><code>Cache-Control</code>（控制浏览器是否可以缓存资源、强制缓存校验、缓存时间）（通用头部）</p>
+<ul>
+<li><code>no-cache</code>：含义是不使用本地缓存，需要使用协商缓存，也就是先与服务器确认缓存是否可用。</li>
+<li><code>no-store</code>：禁用缓存。</li>
+<li><code>public</code>：表明其他用户也可使用缓存，适用于公共缓存服务器的情况。</li>
+<li><code>private</code>：表明只有特定用户才能使用缓存，适用于公共缓存服务器的情况</li>
+</ul>
+</li>
+<li><p><code>Expires</code>（与响应头中的 Date 对比）（实体头部）</p>
+</li>
+<li><p><code>Last-Modified</code>（弱校验， 根据文件修改时间，可能内容未变，不精确）（实体头部）</p>
+</li>
+<li><p><code>ETag</code>（强校验，根据文件内容生成精确）（响应头部）</p>
+</li>
+<li><p><code>Date</code>等等。</p>
+</li>
+</ul>
+<p>http缓存都是从第二次请求开始的。第二次请求时，浏览器判断这些请求参数，命中强缓存就直接200，否则就把请求参数加到request header头中传给服务器，看是否命中协商缓存，命中则返回304，否则服务器会返回新的资源</p>
+<h4 id="强缓存-协商缓存"><a href="#强缓存-协商缓存" class="headerlink" title="强缓存 + 协商缓存"></a>强缓存 + 协商缓存</h4><p>之后浏览器再向该服务器请求该资源就可以视情况使用<strong>强缓存</strong>和<strong>协商缓存</strong>。</p>
+<ul>
+<li>强缓存：（当前缓存未过期）浏览器直接从本地缓存中获取数据，不与服务器进行交互。</li>
+<li>协商缓存：（当前缓存过期）浏览器发送请求到服务器，服务器判定是否可使用本地缓存。</li>
+<li>联系与区别：两种缓存方式最终使用的都是本地缓存；前者无需与服务器交互，后者需要。</li>
+</ul>
+<p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/huancun2.jpg" alt=""></p>
+<h4 id="缓存过期策略"><a href="#缓存过期策略" class="headerlink" title="缓存过期策略"></a>缓存过期策略</h4><p>1、设置 Cache-Control: max-age=1000 。响应头中的 Date 经过 1000s 过期（比起首部字段<code>Expires</code>，会优先处理<code>s-maxage</code>或<code>max-age</code>。）<br>2、设置 Expires 。此时间与本地时间(响应头中的 Date )对比，小于本地时间表示过期，由于本地时钟与服务器时钟无法保持一致，导致比较不精确（http1.0时代，Pragma也是1.0时代的产物）<br>3、如果以上均未设置，却设置了 Last-Modified ，浏览器隐式的设置资源过期时间为 (Date - Last-Modified) * 10% 缓存过期时间。</p>
+<p><strong>前端缓存图</strong>：</p>
+<p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/huancun.jpg" alt=""></p>
+<h2 id="7-其他"><a href="#7-其他" class="headerlink" title="7.其他"></a>7.其他</h2><h4 id="范围请求"><a href="#范围请求" class="headerlink" title="范围请求"></a>范围请求</h4><p>假设你正在下载一个很大的文件，已经下了四分之三，忽然网络中断了，那下载就必须重头再来一遍。为了解决这个问题，需要一种可恢复的机制，即能从之前下载中断处恢复下载，要实现该功能，这就要用到范围请求。（前提是上一次请求到这一次请求时间段内，下载对象没有发生改变）</p>
 <h4 id="什么是XSS"><a href="#什么是XSS" class="headerlink" title="什么是XSS"></a>什么是XSS</h4><p>Cross-Site Scripting（跨站脚本攻击）简称 XSS，是一种代码注入攻击，通过注入恶意脚本，，使之在用户浏览器上运行，然后利用这些恶意脚本，攻击者可以获取用户的敏感信息Cookie、SessionID等</p>
 <p>XSS 常见的注入方法：</p>
 <ul>
@@ -1215,7 +1246,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">116k</span>&nbsp;字
+                class="white-color">119.3k</span>&nbsp;字
             
             
             

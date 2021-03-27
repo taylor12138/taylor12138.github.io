@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.5k
+                    302
                 </div>
                 
 
@@ -487,12 +487,12 @@
             <div id="articleContent">
                 <h2 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h2><p>使用的大致思路是：根据关键字进行分类，再次排序，在分类，在排序，以此类推直至完成结果</p>
 <p>如扑克牌中根据分13类，排序，再根据花色分类，再排序；  对百位数排序，先根据个位分类，排，再根据十位分类，排，再根据百位分类，排</p>
-<pre><code>//算法8.12 基数排序
-#include &lt;iostream&gt;
+<pre class=" language-c++"><code class="language-c++">//算法8.12 基数排序
+#include <iostream>
 using namespace std;
-#include &lt;string.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;math.h&gt;
+#include <string.h>
+#include <stdlib.h>
+#include <math.h>
 #define MAXNUM_KEY 8                    //关键字项数的最大值
 #define RADIX 10                        //关键字基数，此时是十进制整数的基数
 #define MAX_SPACE 10000
@@ -518,33 +518,33 @@ void InitList(SLList *L)
     char c[MAXNUM_KEY],c1[MAXNUM_KEY];
     int i,j,n,max;                        //max为关键字的最大值
     max=-10000;
-    cout&lt;&lt;&quot;请输入数据个数，不超过&quot;&lt;&lt;MAX_SPACE&lt;&lt;&quot;个。\n&quot;;
-    cin&gt;&gt;n;
-    while(n&gt;MAX_SPACE)
+    cout<<"请输入数据个数，不超过"<<MAX_SPACE<<"个。\n";
+    cin>>n;
+    while(n>MAX_SPACE)
     {
-        cout&lt;&lt;&quot;您输入的个数超过上限，请重新输入，不超过&quot;&lt;&lt;MAX_SPACE&lt;&lt;&quot;个。\n&quot;;
-        cin&gt;&gt;n;
+        cout<<"您输入的个数超过上限，请重新输入，不超过"<<MAX_SPACE<<"个。\n";
+        cin>>n;
     }
     int *D=new int[n];
-    cout&lt;&lt;&quot;请输入&quot;&lt;&lt;n&lt;&lt;&quot;个排排序的数据：\n&quot;;
-    for(i=0;i&lt;n;i++)
+    cout<<"请输入"<<n<<"个排排序的数据：\n";
+    for(i=0;i<n;i++)
     {
-        cin&gt;&gt;D[i];
-        if(max&lt;D[i])
+        cin>>D[i];
+        if(max<D[i])
             max=D[i];
     }
     (*L).keynum=(int)(ceil(log10(max)));    //存放十进制的位数
     (*L).recnum=n;
-    for(i=1;i&lt;=n;i++)
+    for(i=1;i<=n;i++)
     {
         itoa(D[i-1],c,10);                    //将10进制整型转化为字符型,存入c
-        for(j=strlen(c);j&lt;(*L).keynum;j++)  //若c的长度&lt;max的位数,在c前补&#39;0&#39;
+        for(j=strlen(c);j<(*L).keynum;j++)  //若c的长度<max的位数,在c前补'0'
         {
-           strcpy(c1,&quot;0&quot;);
+           strcpy(c1,"0");
            strcat(c1,c);
            strcpy(c,c1);
         }
-        for(j=0;j&lt;(*L).keynum;j++)
+        for(j=0;j<(*L).keynum;j++)
             (*L).r[i].keys[j]=c[(*L).keynum-1-j];
     }
 }
@@ -552,9 +552,9 @@ void InitList(SLList *L)
 int ord(char c)
 {
     //返回k的映射(个位整数)
-    return c-&#39;0&#39;;
+    return c-'0';
 }
-void Distribute(SLCell *r,int i,ArrType &amp;f,ArrType &amp;e)
+void Distribute(SLCell *r,int i,ArrType &f,ArrType &e)
 {
     //静态链表L的r域中记录已按（keys[0], …, keys[i-1]）有序
     //本算法按第i个关键字keys[i]建立RADIX个子表，使同一子表中记录的keys[i]相同。
@@ -563,7 +563,7 @@ void Distribute(SLCell *r,int i,ArrType &amp;f,ArrType &amp;e)
 
 
     int j,p;
-    for(j=0;j&lt;RADIX;++j)  f[j]=0;            //各子表初始化为空表
+    for(j=0;j<RADIX;++j)  f[j]=0;            //各子表初始化为空表
     for(p=r[0].next;p;p=r[p].next)
     {
         j=ord(r[p].keys[i]);                //ord将记录中第i个关键字映射到[0..RADIX-1]
@@ -578,30 +578,30 @@ int succ(int i)
     //求后继函数
     return ++i;
 }
-void Collect (SLCell *r,int i,ArrType &amp;f,ArrType &amp;e)
+void Collect (SLCell *r,int i,ArrType &f,ArrType &e)
 {
     //本算法按keys[i]自小至大地将f[0..RADIX-1]所指各子表依次链接成一个链表
     //e[0..RADIX-1]为各子表的尾指针
     int j,t;
     for(j=0;!f[j];j=succ(j));              //找第一个非空子表，succ为求后继函数
     r[0].next=f[j];t=e[j];               //r[0].next指向第一个非空子表中第一个结点
-    while(j&lt;RADIX-1)
+    while(j<RADIX-1)
     {
-        for(j=succ(j);j&lt;RADIX-1&amp;&amp;!f[j];j=succ(j)) ;           //找下一个非空子表
+        for(j=succ(j);j<RADIX-1&&!f[j];j=succ(j)) ;           //找下一个非空子表
         if(f[j])  {r[t].next=f[j];t=e[j];}                    //链接两个非空子表
     }//while
     r[t].next=0;                        //t指向最后一个非空子表中的最后一个结点
 }//Collect
 
-void RadixSort(SLList &amp;L)
+void RadixSort(SLList &L)
 {
     //L是采用静态链表表示的顺序表
     //对L做基数排序，使得L成为按关键字自小到大的有序静态链表，L.r[0]为头结点
     int i;
     ArrType f,e;
-    for(i=0;i&lt;L.recnum;++i)  L.r[i].next=i+1;   //next指向i+1，即下一个记录
+    for(i=0;i<L.recnum;++i)  L.r[i].next=i+1;   //next指向i+1，即下一个记录
     L.r[L.recnum].next = 0;                 //将L改造为静态链表  最尾部的next为0
-    for(i=0;i&lt;L.keynum;++i)
+    for(i=0;i<L.keynum;++i)
     {
         //按最低位优先依次对各关键字进行分配和收集
         Distribute(L.r,i,f,e);                 //第i趟分配
@@ -613,11 +613,11 @@ void print(SLList L)
 {
     //按数组序号输出静态链表
     int i,j;
-    for(i=1;i&lt;=L.recnum;i++)
+    for(i=1;i<=L.recnum;i++)
     {
-        for(j=L.keynum-1;j&gt;=0;j--)
-            cout&lt;&lt;L.r[i].keys[j];
-        cout&lt;&lt;endl;
+        for(j=L.keynum-1;j>=0;j--)
+            cout<<L.r[i].keys[j];
+        cout<<endl;
     }
 }
 void Sort(SLList L,int adr[])
@@ -635,7 +635,7 @@ void Rearrange(SLList *L,int adr[])
     //adr给出静态链表L的有序次序，即L.r[adr[i]]是第i小的记录。
     //本算法按adr重排L.r，使其有序。算法10.18(L的类型有变)
     int i,j,k;
-    for(i=1;i&lt;=(*L).recnum;i++){
+    for(i=1;i<=(*L).recnum;i++){
         if(adr[i]!=i)
         {
             j=i;
@@ -658,15 +658,16 @@ int main()
 {
     SLList l;
     int *adr;
-    InitList(&amp;l);
+    InitList(&l);
     RadixSort(l);
     adr=new int[l.recnum];
     Sort(l,adr);
-    Rearrange(&amp;l,adr);
-    cout&lt;&lt;&quot;排序后(重排记录):\n&quot;;
+    Rearrange(&l,adr);
+    cout<<"排序后(重排记录):\n";
     print(l);
 }
-</code></pre><p>1.稳定排序</p>
+</code></pre>
+<p>1.稳定排序</p>
 <p>2.适用于顺序表和链表,一般采用静态链式</p>
 <p>3.时间复杂度为O(d(n+rd))/O(n)   空间复杂度为O(n+rd)</p>
 <p>4.但是它的使用有严格要求，必须知道各级关键字的主次关系和各级关键字的取值范围</p>
@@ -1180,7 +1181,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">116k</span>&nbsp;字
+                class="white-color">119.3k</span>&nbsp;字
             
             
             

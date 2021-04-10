@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7k
+                    7.3k
                 </div>
                 
 
@@ -837,7 +837,8 @@ methods<span class="token punctuation">:</span> <span class="token punctuation">
 <p>2.发射 <code>this.$bus.$emit(&#39;事件名&#39;[, 参数])</code> </p>
 <p>3.接受 <code>this.$bus.$on(&quot;事件名&quot;, 回调函数(参数))</code></p>
 <p>4.可以在deactivated里设置离开时不接受该事件的传递（取消全局事件监听）：<code>this.$bus.$off(&quot;事件名&quot;, 接收时的回调函数(参数));</code>，回调函数要和接收时发生的回调函数保持一致</p>
-<h4 id="mixin（混入）"><a href="#mixin（混入）" class="headerlink" title="mixin（混入）"></a>mixin（混入）</h4><p>为了减少两个对象之间重复的代码，Vue官方提供了 <code>minxin</code>（较少类重复的代码可以用es6的继承）</p>
+<h4 id="mixin（混入）"><a href="#mixin（混入）" class="headerlink" title="mixin（混入）"></a>mixin（混入）</h4><p>Vue中相同逻辑的代码如何抽离？</p>
+<p>为了减少两个对象之间重复的代码，Vue官方提供了 <code>minxin</code>（较少类重复的代码可以用es6的继承）</p>
 <p>官方示例：</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> mixin <span class="token operator">=</span> <span class="token punctuation">{</span>
   created<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">}</span>
@@ -921,6 +922,25 @@ obj<span class="token punctuation">.</span>install <span class="token operator">
 Vue<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>toast<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>这时我们就可以再各个组件中直接使用该插件了（此时只需要执行以下代码，即可出现冒泡提示）</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">this</span><span class="token punctuation">.</span>$toast<span class="token punctuation">.</span><span class="token function">showMessage</span><span class="token punctuation">(</span><span class="token string">"你想要输入的信息"</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//2000为自定义的时间间隔</span></code></pre>
+<h4 id="Vue-nextTick"><a href="#Vue-nextTick" class="headerlink" title="Vue.nextTick"></a>Vue.nextTick</h4><p><code>[Vue.nextTick( [callback, context\] )]</code></p>
+<p>Vue中DOM更新是异步的，而nextTick在下次 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 修改数据</span>
+vm<span class="token punctuation">.</span>msg <span class="token operator">=</span> <span class="token string">'Hello'</span>
+<span class="token comment" spellcheck="true">// DOM 还没有更新</span>
+Vue<span class="token punctuation">.</span><span class="token function">nextTick</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// DOM 更新了</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// 作为一个 Promise 使用，如果没有提供回调且在支持 Promise 的环境中，则返回一个 Promise</span>
+Vue<span class="token punctuation">.</span><span class="token function">nextTick</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// DOM 更新了</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p>主要应用：需要注意的是，在 created 和 mounted 阶段，如果需要操作渲染后的视图，也要使用 nextTick 方法。</p>
+<p>官方文档说明：</p>
+<blockquote>
+<p>注意 mounted 不会承诺所有的子组件也都一起被挂载。如果你希望等到整个视图都渲染完毕，可以用 vm.$nextTick 替换掉 mounted</p>
+</blockquote>
 <h4 id="vue图片懒加载"><a href="#vue图片懒加载" class="headerlink" title="vue图片懒加载"></a>vue图片懒加载</h4><p>可以使用<code>vue-lazyload</code>插件  </p>
 <pre class=" language-shell"><code class="language-shell">$ npm i vue-lazyload -S</code></pre>
 <p>（在main.js里）引用时可以传递一些想要的参数，比如加载前的图片显示等</p>
@@ -942,6 +962,18 @@ Vue<span class="token punctuation">.</span><span class="token function">use</spa
 <li>React与Vue最大的不同是<strong>模板的编写</strong>。Vue鼓励你去写近似常规HTML的模板（<code>template</code>），写起来很接近标准HTML元素，只是多了一些属性，然后用类似于Angular风格的方法去动态输出内容；而React推荐你使用 JSX 来写模板，JSX只是JavaScript混合着XML语法，有部分人使用起来会觉得很畅快。<strong>值得一提的是</strong>，与React一样，Vue在技术上也支持render函数和JSX，但只是不是默认的而已</li>
 <li>在Vue中，state对象并不是必须的，数据由data属性在Vue对象中进行管理，而Vue提供响应式的数据，当数据改动时，界面就会自动更新；React的数据使用state对象（状态）保存，在React中你需要使用<code>setState()</code>方法去更新状态</li>
 <li>（我在观看视频老师对比React and Vue的时候看到的结果（虚拟DOM与DOM Diff 的原理，作者饥人谷，第二集））在测试插入10w个div标签的时候，DOM的原生渲染速度是大概2s；React的速度大概接近30s；Vue竟然是接近原生DOM，1s-3s</li>
+</ul>
+<h4 id="Vue常见性能优化"><a href="#Vue常见性能优化" class="headerlink" title="Vue常见性能优化"></a>Vue常见性能优化</h4><ul>
+<li>不要把所有数据放在data，data的数据会增加 getter 和 setter，会收集对应的 watcher</li>
+<li>vue在v-for时给每项元素绑定事件需要用事件代理</li>
+<li>SPA采用keep-alive</li>
+<li>拆分组件，减少耦合度，提高维护度</li>
+<li>合理分配 v-if 和 v-show</li>
+<li>key保证唯一性</li>
+<li>Object.freeze 冻结数据</li>
+<li>合理使用路由懒加载</li>
+<li>尽量采用 runtime运行时版本</li>
+<li>合理运用防抖节流</li>
 </ul>
 <h2 id="9-原理相关"><a href="#9-原理相关" class="headerlink" title="9.原理相关"></a>9.原理相关</h2><h4 id="双向绑定"><a href="#双向绑定" class="headerlink" title="双向绑定"></a>双向绑定</h4><p><code>Object.defineProperty( )</code>的 <code>get</code> （读取属性值触发的函数）和 <code>set</code>（set就是在设置属性值触发的函数），所以Vue会根据数据变化，重新渲染到虚拟DOM，然后根据虚拟DOM，把真实DOM进行修改</p>
 <p><code>Object.defineProperty(对象名, 属性名, desciptor)</code> </p>
@@ -1069,10 +1101,10 @@ vm<span class="token punctuation">.</span>b <span class="token operator">=</span
 <p>时间复杂度：两棵树的diff时间复杂度为O(n^3)，但是Vue优化了（双指针），O(n^3) -&gt; O(n)，即4个指针分别指向新节点头，新节点尾、旧节点头、旧节点尾，两两进行比较</p>
 <h2 id="10-Vue3-0"><a href="#10-Vue3-0" class="headerlink" title="10.Vue3.0"></a>10.Vue3.0</h2><p>他在介绍中表明的是：</p>
 <ul>
-<li><p>更小、更快、更易维护，一些命令的变化。</p>
-</li>
-<li><p>3.0 新加入了 TypeScript 以及 PWA 的支持</p>
-</li>
+<li>更小、更快、更易维护，一些命令的变化。</li>
+<li>3.0 新加入了 TypeScript 以及 PWA 的支持</li>
+<li>支持了 <code>composiiton</code> API</li>
+<li><code>vdom</code>的对比算法更新，只更新绑定了动态数据部分</li>
 </ul>
 <p>而我主要关注的是（在响应式原理上变化比较大）：放弃 <code>Object.defineProperty</code> ，使用更快的原生 <code>Proxy</code></p>
 <p>细节方面：</p>
@@ -1680,7 +1712,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">119.3k</span>&nbsp;字
+                class="white-color">123.5k</span>&nbsp;字
             
             
             

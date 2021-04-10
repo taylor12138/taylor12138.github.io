@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.8k
+                    8k
                 </div>
                 
 
@@ -644,6 +644,10 @@ Star<span class="token punctuation">.</span>prototype <span class="token operato
 <p>所以在成员查找时，先查找最底层，没有则根据它 的<code>__proto__</code>查找至他的原型对象，看看有没有该成员，没有的话继续一层一层往上查找，如果找不到该成员 ，最后返回undefined (undefined是由null派生而来的)</p>
 <p>而根据查找规则，使用就近原则来处理重复成员定义问题（即先找到，先使用）</p>
 <p><img src="/images/JavaScript%E8%BF%9B%E9%98%B6ES5+%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/yuanxinglian-1609925587816.jpg" alt=""></p>
+<p>同时要注意的是：</p>
+<pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Object<span class="token punctuation">.</span>__proto__<span class="token punctuation">)</span><span class="token punctuation">;</span>                      <span class="token comment" spellcheck="true">//Function.prototype</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Object<span class="token punctuation">.</span>__proto__<span class="token punctuation">.</span>__proto__<span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token comment" spellcheck="true">//Object.prototype</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Object<span class="token punctuation">.</span>__proto__<span class="token punctuation">.</span>__proto__<span class="token punctuation">.</span>__proto__<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//null</span></code></pre>
 <h4 id="拓展内置对象"><a href="#拓展内置对象" class="headerlink" title="拓展内置对象"></a>拓展内置对象</h4><p>可以通过原型对象，对原来的内置对象进行拓展自定义的方法，比如给数组增加自定义求偶数和的功能</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//在Array原型对象上追加函数，不能采取Array.prototype = {}形式</span>
 Array<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>sum <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -684,7 +688,7 @@ Array<span class="token punctuation">.</span>prototype<span class="token punctua
     <span class="token punctuation">}</span>
     <span class="token keyword">let</span> son <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Son</span><span class="token punctuation">(</span><span class="token string">'xxx'</span><span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>son<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h4 id="类的本质"><a href="#类的本质" class="headerlink" title="类的本质"></a>类的本质</h4><p>class本质还是function（用typeof查看），所以我们可以认为类就是构造函数的另一种写法</p>
+<h4 id="类的本质"><a href="#类的本质" class="headerlink" title="类的本质"></a>类的本质</h4><p>class本质还是function（用 typeof 查看），所以我们可以认为类就是构造函数的另一种写法</p>
 <p>但是新的class写法只是让对象原型的写法更加清晰，更像面向对象编程的语法</p>
 <p>和构造函数相同点：</p>
 <p>1.类也有原型对象prototype，而prototype里的constructor也是指回类的本身</p>
@@ -739,7 +743,34 @@ console<span class="token punctuation">.</span><span class="token function">log<
     <span class="token keyword">return</span> preValue <span class="token operator">+</span> item<span class="token punctuation">.</span>count <span class="token operator">*</span> item<span class="token punctuation">.</span>price<span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
     <span class="token punctuation">.</span><span class="token function">toFixed</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h4 id="字符串方法"><a href="#字符串方法" class="headerlink" title="字符串方法"></a>字符串方法</h4><p><code>trim()</code>方法会从一个字符串的两端删除空白字符，它并不影响本身的字符串，它返回的是一个新的字符串  <code>str.trim()</code></p>
+<h4 id="数组扁平化方法"><a href="#数组扁平化方法" class="headerlink" title="数组扁平化方法"></a><strong>数组扁平化方法</strong></h4><p><code>apply</code>（仅限双层）</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">Flat1</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">.</span>concat<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>arr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">var</span> arr1 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">Flat1</span><span class="token punctuation">(</span>arr1<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// [1, 2, 3, 4, 5, 6, 7, 8, 9]</span></code></pre>
+<p>多层需要递归</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">Flat5</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">var</span> newArr <span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">var</span> i<span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> arr<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token keyword">instanceof</span> <span class="token class-name">Array</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            newArr <span class="token operator">=</span> newArr<span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span><span class="token function">Flat5</span><span class="token punctuation">(</span>arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// newArr.push.apply(newArr, Flat5(arr[i]));</span>
+        <span class="token punctuation">}</span><span class="token keyword">else</span><span class="token punctuation">{</span>
+            newArr<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> newArr<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>es6方法</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> Flat6 <span class="token operator">=</span> arr <span class="token operator">=</span><span class="token operator">></span> arr<span class="token punctuation">.</span><span class="token function">reduce</span><span class="token punctuation">(</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> a<span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>Array<span class="token punctuation">.</span><span class="token function">isArray</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token function">Flat6</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span> <span class="token punctuation">:</span> b<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </code></pre>
+<p>如果数组的元素都是数字，那么我们可以考虑使用 toString 方法</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">flatten</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> arr<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">','</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token operator">+</span>item
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
 <h4 id="对象方法"><a href="#对象方法" class="headerlink" title="对象方法"></a>对象方法</h4><p><code>Object.defineProperty()</code> 定义对象中新属性或修改原有的属性（应用于vue响应式双向绑定，还有es5实现const的原理）</p>
 <p><code>Object.defineProperty(obj, prop,desciptor)</code> </p>
 <p><code>obj</code>：必须，目标对象  </p>
@@ -875,7 +906,7 @@ myObj<span class="token punctuation">.</span><span class="token function">getThi
 <p><code>argsArray</code>: 传递的值，必须包含在数组（伪数组）里面<strong>（这个是和call的不同点）</strong></p>
 <p>返回值为函数的返回值，因为它就是调用函数</p>
 <p>应用方面：apply传递数组参数，所以可以借助数学内置对象求最大值 <code>Math.max.apply(Math,arr)</code></p>
-<p>（es6拓展运算符…<code>Math.max(...arr)</code>也可以，但是不能 <code>MAth.max(arr)</code>，因为max不接受数组，只接受一个一个的参数）</p>
+<p>（es6拓展运算符…<code>Math.max(...arr)</code>也可以，但是不能 <code>Math.max(arr)</code>，因为max不接受数组，只接受一个一个的参数）</p>
 <p>3.<code>bind()</code>方法不会调用函数，但是能改变函数内部this指向</p>
 <p><code>fun.bind(thisArg, arg1, arg2....)</code> </p>
 <p>返回指定this值和初始化参数改造的原函数拷贝（即创造新的函数 <code>var f = fn.bind(xx)</code>）</p>
@@ -1645,7 +1676,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">119.3k</span>&nbsp;字
+                class="white-color">123.5k</span>&nbsp;字
             
             
             

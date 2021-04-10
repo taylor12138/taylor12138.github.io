@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.4k
+                    3.7k
                 </div>
                 
 
@@ -485,10 +485,27 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="1-精灵图"><a href="#1-精灵图" class="headerlink" title="1.精灵图"></a>1.精灵图</h2><p>为了有效减少服务器接收和发射请求次数，提高速度出现的CSS技术。即将网页小背景图合成一张大图。</p>
+                <h2 id="1-图形"><a href="#1-图形" class="headerlink" title="1.图形"></a>1.图形</h2><h4 id="精灵图"><a href="#精灵图" class="headerlink" title="精灵图"></a>精灵图</h4><p>为了有效减少服务器接收和发射请求次数，提高速度出现的CSS技术。即将网页小背景图合成一张大图。</p>
 <p>主要针对于背景图片（非产品类等更新换代图片）</p>
 <p>主要使用background-position+x和y轴配合使用，x轴向右，y轴向下</p>
 <pre><code>background: url()no-repeat    -182px 0;        //分别对应x轴，y轴,基本都是负值</code></pre><p>缺点：文件大，放大缩小会失真，更换复杂</p>
+<h4 id="svg-canvas"><a href="#svg-canvas" class="headerlink" title="svg + canvas"></a>svg + canvas</h4><p><code>SVG</code> 指可伸缩矢量图形 (Scalable Vector Graphics)，基于可扩展标记语言XML（老），SVG 图像在放大或改变尺寸的情况下其图形质量不会有所损失。SVG是通过DOM操作来显示的。</p>
+<p><code>canvas</code>：canvas 是H5新出来的标签(技术比较新)。画布是一个矩形区域，您可以控制其每一像素，，Canvas是逐像素进行渲染的，一旦图形绘制完成，就不会继续被浏览器关注。canvas 拥有多种绘制路径、矩形、圆形、字符以及添加图像的方法</p>
+<p>SVG &amp; canvas的区别：</p>
+<ul>
+<li>SVG不依赖分辨率</li>
+<li>SVG支持事件处理器</li>
+<li>SVG适合带有大型渲染区域的应用程序（地图）</li>
+<li>SVG复杂度高会减慢渲染速度（可能会reflow）</li>
+<li>SVG不适合游戏应用</li>
+</ul>
+<ul>
+<li>canvas依赖分辨率</li>
+<li>canvas不支持事件处理器</li>
+<li>canvas文本渲染能力较弱</li>
+<li>canvas能够以png、jpg格式保存结果图像</li>
+<li>canvas适合图像密集型游戏（他不会relfow）</li>
+</ul>
 <h2 id="2-字体图标"><a href="#2-字体图标" class="headerlink" title="2.字体图标"></a>2.字体图标</h2><p>iconfont常用于一些小图标（样式简单），展示状态时图标，实际上是字体</p>
 <p>优点1.轻量级，够小      2.灵活性，可改多种效果      3.几乎支持所有浏览器</p>
 <p>下载：相应网站（如<a href="https://icomoon.io/）下载后得到压缩包，解压后，把下载包里的fonts放入页面根目录下" target="_blank" rel="noopener">https://icomoon.io/）下载后得到压缩包，解压后，把下载包里的fonts放入页面根目录下</a></p>
@@ -512,6 +529,7 @@
 <h2 id="5-Vertical-align-图片"><a href="#5-Vertical-align-图片" class="headerlink" title="5.Vertical-align(图片)"></a>5.Vertical-align(图片)</h2><p>css常用vertical-align让图片和文字对齐（但是只能针对行内元素或者行内块元素）</p>
 <p><code>vertical-align: middle;</code>    中线对齐（一般使用这个来对齐）</p>
 <p>图片底侧放置于盒子内时，时常有一个空白缝隙，可以使用<code>vertical-align: middle||top||bottom;</code>将其解决    （其实还可以直接转成块元素，但是此方法不提倡）</p>
+<p>其实也可以将该盒子转化成 <code>display: table-cell</code>，然后同样可以使用<code>vertical-align</code>属性</p>
 <h2 id="6-文字溢出变省略号（推荐让后端写）"><a href="#6-文字溢出变省略号（推荐让后端写）" class="headerlink" title="6.文字溢出变省略号（推荐让后端写）"></a>6.文字溢出变省略号（推荐让后端写）</h2><p>单行文本：<code>white-space: nowrap</code>        //强制一行内显示</p>
 <p>​                    <code>overflow: hidden;</code>        //溢出隐藏            </p>
 <p>​                    <code>text-overflow: ellipsis</code>        ///变成省略号</p>
@@ -535,7 +553,7 @@
 <pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.local-nav</span> li <span class="token attribute">[class^="local-nav-icon"]</span> </span><span class="token punctuation">{</span>
 
 <span class="token punctuation">}</span></code></pre>
-<p>类选择器，伪类选择器，属性选择器（这个一般是11，因为包含标签名+属性名=1+10=11）它们权重都为10</p>
+<p>类选择器，伪类选择器，属性选择器（伪类选择器、属性选择器一般是11，因为包含标签名+/伪类名属性名=1+10=11）它们权重都为10</p>
 <h4 id="结构伪类选择器"><a href="#结构伪类选择器" class="headerlink" title="结构伪类选择器"></a>结构伪类选择器</h4><p>first和last等可以来了解一下，实际开发不太建议使用，也比较少使用。</p>
 <p>值得注意的是 <code>nth-child(n)</code>比较重要</p>
 <p>n可以是数字，可以是关键字（even偶数，odd奇数），甚至公式</p>
@@ -559,6 +577,8 @@ content：<span class="token string">'XX'</span><span class="token punctuation">
 <pre class=" language-css"><code class="language-css"><span class="token property">box-sizing</span><span class="token punctuation">:</span> content-box<span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">/*默认*/</span>
 <span class="token property">box-sizing</span><span class="token punctuation">:</span> border-box<span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">/*只看盒子大小，不考虑border和padding因素*/</span></code></pre>
 <p>即可不用考虑border和padding因素是否会将盒子本身撑大。</p>
+<p>标准盒模型：<code>box-sizing：content-box</code></p>
+<p>怪异盒模型：<code>box-sizing：border-box</code></p>
 <p>这里提及到盒子模型就讲一讲标准盒模型和怪异盒模型</p>
 <h4 id="W3C盒子模型-标准盒模型-和IE盒子模型-怪异盒模型"><a href="#W3C盒子模型-标准盒模型-和IE盒子模型-怪异盒模型" class="headerlink" title="W3C盒子模型(标准盒模型)和IE盒子模型(怪异盒模型)"></a>W3C盒子模型(标准盒模型)和IE盒子模型(怪异盒模型)</h4><p>标准盒模型：</p>
 <p>盒子实际内容（content）的<code>width/height</code>=我们设置的<code>width/height;</code></p>
@@ -927,9 +947,9 @@ transform:translate(-50%,-50%);</code></pre><p>但是它对行内标签没有效
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.JS的介绍JS是脚本语言，不需要编译，直接由js解释器逐行进行解释并执行，现在也可以基于node.js技术（后台）进行服务器编程
+                            1.JS的介绍JS是脚本语言，不需要编译，直接由js解释器逐行进行解释并执行，（解释型的编程语言）现在也可以基于node.js技术（后台）进行服务器编程
 实现业务逻辑和页面控制功能，浏览器的JS引擎，也就是JS解释器，用来读取JS代码
-JS的组成JavaScr
+JS
                         
                     </div>
                     <div class="publish-info">
@@ -1191,7 +1211,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">119.3k</span>&nbsp;字
+                class="white-color">123.5k</span>&nbsp;字
             
             
             

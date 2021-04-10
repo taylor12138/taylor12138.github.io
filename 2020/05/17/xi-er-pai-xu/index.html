@@ -446,8 +446,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E6%8E%92%E5%BA%8F/" class="post-category">
-                                排序
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                算法
                             </a>
                         
                     </div>
@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    647
+                    130
                 </div>
                 
 
@@ -486,8 +486,8 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h2><p>通过分组进行大浮动跳跃性排序，并且分组的形式是以设定的增量为基准</p>
-<pre><code>//算法8.3 希尔排序
-#include &lt;iostream&gt;
+<pre class=" language-c++"><code class="language-c++">//算法8.3 希尔排序
+#include <iostream>
 using namespace std;
 #define  MAXSIZE  20                      //顺序表的最大长度
 typedef struct
@@ -502,41 +502,41 @@ typedef struct
     int  length;                                    //顺序表长度
 }SqList;                                            //顺序表类型
 
-void ShellInsert(SqList &amp;L,int dk)
+void ShellInsert(SqList &L,int dk)
 {
     //对顺序表L做一趟增量是dk的希尔插入排序
     int i,j;
-    for(i=dk+1;i&lt;=L.length;++i)
-        if(L.r[i].key&lt;L.r[i-dk].key)
+    for(i=dk+1;i<=L.length;++i)
+        if(L.r[i].key<L.r[i-dk].key)
         {                                        //需将L.r[i]插入有序增量子表
             L.r[0]=L.r[i];                        //暂存在L.r[0]
-            for(j=i-dk;j&gt;0&amp;&amp; L.r[0].key&lt;L.r[j].key;j-=dk)
+            for(j=i-dk;j>0&& L.r[0].key<L.r[j].key;j-=dk)
                 L.r[j+dk]=L.r[j];                //记录后移，直到找到插入位置
             L.r[j+dk]=L.r[0];                    //将r[0]即原r[i]，插入到正确位置
         }                                        //for
 }
                                                 //ShellInsert
-void ShellSort(SqList &amp;L,int dt[ ],int t){
+void ShellSort(SqList &L,int dt[ ],int t){
    //按增量序列dt[0..t-1]对顺序表L作t趟希尔排序
     int k;
-    for(k=0;k&lt;t;++k)
+    for(k=0;k<t;++k)
         ShellInsert(L,dt[k]);                     //一趟增量为dt[t]的希尔插入排序
 }                                                //ShellSort
 
-void Create_Sq(SqList &amp;L)
+void Create_Sq(SqList &L)
 {
     int i,n;
-    cout&lt;&lt;&quot;请输入数据个数，不超过&quot;&lt;&lt;MAXSIZE&lt;&lt;&quot;个。&quot;&lt;&lt;endl;
-    cin&gt;&gt;n;                                        //输入个数
-    cout&lt;&lt;&quot;请输入待排序的数据：\n&quot;;
-    while(n&gt;MAXSIZE)
+    cout<<"请输入数据个数，不超过"<<MAXSIZE<<"个。"<<endl;
+    cin>>n;                                        //输入个数
+    cout<<"请输入待排序的数据：\n";
+    while(n>MAXSIZE)
     {
-        cout&lt;&lt;&quot;个数超过上限，不能超过&quot;&lt;&lt;MAXSIZE&lt;&lt;&quot;，请重新输入&quot;&lt;&lt;endl;
-        cin&gt;&gt;n;
+        cout<<"个数超过上限，不能超过"<<MAXSIZE<<"，请重新输入"<<endl;
+        cin>>n;
     }
-    for(i=1;i&lt;=n;i++)
+    for(i=1;i<=n;i++)
     {
-        cin&gt;&gt;L.r[i].key;
+        cin>>L.r[i].key;
         L.length++;
     }
 }
@@ -544,8 +544,8 @@ void Create_Sq(SqList &amp;L)
 void show(SqList L)
 {
     int i;
-    for(i=1;i&lt;=L.length;i++)
-        cout&lt;&lt;L.r[i].key&lt;&lt;endl;
+    for(i=1;i<=L.length;i++)
+        cout<<L.r[i].key<<endl;
 }
 
 void main()
@@ -557,17 +557,18 @@ void main()
 
     int i,t;//增量数组的长度
     int *dt=new int[MAXSIZE];//增量数组
-    cout&lt;&lt;&quot;请输入增量个数：\n&quot;;
-    cin&gt;&gt;t;
-    for(i=0;i&lt;t;i++)
+    cout<<"请输入增量个数：\n";
+    cin>>t;
+    for(i=0;i<t;i++)
     {
-        cout&lt;&lt;&quot;第&quot;&lt;&lt;i+1&lt;&lt;&quot;个增量:\n&quot;;
-        cin&gt;&gt;dt[i];
+        cout<<"第"<<i+1<<"个增量:\n";
+        cin>>dt[i];
     }
     ShellSort(L,dt,t);
-    cout&lt;&lt;&quot;排序后的结果为：&quot;&lt;&lt;endl;
+    cout<<"排序后的结果为："<<endl;
     show(L);
-}</code></pre><p>1.不稳定排序</p>
+}</code></pre>
+<p>1.不稳定排序</p>
 <p>2.仅适用于顺序表</p>
 <p>3.时间复杂度取决于增量的决定，最少可以减少到n(log2 n)^2, n^3/2等。   空间复杂度为O(1),只需要一个r[0]</p>
 <p>对于增量的选取很重要，希尔自带的增量设定为 {N/2, (N / 2)/2, …, 1} ，叫做希尔增量，常用但是效果并不拔群，其余的有 Hibbard：{1, 3, …, 2^k-1}，Sedgewick：{1, 5, 19, 41, 109…} 等</p>
@@ -830,8 +831,8 @@ using namespace std;
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%8E%92%E5%BA%8F/" class="post-category">
-                                    排序
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
                                 </a>
                             
                             
@@ -875,8 +876,8 @@ using namespace std;
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%8E%92%E5%BA%8F/" class="post-category">
-                                    排序
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
                                 </a>
                             
                             
@@ -1080,7 +1081,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">119.3k</span>&nbsp;字
+                class="white-color">123.5k</span>&nbsp;字
             
             
             

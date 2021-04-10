@@ -459,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.4k
+                    5.6k
                 </div>
                 
 
@@ -477,15 +477,14 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="1-http概述"><a href="#1-http概述" class="headerlink" title="1.http概述"></a>1.http概述</h2><p>从计算机网络的学习我们了解到：HTTP协议[超文本传输协议]，协议详细规定了浏览器和万维网服务器之间相互通信的规则</p>
-<p><strong>新的http/2</strong></p>
-<ul>
+<h4 id="新的http-2-0"><a href="#新的http-2-0" class="headerlink" title="新的http 2.0"></a><strong>新的http 2.0</strong></h4><ul>
 <li><p>使用二进制传输（二进制分帧），减少服务端压力，连接吞吐量更大，改善TCP拥塞状况，同时慢启动时间减少</p>
 </li>
-<li><p>多路复用</p>
+<li><p>多路复用（我在纳闷，不是传输层都有复用吗？）</p>
 </li>
 <li><p>压缩headers（最小数据量化）</p>
 </li>
-<li><p>支持server push（服务端推送），他可以对客户端的一个请求发送多个响应，，而且它还有一个很大的优势：可以缓存，使用场景如下，<strong>「如果客户端早已在缓存中有了一份 copy 怎么办？]</strong></p>
+<li><p>支持server push（服务端推送），他可以对客户端的一个请求发送多个响应，，而且它特有的缓存机制，使用场景如下，<strong>「如果客户端早已在缓存中有了一份 copy 怎么办？]</strong></p>
 <p>这种情况下，HTTP/2 允许客户端通过 <strong>RESET_STREAM</strong> 主动取消 Push ，然而这样的话，原本可以用于更好方向的 Push 就白白的浪费掉数据往返的价值。</p>
 <p>对此，一个推荐的解决方案是，客户端使用一个简洁的 <a href="https://link.zhihu.com/?target=http%3A//mnot.github.io/I-D/h2-cache-digest/">Cache Digest</a> 来告诉服务器，哪些东西已经在缓存，因此服务器也就会知道哪些是客户端所需要的，因为 Cache Digest 使用的是 <a href="https://link.zhihu.com/?target=https%3A//www.imperialviolet.org/2011/04/29/filters.html">Golumb Compressed Sets</a>，浏览器客户端可以通过一个连接发送<strong>少于 1K 字节</strong>的 Packets 给服务端，通知哪些是已经在缓存中存在的；</p>
 <p>http/1处理减少请求的方式是线头阻塞（合并多个请求为一个请求），但实质上有一定的开销</p>
@@ -509,6 +508,15 @@
 <p><strong>URL和URI的区别：</strong></p>
 <p>URI，统一资源标志符，表示的是web上每一种可用的资源，如 HTML文档、图像、视频片段、程序等都由一个URI进行标识的。</p>
 <p>URL是URI的一个子集，通俗地说，URL是Internet上描述信息资源的字符串，主要用在各种WWW客户程序和服务器程序上</p>
+<p><strong>输入url到网页呈现的过程</strong>：</p>
+<ul>
+<li>域名解析</li>
+<li>建立TCP连接</li>
+<li>浏览器发送http请求</li>
+<li>服务器返回响应</li>
+<li>浏览器渲染页面</li>
+<li>TCP断开连接</li>
+</ul>
 <h4 id="http请求"><a href="#http请求" class="headerlink" title="http请求"></a>http请求</h4><ul>
 <li><p>get 获取资源。get注重url获得的参数，且只产生一个TCP数据包</p>
 <p>获得get请求的内容，它的内容是在url的<code>?</code> 之后的部分</p>
@@ -631,7 +639,7 @@
 </li>
 <li><p><code>Last-Modified</code>（弱校验， 根据文件修改时间，可能内容未变，不精确）（实体头部）</p>
 </li>
-<li><p><code>ETag</code>（强校验，根据文件内容生成精确）（响应头部）</p>
+<li><p><code>ETag</code>（强校验，根据文件内容生成精确，这也是有了Last-modified还要有ETag的原因）（响应头部）</p>
 </li>
 <li><p><code>Date</code>等等。</p>
 </li>
@@ -644,7 +652,7 @@
 <li>联系与区别：两种缓存方式最终使用的都是本地缓存；前者无需与服务器交互，后者需要。</li>
 </ul>
 <p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/huancun2.jpg" alt=""></p>
-<h4 id="缓存过期策略"><a href="#缓存过期策略" class="headerlink" title="缓存过期策略"></a>缓存过期策略</h4><p>1、设置 Cache-Control: max-age=1000 。响应头中的 Date 经过 1000s 过期（比起首部字段<code>Expires</code>，会优先处理<code>s-maxage</code>或<code>max-age</code>。）<br>2、设置 Expires 。此时间与本地时间(响应头中的 Date )对比，小于本地时间表示过期，由于本地时钟与服务器时钟无法保持一致，导致比较不精确（http1.0时代，Pragma也是1.0时代的产物）<br>3、如果以上均未设置，却设置了 Last-Modified ，浏览器隐式的设置资源过期时间为 (Date - Last-Modified) * 10% 缓存过期时间。</p>
+<h4 id="缓存过期策略"><a href="#缓存过期策略" class="headerlink" title="缓存过期策略"></a>缓存过期策略</h4><p>1、设置 Cache-Control: max-age=1000 。响应头中的 Date 经过 1000s 过期（比起首部字段<code>Expires</code>，会优先处理<code>s-maxage</code>或<code>max-age</code>。）（<code>Cache-Control</code>HTTP / 1.1通用头字段被用于为请求和响应缓存机制指定指令l）<br>2、设置 Expires 。此时间与本地时间(响应头中的 Date )对比，小于本地时间表示过期，由于本地时钟与服务器时钟无法保持一致，导致比较不精确（http1.0时代，Pragma也是1.0时代的产物）<br>3、如果以上均未设置，却设置了 Last-Modified ，浏览器隐式的设置资源过期时间为 (Date - Last-Modified) * 10% 缓存过期时间。</p>
 <p><strong>前端缓存图</strong>：</p>
 <p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/huancun.jpg" alt=""></p>
 <h2 id="7-其他"><a href="#7-其他" class="headerlink" title="7.其他"></a>7.其他</h2><h4 id="范围请求"><a href="#范围请求" class="headerlink" title="范围请求"></a>范围请求</h4><p>假设你正在下载一个很大的文件，已经下了四分之三，忽然网络中断了，那下载就必须重头再来一遍。为了解决这个问题，需要一种可恢复的机制，即能从之前下载中断处恢复下载，要实现该功能，这就要用到范围请求。（前提是上一次请求到这一次请求时间段内，下载对象没有发生改变）</p>
@@ -692,6 +700,7 @@
 <p>DOM型XSS攻击实际上是JavaScript代码本身不够严谨，</p>
 <ul>
 <li><code>.innerHTML</code>、<code>.outerHTML</code>、<code>document.write()</code> 时要特别小心，不要把不可信的数据作为 HTML 插到页面上，而应尽量使用 <code>.textContent</code>、<code>.setAttribute()</code> 等。（尽量避免这种直接插入式的写法）</li>
+<li>Vue的 <code>v-html</code>也容易导致xss攻击（原理也是innerHTML），与此同时，<code>v-html</code>也会替换掉标签内部子元素，所以 <code>v-html</code>尽量别用</li>
 </ul>
 <h4 id="什么是CSRF"><a href="#什么是CSRF" class="headerlink" title="什么是CSRF"></a>什么是CSRF</h4><p>CSRF是一种跨站请求伪造，也被称为 one-click-attack 或者 session riding</p>
 <p>下面的图源自这个大佬 ： <a href="https://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html" target="_blank" rel="noopener">https://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html</a> （随便点开，放心绝对不是XSS或者CSRF ，手动狗头）</p>
@@ -1246,7 +1255,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">119.3k</span>&nbsp;字
+                class="white-color">123.5k</span>&nbsp;字
             
             
             

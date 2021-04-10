@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    759
+                    923
                 </div>
                 
 
@@ -490,6 +490,7 @@
 <p>3.容量较大，sessionStorage约5M，localStorage约20M（可是我测试得到我chrome浏览器localStorage才5M）</p>
 <p>4.只能存储字符串，可以将对象JSON.stringify() 编码后存储</p>
 <p>cookie是网站为了标示用户身份而储存在用户本地终端上的数据；cookie数据始终在同源的http请求中携带（即使不需要），也会在浏览器和服务器间来回传递。<br>sessionStorage和localStorage不会自动把数据发给服务器，仅在本地保存；</p>
+<p>5.此外，<strong>User Data</strong> 是<strong>微软专门为IE</strong>在系统中开辟的一块<strong>存储空间</strong>，单个文件限制大小128kb，一个域名下可保存1M</p>
 <h2 id="window-sessionStorage"><a href="#window-sessionStorage" class="headerlink" title="window.sessionStorage"></a>window.sessionStorage</h2><p>1.生命周期为关闭浏览器窗口</p>
 <p>2.同一个窗口下数据可以共享</p>
 <p>3.以键值对的形式存储使用</p>
@@ -504,10 +505,17 @@
 <p><code>window.localStorage.getItem(&#39;key&#39;)</code>  获取</p>
 <p><code>window.localStorage.removeItem(&#39;key&#39;)</code> 删除</p>
 <p><code>window.localStorage.clear()</code> 删除所有数据(慎用)</p>
-<h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h2><p>http协议是无状态的，但是在实际工作中，一些万维网网站希望能识别用户（给用户推销产品）=&gt;诞生了cookie小饼干，cookie是存储在用户主机的文本文件，记录一段时间内某用户的访问记录</p>
-<p>工作中识别用户给用户推销产品，用来保存一些不太敏感的数据</p>
-<p>cookie数据大小不能超过4k</p>
+<h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h2><p>Cookie是一种在客户端保持HTTP状态信息的技术：http协议是无状态的，但是在实际工作中，一些万维网网站希望能识别用户（给用户推销产品）=&gt;诞生了cookie小饼干，cookie是存储在用户主机的文本文件，记录一段时间内某用户的访问记录</p>
+<ul>
+<li><p>一旦浏览器保存了某个Cookie，那么以后每次访问服务器时，都会在HTTP请求头中将这个Cookie回传给服务器</p>
+</li>
+<li><p>cookie数据大小不能超过4k</p>
 <p>cookie设置的cookie过期时间之前一直有效，即使窗口或浏览器关闭</p>
+</li>
+<li><p>Web服务器怎么给客户端发Cookie的呢？服务器通过在HTTP响应头中增加Set-Cookie:字段，而浏览器则通过HTTP请求头增加Cookie字段回传</p>
+</li>
+</ul>
+<p>工作中识别用户给用户推销产品，用来保存一些不太敏感的数据（但我很纳闷，其实很多用户用cookie来记住密码）</p>
 <h2 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h2><p>cookie和session都是用来跟踪浏览器用户身份的会话方式，通常使用cookie方式存储session ID到客户端</p>
 <p>保持状态：cookie保存在浏览器端，session保存在服务器端</p>
 <p>存储的大小：cookie：单个cookie保存的数据不能超过4kb；session大小没有限制。</p>
@@ -1027,7 +1035,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">119.3k</span>&nbsp;字
+                class="white-color">123.5k</span>&nbsp;字
             
             
             

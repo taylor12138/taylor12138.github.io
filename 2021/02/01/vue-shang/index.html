@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    12.7k
+                    13.5k
                 </div>
                 
 
@@ -517,10 +517,18 @@
 <ul>
 <li>Model 层: 对应数据层的域模型，它主要做域模型的同步。通过 Ajax/fetch 等 API 完成客户端和服务端业务 Model 的同步</li>
 <li>View 层:作为视图模板存在， 数据绑定的声明、 指令的声明、 事件绑定的声明。</li>
-<li>ViewModel 层（vue）:把 View 需要的数据暴露，并对 View 层的 数据绑定声明、 指令声明、 事件绑定声明 <strong>负责</strong></li>
+<li>ViewModel 层（vue）:把 View 需要的数据暴露，并为 View 层的 数据绑定声明、 指令声明、 事件绑定声明 <strong>负责</strong></li>
 </ul>
 <p>MVVM是MVC的改进版，<strong>MVC</strong>中的<strong>M</strong>就是单纯的从网络获取回来的数据模型，<strong>V</strong>指的我们的视图界面，而<strong>C</strong>就是我们的ViewController。</p>
 <p>ViewModel充当了一个UI适配器的角色，也就是说View中每个UI元素都应该在ViewModel找到与之对应的属性。除此之外，从Controller抽离出来的与UI有关的逻辑都放在了ViewModel中，这样就减轻了Controller的负担。</p>
+<p>MVC缺点：</p>
+<ul>
+<li>不适合小、中型项目</li>
+<li>增加结构、实现复杂性</li>
+<li>视图（view）和控制器（controller）过于紧密的连接</li>
+<li>视图（view）对模式数据的低效访问</li>
+<li>一般的高级界面工具或构造器不支持该模式</li>
+</ul>
 <p><img src="/images/Vue_MVVM.jpg" alt=""></p>
 <p><img src="/images/Vue_MVVM2.jpg" alt=""></p>
 <h2 id="2-基础语法"><a href="#2-基础语法" class="headerlink" title="2.基础语法"></a>2.基础语法</h2><p>Vue对象传入的option：</p>
@@ -543,6 +551,13 @@
 <p>生命周期就是一个对象（如vue)从声明到使用到销毁的各个阶段，为了开发方便框架会在每个阶段的节点上定义一个特定函数，这个特定函数就是生命周期函数，也叫钩子函数</p>
 <p>官网附有生命周期示意图</p>
 <p><img src="/images/Vue/vue_life-1615514534331.jpg" alt=""></p>
+<p><strong>父子组件生命周期</strong></p>
+<p>父 <code>beforeCreate</code> - &gt; 父 <code>created</code> -&gt;父 <code>beforeMount</code> -&gt;子 <code>beforeCreate</code>-&gt; 子 <code>created</code>-&gt; 子 <code>beforeMount</code>-&gt; 子 <code>mounted</code>-&gt; </p>
+<p>父 <code>mounted</code></p>
+<p>父组件更新：父 <code>beforeUpdate</code>-&gt; 父 <code>updated</code></p>
+<p>子组件更新：父 <code>beforeUpdate</code>-&gt;子<code>beforeUpdate</code> -&gt; 子 <code>updated</code> -&gt;父<code>updated</code> </p>
+<p>组件的调用 先父后子，渲染完成顺序先子后父</p>
+<p>组件销毁  先父后子，销毁完成 先子后父</p>
 <h4 id="V-指令"><a href="#V-指令" class="headerlink" title="V-指令"></a>V-指令</h4><p><strong>v-once</strong></p>
 <p>只会在第一次渲染数据，随后数据发生改变，元素内的数据不会再发生改变，阻止了响应式，可以添加在标签属性上</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span> <span class="token attr-name">v-once</span><span class="token punctuation">></span></span>{{message}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span></code></pre>
@@ -822,7 +837,7 @@ Vue<span class="token punctuation">.</span><span class="token function">componen
 <span class="token keyword">const</span> ele <span class="token operator">=</span> VueTemplateCompiler<span class="token punctuation">.</span><span class="token function">compiler</span><span class="token punctuation">(</span><span class="token string">'&lt;input v-model="value"/>'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">/**
 with(this) {
-    return    _c('input', {
+    return    _c('input', {               //_c  createElement
         directives:[{                   //directives是对输入框的配置
             name:"model",
             rawName:"v-model"
@@ -885,7 +900,7 @@ with(this) {
       <span class="token punctuation">}</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p><strong>父组件和子组件</strong></p>
-<p>在组件构造器(组件二)中对另外一个组件(组件一)进行注册（<code>components{}</code>）,这样的好处是可以在组件二模板里面,使用组件一,这样子就形成了父子组件的关系</p>
+<p>在组件构造器(组件二)中对另外一个组件(组件一)进行注册（<code>components{}</code>），这样的好处是可以在组件二模板里面,使用组件一,这样子就形成了父子组件的关系</p>
 <p>父组件模板的所有东西都会在父级作用域进行编译，子组件模板的所有东西都会在子级作用域进行编译</p>
 <p><strong>注意</strong>:  在模板中，子组件的标签一定要写在父组件的DIV里面，因为定义模板时一般要有一个外层包裹的根元素（一般使用div）</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>app<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
@@ -1157,6 +1172,10 @@ methods<span class="token punctuation">:</span> <span class="token punctuation">
 <p><strong>作用域插槽</strong></p>
 <p>大前提：父组件模板的所有东西都会在父级作用域进行编译，子组件模板的所有东西都会在子级作用域进行编译</p>
 <p>当前需求：想办法在父组件的作用域拿到子组件的数据，然后再在父组件做一个插槽填充（这里不能使用<code>$refs</code>因为，还没渲染完毕，在初始渲染的时候你不能用<code>$refs</code>进行访问）</p>
+<ul>
+<li>也就是说，普通插槽的渲染位置在父组件里面，将父组件渲染的结果直接替换到 <code>slot</code>中； </li>
+<li>而作用域插槽的渲染位置是在子组件里面，所以这里就产生了作用域的不同</li>
+</ul>
 <p>多个插槽写法：v-slot:插槽名=”数据调用方法名”，</p>
 <p>首先在子组件模板中的 <code>&lt;slot&gt;&lt;/slot&gt;</code>查找中添加自定义属性，自定义属性=”想要绑定的数据名”</p>
 <pre class=" language-html"><code class="language-html"><span class="token comment" spellcheck="true">&lt;!-- 子组件--></span>
@@ -1195,13 +1214,26 @@ methods<span class="token punctuation">:</span> <span class="token punctuation">
 <span class="token keyword">import</span> <span class="token punctuation">{</span> num <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"./aaa.js"</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>num<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">// 2.导入默认的值（default），能够自己命名</span>
-<span class="token keyword">import</span> add <span class="token keyword">from</span> <span class="token string">"./aaa/js"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> add <span class="token keyword">from</span> <span class="token string">"./aaa.js"</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>add<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">// 3.统一全部导入</span>
 <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> aaa <span class="token keyword">from</span> <span class="token string">"./aaa"</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span>num<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">//1.下载后module的引用比较特殊</span>
 <span class="token keyword">import</span> Vue <span class="token keyword">from</span> <span class="token string">'vue'</span></code></pre>
+<h4 id="为什么要使用异步组件"><a href="#为什么要使用异步组件" class="headerlink" title="为什么要使用异步组件"></a>为什么要使用异步组件</h4><p>如果组件功能多，打包的结果会变大，我们可以采用异步的方式来加载组件，主要依赖于 <code>import</code></p>
+<p>异步组件 （<code>async component</code>）一定是一个函数，新版本提供了对象的写法</p>
+<pre class=" language-js"><code class="language-js">components<span class="token punctuation">:</span><span class="token punctuation">{</span>
+    AddCustomerSchedule<span class="token punctuation">:</span><span class="token punctuation">(</span>resolve<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">"../components/AddCustomer"</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<pre class=" language-js"><code class="language-js">Vue<span class="token punctuation">.</span><span class="token function">component</span><span class="token punctuation">(</span><span class="token string">'async-example'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> reject<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 向 `resolve` 回调传递组件定义</span>
+    <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      template<span class="token punctuation">:</span> <span class="token string">'&lt;div>I am async!&lt;/div>'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <h2 id="4-Vue-CLI"><a href="#4-Vue-CLI" class="headerlink" title="4.Vue CLI"></a>4.Vue CLI</h2><p>在开发大型项目的时候，则必须使用到Vue CLI，CLI是Command-Line Interface ，翻译为命令行界面，俗称脚手架</p>
 <p>使用 vue-cli 可以<strong>快速搭建</strong>Vue开发环境以及对应的webpack配置（终于不用自己配置webpack了！）</p>
 <p>Vue CLI 的使用前提：Node &amp; Webpack</p>
@@ -1300,7 +1332,7 @@ render<span class="token punctuation">:</span> <span class="token function">func
 <p><strong>url的hash</strong></p>
 <p>为了改变url，而让也页面不发生刷新，可以使用 <strong>url的hash</strong> 或者<strong>html5 的 history模式</strong></p>
 <ul>
-<li><p>Push：通过<code>window.hash = &#39;xxx&#39;</code>更改href，网页不会刷新（默认）（带有hash的前端路由，有点事兼容性高，缺点是URL带#号不好看）</p>
+<li><p>Push：通过<code>window.hash = &#39;xxx&#39;</code>更改href，网页不会刷新（默认）（带有hash的前端路由，优点是兼容性高，缺点是URL带#号不好看）</p>
 </li>
 <li><p>Push：也可以通过<code>history.pushState({}, &#39;&#39;, &#39;xxx&#39;)</code>更改href，网页也不会刷新，</p>
 <p>可以使用<code>history.back()</code>或者<code>history.go(-1)</code> 后退功能进行回退</p>
@@ -1616,9 +1648,66 @@ router<span class="token punctuation">.</span><span class="token function">befor
 <p>这里的<code>beforeEach</code> 是前置守卫，是路由跳转之前进行的回调</p>
 <p>后置钩子 <code>afterEach(to, from)</code>   不需要主动调用next函数，等待路由跳转结束后也会调用函数</p>
 <p>无论是前置守卫还是后置钩子，都被称为全局守卫，除此之外，还有路由独享守卫 <code>beforeEnter</code>、 组件内守卫 <code>beforeRouteEnter</code> 等</p>
+<h4 id="守卫分类"><a href="#守卫分类" class="headerlink" title="守卫分类"></a>守卫分类</h4><p>全局守卫：</p>
+<ul>
+<li><code>router.beforeEach((to, from, next) =&gt; {})</code> 全局前置守卫，每一个导航被触发时，被调用的总是全局前置守卫</li>
+<li><code>router.beforeResolve((to, from, next) =&gt; {})</code>，全局解析守卫，和 <code>beforeEach</code>类似，区别是导航被确认之前，同时在<strong>所有组件内守卫和异步路由组件被解析之后</strong>，才被调用</li>
+<li><code>router.afterEach((to, from) =&gt; {})</code>后置钩子</li>
+</ul>
+<p>路由独享守卫：</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> router <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">VueRouter</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  routes<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      path<span class="token punctuation">:</span> <span class="token string">'/play'</span><span class="token punctuation">,</span>
+      component<span class="token punctuation">:</span> Play<span class="token punctuation">,</span>
+      beforeEnter<span class="token punctuation">:</span> <span class="token punctuation">(</span>to<span class="token punctuation">,</span> <span class="token keyword">from</span><span class="token punctuation">,</span> next<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p>组件内路由守卫：</p>
+<ul>
+<li><code>beforeRouteEnter(to, from, next){}</code></li>
+<li><code>beforeRouteUpdate(to, from, next){}</code></li>
+<li><code>beforeRouteLeave(to, from ,next){}</code></li>
+</ul>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> Foo <span class="token operator">=</span> <span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`...`</span></span><span class="token punctuation">,</span>
+  beforeRouteEnter <span class="token punctuation">(</span>to<span class="token punctuation">,</span> <span class="token keyword">from</span><span class="token punctuation">,</span> next<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 在渲染该组件的对应路由被 confirm 前调用</span>
+    <span class="token comment" spellcheck="true">// 不！能！获取组件实例 `this`</span>
+    <span class="token comment" spellcheck="true">// 因为当守卫执行前，组件实例还没被创建</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  beforeRouteUpdate <span class="token punctuation">(</span>to<span class="token punctuation">,</span> <span class="token keyword">from</span><span class="token punctuation">,</span> next<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 在当前路由改变，但是该组件被复用时调用</span>
+    <span class="token comment" spellcheck="true">// 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，</span>
+    <span class="token comment" spellcheck="true">// 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。</span>
+    <span class="token comment" spellcheck="true">// 可以访问组件实例 `this`</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  beforeRouteLeave <span class="token punctuation">(</span>to<span class="token punctuation">,</span> <span class="token keyword">from</span><span class="token punctuation">,</span> next<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 导航离开该组件的对应路由时调用</span>
+    <span class="token comment" spellcheck="true">// 可以访问组件实例 `this`</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>导航流程（官网）</p>
+<ol>
+<li>导航被触发。</li>
+<li>在失活的组件里调用 <code>beforeRouteLeave</code> 守卫。</li>
+<li>调用全局的 <code>beforeEach</code> 守卫。</li>
+<li>在重用的组件里调用 <code>beforeRouteUpdate</code> 守卫 (2.2+)。</li>
+<li>在路由配置里调用 <code>beforeEnter</code>。</li>
+<li>解析异步路由组件。</li>
+<li>在被激活的组件里调用 <code>beforeRouteEnter</code>。</li>
+<li>调用全局的 <code>beforeResolve</code> 守卫 (2.5+)。</li>
+<li>导航被确认。</li>
+<li>调用全局的 <code>afterEach</code> 钩子。</li>
+<li>触发 DOM 更新。</li>
+<li>调用 <code>beforeRouteEnter</code> 守卫中传给 <code>next</code> 的回调函数，创建好的组件实例会作为回调函数的参数传入。</li>
+</ol>
 <h4 id="keep-alive"><a href="#keep-alive" class="headerlink" title="keep-alive"></a>keep-alive</h4><p>router-view也是一个组件，如果直接被包在 keep-alive 里面，所有路径匹配到的视图组件都会被缓存（比如实现功能：进入 <code>/home</code> ， 默认进入 <code>/home/news</code>，如果跳转到 <code>/home/messgae</code> 之后，再跳转到其他页面，此时回到 /home 可以直接进入上一次查看的页面<code>/home/messgae</code>，而不是默认页面<code>/home/news</code>）</p>
 <p><code>keep-alive</code>  是Vue内置的一个组件，可以使被包含的组件保留状态，避免重新渲染，它的原理是避免组件被销毁（所以使用keep-alive之后，组件不会触发<code>destoryed</code> 钩子函数）</p>
 <p>生命周期函数 <code>activated</code> 和 <code>deactivated</code> 只有在组件被保持了 <code>keep-alive</code> 时，才能被正常使用</p>
+<p>里面还有个 LRU （最近最久未用算法，同操作系统的LRU），缓存的太多超过max，就需要删除掉</p>
+<p>SPA（单页面富应用）常用 <code>kepp-alive</code>，提高性能！</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>keep-alive</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>router-view</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>router-view</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>keep-alive</span><span class="token punctuation">></span></span></code></pre>
@@ -2153,7 +2242,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">119.3k</span>&nbsp;字
+                class="white-color">123.5k</span>&nbsp;字
             
             
             

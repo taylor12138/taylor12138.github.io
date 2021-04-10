@@ -446,8 +446,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E6%8E%92%E5%BA%8F/" class="post-category">
-                                排序
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                算法
                             </a>
                         
                     </div>
@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    474
+                    133
                 </div>
                 
 
@@ -487,8 +487,8 @@
             <div id="articleContent">
                 <h2 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h2><p>这里采用的是从后向前的比较方式，（从前向后其实也可以）</p>
 <p>有点像打牌，抽牌，然后选择地方放好</p>
-<pre><code>//算法8.1 直接插入排序
-#include &lt;iostream&gt;
+<pre class=" language-c++"><code class="language-c++">//算法8.1 直接插入排序
+#include <iostream>
 using namespace std;
 #define  MAXSIZE  20                                  //顺序表的最大长度
 typedef struct
@@ -503,43 +503,43 @@ typedef struct
     int  length;                                    //顺序表长度
 }SqList;                                            //顺序表类型
 
-void InsertSort(SqList &amp;L)
+void InsertSort(SqList &L)
 {
    //对顺序表L做直接插入排序
     int i,j;
-    for(i=2;i&lt;=L.length;++i)
-        if(L.r[i].key&lt;L.r[i-1].key)
-        {                                           //&quot;&lt;&quot;，需将r[i]插入有序子表
+    for(i=2;i<=L.length;++i)
+        if(L.r[i].key<L.r[i-1].key)
+        {                                           //"<"，需将r[i]插入有序子表
             L.r[0]=L.r[i];                             //将待插入的记录暂存到监视哨中
             L.r[i]=L.r[i-1];                        //r[i-1]后移
-            for(j=i-2; L.r[0].key&lt;L.r[j].key;--j)            //从后向前寻找插入位置
+            for(j=i-2; L.r[0].key<L.r[j].key;--j)            //从后向前寻找插入位置
                 L.r[j+1]=L.r[j];                    //记录逐个后移，直到找到插入位置
             L.r[j+1]=L.r[0];                        //将r[0]即原r[i]，插入到正确位置
         }                                            //if
 }                                                    //InsertSort
 
-void Create_Sq(SqList &amp;L)
+void Create_Sq(SqList &L)
 {
     int i,n;
-    cout&lt;&lt;&quot;请输入数据个数，不超过&quot;&lt;&lt;MAXSIZE&lt;&lt;&quot;个。&quot;&lt;&lt;endl;
-    cin&gt;&gt;n;                                            //输入个数
-    cout&lt;&lt;&quot;请输入待排序的数据:\n&quot;;
-    while(n&gt;MAXSIZE)
+    cout<<"请输入数据个数，不超过"<<MAXSIZE<<"个。"<<endl;
+    cin>>n;                                            //输入个数
+    cout<<"请输入待排序的数据:\n";
+    while(n>MAXSIZE)
     {
-        cout&lt;&lt;&quot;个数超过上限，不能超过&quot;&lt;&lt;MAXSIZE&lt;&lt;&quot;，请重新输入&quot;&lt;&lt;endl;
-        cin&gt;&gt;n;
+        cout<<"个数超过上限，不能超过"<<MAXSIZE<<"，请重新输入"<<endl;
+        cin>>n;
     }
-    for(i=1;i&lt;=n;i++)
+    for(i=1;i<=n;i++)
     {
-        cin&gt;&gt;L.r[i].key;
+        cin>>L.r[i].key;
         L.length++;
     }
 }
 void show(SqList L)
 {
     int i;
-    for(i=1;i&lt;=L.length;i++)
-        cout&lt;&lt;L.r[i].key&lt;&lt;endl;
+    for(i=1;i<=L.length;i++)
+        cout<<L.r[i].key<<endl;
 }
 
 void main()
@@ -549,9 +549,10 @@ void main()
     L.length=0;
     Create_Sq(L);
     InsertSort(L);
-    cout&lt;&lt;&quot;排序后的结果为：&quot;&lt;&lt;endl;
+    cout<<"排序后的结果为："<<endl;
     show(L);
-}</code></pre><p>1.稳定排序</p>
+}</code></pre>
+<p>1.稳定排序</p>
 <p>2.适用于顺序表和链表</p>
 <p>3.时间复杂度为O(n^2)   空间复杂度为O(1),只需要一个r[0]</p>
 
@@ -813,8 +814,8 @@ using namespace std;
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%8E%92%E5%BA%8F/" class="post-category">
-                                    排序
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
                                 </a>
                             
                             
@@ -1064,7 +1065,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">119.3k</span>&nbsp;字
+                class="white-color">123.5k</span>&nbsp;字
             
             
             

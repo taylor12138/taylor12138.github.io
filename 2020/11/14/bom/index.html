@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.5k
+                    3k
                 </div>
                 
 
@@ -566,7 +566,9 @@
 <h4 id="（5）dpr-物理像素比"><a href="#（5）dpr-物理像素比" class="headerlink" title="（5）dpr 物理像素比"></a>（5）dpr 物理像素比</h4><p>pc端一般都是1，移动端比如iPhone6/7/8都是2，移动端不尽相同</p>
 <p><code>var dpr = window.devicePixelRatio || 1</code></p>
 <h2 id="3-JS执行队列"><a href="#3-JS执行队列" class="headerlink" title="3.JS执行队列"></a>3.JS执行队列</h2><p><strong>JS原先是单线程</strong>，也就是说同一时间只能做一件事，但是单线程就意味着，所有任务需要排队，钱一个任务结束后，才能执行下一个任务，如果JS执行时间过长，就会造成页面的渲染不连贯，导致页面渲染加载阻塞</p>
-<p>为了解决这个问题，H5提出Web Worker标准，允许JS创建多个线程，于是JS出现了同步（单线程）和异步（现在的JS可以同时多个任务）     他们本质的区别是，这条流水线上各个流程执行的顺序不同</p>
+<p><strong>多线程</strong>十分强大，但是多线程同步比较复杂，并且危险，稍有不慎就会崩溃死锁 &amp; 造成大量并发问题</p>
+<p>而传统上，JS旨在用于简短，快速运行的代码片段，作为浏览器脚本语言，主要用途是与用户互动，以及操作DOM，所以JS比较适合单线程</p>
+<p>为了解决这个问题，H5提出Web Worker标准，允许JS创建多个线程（实际上是“假”并发），于是JS出现了同步（单线程）和异步（现在的JS可以同时多个任务）     他们本质的区别是，这条流水线上各个流程执行的顺序不同</p>
 <h4 id="（1）同步和异步"><a href="#（1）同步和异步" class="headerlink" title="（1）同步和异步"></a>（1）同步和异步</h4><p>同步任务都放在一个主线程上执行，形成一个执行栈，按顺序执行</p>
 <p>异步任务：JS的异步是通过回调函数实现的，一般而言，异步任务有以下三种类型</p>
 <p>1.普通事件，如click、resize等</p>
@@ -574,8 +576,9 @@
 <p>3.定时器，如setTimeout、setInterval等</p>
 <h4 id="（2）宏任务和微任务"><a href="#（2）宏任务和微任务" class="headerlink" title="（2）宏任务和微任务"></a>（2）宏任务和微任务</h4><p>这里需要注意的是new Promise是会进入到主线程中立刻执行（promise本身不是异步，只是里面的任务是异步的罢了），而promise.then则属于微任务</p>
 <p><strong>宏任务(macro-task)</strong>：是由宿主（Node、浏览器）发起的，比如整体代码script、setTimeOut、setInterval</p>
-<p><strong>微任务(mincro-task)</strong>：由JavaScript自身，比如promise.then、process.nextTick(node)</p>
+<p><strong>微任务(mincro-task)</strong>：由JavaScript自身发起，比如promise.then、process.nextTick(node)</p>
 <p>微任务先执行，宏任务后执行</p>
+<p>同步代码执行完成后，会先执行微任务队列。注意：此时会把所有微任务队列全部执行完。再去宏队列macrotask取出一个执行，如果宏任务执行过程中产生新的微任务，会跳过微任务继续执行并立即把微任务放到异步任务队列大池子中。当前条宏任务执行完后，又去检查待执行的任务队列大池子，如果有微任务，就优先执行微任务，如果没有就继续执行宏任务队列</p>
 <h4 id="（3）执行机制"><a href="#（3）执行机制" class="headerlink" title="（3）执行机制"></a>（3）执行机制</h4><p>1.先执行执行栈中的同步任务</p>
 <p>2.异步任务（回调函数）放入任务队列中</p>
 <p>3.一旦执行栈所有同步任务执行完毕，系统就会按次序读取任务队列的异步任务，于是被读取的异步任务结束等待状态，进入执行栈，开始执行</p>
@@ -583,6 +586,19 @@
 <p>有异步任务交给异步进程处理（新开一个线程用来执行那些异步任务，我们暂且称为<strong>工作线程</strong>），异步任务执行完毕后推入任务队列</p>
 <p>当主线程执行完毕就来查询任务队列，取排在第一位的事件推入主线程处理，执行完再来取，不断循环，这个过程叫作<strong>事件循环</strong>   （实际上细分异步事件的优先级有宏任务和微任务，优先级：微任务&gt;宏任务）</p>
 <p>异步任务执行顺序不一定按照原来顺序，要取决于文件大小、操作系统调度机制等多方面原因</p>
+<h4 id="（4）node的执行机制"><a href="#（4）node的执行机制" class="headerlink" title="（4）node的执行机制"></a>（4）node的执行机制</h4><p>node的事件循环包括六大阶段</p>
+<ul>
+<li>timers阶段（setTimeout、setInterval的事件回调）</li>
+<li>I/O callbacks 阶段：处理上一轮循环中少数未执行的I/O回调</li>
+<li>idle，prepare阶段：仅node内部使用</li>
+<li>poll阶段：获取新的I/o事件，适当条件下node阻塞在这里</li>
+<li>check阶段：执行setImmediate回调</li>
+<li>close callbacks 阶段：执行socket的close回调</li>
+</ul>
+<p>这导致了node和浏览器端执行<strong>宏任务</strong>和<strong>微任务</strong>的顺序不一样！！</p>
+<p>不过！！在node新的版本逐步完善了，也就是node新版本标准和浏览器趋于相同 （V12.7以上）</p>
+<p><strong>process.nextTick</strong></p>
+<p>这个函数其实是独立于node的 Event Loop 之外的，它有一个自己的队列，当每个阶段完成后，如果存在 nextTick 队列，就会清空队列中的所有回调函数，并且优先于其他 microtask 执行。</p>
 <h2 id="4-location对象"><a href="#4-location对象" class="headerlink" title="4.location对象"></a>4.location对象</h2><p>location是window对象提供给我们的一个属性，用于获取或设置窗体的URL，并且可以用于解析URL，返回的是一个对象</p>
 <p>URL：统一资源定位符是互联网上标准资源的地址，互联网上每个文件都有唯一的URL，它包含的信息支持文件的位置以及浏览器该如何使用它（URL也就是我们的网址）</p>
 <p>组成：  protocol://host[:port]/path/[?query]#fragment</p>
@@ -1115,7 +1131,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">119.3k</span>&nbsp;字
+                class="white-color">123.5k</span>&nbsp;字
             
             
             

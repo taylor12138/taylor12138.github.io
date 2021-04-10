@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.3k
+                    2.4k
                 </div>
                 
 
@@ -485,7 +485,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="1-基本标签介绍"><a href="#1-基本标签介绍" class="headerlink" title="1.基本标签介绍"></a>1.基本标签介绍</h2><p><code>&lt;html&gt;&lt;/html&gt;``根标签</code></p>
+                <h2 id="1-基本标签介绍"><a href="#1-基本标签介绍" class="headerlink" title="1.基本标签介绍"></a>1.基本标签介绍</h2><p><code>&lt;html&gt;&lt;/html&gt;根标签</code></p>
 <p><code>&lt;head&gt; &lt;/head&gt;</code>   文档头部</p>
 <p> <code>&lt; title&gt; &lt;/title&gt;</code>  文档标题   </p>
 <p><code>&lt;body&gt;&lt;/body&gt;</code>    文档主体</p>
@@ -547,6 +547,7 @@
 <p>​    <code>&lt;dd&gt;名词1解释1&lt;/dd</code></p>
 <p>​    <code>&lt;dd&gt;名词1解释2&lt;/dd&gt;</code></p>
 <p><code>&lt;/dl&gt;</code></p>
+<p>注意<strong>（li默认本身没有margin）</strong></p>
 <br />
 
 <h2 id="9-表单（用于填写信息，用户注册）"><a href="#9-表单（用于填写信息，用户注册）" class="headerlink" title="9.表单（用于填写信息，用户注册）"></a>9.表单（用于填写信息，用户注册）</h2><p><code>&lt;form action=&quot;url地址&quot; method=&quot;提交方式&quot; name=&quot;表单域名称&quot; maxlength=&quot;&quot;&gt;&lt;/form&gt;</code>表单域</p>
@@ -575,7 +576,7 @@
 <pre><code>&lt;div&gt;   &lt;ul&gt;     &lt;ol&gt;     &lt;li&gt;  &lt;h1&gt;  &lt;h2&gt;等
 但&lt;p&gt;   &lt;h&gt;  不能内置块级元素，只能放文字</code></pre><p>行元素，不能设置宽高，只能容纳文本或者其他行内元素</p>
 <pre><code>&lt;a&gt;    &lt;strong&gt;   &lt;b&gt;     &lt;em&gt;    &lt;span&gt;  等
-但是&lt;a&gt;不能再放&lt;a&gt;    特殊情况&lt;a&gt;可以转块级</code></pre><p>行内块元素，能在同一行，也能设置宽高，但是行内块之间有缝隙</p>
+但是&lt;a&gt;不能再放&lt;a&gt;    特殊情况&lt;a&gt;可以转块级  &lt;b&gt;是粗文本</code></pre><p>行内块元素，能在同一行，也能设置宽高，但是行内块之间有缝隙</p>
 <pre><code>&lt;input/&gt;    &lt;img/&gt;   &lt;td&gt;  &lt;button&gt;</code></pre><h4 id="行块的转换详情请看CSS里的《行块转换》"><a href="#行块的转换详情请看CSS里的《行块转换》" class="headerlink" title="行块的转换详情请看CSS里的《行块转换》"></a>行块的转换详情请看CSS里的《行块转换》</h4><p>h5标签推荐网址：</p>
 <p><a href="http://www.w3school.com.cn/" target="_blank" rel="noopener">http://www.w3school.com.cn/</a></p>
 <p><a href="http://developer.mozilla.org/zh-CN/" target="_blank" rel="noopener">http://developer.mozilla.org/zh-CN/</a> </p>
@@ -623,6 +624,17 @@ mutiple=&quot;multiple&quot;    选择多个文件上传
 <h4 id="2-description"><a href="#2-description" class="headerlink" title="2.description"></a>2.description</h4><p>简要概述网站内容</p>
 <h4 id="3-keywords"><a href="#3-keywords" class="headerlink" title="3.keywords"></a>3.keywords</h4><p>页面关键字，搜索引擎的关注点</p>
 <h4 id="logo的SEO优化"><a href="#logo的SEO优化" class="headerlink" title="logo的SEO优化"></a>logo的SEO优化</h4><p>logo里首先放一个h1标签来提权，h1里再放一个链接，用于返回至首页，为了让搜索引擎收录我们，我们要在链接里放文字（网站名称），但是文字不要显示出来（文字大小设置为0，font-size: 0），最后给链接一个title属性</p>
+<h2 id="14-HTML5中的跨文档消息传递"><a href="#14-HTML5中的跨文档消息传递" class="headerlink" title="14.HTML5中的跨文档消息传递"></a>14.HTML5中的跨文档消息传递</h2><p>跨文档消息传送（cross-document messaging），有时候也简称为XDM，指的是来自不同域的页面间传递消息。（不过这个API好像有局限， 只能对新开的页面传递消息（内嵌也可以、即一个页面由另一个页面打开）。 ）</p>
+<p>XDM的核心是<code>postMessage()</code>方法，实际上我们可以使用<code>postMessage()</code>方法进行跨域</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 跨域发送数据到目标源</span>
+window<span class="token punctuation">.</span>onload <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    document<span class="token punctuation">.</span><span class="token function">getElementsByTagName</span><span class="token punctuation">(</span><span class="token string">"iframe"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>contentWindow<span class="token punctuation">.</span><span class="token function">postMessage</span><span class="token punctuation">(</span><span class="token punctuation">{</span>name<span class="token punctuation">:</span> <span class="token string">'wujiang'</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token string">"http://localhost:8090"</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// 监听目标源发送过来的数据</span>
+window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'message'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'http://localhost:8090/a.ftl ===> http://localhost:8080/index.jsp'</span><span class="token punctuation">)</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 
             </div>
             <hr/>
@@ -1118,7 +1130,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">119.3k</span>&nbsp;字
+                class="white-color">123.5k</span>&nbsp;字
             
             
             

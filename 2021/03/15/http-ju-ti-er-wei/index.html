@@ -637,14 +637,14 @@
 </li>
 <li><p><code>Expires</code>（与响应头中的 Date 对比）（实体头部）</p>
 </li>
-<li><p><code>Last-Modified</code>（弱校验， 根据文件修改时间，可能内容未变，不精确）（实体头部）</p>
+<li><p><code>Last-Modified</code>（弱校验， 根据文件修改时间校验，可能内容未变，不精确）（实体头部）</p>
 </li>
-<li><p><code>ETag</code>（强校验，根据文件内容生成精确，这也是有了Last-modified还要有ETag的原因）（响应头部）</p>
+<li><p><code>ETag</code>（强校验，根据文件内容校验精确，这也是有了Last-modified还要有ETag的原因）（响应头部）</p>
 </li>
 <li><p><code>Date</code>等等。</p>
 </li>
 </ul>
-<p>http缓存都是从第二次请求开始的。第二次请求时，浏览器判断这些请求参数，命中强缓存就直接200，否则就把请求参数加到request header头中传给服务器，看是否命中协商缓存，命中则返回304，否则服务器会返回新的资源</p>
+<p>http缓存都是从第二次请求开始的。第二次请求时，浏览器判断这些请求参数，命中强缓存就直接200，否则就把请求参数加到request header头中传给服务器，看是否命中协商缓存（当ETag和Last-Modified同时存在时，服务器先会检查ETag，然后再检查Last-Modified），命中则返回304，否则服务器会返回新的资源</p>
 <h4 id="强缓存-协商缓存"><a href="#强缓存-协商缓存" class="headerlink" title="强缓存 + 协商缓存"></a>强缓存 + 协商缓存</h4><p>之后浏览器再向该服务器请求该资源就可以视情况使用<strong>强缓存</strong>和<strong>协商缓存</strong>。</p>
 <ul>
 <li>强缓存：（当前缓存未过期）浏览器直接从本地缓存中获取数据，不与服务器进行交互。</li>
@@ -1255,7 +1255,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">123.5k</span>&nbsp;字
+                class="white-color">126.3k</span>&nbsp;字
             
             
             

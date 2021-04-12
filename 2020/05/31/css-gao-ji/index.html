@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.7k
+                    3.8k
                 </div>
                 
 
@@ -550,9 +550,7 @@
 <p><code>input[class$=icon]{}</code>    选择类属性以icon结尾的所有标签</p>
 <p><code>input[class*=icon]{}</code>    选择类属性含有icon的所有标签</p>
 <p>如</p>
-<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.local-nav</span> li <span class="token attribute">[class^="local-nav-icon"]</span> </span><span class="token punctuation">{</span>
-
-<span class="token punctuation">}</span></code></pre>
+<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.local-nav</span> li <span class="token attribute">[class^="local-nav-icon"]</span> </span><span class="token punctuation">{</span>  <span class="token punctuation">}</span></code></pre>
 <p>类选择器，伪类选择器，属性选择器（伪类选择器、属性选择器一般是11，因为包含标签名+/伪类名属性名=1+10=11）它们权重都为10</p>
 <h4 id="结构伪类选择器"><a href="#结构伪类选择器" class="headerlink" title="结构伪类选择器"></a>结构伪类选择器</h4><p>first和last等可以来了解一下，实际开发不太建议使用，也比较少使用。</p>
 <p>值得注意的是 <code>nth-child(n)</code>比较重要</p>
@@ -567,12 +565,19 @@
 <h4 id="伪元素选择器"><a href="#伪元素选择器" class="headerlink" title="伪元素选择器"></a>伪元素选择器</h4><p>通过CSS创建新的子标签（比较简单的），从而简化html结构，（<strong>还与之前清除浮动使用的伪元素方法有关</strong>）</p>
 <pre class=" language-css"><code class="language-css"><span class="token selector">element<span class="token pseudo-element">::before</span></span><span class="token punctuation">{</span> 
 content：<span class="token string">'XX'</span><span class="token punctuation">;</span>       <span class="token comment" spellcheck="true">/*必须要有content属性，为内容*/</span>
-样式 <span class="token punctuation">}</span>      <span class="token comment" spellcheck="true">/*在元素内部前面（左）插入内容*/</span>
+<span class="token punctuation">}</span>                    <span class="token comment" spellcheck="true">/*在元素内部前面（左）插入内容*/</span>
 <span class="token selector">element<span class="token pseudo-element">::after</span></span><span class="token punctuation">{</span> 
 <span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">'XX'</span><span class="token punctuation">;</span>
-样式 <span class="token punctuation">}</span>      <span class="token comment" spellcheck="true">/*在元素内部后面（右）插入内容*/</span></code></pre>
+<span class="token punctuation">}</span>                    <span class="token comment" spellcheck="true">/*在元素内部后面（右）插入内容*/</span></code></pre>
 <p>它和标签选择器一样，权重=1，且为行内元素，想要设置大小必须转行内块</p>
 <p>（还可以有element:hover::before{}的操作）</p>
+<h4 id="伪类和伪元素"><a href="#伪类和伪元素" class="headerlink" title="伪类和伪元素"></a>伪类和伪元素</h4><p>单冒号(:)用于CSS3伪类，双冒号(::)用于CSS3伪元素</p>
+<ul>
+<li>双冒号是在当前规范中引入的，用于区分伪类和伪元素。不过浏览器需要同时支持旧的已经存在的伪元素写法，比如:first-line、:first-letter、:before、:after等，而新的在CSS3中引入的伪元素则不允许再支持旧的单冒号的写法;</li>
+<li>所以我们最好养成习惯，伪元素写 <code>::</code> 伪类写 <code>:</code></li>
+</ul>
+<p><img src="../images/CSS%E9%AB%98%E7%BA%A7/weiyuansu.jpg" alt=""></p>
+<p><img src="../images/CSS%E9%AB%98%E7%BA%A7/weilei.jpg" alt=""></p>
 <h4 id="CSS3盒子模型"><a href="#CSS3盒子模型" class="headerlink" title="CSS3盒子模型"></a>CSS3盒子模型</h4><p>只需增加如下代码</p>
 <pre class=" language-css"><code class="language-css"><span class="token property">box-sizing</span><span class="token punctuation">:</span> content-box<span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">/*默认*/</span>
 <span class="token property">box-sizing</span><span class="token punctuation">:</span> border-box<span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">/*只看盒子大小，不考虑border和padding因素*/</span></code></pre>
@@ -1211,7 +1216,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">123.5k</span>&nbsp;字
+                class="white-color">126.3k</span>&nbsp;字
             
             
             

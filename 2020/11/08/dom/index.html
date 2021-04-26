@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.8k
+                    4.9k
                 </div>
                 
 
@@ -485,7 +485,8 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="DOM基础"><a href="#DOM基础" class="headerlink" title="DOM基础"></a>DOM基础</h2><p>W3C已经定义了一系列的dom接口，可以改变网页内容、结构、样式</p>
+                <h2 id="DOM基础"><a href="#DOM基础" class="headerlink" title="DOM基础"></a>DOM基础</h2><p>DOM：文档对象模型，是一个应用编程接口API</p>
+<p>W3C已经定义了一系列的dom接口，可以改变网页内容、结构、样式</p>
 <p>文档：一个页面就是一个文档，用document表示</p>
 <p>元素：页面内的所有标签都是元素，用element表示</p>
 <p>节点：网页中所有内容都是一个节点（注释，文本，属性等），用node表示</p>
@@ -636,6 +637,7 @@ Btn_All<span class="token punctuation">.</span>onclick <span class="token operat
 <p>元素节点 nodeType = 1    节点操作一般都是操作元素节点</p>
 <p>属性节点 nodeType = 2</p>
 <p>文本节点 nodeType = 3</p>
+<p><img src="../images/DOM/jiedian.jpg" alt=""></p>
 <p>父亲节点： <code>node.parentNode</code> (得到的是离元素最近的父节点，找不到父节点返回空值)</p>
 <p>孩子节点： <code>parentNode.childNodes</code> 返回包含节点的子节点的集合，包含元素节点，文本节点等等，该集合为及时更新的集合，若只想获取元素节点：(因为繁琐，所以实际开发不提倡使用childNodes)</p>
 <pre><code>var ul = document.querySelect(&#39;ul&#39;);
@@ -751,7 +753,7 @@ btn<span class="token punctuation">.</span><span class="token function">addEvent
 <span class="token punctuation">}</span></code></pre>
 <p>使得目标div在点击一次之后解绑事件</p>
 <h3 id="3-dom事件流"><a href="#3-dom事件流" class="headerlink" title="3.dom事件流"></a>3.dom事件流</h3><p>事件发生时会在元素节点之间按照特定的顺序传播（document-&gt;Element gtml-&gt;Element body-&gt;Element div），这个传播过程即DOM事件流</p>
-<p>DOM事件流分为三个阶段 ：（执行顺序也是如此 捕获 - &gt; 当前 -&gt; 冒泡）</p>
+<p>DOM事件流分为<strong>三个阶段</strong> ：（执行顺序也是如此 捕获 - &gt; 当前 -&gt; 冒泡）(记住是三个，还有一个目标阶段！！！)</p>
 <p>1.捕获阶段（从大往小传播，从最顶层开始，然后逐级向下传播到具体元素接收的过程） </p>
 <p> 2.当前目标阶段  </p>
 <p>3.冒泡阶段（从小到大，从里到外的传播，由最具体的元素接收，然后逐级向上传播到DOM最顶层节点的过程）</p>
@@ -776,6 +778,7 @@ btn<span class="token punctuation">.</span><span class="token function">addEvent
     <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
 <p>但是实际开发中我们更关注的是冒泡，且有些事件是没有冒泡的，如onblur，onfocus，onmouseenter，onmouseleave</p>
+<p>事件委托就是利用事件冒泡，只指定一个事件处理程序，就可以管理某一类型的所有事件：比如通过冒泡父元素管理多个子元素的事件</p>
 <h3 id="4-事件对象"><a href="#4-事件对象" class="headerlink" title="4.事件对象"></a>4.事件对象</h3><p><code>div.addEventListener(&#39;click&#39;, funciton(event){} )</code> 中的event为事件对象，写到我们监听函数的小括号里，当形参看</p>
 <p>事件对象只有有了事件才会存在，它是系统自动为我们创建的，不需要我们传递参数</p>
 <p>事件对象是我们事件一些列相关数据的集合</p>
@@ -807,6 +810,8 @@ btn<span class="token punctuation">.</span><span class="token function">addEvent
 <p><code>mouseout</code>    鼠标离开元素，和mouseover相互搭配</p>
 <p> <code>mouseenter</code>  鼠标移动到元素上，只会经过自身盒子才触发一次，之所以会这样，是因为mouseenter不会冒泡</p>
 <p><code>mouseleave</code>  鼠标离开元素，和mouseenter相互搭配，同样不会冒泡</p>
+<p><code>focus</code> 获得焦点</p>
+<p><code>blur</code>失去焦点</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//禁用鼠标右键 </span>
 document<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'contextmenu'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     e<span class="token punctuation">.</span><span class="token function">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -1140,13 +1145,13 @@ BOM缺乏标准，Javascript语法的标准化组织是ECMA，DOM标准化组织
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/10/02/yi-dong-web-kai-fa-ji-qi-chang-jian-bu-ju-css/">
+                <a href="/2020/10/02/yi-dong-web-kai-fa-de-chang-jian-bu-ju-css/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="移动Web开发及其常见布局(CSS)">
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="移动&amp;Web开发的常见布局(CSS)">
                         
-                        <span class="card-title">移动Web开发及其常见布局(CSS)</span>
+                        <span class="card-title">移动&amp;Web开发的常见布局(CSS)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1371,7 +1376,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">126.3k</span>&nbsp;字
+                class="white-color">134.3k</span>&nbsp;字
             
             
             

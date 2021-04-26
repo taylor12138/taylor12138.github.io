@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3k
+                    3.3k
                 </div>
                 
 
@@ -485,7 +485,17 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="声明：可以使用chrome的F12浏览学习别人的样式并且调试你的代码"><a href="#声明：可以使用chrome的F12浏览学习别人的样式并且调试你的代码" class="headerlink" title="声明：可以使用chrome的F12浏览学习别人的样式并且调试你的代码"></a>声明：<strong>可以使用chrome的F12浏览学习别人的样式并且调试你的代码</strong></h3><h4 id="引入CSS"><a href="#引入CSS" class="headerlink" title="引入CSS"></a>引入CSS</h4><pre class=" language-css"><code class="language-css">&lt;link rel=<span class="token string">"stylesheet"</span> href=<span class="token string">"css文件路径"</span>></code></pre>
+                <p>声明：<strong>可以使用chrome的F12浏览学习别人的样式并且调试你的代码</strong></p>
+<h3 id="引入CSS"><a href="#引入CSS" class="headerlink" title="引入CSS"></a>引入CSS</h3><pre class=" language-css"><code class="language-css"><span class="token comment" spellcheck="true">/*1）link的写法：*/</span>
+&lt;link rel=<span class="token string">"stylesheet"</span> href=<span class="token string">"index.css"</span>>
+<span class="token comment" spellcheck="true">/*2）import的写法：*/</span>
+&lt;style type=”text/css”>
+    @import url（“index<span class="token number">.</span>css”）；
+&lt;/style></code></pre>
+<p><strong>link和@import的区别：</strong></p>
+<p>（1）link是XHTML标签，无兼容问题；@import是在CSS2.1提出的，低版本的浏览器不支持。</p>
+<p>（2）link可以加载CSS，Javascript；@import只能加载CSS。</p>
+<p>（3）link加载的内容是与页面同时加载；@import需要页面网页完全载入以后加载。（所以有时候浏览@import加载CSS的页面时会没有样式（就是闪烁），网速慢的时候还挺明显。）</p>
 <h2 id="1-主要定义"><a href="#1-主要定义" class="headerlink" title="1.主要定义"></a>1.主要定义</h2><pre class=" language-css"><code class="language-css"><span class="token comment" spellcheck="true">/*是类型选择,标签选择器*/</span>
 <span class="token selector">元素（标签） </span><span class="token punctuation">{</span>
 
@@ -514,7 +524,12 @@
 <span class="token selector">元素1,
 元素2</span><span class="token punctuation">{</span>
 
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">/*选择类名1的下一个兄弟节点元素2*/</span>
+<span class="token selector">类名1+元素2</span><span class="token punctuation">{</span>
+
 <span class="token punctuation">}</span></code></pre>
+<p>注意：如果一个元素拥有ID属性,那么ID属性的属性值就会成为window对象的属性名</p>
 <h4 id="文字"><a href="#文字" class="headerlink" title="文字"></a>文字</h4><p><code>font-size: 12px</code>    //12像素大小文字   谷歌默认16px</p>
 <p><code>font-size: 12px</code>/1.5    //12像素大小文字   行高为12*1.5=18</p>
 <p><code>font-weight: xxx</code>    //字体加粗</p>
@@ -606,6 +621,10 @@
     <span class="token property">align-self</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
     <span class="token property">justify-self</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
+<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.parent</span></span><span class="token punctuation">{</span>
+    <span class="token property">display</span><span class="token punctuation">:</span> grid<span class="token punctuation">;</span>
+    <span class="token property">place-items</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
 <p>4.table-cell + vertical + text-align</p>
 <pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.parent</span> </span><span class="token punctuation">{</span>
     <span class="token property">display</span><span class="token punctuation">:</span> table-cell<span class="token punctuation">;</span>
@@ -629,6 +648,8 @@
 <p>6.行内元素水平垂直居中</p>
 <pre class=" language-css"><code class="language-css"><span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
 <span class="token property">line-height</span><span class="token punctuation">:</span> <span class="token number">300</span>px<span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">/*和盒子高度保持一致*/</span></code></pre>
+<p>关于九宫格样式布局可以参考以下链接博主的讲解，很详细</p>
+<p><a href="https://juejin.cn/post/6886770985060532231#heading-2" target="_blank" rel="noopener">https://juejin.cn/post/6886770985060532231#heading-2</a></p>
 <h4 id="display和visibility"><a href="#display和visibility" class="headerlink" title="display和visibility"></a>display和visibility</h4><p><code>display: none</code>：该元素以及它的所有后代元素都会隐藏，无法使用屏幕阅读器等辅助设备访问，<strong>占据的空间消失</strong></p>
 <p><code>visibility: hidden</code>：也可以隐藏这个元素，但是隐藏元素仍需占用与未隐藏时一样的空间，也就是说虽然元素不可见了，<strong>但是仍然会影响页面布局。</strong>（也就是仍然占据空间，只是隐藏起来）</p>
 <p>除了占据空间这个重大的区别之外，还有2个区别：</p>
@@ -649,13 +670,14 @@
 <h4 id="2-继承性"><a href="#2-继承性" class="headerlink" title="2.继承性"></a>2.继承性</h4><p>子标签会继承父标签的属性</p>
 <h4 id="3-优先级"><a href="#3-优先级" class="headerlink" title="3.优先级"></a>3.优先级</h4><p>1.选择器相同，执行层叠性</p>
 <p>2.选择器不同，继承/*(0,0,0,0)&lt;元素(0,0,0,1)&lt;类(0,0,1,0)&lt;id(0,1,0,0)&lt;行内样式style(1,0,0,0)&lt;！important无限大</p>
-<p>（属性选择器<code>input[class^=icon]{}</code>    是（0,0,1,0））</p>
+<p>（属性选择器<code>input[class^=icon]{}</code>    是（0,0,0,1）（0,0,1,0） ）</p>
 <p>（！important加在某属性后面，如color: green!important）</p>
 <p>继承的你加了！important，权值还是（0，0，0，0），毕竟是继承过来的</p>
 <p>3.复合选择器有权重叠加的问题</p>
 <p>ul li{}权重为(0,0,0,1)+(0,0,0,1)                   li为(0,0,0,1)            .nav li为（0，0，1，1）</p>
 <p>权重会叠加，但是永不进位，不是二进制           （a:hover为(0,0,1,1)）</p>
-<h2 id="5-CSS盒子"><a href="#5-CSS盒子" class="headerlink" title="5.CSS盒子"></a>5.CSS盒子</h2><h4 id="border（会影响盒子大小）"><a href="#border（会影响盒子大小）" class="headerlink" title="border（会影响盒子大小）"></a>border（会影响盒子大小）</h4><pre class=" language-css"><code class="language-css"><span class="token property">border-style</span><span class="token punctuation">:</span> <span class="token function">solid</span><span class="token punctuation">(</span>实线边框，最常用<span class="token punctuation">)</span> <span class="token function">dashed</span><span class="token punctuation">(</span>虚线<span class="token punctuation">)</span>  dotted（点线边框） 
+<h2 id="5-CSS盒子"><a href="#5-CSS盒子" class="headerlink" title="5.CSS盒子"></a>5.CSS盒子</h2><h4 id="border"><a href="#border" class="headerlink" title="border"></a>border</h4><p>（会影响盒子大小）</p>
+<pre class=" language-css"><code class="language-css"><span class="token property">border-style</span><span class="token punctuation">:</span> <span class="token function">solid</span><span class="token punctuation">(</span>实线边框，最常用<span class="token punctuation">)</span> <span class="token function">dashed</span><span class="token punctuation">(</span>虚线<span class="token punctuation">)</span>  dotted（点线边框） 
 <span class="token property">border-width</span><span class="token punctuation">:</span> XXpx
 <span class="token property">border-color</span><span class="token punctuation">:</span> XX
 复写： <span class="token property">border</span><span class="token punctuation">:</span> <span class="token number">1</span>px solid red
@@ -663,17 +685,43 @@
 
 <span class="token property">border-collapse</span><span class="token punctuation">:</span>collapse      <span class="token comment" spellcheck="true">/*相邻边框合并*/</span>
 <span class="token property">border-top-right-radius</span><span class="token punctuation">:</span> <span class="token number">15</span>px<span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">/*右上方改圆角，无top，right则全部都改*/</span></code></pre>
-<h4 id="padding，内边距（会影响盒子大小，要设置了盒子宽高才会撑开）"><a href="#padding，内边距（会影响盒子大小，要设置了盒子宽高才会撑开）" class="headerlink" title="padding，内边距（会影响盒子大小，要设置了盒子宽高才会撑开）"></a>padding，内边距（会影响盒子大小，要设置了盒子宽高才会撑开）</h4><p>适用于文字大小不一的盒子，不设置宽高，直接设置padding，字少空间小。字多空间大</p>
+<h4 id="padding"><a href="#padding" class="headerlink" title="padding"></a>padding</h4><p>内边距（会影响盒子大小，要设置了盒子宽高才会撑开）</p>
+<p>适用于文字大小不一的盒子，不设置宽高，直接设置padding，字少空间小。字多空间大</p>
 <p>子容器盒子没设置宽高，父容器盒子padding不会被撑开</p>
 <pre class=" language-css"><code class="language-css"><span class="token property">padding</span><span class="token punctuation">:</span> <span class="token number">5</span>px<span class="token punctuation">;</span>
 <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token number">0</span> <span class="token number">10</span>px<span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">/*分别对应上下和左右*/</span>
 <span class="token property">padding-top</span><span class="token punctuation">:</span> <span class="token number">5</span>px<span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">/*仅写上方内边距*/</span></code></pre>
-<h4 id="margin，外边距，盒子和盒子之间的距离（不会撑开）"><a href="#margin，外边距，盒子和盒子之间的距离（不会撑开）" class="headerlink" title="margin，外边距，盒子和盒子之间的距离（不会撑开）"></a>margin，外边距，盒子和盒子之间的距离（不会撑开）</h4><p>使用方法和padding是一致的    </p>
+<h4 id="margin"><a href="#margin" class="headerlink" title="margin"></a>margin</h4><p>外边距，盒子和盒子之间的距离（不会撑开）</p>
+<p>使用方法和padding是一致的    </p>
 <p>margin可以让块级盒子水平居中：1盒子必须有宽度，盒子左右外边距设置为auto <code>margin: 0 auto;</code>(不适用于定位)</p>
 <p>行内元素或者行内块元素水平居中只需在其父元素CSS样式中添加：text-align: center;    </p>
 <h4 id="外边距合并问题"><a href="#外边距合并问题" class="headerlink" title="外边距合并问题"></a>外边距合并问题</h4><p>1.外边距合并指的是，当两个垂直外边距（2个margin）相遇时，它们将形成一个外边距。合并后的外边距的高度等于两个发生合并的外边距的高度中的较大者。而左右外边距不合并。<br>2.在CSS当中，相邻的两个盒子（可能是兄弟关系也可能是祖先关系）的外边距可以结合成一个单独的外边距。这种合并外边距的方式被称为折叠，并且因而所结合成的外边距称为折叠外边距。<br>3.注释：只有普通文档流中块框的垂直外边距才会发生外边距合并。行内框、浮动框或绝对定位之间的外边距不会合并。</p>
 <p>4.我们可以在a元素或者b元素再包裹一个容器并触发该容器生成一个BFC，就不会发生margin重叠了</p>
-<h4 id="关于text-indent：-999px"><a href="#关于text-indent：-999px" class="headerlink" title="关于text-indent：-999px"></a>关于text-indent：-999px</h4><p>这个是<strong>为了隐藏对象内的内容</strong>，然后在使用overflow: hidden进行隐藏</p>
+<h4 id="overflow"><a href="#overflow" class="headerlink" title="overflow"></a>overflow</h4><table>
+<thead>
+<tr>
+<th>visible</th>
+<th>默认值。内容不会被修剪，会呈现在元素框之外。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>hidden</td>
+<td>内容会被修剪，并且其余内容是不可见的。</td>
+</tr>
+<tr>
+<td>scroll</td>
+<td>内容会被修剪，但是浏览器会显示滚动条以便查看其余的内容。</td>
+</tr>
+<tr>
+<td>auto</td>
+<td>如果内容被修剪，则浏览器会显示滚动条以便查看其余的内容。</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承 overflow 属性的值。</td>
+</tr>
+</tbody></table>
+<p>使用了<code>overflow: scroll</code> 或者 <code>overflow: auto</code> 才可以使用scroll事件的那些 scrollTop属性等 </p>
 <h2 id="6-PS"><a href="#6-PS" class="headerlink" title="6.PS"></a>6.PS</h2><p>jpg： JPEG对色彩保留好，高清颜色多</p>
 <p>gif：常用于小图片动画，可保留透明背景</p>
 <p>png：结合jpg和gif，储存形式丰富，支持透明背景</p>
@@ -1212,7 +1260,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">126.3k</span>&nbsp;字
+                class="white-color">134.3k</span>&nbsp;字
             
             
             

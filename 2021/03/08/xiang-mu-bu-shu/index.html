@@ -459,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.5k
+                    1.7k
                 </div>
                 
 
@@ -487,7 +487,16 @@
 <li>面对404时，是找不到资源，在本地上可以运行，而部署到服务器上却出现了404，很有可能是api链接等没有写对，导致找不到真正的地址；部署后台项目的时候，我将异步请求的 <code>axios baseURL</code> 改成：自己的公网地址:端口号，实际上是只需改成：自己的公网地址就可以了，害我看了半天</li>
 <li>面对502时，可能是服务器暂未开启</li>
 <li>面对500时，是服务器发生内部错误，我看了半天的服务端代码，发现没错，实际上是请求的数据有一段时number类型，我测试的时候胡乱输入字符串，也会发生500错误</li>
+<li>当服务器一直开不了时，可以查看在linux命令里查看pm2日志查找问题</li>
 </ul>
+<pre class=" language-powershell"><code class="language-powershell">pm2 logs</code></pre>
+<p>还有一些PM2任务管理器的一些操作符献上：</p>
+<pre class=" language-shell"><code class="language-shell">pm2 start app.js              # 启动app.js应用程序
+pm2 list                      # 列表 PM2 启动的所有的应用程序
+pm2 restart all               # 重启所有应用</code></pre>
+<h2 id="github-actions"><a href="#github-actions" class="headerlink" title="github actions"></a>github actions</h2><p>GitHub action产生的初衷是用于CI的，也就是持续集成。但我发现实际上很多GitHub上的项目，使用到GitHub actions 定时跑自己的脚本，比如签到类、每天自动做任务类的脚本（当然我还看到很多csdn的老哥使用它来哔哩哔哩签到投币等 0.0 ）</p>
+<p>github老哥的入门指南<a href="https://github.com/shfshanyue/you-dont-need-vps/blob/master/github-action-guide.md" target="_blank" rel="noopener">https://github.com/shfshanyue/you-dont-need-vps/blob/master/github-action-guide.md</a></p>
+<p>与此同时，还可以使用linux命令 crontab命令定时执行脚本，实现以上功能</p>
 <h2 id="服务器软件"><a href="#服务器软件" class="headerlink" title="服务器软件"></a>服务器软件</h2><ul>
 <li><p>Web服务器：提供Web化服务，当下几乎所有服务器软件都可以成为Web服务器</p>
 </li>
@@ -1055,7 +1064,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">126.3k</span>&nbsp;字
+                class="white-color">134.3k</span>&nbsp;字
             
             
             

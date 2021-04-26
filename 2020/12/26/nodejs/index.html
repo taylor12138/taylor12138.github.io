@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.4k
+                    7.7k
                 </div>
                 
 
@@ -739,7 +739,7 @@ ws<span class="token punctuation">.</span><span class="token function">end</span
 <p>简单文件读取（参数功能同上）</p>
 <p><code>fs.readFileSync(path [, options])</code></p>
 <p><code>fs.readFile(path [, options], callback)</code></p>
-<p>​    callback回调函数参数 </p>
+<p>​    callback回调函数参数 （err, data）</p>
 <p>​        <code>err</code> 错误对象</p>
 <p>​        <code>data</code>  读取到的数据，会返回一个Buffer</p>
 <p>流式文件读取</p>
@@ -1009,6 +1009,35 @@ app<span class="token punctuation">.</span><span class="token function">use</spa
 npm install <span class="token operator">--</span>global nodemon</code></pre>
 <p>原来我们在命令行输入：<code>node xxx.js</code></p>
 <p>现在：<code>nodemon xxx.js</code>， 他会监视你的文件变化，当文件变化时，会自动帮你重启服务器        </p>
+<h4 id="使用node-js进行爬虫"><a href="#使用node-js进行爬虫" class="headerlink" title="使用node.js进行爬虫"></a>使用node.js进行爬虫</h4><p>原理：当网页时后端渲染时，对网页源代码进行爬取，得到其html源码</p>
+<p>第一步：</p>
+<p>使用 <code>npm init --yes</code>初始化创建的文件夹</p>
+<p>下载依赖包  <code>npm i superagent cheerio</code></p>
+<ul>
+<li>superagent: http库，发起post、get请求</li>
+<li>cheerio：为服务器特别定制的快速灵活jQuery，用来从网页css selector取数据，使用方法和jQuery一样</li>
+</ul>
+<p>第二步：</p>
+<p>通过 superagent &amp; cheerio获取网页数据（后端渲染）</p>
+<p>数据处理，可以使用正则表达式，字符串切割，或者<code>eval()</code> 函数（可计算某个字符串，并执行其中的的 JavaScript 代码。）</p>
+<p>第三步：</p>
+<p>写入本地</p>
+<pre class=" language-js"><code class="language-js">superagent<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'https://ncov.dxy.cn/ncovh5/view/pneumonia'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>res <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// 浏览器可以解析代码，node端直接返回源码,而res.text是我们需要的响应数据</span>
+  <span class="token keyword">const</span> $ <span class="token operator">=</span> cheerio<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>text<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> $getAreaStat <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#getAreaStat'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">html</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// 加入全国疫情数据</span>
+  <span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token function">eval</span><span class="token punctuation">(</span>$getAreaStat<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token regex">/window/g</span><span class="token punctuation">,</span> <span class="token string">'data'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// 字符串转换json</span>
+  fs<span class="token punctuation">.</span><span class="token function">writeFile</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'./data.json'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">,</span> err <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token keyword">throw</span> err<span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"写入成功！！！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span>err <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">throw</span> err<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 
             </div>
             <hr/>
@@ -1515,7 +1544,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">126.3k</span>&nbsp;字
+                class="white-color">134.3k</span>&nbsp;字
             
             
             

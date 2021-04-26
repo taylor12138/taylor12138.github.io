@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.2k
+                    8.3k
                 </div>
                 
 
@@ -500,6 +500,10 @@
 <p>3.SEO不友好（搜索引擎优化）（源代码（响应体）没有部分商品信息，那些商品信息都是ajax向服务端发请求，通过服务端返结果，然后js动态创建到页面，所以爬虫也爬不到商品数据）</p>
 <h4 id="Ajax原理"><a href="#Ajax原理" class="headerlink" title="Ajax原理"></a>Ajax原理</h4><p>Ajax请求数据流程最核心的依赖是浏览器提供的XMLHttpRequest对象，它扮演的角色相当于秘书，使得浏览器可以发出HTTP请求与接收HTTP响应。浏览器接着做其他事情，等收到XHR返回来的数据再渲染页面。</p>
 <h2 id="2-Express框架"><a href="#2-Express框架" class="headerlink" title="2.Express框架"></a>2.Express框架</h2><p>基于Node.js平台快速、开放、极简的Web开发框架，高度封装了http模块</p>
+<p>（截至在2021/4/18，在GitHub上，</p>
+<p>express：52.7k star；</p>
+<p>koa：31k star；</p>
+<p>Hapi：13.2k star，express占领榜首，最高活跃度）</p>
 <p>安装：用VScode打开文件目录，然后在该目录下右键-&gt;在集成终端打开-&gt;输入命令 <code>npm init --yes</code>  进行初始化，创建一个package.json文件-&gt; <code>npm i express --save</code> 安装框架 -&gt;  在js中输入</p>
 <p>1.<code>http.createServer()</code>  =&gt;  <code>express()</code>    创建服务器</p>
 <p>2.<code>if (url.parse(req.url, true).pathname === 路径){}</code> =&gt; <code>app.get(路径, fn)</code> 判断路径进行处理</p>
@@ -922,7 +926,7 @@ app<span class="token punctuation">.</span><span class="token function">use</spa
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h2 id="3-原生ajax的get-post请求"><a href="#3-原生ajax的get-post请求" class="headerlink" title="3.原生ajax的get/post请求"></a>3.原生ajax的get/post请求</h2><p>先在script绑定事件对象</p>
 <p>1.创建对象（控制平台中network也有XHR，它是对ajax请求做一个筛选）</p>
-<p><code>XMLHttpRequest</code>（XHR）对象用于与服务器交互。通过 XMLHttpRequest 可以在不刷新页面的情况下请求特定 URL，获取数据。这允许网页在不影响用户操作的情况下，更新页面的局部内容。<code>XMLHttpRequest</code> 在 ajax 编程中被大量使用。</p>
+<p><code>XMLHttpRequest</code>（XHR）对象用于与服务器交互，是BOM的范畴内。通过 XMLHttpRequest 可以在不刷新页面的情况下请求特定 URL，获取数据。这允许网页在不影响用户操作的情况下，更新页面的局部内容。<code>XMLHttpRequest</code> 在 ajax 编程中被大量使用。</p>
 <p>2.初始化，设置请求方法（请求类型）和url</p>
 <p><code>xhr.open(请求类型, url)</code>，请求类型为get或post</p>
 <p>3.发送</p>
@@ -1328,6 +1332,7 @@ app<span class="token punctuation">.</span><span class="token keyword">get</span
     <span class="token comment" spellcheck="true">// 转字符串再调用handle函数</span>
     res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`handle(</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">)`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p>所以使用jsonp传输数据时，后端需要处理数据讲数据转换为json格式</p>
 <h4 id="jQuery实现跨域功能"><a href="#jQuery实现跨域功能" class="headerlink" title="jQuery实现跨域功能"></a>jQuery实现跨域功能</h4><p><code>$(*selector*).getJSON(*url,data,success(data,status,xhr))*</code></p>
 <p>getJSON() 方法使用 AJAX 的 HTTP GET 请求获取 JSON 数据。而跨域的实现是通过在url后增加<code>&#39;?callback=?&#39;</code>，并且在服务器上调用接收jQuerycallback参数的函数</p>
 <pre class=" language-js"><code class="language-js"><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'button'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">eq</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -1883,7 +1888,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">126.3k</span>&nbsp;字
+                class="white-color">134.3k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3k
+                    3.3k
                 </div>
                 
 
@@ -551,6 +551,28 @@
         arrow_r<span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<h5 id="requestAnimationFrame"><a href="#requestAnimationFrame" class="headerlink" title="requestAnimationFrame"></a>requestAnimationFrame</h5><p>（IE9-浏览器不支持该方法）官方解释：若你想在浏览器下次重绘之前继续更新下一帧动画，那么回调函数自身必须再次调用<code>window.requestAnimationFrame()</code></p>
+<p>有点像<code>setInterval</code>，默认每秒60帧，也就是 1000 / 60，采用系统时间间隔，保持最佳绘制效率</p>
+<p>对比起 <code>setInterval</code>和 <code>setTimeout</code>的优势</p>
+<ul>
+<li>requestAnimationFrame 会把每一帧中的所有DOM操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。</li>
+<li>在隐藏或不可见的元素中，requestAnimationFrame将不会进行重绘或回流，这当然就意味着更少的的cpu，gpu和内存使用量。</li>
+</ul>
+<pre class=" language-js"><code class="language-js"><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token function">animloop</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        window<span class="token punctuation">.</span><span class="token function">requestAnimationFrame</span><span class="token punctuation">(</span>animloop<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>当然，requestAnimationFrame也有自己的消除定时器，需要传入requestAnimationFrame的id，而id来自于requestAnimationFrame的返回。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> rafId <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+<span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token function">animloop</span><span class="token punctuation">(</span>time<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>time<span class="token punctuation">,</span>Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        rafId <span class="token operator">=</span> <span class="token function">requestAnimationFrame</span><span class="token punctuation">(</span>animloop<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//如果left等于50 停止动画</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>left <span class="token operator">==</span> <span class="token number">50</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token function">cancelAnimationFrame</span><span class="token punctuation">(</span>rafId<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h4 id="（4）this"><a href="#（4）this" class="headerlink" title="（4）this"></a>（4）this</h4><p>this的指向在函数定义的时候是确定不了的，只有函数执行的时候才能知道this的指向，一般this最终指向调用它的对象</p>
 <p><strong>全局作用域或者普通函数</strong>中this指向window, 如</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">Fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -575,7 +597,7 @@
 <p>2.资源加载，如load、error等</p>
 <p>3.定时器，如setTimeout、setInterval等</p>
 <h4 id="（2）宏任务和微任务"><a href="#（2）宏任务和微任务" class="headerlink" title="（2）宏任务和微任务"></a>（2）宏任务和微任务</h4><p>这里需要注意的是new Promise是会进入到主线程中立刻执行（promise本身不是异步，只是里面的任务是异步的罢了），而promise.then则属于微任务</p>
-<p><strong>宏任务(macro-task)</strong>：是由宿主（Node、浏览器）发起的，比如整体代码script、setTimeOut、setInterval</p>
+<p><strong>宏任务(macro-task)</strong>：是由宿主（Node、浏览器）发起的，比如整体代码script、setTimeOut、setInterval、postMessage</p>
 <p><strong>微任务(mincro-task)</strong>：由JavaScript自身发起，比如promise.then、process.nextTick(node)</p>
 <p>微任务先执行，宏任务后执行</p>
 <p>同步代码执行完成后，会先执行微任务队列。注意：此时会把所有微任务队列全部执行完。再去宏队列macrotask取出一个执行，如果宏任务执行过程中产生新的微任务，会跳过微任务继续执行并立即把微任务放到异步任务队列大池子中。当前条宏任务执行完后，又去检查待执行的任务队列大池子，如果有微任务，就优先执行微任务，如果没有就继续执行宏任务队列</p>
@@ -912,10 +934,11 @@ element.offsetTop  返回元素相对带有定位父元素上方的偏移，不�
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            DOM基础W3C已经定义了一系列的dom接口，可以改变网页内容、结构、样式
+                            DOM基础DOM：文档对象模型，是一个应用编程接口API
+W3C已经定义了一系列的dom接口，可以改变网页内容、结构、样式
 文档：一个页面就是一个文档，用document表示
 元素：页面内的所有标签都是元素，用element表示
-节点：网页中所有内容都是一个节点（注释，文本，属性等），用
+节点：网页
                         
                     </div>
                     <div class="publish-info">
@@ -1131,7 +1154,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">126.3k</span>&nbsp;字
+                class="white-color">134.3k</span>&nbsp;字
             
             
             

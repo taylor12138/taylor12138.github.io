@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    13.5k
+                    13.7k
                 </div>
                 
 
@@ -515,11 +515,17 @@
 </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
 <h4 id="Vue的MVVM"><a href="#Vue的MVVM" class="headerlink" title="Vue的MVVM"></a>Vue的MVVM</h4><p>MVVM 模式，顾名思义即 Model-View-ViewModel 模式，最标志性的特性就是 <strong>数据绑定</strong> ，操作数据 = 操作视图，操作DOM</p>
 <ul>
-<li>Model 层: 对应数据层的域模型，它主要做域模型的同步。通过 Ajax/fetch 等 API 完成客户端和服务端业务 Model 的同步</li>
+<li>Model 层: 仅仅关注数据本身，对应数据层的域模型，它主要做域模型的同步。通过 Ajax/fetch 等 API 完成客户端和服务端业务 Model 的同步</li>
 <li>View 层:作为视图模板存在， 数据绑定的声明、 指令的声明、 事件绑定的声明。</li>
 <li>ViewModel 层（vue）:把 View 需要的数据暴露，并为 View 层的 数据绑定声明、 指令声明、 事件绑定声明 <strong>负责</strong></li>
 </ul>
 <p>MVVM是MVC的改进版，<strong>MVC</strong>中的<strong>M</strong>就是单纯的从网络获取回来的数据模型，<strong>V</strong>指的我们的视图界面，而<strong>C</strong>就是我们的ViewController。</p>
+<ul>
+<li><p>MVC的通信方式时单向的，view -&gt; controller -&gt; model -&gt; view</p>
+</li>
+<li><p>控制器（Controller）- 控制器是模型和视图之间的纽带，接收View传来的用户事件并且传递给Model，同时利用从Model传来的最新模型控制更新View.</p>
+</li>
+</ul>
 <p>ViewModel充当了一个UI适配器的角色，也就是说View中每个UI元素都应该在ViewModel找到与之对应的属性。除此之外，从Controller抽离出来的与UI有关的逻辑都放在了ViewModel中，这样就减轻了Controller的负担。</p>
 <p>MVC缺点：</p>
 <ul>
@@ -552,8 +558,7 @@
 <p>官网附有生命周期示意图</p>
 <p><img src="/images/Vue/vue_life-1615514534331.jpg" alt=""></p>
 <p><strong>父子组件生命周期</strong></p>
-<p>父 <code>beforeCreate</code> - &gt; 父 <code>created</code> -&gt;父 <code>beforeMount</code> -&gt;子 <code>beforeCreate</code>-&gt; 子 <code>created</code>-&gt; 子 <code>beforeMount</code>-&gt; 子 <code>mounted</code>-&gt; </p>
-<p>父 <code>mounted</code></p>
+<p>父 <code>beforeCreate</code> - &gt; 父 <code>created</code> -&gt;父 <code>beforeMount</code> -&gt;子 <code>beforeCreate</code>-&gt; 子 <code>created</code>-&gt; 子 <code>beforeMount</code>-&gt; 子 <code>mounted</code>-&gt; 父 <code>mounted</code></p>
 <p>父组件更新：父 <code>beforeUpdate</code>-&gt; 父 <code>updated</code></p>
 <p>子组件更新：父 <code>beforeUpdate</code>-&gt;子<code>beforeUpdate</code> -&gt; 子 <code>updated</code> -&gt;父<code>updated</code> </p>
 <p>组件的调用 先父后子，渲染完成顺序先子后父</p>
@@ -569,7 +574,7 @@
 <pre class=" language-html"><code class="language-html"><span class="token comment" spellcheck="true">&lt;!-- 页面得到结果{{message}} --></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span> <span class="token attr-name">v-pre</span><span class="token punctuation">></span></span>{{message}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span>`</code></pre>
 <p><strong>v-cloak</strong></p>
-<p>为了防止用户加载页面是，加载JavaScript卡住，导致页面显示源码 ‘‘ ，添加</p>
+<p>为了防止用户加载页面时，加载JavaScript卡住，导致页面显示源码 ‘‘ ，添加</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span> <span class="token attr-name">v-cloak</span><span class="token punctuation">></span></span>{{message}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span></code></pre>
 <p>等到Vue对该元素进行解析渲染，页面中才会显示该元素（原理应该是使用了display: none）</p>
 <p><strong>v-bind</strong></p>
@@ -1332,9 +1337,14 @@ render<span class="token punctuation">:</span> <span class="token function">func
 <p><strong>url的hash</strong></p>
 <p>为了改变url，而让也页面不发生刷新，可以使用 <strong>url的hash</strong> 或者<strong>html5 的 history模式</strong></p>
 <ul>
-<li><p>Push：通过<code>window.hash = &#39;xxx&#39;</code>更改href，网页不会刷新（默认）（带有hash的前端路由，优点是兼容性高，缺点是URL带#号不好看）</p>
+<li><p>Push：通过<code>window.location.hash = &#39;xxx&#39;</code>更改href，网页不会刷新（默认），也就是重定向（带有hash的前端路由，优点是兼容性高，缺点是URL带#号不好看）</p>
+<ul>
+<li>hash（#）是URL 的锚点，代表的是网页中的一个位置，单单改变#后的部分，浏览器只会滚动到相应位置，不会重新加载网页，也就是说 #是用来指导浏览器动作的，对服务器端完全无用，HTTP请求中也不会不包括#；同时每一次改变#后的部分，都会在浏览器的访问历史中增加一个记录，使用”后退”按钮，就可以回到上一个位置；</li>
+</ul>
 </li>
-<li><p>Push：也可以通过<code>history.pushState({}, &#39;&#39;, &#39;xxx&#39;)</code>更改href，网页也不会刷新，</p>
+</ul>
+<ul>
+<li><p>Push：也可以通过<code>history.pushState({}, &#39;&#39;, &#39;xxx&#39;)</code>更改href，进行重定向</p>
 <p>可以使用<code>history.back()</code>或者<code>history.go(-1)</code> 后退功能进行回退</p>
 </li>
 </ul>
@@ -2242,7 +2252,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">126.3k</span>&nbsp;字
+                class="white-color">134.3k</span>&nbsp;字
             
             
             

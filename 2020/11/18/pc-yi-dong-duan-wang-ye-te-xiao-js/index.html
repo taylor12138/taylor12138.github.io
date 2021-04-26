@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.6k
+                    4.3k
                 </div>
                 
 
@@ -499,7 +499,7 @@
 <h2 id="2-元素可视区client"><a href="#2-元素可视区client" class="headerlink" title="2.元素可视区client"></a>2.元素可视区client</h2><p>通过client系列的相关属性可以动态得到该元素的边框大小、元素大小等（与offset不同点是边框是否囊括其中）</p>
 <p><code>element.clientTop</code>      返回元素上边框的大小</p>
 <p><code>element.clientLeft</code>    返回元素左边框的大小</p>
-<p><code>element.clientWidth</code>   返回自身包括padding、内容区的宽度，不包含边框，返回数值不带单位</p>
+<p><code>element.clientWidth</code>   返回自身包括padding、内容区的宽度，不包含border，返回数值不带单位</p>
 <p><code>element.clientHeight</code>  同上，返回高度</p>
 <h2 id="（番外）立即执行函数"><a href="#（番外）立即执行函数" class="headerlink" title="（番外）立即执行函数"></a>（番外）立即执行函数</h2><p>立即执行函数，不需要调用，直接执行</p>
 <p>传统：</p>
@@ -511,17 +511,30 @@
 <p>立即执行函数最大的优点就是独立创建了一个作用域</p>
 <h2 id="3-元素滚动scroll"><a href="#3-元素滚动scroll" class="headerlink" title="3.元素滚动scroll"></a>3.元素滚动scroll</h2><p>获取或设置一个元素的内容垂直滚动的像素数</p>
 <p>有点像client，但是client是盒子的大小宽高，即使内容溢出后保持不变，但是scroll面对溢出状态的盒子，它提供的宽高与内容溢出的宽高相互关联。</p>
-<p><code>element.scrollHeigh</code>  返回自身高度，不含边框，不带单位</p>
-<p><code>element.scrollWidth</code>  返回自身宽度，不含边框，不带单位</p>
+<p>以下的<code>element</code>，都是针对父盒子的，无论是事件监听or属性(记得父盒子小，子盒子要大于父盒子的大小，并且设置父盒子的css样式<code>overflow: scroll</code> 或者 <code>overflow: auto</code>)</p>
+<pre class=" language-js"><code class="language-js">father<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'scroll'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>father<span class="token punctuation">.</span>scrollTop<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p><code>element.scrollHeigh</code>  返回自身高度，不含边框，不带单位，像<code>clientHeight</code>  +  超出文字部分高度</p>
+<p><code>element.scrollWidth</code>  返回自身宽度，不含边框，不带单位，像<code>clientWidth</code>  +  超出文字部分宽度</p>
 <p><code>element.scrollTop</code>   返回被滚动条卷上去的上方距离，返回数值不带单位（要有滚动条，且内容大于盒子，往下拉的时候才会有）</p>
 <p><code>element.scrollLeft</code>  返回被滚动条卷左的左侧距离，同上</p>
+<p>(window的scroll没有<code>scrollTop</code>、<code>scrollLeft</code>，但是有个api可以获取当前网页的scrollTop：</p>
+<p><code>var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;</code>)</p>
 <p><img src="/images/PC%E7%AB%AF%E7%BD%91%E9%A1%B5%E7%89%B9%E6%95%88/scroll.jpg" alt=""></p>
 <p>滚动条在滚动时发生的事件：onscroll事件</p>
 <p>检测整个页面的滚动属性： <code>window.pageYOffset</code>    <code>window.pageXOffset</code>等  (ie9以上才支持)</p>
 <p>让窗口滚动事件：<code>window.scroll(x, y)</code></p>
-<h2 id="三大系列总结："><a href="#三大系列总结：" class="headerlink" title="三大系列总结："></a>三大系列总结：</h2><p>offset常用于获取元素位置  <code>element.offsetTop</code>   <code>element.offsetLeft</code>  只读的</p>
+<h2 id="三大系列总结"><a href="#三大系列总结" class="headerlink" title="三大系列总结"></a>三大系列总结</h2><p>offset常用于获取元素位置  <code>element.offsetTop</code>   <code>element.offsetLeft</code>  只读的</p>
 <p>client常用于获取元素大小 <code>element.clientWidth</code>   <code>element.clientHeight</code> 只读的</p>
 <p>scroll常用于获取滚动距离  <code>element.scrollTop</code>    <code>element.scrollLeft</code>  可设置</p>
+<h4 id="判断图片是否滚动到浏览器的可视区域"><a href="#判断图片是否滚动到浏览器的可视区域" class="headerlink" title="判断图片是否滚动到浏览器的可视区域"></a>判断图片是否滚动到浏览器的可视区域</h4><p>方法一：图片/元素的<code>offsetTop</code>  &lt; 当前的元素父亲的<code>scrollTop</code> </p>
+<p>图片/元素 <code>offsetTop</code> +图片/元素 <code>clientHeight</code> &gt; 当前元素父亲的 <code>scrollTop</code></p>
+<p>方法二：<code>window.scrollY</code> &gt; 图片/元素的<code>offsetTop</code></p>
+<p>方法三：<code>element.getBoundingClientRect()</code>,返回的结果是包含完整元素的最小矩形，并且拥有<code>left</code>, <code>top</code>, <code>right</code>, <code>bottom</code>, <code>x</code>, <code>y</code>, <code>width</code>, 和 <code>height</code>这几个以像素为单位的<strong>只读属性</strong>用于描述整个边框。除了<code>width</code> 和 <code>height</code> 以外的属性是相对于视图窗口的左上角来计算的。</p>
+<p> 图片/元素的<code>getBoundingClientRect().top</code> &lt;  <code>document.clientHeight</code>  且</p>
+<p> 图片/元素的<code>getBoundingClientRect().bottom</code> &gt; 0 </p>
+<p><img src="/images/PC&%E7%A7%BB%E5%8A%A8%E7%AB%AF%E7%BD%91%E9%A1%B5%E7%89%B9%E6%95%88(JS)/getbund.jpg" alt=""></p>
 <h2 id="4-动画函数封装"><a href="#4-动画函数封装" class="headerlink" title="4.动画函数封装"></a>4.动画函数封装</h2><p>原理：获取盒子当前位置（position），通过定时器<code>setinterval()</code>不断移动盒子位置，利用定时器不断让盒子当前位置加上一个移动距离，最后加一个结束定时器条件（其实也可以用CSS  animation  定义动画）</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script language-javascript">
@@ -649,7 +662,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>解决方案1：禁用缩放功能 <code>&lt;meta name=&quot;viewport&quot; content=&quot;user-scalable=no&quot;&gt;</code>  在最顶端的视口标签处写下user-scalable=no</p>
 <p>解决方案2：利用touch事件自己封装：</p>
 <p>手指触屏记录触摸时间</p>
-<p>手指离开屏幕，用离开时间减去触摸的时间，若时间小于150ms则没有滑动屏幕，定义为点击事件</p>
+<p>手指离开屏幕，用离开时间减去触摸的时间，若时间小于150ms则没有缩放屏幕，定义为点击事件</p>
 <p>解决方案3：使用fastclick插件</p>
 <p>在 vue 中</p>
 <pre class=" language-shell"><code class="language-shell">npm i fastclick -S</code></pre>
@@ -748,14 +761,21 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>但有时因为异步操作（比如网络请求），导致 <code>scrollHeight</code>未能够计算出正确的组件高度</p>
 <p>解决：</p>
 <ul>
-<li>监听没一张图片加载完成（每一次的网络请求），只要有一张图片加载完成，就调用 <code>refresh()</code>一次<ul>
+<li>监听每一张图片加载完成（每一次的网络请求），只要有一张图片加载完成，就调用 <code>refresh()</code>一次<ul>
 <li><code>img.onload() = funciton(){}</code>（vue中，监听加载则 <code>@load=&quot;函数名&quot;</code>）</li>
 <li>使用事件总线 eventBus，管理、传递该加载事件到对应的组件，然后进行 <code>refresh()</code></li>
 </ul>
 </li>
 </ul>
-<h4 id="防抖函数"><a href="#防抖函数" class="headerlink" title="防抖函数"></a>防抖函数</h4><p>有点像节流阀，节流阀：将多次执行变为在规定时间内只执行一次</p>
-<p>防抖：在规定的时间内执行多次事件只执行最后一次</p>
+<h2 id="6-防抖函数"><a href="#6-防抖函数" class="headerlink" title="6.防抖函数"></a>6.防抖函数</h2><p>有点像节流阀，节流阀：将多次执行变为在规定时间内只执行一次</p>
+<p>也就是说，那么<strong>在函数执行一次之后，该函数在指定的时间期限内不再工作</strong>，直至过了这段时间才重新生效。</p>
+<p>防抖：</p>
+<ul>
+<li>在规定的时间内执行多次事件只执行最后一次<ul>
+<li>（<strong>在第一次触发事件时，不立即执行函数，而是给出一个期限值比如200ms</strong>）</li>
+</ul>
+</li>
+</ul>
 <p>上述  “解决better-scroll可滚动区域产生的bug”  操作我们可以看到，每有一张图片加载完成，则发送一次请求，这样会大大降低参加程序效率、性能</p>
 <p>为此我们可以封装一个防抖函数</p>
 <pre class=" language-js"><code class="language-js"><span class="token function">debounce</span><span class="token punctuation">(</span>func<span class="token punctuation">,</span> delay<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -778,6 +798,38 @@ console<span class="token punctuation">.</span><span class="token function">log<
         <span class="token function">refresh</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//调用refesh进行更新</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
+<p>平时开发中常遇到的场景：</p>
+<ol>
+<li>搜索框input事件，例如要支持输入实时搜索可以使用节流方案（间隔一段时间就必须查询相关内容），或者实现输入间隔大于某个值（如500ms），就当做用户输入完成，然后开始搜索，具体使用哪种方案要看业务需求。</li>
+<li>页面resize事件，常见于需要做页面适配的时候。需要根据最终呈现的页面情况进行dom渲染（这种情形一般是使用防抖，因为只需要判断最后一次的变化情况）</li>
+</ol>
+<p>这里借用老哥的节流代码 （附上原文<a href="https://segmentfault.com/a/1190000018428170/）" target="_blank" rel="noopener">https://segmentfault.com/a/1190000018428170/）</a></p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">throttle</span><span class="token punctuation">(</span>fn<span class="token punctuation">,</span>delay<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">let</span> valid <span class="token operator">=</span> <span class="token boolean">true</span>
+    <span class="token keyword">return</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+       <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>valid<span class="token punctuation">)</span><span class="token punctuation">{</span>
+           <span class="token comment" spellcheck="true">//休息时间 暂不接客</span>
+           <span class="token keyword">return</span> <span class="token boolean">false</span> 
+       <span class="token punctuation">}</span>
+       <span class="token comment" spellcheck="true">// 工作时间，执行函数并且在间隔期内把状态位设为无效</span>
+        valid <span class="token operator">=</span> <span class="token boolean">false</span>
+        <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            valid <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span> delay<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">/* 请注意，节流函数并不止上面这种实现方案,
+   例如可以完全不借助setTimeout，可以把状态位换成时间戳，然后利用时间戳差值是否大于指定间隔时间来做判定。
+   也可以直接将setTimeout的返回的标记当做判断条件-判断当前定时器是否存在，如果存在表示还在冷却，并且在执行fn之后消除定时器表示激活，原理都一样
+    */</span>
+
+<span class="token comment" spellcheck="true">// 以下照旧</span>
+<span class="token keyword">function</span> showTop  <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> scrollTop <span class="token operator">=</span> document<span class="token punctuation">.</span>body<span class="token punctuation">.</span>scrollTop <span class="token operator">||</span> document<span class="token punctuation">.</span>documentElement<span class="token punctuation">.</span>scrollTop<span class="token punctuation">;</span>
+　　console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'滚动条位置：'</span> <span class="token operator">+</span> scrollTop<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+window<span class="token punctuation">.</span>onscroll <span class="token operator">=</span> <span class="token function">throttle</span><span class="token punctuation">(</span>showTop<span class="token punctuation">,</span><span class="token number">1000</span><span class="token punctuation">)</span> </code></pre>
 
             </div>
             <hr/>
@@ -1022,10 +1074,10 @@ console<span class="token punctuation">.</span><span class="token function">log<
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            本地存储1.数据存储于自己的浏览器当中
+                            本地存储使用HTML5可以在本地存储用户的浏览数据：local Storage、session Storage
+1.数据存储于自己的浏览器当中
 2.设置、读取十分方便，页面刷新数据不丢失
-3.容量较大，sessionStorage约5M，localStorage约20M（可是我测试得到我chrome浏览器localStorage才5M）
-4.
+3.容量较大，sessionStorage约5M，l
                         
                     </div>
                     <div class="publish-info">
@@ -1283,7 +1335,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">126.3k</span>&nbsp;字
+                class="white-color">134.3k</span>&nbsp;字
             
             
             

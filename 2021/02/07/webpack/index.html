@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2k
+                    2.7k
                 </div>
                 
 
@@ -608,6 +608,12 @@ module<span class="token punctuation">.</span>exports <span class="token operato
     <span class="token keyword">new</span> <span class="token class-name">UglifyJsPlugin</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   <span class="token punctuation">]</span>
 <span class="token punctuation">}</span></code></pre>
+<p>除此之外，还有其他比较有用的压缩插件</p>
+<ul>
+<li>extract-text-webpack-plugin 用于将 CSS 从主应用程序中分离</li>
+<li>optimize-css-assets-webpack-plugin 压缩提取出的css，解决extract-text-webpack-plugin CSS重复问题</li>
+<li>CommonsChunkPlugin 将公共模块拆出来，最终合成的文件能够在最开始的时候加载一次，便存到缓存中供后续使用</li>
+</ul>
 <h2 id="4-其他"><a href="#4-其他" class="headerlink" title="4.其他"></a>4.其他</h2><h4 id="webpack搭建服务"><a href="#webpack搭建服务" class="headerlink" title="webpack搭建服务"></a>webpack搭建服务</h4><p>为了让webpack提供开发时服务，可以装载<code>webpack-dev-server</code>搭建本地服务器（脚手架2里使用的版本为2.9.3，所以这里我安装2.9.3），它内部使用了express框架</p>
 <pre class=" language-shell"><code class="language-shell">npm install webpack-dev-server@2.9.3 --save-dev </code></pre>
 <p>在webpack.config.js里配置</p>
@@ -640,6 +646,46 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 <pre class=" language-json"><code class="language-json"><span class="token property">"build"</span><span class="token operator">:</span> <span class="token string">"webpack --config ./build/prod.config.js"</span><span class="token punctuation">,</span>
 <span class="token property">"dev"</span><span class="token operator">:</span> <span class="token string">"webpack-dev-server --config ./build/dev.config.js"</span></code></pre>
 <p>这里如果打包后文件出现不是在原来的目录，可以检查一下base.config.js文件的 <code>output</code>出口，进行修改</p>
+<h2 id="5-关于webpack"><a href="#5-关于webpack" class="headerlink" title="5.关于webpack"></a>5.关于webpack</h2><h4 id="Webpack缩小体积原理"><a href="#Webpack缩小体积原理" class="headerlink" title="Webpack缩小体积原理"></a>Webpack缩小体积原理</h4><p>将多个模块依赖，转变成单个静态资源（js、css、jpg、png）</p>
+<p><img src="../images/webpack%20(2).jpg" alt=""></p>
+<p>打包，是指处理某些文件并将其输出为其他文件的能力。</p>
+<ul>
+<li>entry: 编译入口</li>
+<li>module: 模块，在 webpack 中，一切皆为模块，一个模块对应一个文件</li>
+<li>Chunk: 代码块，一个 chunk 由多个模块组合而成，用于代码的合并与分割</li>
+<li>Loader: 模块转换器，将非js模块转化为webpack能识别的js模块</li>
+<li>Plugin: 扩展插件，在webpack运行的各个阶段，都会广播出去相对应的事件，插件可以监听到这些事件的发生，在特定的时机做相对应的事情</li>
+</ul>
+<p>项目中使用的每个文件都是一个模块，在打包过程中，模块（module）会被合并成 chunk，chunk 合并成 chunk 组，并形成一个通过模块互相连接的图(<code>ModuleGraph</code>)。 那么如何通过以上来描述一个入口起点：在其内部，会创建一个只有一个 chunk 的 chunk 组。</p>
+<p>所以chunk有两种形式</p>
+<ul>
+<li><code>initial(初始化)</code> 是入口起点的 main chunk。此 chunk 包含为入口起点指定的所有模块及其依赖项。</li>
+<li><code>non-initial</code> 是可以延迟加载的块。可能会出现在使用 <a href="https://webpack.docschina.org/guides/code-splitting/#dynamic-imports" target="_blank" rel="noopener">动态导入(dynamic imports)</a> 或者 <a href="https://webpack.docschina.org/plugins/split-chunks-plugin/" target="_blank" rel="noopener">SplitChunksPlugin</a> 时。</li>
+</ul>
+<p>然后loader是文件转换器（将webpack不能处理的模块转换成能处理的模块，也就是js模块）、plugin是功能拓展</p>
+<h4 id="为什么使用webpack"><a href="#为什么使用webpack" class="headerlink" title="为什么使用webpack"></a>为什么使用webpack</h4><p>在浏览器中运行 JavaScript 有两种方法。</p>
+<p>第一种方式，引用一些脚本来存放每个功能；此解决方案很难扩展，因为加载太多脚本会导致网络瓶颈。</p>
+<p>第二种方式，使用一个包含所有项目代码的大型 <code>.js</code> 文件，但是这会导致作用域、文件大小、可读性和可维护性方面的问题。</p>
+<p>webpack运行在 Node.js中，npm + Node.js + modules实现大规模分发模块 + 依赖自动收集</p>
+<h2 id="6-webpack热更新"><a href="#6-webpack热更新" class="headerlink" title="6.webpack热更新"></a>6.webpack热更新</h2><p>热更新是：使得应用在运行状态下，不重载刷新就能更新、增加、移除模块的机制（有点像node的nodemon功能）</p>
+<p>用通俗的话来说，就是修改代码以后，不刷新就可以查看到页面更改后变化的效果，提升了开发效率</p>
+<p>开启热更新：</p>
+<ul>
+<li>使用 <code>HotModuleReplacementPlugin</code> 插件</li>
+<li>打开 <code>webpack-dev-server</code> 的热更新开关</li>
+</ul>
+<pre class=" language-json"><code class="language-json">// webpack.config.js
+module.exports = <span class="token punctuation">{</span>
+  // ...
+  plugins<span class="token operator">:</span> <span class="token punctuation">[</span>
+    webpack.HotModuleReplacementPlugin(<span class="token punctuation">)</span><span class="token punctuation">,</span> //使用插件
+   // ...
+  <span class="token punctuation">]</span>
+  devServer<span class="token operator">:</span> <span class="token punctuation">{</span>
+    hot<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>                            //开启开关
+    // ...
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <h2 id="小笑话"><a href="#小笑话" class="headerlink" title="小笑话"></a>小笑话</h2><p><img src="../images/webpack.jpg" alt=""></p>
 
             </div>
@@ -1140,7 +1186,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">126.3k</span>&nbsp;字
+                class="white-color">134.3k</span>&nbsp;字
             
             
             

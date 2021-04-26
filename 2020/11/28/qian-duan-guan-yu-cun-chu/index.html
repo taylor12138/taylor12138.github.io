@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    923
+                    1.5k
                 </div>
                 
 
@@ -485,7 +485,8 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="本地存储"><a href="#本地存储" class="headerlink" title="本地存储"></a>本地存储</h2><p>1.数据存储于自己的浏览器当中</p>
+                <h2 id="本地存储"><a href="#本地存储" class="headerlink" title="本地存储"></a>本地存储</h2><p>使用HTML5可以在本地存储用户的浏览数据：local Storage、session Storage</p>
+<p>1.数据存储于自己的浏览器当中</p>
 <p>2.设置、读取十分方便，页面刷新数据不丢失</p>
 <p>3.容量较大，sessionStorage约5M，localStorage约20M（可是我测试得到我chrome浏览器localStorage才5M）</p>
 <p>4.只能存储字符串，可以将对象JSON.stringify() 编码后存储</p>
@@ -501,11 +502,11 @@
 <h2 id="window-localStorage"><a href="#window-localStorage" class="headerlink" title="window.localStorage"></a>window.localStorage</h2><p>1.生命周期永久生效，除非手动删除，不然关闭页面仍然存在</p>
 <p>2.多窗口共享（同一浏览器才能共享）</p>
 <p>3.以键值对的形式存储使用</p>
-<p><code>window.localStorage.setItem(key, value)</code>  分别对应键和值，设置（添加或更改）</p>
+<p><code>window.localStorage.setItem(key, value)</code>  分别对应键和值，设置（添加或更改）（值是以字符串的形式进行存储的）</p>
 <p><code>window.localStorage.getItem(&#39;key&#39;)</code>  获取</p>
 <p><code>window.localStorage.removeItem(&#39;key&#39;)</code> 删除</p>
 <p><code>window.localStorage.clear()</code> 删除所有数据(慎用)</p>
-<h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h2><p>Cookie是一种在客户端保持HTTP状态信息的技术：http协议是无状态的，但是在实际工作中，一些万维网网站希望能识别用户（给用户推销产品）=&gt;诞生了cookie小饼干，cookie是存储在用户主机的文本文件，记录一段时间内某用户的访问记录</p>
+<h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h2><p>Cookie是一种在客户端保持HTTP状态信息的技术：http协议是无状态的，但是在实际工作中，一些万维网网站希望能识别用户（给用户推销产品）=&gt;诞生了cookie小饼干（由服务器生成），cookie是存储在用户主机的文本文件，记录一段时间内某用户的访问记录</p>
 <ul>
 <li><p>一旦浏览器保存了某个Cookie，那么以后每次访问服务器时，都会在HTTP请求头中将这个Cookie回传给服务器</p>
 </li>
@@ -532,6 +533,26 @@
 <p>　　（3）将某些数据放入session中，供同一用户的不同页面使用</p>
 <p>　　（4）防止用户非法登录</p>
 <p>session缺点： Session保存的东西越多，就越占用服务器内存，对于用户在线人数较多的网站，服务器的内存压力会比较大。</p>
+<h2 id="Token"><a href="#Token" class="headerlink" title="Token"></a>Token</h2><p>上述展示了基于服务器验证的session暴露了一些弊端，当然使用session还有可能引起：跨域共享问题、CSRF攻击问题和可拓展性问题。</p>
+<p>基于 Token 的身份验证是无状态的，我们不用将用户信息存在服务器或 Session 中。这种概念解决了在服务端存储信息时的许多问题。没有 session 信息意味着你的程序可以根据需要去增减机器，而不用去担心用户是否登录和已经登录到了哪里。</p>
+<p>大多的token验证流程如下：</p>
+<ol>
+<li>用户通过用户名和密码发送请求。</li>
+<li>程序验证。</li>
+<li>程序返回一个签名的 token 给客户端（令牌）。</li>
+<li>客户端储存 token, 并且每次请求都会附带它。</li>
+<li>服务端验证 token 并返回数据。（服务器端采用filter过滤器校验。校验成功则返回请求数据，校验失败则返回错误码）</li>
+</ol>
+<p><img src="../images/%E5%89%8D%E7%AB%AF%E5%85%B3%E4%BA%8E%E5%AD%98%E5%82%A8/token.jpg" alt=""></p>
+<h4 id="token优势"><a href="#token优势" class="headerlink" title="token优势"></a>token优势</h4><ul>
+<li>无状态，无需存储session信息，负载均衡服务器，能够将用户请求传递到任何一台服务器上</li>
+<li>可拓展，token保存在客户端本地，使用token可以和其他应用共享权限，比如将博客账号和qq账号进行关联，当通过第三方平台登录qq时，我们可以把博客发到qq平台中</li>
+<li>安全性，防止CSRF攻击，请求中发送的是token而不是cookie，浏览器会将接收到的token值存储在Local Storage、sessionStorage或者cookie中<ul>
+<li>在信任网站的HTML或js中，会向服务器传递参数token，不是通过Cookie传递的，若恶意网站要伪造用户的请求，也必须伪造这个token，否则用户身份验证不通过。但是，同源策略限制了恶意网站不能拿到信任网站的Cookie内容（而正常的session + cookie组合不受同源策略的限制），只能使用，所以就算是token是存放在Cookie中的，恶意网站也无法提取出Cookie中的token数据进行伪造。也就无法传递正确的token给服务器，进而无法成功伪装成用户了。</li>
+</ul>
+</li>
+</ul>
+<p>不过，token有过期时间，超过事件后要重新获取token</p>
 
             </div>
             <hr/>
@@ -1035,7 +1056,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">126.3k</span>&nbsp;字
+                class="white-color">134.3k</span>&nbsp;字
             
             
             

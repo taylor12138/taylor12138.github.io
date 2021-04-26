@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8k
+                    8.1k
                 </div>
                 
 
@@ -688,6 +688,7 @@ Array<span class="token punctuation">.</span>prototype<span class="token punctua
     <span class="token punctuation">}</span>
     <span class="token keyword">let</span> son <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Son</span><span class="token punctuation">(</span><span class="token string">'xxx'</span><span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>son<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><strong>组合继承</strong>=原型继承+构造函数继承</p>
 <h4 id="类的本质"><a href="#类的本质" class="headerlink" title="类的本质"></a>类的本质</h4><p>class本质还是function（用 typeof 查看），所以我们可以认为类就是构造函数的另一种写法</p>
 <p>但是新的class写法只是让对象原型的写法更加清晰，更像面向对象编程的语法</p>
 <p>和构造函数相同点：</p>
@@ -697,6 +698,30 @@ Array<span class="token punctuation">.</span>prototype<span class="token punctua
 <h2 id="5-ES5新增的方法"><a href="#5-ES5新增的方法" class="headerlink" title="5.ES5新增的方法"></a>5.ES5新增的方法</h2><h4 id="数组方法"><a href="#数组方法" class="headerlink" title="数组方法"></a>数组方法</h4><p>1.<code>forEach()</code> ：    <code>arr.forEach(function(vlaue, index, [array]))</code>  分别对应数组的value（值）、index（索引号）、数组本身</p>
 <p>（遍历数组的全部元素，即使return true也不会终止迭代）</p>
 <p>（因为forEach本质是一个函数，参数是一个回调函数，回调函数的return只是终止了回调函数而已，不是终止forEach，而forEach内部应该是多次调用了那个函数）</p>
+<p>在 <code>forEach</code>遍历中，无法改变item（原数组里的元素，如果元素是数组 or 对象，那另当别论 0.0 ）</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 数组改值</span>
+<span class="token keyword">let</span> arr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token number">9</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+arr<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    item <span class="token operator">=</span> <span class="token number">30</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//输出  [1, 3, 5, 7, 9]     </span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> arr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> a<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> a<span class="token punctuation">:</span> <span class="token number">2</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> a<span class="token punctuation">:</span> <span class="token number">3</span> <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> arr2 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+arr<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  item<span class="token punctuation">.</span>a <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+arr2<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>item <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  item<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span><span class="token punctuation">;</span>                <span class="token comment" spellcheck="true">//[ { a: 2 }, { a: 2 }, { a: 2 } ]</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arr2<span class="token punctuation">)</span><span class="token punctuation">;</span>               <span class="token comment" spellcheck="true">//[ [ 1, 2 ], [ 1, 2 ], [ 1, 2 ] ]</span></code></pre>
+<p>如果你硬要改变item，也不是不可以，只是方法要稍稍改动，使用引用的方式进行修改</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 数组改值</span>
+<span class="token keyword">let</span> arr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token number">9</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+arr<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>item<span class="token punctuation">,</span>index<span class="token punctuation">,</span>arr<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    arr<span class="token punctuation">[</span>index<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">30</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//输出 (5) [30, 30, 30, 30, 30]</span></code></pre>
 <p>2.<code>filter()</code>:  filter() 方法创建一个新数组，新数组中的元素是通过检查指定数组中符合条件的所有元素，主<strong>要用于筛选数组</strong>    </p>
 <p>（注意它直接返回一个新数组）</p>
 <p><code>array.filter(function(currentValue, index, [arr]))</code>   分别对应currentValue（数组当前项的值），index（索引号），arr（数组本身），它的回调函数返回的必须是一个Boolean值，返回true自动将value加入新数组中，false则过滤掉，最后整体返回一个新数组</p>
@@ -1676,7 +1701,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">126.3k</span>&nbsp;字
+                class="white-color">134.3k</span>&nbsp;字
             
             
             

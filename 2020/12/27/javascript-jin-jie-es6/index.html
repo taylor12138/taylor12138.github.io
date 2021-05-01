@@ -713,6 +713,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>Set结构实例与数组一样，也有forEach方法，用于对每个成员执行某种操作，没有返回值</p>
 <h4 id="map数据结构"><a href="#map数据结构" class="headerlink" title="map数据结构"></a>map数据结构</h4><p> 是一个带键的数据项的集合，就像一个 <code>Object</code> 一样。 但是它们最大的差别是 <code>Map</code> 允许任何类型的键（key）</p>
 <p>（<code>Object</code>的键为字符串）。</p>
+<p>Map 的遍历顺序就是插入顺序。</p>
 <p><strong>使用对象</strong>作为键是 <code>Map</code> 最值得注意和重要的功能之一</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Map</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">let</span> john <span class="token operator">=</span> <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">"John"</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
@@ -743,6 +744,7 @@ map<span class="token punctuation">.</span><span class="token keyword">set</span
 <h4 id="弱引用类型"><a href="#弱引用类型" class="headerlink" title="弱引用类型"></a>弱引用类型</h4><p>（很多属性、迭代方法不能用 + 保存的元素有限制）</p>
 <p><code>let s = new WeakSet()</code>保存的元素必须得是引用类型（对象 / 数组）（DOM元素也是对象，所以也能存储）</p>
 <p><code>let map = new WeakMap()</code>的<code>key</code> 必须得是引用类型（对象 / 数组）（DOM元素也是对象，所以也能存储）</p>
+<p>弱引用不支持遍历方法，只有四个方法可用，<code>get()</code>、<code>set()</code>、<code>has()</code>、<code>delete()</code></p>
 <p>正常引用类型的垃圾回收：</p>
 <ul>
 <li><p>谁引用这个数据，就引用次数 + 1，</p>
@@ -1145,7 +1147,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>s2 <span class="token operator">===</span> s3<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//false</span></code></pre>
 <p><code>Symbol.for</code>进行创建，是作为一个函数对象，通过这种方式创建，我们是可以通过描述字符串得到得出唯一的symbol值<br>该方法会根据给定的键 key，来从运行时的<strong>全局 symbol 注册表</strong>中找到对应的 symbol，如果找到了，则返回它，否则，新建一个与该键关联的 symbol，并放入<strong>全局 symbol 注册表</strong>中。（用于需要共享和重用符号的实例）</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> s4 <span class="token operator">=</span> Symbol<span class="token punctuation">.</span><span class="token keyword">for</span><span class="token punctuation">(</span><span class="token string">'bruce'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">let</span> s5 <span class="token operator">=</span> Symbol<span class="token punctuation">.</span><span class="token keyword">for</span><span class="token punctuation">(</span><span class="token string">'bruce'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> s5 <span class="token operator">=</span> Symbol<span class="token punctuation">.</span><span class="token keyword">for</span><span class="token punctuation">(</span><span class="token string">'bruce'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//重用已有符号</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>s5 <span class="token operator">===</span> s4<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//true</span>
 Symbol<span class="token punctuation">.</span><span class="token function">keyFor</span><span class="token punctuation">(</span>s4<span class="token punctuation">)</span><span class="token punctuation">;</span>       <span class="token comment" spellcheck="true">//"bruce"</span></code></pre>
 <h4 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h4><p>能保证不会出现同名的属性。这对于一个对象由多个模块构成的情况非常有用，能防止某一个键被不小心改写或覆盖。</p>
@@ -1881,7 +1883,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">134.3k</span>&nbsp;字
+                class="white-color">135.1k</span>&nbsp;字
             
             
             

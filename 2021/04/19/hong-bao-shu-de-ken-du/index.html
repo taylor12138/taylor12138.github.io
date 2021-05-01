@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    308
+                    598
                 </div>
                 
 
@@ -485,7 +485,8 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="第一、二章"><a href="#第一、二章" class="headerlink" title="第一、二章"></a>第一、二章</h2><p>在Script标签里面不要出现</p>
+                <h2 id="第一、二章"><a href="#第一、二章" class="headerlink" title="第一、二章"></a>第一、二章</h2><p><strong>Script标签</strong></p>
+<p>在Script标签里面不要出现</p>
 <pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"&lt;/script>"</span><span class="token punctuation">)</span>
 <span class="token comment" spellcheck="true">//会把它当成script结束标签，即使是字符串也不可以，但是除非</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"&lt;\/script>"</span><span class="token punctuation">)</span></code></pre>
@@ -498,11 +499,35 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <h2 id="第三章"><a href="#第三章" class="headerlink" title="第三章"></a>第三章</h2><p>标识符第一个字符不能为数字</p>
 <p>推荐语句以分号结尾，除了是一个好习惯之外，有助于在某些情况提升性能</p>
 <p>变量在不初始化(直接 <code>var a;</code> )的情况下，会保存一个特殊值：”undefined”</p>
+<p>定义一个将来要保存对象值的变量时，建议使用null初始化</p>
+<p>undefined 是由 null 派生出来的，所以 <code>null == undefined // true</code></p>
+<p><strong>if语句</strong></p>
+<p>会自动执行其他类型知道布尔值的转换，注意以下几个会被转化为false：(其他的一般都是true)</p>
+<ul>
+<li>false</li>
+<li>“”</li>
+<li>0、NAN</li>
+<li>null</li>
+<li>undefined</li>
+</ul>
+<p>NAN：非数值，不等于包括NAN在内的任何值，但是有一个isNAN() 函数</p>
+<p><strong>字符串</strong></p>
+<p>字符串一旦创建，不可改变，一般我们修改字符串，都是销毁原先的字符串，然后把新的另一个字符串保存到该变量</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> lang <span class="token operator">=</span> <span class="token string">'Java'</span><span class="token punctuation">;</span>
+lang <span class="token operator">+</span><span class="token operator">=</span> <span class="token string">'Script'</span> <span class="token comment" spellcheck="true">//改变，进行销毁 + 赋值</span></code></pre>
+<p><strong>变量提升</strong></p>
 <p>由于变量提升需要查看是否有<code>var</code>或者<code>function</code>，所以需要注意</p>
 <pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//undefined</span>
 <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">100</span>     <span class="token comment" spellcheck="true">//会变量提升</span></code></pre>
 <pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//报错 a is not defined</span>
 a <span class="token operator">=</span> <span class="token number">100</span>        <span class="token comment" spellcheck="true">//不会变量提升,但是即使在函数内部声明也会创建一个全局变量</span></code></pre>
+<p><strong>对象方法</strong></p>
+<p><code>Object.getOwnPropertyNames(obj1)</code>返回对象实例的常规属性数组，比如 <code>[name, value]</code></p>
+<p><code>Object.getOwnPropertySymbols(obj1)</code>返回对象实例的符号属性数组，比如 <code>[Symbol(foo), Symbol(bar)]</code></p>
+<p>这两种方法互斥，但：</p>
+<p><code>Object.getOwnPropertyDescriptors(obj1)</code>返回对象实例的符号 + 常规属性的<strong>对象</strong></p>
+<p><strong>递增递减操作符</strong></p>
+<p>对于布尔值，如果是false，则转为0再做相应改变；如果为true，则转为1再做相应改变</p>
 
             </div>
             <hr/>
@@ -748,11 +773,11 @@ a <span class="token operator">=</span> <span class="token number">100</span>   
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            第一、二章在Script标签里面不要出现
+                            第一、二章Script标签
+在Script标签里面不要出现
 console.log("&lt;/script>")
 //会把它当成script结束标签，即使是字符串也不可以，但是除非
 console.log("&lt;\/script>")
-可以使用asyn
                         
                     </div>
                     <div class="publish-info">
@@ -1015,7 +1040,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">134.3k</span>&nbsp;字
+                class="white-color">135.1k</span>&nbsp;字
             
             
             

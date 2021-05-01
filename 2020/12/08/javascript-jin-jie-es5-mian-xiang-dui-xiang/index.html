@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.1k
+                    8.3k
                 </div>
                 
 
@@ -832,6 +832,10 @@ Object<span class="token punctuation">.</span><span class="token function">defin
     enumerable <span class="token operator">=</span> <span class="token boolean">true</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <p><code>Object.keys(obj)</code> 方法会返回一个由一个给定对象的自身可枚举属性组成的数组，数组中属性名的排列顺序和使用 for…in 循环遍历该对象时返回的顺序一致 。如果对象的键-值都不可枚举，那么将返回由键组成的数组。</p>
+<p><code>Object.keys(obj1).length</code>得到当前对象属性个数</p>
+<p><code>Object.getOwnPropertyNames(obj1)</code>返回对象实例的常规属性数组</p>
+<p><code>Object.getOwnPropertySymbols(obj1)</code>返回对象实例的符号属性数组</p>
+<p>这两种方法互斥</p>
 <h2 id="6-函数定义和调用"><a href="#6-函数定义和调用" class="headerlink" title="6.函数定义和调用"></a>6.函数定义和调用</h2><p>函数定义：</p>
 <p>1.自定义函数：<code>function fn() {};</code></p>
 <p>2.匿名函数： <code>var fun = function() {};</code></p>
@@ -1073,7 +1077,14 @@ myObj<span class="token punctuation">.</span><span class="token function">getThi
 <h4 id="浅拷贝和深拷贝"><a href="#浅拷贝和深拷贝" class="headerlink" title="浅拷贝和深拷贝"></a>浅拷贝和深拷贝</h4><p>（jQuery篇目有提及到（<code>$.extend([deep], target, object1, [objectN])</code>））</p>
 <p>1.浅拷贝只是拷贝一层，更深层次对象级别的只拷贝引用</p>
 <p>2.深拷贝拷贝多层，每一级别的数据都会拷贝</p>
-<p>ES6中浅拷贝的语法糖：<code>Object.assign(target, ...source)</code>（把source拷贝给target）</p>
+<p>ES6中浅拷贝的语法糖：<code>Object.assign(target, ...source)</code>（把source拷贝给target，它将返回目标对象。）</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> target <span class="token operator">=</span> <span class="token punctuation">{</span> a<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> b<span class="token punctuation">:</span> <span class="token number">2</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> source <span class="token operator">=</span> <span class="token punctuation">{</span> b<span class="token punctuation">:</span> <span class="token number">4</span><span class="token punctuation">,</span> c<span class="token punctuation">:</span> <span class="token number">5</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> returnedTarget <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">assign</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span> source<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// expected output: Object { a: 1, b: 4, c: 5 }，按顺序覆盖掉原来的属性</span></code></pre>
 <p>利用循环写浅拷贝</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span>
         id<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
@@ -1701,7 +1712,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">134.3k</span>&nbsp;字
+                class="white-color">135.1k</span>&nbsp;字
             
             
             

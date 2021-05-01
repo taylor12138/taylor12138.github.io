@@ -564,11 +564,11 @@
 <p><code>section div:nth-type(1){ }</code>    //先看是否符合div，如果是就在div里排序，选择第一个就渲染</p>
 <h4 id="伪元素选择器"><a href="#伪元素选择器" class="headerlink" title="伪元素选择器"></a>伪元素选择器</h4><p>通过CSS创建新的子标签（比较简单的），从而简化html结构，（<strong>还与之前清除浮动使用的伪元素方法有关</strong>）</p>
 <pre class=" language-css"><code class="language-css"><span class="token selector">element<span class="token pseudo-element">::before</span></span><span class="token punctuation">{</span> 
-content：<span class="token string">'XX'</span><span class="token punctuation">;</span>       <span class="token comment" spellcheck="true">/*必须要有content属性，为内容*/</span>
-<span class="token punctuation">}</span>                    <span class="token comment" spellcheck="true">/*在元素内部前面（左）插入内容*/</span>
+    content：<span class="token string">'XX'</span><span class="token punctuation">;</span>       <span class="token comment" spellcheck="true">/*必须要有content属性，为内容*/</span>
+<span class="token punctuation">}</span>                        <span class="token comment" spellcheck="true">/*在元素内部前面（左）插入内容*/</span>
 <span class="token selector">element<span class="token pseudo-element">::after</span></span><span class="token punctuation">{</span> 
-<span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">'XX'</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>                    <span class="token comment" spellcheck="true">/*在元素内部后面（右）插入内容*/</span></code></pre>
+    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">'XX'</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>                        <span class="token comment" spellcheck="true">/*在元素内部后面（右）插入内容*/</span></code></pre>
 <p>它和标签选择器一样，权重=1，且为行内元素，想要设置大小必须转行内块</p>
 <p>（还可以有element:hover::before{}的操作）</p>
 <h4 id="伪类和伪元素"><a href="#伪类和伪元素" class="headerlink" title="伪类和伪元素"></a>伪类和伪元素</h4><p>单冒号(:)用于CSS3伪类，双冒号(::)用于CSS3伪元素</p>
@@ -693,7 +693,7 @@ transform:translate(-50%,-50%);</code></pre><p>但是它对行内标签没有效
 <p>对于DOM结构中的各个元素都有自己的盒子（模型），这些都需要浏览器根据各种样式（浏览器的、开发人员定义的等）来计算并根据计算结果将元素放到它该出现的位置，过程称为reflow</p>
 <p>它一般在DOM元素位置发生改变后触发，比如JS添加 <code>DOM</code>元素，CSS <code>width</code>的改变、CSS3的<code>animation</code>、Scroll页面</p>
 <h4 id="repaint"><a href="#repaint" class="headerlink" title="repaint"></a>repaint</h4><p>当各种盒子的位置、大小以及其他属性，例如颜色、字体大小等都确定下来后，浏览器于是便把这些元素都按照各自的特性绘制了一遍，于是页面的内容出现了，过程称为repaint</p>
-<p>它一般在改变 DOM 元素的视觉效果时触发，即不涉及任何排版布局的问题时触发，比如<code>color</code>、<code>text-align</code>、``</p>
+<p>它一般在改变 DOM 元素的视觉效果时触发，即不涉及任何排版布局的问题时触发，比如<code>color</code>、<code>text-align</code>、</p>
 <p><strong>注意：回流reflow一定会触发重绘repaint，而重绘不一定会回流</strong></p>
 <p>我们应该减少reflow和repaint的操作，提高渲染速度</p>
 <p>reflow的成本比repaint高很多</p>
@@ -1230,7 +1230,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">134.3k</span>&nbsp;字
+                class="white-color">135.1k</span>&nbsp;字
             
             
             

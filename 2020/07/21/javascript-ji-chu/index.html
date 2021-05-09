@@ -675,12 +675,12 @@ obj<span class="token punctuation">.</span>say<span class="token operator">=</sp
     <span class="token keyword">this</span><span class="token punctuation">.</span>方法<span class="token operator">=</span><span class="token keyword">function</span>（）<span class="token punctuation">{</span><span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <p>1.使用构造函数，构造函数名字首字母最好大写<br>如 function Star()<br>2.构造函数不需要return<br>3.使用函数<br>new 构造函数名();即构造一个对象，如new Array()，创建一个数组对象<br>4.属性方法前必须加this<br>如this.name=传参name        this.song = function（传参）{}</p>
-<h4 id="遍历对象"><a href="#遍历对象" class="headerlink" title="遍历对象"></a>遍历对象</h4><pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> k <span class="token keyword">in</span> obj<span class="token punctuation">)</span><span class="token punctuation">{</span> <span class="token comment" spellcheck="true">//obj为对象</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//k输出的是属性名</span>
+<h4 id="遍历对象"><a href="#遍历对象" class="headerlink" title="遍历对象"></a>遍历对象</h4><pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> k <span class="token keyword">in</span> obj<span class="token punctuation">)</span><span class="token punctuation">{</span>     <span class="token comment" spellcheck="true">//obj为对象</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">//k输出的是属性名</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>obj<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//得到的是属性值</span>
 <span class="token punctuation">}</span>  <span class="token comment" spellcheck="true">//我们使用for in 喜欢var k或者key</span>
-<span class="token comment" spellcheck="true">//或者使用</span>
-<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> item <span class="token keyword">of</span> obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   <span class="token comment" spellcheck="true">//或者使用</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> item <span class="token keyword">of</span> obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//每个属性的属性值，不过仅适用于可遍历对象</span>
 <span class="token punctuation">}</span></code></pre>
 <h4 id="对象删除键值对"><a href="#对象删除键值对" class="headerlink" title="对象删除键值对"></a>对象删除键值对</h4><pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> json <span class="token operator">=</span> <span class="token punctuation">{</span>
@@ -704,7 +704,8 @@ Math<span class="token punctuation">.</span><span class="token function">max</sp
 Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span>    <span class="token comment" spellcheck="true">//最小值</span>
 Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//随机 0&lt;=x&lt;1  </span>
 Math<span class="token punctuation">.</span><span class="token function">floor</span><span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">(</span>x_max<span class="token operator">-</span>x_min<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">+</span>x_min<span class="token comment" spellcheck="true">//得到两个数之间的随机整数</span>
-Math<span class="token punctuation">.</span><span class="token function">sqrt</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span>   <span class="token comment" spellcheck="true">//返回一个数的平方根</span></code></pre>
+Math<span class="token punctuation">.</span><span class="token function">sqrt</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span>   <span class="token comment" spellcheck="true">//返回一个数的平方根</span>
+Math<span class="token punctuation">.</span><span class="token function">pow</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//3^2次方，当然也可以使用 3 ** 2来表示</span></code></pre>
 <p>函数 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed" target="_blank" rel="noopener">toFixed(n)</a> 将数字舍入到小数点后 <code>n</code> 位，并以<strong>字符串</strong>形式返回结果。如果后续还想再用该数字，记得转回number</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">let</span> num <span class="token operator">=</span> <span class="token number">12.34</span><span class="token punctuation">;</span>
 <span class="token function">alert</span><span class="token punctuation">(</span> num<span class="token punctuation">.</span><span class="token function">toFixed</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// "12.3"</span></code></pre>
@@ -849,11 +850,12 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <h5 id="1-赋值"><a href="#1-赋值" class="headerlink" title="1.赋值"></a>1.赋值</h5><p>当我们把一个对象赋值给一个新的变量时，<strong>赋的其实是该对象在栈中的地址，而不是堆中的数据</strong>，只要修改了里面的的值，原来都都会受到影响</p>
 <h5 id="2-浅拷贝"><a href="#2-浅拷贝" class="headerlink" title="2.浅拷贝"></a>2.浅拷贝</h5><p><strong>他会创建一个新对象</strong>，这个对象有着原始对象属性值的一份精确拷贝。如果属性基本类型，拷贝的基本类型的值（修改后原来的变量的值不会受到影响）；如果属性是内存地址（引用类型，比如数组、对象），拷贝的就是内存地址，即其中一个变量修改了这个地址存放的对象，则另外一个会受到影响</p>
 <p>数组的浅拷贝可以使用：<code>Array.prototype.concat()</code>、<code>Array.prototype.slice()</code>，他们不会修改原数组，只是返回了一个浅拷贝的新数组</p>
-<p>对象可以使用 ：<code>Object.assgin()</code></p>
+<p>对象可以使用 ：<code>Object.assgin()</code>或者 <code>let obj2 = {...obj1}</code> (（ECMAScript 2018规范新增特性）)</p>
 <h5 id="3-深拷贝"><a href="#3-深拷贝" class="headerlink" title="3.深拷贝"></a>3.深拷贝</h5><p>所谓”深拷贝”，就是能够实现真正意义上的数组和对象的拷贝，使得两个对象不会相互影响</p>
 <p>具体深拷贝的手写我在 “JavaScript进阶ES5+面向对象”篇章中写过</p>
 <p><img src="../images/JavaScript%E5%9F%BA%E7%A1%80/kaobei.jpg" alt=""></p>
 <h2 id="10-JS数值精度"><a href="#10-JS数值精度" class="headerlink" title="10.JS数值精度"></a>10.JS数值精度</h2><p>JavaScript 内部，所有数字都是以64位浮点数形式储存，即使整数也是如此。所以，<code>1</code>与<code>1.0</code>是相同的，是同一个数</p>
+<p>而位操作并不直接应用到64位，而是先把值转换为32位整数，在进行位操作，最后再把32位转换为34位存储起来</p>
 <p><img src="../images/JavaScript%E5%9F%BA%E7%A1%80/jingdu.png" alt=""></p>
 <ul>
 <li><p><code>NaN</code>是 JavaScript 的特殊值，表示“非数字”（Not a Number），主要出现在将字符串解析成数字出错的场合。</p>
@@ -1448,7 +1450,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">135.1k</span>&nbsp;字
+                class="white-color">141.9k</span>&nbsp;字
             
             
             

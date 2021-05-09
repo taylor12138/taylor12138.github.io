@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.4k
+                    7.5k
                 </div>
                 
 
@@ -613,6 +613,7 @@ Vue<span class="token punctuation">.</span>config<span class="token punctuation"
     <span class="token punctuation">]</span><span class="token punctuation">)</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
+<p>当然，除此之外，还有辅助函数 <code>mapState</code>、<code>mapAction</code>等</p>
 <p><strong>Action基本使用</strong></p>
 <p>Action类似于Mutation，但是是用来替代Mutation进行异步操作的（其实也可以来替代一些功能复杂的操作）</p>
 <p>和Getter、Mutation不同，默认传入的参数不是state，而是 context：上下文，在下面的例子里，可以把context理解成store对象</p>
@@ -909,7 +910,7 @@ obj<span class="token punctuation">.</span>install <span class="token operator">
     <span class="token keyword">const</span> toastConstructor <span class="token operator">=</span> Vue<span class="token punctuation">.</span><span class="token function">extend</span><span class="token punctuation">(</span>Toast<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token comment" spellcheck="true">// 2.使用new的方式创建组件对象</span>
     <span class="token keyword">const</span> toast <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">toastConstructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">// 3.将组件对象挂载到某元素上</span>
+    <span class="token comment" spellcheck="true">// 3.将组件对象挂载到某元素上,和组件使用也一样，内部也调用了$mount()进行挂载</span>
     toast<span class="token punctuation">.</span><span class="token function">$mount</span><span class="token punctuation">(</span>document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'div'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token comment" spellcheck="true">// 4.toast.$el 对应的就是 div </span>
     document<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>toast<span class="token punctuation">.</span>$el<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -962,6 +963,7 @@ Vue<span class="token punctuation">.</span><span class="token function">use</spa
 <li>React与Vue最大的不同是<strong>模板的编写</strong>。Vue鼓励你去写近似常规HTML的模板（<code>template</code>），写起来很接近标准HTML元素，只是多了一些属性，然后用类似于Angular风格的方法去动态输出内容；而React推荐你使用 JSX 来写模板，JSX只是JavaScript混合着XML语法，有部分人使用起来会觉得很畅快。<strong>值得一提的是</strong>，与React一样，Vue在技术上也支持render函数和JSX，但只是不是默认的而已</li>
 <li>在Vue中，state对象并不是必须的，数据由data属性在Vue对象中进行管理，而Vue提供响应式的数据，当数据改动时，界面就会自动更新；React的数据使用state对象（状态）保存，在React中你需要使用<code>setState()</code>方法去更新状态</li>
 <li>（我在观看视频老师对比React and Vue的时候看到的结果（虚拟DOM与DOM Diff 的原理，作者饥人谷，第二集））在测试插入10w个div标签的时候，DOM的原生渲染速度是大概2s；React的速度大概接近30s；Vue竟然是接近原生DOM，1s-3s</li>
+<li>自我学习感受，React很多操作要比Vue麻烦（可能也是因为不熟练），学习React有扎实的JS基础要求</li>
 </ul>
 <h4 id="Vue常见性能优化"><a href="#Vue常见性能优化" class="headerlink" title="Vue常见性能优化"></a>Vue常见性能优化</h4><ul>
 <li>不要把所有数据放在data，data的数据会增加 getter 和 setter，会收集对应的 watcher</li>
@@ -1065,6 +1067,7 @@ vm<span class="token punctuation">.</span>b <span class="token operator">=</span
 </ul>
 <h4 id="虚拟DOM"><a href="#虚拟DOM" class="headerlink" title="虚拟DOM"></a>虚拟DOM</h4><p>DOM实际操作是挺快的，任何基于DOM的库（Vue/React）都不可能操作DOM时比DOM快</p>
 <p>虚拟DOM：一个能代表DOM树的对象，通常含有标签名、标签上属性、事件监听和子元素们，以及其它属性</p>
+<p>在控制台上打印可以看得出它是一个对象，它对比真实DOM更加轻量级，使用 <code>debugger</code>可以在浏览器的 Sources 看得到它的属性对比真实DOM少得多，它最终会被Vue / React 转化为真实DOM，呈现在页面上</p>
 <p>为什么虚拟DOM比真实DOM快？</p>
 <ul>
 <li>减少DOM操作：可以将多次DOM操作合并为一次操作，比如添加100个节点原来是一个一个添加，现在是一次性添加</li>
@@ -1711,7 +1714,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">135.1k</span>&nbsp;字
+                class="white-color">141.9k</span>&nbsp;字
             
             
             

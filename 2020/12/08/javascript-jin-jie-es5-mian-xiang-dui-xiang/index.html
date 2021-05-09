@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.3k
+                    8.6k
                 </div>
                 
 
@@ -515,9 +515,14 @@
         <span class="token comment" spellcheck="true">//xxxx</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
+<h4 id="类里添加实例对象的默认属性"><a href="#类里添加实例对象的默认属性" class="headerlink" title="类里添加实例对象的默认属性"></a>类里添加实例对象的默认属性</h4><p>在React，我还学到了往类里添加默认属性的骚操作，直接写入赋值语句</p>
+<p>写入赋值语句后，实际上就是往实例自身追加一个属性，属性名为a，值为1，适用于一个不需要根据传参改变的写死的值</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">class</span> <span class="token class-name">Star</span> <span class="token punctuation">{</span>
+    a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
 <h4 id="类的继承"><a href="#类的继承" class="headerlink" title="类的继承"></a>类的继承</h4><p>使用extends进行继承</p>
 <p>super关键字用于访问和调用对象父类上的函数，可以调用父类的构造函数，也可以调用父类的普通函数（super必须在字类this的之前进行调用，即必须先调用父类的构造函数，再使用子类的构造函数）</p>
-<p>不过要注意的是：（错误❌）</p>
+<p>不过要注意的是：（错误示范❌）</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">class</span> <span class="token class-name">Father</span> <span class="token punctuation">{</span>  
     <span class="token function">constructor</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">{</span>
         <span class="token keyword">this</span><span class="token punctuation">.</span>x <span class="token operator">=</span> x<span class="token punctuation">;</span>
@@ -529,13 +534,22 @@
 <span class="token punctuation">}</span>
 <span class="token keyword">class</span> <span class="token class-name">Son</span> <span class="token keyword">extends</span> <span class="token class-name">Father</span> <span class="token punctuation">{</span>
     <span class="token function">constructor</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>x <span class="token operator">=</span> x<span class="token punctuation">;</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>y <span class="token operator">=</span> y<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>x <span class="token operator">=</span> x<span class="token punctuation">;</span>            <span class="token comment" spellcheck="true">//会报错</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>y <span class="token operator">=</span> y<span class="token punctuation">;</span>            <span class="token comment" spellcheck="true">//会报错</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 <span class="token keyword">var</span> son <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Son</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
 son<span class="token punctuation">.</span><span class="token function">sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//会报错</span></code></pre>
-<p>因为此时参数传递给子类的constructor的x和y，而父类的sum函数用的是父类的constructor的x和y，所以应该改为以下函数：</p>
+<p>以上有两个错误：</p>
+<ul>
+<li><p>类里面的语法中，只要符合类继承 + 子类有个构造函数(constructor)则一定要调用super，否则也会报错</p>
+<ul>
+<li>如果只需要继承到x、y的属性，自身不需要新的属性，类似于下方的id属性，则甚至可以不用写构造函数</li>
+</ul>
+</li>
+<li><p>此时参数传递给子类的constructor的x和y，而父类的sum函数用的是父类的constructor的x和y</p>
+</li>
+</ul>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">class</span> <span class="token class-name">Father</span> <span class="token punctuation">{</span>  
     <span class="token function">constructor</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">{</span>
         <span class="token keyword">this</span><span class="token punctuation">.</span>x <span class="token operator">=</span> x<span class="token punctuation">;</span>
@@ -546,12 +560,13 @@ son<span class="token punctuation">.</span><span class="token function">sum</spa
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 <span class="token keyword">class</span> <span class="token class-name">Son</span> <span class="token keyword">extends</span> <span class="token class-name">Father</span> <span class="token punctuation">{</span>
-    <span class="token function">constructor</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">constructor</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token comment" spellcheck="true">//调用父类的构造函数</span>
-        <span class="token keyword">super</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//并且一定要放在最开头，不能把this.id = id 放在它前面    </span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>id <span class="token operator">=</span> id<span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
-<span class="token keyword">var</span> son <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Son</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+<span class="token keyword">var</span> son <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Son</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">123</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
 son<span class="token punctuation">.</span><span class="token function">sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//success</span></code></pre>
 <p>继承中属性或者方法的查找原则：就近原则</p>
 <p>在继承中，如果实例化子类输出一个方法，先看子类有没有这个方法，如果有就执行子类的</p>
@@ -864,7 +879,7 @@ o<span class="token punctuation">.</span><span class="token function">say</span>
 <p>6.立即执行函数（自动调用） <code>(function() {} )();</code></p>
 <h2 id="7-this的指向"><a href="#7-this的指向" class="headerlink" title="7.this的指向"></a>7.this的指向</h2><h4 id="函数内this的指向"><a href="#函数内this的指向" class="headerlink" title="函数内this的指向"></a>函数内this的指向</h4><p>是当我们调用函数时确定的，调用方式不同导致this指向不同</p>
 <p>1.普通函数调用：window</p>
-<p>2.构造函数调用：实例对象，原型对象也是指向实例对象</p>
+<p>2.构造函数调用：实例对象，原型对象也是指向实例对象（同样的，类中this也是指向实例对象）</p>
 <p>3.对象方法：该方法所属对象</p>
 <p>4.事件绑定：绑定事件对象</p>
 <p>5.定时器函数：window</p>
@@ -938,7 +953,7 @@ myObj<span class="token punctuation">.</span><span class="token function">getThi
 <p>（es6拓展运算符…<code>Math.max(...arr)</code>也可以，但是不能 <code>Math.max(arr)</code>，因为max不接受数组，只接受一个一个的参数）</p>
 <p>3.<code>bind()</code>方法不会调用函数，但是能改变函数内部this指向</p>
 <p><code>fun.bind(thisArg, arg1, arg2....)</code> </p>
-<p>返回指定this值和初始化参数改造的原函数拷贝（即创造新的函数 <code>var f = fn.bind(xx)</code>）</p>
+<p>返回指定this值和初始化参数改造的原函数<strong>拷贝</strong>（即创造新的函数 <code>var f = fn.bind(xx)</code>）</p>
 <p>应用方面：定时器等不想立即调用的函数（或者处理其他只能用that来暂时储存对象的情况）</p>
 <pre class=" language-js"><code class="language-js">btn<span class="token punctuation">.</span>onclick <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">this</span><span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
@@ -1072,6 +1087,21 @@ myObj<span class="token punctuation">.</span><span class="token function">getThi
 <span class="token function">fn</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<h4 id="高阶函数"><a href="#高阶函数" class="headerlink" title="高阶函数"></a>高阶函数</h4><p>如果一个函数符合下面两个规范的任何一个，那该函数就是高阶函数</p>
+<ul>
+<li>若A函数，接收的参数是一个函数，那么A就可以称之为高阶函数（比如Promise、setTimout）</li>
+<li>若A函数，调用的返回值仍然是一个函数，那么A就可以称之为高阶函数（比如防抖，React实现传参的回调函数）</li>
+</ul>
+<p><strong>函数的柯里化</strong></p>
+<p>通过函数调用继续返回函数的方式，实现多次接收参数最后统一处理的函数编码形式（比如React实现传参的回调函数）</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">sum</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>b<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> a<span class="token operator">+</span>b<span class="token operator">+</span>c<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token function">sum</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span></code></pre>
 <h2 id="11-递归"><a href="#11-递归" class="headerlink" title="11.递归"></a>11.递归</h2><p>如果一个函数在内部可以调用其本身，则这个函数是递归（俄罗斯套娃）</p>
 <p>但是容易发生“栈溢出”错误，所以必须加退出条件“return”</p>
 <h4 id="浅拷贝和深拷贝"><a href="#浅拷贝和深拷贝" class="headerlink" title="浅拷贝和深拷贝"></a>浅拷贝和深拷贝</h4><p>（jQuery篇目有提及到（<code>$.extend([deep], target, object1, [objectN])</code>））</p>
@@ -1712,7 +1742,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">135.1k</span>&nbsp;字
+                class="white-color">141.9k</span>&nbsp;字
             
             
             

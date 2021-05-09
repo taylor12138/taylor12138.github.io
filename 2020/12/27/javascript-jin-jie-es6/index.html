@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.1k
+                    8.4k
                 </div>
                 
 
@@ -550,8 +550,8 @@ ary<span class="token punctuation">[</span><span class="token number">0</span><s
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 <span class="token keyword">const</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'zhangsan'</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> resFn <span class="token operator">=</span> fn<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//这时this指向obj，所以箭头函数跟着指向obj</span>
-<span class="token function">resFn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                     <span class="token comment" spellcheck="true">//返回{ name: 'zhangsan' }  { name: 'zhangsan' }</span></code></pre>
+<span class="token keyword">const</span> resFn <span class="token operator">=</span> fn<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//这时this指向obj，所以箭头函数跟着指向obj 返回{ name: 'zhangsan' }</span>
+<span class="token function">resFn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//箭头函数中this指向指向上下文this，此时箭头函数this跟着上下文this发生改动，输出{ name: 'zhangsan' }</span></code></pre>
 <p>2.不适合对象的方法</p>
 <p>对象不能产生作用域，所以箭头函数实际被定义在全局作用域下，所以此处的this指向window，所以箭头函数处的this.age未定义</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span>
@@ -595,7 +595,7 @@ obj<span class="token punctuation">.</span><span class="token function">con</spa
 <span class="token punctuation">}</span>
 <span class="token function">fn</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//则输出1，2，3</span></code></pre>
 <p>伪数组：1.具有length属性  2.按索引凡是储存数据   3.不具有push，pop功能</p>
-<h4 id="剩余参数"><a href="#剩余参数" class="headerlink" title="剩余参数"></a>剩余参数</h4><p>剩余参数语法允许我们将一个不定数量的参数表示为一个数组  <code>...args</code></p>
+<h4 id="剩余参数"><a href="#剩余参数" class="headerlink" title="剩余参数"></a>剩余参数</h4><p>剩余参数语法（展开运算符）允许我们将一个不定数量的参数表示为一个数组  <code>...args</code></p>
 <p>潜规则： <code>...args</code>要放到参数的最后，不然会报错</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//1.作为传参（rest参数）</span>
 <span class="token keyword">function</span> <span class="token function">sum</span><span class="token punctuation">(</span>first<span class="token punctuation">,</span> <span class="token operator">...</span>args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -617,18 +617,24 @@ arr1<span class="token punctuation">.</span><span class="token function">push</s
 <span class="token punctuation">}</span></code></pre>
 <p>  利用args手写new</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">_new</span><span class="token punctuation">(</span>Constructor<span class="token punctuation">,</span> <span class="token operator">...</span>args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
-      obj<span class="token punctuation">.</span>__proto__ <span class="token operator">=</span> Constructor<span class="token punctuation">.</span>prototype<span class="token punctuation">;</span>
-      <span class="token keyword">var</span> ret <span class="token operator">=</span> Constructor<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span> args<span class="token punctuation">)</span>
-      <span class="token keyword">return</span> ret <span class="token keyword">instanceof</span> <span class="token class-name">Object</span> <span class="token operator">?</span> ret <span class="token punctuation">:</span> obj<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">function</span> <span class="token function">One</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">this</span><span class="token punctuation">.</span>a <span class="token operator">=</span> a<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">One</span><span class="token punctuation">(</span><span class="token string">'good'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">let</span> b <span class="token operator">=</span> <span class="token function">_new</span><span class="token punctuation">(</span>One<span class="token punctuation">,</span> <span class="token string">'good'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+    <span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+    obj<span class="token punctuation">.</span>__proto__ <span class="token operator">=</span> Constructor<span class="token punctuation">.</span>prototype<span class="token punctuation">;</span>
+    <span class="token keyword">var</span> ret <span class="token operator">=</span> Constructor<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span> args<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> ret <span class="token keyword">instanceof</span> <span class="token class-name">Object</span> <span class="token operator">?</span> ret <span class="token punctuation">:</span> obj<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">function</span> <span class="token function">One</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>a <span class="token operator">=</span> a<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">One</span><span class="token punctuation">(</span><span class="token string">'good'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> b <span class="token operator">=</span> <span class="token function">_new</span><span class="token punctuation">(</span>One<span class="token punctuation">,</span> <span class="token string">'good'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="展开运算符"><a href="#展开运算符" class="headerlink" title="展开运算符"></a>展开运算符</h4><p>剩余语法(Rest syntax) 看起来和展开语法完全相同，不同点在于, 剩余参数用于解构数组和对象。从某种意义上说，剩余语法与展开语法是相反的：展开语法将数组展开为其中的各个元素，而剩余语法则是将多个元素收集起来并“凝聚”为单个元素。（来源于MDN）</p>
+<p>运用于数组</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> arr1 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> arr2 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+arr1 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span>arr2<span class="token punctuation">,</span> <span class="token operator">...</span>arr1<span class="token punctuation">]</span><span class="token punctuation">;</span></code></pre>
+<p>一般展开运算符只能展开可迭代对象，对于对象，但是可以 使用 <code>let person1 = {...person2}</code>进行展开</p>
 <h4 id="参数默认值"><a href="#参数默认值" class="headerlink" title="参数默认值"></a>参数默认值</h4><p>可以给函数附上默认的参数值，在调用时没有给到的形参会用默认值代替</p>
 <p>一般具有默认值的参数都靠后（潜规则）</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">add</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b <span class="token punctuation">,</span>c<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
@@ -711,7 +717,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p><code>s.values()</code>查看所有元素</p>
 <p><code>s.size()</code> 返回<code>Set</code>实例的成员总数</p>
 <p>Set结构实例与数组一样，也有forEach方法，用于对每个成员执行某种操作，没有返回值</p>
-<h4 id="map数据结构"><a href="#map数据结构" class="headerlink" title="map数据结构"></a>map数据结构</h4><p> 是一个带键的数据项的集合，就像一个 <code>Object</code> 一样。 但是它们最大的差别是 <code>Map</code> 允许任何类型的键（key）</p>
+<h4 id="map数据结构"><a href="#map数据结构" class="headerlink" title="map数据结构"></a>map数据结构</h4><p> 是一个带键的数据项的集合，就像一个 <code>Object</code> 一样。 但是它们最大的差别是 <code>Map</code> 允许任何类型的键（key），“键”的范围不限于字符串，各种类型的值（包括对象）都可以当作键</p>
 <p>（<code>Object</code>的键为字符串）。</p>
 <p>Map 的遍历顺序就是插入顺序。</p>
 <p><strong>使用对象</strong>作为键是 <code>Map</code> 最值得注意和重要的功能之一</p>
@@ -816,6 +822,16 @@ obj2 <span class="token operator">=</span> <span class="token punctuation">{</sp
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//实现一步查找符合条件的product</span>
 <span class="token keyword">let</span> product <span class="token operator">=</span> state<span class="token punctuation">.</span>cartList<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>item <span class="token operator">=</span><span class="token operator">></span> item<span class="token punctuation">.</span>id <span class="token operator">===</span> payload<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>返回符合测试条件的第一个数组元素值，如果没有符合条件的则返回 undefined。</p>
+<p><strong>对象使用变量名作为键名</strong></p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token string">'name'</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//obj.a = 'Allen'错误！</span>
+obj<span class="token punctuation">[</span>a<span class="token punctuation">]</span> <span class="token operator">=</span> Allen  <span class="token comment" spellcheck="true">//正确</span></code></pre>
+<p>又或者</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token string">'name'</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">[</span>a<span class="token punctuation">]</span><span class="token punctuation">:</span><span class="token string">'Allen'</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
 <h2 id="4-Promise"><a href="#4-Promise" class="headerlink" title="4.Promise"></a>4.Promise</h2><h4 id="callback-hell"><a href="#callback-hell" class="headerlink" title="callback hell"></a>callback hell</h4><p>回调地狱：callback hell，异步里面套着另一个异步</p>
 <p><img src="../images/JavaScript%E8%BF%9B%E9%98%B6ES6/callback%20hell.jpg" alt=""></p>
 <p>无法保证异步任务执行顺序：</p>
@@ -1350,7 +1366,7 @@ iterator<span class="token punctuation">.</span><span class="token function">nex
 <span class="token punctuation">}</span>
 <span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token function">gen</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 a<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h2 id="7-其他"><a href="#7-其他" class="headerlink" title="7.其他"></a>7.其他</h2><h4 id="static"><a href="#static" class="headerlink" title="static"></a>static</h4><p>类（class）通过 <strong>static</strong> 关键字定义静态方法。<strong>不能在类的实例上调用静态方法</strong>，而应该通过类本身调用。这些通常是实用程序方法，例如创建或克隆对象的功能。</p>
+<h2 id="7-其他"><a href="#7-其他" class="headerlink" title="7.其他"></a>7.其他</h2><h4 id="static"><a href="#static" class="headerlink" title="static"></a>static</h4><p>类（class）通过 <strong>static</strong> 关键字定义静态方法。<strong>不能在类的实例上调用静态方法</strong>，而应该通过类本身调用。这些通常是实用程序方法，例如创建或克隆对象的功能。（也可以解释为实例上加，要想用必先new , 对象上加，可以 直接用）</p>
 <h4 id="执行上下文-amp-作用域"><a href="#执行上下文-amp-作用域" class="headerlink" title="执行上下文 &amp; 作用域"></a>执行上下文 &amp; 作用域</h4><p>变量和函数的上下文决定了他们可以访问哪些数据，以及他们的行为，每个上下文都有一个关联的变量对象，而这个上下文中定义的所有变量和函数都存在于这个对象之上。（个人理解，上下文 = 他们的作用域）</p>
 <p><strong>全局上下文</strong>：全局上下文是最外层的上下文，根据ESMAScript的宿主环境对象可能不一样。但是在浏览器中，全局上下文就是我们常说的window对象。上下文在其所有代码都执行完毕后会被销毁，而全局上下文在应用程序退出前才会被销毁，比如关闭网页、退出浏览器。</p>
 <p><strong>函数上下文</strong>：每个函数都有自己的上下文，当函数上下文被推到一个上下文栈上，当函数执行完之后，上下文栈会弹出该函数上下文，将控制权返还给之前的上下文</p>
@@ -1376,7 +1392,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>我在网上搜到的解释，希望对你们有帮助（请自行脑部理解！！！）</p>
 <p><img src="../images/JavaScript%E8%BF%9B%E9%98%B6ES6/guiyi.jpg" alt=""></p>
 <p><img src="../images/JavaScript%E8%BF%9B%E9%98%B6ES6/guiyi2.jpg" alt=""></p>
-<p><img src="../images/JavaScript%E8%BF%9B%E9%98%B6ES6/guiyi3.jpg" alt=""></p>
+<p><img src="../images/JavaScript%E8%BF%9B%E9%98%B6ES6/guiyi3.jpg" alt="">s塔塔</p>
 
             </div>
             <hr/>
@@ -1883,7 +1899,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">135.1k</span>&nbsp;字
+                class="white-color">141.9k</span>&nbsp;字
             
             
             

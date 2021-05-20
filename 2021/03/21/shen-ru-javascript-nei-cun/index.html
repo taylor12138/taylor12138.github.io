@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.5k
+                    1.9k
                 </div>
                 
 
@@ -535,10 +535,29 @@ destroyed <span class="token punctuation">(</span><span class="token punctuation
 </ul>
 <p>算法缺陷：无法从根对象查询到的对象都会被清除，垃圾收集完毕后会造成大量内存碎片</p>
 <p>从2012年起，所有现代浏览器都使用了标记-清除垃圾回收算法。所有对JavaScript垃圾回收算法的改进都是基于标记-清除算法的改进</p>
-<h4 id="引用计数算法"><a href="#引用计数算法" class="headerlink" title="引用计数算法"></a><strong>引用计数算法</strong></h4><p>古老的垃圾回收算法，可怜的它现在几乎没人用了</p>
+<h4 id="引用计数算法"><a href="#引用计数算法" class="headerlink" title="引用计数算法"></a><strong>引用计数算法</strong></h4><p>古老的垃圾回收算法，没那么常用了</p>
 <p>原理是跟踪记录每个值被引用的次数，被引用一次，则count + 1（除了弱引用类型<code>WeakMap</code>、<code>WeakSet</code>）</p>
+<p>垃圾回收程序下次运行的时候就会释放引用数为0的内存</p>
+<p>它有很多计数问题，比如引用循环，对象A有一个指针指向对象B，而对象B也引用了A，他们的引用书永远不会变成0</p>
 <h4 id="chrome-V8-回收算法"><a href="#chrome-V8-回收算法" class="headerlink" title="chrome V8 回收算法"></a>chrome V8 回收算法</h4><p>Chrome 浏览器所使用的 V8 引擎就是采用的分代回收策略。这个和 Java 回收策略思想是一致的。目的是通过区分「临时」与「持久」对象；多回收「临时对象区」（<strong>新生代</strong>younggeneration），少回收「持久对象区」（<strong>老生代</strong> tenured generation），减少每次需遍历的对象，从而减少每次GC的耗时。</p>
 <p>减少垃圾回收对性能的影响：1.让垃圾回收尽量少地进行 2.避免内存泄露</p>
+<h2 id="提升性能"><a href="#提升性能" class="headerlink" title="提升性能"></a>提升性能</h2><p>避免JavaScript的先创建再补充的动态属性赋值，而是一次性声明所有属性，让实例们共享一个隐藏类</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//错误示范❌</span>
+<span class="token keyword">function</span> <span class="token function">Article</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>title <span class="token operator">=</span> <span class="token string">'my name is title'</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">let</span> a1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Article</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> a2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Article</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+a1<span class="token punctuation">.</span>author <span class="token operator">=</span> <span class="token string">'Allen'</span><span class="token punctuation">;</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//正确示范√</span>
+<span class="token keyword">function</span> <span class="token function">Article</span><span class="token punctuation">(</span>author<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>title <span class="token operator">=</span> <span class="token string">'my name is title'</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> author<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">let</span> a1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Article</span><span class="token punctuation">(</span><span class="token string">'Allen'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> a2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Article</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>由于JavaScript数组大小是动态可变的，，引擎会删除大小为100的数组，在创建一个新的大小为200的数组，垃圾回收程序看到这个删除操作，说不定看你对象更替速度那么快，就加快对你这里垃圾回收的频率，从而降低性能。要避免这种动态分配的操作，可以在初始化时就创建一个大小够用的数组，从而避免上述先删除再创建的操作，不过，你必须事先想好这个数组有多大。</p>
+<p>（实际上静态分配是优化的一种极端方式，如果你的应用程序被垃圾回收严重拖了后腿，可以利用它来提升性能，但这种情况并不多见，大多情况下，这都属于过早优化。）</p>
 <h2 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h2><p>缓存雪崩就是指缓存由于某些原因（比如 宕机、cache服务挂了或者不响应），导致大量请求到达后端数据库，从而导致数据库崩溃，整个系统崩溃，发生灾难。</p>
 <p>其实也可以解释为cache crash之后，牵一发而动全身，导致后端的各大区域接而无法进行服务而崩溃，全部拖死</p>
 <p>前情提要：redis是一个开源的、使用C语言编写的、支持网络交互的、可基于内存也可持久化的Key-Value数据库。</p>
@@ -814,9 +833,9 @@ destroyed <span class="token punctuation">(</span><span class="token punctuation
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            由于Vue部分太多了，我大概写了1.8w字，所以分上下两篇来看。。。
+                            由于Vue部分太多了，分上下两篇进行浏览
 6.Vuex概念Vuex是一个转为Vue.js应用程序开发的状态管理模式
-其实可以简单看成把需要多个组件共享的变量全部存储在一个对象里面（状态：变量），然后把这个对象放在
+其实可以简单看成把需要多个组件共享的变量全部存储在一个对象里面（状态：变量），然后把这个对象放在顶层的Vue实例中，让其他组
                         
                     </div>
                     <div class="publish-info">
@@ -1071,7 +1090,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">141.9k</span>&nbsp;字
+                class="white-color">148.7k</span>&nbsp;字
             
             
             

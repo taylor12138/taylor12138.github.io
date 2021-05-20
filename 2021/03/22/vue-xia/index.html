@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.5k
+                    7.6k
                 </div>
                 
 
@@ -485,7 +485,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>由于Vue部分太多了，我大概写了1.8w字，所以分上下两篇来看。。。</p>
+                <p>由于Vue部分太多了，分上下两篇进行浏览</p>
 <h2 id="6-Vuex"><a href="#6-Vuex" class="headerlink" title="6.Vuex"></a>6.Vuex</h2><h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><p>Vuex是一个转为Vue.js应用程序开发的状态管理模式</p>
 <p>其实可以简单看成把需要多个组件共享的变量全部存储在一个对象里面（状态：变量），然后把这个对象放在顶层的Vue实例中，让其他组件一起使用（而且交给Vuex大管家来管理，其数据还是<strong>响应式</strong>的）</p>
 <p>我们其实可以自己通过prototype封装共享的变量对象，但是做不到响应式</p>
@@ -521,7 +521,7 @@ Vue<span class="token punctuation">.</span>config<span class="token punctuation"
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <p><img src="/images/Vue%E5%85%B6%E4%BB%96%E9%83%A8%E5%88%86/vuex.jpg" alt=""></p>
 <p>​                                                                                                       <strong>Vuex状态管理图</strong></p>
-<p>Devtools 是Vue开发的一个浏览器插件，用来记录每一次改变State</p>
+<p>Devtools 是Vue开发的一个浏览器插件，用来<strong>记录每一次改变State</strong></p>
 <ul>
 <li>需要在浏览器上安装：可以去谷歌应用商店安装Vue.js devtools 插件</li>
 </ul>
@@ -832,7 +832,7 @@ methods<span class="token punctuation">:</span> <span class="token punctuation">
 <p>导入</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> axios <span class="token keyword">from</span> <span class="token string">'axios'</span></code></pre>
 <p>使用 在Ajax篇章中已经有描述</p>
-<h2 id="8-其他"><a href="#8-其他" class="headerlink" title="8.其他"></a>8.其他</h2><h4 id="事件总线"><a href="#事件总线" class="headerlink" title="事件总线"></a>事件总线</h4><p>事件总线和vuex的作用很像，只不过vuex用于管理状态（变量），而事件总线用于管理事件</p>
+<h2 id="8-其他"><a href="#8-其他" class="headerlink" title="8.其他"></a>8.其他</h2><h4 id="事件总线"><a href="#事件总线" class="headerlink" title="事件总线"></a>事件总线</h4><p>事件总线和vuex的作用很像，只不过vuex用于管理状态（变量），而事件总线用于管理事件，利用事件传参（感觉vuex有点面向受控组件，而eventbus面向非受控组件）</p>
 <p>1.在main.js 文件中 创建一个新的Vue实例，以得到一个bus</p>
 <pre class=" language-js"><code class="language-js">Vue<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>$bus <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Vue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>2.发射 <code>this.$bus.$emit(&#39;事件名&#39;[, 参数])</code> </p>
@@ -1061,7 +1061,7 @@ vm<span class="token punctuation">.</span>b <span class="token operator">=</span
 <p>而Vue对data里数组的原型方法（prototype）进行了重写，<code>__proto__</code>指向新的原型对象， 通过原型链定义函数，这样的话我们就可以在其中设置响应式（原来的函数.apply   +   调用更新视图方法 <code>notify()</code>）</p>
 <p>然后，利用<code>observer</code>对数组里的每一项进行监控</p>
 <p><strong>Vue采用异步渲染</strong></p>
-<p>为何Vvue采用异步渲染（数据）？</p>
+<p>为何Vue采用异步渲染（数据）？</p>
 <ul>
 <li>防止一更改数据就更新视图 ，多个数据发生更改后，可以先过滤掉同一个订阅者（内置di，根据id过滤同一watcher，即不用导致watcher进行多次update），提高性能</li>
 </ul>
@@ -1086,14 +1086,14 @@ vm<span class="token punctuation">.</span>b <span class="token operator">=</span
 <p>但其实当规模比较合理的时候，比如几千的时候，使用虚拟DOM是很好的，他可以通过算法优化很多多余的操作，但是当规模大到一定的程度，10w以上等等，在这个情况下原生DOM能保持稳定性，而React就崩了（我在Vue和React的对比里面提及到）</p>
 <h4 id="DOM-diff"><a href="#DOM-diff" class="headerlink" title="DOM diff"></a>DOM diff</h4><p>diff就是一个函数，我们称之为<code>patch</code>；</p>
 <p><code>pathces= patch(oldVNode, newVNode)</code>，分别对应旧节点和新节点，patches就是运行的DOM操作</p>
-<p>把虚拟DOM想象成树型</p>
+<p>把虚拟DOM想象成树型，让新的虚拟DOM和旧的虚拟DOM进行对比</p>
 <p>只更新不一样的部分（比如上面“虚拟DOM渲染特殊案例”提及到的）</p>
 <ul>
 <li><p>Tree diff逐层对比，查看哪里需要更新；看节点（Element diff）/组件（Component diff），查看标签名/组件类型</p>
 </li>
-<li><p>若标签类型没变，只更新div对应的DOM属性，变了的话直接替换</p>
+<li><p>若标签类型没变，只更新div对应的DOM属性，变了的话直接替换 / 删除</p>
 </li>
-<li><p>没替换的话，进入标签后代/深入组件  后继续做 Tree  diff 递归</p>
+<li><p>若没有发生替换或者删除的话，进入标签后代/深入组件  后继续做 Tree  diff 递归</p>
 </li>
 </ul>
 <p>但DOM diff也有 bug</p>
@@ -1714,7 +1714,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">141.9k</span>&nbsp;字
+                class="white-color">148.7k</span>&nbsp;字
             
             
             

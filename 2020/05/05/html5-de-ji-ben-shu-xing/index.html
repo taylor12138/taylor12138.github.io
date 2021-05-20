@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.9k
+                    4k
                 </div>
                 
 
@@ -492,7 +492,7 @@
 <p>页面解析顺序：</p>
 <ul>
 <li>（1）先解析head标签中的代码，head标签中会包含一些引用外部文件的代码，就会开始下载这些被引用的外部文件<ul>
-<li>当遇到<code>script</code>标签的时候浏览器暂停解析（不是暂停下载），将控制权交给JavaScript引擎（解释器）如果<code>script</code>标签引用了外部脚本，就下载该脚本，否则就直接执行，执行完毕后将控制权交给浏览器</li>
+<li>当遇到<code>script</code>标签的时候浏览器暂停解析（相关脚本会立即下载并执行），将控制权交给JavaScript引擎（解释器）如果<code>script</code>标签引用了外部脚本，就下载该脚本，否则就直接执行，执行完毕后将控制权交给浏览器</li>
 <li>当遇到一个CSS文件时，解析也可以继续进行</li>
 </ul>
 </li>
@@ -588,14 +588,20 @@
 <p>科普：submit是button的一个特例，用于处理大量表单数据，而此时input里的name是表单的名称，需要填写name才能提交表单数据</p>
 <p>value为输入框内的提示语||充当提交给后台的数据||显示的文字</p>
 <p><code>placeholder=&quot;Search...&quot;</code>  显示提示的文字</p>
-<p><strong>check用于单选和复选的默认值 check=”checked”</strong></p>
+<p><strong>用于单选和复选的默认属性 checked</strong></p>
+<p><code>checked=&quot;checked&quot;</code>选中 <code>checked=&quot;真值&quot;</code></p>
 <p>maxlength=“最大值”</p>
 <p><code>&lt;label for=&quot;sex&quot;&gt;男 &lt;/label&gt;</code>       label用于增加用户体验，点击范围内即可选中某input（一般一个label绑定一个input）</p>
 <p><code>&lt;input type=&quot;radio&quot; name=&quot;sex&quot; id=&quot;sex&quot;  /&gt;</code>       label中的for对应input里的id</p>
 <p>或者把input标签放在label里面也能达到同样的效果，此时不需要for和id（隐式的联系）</p>
+<p><strong>其实还有</strong> <code>defaultCheck</code>：</p>
+<p> <code>defaultCheck</code> 只在初次渲染时生效，更新数据时不受控制，但是允许后续你通过点击手动更改它的选定</p>
+<p><code>checked</code> 始终受到控制，必须通过绑定 onchange 事件来控制选中情况</p>
+<p>总结<br><code>defaultChecked</code>、<code>defaultValue</code> 只在初始渲染时由状态控制，之后更新不再跟状态有关系，而checked、value在全过程中都受状态控制</p>
+<p>开发中更多的是使用checked + onchange 组合</p>
 <h4 id="表单元素-lt-select-gt-下拉列表"><a href="#表单元素-lt-select-gt-下拉列表" class="headerlink" title="表单元素&lt;select&gt; 下拉列表"></a>表单元素<code>&lt;select&gt;</code> 下拉列表</h4><pre><code>&lt;select&gt;
-    &lt;option&gt;选项1&lt;/option&gt;
-    &lt;option&gt;选项2&lt;/option&gt;
+    &lt;option value=&quot;1&quot;&gt;选项1&lt;/option&gt;
+    &lt;option value=&quot;2&quot;&gt;选项2&lt;/option&gt;
     &lt;option selected=&quot;selected&quot;&gt;选项3&lt;/option&gt;   //默认选中选项3
     ...
 &lt;select&gt;</code></pre><h4 id="表单元素-lt-textarea-gt-文本域"><a href="#表单元素-lt-textarea-gt-文本域" class="headerlink" title="表单元素&lt;textarea&gt; 文本域"></a>表单元素<code>&lt;textarea&gt;</code> 文本域</h4><p><code>textarea</code> 可以写大量文字（个人介绍，评论）</p>
@@ -1202,7 +1208,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">141.9k</span>&nbsp;字
+                class="white-color">148.7k</span>&nbsp;字
             
             
             

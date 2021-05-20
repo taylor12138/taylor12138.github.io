@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    986
+                    1.2k
                 </div>
                 
 
@@ -520,7 +520,7 @@ lang <span class="token operator">+</span><span class="token operator">=</span> 
 <pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//undefined</span>
 <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">100</span>     <span class="token comment" spellcheck="true">//会变量提升</span></code></pre>
 <pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//报错 a is not defined</span>
-a <span class="token operator">=</span> <span class="token number">100</span>        <span class="token comment" spellcheck="true">//不会变量提升,但是即使在函数内部声明也会创建一个全局变量</span></code></pre>
+a <span class="token operator">=</span> <span class="token number">100</span>        <span class="token comment" spellcheck="true">//不会变量提升,但是即使在函数内部声明也会创建一个全局变量，会导致内存泄漏</span></code></pre>
 <p><strong>对象方法</strong></p>
 <p><code>Object.getOwnPropertyNames(obj1)</code>返回对象实例的常规属性数组，比如 <code>[name, value]</code></p>
 <p><code>Object.getOwnPropertySymbols(obj1)</code>返回对象实例的符号属性数组，比如 <code>[Symbol(foo), Symbol(bar)]</code></p>
@@ -565,6 +565,24 @@ outermost<span class="token punctuation">:</span>
         num<span class="token operator">++</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
+<h2 id="第四章"><a href="#第四章" class="headerlink" title="第四章"></a>第四章</h2><p>原始类型初始化可以只是永远是字面量形式，如果是使用new关键字创建，则JavaScript会创建爱一个Object实例，其行为类似原始值</p>
+<p>比如</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> name1 <span class="token operator">=</span> <span class="token string">"Allen"</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> name2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">(</span><span class="token string">"Bruce"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+name1<span class="token punctuation">.</span>age <span class="token operator">=</span> <span class="token number">18</span><span class="token punctuation">;</span>
+name2<span class="token punctuation">.</span>age <span class="token operator">=</span> <span class="token number">19</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name1<span class="token punctuation">.</span>age<span class="token punctuation">)</span>     <span class="token comment" spellcheck="true">//undefined</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name2<span class="token punctuation">.</span>age<span class="token punctuation">)</span>     <span class="token comment" spellcheck="true">//19</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> name1<span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//string</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> name2<span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//object</span></code></pre>
+<p>引用值（比如对象、数组）传递参数时，会影响到函数外部的原始变量，因为传入的是指针，保存着数值存放的地址</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">change</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    obj<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">'allen'</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">let</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token function">change</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>实质上参数传递有点像let 一个变量 obj2 ，然后让 obj2 = obj的操作</p>
+<p>为了补救垃圾回收时类似循环引用的问题，IE9把BOM、DOM对象都改成了JavaScript对象</p>
 
             </div>
             <hr/>
@@ -797,13 +815,13 @@ outermost<span class="token punctuation">:</span>
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/05/06/react/">
+                <a href="/2021/05/06/react-shang/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="React">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="React(上)">
                         
-                        <span class="card-title">React</span>
+                        <span class="card-title">React(上)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1075,7 +1093,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">141.9k</span>&nbsp;字
+                class="white-color">148.7k</span>&nbsp;字
             
             
             

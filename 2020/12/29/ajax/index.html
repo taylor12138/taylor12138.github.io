@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.3k
+                    8.7k
                 </div>
                 
 
@@ -876,7 +876,7 @@ app<span class="token punctuation">.</span><span class="token function">use</spa
 <p>这时候，服务器只需要调用<code>req.session.xx</code>就可以使用session保存的数据了</p>
 <h4 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h4><p>使用express框架、一些其他的API之后，传进来的req和res经过了一些中间件（函数方法），使得req和res内部拥有了一些属性，可以直接使用<code>req.body</code>、<code>req.query</code>、<code>req.session</code> 等，并且在挂载路由后，在路由的js文件中，不用再次引用（require）这些api方法，同样可以使用<code>req.body</code>、<code>req.query</code>、<code>req.session</code> 等属性（其实也可以理解为，req、res等参数传进来路由器js文件时，已经被赋予以上属性，页面不用关心参数从中间件得到的属性，而是要关心是否需要引包才能使用方法）</p>
 <p>中间件本身就是一个方法，它有三个参数：request、response、next（使用下一个中间件）</p>
-<p>如果一个请求进入中间件，不调用next则会停留在当前中间件，调用了next后继续向后找到第一个匹配的中间件（平常我们看到很多组件其实已经吧next封装好了）</p>
+<p>如果一个请求进入中间件，不调用next则会停留在当前中间件，调用了next后继续向后找到第一个匹配的中间件（平常我们看到很多组件好型没有next，其实已经吧next封装好了）</p>
 <p>在express中，对中间件有几种分类：</p>
 <ul>
 <li><p>（1）不关心请求路径和请求方法的中间件，也就是任何请求都会进入这个中间件</p>
@@ -911,9 +911,9 @@ app<span class="token punctuation">.</span><span class="token function">use</spa
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">//输出: 1 b</span></code></pre>
-<p>利用next处理发生错误：</p>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//上方错误的代码：</span>
-<span class="token comment" spellcheck="true">//当调用next的时候，如果传递了参数，则直接往后找到带有四个参数的应用程序级别中间件</span>
+<p>上方为错误的代码，</p>
+<p>下方利用next处理发生错误：</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//当调用next的时候，如果传递了参数，则直接往后找到带有四个参数的应用程序级别中间件</span>
 <span class="token comment" spellcheck="true">//if (err) {</span>
 <span class="token comment" spellcheck="true">//     next(err)</span>
 <span class="token comment" spellcheck="true">// }</span>
@@ -1063,6 +1063,7 @@ btn<span class="token punctuation">[</span><span class="token number">0</span><s
     <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <h2 id="5-AJAX的使用工具"><a href="#5-AJAX的使用工具" class="headerlink" title="5.AJAX的使用工具"></a>5.AJAX的使用工具</h2><h3 id="jQuery中的AJAX"><a href="#jQuery中的AJAX" class="headerlink" title="jQuery中的AJAX"></a>jQuery中的AJAX</h3><p>要去github下载包，或者用script加载工具的网址</p>
 <p>又或者在BootCDN网站上找到工具包网址，用script加载使用（相对于github网址更快速）</p>
+<p>但是不建议在React、Vue里使用</p>
 <p><strong>get和post</strong></p>
 <p><code>$.get(url, 参数, callback, type)</code></p>
 <p><code>$.post(url, 参数, callback, type)</code></p>
@@ -1262,9 +1263,17 @@ instance<span class="token punctuation">.</span>interceptors<span class="token p
         body<span class="token punctuation">:</span> <span class="token string">'username=allen&amp;age=18'</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>res <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
         <span class="token comment" spellcheck="true">//返回的结果是一个promise对象,所以使用then回调方式接收和处理结果</span>
+        <span class="token comment" spellcheck="true">//但是这里的res结果不是返回数据，而是提示联系服务器成功 or 失败</span>
         console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> res<span class="token punctuation">.</span>json<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>err <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//除非断网，联系不到服务器，才会被调用)</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>data <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//这里才能真正得到我们想要的数据</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p>详情可进入了解fetch介绍（十分推荐）<a href="https://segmentfault.com/a/1190000003810652" target="_blank" rel="noopener">https://segmentfault.com/a/1190000003810652</a></p>
+<p>缺点：兼容性差</p>
 <h2 id="6-跨域"><a href="#6-跨域" class="headerlink" title="6.跨域"></a>6.跨域</h2><h4 id="同源策略"><a href="#同源策略" class="headerlink" title="同源策略"></a>同源策略</h4><p>同源，即（当前网页的url和ajax请求的目标资源的url之间）协议、域名、端口号必须完全相同，<strong>而ajax是默认遵从同源策略</strong>，</p>
 <p><strong>而违背同源策略就是跨域</strong>，假如当前网页时a.com，而你向b.com发送了请求，则此时是跨域请求</p>
 <p>单台服务器的性能是有上限的，需要外加更多的计算机、服务器提升服务水平</p>
@@ -1378,10 +1387,21 @@ app<span class="token punctuation">.</span><span class="token function">all</spa
 <span class="token keyword">var</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'express'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">var</span> server <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 server<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token function">cors</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>但实际上，上线的网站，很少用cors解决跨域，因为加上这个意味着很多网站都可以访问你</p>
 <h4 id="postMessage"><a href="#postMessage" class="headerlink" title="postMessage"></a>postMessage</h4><p>这是由H5提出来的的API，IE8以上支持这个功能。window.postMessage() 方法可以安全地实现跨源通信。通常，对于两个不同页面的脚本，都遵循同源策略才能够实现通信。</p>
 <p><code>window.postMessage()</code> 方法提供了一种受控机制来规避此限制，只要正确的使用，这种方法就很安全</p>
-<h3 id="nginx代理跨域"><a href="#nginx代理跨域" class="headerlink" title="nginx代理跨域"></a>nginx代理跨域</h3><p><strong>跨域原理：</strong> 同源策略是浏览器的安全策略，不是HTTP协议的一部分。服务器端调用HTTP接口只是使用HTTP协议，不会执行JS脚本，不需要同源策略，也就不存在跨越问题。</p>
+<h4 id="nginx代理跨域"><a href="#nginx代理跨域" class="headerlink" title="nginx代理跨域"></a>nginx代理跨域</h4><p><strong>跨域原理：</strong> 同源策略是浏览器的安全策略，不是HTTP协议的一部分。服务器端调用HTTP接口只是使用HTTP协议，不会执行JS脚本（没有使用ajax，ajax遵守同源策略），不需要同源策略，也就不存在跨越问题。</p>
 <p><strong>实现思路：</strong> 通过nginx配置一个代理服务器（域名与domain1相同，端口不同）做跳板机，反向代理访问domain2接口，并且可以顺便修改cookie中domain信息，方便当前域cookie写入，实现跨域登录。</p>
+<h4 id="json文件实现代理"><a href="#json文件实现代理" class="headerlink" title="json文件实现代理"></a>json文件实现代理</h4><p>代理未使用ajax，所以不需要遵守同源策略，但代理的域名、端口号、协议均和客户端同源，所以可以进行信息交互</p>
+<p>比如在React中的package.json进行配置</p>
+<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"proxy"</span><span class="token operator">:</span><span class="token string">"http://localhost:5000"</span>
+<span class="token punctuation">}</span></code></pre>
+<p>然后axios向本地的代理服务器发送请求（此时本地搭建项目地址为localhost:3000）</p>
+<pre class=" language-js"><code class="language-js">axios<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'http:localhost:3000/students'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>res <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">//此时先去本地3000找该资源，找不到就去到5000找</span></code></pre>
+<p>优点：配置简单</p>
+<p>缺点：但是注意这个方法只能代理一个网址，这是个取巧的方式，当我同时需要对 “http//localhost:5000”、”http//localhost:5001”发送请求，就不可以使用了，此时React可以新建一个setupProxy.js 进行正向代理</p>
 
             </div>
             <hr/>
@@ -1888,7 +1908,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">141.9k</span>&nbsp;字
+                class="white-color">148.7k</span>&nbsp;字
             
             
             

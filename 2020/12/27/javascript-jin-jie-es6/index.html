@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.4k
+                    8.6k
                 </div>
                 
 
@@ -489,8 +489,8 @@
 <h2 id="2-新增语法"><a href="#2-新增语法" class="headerlink" title="2.新增语法"></a>2.新增语法</h2><h4 id="声明变量"><a href="#声明变量" class="headerlink" title="声明变量"></a>声明变量</h4><p>ES5之前因为if、for都没有块级作用域的概念，所以很多时候都需要借助 <strong>function的作用域</strong> 解决应用外部变量的问题</p>
 <p>let 声明的变量</p>
 <p>1.只在所处块级有效（大括号中有效，也就是说if和for都有它的块级作用域了），可以防止循环变量变成全局变量</p>
-<p>2.不存在变量提升，只能先声明再使用</p>
-<p>3.暂时性死区（即在块级作用域中使用某变量，则会先在该块级中查找次变量）</p>
+<p>2.不存在变量提升，只能先声明再使用，不可重复声明</p>
+<p>3.暂时性死区（即在块级作用域中使用某变量，则会先在该块级中查找此变量）</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> num <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
 <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>num<span class="token punctuation">)</span><span class="token punctuation">;</span>        <span class="token comment" spellcheck="true">//报错，变量声明在后面</span>
@@ -517,11 +517,16 @@ ary<span class="token punctuation">[</span><span class="token number">0</span><s
 <span class="token comment" spellcheck="true">//也可以 let [a, b, c] = [1, 2, 3];</span>
 <span class="token comment" spellcheck="true">//对象</span>
 <span class="token keyword">let</span> person <span class="token operator">=</span> <span class="token punctuation">{</span>name<span class="token punctuation">:</span> <span class="token string">'zhangsan'</span><span class="token punctuation">,</span> age<span class="token punctuation">:</span> <span class="token number">20</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
-<span class="token keyword">let</span><span class="token punctuation">{</span>name<span class="token punctuation">,</span> age<span class="token punctuation">}</span> <span class="token operator">=</span> person<span class="token punctuation">;</span>
+<span class="token keyword">let</span> <span class="token punctuation">{</span>name<span class="token punctuation">,</span> age<span class="token punctuation">}</span> <span class="token operator">=</span> person<span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">//如果是对象的话 let{age, name} = person; 也能得到正确的赋值</span></code></pre>
-<p>对象的另一解构写法</p>
+<p>对象的另一解构写法（重命名）</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> <span class="token punctuation">{</span>name<span class="token punctuation">:</span> myName<span class="token punctuation">,</span> age<span class="token punctuation">:</span> myAge<span class="token punctuation">}</span> <span class="token operator">=</span> person<span class="token punctuation">;</span></code></pre>
 <p>如果name和age分别和person中的属性值匹配成功，则将右侧该属性值赋值给左边myName，myAge变量</p>
+<p>除此外，还有嵌套解构赋值写法</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//4.对象的解构赋值</span>
+<span class="token keyword">let</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span>a<span class="token punctuation">:</span><span class="token punctuation">{</span>b<span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token punctuation">{</span>a<span class="token punctuation">:</span><span class="token punctuation">{</span>b<span class="token punctuation">}</span><span class="token punctuation">}</span> <span class="token operator">=</span> obj<span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//我们得到b的数据</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>       <span class="token comment" spellcheck="true">//1</span></code></pre>
 <h4 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h4><p><code>(形参) =&gt; {函数体}</code> 箭头函数用来简化定义函数语法</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> fn <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'xx'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -542,6 +547,9 @@ ary<span class="token punctuation">[</span><span class="token number">0</span><s
 <span class="token punctuation">}</span>
 <span class="token comment" spellcheck="true">//new</span>
 <span class="token keyword">const</span> sum1 <span class="token operator">=</span> a <span class="token operator">=</span><span class="token operator">></span> a<span class="token punctuation">;</span> </code></pre>
+<p>如果返回的是一个对象，不能直接加大括号</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//const sum1 = a => {};  错，返回undefined</span>
+<span class="token keyword">const</span> sum1 <span class="token operator">=</span> a <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//对</span></code></pre>
 <p>箭头函数和传统函数不一样，箭头函数的this指向函数定义位置（使用了箭头函数的那个函数）的上下文this（定义函数地点最近作用域中的this），所以 1. 箭头函数不适合事件回调</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -747,6 +755,11 @@ map<span class="token punctuation">.</span><span class="token keyword">set</span
 <li><code>map.values()</code> —— 遍历并返回所有的值（returns an iterable for values）</li>
 <li><code>map.entries()</code>—— 遍历并返回所有的键值对</li>
 </ul>
+<p>只有对同一个对象的引用，Map 结构才将其视为同一个键。这一点要非常小心。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Map</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+map<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">555</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+map<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// undefined</span></code></pre>
 <h4 id="弱引用类型"><a href="#弱引用类型" class="headerlink" title="弱引用类型"></a>弱引用类型</h4><p>（很多属性、迭代方法不能用 + 保存的元素有限制）</p>
 <p><code>let s = new WeakSet()</code>保存的元素必须得是引用类型（对象 / 数组）（DOM元素也是对象，所以也能存储）</p>
 <p><code>let map = new WeakMap()</code>的<code>key</code> 必须得是引用类型（对象 / 数组）（DOM元素也是对象，所以也能存储）</p>
@@ -926,6 +939,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
         <span class="token keyword">return</span> <span class="token function">ProReadFile</span><span class="token punctuation">(</span><span class="token string">'./index2.txt'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">,</span> err <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
         console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'读取文件失败'</span><span class="token punctuation">,</span> err<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">throw</span> <span class="token string">'error message'</span><span class="token punctuation">;</span>           <span class="token comment" spellcheck="true">//要调用这个，不然返回undefined，会进入下一个then的resolve的回调</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span>
     <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
         console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -933,6 +947,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
         <span class="token keyword">return</span> <span class="token function">ProReadFile</span><span class="token punctuation">(</span><span class="token string">'./index3.txt'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">,</span> err <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
         console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'读取文件失败'</span><span class="token punctuation">,</span> err<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">throw</span> <span class="token string">'error message'</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span>
     <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
         console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -1899,7 +1914,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">141.9k</span>&nbsp;字
+                class="white-color">148.7k</span>&nbsp;字
             
             
             

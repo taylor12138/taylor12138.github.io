@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    13.7k
+                    13.8k
                 </div>
                 
 
@@ -1212,7 +1212,7 @@ methods<span class="token punctuation">:</span> <span class="token punctuation">
 <span class="token comment" spellcheck="true">// 导出方式2</span>
 <span class="token keyword">export</span> <span class="token keyword">var</span> num <span class="token operator">=</span> <span class="token number">1000</span><span class="token punctuation">;</span>
 <span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
-<span class="token comment" spellcheck="true">// 导出方式3,这种方法只能导出一个,只能使用一次default</span>
+<span class="token comment" spellcheck="true">// 导出方式3,这种方法只能导出一个,使用一次default导出一个</span>
 <span class="token keyword">export</span> <span class="token keyword">default</span> adress</code></pre>
 <p>四种导入方法</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 1.导入单个num</span>
@@ -1223,7 +1223,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>add<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">// 3.统一全部导入</span>
 <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> aaa <span class="token keyword">from</span> <span class="token string">"./aaa"</span><span class="token punctuation">;</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span>num<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>aaa<span class="token punctuation">.</span>num<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">//1.下载后module的引用比较特殊</span>
 <span class="token keyword">import</span> Vue <span class="token keyword">from</span> <span class="token string">'vue'</span></code></pre>
 <h4 id="为什么要使用异步组件"><a href="#为什么要使用异步组件" class="headerlink" title="为什么要使用异步组件"></a>为什么要使用异步组件</h4><p>如果组件功能多，打包的结果会变大，我们可以采用异步的方式来加载组件，主要依赖于 <code>import</code></p>
@@ -1311,6 +1311,7 @@ render<span class="token punctuation">:</span> <span class="token function">func
     open<span class="token punctuation">:</span> <span class="token boolean">true</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
+<h4 id="脚手架的模块化样式"><a href="#脚手架的模块化样式" class="headerlink" title="脚手架的模块化样式"></a>脚手架的模块化样式</h4><p>当style标签具有该scoped属性时，其CSS将仅应用于当前组件的元素</p>
 <h2 id="5-Vue-router"><a href="#5-Vue-router" class="headerlink" title="5.Vue router"></a>5.Vue router</h2><h4 id="前后端路由概述"><a href="#前后端路由概述" class="headerlink" title="前后端路由概述"></a>前后端路由概述</h4><p>路由就是网络把信息从源地址传输到目的地址的活动</p>
 <p>后端渲染是将数据在后端处理生成html发给浏览器，前端渲染是通过ajax拿到数据，操作dom节点 渲染ui</p>
 <p>（相当于Node.js里的服务器渲染和客户端渲染）</p>
@@ -1326,7 +1327,7 @@ render<span class="token punctuation">:</span> <span class="token function">func
 <li><strong>前端路由</strong></li>
 </ol>
 <p>在前后端分离中，静态资源服务器放了好几套的 HTML + CSS +JS，每个对应不同的页面</p>
-<p>SPA页面（单页面富应用）：整个网站只有一个html页面</p>
+<p>SPA页面（单页面富应用）：整个网站只有一个html页面（React、Vue）</p>
 <p>而在前端路由中：</p>
 <ul>
 <li>静态资源服务器只有一个html（甚至也只有一个CSS + 一个JS）</li>
@@ -1342,17 +1343,14 @@ render<span class="token punctuation">:</span> <span class="token function">func
 <li>hash（#）是URL 的锚点，代表的是网页中的一个位置，单单改变#后的部分，浏览器只会滚动到相应位置，不会重新加载网页，也就是说 #是用来指导浏览器动作的，对服务器端完全无用，HTTP请求中也不会不包括#；同时每一次改变#后的部分，都会在浏览器的访问历史中增加一个记录，使用”后退”按钮，就可以回到上一个位置；</li>
 </ul>
 </li>
-</ul>
-<ul>
 <li><p>Push：也可以通过<code>history.pushState({}, &#39;&#39;, &#39;xxx&#39;)</code>更改href，进行重定向</p>
 <p>可以使用<code>history.back()</code>或者<code>history.go(-1)</code> 后退功能进行回退</p>
 </li>
 </ul>
 <p>Push，入栈顶，可回退</p>
 <ul>
-<li>Replace：还可以通过  <code>window.replace</code>、 <code>history.replaceState({}, &#39;&#39;, &#39;xxx&#39;)</code>来更改，不可回退</li>
+<li>Replace：还可以通过  <code>window.replace</code>、 <code>history.replaceState({}, &#39;&#39;, &#39;xxx&#39;)</code>来更改，不可回退（替换掉原先栈顶的路由）</li>
 </ul>
-<p>Replace，替换掉当前的路由</p>
 <p>在Vue实例中使用 <code>this.$router.back()</code> 也可以实现回退</p>
 <p>（源码上除了hash、history、其实还有一个abstract模式）</p>
 <p><strong>vue-router关于url改动的问题</strong></p>
@@ -1364,7 +1362,8 @@ render<span class="token punctuation">:</span> <span class="token function">func
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <h4 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h4><p>目前三大框架都有自己的路由实现：Angular的ngRouter、React的ReactRouter、Vue的vue-router</p>
 <p>安装：(或者脚手架选择的时候，可以自动帮你安装路由，并且以下步骤不用实施)</p>
-<pre><code>npm install vue-router --save</code></pre><p>于src文件夹里创建 router文件夹 -&gt; index.js</p>
+<pre class=" language-shell"><code class="language-shell">npm install vue-router --save</code></pre>
+<p>于src文件夹里创建 router文件夹 -&gt; index.js</p>
 <p>1.通过<code>Vue.use(插件)</code>，来安装插件 （在vue内部执行了<code>插件.install</code>方法）</p>
 <p>2.创建路由对象，routes属性用于配置路由和组件的映射关系</p>
 <p>3.将router对象传入Vue实例当中</p>
@@ -1538,7 +1537,7 @@ $router<span class="token punctuation">.</span><span class="token function">push
 <p>嵌套的实现：</p>
 <ul>
 <li>创建相应的子组件，并且在路由映射中配置相应的子路由</li>
-<li>在组件内部使用 <code>&lt;router-view&gt;</code>标签</li>
+<li>在组件内部再次使用 <code>&lt;router-view&gt;</code>标签</li>
 </ul>
 <p>以下操作作为例子进行路由嵌套</p>
 <p>新建两个vue文件（用于嵌套在home路由上）</p>
@@ -1577,7 +1576,11 @@ $router<span class="token punctuation">.</span><span class="token function">push
 <p>传递参数主要有两种类型：params和query</p>
 <p>params类型：如动态路由的配置  <code>/router/:参数名</code></p>
 <ul>
-<li>传递方式：在path后面跟上响应的值</li>
+<li>传递方式：在配置路由映射时，path后面跟上响应的值进行接收声明 <code>路由路径名/:参数名</code>；<ul>
+<li>接着在组件的router-link的to属性添加参数进行传递 /</li>
+<li>或者利用<code>this.$router.push(&quot;/detail/&quot; + userId)</code>进行进行跳转</li>
+</ul>
+</li>
 <li>传递后形成的路径 <code>/router/123</code>， <code>/router/abc</code></li>
 <li>子组件通过 <code>this.$route.params.参数名</code>获取参数</li>
 </ul>
@@ -2252,7 +2255,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">141.9k</span>&nbsp;字
+                class="white-color">148.7k</span>&nbsp;字
             
             
             

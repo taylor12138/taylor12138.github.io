@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.6k
+                    8.8k
                 </div>
                 
 
@@ -743,6 +743,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> newArr <span class="token operator">=</span> arr<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> index<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> value <span class="token operator">>=</span> <span class="token number">20</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p>find方法有点类似filter，只不过返回的不是新数组，而是返回符合测试条件的第一个数组元素值</p>
 <p>3.<code>some()</code> ：some()方法用于检测数组中的元素是否  <strong>存在</strong>  满足指定条件，通俗点就是查找数组中是否有满足条件的元素，找到第一个满足条件的元素则停止</p>
 <p>（注意它返回的是布尔值）在<code>some</code>里设置<code>return true</code> 以终止遍历</p>
 <p><code>array.some(function(currentValue, index, [arr]))</code>  分别对应currentValue（数组当前项的值），index（索引号），arr（数组本身） </p>
@@ -790,6 +791,10 @@ console<span class="token punctuation">.</span><span class="token function">log<
 
 <span class="token keyword">var</span> arr1 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">Flat1</span><span class="token punctuation">(</span>arr1<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// [1, 2, 3, 4, 5, 6, 7, 8, 9]</span></code></pre>
+<p>展开运算符（仅限双层）</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">Flat1</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span><span class="token operator">...</span>arr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
 <p>多层需要递归</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">Flat5</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span><span class="token punctuation">{</span>
     <span class="token keyword">var</span> newArr <span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
@@ -1102,6 +1107,14 @@ myObj<span class="token punctuation">.</span><span class="token function">getThi
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 <span class="token function">sum</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span></code></pre>
+<h4 id="纯函数"><a href="#纯函数" class="headerlink" title="纯函数"></a>纯函数</h4><p>一类特别的函数，只要是同样的输入（实参），必定得到同样的输出（返回）</p>
+<p>必须遵守以下约束：</p>
+<ul>
+<li>不得改写参数数据（如果传入数组、对象，则不能让他们发生改动）</li>
+<li>不会产生任何副作用（例如网络请求，输入和输出设备）</li>
+<li>不能调用<code>Date.now()</code>或者<code>Math.random()</code>等不纯方法</li>
+</ul>
+<p>redux的reducer必须是一个纯函数</p>
 <h2 id="11-递归"><a href="#11-递归" class="headerlink" title="11.递归"></a>11.递归</h2><p>如果一个函数在内部可以调用其本身，则这个函数是递归（俄罗斯套娃）</p>
 <p>但是容易发生“栈溢出”错误，所以必须加退出条件“return”</p>
 <h4 id="浅拷贝和深拷贝"><a href="#浅拷贝和深拷贝" class="headerlink" title="浅拷贝和深拷贝"></a>浅拷贝和深拷贝</h4><p>（jQuery篇目有提及到（<code>$.extend([deep], target, object1, [objectN])</code>））</p>
@@ -1742,7 +1755,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">141.9k</span>&nbsp;字
+                class="white-color">148.7k</span>&nbsp;字
             
             
             

@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="React, Hexo">
+    <meta name="keywords" content="React(上), Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>React | Hexo</title>
+    <title>React(上) | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">React</h1>
+                    <h1 class="description center-align post-title">React(上)</h1>
                 </div>
             </div>
         </div>
@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.5k
+                    10.5k
                 </div>
                 
 
@@ -513,7 +513,7 @@
 <h4 id="JSX的使用"><a href="#JSX的使用" class="headerlink" title="JSX的使用"></a>JSX的使用</h4><p>直接使用原生js也能创建虚拟dom</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// document.createElement为创建真实dom，以下是创建虚拟dom</span>
 <span class="token comment" spellcheck="true">// 不使用jsx创建虚拟dom，React.createElement(标签名, 标签属性, 标签内容)</span>
-<span class="token keyword">const</span> VDOM <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'h1'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'title'</span><span class="token punctuation">,</span> className<span class="token punctuation">:</span> <span class="token string">'ttile'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token string">'hello, world'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> VDOM <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'h1'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'title'</span><span class="token punctuation">,</span> className<span class="token punctuation">:</span> <span class="token string">'title'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token string">'hello, world'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">// 渲染到页面</span>
 ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>VDOM<span class="token punctuation">,</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'#container'</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
 <p>使用jsx的原因是jsx对于多重嵌套的标签比较容易撰写，而原生js比较难顶</p>
@@ -529,7 +529,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
 <p>2.在大括号中可以填入js的表达式，但不代表所有js语句、js代码</p>
 <ul>
 <li>表达式：一个表达式会产生一个值，可以放在任意一个需要值的地方，简单来说，就是能用变量 <code>const x = 表达式</code>接收的，均为表达式</li>
-<li>不可以填入if、for等js语句</li>
+<li>不可以填入if、for等js语句（但是我们可以使用数组的map、三元表达式等语法来填补）</li>
 </ul>
 <p>3.样式指定类名时不要用class，而是使用className</p>
 <p>4.内联表达式时，style要注意键值的形式去写，这里使用双括号并不是类似于vue的八字胡语法，而是一个大括号填入js表达式，一个大括号表示这是一个对象</p>
@@ -573,13 +573,13 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
 <p>此时内部： React解析组件标签 -&gt; 找到组件 -&gt; 调用函数 -&gt; 虚拟DOM转为真实DOM，随后呈现在页面中</p>
 <h4 id="类式组件"><a href="#类式组件" class="headerlink" title="类式组件"></a>类式组件</h4><p>用类定义的组件</p>
 <p>它适用于复杂的组件定义</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
     <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> <span class="token operator">&lt;</span>h2<span class="token operator">></span>hello React<span class="token operator">&lt;</span><span class="token operator">/</span>h2<span class="token operator">></span>
+        <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">></span></span>hello React<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 <span class="token comment" spellcheck="true">//这里的的render和上方类定义的render没有关系，只是同名罢了</span>
-ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token operator">&lt;</span>MyComponent <span class="token operator">/</span><span class="token operator">></span><span class="token punctuation">,</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'#container'</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
+ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>MyComponent</span> <span class="token punctuation">/></span></span><span class="token punctuation">,</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'#container'</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
 <p>创建类式组件必须<br>1.继承react定义的内置类<br>2.必须写render<br>3.render必须有返回值</p>
 <p>而此时在render打印this，得到的结果为MyComponent实例对象（React内部帮你new了一个）</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>     
@@ -592,8 +592,8 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
 <p>看到其他文章中的组件对象，其实基本上可以默认他们是用类式组件定义的。</p>
 <h4 id="组件三大核心属性之state"><a href="#组件三大核心属性之state" class="headerlink" title="组件三大核心属性之state"></a>组件三大核心属性之state</h4><p>实际上隶属于类式组件，毕竟有实例对象，才有对应的属性</p>
 <p><strong>state</strong>（状态）</p>
-<p>有点像vue的data / vuex的state，存储数据</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
+<p>有点像vue的data / vuex的state，存储数据，在组件化的使用过程中，我们时常把数据存储在组件们共同的父组件的state里（官方称之为状态提升）</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
     <span class="token function">constructor</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token keyword">super</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token keyword">this</span><span class="token punctuation">.</span>state <span class="token operator">=</span> <span class="token punctuation">{</span>
@@ -601,7 +601,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
         <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
     <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> <span class="token operator">&lt;</span>h2<span class="token operator">></span>today is <span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>isHot <span class="token operator">?</span> <span class="token string">'hot'</span> <span class="token punctuation">:</span> <span class="token string">'cold'</span><span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>h2<span class="token operator">></span>
+        <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">></span></span>today is <span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>isHot <span class="token operator">?</span> <span class="token string">'hot'</span> <span class="token punctuation">:</span> <span class="token string">'cold'</span><span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <p><strong>setState</strong>   (状态更新)</p>
@@ -631,6 +631,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
 <p>从这里我们可以看出，每次setState，render都会调用一次对页面进行渲染（有点控制页面回流重绘的感觉，所以绝对不能再render里进行setState），总共调用 1 + n次，而construtor只会在初始化的时候调用一次</p>
 <h4 id="react事件监听（前传）"><a href="#react事件监听（前传）" class="headerlink" title="react事件监听（前传）"></a>react事件监听（前传）</h4><p>原生js <code>onclick</code> -&gt; React <code>onClick</code>        (vue的是 <code>v-on:click=&quot;&quot;</code> 或者<code>@click=&quot;&quot;</code>)</p>
 <p>原生js <code>onblur</code> -&gt; React <code>onBlur</code>             (vue的是 <code>v-on:blur=&quot;&quot;</code> 或者<code>@blur=&quot;&quot;</code>)</p>
+<p>原生js <code>onkeyup</code> -&gt; React <code>onKeyUp</code>          (vue的是 <code>v-on:keyup=&quot;&quot;</code> 或者<code>@keyup=&quot;&quot;</code>)</p>
 <p>普通函数的调用（注意不要加括号！）</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
     <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -715,6 +716,9 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
 <p>（对于Vue，可以直接让子组件在props属性里定义props传入的数据格式即可）</p>
 <pre class=" language-html"><code class="language-html"><span class="token comment" spellcheck="true">&lt;!-- 引入prop-types包 --></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>./js/prop-types.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
+<p>如果是搭建脚手架，React默认没有帮你下载这个限制包，需要自己下载</p>
+<pre class=" language-shell"><code class="language-shell">npm i prop-types</code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> PropType <span class="token keyword">from</span> <span class="token string">'prop-types'</span></code></pre>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 对标签属性进行类型、必要性(required)的限制</span>
 <span class="token comment" spellcheck="true">// 记住上面的时小写props，下面的是大写Props</span>
 MyComponent<span class="token punctuation">.</span>propTypes <span class="token operator">=</span> <span class="token punctuation">{</span>
@@ -845,6 +849,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
 <p>如果你想获取多个节点，就要创建多个<code>React.createRef()</code>，因为它是专有的 </p>
 <pre class=" language-js"><code class="language-js"> <span class="token keyword">class</span> <span class="token class-name">Demo</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
      <span class="token comment" spellcheck="true">//但是注意，该容器是专人专用的！如果再次在这个容器存储的话，会覆盖掉原来用ref标识的节点</span>
+     <span class="token comment" spellcheck="true">//所以一个容器存一个节点</span>
       myRef <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">createRef</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
       clickEvent <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
         <span class="token comment" spellcheck="true">//节点保存在容器里的current中</span>
@@ -898,7 +903,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
     <span class="token punctuation">}</span></code></pre>
 <p><strong>受控组件</strong>（建议）</p>
 <p>也可以说是利用触发本身事件，不需要使用到ref，然后保存于state</p>
-<p>实际上可以理解为Vue的 <code>v-model</code>语法糖，只不过这里需要我们自己写</p>
+<p>这个案例实际上可以理解为Vue的 <code>v-model</code>语法糖，只不过这里需要我们自己写</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">class</span> <span class="token class-name">Login</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
       state <span class="token operator">=</span> <span class="token punctuation">{</span>
         userName<span class="token punctuation">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
@@ -1016,7 +1021,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
       <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
     ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token operator">&lt;</span>Life <span class="token operator">/</span><span class="token operator">></span><span class="token punctuation">,</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'#container'</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
-<p>旧版React生命周期图</p>
+<p><strong>旧版React生命周期图</strong></p>
 <p><img src="../images/React/react_life.png" alt=""></p>
 <p>我们可以看到（由<code>ReactDOM.render()</code>触发）<strong>初始化阶段</strong>：</p>
 <p> <code>constructor</code> -&gt; <code>componentWillMount</code> -&gt; <code>render</code> -&gt; <code>componentDidMount</code></p>
@@ -1032,10 +1037,440 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
 <p>由此我们得到一些其他的生命周期函数</p>
 <p>3.<code>shouldComponentUpdate(){}</code> 控制组件是否更新的阀门时钩子</p>
 <p>4.<code>componentWillUpdate(){}</code> 组件将要发生更新时钩子</p>
-<p>5.<code>componentDidUpdate(){}</code>组件更新完毕时钩子</p>
+<p>5.<code>componentDidUpdate(){}</code>组件更新完毕时钩子，它可以接收两个参数，第一个参数preProps是先前接收的props值，第二个preState是更新前的state值</p>
 <p>6.<code>componentWillReceiveProps(){}</code>父组件 <code>render</code> 再次传入新的props调用</p>
 <p>补充：</p>
 <p><code>forceUpdate()</code>是强制更新的方法、有时并不想使用<code>setState()</code>，只是单纯想让页面发生更新，可以使用这个函数</p>
+<h4 id="新生命周期图"><a href="#新生命周期图" class="headerlink" title="新生命周期图"></a><strong>新生命周期图</strong></h4><p><img src="../images/React/react_life2.png" alt=""></p>
+<p>改动一：</p>
+<p>在新版本（17.0以上）使用旧的生命周期函数</p>
+<p>比如使用 <code>componentWillMount</code> 、 <code>componentWillUpdate</code>、 <code>componentWillReceiveProps</code> 就会出现黄色警告（虽然上图没出现他们三个，但是可以使用）（简称 3 Will组合，但是 <code>componentWillMount()</code> 没事 ）</p>
+<p>它提示你新版本已经开始使用 <code>UNSAFE_componentWillMount</code>、 <code>UNSAFE_componentWillUpdate</code>，并且提示你可能在18.0版本以后就不能使用旧版本的以上的生命周期函数了</p>
+<p><img src="../images/React/react_warn.png" alt=""></p>
+<p>然而为什么这三个生命周期要发生改动？React官方解释道：</p>
+<p>这些生命周期方法经常被误解和滥用（不常用，可能导致编程人员用错地方）；此外，我们预计，在异步渲染中，它们潜在的误用问题可能更大。我们将在即将发布的版本中为这些生命周期添加 “UNSAFE_” 前缀。（这里的 “unsafe” 不是指安全性，而是表示使用这些生命周期的代码在 React 的未来版本中更有可能出现 bug，尤其是在启用异步渲染之后。）</p>
+<p>改动二：</p>
+<p>出现新的钩子：</p>
+<p>1.<code>getDerivedStateFromProps</code>，它横跨初始化 &amp; 更新部分（这部分英文意思可以理解为：从Props得到派生的状态）</p>
+<ul>
+<li><p>它作为一个静态方法（static），应该挂载到类上，而不是挂载到实例上</p>
+</li>
+<li><p>它必须返回一个状态对象，不然会报错（不然也得返回一个null）</p>
+</li>
+<li><p>它可以接受两个参数，即接收props、state，此方法适用于<a href="https://zh-hans.reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html#when-to-use-derived-state" target="_blank" rel="noopener">罕见的用例</a>，即 state 的值在任何时候都取决于 props（将state的 某 <code>key : value</code> 取决于 props 传入的 <code>key : value</code>）</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">static</span> <span class="token function">getDerivedStateFromProps</span><span class="token punctuation">(</span>props<span class="token punctuation">,</span> state<span class="token punctuation">)</span><span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span></code></pre>
+</li>
+</ul>
+<p>但是：！！！派生状态会导致代码冗余，并使组件难以维护，所以了解即可</p>
+<p>2.<code>getSnapshotBeforeUpdate</code>，它钩在React更新DOM 和 refs之前 （这部分英文意思可以理解为：在更新之前，获取快照）（大家回家之前，集体拍个照 * .* ）</p>
+<ul>
+<li><p>它必须返回一个快照值，不然会报错（不然也得返回一个null）</p>
+<ul>
+<li><p>快照值可以是任意类型</p>
+</li>
+<li><p>之前讲述到<code>componentDidUpdate(){}</code>生命周期函数，实质上它可以接收第三个参数，也就是 snapshotValue，而snapshotValue就是 <code>getSnapshotBeforeUpdate</code>钩子函数返回的值</p>
+<pre class=" language-js"><code class="language-js"><span class="token function">componentDidUpdate</span><span class="token punctuation">(</span>preProps<span class="token punctuation">,</span> preState<span class="token punctuation">,</span> snapshotValue<span class="token punctuation">)</span><span class="token punctuation">{</span>
+   <span class="token comment" spellcheck="true">//xxxx</span>
+<span class="token punctuation">}</span></code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<p>虽然这两个新的钩子名字巨长，很恶心，但是官方也阐述了这两个钩子的使用场景极其罕见</p>
+<p>总结：</p>
+<p><strong>初始化阶段</strong>：</p>
+<p> <code>constructor</code> -&gt; <code>getDerivedStateFromProps</code> -&gt; <code>render</code> -&gt; <code>componentDidMount</code></p>
+<p><strong>更新阶段</strong>，同样也有有 <code>setState</code>、 <code>forceUpdate</code>、 父组件重新<code>render</code> 三条时间线，如上图所示</p>
+<h2 id="4-React脚手架"><a href="#4-React脚手架" class="headerlink" title="4.React脚手架"></a>4.React脚手架</h2><p>使用脚手架开发项目的特点：模块化，组件化，工程化</p>
+<p>项目整体技术架构为：react + webpack + es6 + eslint</p>
+<p>当然创建react脚手架必须在本地主机上安装react的专用脚手架库</p>
+<pre class=" language-shell"><code class="language-shell">npm i -g create-react-app </code></pre>
+<p>切换到我们想要的目录下进行初始化</p>
+<pre class=" language-shell"><code class="language-shell">create-react-app 项目名称</code></pre>
+<p>启动项目（默认情况下）</p>
+<pre class=" language-shell"><code class="language-shell">npm start</code></pre>
+<p>打包项目（默认情况下）</p>
+<pre class=" language-shell"><code class="language-shell">npm build</code></pre>
+<p>启动项目（默认情况下）</p>
+<p>React脚手架中通用路径写法：</p>
+<p><code>%PUBLIC_URL%/favicon.ico</code> ：public目录下的favicon图标</p>
+<p>在index.html中可以看到</p>
+<pre class=" language-js"><code class="language-js"><span class="token operator">&lt;</span><span class="token operator">!</span><span class="token operator">--</span> 开启理想窗口、做移动端适配 <span class="token operator">--</span><span class="token operator">></span>
+<span class="token operator">&lt;</span>meta name<span class="token operator">=</span><span class="token string">"viewport"</span> content<span class="token operator">=</span><span class="token string">"width=device-width, initial-scale=1"</span> <span class="token operator">/</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">!</span><span class="token operator">--</span> 用于配置浏览器页签 <span class="token operator">+</span> 地址栏的颜色（仅支持安卓手机） <span class="token operator">--</span><span class="token operator">></span>
+<span class="token operator">&lt;</span>meta name<span class="token operator">=</span><span class="token string">"theme-color"</span> content<span class="token operator">=</span><span class="token string">"#000000"</span> <span class="token operator">/</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">!</span><span class="token operator">--</span> 用于适配苹果系统的图标 <span class="token operator">--</span><span class="token operator">></span>
+<span class="token operator">&lt;</span>link rel<span class="token operator">=</span><span class="token string">"apple-touch-icon"</span> href<span class="token operator">=</span><span class="token string">"%PUBLIC_URL%/logo192.png"</span> <span class="token operator">/</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">!</span><span class="token operator">--</span> 在html上套上安卓 <span class="token operator">/</span> ios的 apk壳 <span class="token operator">--</span><span class="token operator">></span>
+<span class="token operator">&lt;</span>link rel<span class="token operator">=</span><span class="token string">"manifest"</span> href<span class="token operator">=</span><span class="token string">"%PUBLIC_URL%/manifest.json"</span> <span class="token operator">/</span><span class="token operator">></span></code></pre>
+<p>在src文件夹下</p>
+<p>于index.js我们可以看到</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">'react'</span>
+<span class="token keyword">import</span> ReactDOM <span class="token keyword">from</span> <span class="token string">'react-dom'</span>
+<span class="token keyword">import</span> App <span class="token keyword">from</span> <span class="token string">'./App'</span>
+ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>
+  <span class="token operator">&lt;</span>React<span class="token punctuation">.</span>StrictMode<span class="token operator">></span>
+    <span class="token operator">&lt;</span>App <span class="token operator">/</span><span class="token operator">></span>
+  <span class="token operator">&lt;</span><span class="token operator">/</span>React<span class="token punctuation">.</span>StrictMode<span class="token operator">></span><span class="token punctuation">,</span>
+  document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'root'</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>其实也就是平时我们渲染的部分，只是 使用了 <code>&lt;React.StrictMode&gt;</code>，它会自动检查插入组件的撰写是否合理，检查代码合理性</p>
+<p>而reportWebVitals.js 和 setupTests.js 分别用于页面性能分析 和 组件单元测试</p>
+<p>tip：</p>
+<p>在脚手架里，引入文件时，如果文件名是index.js、index.jsx，则引到该文件所处文件夹即可</p>
+<p>在脚手架里，引入文件时，如果文件是js / jsx，可以不写后缀名</p>
+<p>jsx<strong>模板生成的快捷键</strong>（类式组件）： <code>rcc</code> </p>
+<p>jsx<strong>模板生成的快捷键</strong>（函数式组件）： <code>rfc</code> </p>
+<h4 id="脚手架中css模块化"><a href="#脚手架中css模块化" class="headerlink" title="脚手架中css模块化"></a>脚手架中css模块化</h4><p>正常在jsx文件里引入css： <code>import &#39;./index.css&#39;</code></p>
+<p>实现css模块化：方法一</p>
+<p>1.<code>index.css</code> -&gt; <code>index.module.css</code></p>
+<p>2.引入样式：<code>import xx from &#39;./index.module.css&#39;</code> </p>
+<p>3.使用样式 :<code>&lt;h2 className={xx.title}&gt; Hello, React &lt;/h2&gt;</code></p>
+<p>方法二：使用less进行嵌套</p>
+<p>（还是Vue的scope舒服呀）</p>
+<h2 id="5-React开发中应用"><a href="#5-React开发中应用" class="headerlink" title="5.React开发中应用"></a>5.React开发中应用</h2><h4 id="组件数据传递（子传父）"><a href="#组件数据传递（子传父）" class="headerlink" title="组件数据传递（子传父）"></a>组件数据传递（子传父）</h4><p>利用的是回调函数闭包的特性，和Vue的 <code>$emit()</code> 有异曲同工之妙</p>
+<p>父组件：设置函数，并在子组件上使用props传递该函数</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  addTodo <span class="token operator">=</span> <span class="token punctuation">(</span>name<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token comment" spellcheck="true">//得到子组件的数据</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token operator">&lt;</span>div<span class="token operator">></span>
+          <span class="token operator">&lt;</span>Header addTodo<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>addTodo<span class="token punctuation">}</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>Header<span class="token operator">></span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>子组件，使用props接收传入的回调函数，并且将数据作为参数进行调用</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">Footer</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  addTodo <span class="token operator">=</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span>keyCode <span class="token operator">!==</span> <span class="token number">13</span><span class="token punctuation">)</span> <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span><span class="token function">addTodo</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>target<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//进行回调</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">"todo-header"</span><span class="token operator">></span>
+        <span class="token operator">&lt;</span>input type<span class="token operator">=</span><span class="token string">"text"</span> onKeyUp<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>addTodo<span class="token punctuation">}</span> placeholder<span class="token operator">=</span><span class="token string">"请输入你的任务名称，按回车确认"</span> <span class="token operator">/</span><span class="token operator">></span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="id生成库"><a href="#id生成库" class="headerlink" title="id生成库"></a>id生成库</h4><p>在标识数据唯一性我们需要用到id，当使用random、date.now()生成id都有一定弊端，可以借用uuid，一个id库帮助我们生成id</p>
+<pre class=" language-shell"><code class="language-shell">npm i uuid</code></pre>
+<p>开发小项目，我更加推荐的是nanoid</p>
+<pre class=" language-shell"><code class="language-shell">npm i nanoid</code></pre>
+<p>nanoid是一个函数，每次调用都会帮你生成一个字符串，保证全球唯一</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span>nanoid<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nanoid'</span>
+<span class="token keyword">const</span> str <span class="token operator">=</span> <span class="token function">nanoid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="React内部配置代理跨域"><a href="#React内部配置代理跨域" class="headerlink" title="React内部配置代理跨域"></a>React内部配置代理跨域</h4><p><strong>(正向代理)</strong></p>
+<p><strong>新建一个setupProxy.js文件</strong> 在此文件中必须使用cjs的方式撰写（CommonJS），因为这个文件是要加到webpack配置里面的，而webpack用的是node语法</p>
+<p>React脚手架内部已经下载好 <code>http-proxy-middleware</code> 库了</p>
+<p>proxy内部选项介绍：</p>
+<ul>
+<li><p>第一个参数设置前缀名，比如设置了前缀名为<code>/api1</code>，遇到这个前缀的请求就会触发该代理配置，</p>
+<p>原本请求地址 ： <a href="http://localhost:3000/student" target="_blank" rel="noopener">http://localhost:3000/student</a> -&gt; 此时我们需要改成  <a href="http://localhost:3000/api1/student，就会触发代理" target="_blank" rel="noopener">http://localhost:3000/api1/student，就会触发代理</a></p>
+</li>
+<li><p>第二个参数是配置</p>
+<ul>
+<li>target：我们发送的目标跨域url</li>
+<li>changOrigin：默认值为false，控制服务器收到请求头中Host（请求资源所在服务器，也就是发送源）字段的值；当changOrigin: true 时，能欺骗服务器，让服务器以为是同源请求，而不知道你的真实host发送源。（实际上不加其实也没关系，但是防止服务器的限制，比较好一点）</li>
+<li>pathRewrite：重写请求路径，一定要加上，不加上虽然有走代理，请求路径加上了 /api1，不存在该资源，一般会报404</li>
+</ul>
+</li>
+</ul>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> proxy <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'http-proxy-middleware'</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">///使用proxy中间件</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>app<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>
+    <span class="token function">proxy</span><span class="token punctuation">(</span><span class="token string">'/api1'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> 
+      target<span class="token punctuation">:</span> <span class="token string">'http://localhost:5000'</span><span class="token punctuation">,</span> 
+      changOrigin<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      pathRewrite<span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token string">'api1'</span><span class="token punctuation">:</span> <span class="token string">''</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">proxy</span><span class="token punctuation">(</span><span class="token string">'/api2'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+      target<span class="token punctuation">:</span> <span class="token string">'http://localhost:5001'</span><span class="token punctuation">,</span>
+      changOrigin<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      pathRewrite<span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token string">'/api2'</span><span class="token punctuation">:</span> <span class="token string">''</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="消息订阅与发布机制"><a href="#消息订阅与发布机制" class="headerlink" title="消息订阅与发布机制"></a>消息订阅与发布机制</h4><p>工具库 ： PubSubJS</p>
+<p>可以在github上下载，也可以直接npm </p>
+<pre class=" language-shell"><code class="language-shell">npm i pubsub-js --s</code></pre>
+<p>引入后（<code>import PubSub from &#39;pubsub-js&#39;</code> / <code>const PubSub = require(&#39;pubsub-js&#39;);</code>）</p>
+<p>官网使用的案例</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//回调函数</span>
+<span class="token keyword">var</span> mySubscriber <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>msg<span class="token punctuation">,</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+       <span class="token comment" spellcheck="true">//在调用时会传入两个参数，第一个msg就是消息名，第二个data就是交互的数据</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">//订阅消息</span>
+<span class="token keyword">var</span> token <span class="token operator">=</span> PubSub<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token string">'MY TOPIC'</span><span class="token punctuation">,</span> mySubscriber<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//第一个参数消息名</span>
+<span class="token comment" spellcheck="true">//第二个参数是收到消息后的回调函数，即如果有人发布了该消息名则进行回调</span>
+
+<span class="token comment" spellcheck="true">//发布消息</span>
+PubSub<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span><span class="token string">'MY TOPIC'</span><span class="token punctuation">,</span> <span class="token string">'hello world!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//第一个参数消息名</span>
+<span class="token comment" spellcheck="true">//第二个参数是传送的数据</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//token接收到订阅的返回值，后续可以使用下列方式取消订阅，防止内存泄漏</span>
+PubSub<span class="token punctuation">.</span><span class="token function">unsubscribe</span><span class="token punctuation">(</span>token<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>利用这个订阅发布机制，我们可以实现兄弟组件的通信！（有点像Vue的eventBus）</p>
+<p>小栗子：</p>
+<pre class=" language-js"><code class="language-js"> <span class="token comment" spellcheck="true">// 订阅消息名为SearchGitHhub的消息</span>
+  <span class="token function">componentDidMount</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>token <span class="token operator">=</span> PubSub<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token string">'SearchGitHhub'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>msg<span class="token punctuation">,</span> stateObj<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span>stateObj<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">componentWillUnmount</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 临走前取消订阅</span>
+    PubSub<span class="token punctuation">.</span><span class="token function">unsubscribe</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>token<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span></code></pre>
+<pre class=" language-js"><code class="language-js"> <span class="token comment" spellcheck="true">// 发布消息名为SearchGitHhub的数据</span>
+PubSub<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span><span class="token string">'SearchGitHhub'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> isFirst<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> isLoading<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h2 id="6-React路由"><a href="#6-React路由" class="headerlink" title="6.React路由"></a>6.React路由</h2><p>React和Vue一样，都是采取单页面富应用的方式配置网页（SPA），即单个页面通过路由的切换，展示不同的数据信息，</p>
+<p>而且改变url，依然是页面不发生整体刷新（只做页面的局部刷新）</p>
+<p>React-router有三种实现方式，分别对应三种平台 </p>
+<p>1.web </p>
+<p>2.native </p>
+<p>3.anwhere</p>
+<h2 id="针对Web的路由"><a href="#针对Web的路由" class="headerlink" title="针对Web的路由"></a>针对Web的路由</h2><p>针对Web，我们使用的是<strong><code>react-router-dom</code></strong></p>
+<ul>
+<li>react的一个插件库</li>
+<li>专门用来实现一个SPA应用</li>
+<li>基于react的项目基本会用到这个库</li>
+</ul>
+<p>脚手架并没有自动帮你下载 <code>react-router-dom</code></p>
+<pre class=" language-shell"><code class="language-shell">npm i react-router-dom</code></pre>
+<p>首先需要包裹路由，让单页面的所有组件使用统一路由，老师推荐的方式是直接在包裹在渲染APP组件那一块</p>
+<p><strong>BrowserRouter &amp; HashRouter</strong></p>
+<ul>
+<li>BrowserRouter使用H5的history API，不兼容IE9以下版本；HashRouter使用URL的哈希值</li>
+<li>HashRouter路径带 #</li>
+<li>对于BrowserRouter，刷新后state参数能得以保存，但是HashRouter会丢失state参数（我觉得可能history模式使用到了sessionStorage存储数据）</li>
+<li>HashRouter可以解决一些关于路径问题（可以看路由嵌套小节的<strong>路径坑</strong>部分）</li>
+</ul>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token comment" spellcheck="true">//index.js</span>
+ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>BrowserRouter</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>App</span> <span class="token punctuation">/></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>BrowserRouter</span><span class="token punctuation">></span></span><span class="token punctuation">,</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'#root'</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
+<p>在主页面App.jsx中引入 + 使用</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token comment" spellcheck="true">// 引入react-router-dom中需要使用的模块</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> Link<span class="token punctuation">,</span> Route <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-router-dom'</span>
+<span class="token comment" spellcheck="true">//引入自定义组件</span>
+<span class="token keyword">import</span> Home <span class="token keyword">from</span> <span class="token string">'./component/Home'</span>
+<span class="token keyword">import</span> About <span class="token keyword">from</span> <span class="token string">'./component/About'</span></code></pre>
+<p>在render中（在Vue中是使用 <code>&lt;router-link&gt;</code>），这里Home、About都属于路由组件，也就是通过路由进行展示，推荐把路由组件放在pages文件夹，而不是放在components文件夹</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Link</span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/about<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>About<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Link</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Link</span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/home<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Home<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Link</span><span class="token punctuation">></span></span>
+<span class="token punctuation">{</span><span class="token comment" spellcheck="true">/* 注册路由 */</span><span class="token punctuation">}</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">path</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/about<span class="token punctuation">"</span></span> <span class="token attr-name">component</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>About<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Route</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">path</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/home<span class="token punctuation">"</span></span> <span class="token attr-name">component</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>Home<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Route</span><span class="token punctuation">></span></span></code></pre>
+<p><strong>NavLink</strong></p>
+<p>如果想要使得link标签点击完后有高亮效果，可以引入 + 使用 <code>&lt;NavLink&gt;</code>，实际上内部还是 <code>&lt;link&gt;</code>，只是你点击了哪一个 <code>Link</code>，就会自动给该 <code>Link</code>添加一个 样式，类名为<strong>active</strong>，当然也可以定义类名（使用activeClassName），自定义link标签点击后的样式</p>
+<p>（在Vue中是通过定义Router实例LinkActiveClass属性进行自定义类名的）</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>NavLink</span> <span class="token attr-name">activeClassName</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>自定义类名<span class="token punctuation">"</span></span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/home<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Home<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>NavLink</span><span class="token punctuation">></span></span></code></pre>
+<p><strong>Link的其他属性的补充</strong></p>
+<p>默认push方式进入路由，可以替换成replace：<code>replace={true}</code>，或者直接</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Link</span> <span class="token attr-name">replace</span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/home<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Home<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Link</span><span class="token punctuation">></span></span></code></pre>
+<p><strong>路由匹配</strong></p>
+<p>在进行路由注册时，我们不难发现，如果是进入 <code>/home</code> 路由，则Home、Other组件都会展示</p>
+<p>这说明路由匹配完成后还会向下匹配，如果有很多路由，则会逐个匹配，导致效率不高</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">path</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/about<span class="token punctuation">"</span></span> <span class="token attr-name">component</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>About<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Route</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">path</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/home<span class="token punctuation">"</span></span> <span class="token attr-name">component</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>Home<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Route</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">path</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/home<span class="token punctuation">"</span></span> <span class="token attr-name">component</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>Other<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Route</span><span class="token punctuation">></span></span></code></pre>
+<p>我们可以使用 <code>Switch</code>，用Switch组件包裹所有注册路由，这时匹配到路由后就不会继续向下匹配</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">import</span> <span class="token punctuation">{</span>Switch<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-router-dom'</span><span class="token punctuation">;</span></code></pre>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Switch</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">path</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/about<span class="token punctuation">"</span></span> <span class="token attr-name">component</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>About<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Route</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">path</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/home<span class="token punctuation">"</span></span> <span class="token attr-name">component</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>Home<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Route</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">path</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/home<span class="token punctuation">"</span></span> <span class="token attr-name">component</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>Other<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Route</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Switch</span><span class="token punctuation">></span></span></code></pre>
+<p><strong>模糊匹配</strong></p>
+<p>路由匹配遵从模糊匹配，比如下方link的to在匹配路由时，以 <code>/home/a/b</code> 进行匹配  ，Home组件依然能得到展示。</p>
+<p>但是一定要按照顺序，比如link 的 to里为  <code>/a/home/b</code>就不可以</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Link</span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/about<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>About<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Link</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Link</span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/home/a/b<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Home<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Link</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">path</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/about<span class="token punctuation">"</span></span> <span class="token attr-name">component</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>About<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Route</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">path</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/home<span class="token punctuation">"</span></span> <span class="token attr-name">component</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>Home<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Route</span><span class="token punctuation">></span></span>   <span class="token punctuation">{</span><span class="token comment" spellcheck="true">/* 可以展示 */</span><span class="token punctuation">}</span></code></pre>
+<p>如果想要精准匹配（严格匹配），不要搞模糊匹配，则需要添加 <strong><code>exact</code></strong> 属性（但是这个属性在开发中少用，可能引发一些问题，比如<strong>不能开启二级路由</strong>，非要用到时才要用）</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">exact</span> <span class="token attr-name">path</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/home<span class="token punctuation">"</span></span> <span class="token attr-name">component</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>Home<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Route</span><span class="token punctuation">></span></span></code></pre>
+<h4 id="路由重定向"><a href="#路由重定向" class="headerlink" title="路由重定向"></a>路由重定向</h4><pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">import</span> <span class="token punctuation">{</span> Redirect <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-router-dom'</span></code></pre>
+<p>默认网页对于每个路由都不匹配（没有点击Link进行路匹配时），此时我们可以使用 <code>Redirect</code>组件进行重定向，让默认网页跳转到某个路由（Redirect一般写在路由注册的最下方，当所有路由都无法匹配时，跳转到Redirect指定路由）</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Switch</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">path</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/about<span class="token punctuation">"</span></span> <span class="token attr-name">component</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>About<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Route</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">path</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/home<span class="token punctuation">"</span></span> <span class="token attr-name">component</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>Home<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Route</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Redirect</span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/about<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+    <span class="token punctuation">{</span><span class="token comment" spellcheck="true">/* 谁都匹配不上了就去about */</span><span class="token punctuation">}</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Switch</span><span class="token punctuation">></span></span></code></pre>
+<h4 id="一般组件和路由组件"><a href="#一般组件和路由组件" class="headerlink" title="一般组件和路由组件"></a>一般组件和路由组件</h4><p>上方阐述的是路由组件的使用，他们有各自的不同之处（不过Vue就没一般组件、路由组件那么多事）</p>
+<p>1.一般组件直接使用，路由组件通过路由 <code>link</code>切换，然后依靠路由匹配决定渲染哪一个</p>
+<p>2.一般组件存放于components文件夹，路由组件存放于pages文件夹（公司通用）</p>
+<p>3.一般组件如果父组件没传props，则收到空对象，路由组件默认会受到props：history、location、match</p>
+<p>4.传参方式不一样，一般组件直接属性传值，props接收，路由组件有三种传参方式</p>
+<h4 id="插槽"><a href="#插槽" class="headerlink" title="插槽"></a>插槽</h4><p>使用上述 <code>NavLink</code>、<code>Link</code> 方法来写路由链接时，有许多冗余的地方，比如多个NavLink使用相同类名、active类名时，有很高的重复性</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>NavLink</span> <span class="token attr-name">activeClassName</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>自定义类名<span class="token punctuation">"</span></span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/home<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Home<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>NavLink</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>NavLink</span> <span class="token attr-name">activeClassName</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>自定义类名<span class="token punctuation">"</span></span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/about<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>About<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>NavLink</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>NavLink</span> <span class="token attr-name">activeClassName</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>自定义类名<span class="token punctuation">"</span></span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/other<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Other<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>NavLink</span><span class="token punctuation">></span></span></code></pre>
+<p>我们可以自己封装MyLink！(外加小插槽)</p>
+<p>标签体内容的接收可以使用插槽，在子组件接收的props里，如果插槽有内容，则自动使用children属性进行接收</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>MyLink</span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/about<span class="token punctuation">"</span></span> <span class="token punctuation">></span></span>About<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>MyLink</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>MyLink</span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/home<span class="token punctuation">"</span></span> <span class="token punctuation">></span></span>Home<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>MyLink</span><span class="token punctuation">></span></span></code></pre>
+<p>定义封装的子组件</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">MyLink</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+        <span class="token operator">&lt;</span>NavLink className<span class="token operator">=</span><span class="token string">"list-group-item"</span> <span class="token punctuation">{</span><span class="token operator">...</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token operator">></span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>children<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>NavLink</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="路由嵌套"><a href="#路由嵌套" class="headerlink" title="路由嵌套"></a>路由嵌套</h4><p><strong>路径坑</strong></p>
+<p>如果React直接在路径头嵌套，有可能导致引入文件路径也相对发生错误</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Link</span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/something/about<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>About<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Link</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Link</span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/something/home<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Home<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Link</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">path</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/something/about<span class="token punctuation">"</span></span> <span class="token attr-name">component</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>About<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Route</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">path</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/something/home<span class="token punctuation">"</span></span> <span class="token attr-name">component</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>Home<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Route</span><span class="token punctuation">></span></span></code></pre>
+<p>原本引入css样式的路径为</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>./css/bootstrap.css<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></code></pre>
+<p>在切换路由 + F5刷新后路径会随之更改</p>
+<p><img src="../images/React/react_router.jpg" alt=""></p>
+<p>解决方法一：</p>
+<p>改变路径，去掉当前路径 <code>./</code>，直接 <code>/</code>是去到url的public目录下</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/css/bootstrap.css<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></code></pre>
+<p>解决方法二：与上方同理</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>%PUBLIC_URL%/css/bootstrap.css<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></code></pre>
+<p>解决方法三：使用HashRouter</p>
+<p>因为它有一个锚点 <code>#</code>，这样子发送请求时会忽略 <code>#</code>后面的相关哈希值（路由）</p>
+<p><strong>路由嵌套二级路由</strong></p>
+<p>和Vue一样，使用多重路由嵌套只需在路由组件里，再放置路由组件（Link + Route 组合），切记，这里和Vue一样，link里的to必须要写完整路径（带上父级路由），这样子计算子路由组件未显示，路由也能遵从模糊匹配至少展示一级路由的页面效果</p>
+<p>比如</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token punctuation">{</span><span class="token comment" spellcheck="true">/* 这里需要给完整的路径， 不能直接to="/news" */</span><span class="token punctuation">}</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>MyLink</span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/home/news<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>News<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>MyLink</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>MyLink</span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/home/messages<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Messages<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>MyLink</span><span class="token punctuation">></span></span></code></pre>
+<p>当然了，我们的路由注册也得写完整的path路径</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token punctuation">{</span><span class="token comment" spellcheck="true">/* 路由注册 */</span><span class="token punctuation">}</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">path</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/home/Messages<span class="token punctuation">"</span></span> <span class="token attr-name">component</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>Messages<span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">path</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/home/News<span class="token punctuation">"</span></span> <span class="token attr-name">component</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>News <span class="token punctuation">}</span></span><span class="token punctuation">/></span></span></code></pre>
+<h4 id="路由传参"><a href="#路由传参" class="headerlink" title="路由传参"></a>路由传参</h4><p>传递参数主要有两种类型：params和query（同Vue）</p>
+<p><strong>params</strong>：需要分别在Link 、 Route里进行声明（只有params才需要声明接收参数）</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span><span class="token punctuation">></span></span>
+            <span class="token punctuation">{</span>
+                messageArr<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>item <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+                    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+                        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">key</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>item<span class="token punctuation">.</span>id<span class="token punctuation">}</span></span><span class="token punctuation">></span></span>
+                            <span class="token punctuation">{</span><span class="token comment" spellcheck="true">/* 向路由组件传递params参数 */</span><span class="token punctuation">}</span>
+                            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Link</span> <span class="token attr-name">to</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token template-string"><span class="token string">`/home/Messages/Detail/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>item<span class="token punctuation">.</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>item<span class="token punctuation">.</span>title<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token punctuation">{</span>item<span class="token punctuation">.</span>title<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Link</span><span class="token punctuation">></span></span>
+                        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+                    <span class="token punctuation">)</span>
+                <span class="token punctuation">}</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hr</span> <span class="token punctuation">/></span></span>
+        <span class="token punctuation">{</span><span class="token comment" spellcheck="true">/* 声明接收params参数 */</span><span class="token punctuation">}</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">path</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/home/Messages/Detail/:id/:title<span class="token punctuation">"</span></span> <span class="token attr-name">component</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>Detail<span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token punctuation">)</span></code></pre>
+<p>此时你查看子路由组件 Detail 的 props上接收的参数会有所变化，稍稍查看可得知，在<code>this.props.match.params</code>可找到你传递的参数</p>
+<p><strong>search</strong>传参</p>
+<p>search传参的方式实际上也就是query参数</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span><span class="token punctuation">></span></span>
+          <span class="token punctuation">{</span>
+            messageArr<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>item <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+              <span class="token keyword">return</span> <span class="token punctuation">(</span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">key</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>item<span class="token punctuation">.</span>id<span class="token punctuation">}</span></span><span class="token punctuation">></span></span>
+                  <span class="token punctuation">{</span><span class="token comment" spellcheck="true">/* 向路由组件传递search参数 */</span><span class="token punctuation">}</span>
+                  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Link</span> <span class="token attr-name">to</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token template-string"><span class="token string">`/home/messages/detail/?id=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>item<span class="token punctuation">.</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&amp;title=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>item<span class="token punctuation">.</span>title<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token punctuation">{</span>item<span class="token punctuation">.</span>title<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Link</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+              <span class="token punctuation">)</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span>
+          <span class="token punctuation">}</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hr</span> <span class="token punctuation">/></span></span>
+        <span class="token punctuation">{</span><span class="token comment" spellcheck="true">/* search无需声明接收，正常注册路由即可 */</span><span class="token punctuation">}</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">path</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/home/messages/detail<span class="token punctuation">"</span></span> <span class="token attr-name">component</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>Detail<span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token punctuation">)</span></code></pre>
+<p>此时你查看子路由组件 Detail 的 props上接收的参数会有所变化，稍稍查看可得知，在<code>this.props.location.search</code>可找到你传递的参数</p>
+<p>可是！</p>
+<p>但是参数的形式是 “?id=01&amp;titile=message1”</p>
+<p>对于query参数 ：key=value&amp;key=value其实是一种叫urlencoded的编码形式</p>
+<p>我们可以使用React脚手架帮我们下载好的库 <code>querystring</code>直接转换</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">import</span> qs <span class="token keyword">from</span> <span class="token string">'querystring'</span>
+qs<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//对象转urlencoded</span>
+qs<span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//urlencoded转对象</span></code></pre>
+<p>然后我们可以进行正式的格式转换了</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">const</span> <span class="token punctuation">{</span> search <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>location<span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token punctuation">{</span> id<span class="token punctuation">,</span> title <span class="token punctuation">}</span> <span class="token operator">=</span> qs<span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>search<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//截取掉开头的"?"</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">,</span> id<span class="token punctuation">,</span> search<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>会不会感觉有点像json和string的相互转换？：</p>
+<p><code>JSON.stringify(对象)</code>     JavaScript 值(对象或数组)转换为 JSON 字符串</p>
+<p><code>JSON.parse(data)</code>            字符转对象</p>
+<p><strong>state传参</strong></p>
+<p>这个是路由组件独有的状态，和一般组件里的state是不一样的</p>
+<p>state传参你在url地址栏是看不到的，而params和search传参在地址栏可以看到明显的改变</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span><span class="token punctuation">></span></span>
+            <span class="token punctuation">{</span>
+                messageArr<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>item <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+                    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+                        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">key</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>item<span class="token punctuation">.</span>id<span class="token punctuation">}</span></span><span class="token punctuation">></span></span>
+                            <span class="token punctuation">{</span><span class="token comment" spellcheck="true">/* 向路由组件传递state参数 */</span><span class="token punctuation">}</span>
+                            <span class="token punctuation">{</span><span class="token comment" spellcheck="true">/* to要写成一个对象的形式 */</span><span class="token punctuation">}</span>
+                            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Link</span> <span class="token attr-name">to</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span> pathname<span class="token punctuation">:</span> <span class="token string">'/home/messages/detail'</span><span class="token punctuation">,</span> state<span class="token punctuation">:</span> <span class="token punctuation">{</span> id<span class="token punctuation">:</span> item<span class="token punctuation">.</span>id<span class="token punctuation">,</span> title<span class="token punctuation">:</span> item<span class="token punctuation">.</span>title <span class="token punctuation">}</span> <span class="token punctuation">}</span></span><span class="token attr-name">}</span><span class="token punctuation">></span></span><span class="token punctuation">{</span>item<span class="token punctuation">.</span>title<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Link</span><span class="token punctuation">></span></span>
+                        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+                    <span class="token punctuation">)</span>
+                <span class="token punctuation">}</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hr</span> <span class="token punctuation">/></span></span>
+        <span class="token punctuation">{</span><span class="token comment" spellcheck="true">/* state无需声明接收，正常注册路由即可 */</span><span class="token punctuation">}</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">path</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/home/messages/detail<span class="token punctuation">"</span></span> <span class="token attr-name">component</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>Detail<span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token punctuation">)</span></code></pre>
+<p>（Maybe你会发现和Vue的query传参有点像？）</p>
+<p>此时你查看子路由组件 Detail 的 props上接收的参数会有所变化，稍稍查看可得知，在<code>this.props.location.state</code>可找到你传递的参数</p>
+<p>虽然使用state传参方式，刷新页面不会丢失参数（实际上是因为history对象帮你缓存了），但是如果你强行清除缓存，在接收时就会“不见了”</p>
+<h4 id="编程式路由"><a href="#编程式路由" class="headerlink" title="编程式路由"></a><strong>编程式路由</strong></h4><p>在不借助 <code>Link</code>的条件下进行路由切换，自己定义函数进行跳转切换，这种方式叫做编程式路由导航</p>
+<p>感觉有点像Vue中对router-link原理的延伸 ：<code>this.$router.push(&quot;/home&quot;);</code></p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token comment" spellcheck="true">//编程式路由导航 + params传参</span>
+replaceCheck <span class="token operator">=</span> <span class="token punctuation">(</span>id<span class="token punctuation">,</span> title<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>history<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`/home/messages/detail/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>title<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//编程式路由导航 + query传参</span>
+pushcheck <span class="token operator">=</span> <span class="token punctuation">(</span>id<span class="token punctuation">,</span> title<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>history<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`/home/messages/detail?id=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&amp;title=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>title<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//编程式路由导航 + state传参</span>
+pushcheck <span class="token operator">=</span> <span class="token punctuation">(</span>id<span class="token punctuation">,</span> title<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>history<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`/home/messages/detail`</span></span><span class="token punctuation">,</span> <span class="token punctuation">{</span>id<span class="token punctuation">:</span>id<span class="token punctuation">,</span> title<span class="token punctuation">:</span>title<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>同样的，如果想实现网页前进 + 后退功能；也可以使用</p>
+<p><code>this.props.history.goForward()</code>、<code>this.props.history.goBack()</code></p>
+<h4 id="withRouter"><a href="#withRouter" class="headerlink" title="withRouter"></a>withRouter</h4><p>上方讲述了许多关于路由组件的api，但是这些都仅限于路由组件，如果想要在一般组件使用，可以使用到 <code>withRouter</code></p>
+<p><code>withRouter(一般组件)</code> 就会添加上路由组件身上特有的三个属性：history、location、match！</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">class</span> <span class="token class-name">Header</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span><span class="token punctuation">{</span>
+ <span class="token comment" spellcheck="true">//</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">withRouter</span><span class="token punctuation">(</span>Header<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 
             </div>
             <hr/>
@@ -1061,7 +1496,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2021/05/06/react/">https://taylor12138.github.io/2021/05/06/react/</a>
+                    <a href="https://taylor12138.github.io/2021/05/06/react-shang/">https://taylor12138.github.io/2021/05/06/react-shang/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1264,34 +1699,33 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/05/06/react/">
+                <a href="/2021/05/16/react-xia/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="React">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="React(下)">
                         
-                        <span class="card-title">React</span>
+                        <span class="card-title">React(下)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.React简介react由Facebook开发 &amp; 开源的一个用于构建用户界面、将数据渲染为html视图的开源JavaScript库
-react相对于原生js的优点：
+                            由于React部分太多了，分上下两篇进行浏览
+7.React UI库material-ui（国外）
 
-采用组件化模式，声明式编码，提高组件复用率
-React N
+官网：https://material-ui.com/zh/ 
+GitHub：https://github.com/mui-org/mat
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-05-06
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-05-16
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1304,7 +1738,6 @@ React N
                         </span>
                     </div>
                 </div>
-
                 
             </div>
         </div>
@@ -1547,7 +1980,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">141.9k</span>&nbsp;字
+                class="white-color">148.7k</span>&nbsp;字
             
             
             

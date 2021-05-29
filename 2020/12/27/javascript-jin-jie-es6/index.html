@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.6k
+                    8.8k
                 </div>
                 
 
@@ -726,7 +726,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p><code>s.size()</code> 返回<code>Set</code>实例的成员总数</p>
 <p>Set结构实例与数组一样，也有forEach方法，用于对每个成员执行某种操作，没有返回值</p>
 <h4 id="map数据结构"><a href="#map数据结构" class="headerlink" title="map数据结构"></a>map数据结构</h4><p> 是一个带键的数据项的集合，就像一个 <code>Object</code> 一样。 但是它们最大的差别是 <code>Map</code> 允许任何类型的键（key），“键”的范围不限于字符串，各种类型的值（包括对象）都可以当作键</p>
-<p>（<code>Object</code>的键为字符串）。</p>
+<p>（<code>Object</code>的键只能为字符串，其实还能为数值或符号，但它们都会转化为字符串）。</p>
 <p>Map 的遍历顺序就是插入顺序。</p>
 <p><strong>使用对象</strong>作为键是 <code>Map</code> 最值得注意和重要的功能之一</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Map</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -744,22 +744,41 @@ map<span class="token punctuation">.</span><span class="token keyword">set</span
 <span class="token function">alert</span><span class="token punctuation">(</span> map<span class="token punctuation">.</span>size <span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 3</span></code></pre>
 <p>方法 + 属性</p>
 <ul>
-<li><code>new Map()</code> —— 创建 map。</li>
-<li><code>map.set(key, value)</code> —— 根据键存储值。</li>
-<li><code>map.get(key)</code> —— 根据键来返回值，如果 <code>map</code> 中不存在对应的 <code>key</code>，则返回 <code>undefined</code>。</li>
-<li><code>map.has(key)</code> —— 如果 <code>key</code> 存在则返回 <code>true</code>，否则返回 <code>false</code>。</li>
-<li><code>map.delete(key)</code> —— 删除指定键的值。</li>
-<li><code>map.clear()</code> —— 清空 map。</li>
-<li><code>map.size</code> —— 返回当前元素个数。</li>
-<li><code>map.keys()</code> —— 遍历并返回所有的键（returns an iterable for keys），</li>
-<li><code>map.values()</code> —— 遍历并返回所有的值（returns an iterable for values）</li>
-<li><code>map.entries()</code>—— 遍历并返回所有的键值对</li>
+<li><p><code>new Map()</code> —— 创建 map。</p>
+</li>
+<li><p><code>map.set(key, value)</code> —— 根据键存储值。</p>
+</li>
+<li><p><code>map.get(key)</code> —— 根据键来返回值，如果 <code>map</code> 中不存在对应的 <code>key</code>，则返回 <code>undefined</code>。</p>
+</li>
+<li><p><code>map.has(key)</code> —— 如果 <code>key</code> 存在则返回 <code>true</code>，否则返回 <code>false</code>。</p>
+</li>
+<li><p><code>map.delete(key)</code> —— 删除指定键的值。</p>
+</li>
+<li><p><code>map.clear()</code> —— 清空 map。</p>
+</li>
+<li><p><code>map.size</code> —— 返回当前元素个数。</p>
+</li>
+<li><p><code>map.keys()</code> —— 遍历并返回所有的键（returns an iterable for keys），</p>
+</li>
+<li><p><code>map.values()</code> —— 遍历并返回所有的值（returns an iterable for values）</p>
+</li>
+<li><p><code>map.entries()</code>—— 遍历并返回所有的键值对，entries实际上是引用了 <code>[Symbol.iterator]</code>这个属性</p>
+<ul>
+<li><pre class=" language-js"><code class="language-js">map<span class="token punctuation">.</span>entries <span class="token operator">===</span> map<span class="token punctuation">[</span>Symbol<span class="token punctuation">.</span>iterator<span class="token punctuation">]</span> <span class="token comment" spellcheck="true">//true</span></code></pre>
+</li>
+</ul>
+</li>
 </ul>
 <p>只有对同一个对象的引用，Map 结构才将其视为同一个键。这一点要非常小心。</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Map</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 map<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">555</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 map<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// undefined</span></code></pre>
+<p>map和Object对比：</p>
+<p>1.内存占用：给固定大小的内存，Map大约可以比Object多存储50%键值对</p>
+<p>2.插入性能：Object和Map插入新的键值对消耗大致相当，不过插入Map在所有浏览器中一般会稍微快一点儿</p>
+<p>3.查找速度：与插入不同，从大型Object和Map中查找键值对的性能差异极小，如果涉及大量查找工作（对两个类型而言，查找速度不会随着键值对数量增加而增加），某些情况可能Object更好一点</p>
+<p>4.删除性能：删除Objcet属性的性能一直以来饱受诟病，而对于大多数浏览器引擎来说，Map的<code>delete()</code>删除操作甚至比插入和查找更快，无疑时Map完胜</p>
 <h4 id="弱引用类型"><a href="#弱引用类型" class="headerlink" title="弱引用类型"></a>弱引用类型</h4><p>（很多属性、迭代方法不能用 + 保存的元素有限制）</p>
 <p><code>let s = new WeakSet()</code>保存的元素必须得是引用类型（对象 / 数组）（DOM元素也是对象，所以也能存储）</p>
 <p><code>let map = new WeakMap()</code>的<code>key</code> 必须得是引用类型（对象 / 数组）（DOM元素也是对象，所以也能存储）</p>
@@ -1914,7 +1933,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">148.7k</span>&nbsp;字
+                class="white-color">162.2k</span>&nbsp;字
             
             
             

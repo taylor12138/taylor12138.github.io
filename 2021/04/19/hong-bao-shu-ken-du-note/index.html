@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="红宝书的啃读, Hexo">
+    <meta name="keywords" content="红宝书啃读note, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>红宝书的啃读 | Hexo</title>
+    <title>红宝书啃读note | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">红宝书的啃读</h1>
+                    <h1 class="description center-align post-title">红宝书啃读note</h1>
                 </div>
             </div>
         </div>
@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.2k
+                    2.2k
                 </div>
                 
 
@@ -583,6 +583,66 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token function">change</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>实质上参数传递有点像let 一个变量 obj2 ，然后让 obj2 = obj的操作</p>
 <p>为了补救垃圾回收时类似循环引用的问题，IE9把BOM、DOM对象都改成了JavaScript对象</p>
+<h2 id="第五章"><a href="#第五章" class="headerlink" title="第五章"></a>第五章</h2><p><strong>正则表达式</strong></p>
+<p>正则表达式使用到元字符需要使用 <code>\</code> 进行转义，如果正则表达式是使用 RegExp 构造函数来创建，由于参数模式是字符串，所以需要进行二次转义 <code>\\</code></p>
+<p>比如字面量模式： <code>/\[bc\]at/</code>           字符串模式：<code>\\[bc\\]at</code></p>
+<p>RegExp实例的主要方法是 <code>exec()</code>，返回一个数组，包含匹配的信息，匹配不到返回null</p>
+<p>如果要获取匹配的字符串：<code>/.de/.exec(&#39;ffff&#39;)[0]</code></p>
+<p>g全局匹配：</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> text <span class="token operator">=</span> <span class="token string">"cat, bat, sat, fat"</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> pattern <span class="token operator">=</span> <span class="token regex">/.at/g</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> matches <span class="token operator">=</span> pattern<span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//cat的数组</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>matches<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> matches2 <span class="token operator">=</span> pattern<span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//bat的数组</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>matches2<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><strong>字符串方法</strong></p>
+<p><code>str.indexOf(子字符串)</code>从字符串开头找子字符串</p>
+<p><code>str.indexOf(子字符串, index)</code>从字符串index位置开始找子字符串</p>
+<p><code>str.lastindexOf(子字符串)</code>从字符串末尾开始查找子字符串</p>
+<p><strong>单例内置对象</strong></p>
+<p>Global对象：它是ECMA中最特别的对象，因为代码不会显式地访问它。事实上，不存在全局变量或全局函数这种东西，在全局作用域中定义的变量的函数都会变成Global对象的属性，我们所了解的 <code>isNaN()</code>、  <code>parseInt()</code>、  <code>parseFloat()</code>实际上都是Global对象的方法；而NAN、undefined、Array也都是Global的属性。</p>
+<p>而我们平时属性的window对象，是Global对象的代理（ECMA-262没有规定直接访问Global对象的方式）</p>
+<p><code>eval()</code>方法：它可能是ECMAScript语言中最强大的方法，它就是一个完整的ECMAScript解释器</p>
+<pre class=" language-js"><code class="language-js"><span class="token function">eval</span><span class="token punctuation">(</span><span class="token string">"console.log('good!')"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//等同于</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"good"</span><span class="token punctuation">)</span></code></pre>
+<p>当解释器发现 <code>eval()</code>时，会将参数解释为实际的ECMAScript语句，然后将其插入到该位置，通过 <code>eval()</code>执行的代码属于<strong>该调用所在上下文</strong>，被执行的代码与该上下文拥有相同的作用域链。这意味着包含上下文中的变量可以在<code>eval()</code>调用内部被引用</p>
+<p>这里eval调用的msg属于外部上下文，因为第二行代码会被替换成一行真正的函数调用代码</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> msg <span class="token operator">=</span> <span class="token string">"Batman"</span><span class="token punctuation">;</span>
+<span class="token function">eval</span><span class="token punctuation">(</span><span class="token string">"console.log(msg)"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//"Batman"</span></code></pre>
+<p>函数say是在eval内部定义的，因为该调用会被替换为真正的函数定义</p>
+<pre class=" language-js"><code class="language-js"><span class="token function">eval</span><span class="token punctuation">(</span><span class="token string">"function say(){ console.log('good!'); }"</span><span class="token punctuation">)</span>
+<span class="token function">say</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                    <span class="token comment" spellcheck="true">//good!</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token function">eval</span><span class="token punctuation">(</span><span class="token string">"let msg = 'Batman'"</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span><span class="token punctuation">;</span>         <span class="token comment" spellcheck="true">//Err</span></code></pre>
+<h2 id="第六章"><a href="#第六章" class="headerlink" title="第六章"></a>第六章</h2><p><strong>对象属性</strong></p>
+<p>一般通过点语法进行获取，但也可以使用中括号</p>
+<pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>person<span class="token punctuation">[</span><span class="token string">"name"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>person<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>只不过中括号的主要优势在于可以通过变量访问属性</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> s <span class="token operator">=</span> <span class="token string">"name"</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>person<span class="token punctuation">[</span>s<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><strong>数组</strong></p>
+<p>数组空位：</p>
+<p>使用数组字面量初始化数组时，可以使用一串逗号来创建空位。ES6之前的方法会忽略空位，ES6新增方法普遍将这些空位当成存在的元素，只不过值为undefined。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> option <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">,</span><span class="token punctuation">,</span><span class="token punctuation">,</span><span class="token punctuation">,</span><span class="token punctuation">]</span><span class="token punctuation">;</span></code></pre>
+<p>索引自动扩容</p>
+<p>如果把一个值设置给超过数组最大索引的索引，数组长度就会自动扩展到该索引值+1</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> colors <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"red"</span><span class="token punctuation">,</span> <span class="token string">"blue"</span><span class="token punctuation">,</span> <span class="token string">"green"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+colors<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"black"</span><span class="token punctuation">;</span>
+colors<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"white"</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>colors<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//red, blue, black, white</span></code></pre>
+<p>修改length</p>
+<p>数组length的独特之处在于，它不是只读的，通过修改length属性，可以实现从数组末尾删除 / 添加元素（Vue2.0的缺点之一就是不能通过修改数组length得到响应式的结果），添加的元素通过undefined进行填充</p>
+<p><strong>搜索位置和方法</strong></p>
+<p><code>indexOf()</code> <code>lastIndexOf()</code> <code>includes()</code>其中前两个在任何版本都可以使用，第三个时ES7新增</p>
+<p><code>indexOf()</code> <code>includes()</code>从开头搜索匹配元素，<code>lastIndexOf()</code>从结尾开始搜索</p>
+<p><code>indexOf()</code> <code>lastIndexOf()</code>找不到返回-1， <code>includes()</code>返回布尔值</p>
+<p>它们都是用全等 <code>===</code>进行比较的</p>
+<p><strong>定性数组</strong></p>
+<p><code>ArrayBuffer</code>是所有定型数组及视图引用的基本单位，它是一个普通的JS构造函数，可用于在内存中分配特定数量的字节空间。</p>
+<p>一经创建便不能再调整大小</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> buf <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayBuffer</span><span class="token punctuation">(</span><span class="token number">16</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//在内存中分配16个字节</span></code></pre>
 
             </div>
             <hr/>
@@ -608,7 +668,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2021/04/19/hong-bao-shu-de-ken-du/">https://taylor12138.github.io/2021/04/19/hong-bao-shu-de-ken-du/</a>
+                    <a href="https://taylor12138.github.io/2021/04/19/hong-bao-shu-ken-du-note/">https://taylor12138.github.io/2021/04/19/hong-bao-shu-ken-du-note/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1093,7 +1153,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">148.7k</span>&nbsp;字
+                class="white-color">162.2k</span>&nbsp;字
             
             
             

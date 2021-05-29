@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.2k
+                    4.3k
                 </div>
                 
 
@@ -711,7 +711,10 @@ transform:translate(-50%,-50%);</code></pre><p>但是它对行内标签没有效
 <li>可以先把父元素隐藏起来，添加完子元素后，在把父元素显示出来；亦或者使用文档片段(document fragment)在当前DOM之外构建一个子树，再把它拷贝回文档</li>
 <li>减少使用table布局</li>
 <li>不要把 <code>DOM</code> 节点的属性值放在一个循环里当成循环里的变量</li>
-<li>使用<strong>transform、opacity、filters这些动画不会引起回流重绘</strong>，因为他们是在paint之后的</li>
+<li>使用<strong>transform、opacity、filters这些动画不会引起回流重绘</strong>，因为他们是在paint之后的<ul>
+<li>比如我在使用了<code>transform:translate()</code>后，无法获取正确的<code>offsetTop</code>、<code>offsetLeft</code>，由于他们未进行回流重绘，虽然视觉上确实是移动了，但是div在文档流中的位置是不变的</li>
+</ul>
+</li>
 </ul>
 <h4 id="浏览器对于回流重绘的优化"><a href="#浏览器对于回流重绘的优化" class="headerlink" title="浏览器对于回流重绘的优化"></a>浏览器对于回流重绘的优化</h4><p>现代的浏览器都是很聪明的，由于每次重排都会造成额外的计算消耗，因此大多数浏览器都会通过队列化修改并批量执行来优化重排过程</p>
 <p>但是：<strong>当你获取布局信息的操作的时候，会强制队列刷新</strong>，比如当你访问以下属性或者使用以下方法：</p>
@@ -1230,7 +1233,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">148.7k</span>&nbsp;字
+                class="white-color">162.2k</span>&nbsp;字
             
             
             

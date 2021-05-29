@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.2k
+                    6.3k
                 </div>
                 
 
@@ -537,7 +537,7 @@ prompt(info) //弹出输入框，提供用户输入 但是都是以字符的形�
 <p>（1）String-&gt;int：    parseInt(String)；           </p>
 <p>（2） String-&gt;float:    parseFloat(String)；</p>
 <p>（3）Number强制转换（String转数值）：Number(String)    但是Number转换字符串是相对复杂且有点反常规，建议使用parseInt</p>
-<p>（4）利用加减乘除：String-String或String-int之类的</p>
+<p>（4）利用减乘除（没有+）：String-String或String-int之类的</p>
 <p>String转ascii码</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">"A"</span><span class="token punctuation">;</span>
 str<span class="token punctuation">.</span><span class="token function">charCodeAt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// 65</span>
@@ -586,7 +586,7 @@ str1<span class="token punctuation">.</span><span class="token function">charCod
 </li>
 <li><p><code>typeof 函数</code> 返回 function</p>
 </li>
-<li><p>以创建对象的方式，用typeof判断是否为object都会为true，它不能精确到具体的object</p>
+<li><p>以创建对象的方式（显示创建原始值包装类型实例），用typeof判断是否为object都会为true，它不能精确到具体的object</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> s <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">(</span><span class="token string">'abc'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">typeof</span> s <span class="token operator">===</span> <span class="token string">'object'</span><span class="token comment" spellcheck="true">// true</span>
 s <span class="token keyword">instanceof</span> <span class="token class-name">String</span> <span class="token comment" spellcheck="true">// true</span></code></pre>
@@ -612,6 +612,7 @@ s <span class="token keyword">instanceof</span> <span class="token class-name">S
 <ul>
 <li>数组可以被 <code>instanceof</code> 判断为 Object</li>
 <li>只能判断对象，对原始类型(简单数据类型)不能判断</li>
+<li>对于 <code>value instanceof Array</code>，我们还可以使用 <code>Array.isArray(value)</code>，后者是ECMAScript提供为了解决多框架涉及多版本Array的<code>instancof</code>升级版方法</li>
 </ul>
 </li>
 </ul>
@@ -707,7 +708,7 @@ Math<span class="token punctuation">.</span><span class="token function">random<
 Math<span class="token punctuation">.</span><span class="token function">floor</span><span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">(</span>x_max<span class="token operator">-</span>x_min<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">+</span>x_min<span class="token comment" spellcheck="true">//得到两个数之间的随机整数</span>
 Math<span class="token punctuation">.</span><span class="token function">sqrt</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span>   <span class="token comment" spellcheck="true">//返回一个数的平方根</span>
 Math<span class="token punctuation">.</span><span class="token function">pow</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//3^2次方，当然也可以使用 3 ** 2来表示</span></code></pre>
-<p>函数 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed" target="_blank" rel="noopener">toFixed(n)</a> 将数字舍入到小数点后 <code>n</code> 位，并以<strong>字符串</strong>形式返回结果。如果后续还想再用该数字，记得转回number</p>
+<p>函数 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed" target="_blank" rel="noopener">toFixed(n)</a> 将数字舍入（四舍五入）到小数点后 <code>n</code> 位，并以<strong>字符串</strong>形式返回结果。如果后续还想再用该数字，记得转回number</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">let</span> num <span class="token operator">=</span> <span class="token number">12.34</span><span class="token punctuation">;</span>
 <span class="token function">alert</span><span class="token punctuation">(</span> num<span class="token punctuation">.</span><span class="token function">toFixed</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// "12.3"</span></code></pre>
 <h3 id="（2）Date对象"><a href="#（2）Date对象" class="headerlink" title="（2）Date对象"></a>（2）Date对象</h3><p>是一个构造函数，必须使用new调用</p>
@@ -783,8 +784,8 @@ arr<span class="token punctuation">.</span><span class="token function">slice</s
                                                               <span class="token comment" spellcheck="true">//这里是指从start到end-1，不包含end</span>
 arr<span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>arrayX<span class="token punctuation">,</span> arrayX<span class="token punctuation">,</span> arryX<span class="token punctuation">)</span>                             <span class="token comment" spellcheck="true">//concat() 方法用于连接两个或多个数组。</span>
                                                               <span class="token comment" spellcheck="true">//该方法不会改变现有的数组，而仅仅会返回被连接数组的一                                                               //个副本。</span>
-Array<span class="token punctuation">.</span><span class="token keyword">from</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">//from() 方法用于通过拥有 length 属性的对象或可迭代的对象来返回一个数组;</span>
-                     <span class="token comment" spellcheck="true">//如果对象是数组返回 true，否则返回 false。</span></code></pre>
+Array<span class="token punctuation">.</span><span class="token keyword">from</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">//() 方法用于通过拥有 length 属性的对象或可迭代的对象来返回一个数组(浅拷贝的数组实例);</span>
+                     <span class="token comment" spellcheck="true">//对于字符串有点类似于 Array.from(str) = str.spilt("");</span></code></pre>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">//案例，数组去重</span>
 <span class="token comment" spellcheck="true">//利用indexoOf，返回-1则添加入新数组</span>
 <span class="token keyword">function</span> <span class="token function">unique</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -811,10 +812,14 @@ str<span class="token punctuation">.</span><span class="token function">charAt</
 str<span class="token punctuation">.</span><span class="token function">charCodeAt</span><span class="token punctuation">(</span>位置<span class="token punctuation">)</span><span class="token punctuation">;</span>                    <span class="token comment" spellcheck="true">//根据位置返回字符的ASCII码</span>
 str<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">;</span>                             <span class="token comment" spellcheck="true">//同str.charAt，H5新增</span>
 str<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span>被替换的字符<span class="token punctuation">,</span>替换的字符<span class="token punctuation">)</span><span class="token punctuation">;</span>       <span class="token comment" spellcheck="true">//只替换掉里面第一个字符</span>
+str<span class="token punctuation">.</span><span class="token function">includes</span><span class="token punctuation">(</span>xx<span class="token punctuation">)</span><span class="token punctuation">;</span>                       <span class="token comment" spellcheck="true">//是否含有该子字符串，返回布尔值</span>
 str<span class="token punctuation">.</span><span class="token function">trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                         <span class="token comment" spellcheck="true">//方法会从一个字符串的两端删除空白字符，它并不影响本身的字符串，它返回的是一个新的字符串</span></code></pre>
 <p>判断一个对象是否有该属性 可使用对象[‘属性名’], 返回true则有，反则返回false</p>
-<h4 id="截取字符串"><a href="#截取字符串" class="headerlink" title="截取字符串"></a>截取字符串</h4><pre class=" language-javascript"><code class="language-javascript">str<span class="token punctuation">.</span><span class="token function">substr</span><span class="token punctuation">(</span>start<span class="token punctuation">,</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//start位置开始，length取的个数，省略length则默认取到最后</span>
-str<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span>start<span class="token punctuation">,</span>end<span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">//start开始，截取到end，但是end截取不到</span></code></pre>
+<h4 id="截取字符串"><a href="#截取字符串" class="headerlink" title="截取字符串"></a>截取字符串</h4><p>（和concat一样，他们不会影响原来的字符串，只会返回提取到的原始新字符串值）</p>
+<p>这三个方法在面对负值参数时又有三个不同的效果</p>
+<pre class=" language-javascript"><code class="language-javascript">str<span class="token punctuation">.</span><span class="token function">substr</span><span class="token punctuation">(</span>start<span class="token punctuation">,</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//start位置开始，length取的个数，省略length则默认取到最后</span>
+str<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span>start<span class="token punctuation">,</span>end<span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">//start开始，截取到end，但是end截取不到</span>
+str<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span>start<span class="token punctuation">,</span>end<span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">//start开始，截取到end，end可以截取到</span></code></pre>
 <p>数组对象转字符用join()，字符转数组用split</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">'red, pink, blue'</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>str<span class="token punctuation">.</span><span class="token function">spilt</span><span class="token punctuation">(</span><span class="token string">','</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//用逗号分隔</span>
@@ -853,7 +858,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <h4 id="浅拷贝和深拷贝"><a href="#浅拷贝和深拷贝" class="headerlink" title="浅拷贝和深拷贝"></a>浅拷贝和深拷贝</h4><p><strong>深拷贝和浅拷贝是只针对object和Array这样的引用数据类型的</strong></p>
 <h5 id="1-赋值"><a href="#1-赋值" class="headerlink" title="1.赋值"></a>1.赋值</h5><p>当我们把一个对象赋值给一个新的变量时，<strong>赋的其实是该对象在栈中的地址，而不是堆中的数据</strong>，只要修改了里面的的值，原来都都会受到影响</p>
 <h5 id="2-浅拷贝"><a href="#2-浅拷贝" class="headerlink" title="2.浅拷贝"></a>2.浅拷贝</h5><p><strong>他会创建一个新对象</strong>，这个对象有着原始对象属性值的一份精确拷贝。如果属性基本类型，拷贝的基本类型的值（修改后原来的变量的值不会受到影响）；如果属性是内存地址（引用类型，比如数组、对象），拷贝的就是内存地址，即其中一个变量修改了这个地址存放的对象，则另外一个会受到影响</p>
-<p>数组的浅拷贝可以使用：<code>Array.prototype.concat()</code>、<code>Array.prototype.slice()</code>，他们不会修改原数组，只是返回了一个浅拷贝的新数组</p>
+<p>数组的浅拷贝可以使用：<code>Array.prototype.concat()</code>、<code>Array.prototype.slice()</code>、<code>Array.from(arr)</code>，他们不会修改原数组，只是返回了一个浅拷贝的新数组</p>
 <p>对象可以使用 ：<code>Object.assgin()</code>或者 <code>let obj2 = {...obj1}</code> (（ECMAScript 2018规范新增特性）)</p>
 <h5 id="3-深拷贝"><a href="#3-深拷贝" class="headerlink" title="3.深拷贝"></a>3.深拷贝</h5><p>所谓”深拷贝”，就是能够实现真正意义上的数组和对象的拷贝，使得两个对象不会相互影响</p>
 <p>具体深拷贝的手写我在 “JavaScript进阶ES5+面向对象”篇章中写过</p>
@@ -1454,7 +1459,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">148.7k</span>&nbsp;字
+                class="white-color">162.2k</span>&nbsp;字
             
             
             

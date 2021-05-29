@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5k
+                    6.1k
                 </div>
                 
 
@@ -505,7 +505,7 @@
 <span class="token keyword">import</span> <span class="token punctuation">{</span> Button <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'antd'</span>
 <span class="token keyword">import</span> <span class="token string">'antd/dist/antd.css'</span></code></pre>
 <p>Vue的话推荐使用element-UI库，后面反响不错，也出了react的UI</p>
-<h2 id="8-redux"><a href="#8-redux" class="headerlink" title="8.redux"></a>8.redux</h2><p>redux是一个专门做状态管理的JS库</p>
+<h2 id="8-redux"><a href="#8-redux" class="headerlink" title="8.redux"></a>8.redux</h2><p>redux是一个专门做状态管理的JS库（集中式管理）</p>
 <p>它可以在React、Angular、Vue等项目中，但基本和React配合使用</p>
 <ul>
 <li>作用：集中式管理react应用中多个组件共享状态</li>
@@ -945,7 +945,7 @@ React<span class="token punctuation">.</span><span class="token function">useEff
     <span class="token operator">...</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
 <span class="token operator">&lt;</span><span class="token operator">/</span><span class="token operator">></span></code></pre>
 <p>只不过如果使用fragment标签，可以给它添加key属性： <code>&lt;Fragment key={1}&gt;</code>，所以使用fragment标签可以进行遍历，二空标签不行</p>
-<h4 id="Context"><a href="#Context" class="headerlink" title="Context"></a>Context</h4><p>一种组件间通信方式，常用于祖组件和后代组件的通信（祖孙），在应用开发中一般不用context, 一般都用它的封装react插件</p>
+<h4 id="Context"><a href="#Context" class="headerlink" title="Context"></a>Context</h4><p>一种组件间通信方式（生产消费者模式），常用于祖组件和后代组件的通信（祖孙），在应用开发中一般不用context, 一般都用它的封装react插件</p>
 <p>（回忆：父传子直接props，子传父用回调，兄弟等跨父子可用订阅发布机制或者redux）</p>
 <p>1.创建Context容器对象：<code>const XxxContext = React.createContext()</code> </p>
 <p>2.渲染子组时，外面包裹<code>xxxContext.Provider</code>标签, 通过value属性给后代组件传递数据</p>
@@ -1008,6 +1008,143 @@ React<span class="token punctuation">.</span><span class="token function">useEff
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
   <span class="token punctuation">)</span>
 <span class="token punctuation">}</span></code></pre>
+<h4 id="React的插槽技术"><a href="#React的插槽技术" class="headerlink" title="React的插槽技术"></a>React的插槽技术</h4><p>在我们封装自定义的 <code>Link</code> 标签时（React（上）路由篇章部分），我们直接在自定义路由组件标签内写入文字，从而在子组件里面可以使用 <code>children</code>属性进行接收（<code>this.props.children</code>）</p>
+<p>插槽技术的实用性在于：预留位置，随时改变整个组件</p>
+<p>由此，我们可以看到React在处理组件插槽时的策略</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>A</span><span class="token punctuation">></span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>B</span> <span class="token punctuation">/></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>A</span><span class="token punctuation">></span></span> 
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">class</span> <span class="token class-name">A</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+        I am A
+        <span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>children<span class="token punctuation">}</span> 
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">class</span> <span class="token class-name">B</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+        I am B
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>此时B要算作A的子组件，可是此时B如何获取到A的state呢？以上的 <code>children props</code>只能实现传递结构，无法传递数据</p>
+<p>我们要使用<code>render props</code>（实际上也有点像利用正常的子传父闭包特性实现）</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+        <span class="token punctuation">{</span><span class="token comment" spellcheck="true">/* render是自定义的属性名，但是我们一般都定义为render */</span><span class="token punctuation">}</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>A</span> <span class="token attr-name">render</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token operator">&lt;</span>B name<span class="token punctuation">=</span><span class="token punctuation">{</span>name<span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span><span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">class</span> <span class="token class-name">A</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  state <span class="token operator">=</span> <span class="token punctuation">{</span>
+    name<span class="token punctuation">:</span> <span class="token string">'Allen'</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+        I am A
+        <span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">}</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">class</span> <span class="token class-name">B</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+        I am B
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>br</span> <span class="token punctuation">/></span></span>
+        <span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>name<span class="token punctuation">}</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>由此，我们也可以是实现作为插槽的父子组件数据传递了</p>
+<p>在Vue中，以上被称为slot技术。</p>
+<h4 id="错误边界"><a href="#错误边界" class="headerlink" title="错误边界"></a>错误边界</h4><p>由于某些不可控因素，代码错误、后端数据问题、服务器崩溃、返回数据undefined等</p>
+<p>而ErrorBoundary，不要让一个子组件的错误，影响到整个组件都无法呈现</p>
+<p>我们之前学习过 <code>getDerivedStateFromProps</code>钩子（新钩子），这一次是 我们使用 <code>getDerivedStateFromError</code>处理错误边界</p>
+<p><code>getDerivedStateFromError</code>：</p>
+<ul>
+<li>如果该组件的子组件出现任何的报错，都会调用这个钩子，并携带错误信息作为参数</li>
+<li>它必须返回一个状态对象，只能捕获后代组件生命周期产生的错误（包括render）</li>
+<li><code>getDerivedStateFromError</code> 经常搭配另外一个不太常用的 钩子 <code>componentDidCatch</code> 一起使用 </li>
+</ul>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  state <span class="token operator">=</span> <span class="token punctuation">{</span>
+    hasError<span class="token punctuation">:</span> <span class="token string">''</span>  <span class="token comment" spellcheck="true">//用于表示子组件是否产生错误</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment" spellcheck="true">// 在出错组件的父组件进行处理 getDerivedStateFromError</span>
+  <span class="token keyword">static</span> <span class="token function">getDerivedStateFromError</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span> hasError<span class="token punctuation">:</span> err <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment" spellcheck="true">// 统计子组件错误次数，反馈给服务器，用于通知编码人员bug的解决：</span>
+  <span class="token function">componentDidCatch</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+        I am App
+        <span class="token punctuation">{</span><span class="token comment" spellcheck="true">/* 不过在生产环境下其实还是会出现网页整体报错，但是打包后就不会了 0.0  */</span><span class="token punctuation">}</span>
+        <span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>hasError <span class="token operator">?</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">></span></span>当前网络不稳定，请稍后重试<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span> <span class="token punctuation">:</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>A</span> <span class="token punctuation">/></span></span><span class="token punctuation">}</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="10-React优化"><a href="#10-React优化" class="headerlink" title="10.React优化"></a>10.React优化</h2><p>问题一：执行<code>setState</code>的时候，即使state未发生改变，也会重新render（不过redux的更新也由此得益）</p>
+<p>问题二：React中使用父子组件嵌套时，父组件使用props传入state的状态，发生 setState 时state改变，setState触发 <code>render()</code>，而传入的props也随之改变，子组件也发生 <code>render()</code>；但是如果没有传入props，父组件发生 <code>render()</code>更新时，因为子组件也放在 <code>render()</code>里面，所以子组件即使没什么要改的地方，也不得不随着父组件一起 <code>render()</code>更新</p>
+<p>造成原因：</p>
+<ul>
+<li>Component中的<code>shouldComponentUpdate()</code>总是返回true（拉闸开门）</li>
+</ul>
+<p>在我们研究中，可以判断：</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token function">shouldComponentUpdate</span><span class="token punctuation">(</span>nextProps<span class="token punctuation">,</span> nextState<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//当前组件的props、state</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>nextProps<span class="token punctuation">,</span> nextState<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//发生更新后的props、更新后的state</span>
+    <span class="token keyword">return</span> <span class="token operator">!</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>属性 <span class="token operator">===</span> nextProps<span class="token punctuation">.</span>属性 <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>属性 <span class="token operator">===</span> nextState<span class="token punctuation">.</span>属性
+<span class="token punctuation">}</span></code></pre>
+<p>在开发中解决：</p>
+<p>我们可以使用React带的 <code>PureComponent</code>，它能帮我们自动重写阀门这个逻辑</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span> PureComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span></code></pre>
+<p>然后定义类式组件时，原本继承Component -&gt; 继承PureComponent</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">PureComponent</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//xxx</span>
+<span class="token punctuation">}</span></code></pre>
+<p>但实际上 <code>PureComponent</code> 有些许小瑕疵（类似于redux小bug）,它在底层也是做一个浅比较，如果只是数据对象内部数据变了，<code>shouldComponentUpdate()</code>返回false</p>
+<pre class=" language-jsx"><code class="language-jsx">changeSomething <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> obj <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">;</span>
+    obj<span class="token punctuation">.</span>username <span class="token operator">=</span> <span class="token string">'Bruce'</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//地址没有改变，不发生变化</span>
+    <span class="token comment" spellcheck="true">// this.setState({ username: 'Bruce' }) 这个也不顶用了</span>
+    <span class="token comment" spellcheck="true">// 之前不推荐使用push、unshift</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span> student <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">;</span>
+    student<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token string">'Olivia'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span> student<span class="token punctuation">:</span> student <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">////地址没有改变，不发生变化</span>
+<span class="token punctuation">}</span></code></pre>
+<p> 正确写法：</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    username<span class="token punctuation">:</span><span class="token string">'Bruce'</span><span class="token punctuation">,</span>
+    student<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'Olivia'</span><span class="token punctuation">,</span> <span class="token operator">...</span>student<span class="token punctuation">]</span> 
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 
             </div>
             <hr/>
@@ -1236,34 +1373,35 @@ React<span class="token punctuation">.</span><span class="token function">useEff
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/05/16/react-xia/">
+                <a href="/2021/05/22/typescript/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="React(下)">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="TypeScript">
                         
-                        <span class="card-title">React(下)</span>
+                        <span class="card-title">TypeScript</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            由于React部分太多了，分上下两篇进行浏览
-7.React UI库material-ui（国外）
+                            1.结识TypeScript传统上，JS旨在用于简短，快速运行的代码片段，作为浏览器脚本语言，主要用途是与用户互动，以及操作DOM，所以JS比较适合单线程。
+但是由此导致后期维护性比较差
 
-官网：https://material-ui.com/zh/ 
-GitHub：https://github.com/mui-org/mat
+面向对象撰写麻烦
+没有类型规范
+
+TypeScri
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-05-16
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-05-22
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1276,7 +1414,6 @@ GitHub：https://github.com/mui-org/mat
                         </span>
                     </div>
                 </div>
-
                 
             </div>
         </div>
@@ -1519,7 +1656,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">148.7k</span>&nbsp;字
+                class="white-color">162.2k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.8k
+                    8.9k
                 </div>
                 
 
@@ -585,6 +585,7 @@ son<span class="token punctuation">.</span><span class="token function">sum</spa
 <span class="token punctuation">}</span>
 <span class="token keyword">var</span> son <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Son</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
 son<span class="token punctuation">.</span><span class="token function">say</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>如果在子类中添加了和父类相同的方法，则子类的方法会覆盖掉父类的方法（在当前屏蔽掉父类的方法），此举动可以称为方法的重写</p>
 <h4 id="需要注意的三点"><a href="#需要注意的三点" class="headerlink" title="需要注意的三点"></a>需要注意的三点</h4><p>1.ES6中类没有变量提升，所以必须先定义类，才能通过实例化对象</p>
 <p>2.类里的共有属性和方法一定要加this进行使用 （this指向我们创立的·实例化对象）</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> that<span class="token punctuation">;</span>
@@ -886,7 +887,7 @@ o<span class="token punctuation">.</span><span class="token function">say</span>
 <p>1.普通函数调用：window</p>
 <p>2.构造函数调用：实例对象，原型对象也是指向实例对象（同样的，类中this也是指向实例对象）</p>
 <p>3.对象方法：该方法所属对象</p>
-<p>4.事件绑定：绑定事件对象</p>
+<p>4.事件绑定：绑定事件对象（当前情况指的是位于回调函数的内部中this指向）</p>
 <p>5.定时器函数：window</p>
 <p>6.立即执行函数：window</p>
 <p>但是立即执行函数还得看这时this是否在对象方法或者构造函数中，第二个虽然是立即执行函数，但是它先找的是全局变量foo，再找到foo.bar，所以this返回的是foo作用域的a</p>
@@ -1185,10 +1186,10 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token keyword">var</span> rg2 <span class="token operator">=</span> <span class="token regex">/123/g</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>rg<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token number">123</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//true</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>rg<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token number">12123</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//true</span></code></pre>
-<p>g：全局模式，查找字符串全部内容，不是找到第一个匹配就结束</p>
+<p>g：全局模式，查找字符串全部内容，再次匹配时会向前搜索下一个匹配项</p>
 <p>i：不区分大小写</p>
 <p>m：多行模式，表示查找到一行末尾会继续查找</p>
-<p>y：粘附模式，表示只查找从lastIndex开始之后的字符串</p>
+<p>y：粘附模式，每次调用<code>exec()</code>就只会在lastIndex的位置上寻找匹配字段</p>
 <p>u：Unicode模式</p>
 <p>s：dotAll模式，表示元字符 <code>.</code> 可以匹配任何字符</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token string">"address_address"</span><span class="token punctuation">;</span>
@@ -1196,7 +1197,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token keyword">let</span> reg <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RegExp</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> <span class="token string">"g"</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//在正则中使用变量</span>
 rg<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"字符串"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>             <span class="token comment" spellcheck="true">//是否包含该字符串，返回布尔值</span>
 <span class="token function">eval</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`/a</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>a<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/`</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"字符串"</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//在正则中使用变量 + 其他字符</span>
-a<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span>rg<span class="token punctuation">)</span><span class="token punctuation">;</span>                  <span class="token comment" spellcheck="true">//返回匹配的字符串 + 具体信息，若正则启用全局模式，则返回一个数组，返回所有匹配的字符串</span>
+a<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span>rg<span class="token punctuation">)</span><span class="token punctuation">;</span>                  <span class="token comment" spellcheck="true">//返回匹配的字符串 + 具体信息，若正则启用全局模式，则返回一个数组，包含所有匹配的字符串</span>
 rg<span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>                   <span class="token comment" spellcheck="true">//和match差不多，只不过不受全局模式的影响，如果开全局模式，下次再匹配一次，则从lastIndex</span>
                               <span class="token comment" spellcheck="true">//开始匹配，在这里也就是从 下标为1的d 开始匹配</span></code></pre>
 <h4 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h4><p>一个正则表达式可以由简单的字符构成，比如/abc/， 也可以是简单和特殊字符串的组合，比如/ab*c/。其中特殊字符也被称为元字符，在正则表达式中具有特殊意义的专用符号，如^ 、$ 、+  等</p>
@@ -1755,7 +1756,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">148.7k</span>&nbsp;字
+                class="white-color">162.2k</span>&nbsp;字
             
             
             

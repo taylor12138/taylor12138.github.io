@@ -513,7 +513,8 @@
 <p>H5新增获取元素方法，根据类名获取</p>
 <p><code>document.getElementsByClassName(&#39;类名&#39;);</code></p>
 <p>H5新增的万能选择器，<code>querySelector</code>返回选择器的第一个元素对象，切记里面选择器需要加符号</p>
-<p><code>querySelectorAll</code>  返回指定选择器的所有对象集合（伪数组），但是通过querySelectorAll获取的是NodeList集合，是死的，不会随着数据更新而改变，最好使用 <code>getElementsByTagName</code> 这些进行替代</p>
+<p><code>querySelectorAll</code>  返回指定选择器的所有对象集合（伪数组），但是通过querySelectorAll获取的是返回的是<code>NodeListOf&lt;HTMLElementTagNameMap[K]&gt;</code>，经过了一次包装（有了一个包装对象！），保存的是当时状态的快照，所以是静态的，是死的，不会随着数据更新而改变，最好使用 <code>getElementsByTagName</code> 这些进行替代</p>
+<p>里面的原理我们可以从typescript角度来观看 <a href="https://blog.csdn.net/HermitSun/article/details/95780715" target="_blank" rel="noopener">https://blog.csdn.net/HermitSun/article/details/95780715</a></p>
 <p>伪数组可以使用es6的扩展运算符转化为数组：<code>let lis2 = [...lis]</code></p>
 <pre class=" language-js"><code class="language-js"> <span class="token comment" spellcheck="true">// 选择类名</span>
 <span class="token keyword">var</span> firstbox <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'.box'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -1376,7 +1377,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">162.2k</span>&nbsp;字
+                class="white-color">167.6k</span>&nbsp;字
             
             
             

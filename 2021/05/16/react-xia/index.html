@@ -657,10 +657,10 @@ store<span class="token punctuation">.</span><span class="token function">subscr
 <span class="token comment" spellcheck="true">// 使用connect()()创建并且暴露一个Count容器组件</span>
 <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">(</span>CountUI<span class="token punctuation">)</span></code></pre>
 <p>此时把原来引入UI组件替换成容器的自定义组件</p>
-<p><strong>连接store的方式</strong>：在app组件使用容器组件时，通过定义属性props方式传入store</p>
+<p><strong>连接store的方式</strong>：在app组件使用容器组件时，通过定义属性props方式对 <code>Count</code> 容器 传入store（之前是导入 store后 ，通过  <code>store.getState()</code>获取数据的 ）</p>
 <pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span>
-<span class="token comment" spellcheck="true">//import Count from './components/Count'</span>
-<span class="token keyword">import</span> Count <span class="token keyword">from</span> <span class="token string">'./containers/Count'</span>
+<span class="token comment" spellcheck="true">//import Count from './components/Count' //现在不需要在app.jsx文件里直接导入UI组件</span>
+<span class="token keyword">import</span> Count <span class="token keyword">from</span> <span class="token string">'./containers/Count'</span>   <span class="token comment" spellcheck="true">//而是需要导入container组件</span>
 <span class="token keyword">import</span> store <span class="token keyword">from</span> <span class="token string">'./redux/store'</span>
 <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
   <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -672,7 +672,7 @@ store<span class="token punctuation">.</span><span class="token function">subscr
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <p><strong>开始container 和 component的数据交互</strong></p>
-<p>由于容器组件的创建比较不走寻常路所以它传递给子组件（UI组件）props的方式也有点不寻常</p>
+<p>由于容器组件的创建比较不走寻常路，所以它传递给子组件（UI组件）props的方式也有点不寻常</p>
 <p>在连接UI组件时使用到的connect API，要传入两个参数，并且得传两个函数（mapStateToProps函数、mapDispatchToProps函数）作为参数 。（在上方react-redux模型图可以看到第一个参数传状态，第二个参数传方法）</p>
 <p><strong>mapStateToProps</strong>（函数）</p>
 <p>1.mapStateToProps函数的返回值是一个对象<br>2.作为状态(key: value 组合的对象)传递给UI组件<br>3.通过props传入store，使得第一个参数的函数默认传入store的state状态作为参数（state = store.getState()）</p>
@@ -1656,7 +1656,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">162.2k</span>&nbsp;字
+                class="white-color">167.6k</span>&nbsp;字
             
             
             

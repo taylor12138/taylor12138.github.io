@@ -534,11 +534,13 @@ int bagV = 8;                            //背包大小</code></pre>
     dp[i][j] = dp[i - 1][j];
 else
     dp[i][j] = max(dp[i - 1][j], dp[i][j - w[i]] + v[i]);</code></pre>
-<p>用i的原因</p>
+<p>用<code>i</code>的原因</p>
 <p>因为完全背包，即物品可以重复叠加，即我们应该从本行中提取，不断更新本行的数据</p>
 <h4 id="背包问题之装满背包的方案总数"><a href="#背包问题之装满背包的方案总数" class="headerlink" title="背包问题之装满背包的方案总数"></a>背包问题之装满背包的方案总数</h4><p>(详情可以查看以下博主的讲解 <a href="https://blog.csdn.net/wumuzi520/article/details/7021210" target="_blank" rel="noopener">https://blog.csdn.net/wumuzi520/article/details/7021210</a>)</p>
 <p>对于01背包，设置初始值 </p>
-<pre><code>F[0][0] = 1</code></pre><p>状态转移方程式</p>
+<pre><code>F[0][0] = 1
+F[1~n][0] = 1
+F[0][1~m] = 0</code></pre><p>状态转移方程式</p>
 <p><img src="../images/%E7%AE%97%E6%B3%95%E7%9F%A5%E8%AF%86/bag2.jpg" alt=""></p>
 <p>然后就可以计算填满当前（每一列 j 都是对应不同的背包容量时的数量）背包容量时的总数</p>
 <p>而完全背包的状态转移方程是则应该为</p>
@@ -1079,7 +1081,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">162.2k</span>&nbsp;字
+                class="white-color">167.6k</span>&nbsp;字
             
             
             

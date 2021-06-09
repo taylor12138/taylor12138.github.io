@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.9k
+                    9.3k
                 </div>
                 
 
@@ -521,7 +521,11 @@
     a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <h4 id="类的继承"><a href="#类的继承" class="headerlink" title="类的继承"></a>类的继承</h4><p>使用extends进行继承</p>
-<p>super关键字用于访问和调用对象父类上的函数，可以调用父类的构造函数，也可以调用父类的普通函数（super必须在字类this的之前进行调用，即必须先调用父类的构造函数，再使用子类的构造函数）</p>
+<p>super关键字用于访问和调用对象父类上的函数，可以调用父类的构造函数，也可以调用父类的普通函数</p>
+<ol>
+<li>在constructor中，super必须在字类this的之前进行调用，即必须先调用父类的构造函数，再使用子类的构造函数</li>
+<li>super只能在派生类（子类）的构造函数和静态方法中使用</li>
+</ol>
 <p>不过要注意的是：（错误示范❌）</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">class</span> <span class="token class-name">Father</span> <span class="token punctuation">{</span>  
     <span class="token function">constructor</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">{</span>
@@ -607,6 +611,7 @@ son<span class="token punctuation">.</span><span class="token function">say</spa
         <span class="token comment" spellcheck="true">//console.log(that.uname)</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
+<p>3.类构造函数和构造函数最主要的区别是，类构造函数必须使用new，不然会报错，而构造函数不用new会被当作普通函数去使用</p>
 <h2 id="3-构造函数和原型"><a href="#3-构造函数和原型" class="headerlink" title="3.构造函数和原型"></a>3.构造函数和原型</h2><p>在ES6（ECMAScript6.0）之前，JavaScript没有类的概念，在ES6之前，对象不是基于类创建的，而是用一种称为构造函数的特殊函数来定义对象和他们的特征的。</p>
 <p>创建对象：(JavaScript基础也有做过笔记)</p>
 <p>1.对象字面量       <code>var obj = {}</code></p>
@@ -617,6 +622,8 @@ son<span class="token punctuation">.</span><span class="token function">say</spa
     <span class="token keyword">this</span><span class="token punctuation">.</span>方法<span class="token operator">=</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <p>1.使用构造函数，构造函数名字首字母最好大写<br>如 function Star()<br>2.构造函数不需要return<br>3.使用函数<br>new 构造函数名();即构造一个对象，如new Array()，创建一个数组对象<br>4.属性方法前必须加this<br>如this.name=传参name        <code>this.song = function（传参）{}</code></p>
+<p>但毕竟终究是函数，如果在全局下直接调用该构造函数（并非使用new 创建），则会将this的属性添加到window对象上</p>
+<p>当然也可以使用call调用，将属性添加到已将创建好的对象上</p>
 <p>构造函数中属性和方法我们称之为成员，成员可以添加</p>
 <p><strong>实例成员</strong>：实例成员就是构造函数内部通过  <strong>this</strong>  添加的成员 ，实例成员只能通过实例化的对象来访问，不可以通过构造函数访问实例成员，如</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">Star</span><span class="token punctuation">(</span>uname<span class="token punctuation">)</span><span class="token punctuation">{</span>
@@ -639,19 +646,30 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token punctuation">}</span>
 <span class="token comment" spellcheck="true">//第一种写法： Star.prototype.sing = function() {}</span>
 <span class="token comment" spellcheck="true">//           Star.prototype.sex = 'male'; </span>
-<span class="token comment" spellcheck="true">//第二种写法：</span>
+<span class="token comment" spellcheck="true">//第二种写法：（但这种方法不能适用于Array、Object等，会覆盖原来的定型的方法）</span>
 Star<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
     constructor<span class="token punctuation">:</span> Star<span class="token punctuation">,</span>    <span class="token comment" spellcheck="true">//不可省略，因为这种写法覆盖掉原来的constructor方法</span>
     sing<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
     movie<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <p>所以一般情况，我们的公共属性定义到构造函数里面，公共的方法我们放到原型对象的身上</p>
+<p><strong>注意</strong>：虽然随时能给圆形添加属性和方法，并能立即反应在所有对象实例上，但这和重写整个原型是两回事，如果原型的修改是在创建实例之前，则实例引用的仍是最初的原型</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> friend1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Person<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+    constructor<span class="token punctuation">:</span>Person<span class="token punctuation">,</span>
+    <span class="token function">saySomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"yes!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">let</span> friend2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+friend1<span class="token punctuation">.</span><span class="token function">saySomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//错误</span>
+friend2<span class="token punctuation">.</span><span class="token function">saySomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//通过</span></code></pre>
 <h4 id="原型对象的this指向"><a href="#原型对象的this指向" class="headerlink" title="原型对象的this指向"></a>原型对象的this指向</h4><p>谁调用，指向谁</p>
 <p>1.在构造函数中，this指向的是对象实例</p>
 <p>2.原型对象里面的this指向的<strong>也是</strong>调用它的实例对象</p>
 <h4 id="对象原型-proto"><a href="#对象原型-proto" class="headerlink" title="对象原型: __proto__"></a>对象原型: <code>__proto__</code></h4><p>对象都会有一个属性 <code>__proto__</code> 指向构造函数的prototype原型对象，之所以我们对象可以使用构造函数prototype原型对象的属性和方法，就是因为 <code>__proto__</code> 的存在</p>
 <p><code>实例化的对象.__proto__ === 构造函数名.prototype</code> 返回true</p>
-<h4 id="constructor构造函数"><a href="#constructor构造函数" class="headerlink" title="constructor构造函数"></a>constructor构造函数</h4><p>对象原型（<code>__proto__</code>）和构造函数原型对象（<code>prototype</code>）里面都有一个<code>constructor</code>属性，constructor我们称为构造函数，因为它指回构造函数本身</p>
+<h4 id="constructor构造函数"><a href="#constructor构造函数" class="headerlink" title="constructor构造函数"></a>constructor构造函数</h4><p>对象原型（<code>__proto__</code>）和构造函数原型对象（<code>prototype</code>）里面都有一个<code>constructor</code>属性，constructor我们称为构造函数，因为它<strong>指回构造函数本身</strong></p>
 <p>主要目的：用于记录该对象引用于哪个构造函数（很多情况下我们需要用它来指回原来的构造函数）</p>
 <h4 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h4><p>任何构造函数原型对象<code>prototype</code>，它作为一个对象，也有它自己的对象原型 <code>__proto__</code> ，而此时原型对象的 <code>__proto__</code> 指向的是<code>Object.prototype</code>， 即<code>某构造函数名.prototype.__proto__ === Object.prototype</code></p>
 <p>而我们Object也有prototype原型对象，而它作为一个对象，也有它自己的对象原型 <code>__proto__</code> ，而此时指向null（到达了终点）</p>
@@ -660,6 +678,7 @@ Star<span class="token punctuation">.</span>prototype <span class="token operato
 <p>所以在成员查找时，先查找最底层，没有则根据它 的<code>__proto__</code>查找至他的原型对象，看看有没有该成员，没有的话继续一层一层往上查找，如果找不到该成员 ，最后返回undefined (undefined是由null派生而来的)</p>
 <p>而根据查找规则，使用就近原则来处理重复成员定义问题（即先找到，先使用）</p>
 <p><img src="/images/JavaScript%E8%BF%9B%E9%98%B6ES5+%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/yuanxinglian-1609925587816.jpg" alt=""></p>
+<p><strong>（这里未标出实例对象 constructor 指向 构造函数）</strong></p>
 <p>同时要注意的是：</p>
 <pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Object<span class="token punctuation">.</span>__proto__<span class="token punctuation">)</span><span class="token punctuation">;</span>                      <span class="token comment" spellcheck="true">//Function.prototype</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Object<span class="token punctuation">.</span>__proto__<span class="token punctuation">.</span>__proto__<span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token comment" spellcheck="true">//Object.prototype</span>
@@ -681,30 +700,32 @@ Array<span class="token punctuation">.</span>prototype<span class="token punctua
 <p>核心原理：通过<code>call()</code> 把父类型的this指向子类型的this，这样就实现了子类型继承父类型的属性</p>
 <p><strong>利用原型对象继承父类型的方法</strong></p>
 <p>实现如下：</p>
-<pre class=" language-js"><code class="language-js"> <span class="token comment" spellcheck="true">// 借用父构造函数继承属性</span>
-    <span class="token keyword">function</span> <span class="token function">Father</span><span class="token punctuation">(</span>uname<span class="token punctuation">,</span> age<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>uname <span class="token operator">=</span> uname<span class="token punctuation">;</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>age <span class="token operator">=</span> age<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">//接用父构造函数继承方法</span>
-    Father<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>teach <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token function">console</span><span class="token punctuation">(</span><span class="token string">'father'</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">function</span> <span class="token function">Son</span><span class="token punctuation">(</span>uname<span class="token punctuation">,</span> age<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        Father<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> uname<span class="token punctuation">,</span> age<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">// 这样直接赋值会出问题，因为是赋值父原型对象的地址，如果修改了子原型对象，父原型对象也会随之改变</span>
-    <span class="token comment" spellcheck="true">// Son.prototype = Father.prototype;  ×</span>
-    <span class="token comment" spellcheck="true">// 正确方法：</span>
-    Son<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Father</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">// 如果利用了对象形式修改了原型对象，别忘了利用constructor指回原来的构造函数</span>
-    Son<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>constructor <span class="token operator">=</span> Son<span class="token punctuation">;</span>
-    Son<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>exam <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token function">console</span><span class="token punctuation">(</span><span class="token string">'son'</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">let</span> son <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Son</span><span class="token punctuation">(</span><span class="token string">'xxx'</span><span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>son<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p><strong>组合继承</strong>=原型继承+构造函数继承</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">Father</span><span class="token punctuation">(</span>uname<span class="token punctuation">,</span> age<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>uname <span class="token operator">=</span> uname<span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>age <span class="token operator">=</span> age<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+Father<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>teach <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">console</span><span class="token punctuation">(</span><span class="token string">'father'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//借用父构造函数继承属性</span>
+<span class="token keyword">function</span> <span class="token function">Son</span><span class="token punctuation">(</span>uname<span class="token punctuation">,</span> age<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    Father<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> uname<span class="token punctuation">,</span> age<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// 这样直接赋值会出问题，因为是赋值父原型对象的地址，如果修改了子原型对象，父原型对象也会随之改变</span>
+<span class="token comment" spellcheck="true">// Son.prototype = Father.prototype;  ×</span>
+<span class="token comment" spellcheck="true">// 正确方法：</span>
+<span class="token comment" spellcheck="true">// 借用父构造函数继承方法</span>
+Son<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Father</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 如果利用了对象形式修改了原型对象，别忘了利用constructor指回原来的构造函数</span>
+Son<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>constructor <span class="token operator">=</span> Son<span class="token punctuation">;</span>
+Son<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>exam <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">console</span><span class="token punctuation">(</span><span class="token string">'son'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">let</span> son <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Son</span><span class="token punctuation">(</span><span class="token string">'xxx'</span><span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>son<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>原型继承方式的缺点是：原型中包含的引用值会在所有实例中共享，而使用 <code>Son.prototype = new Father();</code>的方式继承时，<code>Son.prototype</code> 是<code>Father</code>类的一个实例，<code>Father</code>的所有属性都会被继承下来，而这些属性都会被当成共享属性</p>
+<p>构造函数继承的缺点是：必须在构造函数中定义方法，因此函数不能重用；此外，子类也不能访问父类原型上定义的方法</p>
+<p><strong>组合继承</strong>=原型继承+构造函数继承（结合两者的优点）</p>
 <h4 id="类的本质"><a href="#类的本质" class="headerlink" title="类的本质"></a>类的本质</h4><p>class本质还是function（用 typeof 查看），所以我们可以认为类就是构造函数的另一种写法</p>
 <p>但是新的class写法只是让对象原型的写法更加清晰，更像面向对象编程的语法</p>
 <p>和构造函数相同点：</p>
@@ -1756,7 +1777,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">162.2k</span>&nbsp;字
+                class="white-color">167.6k</span>&nbsp;字
             
             
             

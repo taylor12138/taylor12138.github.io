@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5k
+                    6.3k
                 </div>
                 
 
@@ -757,6 +757,8 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 <pre class=" language-shell"><code class="language-shell">npx create-react-app my-app --template typescript</code></pre>
 <p>如果是对当前React脚手架项目添加typescript支持</p>
 <pre class=" language-shell"><code class="language-shell">npm install --save typescript @types/node @types/react @types/react-dom @types/jest</code></pre>
+<p>在构建React组件类的时候，还有这一种接口的写法 <code>React.Component&lt;props接口的名称, state接口的名称&gt;</code>，用来说明派生的 Component 使用的 Props 和 State 的类型</p>
+<pre class=" language-ts"><code class="language-ts">React<span class="token punctuation">.</span>Component<span class="token operator">&lt;</span>Props<span class="token punctuation">,</span> State<span class="token operator">></span></code></pre>
 <h2 id="3-TypeScript对面向对象的延伸"><a href="#3-TypeScript对面向对象的延伸" class="headerlink" title="3.TypeScript对面向对象的延伸"></a>3.TypeScript对面向对象的延伸</h2><p>以下阐述的抽象类、接口均为TypeScript新增的</p>
 <h4 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h4><p>有时候，我们创建一个类，主要是为了作为多个类的父类，让子类通过继承得到共有的属性和方法，比如创建一个Animal类，然后让Cat、Dog类继承Animal类</p>
 <ul>
@@ -1062,6 +1064,159 @@ db<span class="token punctuation">.</span><span class="token function">add</span
 <span class="token comment" spellcheck="true">// 只能使用Dog类，因为其他比如Animal接口没有暴露，所以在外面也不能使用</span>
 <span class="token keyword">let</span> temp <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">A<span class="token punctuation">.</span>Dog</span><span class="token punctuation">(</span><span class="token string">'边牧'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>对外部模块到处该命名空间，直接 <code>export namespace A{}</code>即可</p>
+<h3 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h3><p>装饰器是一种特殊的类型声明，它能够被附加到类声明、方法、属性或参数上，可以修改类的行为</p>
+<p>通俗来讲装饰器就是一个方法，可以注入到类、方法、属性参数上来拓展类、属性、方法、参数的功能。装饰器是过去几年JS最大成就之一，已经是ES7的标准特性之一</p>
+<p>常见的装饰器有类装饰器、属性装饰器、方法装饰器、参数装饰器</p>
+<p>装饰器的写法：</p>
+<ul>
+<li>普通装饰器（无法传参）</li>
+<li>装饰器工厂（可传参）</li>
+</ul>
+<blockquote>
+<p>注意  装饰器是一项实验性特性，在未来的版本中可能会发生改变。</p>
+</blockquote>
+<p>若要启用实验性的装饰器特性，你必须在命令行或<code>tsconfig.json</code>里启用<code>experimentalDecorators</code>编译器选项：</p>
+<pre class=" language-shell"><code class="language-shell">tsc --target ES5 --experimentalDecorators</code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token punctuation">{</span>
+    <span class="token string">"compilerOptions"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">"target"</span><span class="token punctuation">:</span> <span class="token string">"ES5"</span><span class="token punctuation">,</span>
+        <span class="token string">"experimentalDecorators"</span><span class="token punctuation">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p><strong>基本使用</strong></p>
+<h5 id="（1）类装饰器"><a href="#（1）类装饰器" class="headerlink" title="（1）类装饰器"></a>（1）<strong>类装饰器</strong></h5><p><code>@装饰器</code>下一行接类</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token comment" spellcheck="true">//它在不修改类 MyClass的情况下，对类的功能进行了拓展</span>
+<span class="token keyword">function</span> <span class="token function">logClass</span><span class="token punctuation">(</span>params<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// params就是当前类</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>params<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// 现在我们可以通过params来操作类了</span>
+  <span class="token comment" spellcheck="true">//拓展一个属性</span>
+  params<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>apiURL <span class="token operator">=</span> <span class="token string">'xxx'</span><span class="token punctuation">;</span>  
+  <span class="token comment" spellcheck="true">// 拓展一个方法</span>
+  params<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>fn <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"I am function!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+@logClass
+<span class="token keyword">class</span> <span class="token class-name">MyClass</span> <span class="token punctuation">{</span>
+  <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token keyword">public</span> name<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>但我们可以看到，通过 <code>@logClass</code>的方式进行装饰，无法传入参数（<code>params</code>是默认传入，不算）</p>
+<p><strong>类装饰器（装饰器工厂）</strong>：</p>
+<p>实际上说的那么玄乎，不过就是运用了柯里化方式进行传参，类似于React的函数传参方式</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">function</span> <span class="token function">logClass</span><span class="token punctuation">(</span>params<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//这里的target就是当前类MyClass，也就是上方普通装饰器的params</span>
+    <span class="token comment" spellcheck="true">//使用传入参数来拓展属性</span>
+    target<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>apiURL <span class="token operator">=</span> params<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+@<span class="token function">logClass</span><span class="token punctuation">(</span><span class="token string">'something'</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">MyClass</span> <span class="token punctuation">{</span>
+  <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token keyword">public</span> name<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>除此之外，装饰器还能<strong>修改当前类的构造函数</strong><br>下面是一个重载构造函数的例子：</p>
+<ul>
+<li>类装饰器表达式会在运行时被调用，类的构造函数作为其唯一的参数</li>
+<li>如果类装饰器返回一个值，它会使用提供的构造函数来替换类的声明</li>
+</ul>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">function</span> <span class="token function">logClass</span><span class="token punctuation">(</span>params<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token keyword">class</span> <span class="token class-name">extends</span> params <span class="token punctuation">{</span>
+    name <span class="token operator">=</span> <span class="token string">'I am another name'</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//getData也要记得一起重载</span>
+    <span class="token function">getData</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">//或者getData() { super.getData() }</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+@logClass
+<span class="token keyword">class</span> <span class="token class-name">MyClass</span> <span class="token punctuation">{</span>
+  <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token keyword">public</span> name<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'我在执行constructor'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">getData</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MyClass</span><span class="token punctuation">(</span><span class="token string">'Kobe'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+a<span class="token punctuation">.</span><span class="token function">getData</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//我在执行constructor</span>
+<span class="token comment" spellcheck="true">//Kobe</span>
+<span class="token comment" spellcheck="true">//I am another name</span></code></pre>
+<h5 id="（2）属性装饰器"><a href="#（2）属性装饰器" class="headerlink" title="（2）属性装饰器"></a>（2）<strong>属性装饰器</strong></h5><p>属性装饰器表达式会在运行时当作函数被调用，传入下列两个参数：</p>
+<ul>
+<li>对于静态成员来说是类的构造函数（constructor），对实例成员来说是类的原型对象（prototype）</li>
+<li>成员名字</li>
+</ul>
+<p><code>@装饰器</code>下一行接属性</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token comment" spellcheck="true">// 属性装饰器 + 装饰器工厂传参</span>
+<span class="token keyword">function</span> <span class="token function">logProperty</span><span class="token punctuation">(</span>params<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> attr<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//MyClass {}</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>attr<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//name</span>
+    <span class="token comment" spellcheck="true">//修改target（MyClass）类的attr（name）属性</span>
+    <span class="token comment" spellcheck="true">//中括号的主要优势在于可以通过变量访问属性</span>
+    target<span class="token punctuation">[</span>attr<span class="token punctuation">]</span> <span class="token operator">=</span> params<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">MyClass</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// 当前有一个name的属性</span>
+  @<span class="token function">logProperty</span><span class="token punctuation">(</span><span class="token string">'something'</span><span class="token punctuation">)</span>
+  name<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+  <span class="token keyword">constructor</span><span class="token punctuation">(</span>name<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MyClass</span><span class="token punctuation">(</span><span class="token string">'Kobe'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h5 id="（3）方法装饰器"><a href="#（3）方法装饰器" class="headerlink" title="（3）方法装饰器"></a>（3）方法装饰器</h5><p>它会被应用到方法的属性描述符上，可以用来监视、修改、替换方法定义</p>
+<p>方法装饰会在运行时传入下列3个参数</p>
+<ul>
+<li>对于静态成员来说是类的构造函数，对于实例成员来说是类的原型对象</li>
+<li>成员名字</li>
+<li>成员的属性描述符</li>
+</ul>
+<p><code>@装饰器</code>下一行接函数</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token comment" spellcheck="true">// 方法装饰器</span>
+<span class="token keyword">function</span> <span class="token function">logMethod</span><span class="token punctuation">(</span>params<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> methodName<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> desc<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span><span class="token punctuation">;</span>      <span class="token comment" spellcheck="true">//MyClass{}</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>methodName<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//fn</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>desc<span class="token punctuation">)</span><span class="token punctuation">;</span>        <span class="token comment" spellcheck="true">//关于该函数的描述（特性），比如writable、enumerable、configurable、value</span>
+    <span class="token comment" spellcheck="true">// 修改方法实现： 把参数转为字符串再传入</span>
+    <span class="token comment" spellcheck="true">//1.保存之前方法</span>
+    <span class="token keyword">let</span> fn <span class="token operator">=</span> desc<span class="token punctuation">.</span>value<span class="token punctuation">;</span>
+    desc<span class="token punctuation">.</span>value <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token operator">...</span>args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">//先把参数全部转为字符串</span>
+      <span class="token keyword">let</span> newArgs <span class="token operator">=</span> args<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>item <span class="token operator">=</span><span class="token operator">></span> <span class="token function">String</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>newArgs<span class="token punctuation">,</span> params<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">//复用之前的方法 + 传入参数，保留之前函数定义的内容</span>
+      fn<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span>newArgs<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">class</span> <span class="token class-name">MyClass</span> <span class="token punctuation">{</span>
+  @<span class="token function">logMethod</span><span class="token punctuation">(</span><span class="token string">'Something'</span><span class="token punctuation">)</span>
+  <span class="token function">fn</span><span class="token punctuation">(</span><span class="token operator">...</span>args<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span> 
+<span class="token punctuation">}</span>
+<span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MyClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+a<span class="token punctuation">.</span><span class="token function">fn</span><span class="token punctuation">(</span><span class="token string">'123'</span><span class="token punctuation">,</span> <span class="token number">12345</span><span class="token punctuation">)</span></code></pre>
+<h5 id="（4）方法参数装饰器"><a href="#（4）方法参数装饰器" class="headerlink" title="（4）方法参数装饰器"></a>（4）方法参数装饰器</h5><p>参数装饰器表达式会在运行时被当作函数被调用，可以使用参数装饰器为类的原型增加一些元素数据，传入下列三个参数</p>
+<ul>
+<li>对于静态成员来说是类的构造函数，对于实例成员来说是类的原型对象</li>
+<li>传入参数的方法名字</li>
+<li>参数在函数参数列表中的索引</li>
+</ul>
+<pre class=" language-ts"><code class="language-ts"><span class="token comment" spellcheck="true">// 参数装饰器 + 装饰器工厂传参</span>
+<span class="token keyword">function</span> <span class="token function">logParams</span><span class="token punctuation">(</span>params<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> methodName<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">,</span> paramsIndex<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">//MyClass{}</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>methodName<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//fn</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>paramsIndex<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//0</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">MyClass</span> <span class="token punctuation">{</span>
+  <span class="token function">fn</span><span class="token punctuation">(</span>@<span class="token function">logParams</span><span class="token punctuation">(</span><span class="token number">123</span><span class="token punctuation">)</span> id<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MyClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><strong>装饰器执行顺序</strong>：在TypeScript中，装饰器的执行顺序为：首先执行属性装饰器，然后执行方法装饰器，其次是方法参数装饰器，最后是类装饰器。如果同一个类型的装饰器有多个，总是先执行后面的装饰器。</p>
 
             </div>
             <hr/>
@@ -1575,7 +1730,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">162.2k</span>&nbsp;字
+                class="white-color">167.6k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9.1k
+                    9.4k
                 </div>
                 
 
@@ -596,12 +596,26 @@ obj<span class="token punctuation">.</span><span class="token function">con</spa
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <h4 id="arguments的使用"><a href="#arguments的使用" class="headerlink" title="arguments的使用"></a>arguments的使用</h4><p>当我们不确定函数用多少个参数来传递的时候，arguments实际上是当前函数的一个内置对象（函数才拥有），arguments储存了传递的所有实参,它展示的方式是伪数组，因此可以进行遍历（使用for等）</p>
-<p><strong>注意：箭头函数是用不了arguments</strong></p>
+<p><strong>注意：</strong></p>
+<ul>
+<li><strong>箭头函数是用不了arguments</strong>（虽然箭头函数也用不了它，但是可以使用剩余参数补足）</li>
+<li>arguments对象的值不反应参数的默认值（当函数设置了默认参数值），它始终以调用函数时传入的值为准</li>
+</ul>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>agruments<span class="token punctuation">)</span><span class="token punctuation">;</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>agruments<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 <span class="token function">fn</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//则输出1，2，3</span></code></pre>
+<p>arguements 的值始终会与对应的命名参数同步（修改arguments[i]，会对应修改第i个参数的值），但这并不意味着它们都访问同一个内存地址，这种同步是单向的，修改命名参数的值，不会影响argument[i] 对应的值</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">a</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  arguments<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> <span class="token string">'this is a'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//100</span>
+  a <span class="token operator">=</span> <span class="token number">50</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arguments<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token string">'this is argument[0]'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//100</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">let</span> aaa <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span> b <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span class="token function">a</span><span class="token punctuation">(</span>aaa<span class="token punctuation">,</span> b<span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>aaa<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//1</span></code></pre>
 <p>伪数组：1.具有length属性  2.按索引凡是储存数据   3.不具有push，pop功能</p>
 <h4 id="剩余参数"><a href="#剩余参数" class="headerlink" title="剩余参数"></a>剩余参数</h4><p>剩余参数语法（展开运算符）允许我们将一个不定数量的参数表示为一个数组  <code>...args</code></p>
 <p>潜规则： <code>...args</code>要放到参数的最后，不然会报错</p>
@@ -1029,11 +1043,11 @@ p2
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'读取文件失败'</span><span class="token punctuation">,</span> err<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>      <span class="token comment" spellcheck="true">// 这个回调一定会被调用</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>      <span class="token comment" spellcheck="true">// 这个回调一定会被调用，打印123456</span>
 <span class="token punctuation">}</span><span class="token punctuation">,</span> err <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'读取文件失败'</span><span class="token punctuation">,</span> err<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
-<p><strong>注意</strong>  甚至没有返回值时，它还会自动给你 pedding -&gt; fulfilled，然后进入下一个then的第一个成功的回调函数里</p>
+<p><strong>注意</strong>  甚至没有返回值时，它还会自动给你 pedding -&gt; fulfilled，（因为会返回默认返回值undefined）然后进入下一个then的第一个成功的回调函数里</p>
 <p>而反而如果你 <code>return</code> 了一个promise实例，在这个实例里面没有调用 <code>resolve</code> 或者 <code>reject</code>，就进入不了下一个then里面</p>
 <p>所以！！！</p>
 <ul>
@@ -1109,7 +1123,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
     <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token punctuation">]</span><span class="token punctuation">)</span>
 <span class="token comment" spellcheck="true">// 两个网络请求都完成后才会进入then</span>
-<span class="token comment" spellcheck="true">// 如果有一个失败，此回调直接失败，失败原因是第一个失败的promise</span>
+<span class="token comment" spellcheck="true">// 如果有一个失败，此回调直接失败，失败原因是那个第一个失败的promise</span>
     <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>results <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
     <span class="token comment" spellcheck="true">// results是一个数组，它包含以上异步操作的结果</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>results<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> results<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -1123,6 +1137,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>（感觉race方法可能是封装ajax中设置请求超时时长的原理）</p>
 <p>有空还可以看看大佬手写promise.all和promise.race <a href="https://blog.csdn.net/qq1498982270/article/details/93922893" target="_blank" rel="noopener">https://blog.csdn.net/qq1498982270/article/details/93922893</a></p>
 <h4 id="async和await语法糖"><a href="#async和await语法糖" class="headerlink" title="async和await语法糖"></a>async和await语法糖</h4><p>async和await时Promise的语法糖，（个人感觉async没什么作用，因为正常情况下我们封装普通函数也可以在里面 return new Promise，只不过是await必须放到async的函数里才能被使用，汗。。。）</p>
+<p>（2021.6.27纠正，我在《红宝书的啃读》篇目解释了它们在内存中的差别）</p>
 <p>使用 <code>await 异步函数()</code> 相当于 <code>.then(res =&gt; { return 异步函数() })</code>，处理异步任务，有异步任务 -&gt; 同步任务的感觉，<strong>记得每次都把异步任务放在await后面</strong>，而且每次在<code>await 异步操作</code>之后的同步任务就像被放在另一个then里面，会等待异步任务的完成后再执行</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">pro</span><span class="token punctuation">(</span>delay <span class="token operator">=</span> <span class="token number">1000</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> reject<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
@@ -1181,9 +1196,9 @@ console<span class="token punctuation">.</span><span class="token function">log<
     <span class="token punctuation">}</span>
     <span class="token function">hd</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h4 id="Promise缺点"><a href="#Promise缺点" class="headerlink" title="Promise缺点"></a>Promise缺点</h4><ul>
-<li>无法取消Promise,一旦新建它就会立即执行，无法中途取消。（只能抛出错误中断（throw））</li>
+<li>无法取消Promise,一旦新建它就会立即执行，无法中途取消。（只能抛出错误中断（throw））(JavaScript高级程序设计有提及到)</li>
 <li>如果不设置回调函数，promise内部抛出的错误，不会反应到外部。</li>
-<li>当处于pending状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。</li>
+<li>当处于pending状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。(JavaScript高级程序设计有提及到)</li>
 <li>可能代码撰写比较繁琐 + 冗长</li>
 </ul>
 <h2 id="5-Symbol"><a href="#5-Symbol" class="headerlink" title="5.Symbol"></a>5.Symbol</h2><p>Symbol表示独一无二的值，是ES6引入的第七种数据类型，是一种类似于<strong>字符串</strong>的数据类型（永远不会重复的字符串）</p>
@@ -1967,7 +1982,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">167.6k</span>&nbsp;字
+                class="white-color">175.5k</span>&nbsp;字
             
             
             

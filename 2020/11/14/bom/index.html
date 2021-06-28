@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.3k
+                    3.4k
                 </div>
                 
 
@@ -544,6 +544,11 @@
 <p>setTimeout() 这个调用函数我们也称之为回调函数（需要等待时间，时间到了才去调用该函数） callback ，以前onclick之类的函数也是回调函数</p>
 <h5 id="停止定时器"><a href="#停止定时器" class="headerlink" title="停止定时器"></a>停止定时器</h5><p><code>window.clearTimeout (timeoutID)</code>    timeID为定时器的名字（所以我们上方说明了经常要给定时器加名字），这里的window也可以省略，调用该停止定时器方法后，定时器的调用函数不执行，时间被停止了</p>
 <h5 id="setInterval-定时器"><a href="#setInterval-定时器" class="headerlink" title="setInterval() 定时器"></a>setInterval() 定时器</h5><p><code>window.setInterval(回调函数, [间隔毫秒数])</code> 重复调用一个函数，每隔这个时间就去调用一次，写函数名函数不加括号、不带参数；window也可以省略，默认省略的话为0，同样我们也经常给该定时器加标识符（名字）</p>
+<ul>
+<li>这里的关键点是第二个参数，间隔时间，指的是向队列添加新任务之前等待的时间，</li>
+<li>比如调用setTimeout的时间为<code>01:00:00</code>，间隔时间为300毫秒，这意味着 <code>01:00:03</code>时，浏览器才会把任务添加到执行队列里，浏览器不关心这个任务什么时候执行，或者执行要花多长时间</li>
+<li>因此到了 <code>01:00:06</code>，它会在想队列中添加一个任务</li>
+</ul>
 <h5 id="停止setInterval定时器"><a href="#停止setInterval定时器" class="headerlink" title="停止setInterval定时器"></a>停止setInterval定时器</h5><p><code>window.clearInterval(intervalID)</code> 同停止定时器</p>
 <h5 id="利用定时器自动调用事件"><a href="#利用定时器自动调用事件" class="headerlink" title="利用定时器自动调用事件"></a>利用定时器自动调用事件</h5><p>例如调用在js中的某点击事件</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 自动播放轮播图</span>
@@ -631,12 +636,14 @@
 <p>query：参数，以键对的形式，通过 &amp; 分隔</p>
 <p>fragment：片段， # 后面内容，常见于链接锚点</p>
 <p><strong>location对象属性</strong>：</p>
-<p><code>location.href</code>     获取或设置（实现页面跳转） 整个URL</p>
-<p><code>location.search</code> 返回参数（即query部分 ）</p>
+<p><code>location.href</code>     获取或设置（实现页面跳转） 整个URL（最常见）</p>
+<p><code>location.hash</code>     URL散列值，Vue-Router、的hash模式、React路由的HashRouter 跳转原理</p>
+<p><code>location.host</code>     服务器名和端口号</p>
+<p><code>location.search</code> 返回参数（即query部分 ）（这不就是React的search传参吗？）</p>
 <p><code>location.assign()</code>  跟href一样，可以跳转页面，但是可以后退</p>
 <p><code>location.replace()</code> 同上，但是不能记录历史，不能实现后退功能</p>
 <p><code>location.reload()</code> 类似于F5刷新  （location.reload(true)为强制刷新，缓存一起没了）</p>
-<p>还有host、port、pathname、hash（链接锚点）等</p>
+<p>等等</p>
 <h2 id="5-navigator对象"><a href="#5-navigator对象" class="headerlink" title="5.navigator对象"></a>5.navigator对象</h2><p>navigator对象包含浏览器的信息，它可以知道你是用的是pc端浏览器还是移动端浏览器，有很多属性，最常用的是userAgent，该属性值返回又客户机发送服务器user-agent头部的值</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script language-javascript">     <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token punctuation">(</span>navigator<span class="token punctuation">.</span>userAgent<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span><span class="token regex">/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     window<span class="token punctuation">.</span>location<span class="token punctuation">.</span>href <span class="token operator">=</span> <span class="token string">"../H5/index.html"</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//手机</span>
@@ -1154,7 +1161,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">167.6k</span>&nbsp;字
+                class="white-color">175.5k</span>&nbsp;字
             
             
             

@@ -911,7 +911,8 @@ o<span class="token punctuation">.</span><span class="token function">say</span>
 <p>4.事件绑定：绑定事件对象（当前情况指的是位于回调函数的内部中this指向）</p>
 <p>5.定时器函数：window</p>
 <p>6.立即执行函数：window</p>
-<p>但是立即执行函数还得看这时this是否在对象方法或者构造函数中，第二个虽然是立即执行函数，但是它先找的是全局变量foo，再找到foo.bar，所以this返回的是foo作用域的a</p>
+<p>但是立即执行函数还得看这时this是否在对象方法或者构造函数中，第二个虽然是立即执行函数，但是此时它的this和foo绑定了，所以还是输出foo的a</p>
+<p>而赋值操作，因为赋值表达式是函数本身，this值不再与任何对象绑定，所以this指向window</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
 <span class="token keyword">var</span> foo <span class="token operator">=</span> <span class="token punctuation">{</span>
     a<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
@@ -985,11 +986,11 @@ myObj<span class="token punctuation">.</span><span class="token function">getThi
 <pre class=" language-js"><code class="language-js">btn<span class="token punctuation">.</span>onclick <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">this</span><span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
     <span class="token comment" spellcheck="true">//var that = this;</span>
-<span class="token comment" spellcheck="true">//old way:</span>
+    <span class="token comment" spellcheck="true">//old way:</span>
     <span class="token comment" spellcheck="true">/*setTimeout(function() {
         //that.disabled = false;
     }, 3000)*/</span>
-<span class="token comment" spellcheck="true">//new way:</span>
+    <span class="token comment" spellcheck="true">//new way:</span>
     <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
          <span class="token keyword">this</span><span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">3000</span><span class="token punctuation">)</span>       <span class="token comment" spellcheck="true">//这个this指向btn</span>
@@ -1250,7 +1251,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token keyword">var</span> rg4 <span class="token operator">=</span> <span class="token regex">/^a{3,}$/</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//a只可以出现3-n次 n>=3 </span>
 <span class="token keyword">var</span> rg5 <span class="token operator">=</span> <span class="token regex">/^a{3,16}$/</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//a只可以出现3-16次</span>
 <span class="token comment" spellcheck="true">//普遍的用户名规定：</span>
-<span class="token keyword">var</span> name <span class="token operator">=</span> <span class="token regex">/^[a-zA-Z0-9_-]{6, 16}$/</span></code></pre>
+<span class="token keyword">var</span> name <span class="token operator">=</span> <span class="token regex">/^[a-zA-Z0-9_-]{6,16}$/</span></code></pre>
 <p> 括号总结</p>
 <p><code>[]</code>中括号：字符集合，匹配方括号中的任意字符</p>
 <p><code>{}</code> 大括号：量词符，里面表示重复次数，但只让大括号前面一个字符重复 （注意：<code>/^abc{3}$/</code>，只让c重复三次，即abccc）</p>
@@ -1777,7 +1778,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">167.6k</span>&nbsp;字
+                class="white-color">175.5k</span>&nbsp;字
             
             
             

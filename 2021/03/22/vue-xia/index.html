@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.6k
+                    7.9k
                 </div>
                 
 
@@ -977,7 +977,19 @@ Vue<span class="token punctuation">.</span><span class="token function">use</spa
 <li>尽量采用 runtime运行时版本</li>
 <li>合理运用防抖节流</li>
 </ul>
-<h2 id="9-原理相关"><a href="#9-原理相关" class="headerlink" title="9.原理相关"></a>9.原理相关</h2><h4 id="双向绑定"><a href="#双向绑定" class="headerlink" title="双向绑定"></a>双向绑定</h4><p><code>Object.defineProperty( )</code>的 <code>get</code> （读取属性值触发的函数）和 <code>set</code>（set就是在设置属性值触发的函数），所以Vue会根据数据变化，重新渲染到虚拟DOM，然后根据虚拟DOM，把真实DOM进行修改</p>
+<h2 id="9-Element"><a href="#9-Element" class="headerlink" title="9.Element"></a>9.Element</h2><p><strong>Element</strong>，一套为开发者、设计师和产品经理准备的基于 Vue 的桌面端组件库</p>
+<p>详情可以去官方文档进行学习</p>
+<h4 id="Element-ui-的validate方法"><a href="#Element-ui-的validate方法" class="headerlink" title="Element-ui 的validate方法"></a><strong>Element-ui 的validate方法</strong></h4><p><code>validate()</code> 是elment-ui封装好的用于对整个表单进行验证，若不传入回调函数，则会返回以promise</p>
+<p>=&gt; <code>Function(callback : Function(boolean,obj))</code>，当第一个参数位true，则校验通过</p>
+<h4 id="Element组件时样式修改的问题"><a href="#Element组件时样式修改的问题" class="headerlink" title="Element组件时样式修改的问题"></a>Element组件时样式修改的问题</h4><p>通常在vue组件样式中添加<strong>scoped</strong>，该组件样式只能够在本组件才能执行，这样我们就无法更改Element组件样式了。</p>
+<p>如果我们取消了<strong>scoped</strong>的话，全局的样式有可能就会发生<strong>冲突</strong>。</p>
+<p>解决方法是：</p>
+<ul>
+<li>如果使用style修改样式，可以添加 <code>&gt;&gt;&gt;</code>的前缀</li>
+<li>如果使用sass或者less修改样式，可以添加<code>/deep/</code>的前缀</li>
+</ul>
+<p>思路提供：<a href="https://zhuanlan.zhihu.com/p/58942147" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/58942147</a></p>
+<h2 id="10-原理相关"><a href="#10-原理相关" class="headerlink" title="10.原理相关"></a>10.原理相关</h2><h4 id="双向绑定"><a href="#双向绑定" class="headerlink" title="双向绑定"></a>双向绑定</h4><p><code>Object.defineProperty( )</code>的 <code>get</code> （读取属性值触发的函数）和 <code>set</code>（set就是在设置属性值触发的函数），所以Vue会根据数据变化，重新渲染到虚拟DOM，然后根据虚拟DOM，把真实DOM进行修改</p>
 <p><code>Object.defineProperty(对象名, 属性名, desciptor)</code> </p>
 <pre class=" language-js"><code class="language-js">Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span> key<span class="token punctuation">,</span> <span class="token punctuation">{</span>
     <span class="token keyword">set</span><span class="token punctuation">(</span>newValue<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -1158,7 +1170,7 @@ vm<span class="token punctuation">.</span>b <span class="token operator">=</span
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
   <span class="token keyword">set</span><span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>target<span class="token punctuation">,</span> propKey<span class="token punctuation">,</span> value<span class="token punctuation">,</span> receiver<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`setting </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>propKey<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">!`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> Reflect<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span> propKey<span class="token punctuation">,</span> value<span class="token punctuation">,</span> receiver<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> Reflect<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token operator">...</span>arguments<span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>元编程：指某种计算机程序的编写，操纵其他（或自身）程序作为他们的资料，或在运行时完成部分本应在编译时完成的工作，让程序员获得更高的工作效率，或给予程序更大灵活度而无需重新编译</p>
@@ -1169,7 +1181,8 @@ vm<span class="token punctuation">.</span>b <span class="token operator">=</span
 <li>既然Proxy可以改属性 + 新增属性，那他怎么识别？通过 if 语句 + <code>对象.hasOwnProperty(属性)</code> 判断，原来是否有这个属性</li>
 </ul>
 <p>为什么以前不用Proxy？兼容性差。。。ie11就不兼容</p>
-<h4 id="Reflect"><a href="#Reflect" class="headerlink" title="Reflect"></a>Reflect</h4><ul>
+<h4 id="Reflect"><a href="#Reflect" class="headerlink" title="Reflect"></a>Reflect</h4><p>通过Proxy的捕获器（handler），我们可以完成基于自己的参数<strong>重建原始操作</strong>，但是并非所有捕获器都像 get 一样那么简单，直接返回就行了，所以通过手动写码如法炮制的想法是不现实的，所以我们使用到了Reflect完成轻松重建，<strong>确保完成原有的行为</strong>，然后再部署额外的功能。</p>
+<ul>
 <li><p><code>Reflect</code> 将<code>Object</code>对象的一些明显属于语言内部的方法（比如<code>Object.defineProperty</code>），放到<code>Reflect</code>对象上，也就是说，从<code>Reflect</code>对象上可以拿到语言内部的方法。</p>
 </li>
 <li><p><code>Reflect</code>修改某些<code>Object</code>方法的返回结果，让其变得更合理。</p>
@@ -1714,7 +1727,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">167.6k</span>&nbsp;字
+                class="white-color">175.5k</span>&nbsp;字
             
             
             

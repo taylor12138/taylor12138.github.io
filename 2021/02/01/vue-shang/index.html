@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    13.9k
+                    14.1k
                 </div>
                 
 
@@ -581,6 +581,7 @@
 <p>使用{{值}}可以将Vue的数据插入元素内容中，但是如果想让Vue的数据动态绑定元素标签属性中的值（比如img的src，a标签的href）,可以使用<code>v-bind</code>。<code>v-bind</code>还有一个对应的语法糖 <code>:</code>（简写方式），方式如下</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name"><span class="token namespace">v-bind:</span>href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>bdurl<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>baidu<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">:href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>bdurl<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>baidu<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">></span></span></code></pre>
+<p>如果使用别人写好的组件，传入批量的props时（子组件中的props对象的每个属性都声明好了），直接写一个对象，然后 <code>v-bind=&quot;对象名&quot;</code>即可</p>
 <p>与此同时<code>v-bind</code>也可以动态绑定class属性值，但是它动态绑定class属性的重大意义在于可以写入对象，以键-值的形式，通过布尔值修改，来动态修改元素是否使用该类（在标签上还可以再自定义添加上自带的class，不参与动态绑定变化）</p>
 <p>其实动态绑定class还可以采用数组语法，只不过目前用的比较少了</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>app<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
@@ -1320,6 +1321,27 @@ render<span class="token punctuation">:</span> <span class="token function">func
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <h4 id="脚手架的模块化样式"><a href="#脚手架的模块化样式" class="headerlink" title="脚手架的模块化样式"></a>脚手架的模块化样式</h4><p>当style标签具有该scoped属性时，其CSS将仅应用于当前组件的元素</p>
+<p>我们通常在vue.config.js配置路径别名 </p>
+<pre class=" language-js"><code class="language-js">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  devServer<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//运行后默认打开浏览器</span>
+    open<span class="token punctuation">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment" spellcheck="true">//publicPath为部署的配置</span>
+  publicPath<span class="token punctuation">:</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span>NODE_ENV <span class="token operator">===</span> <span class="token string">'production'</span> <span class="token operator">?</span> <span class="token string">'./'</span> <span class="token punctuation">:</span> <span class="token string">'/'</span><span class="token punctuation">,</span>
+  configureWebpack<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    resolve<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// 配置别名,内部其实已经配置过一个，就是 '@':src</span>
+      <span class="token comment" spellcheck="true">// 在cli3以上版本，配置别名的值可以引用之前配置过的别名，如'@/assets',不过cli4好像这里用不了。。</span>
+      alias<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">'assets'</span><span class="token punctuation">:</span> <span class="token string">'@/assets'</span><span class="token punctuation">,</span>
+        <span class="token string">'components'</span><span class="token punctuation">:</span> <span class="token string">'@/components'</span><span class="token punctuation">,</span>
+        <span class="token string">'view'</span><span class="token punctuation">:</span> <span class="token string">'@/view'</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>但是该别名 <code>@</code> 在css中无法直接使用，需要变成 <code>~@</code>的形式</p>
 <h2 id="5-Vue-router"><a href="#5-Vue-router" class="headerlink" title="5.Vue router"></a>5.Vue router</h2><h4 id="前后端路由概述"><a href="#前后端路由概述" class="headerlink" title="前后端路由概述"></a>前后端路由概述</h4><p>路由就是网络把信息从源地址传输到目的地址的活动</p>
 <p>后端渲染是将数据在后端处理生成html发给浏览器，前端渲染是通过ajax拿到数据，操作dom节点 渲染ui</p>
 <p>（相当于Node.js里的服务器渲染和客户端渲染）</p>
@@ -1576,7 +1598,7 @@ $router<span class="token punctuation">.</span><span class="token function">push
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">></span></span>首页<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span>
         <span class="token comment" spellcheck="true">&lt;!-- 这里需要给完整的路径， 不能直接to="/news" --></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>router-link</span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/home/news<span class="token punctuation">"</span></span> <span class="token attr-name">tag</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>button<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>新闻<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>router-link</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>router-link</span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/honme/message<span class="token punctuation">"</span></span> <span class="token attr-name">tag</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>button<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>信息<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>router-link</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>router-link</span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/home/message<span class="token punctuation">"</span></span> <span class="token attr-name">tag</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>button<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>信息<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>router-link</span><span class="token punctuation">></span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>router-view</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>router-view</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">></span></span></code></pre>
@@ -2263,7 +2285,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">167.6k</span>&nbsp;字
+                class="white-color">175.5k</span>&nbsp;字
             
             
             

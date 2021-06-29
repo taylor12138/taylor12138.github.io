@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    710
+                    3.4k
                 </div>
                 
 
@@ -485,7 +485,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="React-native概述"><a href="#React-native概述" class="headerlink" title="React-native概述"></a>React-native概述</h2><p>引入关于React-native一些人的评价</p>
+                <h2 id="React-Native概述"><a href="#React-Native概述" class="headerlink" title="React Native概述"></a>React Native概述</h2><p>引入关于React Native一些人的评价</p>
 <p>优点：</p>
 <p>1.完全采用JavaScript</p>
 <p>2.跨平台，Write Once, Run anywhere变得可能，尤其是Android和IOS两端</p>
@@ -505,6 +505,7 @@
 <p>比如下载夜神模拟器，然后在目录的bin文件夹下（连接Android studio（夜神的端口号是62001））</p>
 <pre class=" language-shell"><code class="language-shell">nox_adb.exe connect 127.0.0.1:62001</code></pre>
 <p>之后连接就可以输入<code>adb connect 127.0.0.1:62001</code>命令连接上模拟器</p>
+<pre class=" language-shell"><code class="language-shell">adb connect 127.0.0.1:62001</code></pre>
 <p>踩坑之路：连接后运行 <code>npx react-native run-android</code>，给我报了No connected devices的错误，，而且我在连接adb的时候出现这种情况</p>
 <p><img src="../images/React-native/moni_err.png" alt=""></p>
 <p>这种情况下说明你的模拟器的adb版本太低，被杀死了(无语，研究了好久这个问题)</p>
@@ -518,9 +519,468 @@ yarn react-native run-android
 npx react-native run-android</code></pre>
 <p>运行成功</p>
 <p><img src="../images/React-native/react-native.jpg" alt=""></p>
-<h4 id="项目目录介绍"><a href="#项目目录介绍" class="headerlink" title="项目目录介绍"></a>项目目录介绍</h4><p><code>_tests_</code>：测试文件</p>
+<h4 id="项目目录介绍"><a href="#项目目录介绍" class="headerlink" title="项目目录介绍"></a>项目目录介绍</h4><p><code>App.js</code>：项目根组件</p>
+<p><code>index.js</code>：项目入口文件</p>
+<p><code>_tests_</code>：测试文件</p>
 <p><code>app.json</code>：配置文件</p>
 <p><code>metro.config.js</code>：facebook的工程构建工具</p>
+<h2 id="React基本语法"><a href="#React基本语法" class="headerlink" title="React基本语法"></a>React基本语法</h2><p>这里介绍三个对象</p>
+<ul>
+<li>StyleSheet，样式对象，通过 <code>create</code> 另外定义style样式并且导入，里面的属性名要使用驼峰命名法<ul>
+<li>不能使用<code>fontSize: &#39;100px&#39;</code>的形式，必须使用 <code>fontSize: 100</code></li>
+<li>在react-native中没有样式继承，每一个组件都要单独设置样式</li>
+</ul>
+</li>
+<li>View，视图组件,相当于div标签，默认使用弹性布局，所以我们不需要去设置 <code>display:flex</code></li>
+<li>Text，文本组件，相当于p标签</li>
+</ul>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">'react'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>
+  StyleSheet<span class="token punctuation">,</span>
+  View<span class="token punctuation">,</span>
+  Text
+<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-native'</span>
+<span class="token keyword">const</span> App <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">//空标签，它也可以实现fragment的效果</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span><span class="token operator">></span>
+      <span class="token operator">&lt;</span>View style<span class="token operator">=</span><span class="token punctuation">{</span>styles<span class="token punctuation">.</span>view<span class="token punctuation">}</span><span class="token operator">></span>
+        <span class="token operator">&lt;</span>Text<span class="token operator">></span>helloWorld<span class="token operator">&lt;</span><span class="token operator">/</span>Text<span class="token operator">></span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span><span class="token operator">></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// 定义对象样式</span>
+<span class="token keyword">const</span> styles <span class="token operator">=</span> StyleSheet<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  view<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    height<span class="token punctuation">:</span> <span class="token number">200</span><span class="token punctuation">,</span>
+    width<span class="token punctuation">:</span> <span class="token number">200</span><span class="token punctuation">,</span>
+    backgroundColor<span class="token punctuation">:</span> <span class="token string">"rgba(200, 255, 0, 0.5)"</span><span class="token punctuation">,</span>
+    color<span class="token punctuation">:</span> <span class="token string">'red'</span>                     <span class="token comment" spellcheck="true">//hello world不会变成红色</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> App<span class="token punctuation">;</span></code></pre>
+<h4 id="相对之前学习的React改动"><a href="#相对之前学习的React改动" class="headerlink" title="相对之前学习的React改动"></a>相对之前学习的React改动</h4><p>对于属性state、props的使用，和在React里面如出一辙（函数组件的state、ref还是使用Hook）</p>
+<p>移动端的点击事件：<code>onPress</code></p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">"react"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> View<span class="token punctuation">,</span> Text <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"react-native"</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//类式组件的state</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
+  state <span class="token operator">=</span> <span class="token punctuation">{</span>
+    isHot<span class="token punctuation">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span>
+  change <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span> isHot <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span> isHot<span class="token punctuation">:</span> <span class="token operator">!</span>isHot <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span> isHot <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>state
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token operator">&lt;</span>View<span class="token operator">></span>
+        <span class="token operator">&lt;</span>Text onPress<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>change<span class="token punctuation">}</span><span class="token operator">></span>today is <span class="token punctuation">{</span>isHot <span class="token operator">?</span> <span class="token string">'hot'</span> <span class="token punctuation">:</span> <span class="token string">'cold'</span><span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>Text<span class="token operator">></span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>类式组件的props，直接 <code>this.props.属性名</code>使用</p>
+<p>函数式组件的props</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> MyComponent <span class="token operator">=</span> <span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> <span class="token punctuation">{</span> name<span class="token punctuation">,</span> sex<span class="token punctuation">,</span> age <span class="token punctuation">}</span> <span class="token operator">=</span> props<span class="token punctuation">;</span>
+      <span class="token keyword">return</span> <span class="token punctuation">(</span>
+        <span class="token operator">&lt;</span>ul<span class="token operator">></span>
+          <span class="token operator">&lt;</span>li<span class="token operator">></span>性名：<span class="token punctuation">{</span>name<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">></span>
+          <span class="token operator">&lt;</span>li<span class="token operator">></span>性别：<span class="token punctuation">{</span>sex<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">></span>
+          <span class="token operator">&lt;</span>li<span class="token operator">></span>年龄：<span class="token punctuation">{</span>age<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">></span>
+      <span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>所以结论：其实没有什么改动，只是多了很多React Native带的移动端组件罢了</p>
+<h2 id="React-Native组件"><a href="#React-Native组件" class="headerlink" title="React Native组件"></a>React Native组件</h2><h4 id="Text-Input-输入框"><a href="#Text-Input-输入框" class="headerlink" title="Text-Input(输入框)"></a>Text-Input(输入框)</h4><p><code>Text-Input</code>组件时React native的内置组件，不需要额外安装</p>
+<p>引入组件</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span>TextInput <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"react-native"</span><span class="token punctuation">;</span></code></pre>
+<p>其实还有个组件推荐，<code>TouchableOpacity</code>，点击触摸时会反馈给用户一个透明度的变化</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span>TouchableOpacity <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"react-native"</span><span class="token punctuation">;</span></code></pre>
+<p><code>Text-Input</code>属性</p>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>autoCapitalize</td>
+<td>“none”, “sentence”, “words”, “characters”</td>
+<td>字母大写模式</td>
+</tr>
+<tr>
+<td>autoCorrent</td>
+<td>bool</td>
+<td>设置拼写自动修正功能，默认为开启(true)</td>
+</tr>
+<tr>
+<td>autoFocus</td>
+<td>bool</td>
+<td>设置是否默认获取到焦点，默认为关闭(false)</td>
+</tr>
+<tr>
+<td>keyboardType</td>
+<td>“default”, “number-pad”, “decimal-pad”, “phone-pad” 等</td>
+<td>键盘类型</td>
+</tr>
+<tr>
+<td>returnKeyType</td>
+<td>“done”, “go”, “next”, “search”, “send”</td>
+<td>键盘上返回键类型</td>
+</tr>
+<tr>
+<td>placeholder</td>
+<td>string</td>
+<td>占位符</td>
+</tr>
+<tr>
+<td>underlineColorAndroid</td>
+<td>string</td>
+<td>下划线颜色</td>
+</tr>
+<tr>
+<td>secureTextEntry</td>
+<td>bool</td>
+<td>设置是否为密码安全输入框</td>
+</tr>
+<tr>
+<td>onChange</td>
+<td>function</td>
+<td>监听方法,文本框内容发生改变回调方法</td>
+</tr>
+<tr>
+<td>onChangeText</td>
+<td>function</td>
+<td>监听方法，文本框内容发生改变回调方法，该方法会进行传递文本内容（也就是默认传入文本内容作为默认参数）</td>
+</tr>
+</tbody></table>
+<p>更多 <code>Text-Input</code> 属性可以查看这个页面<a href="https://blog.csdn.net/u014484863/article/details/51732074" target="_blank" rel="noopener">https://blog.csdn.net/u014484863/article/details/51732074</a> </p>
+<p>案例：</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">"react"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> View<span class="token punctuation">,</span> Text<span class="token punctuation">,</span> TextInput<span class="token punctuation">,</span> TouchableOpacity <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"react-native"</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span>email<span class="token punctuation">,</span> setEmail<span class="token punctuation">]</span> <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">useState</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span>password<span class="token punctuation">,</span> setPassword<span class="token punctuation">]</span> <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">useState</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span>intro<span class="token punctuation">,</span> setIntro<span class="token punctuation">]</span> <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">useState</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span>
+  <span class="token comment" spellcheck="true">// onChangeText默认传入文本内容作为默认参数</span>
+  <span class="token keyword">function</span> <span class="token function">handleEmail</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">setEmail</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">function</span> <span class="token function">handlePassword</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">setPassword</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">function</span> <span class="token function">handleIntro</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">setIntro</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">function</span> <span class="token function">register</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'email'</span> <span class="token operator">+</span> email <span class="token operator">+</span> <span class="token string">'\npassword'</span> <span class="token operator">+</span> password <span class="token operator">+</span> <span class="token string">'\nintro'</span> <span class="token operator">+</span> intro<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span><span class="token operator">></span>
+      <span class="token operator">&lt;</span>View<span class="token operator">></span>
+        <span class="token operator">&lt;</span>TextInput
+          underlineColorAndroid<span class="token operator">=</span><span class="token string">"transparent"</span>
+          placeholder<span class="token operator">=</span><span class="token string">"请输入邮箱"</span>
+          placeholderTextColor<span class="token operator">=</span><span class="token string">"#ccc"</span>
+          autoCapitalize<span class="token operator">=</span><span class="token string">"none"</span>
+          keyboardType<span class="token operator">=</span><span class="token string">"email-address"</span>
+          returnKeyType<span class="token operator">=</span><span class="token string">"next"</span>
+          onChangeText<span class="token operator">=</span><span class="token punctuation">{</span>handleEmail<span class="token punctuation">}</span>
+        <span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>TextInput<span class="token operator">></span>
+        <span class="token operator">&lt;</span>TextInput onChangeText<span class="token operator">=</span><span class="token punctuation">{</span>handlePassword<span class="token punctuation">}</span> placeholder<span class="token operator">=</span><span class="token string">"请输入密码"</span> secureTextEntry<span class="token operator">=</span><span class="token punctuation">{</span><span class="token boolean">true</span><span class="token punctuation">}</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>TextInput<span class="token operator">></span>
+        <span class="token operator">&lt;</span>TextInput onChangeText<span class="token operator">=</span><span class="token punctuation">{</span>handleIntro<span class="token punctuation">}</span> placeholder<span class="token operator">=</span><span class="token string">"请输入信息"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>TextInput<span class="token operator">></span>
+        <span class="token punctuation">{</span><span class="token comment" spellcheck="true">/* 提交按钮 */</span><span class="token punctuation">}</span>
+        <span class="token operator">&lt;</span>TouchableOpacity onPress<span class="token operator">=</span><span class="token punctuation">{</span>register<span class="token punctuation">}</span><span class="token operator">></span>
+          <span class="token operator">&lt;</span>Text<span class="token operator">></span>注册<span class="token operator">&lt;</span><span class="token operator">/</span>Text<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>TouchableOpacity<span class="token operator">></span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span><span class="token operator">></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="Image-图片"><a href="#Image-图片" class="headerlink" title="Image(图片)"></a>Image(图片)</h4><p><code>Image</code>组件时React native的内置组件，不需要额外安装</p>
+<p>引入组件</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span>Image <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"react-native"</span><span class="token punctuation">;</span></code></pre>
+<p>其实还有个组件推荐，<code>ScrollView</code>，用于滑动的操作</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span>ScrollView <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"react-native"</span><span class="token punctuation">;</span></code></pre>
+<p>它实际上所做的就是将一系列不确定高度的子组件装进一个确定高度的容器（通过滚动操作）</p>
+<p>常用属性</p>
+<ul>
+<li>source 资源定位</li>
+<li>图片显示模式resizeMode<ul>
+<li>contain（整体缩放）,按照正常的比例缩放到可以刚好放进来 </li>
+<li>cover不会变形(截屏)，放大图片至刚好覆盖住整个内容</li>
+<li>stretch会变形（局部压缩），直接拉伸至设置的大小</li>
+</ul>
+</li>
+</ul>
+<p>案例</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">"react"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>  Image<span class="token punctuation">,</span> ScrollView <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"react-native"</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span><span class="token operator">></span>
+      <span class="token operator">&lt;</span>ScrollView<span class="token operator">></span>
+        <span class="token punctuation">{</span><span class="token comment" spellcheck="true">/* 普通图片设置 */</span><span class="token punctuation">}</span>
+        <span class="token operator">&lt;</span>Image source<span class="token operator">=</span><span class="token punctuation">{</span><span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./assets/1.png'</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>Image<span class="token operator">></span>
+        <span class="token punctuation">{</span><span class="token comment" spellcheck="true">/* 网络图片设置,一定要设置宽高，不然不显示 */</span><span class="token punctuation">}</span>
+        <span class="token operator">&lt;</span>Image
+          style<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span> margin<span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">,</span> width<span class="token punctuation">:</span> <span class="token number">200</span><span class="token punctuation">,</span> height<span class="token punctuation">:</span> <span class="token number">200</span> <span class="token punctuation">}</span><span class="token punctuation">}</span>
+          source<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span> uri<span class="token punctuation">:</span> <span class="token string">'https://img2.baidu.com/it/u=3963436481,1344394108&amp;fm=26&amp;fmt=auto&amp;gp=0.jpg'</span> <span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>Image<span class="token operator">></span>
+        <span class="token operator">&lt;</span>Image
+          style<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span> margin<span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">,</span> width<span class="token punctuation">:</span> <span class="token number">200</span><span class="token punctuation">,</span> height<span class="token punctuation">:</span> <span class="token number">200</span><span class="token punctuation">,</span> resizeMode<span class="token punctuation">:</span> <span class="token string">'contain'</span> <span class="token punctuation">}</span><span class="token punctuation">}</span>
+          source<span class="token operator">=</span><span class="token punctuation">{</span><span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./assets/1.png'</span><span class="token punctuation">)</span><span class="token punctuation">}</span>
+        <span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>Image<span class="token operator">></span>
+        <span class="token operator">&lt;</span>Image
+          style<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span> margin<span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">,</span> width<span class="token punctuation">:</span> <span class="token number">200</span><span class="token punctuation">,</span> height<span class="token punctuation">:</span> <span class="token number">200</span><span class="token punctuation">,</span> resizeMode<span class="token punctuation">:</span> <span class="token string">'cover'</span> <span class="token punctuation">}</span><span class="token punctuation">}</span>
+          source<span class="token operator">=</span><span class="token punctuation">{</span><span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./assets/1.png'</span><span class="token punctuation">)</span><span class="token punctuation">}</span>
+        <span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>Image<span class="token operator">></span>
+        <span class="token operator">&lt;</span>Image
+          style<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span> margin<span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">,</span> width<span class="token punctuation">:</span> <span class="token number">200</span><span class="token punctuation">,</span> height<span class="token punctuation">:</span> <span class="token number">200</span><span class="token punctuation">,</span> resizeMode<span class="token punctuation">:</span> <span class="token string">'stretch'</span> <span class="token punctuation">}</span><span class="token punctuation">}</span>
+          source<span class="token operator">=</span><span class="token punctuation">{</span><span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./assets/1.png'</span><span class="token punctuation">)</span><span class="token punctuation">}</span>
+        <span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>Image<span class="token operator">></span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>ScrollView<span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span><span class="token operator">></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="ActivityIndicator-加载"><a href="#ActivityIndicator-加载" class="headerlink" title="ActivityIndicator(加载)"></a>ActivityIndicator(加载)</h4><p>活动指示器组件，也可以叫它Loading，有一些比较耗时的操作，可能需要用户等待，那么可以使用活动指示器组件 <code>ActivityIndicator</code>告诉用户你需要等待（类似于一个圈圈在不停旋转）</p>
+<p><code>ActivityIndicator</code>组件时React native的内置组件，不需要额外安装</p>
+<p>常用属性</p>
+<ul>
+<li>animating，是否显示转圈加载</li>
+<li>color，滚轮的前景颜色</li>
+</ul>
+<p>案例</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"react"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>  TouchableOpacity<span class="token punctuation">,</span> ActivityIndicator<span class="token punctuation">,</span> Button <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"react-native"</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  state <span class="token operator">=</span> <span class="token punctuation">{</span>
+    animating<span class="token punctuation">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span>
+  closeActivityIndicator <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span> animating<span class="token punctuation">:</span> <span class="token operator">!</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>animating <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  componentDidMount <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">closeActivityIndicator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span> animating <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>state
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token operator">&lt;</span><span class="token operator">></span>
+        <span class="token operator">&lt;</span>ActivityIndicator
+          animating<span class="token operator">=</span><span class="token punctuation">{</span>animating<span class="token punctuation">}</span>
+          color<span class="token operator">=</span><span class="token string">"blue"</span>
+        <span class="token operator">/</span><span class="token operator">></span>
+        <span class="token operator">&lt;</span>TouchableOpacity<span class="token operator">></span>
+          <span class="token operator">&lt;</span>Button onPress<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>closeActivityIndicator<span class="token punctuation">}</span> title<span class="token operator">=</span><span class="token string">"切换显示loading"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>Button<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>TouchableOpacity<span class="token operator">></span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span><span class="token operator">></span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="Alert-提示框"><a href="#Alert-提示框" class="headerlink" title="Alert(提示框)"></a>Alert(提示框)</h4><p> React的弹窗组件，启动一个提示对话框，包含对应的标题和信息。你还可以指定一系列的按钮，点击对应的按钮会调用对应的 onPress 回调并且关闭提示框。默认情况下，对话框会仅有一个’确定’按钮。</p>
+<p><strong>iOS<a href="https://reactnative.cn/docs/alert#ios" target="_blank" rel="noopener">#</a></strong></p>
+<p>在 iOS 上你可以指定任意数量的按钮。每个按钮还都可以指定自己的样式，此外还可以指定提示的类别。参阅<a href="https://reactnative.cn/docs/alert#alertbuttonstyle.md" target="_blank" rel="noopener">AlertButtonStyle</a>来了解更多细节。</p>
+<p><strong>Android<a href="https://reactnative.cn/docs/alert#android" target="_blank" rel="noopener">#</a></strong></p>
+<p>在 Android 上最多能指定三个按钮，这三个按钮分别具有“中间态”、“消极态”和“积极态”的概念：</p>
+<p>如果你只指定一个按钮，则它具有“积极态”的属性（比如“确定”）；两个按钮，则分别是“消极态”和“积极态”（比如“取消”和“确定”）；三个按钮则意味着“中间态”、“消极态”和“积极态”（比如“稍候再说”，“取消”，“确定”）。</p>
+<p>在 Android 上可以通过点击提示框的外面来取消提示框，但这一行为默认没有启用。你可以在<a href="https://reactnative.cn/docs/alert#options" target="_blank" rel="noopener"><code>Options</code></a>额外参数来启用这一行为：<code>{ cancelable: true }</code>。</p>
+<p><strong>方法</strong></p>
+<p><code>alert()</code> ：<code>static alert(title, message?, buttons?, options?)</code></p>
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">类型</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">title</td>
+<td align="left">string Required</td>
+<td align="left">The dialog’s title. Passing <code>null</code> or empty string will hide the title.</td>
+</tr>
+<tr>
+<td align="left">message</td>
+<td align="left">string</td>
+<td align="left">An optional message that appears below the dialog’s title.</td>
+</tr>
+<tr>
+<td align="left">buttons</td>
+<td align="left"><a href="https://reactnative.cn/docs/alert#buttons" target="_blank" rel="noopener">Buttons</a></td>
+<td align="left">An optional array containg buttons configuration.</td>
+</tr>
+<tr>
+<td align="left">options</td>
+<td align="left"><a href="https://reactnative.cn/docs/alert#options" target="_blank" rel="noopener">Options</a> Android</td>
+<td align="left">An optional Alert configuration for the Android.</td>
+</tr>
+</tbody></table>
+<p>案例</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">"react"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> Alert<span class="token punctuation">,</span> TouchableOpacity<span class="token punctuation">,</span> View<span class="token punctuation">,</span> Text <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"react-native"</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> showAlert1 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> Alert<span class="token punctuation">.</span><span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"发送数据成功"</span><span class="token punctuation">)</span>
+  <span class="token keyword">const</span> showTip <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> Alert<span class="token punctuation">.</span><span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"删除数据成功"</span><span class="token punctuation">)</span>
+  <span class="token keyword">const</span> showAlert2 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 传入内容，传入的数组对应不同的按钮，引发不同的事件</span>
+    Alert<span class="token punctuation">.</span><span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"警告"</span><span class="token punctuation">,</span> <span class="token string">'确认删除?'</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span> text<span class="token punctuation">:</span> <span class="token string">'确认'</span><span class="token punctuation">,</span> onPress<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token function">showTip</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span> text<span class="token punctuation">:</span> <span class="token string">'取消'</span><span class="token punctuation">,</span> style<span class="token punctuation">:</span> <span class="token string">'cancel'</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token comment" spellcheck="true">//不能点击提示框的外面来取消提示框</span>
+      <span class="token punctuation">{</span> cancelable<span class="token punctuation">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span><span class="token operator">></span>
+      <span class="token operator">&lt;</span>View style<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span> alignItems<span class="token punctuation">:</span> <span class="token string">'center'</span> <span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token operator">></span>
+        <span class="token operator">&lt;</span>TouchableOpacity onPress<span class="token operator">=</span><span class="token punctuation">{</span>showAlert1<span class="token punctuation">}</span><span class="token operator">></span>
+          <span class="token operator">&lt;</span>Text<span class="token operator">></span>发送<span class="token operator">&lt;</span><span class="token operator">/</span>Text<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>TouchableOpacity<span class="token operator">></span>
+        <span class="token operator">&lt;</span>TouchableOpacity onPress<span class="token operator">=</span><span class="token punctuation">{</span>showAlert2<span class="token punctuation">}</span><span class="token operator">></span>
+          <span class="token operator">&lt;</span>Text<span class="token operator">></span>删除<span class="token operator">&lt;</span><span class="token operator">/</span>Text<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>TouchableOpacity<span class="token operator">></span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span><span class="token operator">></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="Animating-动画"><a href="#Animating-动画" class="headerlink" title="Animating(动画)"></a>Animating(动画)</h4><p><code>Animated</code>是一个动画组件，旨在使动画变得流畅，强大并易于构建和维护。<code>Animated</code>侧重于输入和输出之间的声明性关系，以及两者之间的可配置变换，此外还提供了简单的 <code>start/stop</code>方法来控制基于时间的动画执行。</p>
+<p>创建动画最基本的工作流程是先创建一个 <code>Animated.Value</code> ，将它连接到动画组件的一个或多个样式属性，然后使用<code>Animated.timing()</code>通过动画效果展示数据的变化：</p>
+<p>常用属性：</p>
+<ul>
+<li><code>Value</code></li>
+</ul>
+<p>驱动动画运行的一维标量值。一般使用<code>new Animated.Value(0);</code>来初始化。</p>
+<p>常用方法：</p>
+<ul>
+<li><p><code>timing()</code></p>
+<p>推动一个值按照一个缓动曲线而随时间变化。<a href="https://reactnative.cn/docs/easing" target="_blank" rel="noopener"><code>Easing</code></a>模块定义了一大堆曲线，你也可以使用你自己的函数。</p>
+<p>Config 参数有以下这些属性：</p>
+<ul>
+<li><code>duration</code>: 动画的持续时间（毫秒）。默认值为 500.</li>
+<li><code>easing</code>: 缓动函数。 默认为<code>Easing.inOut(Easing.ease)</code>。</li>
+<li><code>delay</code>: 开始动画前的延迟时间（毫秒）。默认为 0.</li>
+<li><code>isInteraction</code>: 指定本动画是否在<code>InteractionManager</code>的队列中注册以影响其任务调度。默认值为 true。</li>
+<li><code>useNativeDriver</code>: 启用原生动画驱动。默认不启用(false)。</li>
+</ul>
+</li>
+<li><p><code>.start()</code>方法用于开始一个动画</p>
+</li>
+</ul>
+<p>案例</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">'react'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> Animated<span class="token punctuation">,</span> TouchableOpacity<span class="token punctuation">,</span> StyleSheet <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-native'</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// 默认宽高</span>
+  <span class="token keyword">const</span> animatedWidth <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Animated<span class="token punctuation">.</span>Value</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span>
+  <span class="token keyword">const</span> animatedHeight <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Animated<span class="token punctuation">.</span>Value</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span>
+  <span class="token keyword">function</span> <span class="token function">animatedBox</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 点击后，设置动画变化</span>
+    Animated<span class="token punctuation">.</span><span class="token function">timing</span><span class="token punctuation">(</span>animatedWidth<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+      toValue<span class="token punctuation">:</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//值到200</span>
+      duration<span class="token punctuation">:</span> <span class="token number">1000</span><span class="token punctuation">,</span><span class="token comment" spellcheck="true">//持续时间</span>
+      useNativeDriver<span class="token punctuation">:</span> <span class="token boolean">false</span>  <span class="token comment" spellcheck="true">//不设置这个会有黄色的warn</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    Animated<span class="token punctuation">.</span><span class="token function">timing</span><span class="token punctuation">(</span>animatedHeight<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+      toValue<span class="token punctuation">:</span> <span class="token number">300</span><span class="token punctuation">,</span>
+      duration<span class="token punctuation">:</span> <span class="token number">500</span><span class="token punctuation">,</span>
+      useNativeDriver<span class="token punctuation">:</span> <span class="token boolean">false</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">const</span> animatedStyle <span class="token operator">=</span> <span class="token punctuation">{</span>
+    width<span class="token punctuation">:</span> animatedWidth<span class="token punctuation">,</span>
+    height<span class="token punctuation">:</span> animatedHeight
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span><span class="token operator">></span>
+      <span class="token operator">&lt;</span>TouchableOpacity onPress<span class="token operator">=</span><span class="token punctuation">{</span>animatedBox<span class="token punctuation">}</span> style<span class="token operator">=</span><span class="token punctuation">{</span>styles<span class="token punctuation">.</span>container<span class="token punctuation">}</span><span class="token operator">></span>
+        <span class="token operator">&lt;</span>Animated<span class="token punctuation">.</span>View style<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">[</span>styles<span class="token punctuation">.</span>box<span class="token punctuation">,</span> animatedStyle<span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>Animated<span class="token punctuation">.</span>View<span class="token operator">></span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>TouchableOpacity<span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span><span class="token operator">></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">const</span> styles <span class="token operator">=</span> StyleSheet<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  container<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    justifyContent<span class="token punctuation">:</span> <span class="token string">'center'</span><span class="token punctuation">,</span>
+    alignItems<span class="token punctuation">:</span> <span class="token string">'center'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  box<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    backgroundColor<span class="token punctuation">:</span> <span class="token string">'blue'</span><span class="token punctuation">,</span>
+    width<span class="token punctuation">:</span> <span class="token number">50</span><span class="token punctuation">,</span>
+    height<span class="token punctuation">:</span> <span class="token number">100</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<h4 id="Switch-开关"><a href="#Switch-开关" class="headerlink" title="Switch(开关)"></a>Switch(开关)</h4><p><code>Switch</code>是一个开关组件，一个“受控组件”（controlled component）。必须使用<code>onValueChange</code>回调来更新<code>value</code>属性以响应用户的操作。如果不更新<code>value</code>属性，组件只会按一开始给定的<code>value</code>值来渲染且保持不变，看上去就像完全点不动。</p>
+<p>主要属性：</p>
+<ul>
+<li><code>onValueChange</code>，切换开关回调的事件</li>
+<li><code>value</code>，开关指定的值</li>
+</ul>
+<p>案例：</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span> useState <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> View<span class="token punctuation">,</span> Text<span class="token punctuation">,</span> Switch <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-native'</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> label <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token boolean">false</span><span class="token punctuation">:</span> <span class="token string">'关'</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">:</span> <span class="token string">'开'</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span>switchValue<span class="token punctuation">,</span> setSwitchValue<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> toggleSwitch <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token function">setSwitchValue</span><span class="token punctuation">(</span>preState <span class="token operator">=</span><span class="token operator">></span> <span class="token operator">!</span>preState<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span><span class="token operator">></span>
+      <span class="token operator">&lt;</span>View<span class="token operator">></span>
+        <span class="token operator">&lt;</span>Switch
+          trackColor<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span> <span class="token boolean">false</span><span class="token punctuation">:</span> <span class="token string">"#767577"</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">:</span> <span class="token string">"#81b0ff"</span> <span class="token punctuation">}</span><span class="token punctuation">}</span>
+          thumbColor<span class="token operator">=</span><span class="token punctuation">{</span>switchValue <span class="token operator">?</span> <span class="token string">"#f5dd4b"</span> <span class="token punctuation">:</span> <span class="token string">"#f4f3f4"</span><span class="token punctuation">}</span>
+          ios_backgroundColor<span class="token operator">=</span><span class="token string">"#3e3e3e"</span>
+          onValueChange<span class="token operator">=</span><span class="token punctuation">{</span>toggleSwitch<span class="token punctuation">}</span>
+          value<span class="token operator">=</span><span class="token punctuation">{</span>switchValue<span class="token punctuation">}</span><span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>Switch<span class="token operator">></span>
+        <span class="token operator">&lt;</span>View<span class="token operator">></span><span class="token operator">&lt;</span>Text<span class="token operator">></span>当前状态是<span class="token punctuation">:</span> <span class="token punctuation">{</span>label<span class="token punctuation">[</span>switchValue<span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>Text<span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>View<span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span><span class="token operator">></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="StatusBar-状态栏"><a href="#StatusBar-状态栏" class="headerlink" title="StatusBar(状态栏)"></a>StatusBar(状态栏)</h4><p><code>StatusBar</code>组件是手机屏幕最上方的区域，包含运营商名称、网络情况、手机电池</p>
+<p>可以通过它定制白天/夜晚 主题模式</p>
+<p>由于<code>StatusBar</code>可以在任意视图中加载，可以放置多个且后加载的会覆盖先加载的。因此在配合导航器使用时，请务必考虑清楚<code>StatusBar</code>的放置顺序。</p>
+<p>常用属性</p>
+<ul>
+<li><p><code>barStyle</code>，主题颜色，enum(‘default’, ‘light-content’, ‘dark-content’)</p>
+</li>
+<li><p><code>hidden</code>，隐藏显示</p>
+</li>
+<li><p><code>backgroundColor</code>，状态栏的背景色。</p>
+</li>
+<li><p><code>animated</code>，指定状态栏的变化是否应以动画形式呈现。目前支持这几种样式：backgroundColor, barStyle 和 hidden。</p>
+</li>
+</ul>
+<p>案例</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span> useState <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> Text<span class="token punctuation">,</span> StatusBar<span class="token punctuation">,</span> TouchableOpacity <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-native'</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span>hidden<span class="token punctuation">,</span> sethidden<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span>barStyle<span class="token punctuation">,</span> setbarStyle<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token string">'default'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> changeHidden <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token function">sethidden</span><span class="token punctuation">(</span>preState <span class="token operator">=</span><span class="token operator">></span> <span class="token operator">!</span>preState<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">const</span> changeBarStyle <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> temp <span class="token operator">=</span> barStyle <span class="token operator">===</span> <span class="token string">'light-content'</span> <span class="token operator">?</span> <span class="token string">'dark-content'</span> <span class="token punctuation">:</span> <span class="token string">'light-content'</span><span class="token punctuation">;</span>
+    <span class="token function">setbarStyle</span><span class="token punctuation">(</span>temp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span><span class="token operator">></span>
+      <span class="token operator">&lt;</span>StatusBar barStyle<span class="token operator">=</span><span class="token punctuation">{</span>barStyle<span class="token punctuation">}</span> hidden<span class="token operator">=</span><span class="token punctuation">{</span>hidden<span class="token punctuation">}</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>StatusBar<span class="token operator">></span>
+      <span class="token operator">&lt;</span>TouchableOpacity onPress<span class="token operator">=</span><span class="token punctuation">{</span>changeHidden<span class="token punctuation">}</span><span class="token operator">></span>
+        <span class="token operator">&lt;</span>Text<span class="token operator">></span>显示<span class="token operator">/</span>隐藏<span class="token operator">&lt;</span><span class="token operator">/</span>Text<span class="token operator">></span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>TouchableOpacity<span class="token operator">></span>
+      <span class="token operator">&lt;</span>TouchableOpacity onPress<span class="token operator">=</span><span class="token punctuation">{</span>changeBarStyle<span class="token punctuation">}</span><span class="token operator">></span>
+        <span class="token operator">&lt;</span>Text<span class="token operator">></span>改变主题颜色<span class="token operator">&lt;</span><span class="token operator">/</span>Text<span class="token operator">></span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>TouchableOpacity<span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span><span class="token operator">></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
 
             </div>
             <hr/>
@@ -766,7 +1226,7 @@ npx react-native run-android</code></pre>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            React-native概述引入关于React-native一些人的评价
+                            React Native概述引入关于React Native一些人的评价
 优点：
 1.完全采用JavaScript
 2.跨平台，Write Once, Run anywhere变得可能，尤其是Android和IOS两端
@@ -1030,7 +1490,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">175.5k</span>&nbsp;字
+                class="white-color">178.5k</span>&nbsp;字
             
             
             

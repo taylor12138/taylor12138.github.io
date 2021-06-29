@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.4k
+                    3.7k
                 </div>
                 
 
@@ -655,6 +655,18 @@
 <p><code>history.back()</code>    后退功能</p>
 <p><code>history.forward()</code>   前进功能</p>
 <p><code>history.go(参数)</code>   前进后退功能，参数是1前进一个页面，-1后退一个页面 </p>
+<p><code>history.pushState</code> 历史记录管理</p>
+<p>hashchange 会在页面URL的散列变化时被触发，开发者可以在此时执行某些操作，而状态管理API则可以让开发者改变浏览器URL而不会重新加载页面。为此 可以使用<code>history.pushState()</code>方法</p>
+<p>接收三个参数</p>
+<ul>
+<li>一个state对象</li>
+<li>一个新的状态标题</li>
+<li>一个可选的 相对URL</li>
+</ul>
+<p><code>history.pushState(stateObj, &quot;my title&quot;, &quot;baz.html&quot;)</code></p>
+<p>执行后，状态信息会被推送到历史记录中，浏览器地址栏也会改变以反映新的相对URL，即使<code>location.href</code>返回的是地址栏中的内容，浏览器不会向服务器发送请求。</p>
+<p>可以通过 <code>history.state</code>来获取当前的状态对象，也可以使用 <code>replaceState()</code>并传入与 <code>pushState()</code>同样的前两个参数来更新状态（覆盖状态）</p>
+<p>注意：使用HTML5状态管理时，要确保通过 <code>pushState()</code>创造的每个“假”的URL背后都对应着服务器上一个真实的的URL，否则单击“刷新”按钮会导致404.所有单页面应用程序（SPA）框架都必须通过服务器或客户端的某些配置解决这个问题。</p>
 
             </div>
             <hr/>
@@ -1161,7 +1173,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">175.5k</span>&nbsp;字
+                class="white-color">178.5k</span>&nbsp;字
             
             
             

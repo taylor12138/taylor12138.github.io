@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    11.2k
+                    11.4k
                 </div>
                 
 
@@ -549,9 +549,14 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <h4 id="global"><a href="#global" class="headerlink" title="global"></a>global</h4><p>nodejs的全局变量保存在global里面  <code>global.a</code></p>
 <h4 id="get"><a href="#get" class="headerlink" title="get"></a>get</h4><p>在地址栏输入网址永远是get、get在回退时是无害的</p>
 <p>get注重url获得的参数，且只产生一个TCP数据包</p>
+<p>get长度有限制，其实是特定的浏览器及服务器对它的限制（不同浏览器对其限制不同，网络上一直信奉的1024Get请求长度，是错误的）</p>
 <p>获得get请求的内容，它的内容是在url的<code>?</code> 之后的部分</p>
-<p>​    -url 是nodeJs的url模块</p>
-<p>​    -url.parse 解析url请求  (<code>url.parse(req.url, true)</code> 对 url的信息进行解析，得到一个对象，使用true的话，能把里面的重要属性query（查询字符串），也转换成对象)</p>
+<ul>
+<li><p>url 是nodeJs的url模块</p>
+</li>
+<li><p>url.parse 解析url请求  (<code>url.parse(req.url, true)</code> 对 url的信息进行解析，得到一个对象，使用true的话，能把里面的重要属性query（查询字符串），也转换成对象)</p>
+</li>
+</ul>
 <p>比如创建端口号为5208的服务器，在网址末尾写上<code>?a=1&amp;b=2&amp;c=3</code>之类     <a href="http://localhost:5208/?a=1&amp;b=2&amp;c=3" target="_blank" rel="noopener">http://localhost:5208/?a=1&amp;b=2&amp;c=3</a></p>
 <p>（查询Content-type网址：<a href="http://tool.oschina.net/）" target="_blank" rel="noopener">http://tool.oschina.net/）</a></p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> http <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'http'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -569,7 +574,11 @@ http<span class="token punctuation">.</span><span class="token function">createS
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">5208</span><span class="token punctuation">)</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"5208服务器已经启动。。。。"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h4 id="post"><a href="#post" class="headerlink" title="post"></a>post</h4><p>post请求，要么是表单post请求，要么是api的post请求，只要记得一般情况下，私密数据传输用POST + body就好。</p>
+<p>理论上讲，post是没有大小限制的</p>
 <p>post的信息放在Request body中，且产生TCP两个数据包（firefox浏览器除外）</p>
+<ul>
+<li>多数浏览器对于POST采用两阶段发送数据的，先发送请求头，再发送请求体，即使参数再少再短，也会被分成两个步骤来发送（相对于GET）,也就是第一步发送header数据，第二部再发送body部分。</li>
+</ul>
 <p>post回退时会再次提交请求</p>
 <p><code>querystring</code> 模块从字面上意思就是查询字符串，一般是对http请求所带的数据进行解析</p>
 <p><code>querystring.parse(str[, sep[, eq[, options]]])</code>   将一个字符串反序列化为对象</p>
@@ -1408,7 +1417,7 @@ app<span class="token punctuation">.</span><span class="token function">use</spa
 <p>这时候，服务器只需要调用<code>req.session.xx</code>就可以使用session保存的数据了</p>
 <h4 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h4><p>使用express框架、一些其他的API之后，传进来的req和res经过了一些中间件（函数方法），使得req和res内部拥有了一些属性，可以直接使用<code>req.body</code>、<code>req.query</code>、<code>req.session</code> 等，并且在挂载路由后，在路由的js文件中，不用再次引用（require）这些api方法，同样可以使用<code>req.body</code>、<code>req.query</code>、<code>req.session</code> 等属性（其实也可以理解为，req、res等参数传进来路由器js文件时，已经被赋予以上属性，页面不用关心参数从中间件得到的属性，而是要关心是否需要引包才能使用方法）</p>
 <p>中间件本身就是一个方法，它有三个参数：request、response、next（使用下一个中间件）</p>
-<p>如果一个请求进入中间件，不调用next则会停留在当前中间件，调用了next后继续向后找到第一个匹配的中间件（平常我们看到很多组件好型没有next，其实已经吧next封装好了）</p>
+<p>如果一个请求进入中间件，不调用next则会停留在当前中间件，调用了next后继续向后找到第一个匹配的中间件（平常我们看到很多组件好像没有next，其实已经吧next封装好了）</p>
 <p>在express中，对中间件有几种分类：</p>
 <ul>
 <li><p>（1）不关心请求路径和请求方法的中间件，也就是任何请求都会进入这个中间件</p>
@@ -1993,13 +2002,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             <span id="year">2019</span>
-            <a href="https://taylor12138.github.io" target="_blank">John Doe</a>
+            <a href="https://taylor12138.github.io" target="_blank">Hello</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">178.5k</span>&nbsp;字
+                class="white-color">182.7k</span>&nbsp;字
             
             
             

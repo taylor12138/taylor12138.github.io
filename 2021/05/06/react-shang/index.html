@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    10.6k
+                    10.7k
                 </div>
                 
 
@@ -1023,7 +1023,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
     <span class="token punctuation">}</span>
     ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token operator">&lt;</span>Life <span class="token operator">/</span><span class="token operator">></span><span class="token punctuation">,</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'#container'</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
 <p><strong>旧版React生命周期图</strong></p>
-<p><img src="../images/React/react_life.png" alt=""></p>
+<p><img src="../images/React(%E4%B8%8A)/react_life.png" alt=""></p>
 <p>我们可以看到（由<code>ReactDOM.render()</code>触发）<strong>初始化阶段</strong>：</p>
 <p> <code>constructor</code> -&gt; <code>componentWillMount</code> -&gt; <code>render</code> -&gt; <code>componentDidMount</code></p>
 <p><strong>更新阶段</strong>，有 <code>setState</code>、 <code>forceUpdate</code>、 父组件重新<code>render</code> 三条时间线</p>
@@ -1042,7 +1042,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
 <p>6.<code>componentWillReceiveProps(){}</code>父组件 <code>render</code> 再次传入新的props调用</p>
 <p>补充：</p>
 <p><code>forceUpdate()</code>是强制更新的方法、有时并不想使用<code>setState()</code>，只是单纯想让页面发生更新，可以使用这个函数</p>
-<h4 id="新生命周期图"><a href="#新生命周期图" class="headerlink" title="新生命周期图"></a><strong>新生命周期图</strong></h4><p><img src="../images/React/react_life2.png" alt=""></p>
+<h4 id="新生命周期图"><a href="#新生命周期图" class="headerlink" title="新生命周期图"></a><strong>新生命周期图</strong></h4><p><img src="../images/React(%E4%B8%8A)/react_life2.png" alt=""></p>
 <p>改动一：</p>
 <p>在新版本（17.0以上）使用旧的生命周期函数</p>
 <p>比如使用 <code>componentWillMount</code> 、 <code>componentWillUpdate</code>、 <code>componentWillReceiveProps</code> 就会出现黄色警告（虽然上图没出现他们三个，但是可以使用）（简称 3 Will组合，但是 <code>componentWillUnMount()</code> 没事 ）</p>
@@ -1147,7 +1147,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <p>子组件，使用props接收传入的回调函数，并且将数据作为参数进行调用</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">Footer</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">Header</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
   addTodo <span class="token operator">=</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
     <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span>keyCode <span class="token operator">!==</span> <span class="token number">13</span><span class="token punctuation">)</span> <span class="token keyword">return</span><span class="token punctuation">;</span>
     <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span><span class="token function">addTodo</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>target<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//进行回调</span>
@@ -1317,7 +1317,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
 <p>2.一般组件存放于components文件夹，路由组件存放于pages文件夹（公司通用）</p>
 <p>3.一般组件如果父组件没传props，则收到空对象，路由组件默认会受到props：history、location、match</p>
 <p>4.传参方式不一样，一般组件直接属性传值，props接收，路由组件有三种传参方式</p>
-<h4 id="Link插槽"><a href="#Link插槽" class="headerlink" title="Link插槽"></a>Link插槽</h4><p>使用上述 <code>NavLink</code>、<code>Link</code> 方法来写路由链接时，有许多冗余的地方，比如多个NavLink使用相同类名、active类名时，有很高的重复性</p>
+<h4 id="插槽"><a href="#插槽" class="headerlink" title="插槽"></a>插槽</h4><p>使用上述 <code>NavLink</code>、<code>Link</code> 方法来写路由链接时，有许多冗余的地方，比如多个NavLink使用相同类名、active类名时，有很高的重复性</p>
 <pre class=" language-jsx"><code class="language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>NavLink</span> <span class="token attr-name">activeClassName</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>自定义类名<span class="token punctuation">"</span></span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/home<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Home<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>NavLink</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>NavLink</span> <span class="token attr-name">activeClassName</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>自定义类名<span class="token punctuation">"</span></span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/about<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>About<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>NavLink</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>NavLink</span> <span class="token attr-name">activeClassName</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>自定义类名<span class="token punctuation">"</span></span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/other<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Other<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>NavLink</span><span class="token punctuation">></span></span></code></pre>
@@ -1335,6 +1335,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
     <span class="token punctuation">)</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
+<p>实际上，不仅link标签可以以这种方式是用插槽，子组件都可以这样使用，这时父子组件插槽的通用方法</p>
 <h4 id="路由嵌套"><a href="#路由嵌套" class="headerlink" title="路由嵌套"></a>路由嵌套</h4><p><strong>路径坑</strong></p>
 <p>如果React直接在路径头嵌套，有可能导致引入文件路径也相对发生错误</p>
 <pre class=" language-jsx"><code class="language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Link</span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/something/about<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>About<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Link</span><span class="token punctuation">></span></span>
@@ -1977,13 +1978,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             <span id="year">2019</span>
-            <a href="https://taylor12138.github.io" target="_blank">John Doe</a>
+            <a href="https://taylor12138.github.io" target="_blank">Hello</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">178.5k</span>&nbsp;字
+                class="white-color">182.7k</span>&nbsp;字
             
             
             

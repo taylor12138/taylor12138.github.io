@@ -459,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.1k
+                    6.5k
                 </div>
                 
 
@@ -756,6 +756,16 @@
 <p><strong>HTTP劫持</strong></p>
 <p>你DNS解析的域名的IP地址不变。在和网站交互过程中的劫持了你的请求。在网站发给你信息前就给你返回了请求。</p>
 <p>HTTP劫持很好判断，当年正常访问一个无广告的页面时，页面上出现广告弹窗，八成就是运营商劫持了HTTP。下图中，右下角的广告并不是所访问的网站放置的。</p>
+<h4 id="什么是SQL注入攻击"><a href="#什么是SQL注入攻击" class="headerlink" title="什么是SQL注入攻击"></a>什么是SQL注入攻击</h4><p>sql作为一种解释型语言（数据库语言），在运行时是由一个运行时<a href="http://www.2cto.com/kf/all/zujian/" target="_blank" rel="noopener">组件</a>解释语言代码并执行其中包含的指令的语言。基于这种执行方式，产生了一系列叫做代码注入（code injection）的漏洞</p>
+<p>程序员在web开发时，没有过滤敏感字符，绑定变量，导致攻击者可以通过sql灵活多变的语法，构造精心巧妙的语句，不择手段，达成目的，或者通过<a href="http://www.2cto.com/os/" target="_blank" rel="noopener">系统</a>报错，返回对自己有用的信息。</p>
+<p>个人感觉有点像XSS攻击，都是利用语言漏洞进行代码注入</p>
+<p>类似于合成这种永真的语句，让黑客用户登陆成功 <code>select * from users where username=&#39;&#39; or 1=1</code></p>
+<h4 id="防御SQL注入"><a href="#防御SQL注入" class="headerlink" title="防御SQL注入"></a>防御SQL注入</h4><p>1、预编译，在SQL映射文件中尽量使用#指示符标识参数位置，避免使用$。</p>
+<p>2、确认每种数据的类型，比如是数字，数据库则必须使用int类型来存储</p>
+<p>3、规定数据长度，能在一定程度上防止sql注入</p>
+<p>4、严格限制数据库权限，能最大程度减少sql注入的危害</p>
+<p>5、避免直接响应一些sql异常信息，sql发生异常后，自定义异常进行响应</p>
+<p>6、过滤参数中含有的一些数据库关键词</p>
 
             </div>
             <hr/>
@@ -1265,13 +1275,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             <span id="year">2019</span>
-            <a href="https://taylor12138.github.io" target="_blank">John Doe</a>
+            <a href="https://taylor12138.github.io" target="_blank">Hello</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">178.5k</span>&nbsp;字
+                class="white-color">182.7k</span>&nbsp;字
             
             
             

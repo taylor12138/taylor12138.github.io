@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.7k
+                    7.1k
                 </div>
                 
 
@@ -1040,6 +1040,19 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <li><code>confirm()</code> ，有点像<code>alert()</code>，但是确认框有两个按钮 <code>Cancel</code>、<code>OK</code>，返回一个布尔值</li>
 <li><code>prompt()</code>，有点像 <code>confirm()</code>的升级版，还多了一个文本框让用户输入，prompt会返回文本框中的值</li>
 </ul>
+<h2 id="十三章客户端的检测"><a href="#十三章客户端的检测" class="headerlink" title="十三章客户端的检测"></a>十三章客户端的检测</h2><p>用户代理检测通过浏览器的用户代理字符串确定使用的是什么浏览器。用户代理字符串包含在每个HTTP请求头部，在JavaScript中可以通过 <code>navigator.userAgent</code>访问。</p>
+<p>在服务器端，常见的做法是根据接收到的用户代理字符串确定浏览器并执行相应的操作。而在客户端，用户代理检测被认为是不可靠的（字符串可以造假）。</p>
+<p>本来 <code>userAgent</code>是一个只读属性</p>
+<pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>window<span class="token punctuation">.</span>navigator<span class="token punctuation">.</span>userAgent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+window<span class="token punctuation">.</span>navigator<span class="token punctuation">.</span>userAgent <span class="token operator">=</span> <span class="token string">'foobar'</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//无效</span></code></pre>
+<p>不过，通过简单的方法可以绕过这个限制，比如有些浏览器提供伪私有的 <code>__defineGetter__</code>方法，利用它可以篡改用户代理字符串。</p>
+<pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>window<span class="token punctuation">.</span>navigator<span class="token punctuation">.</span>userAgent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+window<span class="token punctuation">.</span>navigator<span class="token punctuation">.</span><span class="token function">__defineGetter__</span><span class="token punctuation">(</span><span class="token string">'userAgent'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">'foobar'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//无效</span></code></pre>
+<h2 id="十四章DOM"><a href="#十四章DOM" class="headerlink" title="十四章DOM"></a>十四章DOM</h2><p><code>cloneNode()</code>：会返回与调用它的节点一模一样的节点，该方法接收一个布尔值参数，表示是否深复制</p>
+<p>深复制会复制节点及其整个子DOM树，如果传入false，则只会复制调用该方法的节点。</p>
+<p><code>document.URL</code>取得当前页面的完整URL</p>
+<p><code>document.domain</code>取得当前页面的域名</p>
+<p><code>document.referrer</code>取得来源</p>
 
             </div>
             <hr/>
@@ -1544,13 +1557,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             <span id="year">2019</span>
-            <a href="https://taylor12138.github.io" target="_blank">John Doe</a>
+            <a href="https://taylor12138.github.io" target="_blank">Hello</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">178.5k</span>&nbsp;字
+                class="white-color">182.7k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.1k
+                    6.2k
                 </div>
                 
 
@@ -505,6 +505,15 @@
 <span class="token keyword">import</span> <span class="token punctuation">{</span> Button <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'antd'</span>
 <span class="token keyword">import</span> <span class="token string">'antd/dist/antd.css'</span></code></pre>
 <p>Vue的话推荐使用element-UI库，后面反响不错，也出了react的UI</p>
+<p>对于React Native的按需导入，还得再babel.config.js进行配置</p>
+<pre class=" language-shell"><code class="language-shell">npm i ant-design/react-native</code></pre>
+<pre class=" language-js"><code class="language-js">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  presets<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'module:metro-react-native-babel-preset'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token comment" spellcheck="true">// 按需加载</span>
+  <span class="token string">"plugins"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">[</span><span class="token string">"import"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> libraryName<span class="token punctuation">:</span> <span class="token string">"@ant-design/react-native"</span> <span class="token punctuation">}</span><span class="token punctuation">]</span> <span class="token comment" spellcheck="true">// 与 Web 平台的区别是不需要设置 style</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
 <h2 id="8-redux"><a href="#8-redux" class="headerlink" title="8.redux"></a>8.redux</h2><p>redux是一个专门做状态管理的JS库（集中式管理）</p>
 <p>它可以在React、Angular、Vue等项目中，但基本和React配合使用</p>
 <ul>
@@ -709,7 +718,7 @@ store<span class="token punctuation">.</span><span class="token function">subscr
 <pre class=" language-js"><code class="language-js">increment <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
     <span class="token keyword">const</span> value <span class="token operator">=</span> <span class="token function">parseInt</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>selectNumber<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span><span class="token function">increment</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span></code></pre>
+<span class="token punctuation">}</span></code></pre>
 <pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">const</span> <span class="token punctuation">{</span> count <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">;</span></code></pre>
 <p><strong>优化部分</strong></p>
 <p>1.对于<strong>上述传参</strong> 的精简写法：</p>
@@ -735,7 +744,7 @@ store<span class="token punctuation">.</span><span class="token function">subscr
 <span class="token keyword">import</span> store <span class="token keyword">from</span> <span class="token string">'./redux/store'</span>
 <span class="token comment" spellcheck="true">//此处使用Provider，使得APP的所有后代容器组件都能接收store</span>
 ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>
-    <span class="token operator">&lt;</span>Provider store<span class="token operator">=</span><span class="token punctuation">{</span> store<span class="token punctuation">}</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>Provider store<span class="token operator">=</span><span class="token punctuation">{</span>store<span class="token punctuation">}</span><span class="token operator">></span>
         <span class="token operator">&lt;</span>App <span class="token operator">/</span><span class="token operator">></span>
     <span class="token operator">&lt;</span><span class="token operator">/</span>Provider<span class="token operator">></span><span class="token punctuation">,</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'#root'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>4.我们自己对文件的优化：</p>
@@ -1651,13 +1660,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             <span id="year">2019</span>
-            <a href="https://taylor12138.github.io" target="_blank">John Doe</a>
+            <a href="https://taylor12138.github.io" target="_blank">Hello</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">178.5k</span>&nbsp;字
+                class="white-color">182.7k</span>&nbsp;字
             
             
             

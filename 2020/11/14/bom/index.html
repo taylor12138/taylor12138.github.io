@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.7k
+                    4.1k
                 </div>
                 
 
@@ -650,6 +650,25 @@
 <span class="token punctuation">}</span>
 </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
 <p>引入以上代码可以自动判断是进入了pc端浏览器还是移动端浏览器</p>
+<p>此外，<code>navigator</code>还暴露了一些API，可提供浏览器和操作系统的状态信息</p>
+<h4 id="Geolocation-API"><a href="#Geolocation-API" class="headerlink" title="Geolocation API"></a>Geolocation API</h4><ul>
+<li><code>navigator.geolocation</code>属性暴露了Geolocation API，可以让浏览器脚本感知当前设备的地理位置。这个API只在安全执行环境（HTTPS）中可用</li>
+</ul>
+<p>手机GPS的坐标系统可能具有极高的精度，而IP地址的精度就要差的很多</p>
+<p>不过浏览器也有可能会利用 Google Location Service（Chrome和Firefox）等服务确定位置。有时候，你可能发现自己并没有GPS，但浏览器给出的坐标却十分精确，是因为浏览器会收集所有可用的无线网络，包括Wifi和蜂窝信号，拿到这些信息后，再去查询网络数据库。</p>
+<pre class=" language-js"><code class="language-js">navigator<span class="token punctuation">.</span>geolocation<span class="token punctuation">.</span><span class="token function">getCurrentPosition</span><span class="token punctuation">(</span><span class="token punctuation">(</span>position<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>position<span class="token punctuation">)</span><span class="token punctuation">,</span> 
+                                          <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
+<p>第一个是回调成功的函数，传入的 postion参数，有众多属性，</p>
+<p>比如其中  <code>postion.coordinates</code>对象有  <code>latitude</code> 经度， <code>longitude</code>维度、<code>alititude</code>海拔、speed设备移动速度</p>
+<p>第二个接收失败回调函数</p>
+<h4 id="Connection-State"><a href="#Connection-State" class="headerlink" title="Connection State"></a>Connection State</h4><p>任何时候，都可以通过 <code>navigator.onLine</code>属性来确定浏览器的联网状态，该属性返回一个布尔值，表示浏览器是否联网。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> connectionStateChange <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>navigator<span class="token punctuation">.</span>onLine<span class="token punctuation">)</span><span class="token punctuation">;</span>
+window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'onLine'</span><span class="token punctuation">,</span> connectionStateChange<span class="token punctuation">)</span>
+window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'offLine'</span><span class="token punctuation">,</span> connectionStateChange<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">//设备联网</span>
+<span class="token comment" spellcheck="true">//true</span>
+<span class="token comment" spellcheck="true">//断网</span>
+<span class="token comment" spellcheck="true">//false</span></code></pre>
 <h2 id="6-history对象"><a href="#6-history对象" class="headerlink" title="6.history对象"></a>6.history对象</h2><p>用于与浏览器历史记录进行交互（实际上和浏览器自带的页面后退，前进功能一样）</p>
 <p>实际开发用的少，但是一些OA办公系统会用到</p>
 <p><code>history.back()</code>    后退功能</p>
@@ -1167,13 +1186,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             <span id="year">2019</span>
-            <a href="https://taylor12138.github.io" target="_blank">John Doe</a>
+            <a href="https://taylor12138.github.io" target="_blank">Hello</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">178.5k</span>&nbsp;字
+                class="white-color">182.7k</span>&nbsp;字
             
             
             

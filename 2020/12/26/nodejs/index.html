@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    11.4k
+                    12.2k
                 </div>
                 
 
@@ -1018,6 +1018,29 @@ event<span class="token punctuation">.</span><span class="token function">emit</
 <p>服务端渲染更快，但是会增大服务端的压力（右键查看网页源代码可以看得到具体内容就是服务端渲染），可以被爬虫抓取到</p>
 <p>客户端渲染有利于用户体验，但是不利于SEO搜索引擎优化</p>
 <p>很多网站是结合两者进行渲染的</p>
+<h4 id="SSR渲染"><a href="#SSR渲染" class="headerlink" title="SSR渲染"></a>SSR渲染</h4><p>SSR：server side render</p>
+<p>当前端为vue、react这种spa应用时，非常不利于SEO，各种路由的跳转也变得复杂，并且在首屏渲染时间上也花费了大量时间。<strong>在整体架构部署上，还需要利用各种web服务（如ngxin），这点很麻烦</strong></p>
+<p>SSR就是类似于老的node ejs或者java jsp方式的web技术。使用后端将html全部准备好，直接抛给前端。</p>
+<p>SSR优势</p>
+<ul>
+<li>更利于SEO。</li>
+<li>更利于首屏渲染</li>
+<li>服务端在内网进行请求，数据响应速度快</li>
+</ul>
+<p><img src="/images/SSR1.jpg" alt=""></p>
+<p><img src="/images/SSR2.jpg" alt=""></p>
+<p>我们可以看见中间少了两个步骤</p>
+<p>SSR劣势</p>
+<ul>
+<li>服务端压力较大</li>
+<li>开发条件受限，在服务端渲染中，只会执行到componentDidMount之前的生命周期钩子，因此项目引用的第三方的库也不可用其它生命周期钩子，这对引用库的选择产生了很大的限制；</li>
+<li>学习成本相对较高。除了对webpack、React要熟悉，还需要掌握node、Koa2等相关技术。相对于客户端渲染，项目构建、部署过程更加复杂。</li>
+</ul>
+<h4 id="以前-amp-now服务端渲染"><a href="#以前-amp-now服务端渲染" class="headerlink" title="以前 &amp; now服务端渲染"></a>以前 &amp; now服务端渲染</h4><p>现在的服务端渲染和过去的服务端渲染完全是两码事</p>
+<p>以前的服务器渲染，是以“文档”为核心思想。服务器端的逻辑是把HTML, CSS, Javascript当作一个静态文件，对“文档”而言不存在“指令”和“数据”的区别，一切都是数据。所以我们可以看到服务器渲染，GET就是请求一个文件，而web 1.0时代的诸多服务端框架最基础的组件之一就是文档模版，比如asp, JSP之类，核心设计理念就是HTML文件里放占位符然后由服务端逻辑替换成实际数据后一股脑返回。</p>
+<p><strong>Web 2.0时代最大的思想革命本质不是前后端分离，而是把网页当作独立的应用程序（app）。前后端分离只是实现这一新架构的必然结果。</strong>对程序而言指令和数据是分离的。HTTP GET拿到的不是渲染后的网页，而是一个由html和Javascript组成的app, 这个app以浏览器为虚拟机。装载和显示数据是app启动之后的运行逻辑。传统上app叫什么？叫Client，也就是前端。于是前后端就这么分离了，浏览器变成了app的运行环境，后端蜕化成了单纯的业务逻辑和数据接口。写Javascript不再是给网页添特效的小伎俩，而是正经的和写桌面应用程序一样的工程。于是我们看到了前端工程化，编译（转译），各种MVC/MVVM框架，依赖工具，等等。很新鲜吗？不新鲜，都是传统桌面开发玩剩下的。我很早就说过，前端NodeJS的那堆东西，什么npm，Babel，Webpack，gulp，各个框架的cli… 本质上就是开源社区东拼西凑做一个Visual Studio。</p>
+<p>来源于<a href="https://www.zhihu.com/question/59578433/answer/332545815" target="_blank" rel="noopener">https://www.zhihu.com/question/59578433/answer/332545815</a> 知乎某作者</p>
+<p>其实也可以看作加入了nodejs中间件，这个中间件作为伪“服务端”，由它来发送网页html等资源。</p>
 <h2 id="9-Path"><a href="#9-Path" class="headerlink" title="9.Path"></a>9.Path</h2><p>Path是一个核心模块 <code>var path = require(&#39;path&#39;)</code></p>
 <p><code>path.basename(path[,ext])</code> 获取给定路径当中文件名部分，第二个参数可以用来去除指定的后缀名</p>
 <pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">basename</span><span class="token punctuation">(</span><span class="token string">'c:/a/b/c/index.js'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>          <span class="token comment" spellcheck="true">//index.js</span>
@@ -2008,7 +2031,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">182.7k</span>&nbsp;字
+                class="white-color">186.2k</span>&nbsp;字
             
             
             

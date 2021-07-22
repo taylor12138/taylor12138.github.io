@@ -446,8 +446,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/personnel/" class="post-category">
-                                personnel
+                            <a href="/categories/%E7%BD%91%E7%BB%9C/" class="post-category">
+                                网络
                             </a>
                         
                     </div>
@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    12.6k
+                    13.5k
                 </div>
                 
 
@@ -994,6 +994,21 @@ Origin: http://example.com</code></pre><h5 id="WebSocket推送技术"><a href="#
 <p>所谓的无状态是指协议对于事务处理没有记忆能力。服务器向客户机发送被请求的文件时，并不存储任何关于该客户机的状态信息，于是，两种用于保持HTTP状态的技术就应运而生了，一个是Cookie，而另一个则是Session。</p>
 <p>无连接：</p>
 <p>就是假如某个客户机在短时间多次次请求同一个资源，服务器并不能区别是否已经响应过用户的请求，反而每次都不耐其烦重新响应请求。</p>
+<h2 id="7-其他"><a href="#7-其他" class="headerlink" title="7.其他"></a>7.其他</h2><p>臭名昭著的最后一英里问题。光纤固然很快，但是要将您的家庭或办公室连接到 Internet，您的本地 ISP 需要在整个社区布线、聚合信号并将其转发到本地路由节点。实际上，根据连接类型、路由方法和部署的技术，仅这些前几跳就可能需要数十毫秒。</p>
+<p>我们都熟悉 IPv4 和 IPv6，但 IPv{1,2,3,5} 发生了什么？IPv4 中的 4 代表 TCP/IP 协议的第 4 版，它于 1981 年 9 月发布。最初的 TCP/IP 提案耦合了这两个协议，而 v4 草案正式将两者拆分为单独的 RFC。因此，IPv4 中的 v4 是其与 TCP 关系的遗产：没有独立的 IPv1、IPv2 或 IPv3 协议。</p>
+<p>当工作组在 1994 年开始研究“下一代互联网协议”（IPng）时，需要一个新的版本号，但 v5 已经分配给另一个实验协议：互联网流协议（ST）。事实证明，ST 从未起飞，这就是为什么很少有人听说过它。因此是 IPv6 中的 6。</p>
+<h4 id="慢启动"><a href="#慢启动" class="headerlink" title="慢启动"></a>慢启动</h4><p>TCP三次握手之后，服务器为每个 TCP 连接初始化一个新的拥塞窗口 (cwnd) 变量，并将其初始值设置为一个保守的、系统指定的值（Linux 上的 initcwnd）。</p>
+<p>此外，引入了一个新规则：客户端和服务器之间传输（未确认）的最大数据量是 rwnd 和 cwnd 变量中的最小值。到目前为止一切顺利，但是服务器和客户端如何确定拥塞窗口大小的最佳值呢？毕竟，网络条件一直在变化，即使在相同的两个网络节点之间，正如我们在前面的示例中看到的那样，如果我们可以使用该算法而不必为每个连接手动调整窗口大小，那就太好了。</p>
+<p>解决方案是缓慢启动并在确认数据包时增加窗口大小：慢启动！原来cwnd的起始值设置为1个网段；RFC 2581 在 1999 年 4 月将此值更新为 4 个段；最近，RFC 6928 在 2013 年 4 月再次将该值增加到 10 个段。</p>
+<p>新 TCP 连接的最大传输数据量是 rwnd 和 cwnd 值中的最小值；因此，现代服务器最多可以向客户端发送十个网段，此时它必须停止并等待确认。然后，对于每个接收到的 ACK，慢启动算法指示服务器可以将其 cwnd 窗口大小增加一个段——对于每个 ACK 数据包，可以发送两个新数据包。TCP 连接的这个阶段通常被称为“指数增长”算法（<a href="https://hpbn.co/building-blocks-of-tcp/#congestion-control-avoidance" target="_blank" rel="noopener">图 2-3</a>），因为客户端和服务器正试图在它们之间网络路径上的可用带宽上快速收敛。</p>
+<h4 id="优化TCP"><a href="#优化TCP" class="headerlink" title="优化TCP"></a>优化TCP</h4><p>TCP 是一种自适应协议，旨在对所有网络对等方公平并最有效地利用底层网络。因此，优化 TCP 的最佳方法是调整 TCP 如何感知当前网络条件并根据其下层和上层的类型和要求调整其行为：无线网络可能需要不同的拥塞算法，某些应用程序可能需要自定义服务质量 (QoS) 语义以提供最佳体验。</p>
+<p>虽然每个算法和反馈机制的具体细节会不断发展，但核心原则及其含义保持不变：</p>
+<ul>
+<li>TCP 三向握手引入了完整的往返延迟。</li>
+<li>TCP 慢启动应用于每个新连接。</li>
+<li>TCP 流量和拥塞控制调节所有连接的吞吐量。</li>
+<li>TCP 吞吐量由当前拥塞窗口大小调节。</li>
+</ul>
 
             </div>
             <hr/>
@@ -1498,7 +1513,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">182.7k</span>&nbsp;字
+                class="white-color">186.2k</span>&nbsp;字
             
             
             

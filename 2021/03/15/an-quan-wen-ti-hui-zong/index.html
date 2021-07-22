@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="My First Blog, Hexo">
+    <meta name="keywords" content="安全问题汇总, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>My First Blog | Hexo</title>
+    <title>安全问题汇总 | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">My First Blog</h1>
+                    <h1 class="description center-align post-title">安全问题汇总</h1>
                 </div>
             </div>
         </div>
@@ -443,6 +443,15 @@
                 </div>
                 <div class="col s5 right-align">
                     
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E7%BD%91%E7%BB%9C/" class="post-category">
+                                网络
+                            </a>
+                        
+                    </div>
+                    
                 </div>
             </div>
 
@@ -450,7 +459,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-05-03
+                    2021-03-15
                 </div>
                 
 
@@ -459,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    185
+                    2.1k
                 </div>
                 
 
@@ -476,11 +485,104 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="打开"><a href="#打开" class="headerlink" title="打开"></a>打开</h3><p>win+R进入cmd，然后在正确目录下进入：cd source_post(指定blog下)</p>
-<h3 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h3><p>用typora修改完毕后，<br>1.使用“hexo clean”进行清理<br>（1.5.若是发生主题等修改后，要接上hexo g 来建立）<br>2.接上“hexo s”即可进入网站查看（退出键位：control+C，y）（本地浏览）<br>3.再次部署到远端：hexo d</p>
-<h3 id="关于主题"><a href="#关于主题" class="headerlink" title="关于主题"></a>关于主题</h3><p>1.可以使用git clone 网址.git themes\新建目录名<br>（或者使用码云gitee进行下载，然后复制到themes目录下）<br>2.cd..    (回到blog目录下)<br>notepad _config.yml<br>把记事本里面的theme：xx修改成theme：主题目录名<br>3.重新执行”基本操作”</p>
-<h3 id=""><a href="#" class="headerlink" title=""></a></h3><p>参考文献</p>
-<p><a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">https://hexo.io/docs/one-command-deployment.html</a>)</p>
+                <h2 id="1-XSS"><a href="#1-XSS" class="headerlink" title="1.XSS"></a>1.XSS</h2><h4 id="什么是XSS"><a href="#什么是XSS" class="headerlink" title="什么是XSS"></a>什么是XSS</h4><p>Cross-Site Scripting（跨站脚本攻击）简称 XSS，是一种代码注入攻击，通过注入恶意脚本，，使之在用户浏览器上运行，然后利用这些恶意脚本，攻击者可以获取用户的敏感信息Cookie、SessionID等</p>
+<p>XSS 常见的注入方法：</p>
+<ul>
+<li>在 HTML 中内嵌的文本中，恶意内容以 script 标签形成注入。</li>
+<li>在内联的 JavaScript 中，拼接的数据突破了原本的限制（字符串，变量，方法名等）。</li>
+<li>在标签属性中，恶意内容包含引号，从而突破属性值的限制，注入其他属性或者标签。</li>
+<li>在标签的 href、src 等属性中，包含 <code>javascript:</code> (伪协议)等可执行代码。</li>
+<li>等等。。。。</li>
+</ul>
+<p><strong>XSS攻击类型</strong></p>
+<p>存储型XSS，它是最危险的一种跨站脚本，相比反射型XSS和DOM型XSS具有更高的隐蔽性，所以危害更大</p>
+<ul>
+<li>攻击者将恶意代码提交到目标网站数据库中</li>
+<li>客户端最后从服务器得到的就是恶意代码，在浏览器执行的也是该恶意代码</li>
+<li>恶意代码将用户数据发送至攻击者网站</li>
+</ul>
+<p>反射型XSS（有点像那种色情小广告，点进去你就没了）</p>
+<ul>
+<li>攻击者构建特殊URL，里面包含恶意代码</li>
+<li>当用户打开此URL时，网站的服务端将恶意代码从中取出，并且<strong>拼接在HTML</strong>返回给浏览器（这应该属于后端渲染范围）</li>
+<li>恶意代码被浏览器执行，然后将用户数据发送给攻击者网站</li>
+</ul>
+<p>DOM型XSS（感觉和反射型XSS很像，只不过这个是属于JavaScript的安全漏洞（浏览器的DOM解析），反射型XSS时属于服务端的安全漏洞），所以防范DOM型XSS是前端的责任</p>
+<ul>
+<li>同样的，攻击者构造特殊URL，其中包含恶意代码</li>
+<li>用户打开后，浏览器解析，<strong>JavaScript取出URL</strong>然后执行</li>
+<li>恶意代码被浏览器执行，然后将用户数据发送给攻击者网站</li>
+</ul>
+<h4 id="防范XSS"><a href="#防范XSS" class="headerlink" title="防范XSS"></a>防范XSS</h4><p>常用的防范手段：</p>
+<ul>
+<li><strong>httpOnly:</strong> 在 cookie 中设置 HttpOnly 属性后，js脚本将无法读取到 cookie 信息。</li>
+<li><strong>输入过滤:</strong> 一般是用于对于输入格式的检查，例如：邮箱，电话号码，用户名，密码……等，按照规定的格式输入。</li>
+<li><strong>转义 HTML:</strong> 如果拼接 HTML 是必要的，就需要对于引号，尖括号，斜杠进行转义</li>
+<li><strong>添加白名单</strong>：对于显示富文本来说，以上方法可能会将需要的格式也过滤掉，这时我们可以添加白名单的方式</li>
+</ul>
+<p>预防存储型XSS和反射型XSS攻击：</p>
+<ul>
+<li>纯前端渲染（这样就不会拼接html返回了）</li>
+<li>同上面常用的防范手段一样的转义html</li>
+</ul>
+<p>预防DOM型XSS攻击</p>
+<p>DOM型XSS攻击实际上是JavaScript代码本身不够严谨，</p>
+<ul>
+<li><code>.innerHTML</code>、<code>.outerHTML</code>、<code>document.write()</code> 时要特别小心，不要把不可信的数据作为 HTML 插到页面上，而应尽量使用 <code>.textContent</code>、<code>.setAttribute()</code> 等。（尽量避免这种直接插入式的写法）</li>
+<li>Vue的 <code>v-html</code>也容易导致xss攻击（原理也是innerHTML），与此同时，<code>v-html</code>也会替换掉标签内部子元素，所以 <code>v-html</code>尽量别用</li>
+<li>减少<code>eval()</code>的使用</li>
+</ul>
+<h2 id="2-CSRF"><a href="#2-CSRF" class="headerlink" title="2.CSRF"></a>2.CSRF</h2><h4 id="什么是CSRF"><a href="#什么是CSRF" class="headerlink" title="什么是CSRF"></a>什么是CSRF</h4><p>CSRF是一种跨站请求伪造，也被称为 one-click-attack 或者 session riding</p>
+<p>下面的图源自这个大佬 ： <a href="https://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html" target="_blank" rel="noopener">https://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html</a> （随便点开，放心绝对不是XSS或者CSRF ，手动狗头）</p>
+<p><img src="/http3.jpg" alt=""></p>
+<p>触发条件：</p>
+<ul>
+<li>用户登录并且信任网站A，并产生cookie</li>
+<li>未登出A的情况下，访问网站B（此网站虽然是攻击网站，但是它可能是一个存在其他漏洞的可信任的经常被人访问的网站）</li>
+</ul>
+<p>（感觉通俗来讲就是，你在存放重要信息的网站A登录后，没有关闭 且 本地的cookie没有过期，登陆了另外一个（攻击）网站，它就会偷你的cookie，冒充你来操作你网站A的账号）</p>
+<p>常见类型</p>
+<ul>
+<li>Get类型的CSRF</li>
+<li>POST类型的CSRF</li>
+<li>链接类型的CSRF，上面两种打开网页就中招，这种要点击的，比较low</li>
+</ul>
+<h4 id="防御CSRF"><a href="#防御CSRF" class="headerlink" title="防御CSRF"></a>防御CSRF</h4><ul>
+<li>验证码；强制用户必须与应用进行交互，才能完成最终请求。此种方式能很好的遏制 csrf，但是用户体验比较差</li>
+<li>Referer check：请求来源限制，即同源检测，此种方法成本最低，但是并不能保证 100% 有效，因为服务器并不是什么时候都能取到 Referer，而且低版本的浏览器存在伪造 Referer 的风险。</li>
+<li>token：token 验证的 CSRF 防御机制是公认最合适的方案。若网站同时存在 XSS 漏洞的时候，这个方法也是空谈，因为XSS攻击有可能泄露Token * - *</li>
+</ul>
+<h2 id="3-劫持"><a href="#3-劫持" class="headerlink" title="3.劫持"></a>3.劫持</h2><p><strong>DNS劫持</strong></p>
+<p>DNS  ： 域名 -&gt;  ip地址 ，进行域名解析的服务器</p>
+<p>（DNS服务器的IP地址，有可能是动态的，每次上网时由网关分配，这叫做DHCP机制；也有可能是事先指定的固定地址。Linux系统里面，DNS服务器的IP地址保存在<code>/etc/resolv.conf</code>文件。）</p>
+<p>DNS劫持又称域名劫持,是指通过某些手段取得某域名的解析控制权，修改此域名的解析结果，导致对该域名的访问由原IP地址转入到修改后的指定IP，其结果就是对特定的网址不能访问或访问的是假网址。</p>
+<p>DNS劫持其实并不是真的“黑掉”了对方的网站，而是冒名顶替、招摇撞骗罢了</p>
+<p><strong>防止DNS劫持</strong></p>
+<p>网络层面：</p>
+<ul>
+<li>手动修改DNS</li>
+<li>修改路由密码</li>
+</ul>
+<p>应用层面：</p>
+<ul>
+<li>有点复杂，可以网上查询（泪。。）</li>
+</ul>
+<p><strong>HTTP劫持</strong></p>
+<p>你DNS解析的域名的IP地址不变。在和网站交互过程中的劫持了你的请求。在网站发给你信息前就给你返回了请求。</p>
+<p>HTTP劫持很好判断，当年正常访问一个无广告的页面时，页面上出现广告弹窗，八成就是运营商劫持了HTTP。下图中，右下角的广告并不是所访问的网站放置的。</p>
+<h2 id="4-SQL注入攻击"><a href="#4-SQL注入攻击" class="headerlink" title="4.SQL注入攻击"></a>4.SQL注入攻击</h2><h4 id="什么是SQL注入攻击"><a href="#什么是SQL注入攻击" class="headerlink" title="什么是SQL注入攻击"></a>什么是SQL注入攻击</h4><p>sql作为一种解释型语言（数据库语言），在运行时是由一个运行时<a href="http://www.2cto.com/kf/all/zujian/" target="_blank" rel="noopener">组件</a>解释语言代码并执行其中包含的指令的语言。基于这种执行方式，产生了一系列叫做代码注入（code injection）的漏洞</p>
+<p>程序员在web开发时，没有过滤敏感字符，绑定变量，导致攻击者可以通过sql灵活多变的语法，构造精心巧妙的语句，不择手段，达成目的，或者通过<a href="http://www.2cto.com/os/" target="_blank" rel="noopener">系统</a>报错，返回对自己有用的信息。</p>
+<p>个人感觉有点像XSS攻击，都是利用语言漏洞进行代码注入</p>
+<p>类似于合成这种永真的语句，让黑客用户登陆成功 <code>select * from users where username=&#39;&#39; or 1=1</code></p>
+<h4 id="防御SQL注入"><a href="#防御SQL注入" class="headerlink" title="防御SQL注入"></a>防御SQL注入</h4><p>1、预编译，在SQL映射文件中尽量使用#指示符标识参数位置，避免使用$。</p>
+<p>2、确认每种数据的类型，比如是数字，数据库则必须使用int类型来存储</p>
+<p>3、规定数据长度，能在一定程度上防止sql注入</p>
+<p>4、严格限制数据库权限，能最大程度减少sql注入的危害</p>
+<p>5、避免直接响应一些sql异常信息，sql发生异常后，自定义异常进行响应</p>
+<p>6、过滤参数中含有的一些数据库关键词</p>
+<h2 id="5-序列化"><a href="#5-序列化" class="headerlink" title="5.序列化"></a>5.序列化</h2><h4 id="反序列化漏洞"><a href="#反序列化漏洞" class="headerlink" title="反序列化漏洞"></a>反序列化漏洞</h4><p>简单来说，序列化可以理解为就是将对象转化为字节流，字节流中包括这个对象的数据和信息，序列化和反序列化便于类的持久保存，并且很利于网络传输</p>
+<p>而在反序列化处理中，如果攻击者通过构建恶意输入，使得反序列化产生非预期的类或者对象，这个类或者对象就有可能带来任意代码的执行</p>
+<p>所以这个问题的根源在于，字节流进行还原时，即用到ObjectInputStream在反序列化时，没有对生成的对象的类型做限制</p>
 
             </div>
             <hr/>
@@ -506,7 +608,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2020/05/03/my-first-blog/">https://taylor12138.github.io/2020/05/03/my-first-blog/</a>
+                    <a href="https://taylor12138.github.io/2021/03/15/an-quan-wen-ti-hui-zong/">https://taylor12138.github.io/2021/03/15/an-quan-wen-ti-hui-zong/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -713,29 +815,35 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/05/04/zhu-ti-yu-2d-ren-wu/">
+                <a href="/2021/03/15/http-ju-ti-er-wei/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="主题与2d人物">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="http具体而微">
                         
-                        <span class="card-title">主题与2d人物</span>
+                        <span class="card-title">http具体而微</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Start人物使用命令安装npm：npm uninstall hexo-helper-live2d              npm install –save hexo-helper-live2d此时在blog/node_modeles下
+                            1.http概述从计算机网络的学习我们了解到：HTTP协议[超文本传输协议]，协议详细规定了浏览器和万维网服务器之间相互通信的规则
+新的http 2.0
+使用二进制传输（二进制分帧），减少服务端压力，连接吞吐量更大，改善TCP拥塞状况，同时
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-04
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-03-15
                         </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            Hello
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%BD%91%E7%BB%9C/" class="post-category">
+                                    网络
+                                </a>
+                            
                             
                         </span>
                     </div>
@@ -747,38 +855,44 @@
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="far fa-dot-circle"></i>
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/03/my-first-blog/">
+                <a href="/2021/03/08/xiang-mu-bu-shu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="My First Blog">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="项目部署">
                         
-                        <span class="card-title">My First Blog</span>
+                        <span class="card-title">项目部署</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Quick Start打开win+R进入cmd，然后在正确目录下进入：cd source_post(指定blog下)
-基本操作用typora修改完毕后，1.使用“hexo clean”进行清理（1.5.若是发生主题等修改后，要接上hexo 
+                            1.部署方式利用脚手架打包后得到dist文件
+将自己电脑作为服务器，部署本地 ：window -&gt; 使用nginx或者tomcat
+远程主机，进行部署：linux centos -&gt; nginx
+如
+注意 ：使用nginx时，关
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-03
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-03-08
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            Hello
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
-
                 
             </div>
         </div>

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    12.2k
+                    12.3k
                 </div>
                 
 
@@ -859,7 +859,7 @@ fs<span class="token punctuation">.</span><span class="token function">createRea
     <span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>zlib<span class="token punctuation">.</span><span class="token function">createGunzip</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
     <span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>fs<span class="token punctuation">.</span><span class="token function">createWriteStream</span><span class="token punctuation">(</span><span class="token string">'copy2.jpg'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"解压缩完毕！！！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h2 id="6-创建服务"><a href="#6-创建服务" class="headerlink" title="6.创建服务"></a>6.创建服务</h2><p>1.先引入模块</p>
+<h2 id="6-创建服务"><a href="#6-创建服务" class="headerlink" title="6.创建服务"></a>6.创建服务</h2><p>1.先引入模块(Nodejs本身提供了http模块)</p>
 <p><code>var _http = require(&#39;http&#39;);</code></p>
 <h4 id="创建服务器"><a href="#创建服务器" class="headerlink" title="创建服务器"></a>创建服务器</h4><p><code>http.createServer([options][, requestListener])</code></p>
 <p>request监听事件需要接收两个参数，Request请求对象（获取客户端请求信息），Response响应对象（用来给客户端发送响应消息）</p>
@@ -1501,8 +1501,8 @@ npm install <span class="token operator">--</span>global nodemon</code></pre>
 <p>使用 <code>npm init --yes</code>初始化创建的文件夹</p>
 <p>下载依赖包  <code>npm i superagent cheerio</code></p>
 <ul>
-<li>superagent: http库，发起post、get请求</li>
-<li>cheerio：为服务器特别定制的快速灵活jQuery，用来从网页css selector取数据，使用方法和jQuery一样</li>
+<li>superagent: 是一个轻量的Ajax API，和axios差不多，只不过</li>
+<li>cheerio：为服务器特别定制的快速灵活jQuery，它并<em>不会</em>产生视觉呈现，应用CSS，加载外部资源，或者执行JavaScript，可以用来从网页css selector取数据，使用方法和jQuery一样</li>
 </ul>
 <p>第二步：</p>
 <p>通过 superagent &amp; cheerio获取网页数据（后端渲染）</p>
@@ -1515,7 +1515,7 @@ npm install <span class="token operator">--</span>global nodemon</code></pre>
   <span class="token keyword">const</span> $getAreaStat <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#getAreaStat'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">html</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token comment" spellcheck="true">// 加入全国疫情数据</span>
   <span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
-  <span class="token function">eval</span><span class="token punctuation">(</span>$getAreaStat<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token regex">/window/g</span><span class="token punctuation">,</span> <span class="token string">'data'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">eval</span><span class="token punctuation">(</span>$getAreaStat<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token regex">/window/g</span><span class="token punctuation">,</span> <span class="token string">'data'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//执行里面的语句，使得data成功被赋值</span>
   console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token comment" spellcheck="true">// 字符串转换json</span>
   fs<span class="token punctuation">.</span><span class="token function">writeFile</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'./data.json'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">,</span> err <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
@@ -2031,7 +2031,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">186.2k</span>&nbsp;字
+                class="white-color">189.3k</span>&nbsp;字
             
             
             

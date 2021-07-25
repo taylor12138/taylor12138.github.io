@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.3k
+                    3.2k
                 </div>
                 
 
@@ -670,64 +670,6 @@ transform:translate(-50%,-50%);</code></pre><p>但是它对行内标签没有效
 <p>transform要看情况选择：先写旋转rotate再写移动translate或者相反情况</p>
 <h4 id="3d呈现transform-style"><a href="#3d呈现transform-style" class="headerlink" title="3d呈现transform-style"></a>3d呈现transform-style</h4><p>控制子元素是否开启三维立体环境，代码要写给父级（一定是父级，不能爷爷级别，亲测过），此属性很重要</p>
 <pre class=" language-css"><code class="language-css"><span class="token property">transform-style</span><span class="token punctuation">:</span> preserve-<span class="token number">3</span>d <span class="token comment" spellcheck="true">/*此为开启立体空间，但是默认值为flat，不开启立体空间*/</span></code></pre>
-<h2 id="11-CSS动画和JS动画的对比"><a href="#11-CSS动画和JS动画的对比" class="headerlink" title="11.CSS动画和JS动画的对比"></a>11.CSS动画和JS动画的对比</h2><p>CSS动画优点：</p>
-<ul>
-<li>动画流畅</li>
-<li>性能较优</li>
-<li>动画效果对帧速不好的低版本浏览器</li>
-<li>代码简单，调优方向固定</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>运行过程控制较弱,无法附加事件绑定回调函数</li>
-<li>代码冗长</li>
-</ul>
-<p>JS动画优点：</p>
-<ul>
-<li>JavaScript动画控制能力很强，动画能力强</li>
-<li>兼容性好</li>
-</ul>
-<h2 id="12-CSS的repaint和reflow"><a href="#12-CSS的repaint和reflow" class="headerlink" title="12.CSS的repaint和reflow"></a>12.CSS的repaint和reflow</h2><p><img src="/CSS%E9%AB%98%E7%BA%A7/reflow.jpg" alt=""></p>
-<p>以上为浏览器解析流程图</p>
-<p><strong>1、解析HTML以构建DOM树：</strong>渲染引擎开始解析HTML文档，转换树中的html标签或js生成的标签到DOM节点，它被称为 – 内容树；此外，CSS下载完之后对CSS进行解析，解析成CSS对象，然后把CSS对象组装起来，构建CSSOM树。</p>
-<p><strong>2、构建渲染树：</strong>解析CSS（包括外部CSS文件和样式元素以及js生成的样式），根据CSS选择器计算出节点的样式，在解析步骤中创建的CSSOM树和DOM树组合成一个Render树。（<code>display: none;</code>不会出现在render树上，<code>visibility: hidden</code>会出现在render树上，因为它们会占用空间）<br><strong>3、布局渲染树:</strong> 也就是layout，从根节点递归调用，计算每一个元素的大小、位置等，给每个节点所应该出现在屏幕上的精确坐标。<br><strong>4、绘制渲染树:</strong> 也就是paint，遍历渲染树，每个节点将使用UI后端层来绘制。</p>
-<h4 id="reflow"><a href="#reflow" class="headerlink" title="reflow"></a><strong>reflow</strong></h4><p>第一次确定节点的大小和位置称为布局layout。随后对节点大小和位置的重新计算称为回流reflow</p>
-<p>对于DOM结构中的各个元素都有自己的盒子（模型），这些都需要浏览器根据各种样式（浏览器的、开发人员定义的等）来计算并根据计算结果将元素放到它该出现的位置，过程称为reflow</p>
-<p>它一般在DOM元素位置发生改变后触发，比如JS添加 <code>DOM</code>元素，CSS <code>width</code>的改变、CSS3的<code>animation</code>、Scroll页面</p>
-<h4 id="repaint"><a href="#repaint" class="headerlink" title="repaint"></a>repaint</h4><p>当各种盒子的位置、大小以及其他属性，例如颜色、字体大小等都确定下来后，浏览器于是便把这些元素都按照各自的特性绘制了一遍，于是页面的内容出现了，过程称为repaint</p>
-<p>它一般在改变 DOM 元素的视觉效果时触发，即不涉及任何排版布局的问题时触发，比如<code>color</code>、<code>text-align</code>、</p>
-<p><strong>注意：回流reflow一定会触发重绘repaint，而重绘不一定会回流</strong></p>
-<p>我们应该减少reflow和repaint的操作，提高渲染速度</p>
-<p>reflow的成本比repaint高很多</p>
-<p>下面操作可能导致高成本的消耗：</p>
-<ul>
-<li>当你增加、删除、修改 DOM 结点时，会导致 Reflow 或 Repaint。</li>
-<li>当你移动 DOM 的位置，或是搞个动画的时候。</li>
-<li>当你修改 CSS 样式的时候。</li>
-<li>当你 Resize 窗口的时候（移动端没有这个问题），或是滚动的时候。</li>
-<li>当你修改网页的默认字体时。</li>
-<li><code>display:none</code> 会触发 reflow，而 <code>visibility:hidden</code> 只会触发 repaint</li>
-</ul>
-<h4 id="优化方式"><a href="#优化方式" class="headerlink" title="优化方式"></a>优化方式</h4><ul>
-<li>不要一条一条地修改 <code>DOM</code> 的样式。与其这样，还不如预先定义好 <code>css</code> 的 <code>class</code>，然后修改 <code>DOM</code> 的 <code>className</code>（或者使用的是vue、react等框架，虚拟dom会帮助你完成一次性的dom操作）</li>
-<li>可以先把父元素隐藏起来，添加完子元素后，在把父元素显示出来；亦或者使用文档片段(document fragment)在当前DOM之外构建一个子树，再把它拷贝回文档</li>
-<li>减少使用table布局</li>
-<li>不要把 <code>DOM</code> 节点的属性值放在一个循环里当成循环里的变量</li>
-<li>使用<strong>transform、opacity、filters这些动画不会引起回流重绘</strong>，因为他们是在paint之后的<ul>
-<li>比如我在使用了<code>transform:translate()</code>后，无法获取正确的<code>offsetTop</code>、<code>offsetLeft</code>，由于他们未进行回流重绘，虽然视觉上确实是移动了，但是div在文档流中的位置是不变的</li>
-</ul>
-</li>
-</ul>
-<h4 id="浏览器对于回流重绘的优化"><a href="#浏览器对于回流重绘的优化" class="headerlink" title="浏览器对于回流重绘的优化"></a>浏览器对于回流重绘的优化</h4><p>现代的浏览器都是很聪明的，由于每次重排都会造成额外的计算消耗，因此大多数浏览器都会通过队列化修改并批量执行来优化重排过程</p>
-<p>但是：<strong>当你获取布局信息的操作的时候，会强制队列刷新</strong>，比如当你访问以下属性或者使用以下方法：</p>
-<ul>
-<li><code>offsetTop</code>、<code>offsetLeft</code>、<code>offsetWidth</code>、<code>offsetHeight</code></li>
-<li><code>scrollTop</code>、<code>scrollLeft</code>、<code>scrollWidth</code>、<code>scrollHeight</code></li>
-<li><code>clientTop</code>、<code>clientLeft</code>、<code>clientWidth</code>、<code>clientHeight</code></li>
-<li><code>getComputedStyle()</code></li>
-<li><code>getBoundingClientRect</code></li>
-</ul>
-<p>所以我们要有可能造成回流重绘时，要避免使用以上方法，导致队列进行刷新</p>
 
             </div>
             <hr/>
@@ -960,25 +902,38 @@ transform:translate(-50%,-50%);</code></pre><p>但是它对行内标签没有效
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/07/21/javascript-ji-chu/">
+                <a href="/2020/05/31/css-xuan-ran-shen-jiu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="JavaScript基础">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="CSS渲染深究">
                         
-                        <span class="card-title">JavaScript基础</span>
+                        <span class="card-title">CSS渲染深究</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.JS的介绍JS是脚本语言，不需要编译，直接由js解释器逐行进行解释并执行（编译一行，执行一行），（解释型的编程语言）现在也可以基于node.js技术（后台）进行服务器编程
-实现业务逻辑和页面控制功能，浏览器的JS引擎，也就是JS解释器，
+                            CSS动画和JS动画的对比CSS动画优点：
+
+动画流畅
+性能较优
+动画效果对帧速不好的低版本浏览器
+代码简单，调优方向固定
+
+缺点：
+
+运行过程控制较弱,无法附加事件绑定回调函数
+代码冗长
+
+JS动画优点：
+
+JavaScript动画控制能
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-07-21
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-31
                         </span>
                         <span class="publish-author">
                             
@@ -1235,7 +1190,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">186.2k</span>&nbsp;字
+                class="white-color">189.3k</span>&nbsp;字
             
             
             

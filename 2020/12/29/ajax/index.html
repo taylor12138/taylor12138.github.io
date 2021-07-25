@@ -1082,7 +1082,8 @@ ws<span class="token punctuation">.</span><span class="token function">addEventL
 <pre class=" language-shell"><code class="language-shell">npm install nodejs-websocket</code></pre>
 <p>在新建的nodejs服务器上使用</p>
 <p>每一次只要有用户进行连接，就会执行该回调函数，<strong>然后给当前用户创建一个connect对象</strong></p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> server <span class="token operator">=</span> ws<span class="token punctuation">.</span><span class="token function">createServer</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>connect<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> ws <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"nodejs-websocket"</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> server <span class="token operator">=</span> ws<span class="token punctuation">.</span><span class="token function">createServer</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>connect<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"New connection"</span><span class="token punctuation">)</span>
     <span class="token comment" spellcheck="true">//text事件用于接收用户请求，data为用户发送的数据</span>
     connect<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">"text"</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -1114,7 +1115,7 @@ ws<span class="token punctuation">.</span><span class="token function">addEventL
 <p>说是说框架，但官方也解释了<code>socket.io</code>并不是websocket的一个实践，即使他在其中有使用到websocket的传输协议，但它作出了许多拓展，这就是为什么 WebSocket 客户端无法成功连接到 Socket.IO 服务器，而 Socket.IO 客户端也无法连接到普通 WebSocket 服务器的原因。（但在实现功能上，我们可以看成是一致的）</p>
 <p><img src="../images/Ajax/socket_io.jpg" alt=""></p>
 <p>附上官网 <a href="https://socket.io/" target="_blank" rel="noopener">https://socket.io/</a></p>
-<h5 id="服务端使用"><a href="#服务端使用" class="headerlink" title="服务端使用"></a>服务端使用</h5><pre class=" language-shell"><code class="language-shell">$ npm install socket.io</code></pre>
+<h5 id="服务端使用"><a href="#服务端使用" class="headerlink" title="服务端使用"></a>服务端使用</h5><pre class=" language-shell"><code class="language-shell">npm install socket.io</code></pre>
 <p>在express中可以使用（官网还有在typescript、koa等语言框架中使用的方法）</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"express"</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> httpServer <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"http"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">createServer</span><span class="token punctuation">(</span>app<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//以前我们使用原生nodejs创建服务器、发送请求调用过http包</span>
@@ -1654,7 +1655,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">186.2k</span>&nbsp;字
+                class="white-color">189.3k</span>&nbsp;字
             
             
             

@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="双向链表, Hexo">
+    <meta name="keywords" content="CSS渲染深究, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>双向链表 | Hexo</title>
+    <title>CSS渲染深究 | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">双向链表</h1>
+                    <h1 class="description center-align post-title">CSS渲染深究</h1>
                 </div>
             </div>
         </div>
@@ -446,8 +446,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/C/" class="post-category">
-                                C++
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                前端
                             </a>
                         
                     </div>
@@ -459,7 +459,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-05-07
+                    2020-05-31
                 </div>
                 
 
@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    45
+                    2.6k
                 </div>
                 
 
@@ -485,17 +485,151 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="双向链表的定义"><a href="#双向链表的定义" class="headerlink" title="双向链表的定义"></a>双向链表的定义</h3><pre class=" language-c++"><code class="language-c++">typedef struct DuLNode{
-    ElemType data;
-    struct DuLNode *prior;  
-    struct DuLNode *next;             //前驱和后继
-}DuLNode，*DuLinkList</code></pre>
-<p>插入顺序</p>
-<pre class=" language-c++"><code class="language-c++">s=data;
-s->prior=p->prior;
-p->prior->next=s;
-s->next=p;
-p->prior=s;</code></pre>
+                <h2 id="CSS动画和JS动画的对比"><a href="#CSS动画和JS动画的对比" class="headerlink" title="CSS动画和JS动画的对比"></a>CSS动画和JS动画的对比</h2><p>CSS动画优点：</p>
+<ul>
+<li>动画流畅</li>
+<li>性能较优</li>
+<li>动画效果对帧速不好的低版本浏览器</li>
+<li>代码简单，调优方向固定</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>运行过程控制较弱,无法附加事件绑定回调函数</li>
+<li>代码冗长</li>
+</ul>
+<p>JS动画优点：</p>
+<ul>
+<li>JavaScript动画控制能力很强，动画能力强</li>
+<li>兼容性好</li>
+</ul>
+<h2 id="CSS的repaint和reflow"><a href="#CSS的repaint和reflow" class="headerlink" title="CSS的repaint和reflow"></a>CSS的repaint和reflow</h2><p><img src="/CSS%E9%AB%98%E7%BA%A7/reflow.jpg" alt=""></p>
+<p>以上为浏览器解析流程图</p>
+<p><strong>1、解析HTML以构建DOM树：</strong>渲染引擎开始解析HTML文档，转换树中的html标签或js生成的标签到DOM节点，它被称为 – 内容树；此外，CSS下载完之后对CSS进行解析，解析成CSS对象，然后把CSS对象组装起来，构建CSSOM树。</p>
+<p><strong>2、构建渲染树：</strong>解析CSS（包括外部CSS文件和样式元素以及js生成的样式），根据CSS选择器计算出节点的样式，在解析步骤中创建的CSSOM树和DOM树组合成一个Render树。（<code>display: none;</code>不会出现在render树上，<code>visibility: hidden</code>会出现在render树上，因为它们会占用空间）<br><strong>3、布局渲染树:</strong> 也就是layout，从根节点递归调用，计算每一个元素的大小、位置等，给每个节点所应该出现在屏幕上的精确坐标。<br><strong>4、绘制渲染树:</strong> 也就是paint，遍历渲染树，每个节点将使用UI后端层来绘制。</p>
+<p>在 Chrome、Opera、Safari 和 Internet Explorer 中称为布局 (Layout)。 在 Firefox 中称为自动重排 (Reflow)，但实际上其过程是一样的。</p>
+<h4 id="reflow"><a href="#reflow" class="headerlink" title="reflow"></a><strong>reflow</strong></h4><p>对节点大小和位置的重新计算称为回流reflow/ layout，每个页面至少需要一次回流（reflow/ layout），就是页面第一次加载的时候。</p>
+<p>对于DOM结构中的各个元素都有自己的盒子（模型），这些都需要浏览器根据各种样式（浏览器的、开发人员定义的等）来计算并根据计算结果将元素放到它该出现的位置，过程称为reflow</p>
+<p>它一般在DOM元素位置发生改变后触发，比如JS添加 <code>DOM</code>元素，CSS <code>width</code>的改变、CSS3的<code>animation</code>、Scroll页面</p>
+<h4 id="repaint"><a href="#repaint" class="headerlink" title="repaint"></a>repaint</h4><p>当各种盒子的位置、大小以及其他属性，例如颜色、字体大小等都确定下来后，浏览器于是便把这些元素都按照各自的特性绘制了一遍，于是页面的内容出现了，过程称为repaint</p>
+<p>它一般在改变 DOM 元素的视觉效果时触发，即不涉及任何排版布局的问题时触发，比如<code>color</code>、<code>text-align</code>、</p>
+<p><strong>注意：回流reflow一定会触发重绘repaint，而重绘不一定会回流</strong></p>
+<p>我们应该减少reflow和repaint的操作，提高渲染速度</p>
+<p>reflow的成本比repaint高很多</p>
+<p>下面操作可能导致高成本的消耗：</p>
+<ul>
+<li>当你增加、删除、修改 DOM 结点时，会导致 Reflow 或 Repaint。</li>
+<li>当你移动 DOM 的位置，或是搞个动画的时候。</li>
+<li>当你修改 CSS 样式的时候。</li>
+<li>当你 Resize 窗口的时候（移动端没有这个问题），或是滚动的时候。</li>
+<li>当你修改网页的默认字体时。</li>
+<li><code>display:none</code> 会触发 reflow，而 <code>visibility:hidden</code> 只会触发 repaint</li>
+</ul>
+<h4 id="优化方式"><a href="#优化方式" class="headerlink" title="优化方式"></a>优化方式</h4><ul>
+<li>不要一条一条地修改 <code>DOM</code> 的样式。与其这样，还不如预先定义好 <code>css</code> 的 <code>class</code>，然后修改 <code>DOM</code> 的 <code>className</code>（或者使用的是vue、react等框架，虚拟dom会帮助你完成一次性的dom操作）</li>
+<li>可以先把父元素隐藏起来，添加完子元素后，在把父元素显示出来；亦或者使用文档片段(document fragment)在当前DOM之外构建一个子树，再把它拷贝回文档</li>
+<li>减少使用table布局</li>
+<li>不要把 <code>DOM</code> 节点的属性值放在一个循环里当成循环里的变量</li>
+<li>使用<strong>transform、opacity、filters这些动画不会引起回流重绘</strong>，因为他们是在paint之后的<ul>
+<li>比如我在使用了<code>transform:translate()</code>后，无法获取正确的<code>offsetTop</code>、<code>offsetLeft</code>，由于他们未进行回流重绘，虽然视觉上确实是移动了，但是div在文档流中的位置是不变的</li>
+</ul>
+</li>
+</ul>
+<p>实质上Layout -&gt; Paint -&gt; 还有一个Composite(渲染层合并)</p>
+<p>具体有关于会影响Layout的CSS属性可以在<a href="https://csstriggers.com/" target="_blank" rel="noopener">CSS Triggers</a>网站中查阅。（可以方便我们优化）</p>
+<h4 id="浏览器对于回流重绘的优化"><a href="#浏览器对于回流重绘的优化" class="headerlink" title="浏览器对于回流重绘的优化"></a>浏览器对于回流重绘的优化</h4><p>现代的浏览器都是很聪明的，由于每次重排都会造成额外的计算消耗，因此大多数浏览器都会通过队列化修改并批量执行来优化重排过程</p>
+<p>但是：<strong>当你获取布局信息的操作的时候，会强制队列刷新</strong>，比如当你访问以下属性或者使用以下方法：</p>
+<ul>
+<li><code>offsetTop</code>、<code>offsetLeft</code>、<code>offsetWidth</code>、<code>offsetHeight</code></li>
+<li><code>scrollTop</code>、<code>scrollLeft</code>、<code>scrollWidth</code>、<code>scrollHeight</code></li>
+<li><code>clientTop</code>、<code>clientLeft</code>、<code>clientWidth</code>、<code>clientHeight</code></li>
+<li><code>getComputedStyle()</code></li>
+<li><code>getBoundingClientRect</code></li>
+</ul>
+<p>所以我们要有可能造成回流重绘时，要避免使用以上方法，导致队列进行刷新</p>
+<h2 id="关于特殊CSS属性的优化"><a href="#关于特殊CSS属性的优化" class="headerlink" title="关于特殊CSS属性的优化"></a>关于特殊CSS属性的优化</h2><p>如果你修改一个非样式且非绘制的CSS属性，那么浏览器会在完成样式计算之后，跳过布局和绘制的过程，直接做渲染层合并。这种方式在性能上是最理想的。</p>
+<p>不是所有属性动画消耗的性能都一样，其中消耗最低的是<code>transform</code>和<code>opacity</code>两个属性（当然还有会触发Composite的其他CSS属性），其次是Paint相关属性。所以在制作动画时，建议<strong>使用<code>transform</code>的<code>translate</code>替代<code>margin</code>或<code>position</code>中的<code>top</code>、<code>right</code>、<code>bottom</code>和<code>left</code>，同时使用<code>transform</code>中的<code>scaleX</code>或者<code>scaleY</code>来替代<code>width</code>和<code>height</code></strong>。</p>
+<p><code>transform</code>在没有重绘的情况下，变换究竟是如何渲染动画的呢？基本答案是 CSS 转换直接发生在利用硬件加速的GPU内存中，从而避免了软件渲染。</p>
+<h4 id="渲染优化"><a href="#渲染优化" class="headerlink" title="渲染优化"></a>渲染优化</h4><p>与此同时，我们通过CSS的属性来触发      <strong>GPU加速</strong>    浏览器会为此元素单独创建一个“层”,是一个新的复合层。有了这一层，就有点React的PureComponent、usecallback内味了，进行局部更新，不影响他人。</p>
+<p>为什么开启硬件加速动画就会变得流畅，那是因为每个页面元素都有一个独立的Render进程。</p>
+<p>首先理解三个概念：</p>
+<ul>
+<li><p>CPU即中央处理器，它的功能主要是解释计算机指令以及处理计算机软件中的数据,也被称为主板。</p>
+</li>
+<li><p>GPU即图形处理器，是与处理和绘制图形相关的硬件。GPU是专为执行复杂的数学和几何计算而设计的，有了它，CPU就从图形处理的任务中解放出来，可以执行其他更多的系统任务。</p>
+</li>
+<li><p>硬件加速是指在计算机中透过把计算量非常大的工作分配给专门的硬件来处理来减轻CPU的工作量的技术。在CSS <code>transition</code>, <code>transform</code>和<code>animation</code>的世界里，他暗示我们应该卸载进程到GPU，因此加快速度。这种情况通过向它自己的层叠加元素，当加载动画的时候可以加速渲染。</p>
+</li>
+</ul>
+<p>有了新的“层”，就有了新的“Render进程”。Render进程中包含了主线程和合成线程，主线程负责：</p>
+<ul>
+<li>JavaScript的执行</li>
+<li>CSS样式计算</li>
+<li>计算Layout</li>
+<li>将页面元素绘制成位图(Paint)</li>
+<li>发送位图给合成线程</li>
+</ul>
+<p>合成线程则主要负责：</p>
+<ul>
+<li>将位图发送给GPU</li>
+<li>计算页面的可见部分和即将可见部分(滚动)</li>
+<li>通知GPU绘制位图到屏幕上(Draw)</li>
+</ul>
+<p>我们可以得到一个大概的浏览器线程模型：</p>
+<p><img src="/css_optimize.png" alt=""></p>
+<p>而在什么情况下我们可以单独创建出这样一个复合层？</p>
+<p>它在以下情况下这样做：</p>
+<ul>
+<li>对于 3D 或透视 CSS 转换（在我们的示例中）</li>
+<li>对于<code>&lt;video&gt;</code>或<code>&lt;canvas&gt;</code>元素</li>
+<li>使用 CSS 过滤器时</li>
+<li>对于与提取到复合层的另一个元素重叠的元素（例如，使用<code>z-index</code>）</li>
+</ul>
+<p>所以这时我们会想到：<code>transfrom: translate(x, y)</code>这种2D岂不是也不可以实现？</p>
+<p>雀食，所以我们可以看到两个额外的重绘操作在动画时间轴的开始和结束</p>
+<p><img src="/cssoptimize2.png" alt=""></p>
+<p>3D 和 2D 变换之间的区别在于 3D 变换使浏览器预先创建一个单独的复合层，而 2D 变换则是即时完成的。在动画开始时，会创建一个新的复合层并将纹理加载到 GPU，从而启动重绘。然后动画由 GPU 中的合成器执行。当动画完成时，附加的复合层将被移除，这将导致另一个重绘操作。</p>
+<h4 id="如何开启GPU加速？"><a href="#如何开启GPU加速？" class="headerlink" title="如何开启GPU加速？"></a>如何开启GPU加速？</h4><p>并非元素上的所有 CSS 属性更改都可以直接在 GPU 中处理。仅支持以下属性：</p>
+<ul>
+<li><code>transform</code></li>
+<li><code>opacity</code></li>
+<li><code>filter</code></li>
+</ul>
+<p>因此，为了确保获得流畅、高质量动画的最佳机会，我们应该始终尝试使用这些 GPU 友好的属性。</p>
+<p>或者尝试一下强制在GPU中渲染元素的方法：！</p>
+<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.example1</span> </span><span class="token punctuation">{</span>
+  <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateZ</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector"><span class="token class">.example2</span> </span><span class="token punctuation">{</span>
+  <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">rotateZ</span><span class="token punctuation">(</span><span class="token number">360</span>deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>缺点：</p>
+<p>没有什么是免费的！（英文直译hhh）</p>
+<ul>
+<li><p>内存问题：最重要的问题与内存有关。向 GPU 加载过多纹理可能会导致内存问题</p>
+</li>
+<li><p>字体渲染：GPU 中的渲染会影响字体抗锯齿。这是因为 GPU 和 CPU 具有不同的渲染机制</p>
+</li>
+</ul>
+<h4 id="will-change"><a href="#will-change" class="headerlink" title="will-change"></a>will-change</h4><p>使用“transform hack”来创建单独的复合层的必要性很麻烦。浏览器绝对应该提供一种直接的方法来做到这一点。这就是为什么引入了<a href="https://drafts.csswg.org/css-will-change/" target="_blank" rel="noopener">will-change 属性</a>。这个功能可以让你通知浏览器哪个属性会发生变化，以便浏览器提前做相应的优化。这是一个通知浏览器<code>transform</code>属性将被更改的示例：</p>
+<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.element</span> </span><span class="token punctuation">{</span>
+    <span class="token property">transition</span><span class="token punctuation">:</span> opacity <span class="token number">.3</span>s linear<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">/* declare changes on the element when the mouse enters / hovers its ancestor */</span>
+<span class="token selector"><span class="token class">.ancestor</span><span class="token pseudo-class">:hover</span> <span class="token class">.element</span> </span><span class="token punctuation">{</span>
+    <span class="token property">will-change</span><span class="token punctuation">:</span> opacity<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">/* apply change when element is hovered */</span>
+<span class="token selector"><span class="token class">.element</span><span class="token pseudo-class">:hover</span> </span><span class="token punctuation">{</span>
+    <span class="token property">opacity</span><span class="token punctuation">:</span> <span class="token number">.5</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>是不是有点缓存内味了？</p>
+<p>可惜并非所有浏览器都支持will-change</p>
+<p>不能过度使用 + 要节制使用 + 不能过早使用will-change（因为会消耗内存）</p>
+<p>渲染优化的文章参考链接</p>
+<p>参考链接<a href="https://github.com/amfe/article/issues/47" target="_blank" rel="noopener">https://github.com/amfe/article/issues/47</a></p>
+<p>参考链接:<a href="https://www.w3cplus.com/css3/introduction-css-will-change-property.html" target="_blank" rel="noopener">https://www.w3cplus.com/css3/introduction-css-will-change-property.html</a></p>
+<p>参考链接<a href="https://www.sitepoint.com/introduction-to-hardware-acceleration-css-animations/" target="_blank" rel="noopener">https://www.sitepoint.com/introduction-to-hardware-acceleration-css-animations/</a></p>
 
             </div>
             <hr/>
@@ -521,7 +655,7 @@ p->prior=s;</code></pre>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2020/05/07/shuang-xiang-lian-biao/">https://taylor12138.github.io/2020/05/07/shuang-xiang-lian-biao/</a>
+                    <a href="https://taylor12138.github.io/2020/05/31/css-xuan-ran-shen-jiu/">https://taylor12138.github.io/2020/05/31/css-xuan-ran-shen-jiu/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -728,36 +862,32 @@ p->prior=s;</code></pre>
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/05/09/zhan/">
+                <a href="/2020/07/21/javascript-ji-chu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="栈">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="JavaScript基础">
                         
-                        <span class="card-title">栈</span>
+                        <span class="card-title">JavaScript基础</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            顺序栈定义typedef struct {
-    SElemType *base;//栈底指针
-    SElemType *top;//栈顶指针
-    int stacksize;//栈可用的最大容量
-} SqStack;
-初始化St
+                            1.JS的介绍JS是脚本语言，不需要编译，直接由js解释器逐行进行解释并执行（编译一行，执行一行），（解释型的编程语言）现在也可以基于node.js技术（后台）进行服务器编程
+实现业务逻辑和页面控制功能，浏览器的JS引擎，也就是JS解释器，
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-09
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-07-21
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C/" class="post-category">
-                                    C++
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
                                 </a>
                             
                             
@@ -774,34 +904,33 @@ p->prior=s;</code></pre>
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/07/dan-lian-biao/">
+                <a href="/2020/05/31/css-gao-ji/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="单链表">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="CSS高级">
                         
-                        <span class="card-title">单链表</span>
+                        <span class="card-title">CSS高级</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            如定义单链表结构体，注意引用单链表元素用”  -&gt;  “,因为是*LinkList，使用单链表用的是LinkListtypedef struct LNode
-{
-    ElemType data;    //结点的数据域
-    s
+                            1.图形精灵图为了有效减少服务器接收和发射请求次数，提高速度出现的CSS技术。即将网页小背景图合成一张大图。
+主要针对于背景图片（非产品类等更新换代图片）
+主要使用background-position+x和y轴配合使用，x轴向右，y轴向下
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-07
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-31
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C/" class="post-category">
-                                    C++
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
                                 </a>
                             
                             

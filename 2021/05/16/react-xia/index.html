@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.5k
+                    7.1k
                 </div>
                 
 
@@ -1120,6 +1120,43 @@ React<span class="token punctuation">.</span><span class="token function">useEff
     <span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
+<h4 id="useLayoutEffect"><a href="#useLayoutEffect" class="headerlink" title="useLayoutEffect"></a>useLayoutEffect</h4><p>官方的推荐使用时机：</p>
+<p>如果你正在将代码从 class 组件迁移到使用 Hook 的函数组件，则需要注意 <code>useLayoutEffect</code> 与 <code>componentDidMount</code>、<code>componentDidUpdate</code> 的调用阶段是一样的。但是，我们推荐你<strong>一开始先用 <code>useEffect</code></strong>，只有当它出问题的时候再尝试使用 <code>useLayoutEffect</code>。</p>
+<p>所以我们可以看到useEffect 并不等价于 componentDidMout，而useLayoutEffect 才是与 componentDidMount 等价</p>
+<p><code>useEffect</code> 和 <code>useLayoutEffect</code>的差异</p>
+<ul>
+<li><code>useEffect</code> 是异步执行的，而<code>useLayoutEffect</code>是同步执行的。（所以设计到渲染操作放到<code>useLayoutEffect</code>里面去）</li>
+<li><code>useEffect</code> 的执行时机是浏览器完成渲染之后，而 <code>useLayoutEffect</code> 的执行时机是浏览器把内容真正渲染到界面之前，和 <code>componentDidMount</code> 等价。</li>
+<li>如果使用服务端渲染，使用 <code>useLayoutEffect</code> 可能会导致实际渲染效果和服务端渲染初衷不一致</li>
+</ul>
+<p>参考链接 <a href="https://zhuanlan.zhihu.com/p/348701319" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/348701319</a></p>
+<h4 id="useContext"><a href="#useContext" class="headerlink" title="useContext"></a>useContext</h4><p>函数式组件除了可以使用 Consumer 接受Context的数据，还可以使用useContext进行接收（特别是在多个context的时候，更能体现出useContext的优势）</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">HeaderBar</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>CurrentUser.Consumer</span><span class="token punctuation">></span></span>
+      <span class="token punctuation">{</span>user <span class="token operator">=</span><span class="token operator">></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Notifications.Consumer</span><span class="token punctuation">></span></span>
+          <span class="token punctuation">{</span>notifications <span class="token operator">=</span><span class="token operator">></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>header</span><span class="token punctuation">></span></span>
+              Welcome back<span class="token punctuation">,</span> <span class="token punctuation">{</span>user<span class="token punctuation">.</span>name<span class="token punctuation">}</span><span class="token operator">!</span>
+              You have <span class="token punctuation">{</span>notifications<span class="token punctuation">.</span>length<span class="token punctuation">}</span> notifications<span class="token punctuation">.</span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span><span class="token punctuation">></span></span>
+          <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>CurrentUser.Consumer</span><span class="token punctuation">></span></span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">HeaderBar</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> user <span class="token operator">=</span> <span class="token function">useContext</span><span class="token punctuation">(</span>CurrentUser<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> notifications <span class="token operator">=</span> <span class="token function">useContext</span><span class="token punctuation">(</span>Notifications<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>header</span><span class="token punctuation">></span></span>
+      Welcome back<span class="token punctuation">,</span> <span class="token punctuation">{</span>user<span class="token punctuation">.</span>name<span class="token punctuation">}</span><span class="token operator">!</span>
+      You have <span class="token punctuation">{</span>notifications<span class="token punctuation">.</span>length<span class="token punctuation">}</span> notifications<span class="token punctuation">.</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span><span class="token punctuation">></span></span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
 <h2 id="10-React优化"><a href="#10-React优化" class="headerlink" title="10.React优化"></a>10.React优化</h2><h4 id="PureComponent"><a href="#PureComponent" class="headerlink" title="PureComponent"></a>PureComponent</h4><p>问题一：执行<code>setState</code>的时候，即使state未发生改变，也会重新render（不过redux的更新也由此得益）</p>
 <p>问题二：React中使用父子组件嵌套时，父组件使用props传入state的状态，发生 setState 时state改变，setState触发 <code>render()</code>，而传入的props也随之改变，子组件也发生 <code>render()</code>；但是如果没有传入props，父组件发生 <code>render()</code>更新时，因为子组件也放在 <code>render()</code>里面，所以子组件即使没什么要改的地方，也不得不随着父组件一起 <code>render()</code>更新</p>
 <p>造成原因：</p>
@@ -1155,21 +1192,46 @@ React<span class="token punctuation">.</span><span class="token function">useEff
     username<span class="token punctuation">:</span><span class="token string">'Bruce'</span><span class="token punctuation">,</span>
     student<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'Olivia'</span><span class="token punctuation">,</span> <span class="token operator">...</span>student<span class="token punctuation">]</span> 
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h4 id="额外钩子"><a href="#额外钩子" class="headerlink" title="额外钩子"></a>额外钩子</h4><p><code>useCallback</code><br>官方解释为：</p>
+<h4 id="useCallback"><a href="#useCallback" class="headerlink" title="useCallback"></a><strong>useCallback</strong></h4><p>官方：</p>
+<p>把内联回调函数及依赖项数组作为参数传入 useCallback，它将返回该回调函数的 memoized 版本，该回调函数仅在某个依赖项改变时才会更新。当你把回调函数传递给经过优化的并使用引用相等性去避免非必要渲染（例如 shouldComponentUpdate）的子组件时，它将非常有用。</p>
+<p>这里引入一个例子</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">Foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span>count<span class="token punctuation">,</span> setCount<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">const</span> <span class="token function">handleClick</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`Click happened with dependency: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>count<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Button</span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>handleClick<span class="token punctuation">}</span></span><span class="token punctuation">></span></span>Click Me<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Button</span><span class="token punctuation">></span></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>这里每次渲染，都会造成handleClick重新创建，给Button是不同的引用，然后Button也跟着渲染。</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">Foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span>count<span class="token punctuation">,</span> setCount<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">const</span> memoizedHandleClick <span class="token operator">=</span> <span class="token function">useCallback</span><span class="token punctuation">(</span>
+    <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`Click happened with dependency: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>count<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>count<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span> 
+  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Button</span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>memoizedHandleClick<span class="token punctuation">}</span></span><span class="token punctuation">></span></span>Click Me<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Button</span><span class="token punctuation">></span></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>此时在依赖项count不变的情况下，他会返回相同的引用，避免Button无意义的重复渲染。</p>
+<p><code>useCallback(fn, deps)</code> 相当于 <code>useMemo(() =&gt; fn, deps)</code>。</p>
+<p>导师说按照我给他描述的pureComponent，性质应该差不多（他貌似也没怎么使用过类式组件），公司里也有很多组件（涉及到一些回调函数操作），也经常使用到</p>
+<p>而useMemo</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">const</span> memoizedValue <span class="token operator">=</span> <span class="token function">useMemo</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token function">computeExpensiveValue</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>a<span class="token punctuation">,</span> b<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>把“创建”函数和依赖项数组作为参数传入 useMemo，它仅会在某个依赖项改变时才重新计算 memoized 值。这种优化有助于避免在每次渲染时都进行高开销的计算。</p>
+<p>记住，传入 useMemo 的函数会在渲染期间执行。请不要在这个函数内部执行与渲染无关的操作，诸如副作用这类的操作属于 useEffect 的适用范畴，而不是 useMemo。</p>
+<h4 id="useCallback使用场景-死循环"><a href="#useCallback使用场景-死循环" class="headerlink" title="useCallback使用场景 + 死循环"></a>useCallback使用场景 + 死循环</h4><p><a href="https://segmentfault.com/a/1190000020108840" target="_blank" rel="noopener">https://segmentfault.com/a/1190000020108840</a></p>
+<p>死循环的出现（链接里面的两个例子）：</p>
 <ul>
-<li>把内联回调函数及依赖项数组作为参数传入 useCallback，它将返回该回调函数的 memoized 版本，该回调函数仅在某个依赖项改变时才会更新。当你把回调函数传递给经过优化的并使用引用相等性去避免非必要渲染（例如 shouldComponentUpdate）的子组件时，它将非常有用。</li>
-<li>useCallback(fn, deps) 相当于 useMemo(() =&gt; fn, deps)。</li>
-<li>导师说按照我给他描述的pureComponent，性质应该差不多（他貌似也没怎么使用过类式组件），公司里也有很多组件（涉及到一些回调函数操作），也经常使用到</li>
+<li><p>子组件的渲染依赖父组件传递的函数，而函数被在被调用的时候会触发父组件的渲染，会导致父组件内，该函数的引用发生改变 -&gt;</p>
+<p>传入子组件函数发生改变，函数再次调用 -&gt; 死循环</p>
+</li>
+<li><p>函数依赖自身自家组件的state（加上usecallback，但依赖列表也要添加自身的state），state发生改变，引用再次改变 -&gt; 再调用，再改变，再调用，再改变。</p>
+</li>
 </ul>
-<p>而<code>useMemo</code></p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> memoizedValue <span class="token operator">=</span> <span class="token function">useMemo</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token function">computeExpensiveValue</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>a<span class="token punctuation">,</span> b<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>解决方法：</p>
 <ul>
-<li>把“创建”函数和依赖项数组作为参数传入 useMemo，它仅会在某个依赖项改变时才重新计算 memoized 值。这种优化有助于避免在每次渲染时都进行高开销的计算。</li>
-<li>记住，传入 useMemo 的函数会在渲染期间执行。请不要在这个函数内部执行与渲染无关的操作，诸如副作用这类的操作属于 useEffect 的适用范畴，而不是 useMemo。</li>
-</ul>
-<p>两者的区别：</p>
-<ul>
-<li>主要区别是 React.useMemo 将调用 fn 函数并返回其结果，而 React.useCallback 将返回 fn 函数而不调用它。<br>useCallback(fn, deps) 相当于 useMemo(() =&gt; fn, deps)。</li>
+<li>将方法传递给子组件的时候包一层useCallback</li>
+<li>自定义hook</li>
 </ul>
 
             </div>
@@ -1682,7 +1744,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">186.2k</span>&nbsp;字
+                class="white-color">189.3k</span>&nbsp;字
             
             
             

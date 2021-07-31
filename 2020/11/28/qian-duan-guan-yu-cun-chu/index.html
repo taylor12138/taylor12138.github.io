@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.9k
+                    3.1k
                 </div>
                 
 
@@ -517,6 +517,7 @@
 </li>
 </ul>
 <p>工作中识别用户给用户推销产品，用来保存一些不太敏感的数据（但我很纳闷，其实很多用户用cookie来记住密码）</p>
+<p>tips：一个浏览器针对一个网站最多存 20 个Cookie，浏览器一般只允许存放 300 个Cookie<br>移动端对 cookie 的支持不是很好，而 session 需要基于 cookie 实现，所以移动端常用的是 token</p>
 <h2 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h2><p>cookie和session都是用来跟踪浏览器用户身份的会话方式，通常使用cookie方式存储session ID到客户端</p>
 <p>保持状态：cookie保存在浏览器端，session保存在服务器端</p>
 <p>存储的大小：cookie：单个cookie保存的数据不能超过4kb；session大小没有限制。</p>
@@ -525,7 +526,7 @@
 <ul>
 <li><p>cookie判断用户是否登陆过网站，以便下次登录时能够实现自动登录（或者记住密码）；保存上次登录的时间等信息。</p>
 </li>
-<li><p>Session用于保存每个用户的专用信息，变量的值保存在服务器端，通过SessionID来区分不同的客户。</p>
+<li><p>Session用于保存每个用户的专用信息，变量的值保存在服务器端，服务端会从请求传回来的 Cookie 中获取 SessionID，通过SessionID来区分不同的客户。</p>
 </li>
 </ul>
 <p>　　（1）网上商城中的购物车</p>
@@ -539,7 +540,7 @@
 <p>4、用户随后的每一次请求，都会通过 Cookie，将 session_id 传回服务器。</p>
 <p>5、服务器收到 session_id，找到前期保存的数据，由此得知用户的身份。</p>
 <p>session缺点： Session保存的东西越多，就越占用服务器内存，对于用户在线人数较多的网站，服务器的内存压力会比较大。</p>
-<h2 id="Token"><a href="#Token" class="headerlink" title="Token"></a>Token</h2><p>上述展示了基于服务器验证的session暴露了一些弊端，当然使用session还有可能引起：跨域共享问题、CSRF攻击问题和可拓展性问题。</p>
+<h2 id="Token"><a href="#Token" class="headerlink" title="Token"></a>Token</h2><p>上述展示了基于服务器验证的session（sessionID）暴露了一些弊端，当然使用session还有可能引起：跨域共享问题、CSRF攻击问题和可拓展性问题。</p>
 <p>基于 Token 的身份验证是无状态的，我们不用将用户信息存在服务器或 Session 中。这种概念解决了在服务端存储信息时的许多问题。没有 session 信息意味着你的程序可以根据需要去增减机器，而不用去担心用户是否登录和已经登录到了哪里。</p>
 <p>大多的token验证流程如下：</p>
 <ol>
@@ -612,6 +613,8 @@
 <li>完成加好友的操作，还有诸如下订单的操作</li>
 <li>设计用户认证和授权系统，甚至实现Web应用的单点登录。</li>
 </ul>
+<h4 id="JWT和token的不同点"><a href="#JWT和token的不同点" class="headerlink" title="JWT和token的不同点"></a>JWT和token的不同点</h4><p>Token：服务端验证客户端发送过来的 Token 时，还需要查询数据库获取用户信息，然后验证 Token 是否有效。</p>
+<p>JWT：将 Token 和 Payload 加密后存储于客户端，服务端只需要使用密钥解密进行校验（校验也是 JWT 自己实现的）即可，不需要查询或者减少查询数据库，因为 JWT 自包含了用户信息和加密的数据。</p>
 <p>JWT参考文章：<a href="http://blog.leapoahead.com/2015/09/06/understanding-jwt/" target="_blank" rel="noopener">http://blog.leapoahead.com/2015/09/06/understanding-jwt/</a></p>
 <p>阮一峰老师的介绍 <a href="http://www.ruanyifeng.com/blog/2018/07/json_web_token-tutorial.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2018/07/json_web_token-tutorial.html</a></p>
 <p>JWT详解攻略：<a href="https://learnku.com/articles/17883?order_by=vote_count&amp;" target="_blank" rel="noopener">https://learnku.com/articles/17883?order_by=vote_count&amp;</a></p>
@@ -1131,7 +1134,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">189.3k</span>&nbsp;字
+                class="white-color">189.7k</span>&nbsp;字
             
             
             

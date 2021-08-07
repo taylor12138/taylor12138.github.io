@@ -1219,6 +1219,7 @@ React<span class="token punctuation">.</span><span class="token function">useEff
 <pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">const</span> memoizedValue <span class="token operator">=</span> <span class="token function">useMemo</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token function">computeExpensiveValue</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>a<span class="token punctuation">,</span> b<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>把“创建”函数和依赖项数组作为参数传入 useMemo，它仅会在某个依赖项改变时才重新计算 memoized 值。这种优化有助于避免在每次渲染时都进行高开销的计算。</p>
 <p>记住，传入 useMemo 的函数会在渲染期间执行。请不要在这个函数内部执行与渲染无关的操作，诸如副作用这类的操作属于 useEffect 的适用范畴，而不是 useMemo。</p>
+<p>关于useCallback和useMemo更深一侧的了解（利弊关系）可以查看<a href="https://jancat.github.io/post/2019/translation-usememo-and-usecallback/，实质上可以当成对时间、空间的分配置换关系来看就行了" target="_blank" rel="noopener">https://jancat.github.io/post/2019/translation-usememo-and-usecallback/，实质上可以当成对时间、空间的分配置换关系来看就行了</a></p>
 <h4 id="useCallback使用场景-死循环"><a href="#useCallback使用场景-死循环" class="headerlink" title="useCallback使用场景 + 死循环"></a>useCallback使用场景 + 死循环</h4><p><a href="https://segmentfault.com/a/1190000020108840" target="_blank" rel="noopener">https://segmentfault.com/a/1190000020108840</a></p>
 <p>死循环的出现（链接里面的两个例子）：</p>
 <ul>
@@ -1749,7 +1750,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">189.7k</span>&nbsp;字
+                class="white-color">190.4k</span>&nbsp;字
             
             
             

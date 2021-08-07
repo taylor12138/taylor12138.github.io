@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.5k
+                    4.8k
                 </div>
                 
 
@@ -660,15 +660,24 @@
 </ul>
 </li>
 <li><p><code>Expires</code>（与响应头中的 Date 对比）（实体头部）</p>
+<ul>
+<li><p><code>Expires</code> 更多的是为了兼容旧浏览器（只支持 HTTP/1.0 的上古时代浏览器）的响应标头。</p>
+<p>从 HTTP/1.1 以后就有了 <code>Cache-Control</code> 标头中的 <code>max-age</code>，设一个秒数；而是 <code>Expires</code> 设一个具体的时间点，显然 <code>Expires</code> 可能因为客户端与服务端时间不一致、或网络延迟导致过期时间不准确，并且 <code>Cache-Control</code> 能设的值更多也就更灵活。</p>
+</li>
+</ul>
 </li>
 <li><p><code>Last-Modified</code>（弱校验， 根据文件修改时间校验，可能内容未变，不精确）（实体头部）</p>
 </li>
-<li><p><code>ETag</code>（强校验，根据文件内容校验精确，这也是有了Last-modified还要有ETag的原因）（响应头部）</p>
+<li><p><code>ETag</code>（强校验，根据文件内容校验精确，这也是有了<code>Last-modified</code>还要有<code>ETag</code>的原因，</p>
+<p>可以看作 <code>Etag</code>是<code>last-Modifed</code>的补充，但是检查时 <code>Etag</code>先检查  ）（响应头部）</p>
 </li>
 <li><p><code>Date</code>等等。</p>
 </li>
 </ul>
 <p>http缓存都是从第二次请求开始的。第二次请求时，浏览器判断这些请求参数，命中强缓存就直接200，否则就把请求参数加到request header头中传给服务器，看是否命中协商缓存（当ETag和Last-Modified同时存在时，服务器先会检查ETag，然后再检查Last-Modified），命中则返回304，否则服务器会返回新的资源</p>
+<p>为什么有Last-Modified还要有ETag？</p>
+<p>考虑以下情况：</p>
+<p>1.一些文件也许会周期性的更改,但是他的内容并不改变(仅仅改变的修改时间),这个时候,我们并不希望客户端认为这个文件被修改了,而重新 get<br>2.某些文件修改非常频繁,比如在秒以下的时间内进行修改(比方说 1s 内修改了 N 次),If-Modified-Since能检查到的粒度时 s 级的,这种修改无法判断(或者说 UNIX 记录 MTIME只能精确到秒)<br>3.某些服务器不能精确得到的文件的最后修改时间</p>
 <h4 id="强缓存-协商缓存"><a href="#强缓存-协商缓存" class="headerlink" title="强缓存 + 协商缓存"></a>强缓存 + 协商缓存</h4><p>之后浏览器再向该服务器请求该资源就可以视情况使用<strong>强缓存</strong>和<strong>协商缓存</strong>。</p>
 <ul>
 <li>强缓存：（当前缓存未过期）浏览器直接从本地缓存中获取数据，不与服务器进行交互。</li>
@@ -1195,7 +1204,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">189.7k</span>&nbsp;字
+                class="white-color">190.4k</span>&nbsp;字
             
             
             

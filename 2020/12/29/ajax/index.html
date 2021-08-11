@@ -976,7 +976,7 @@ app<span class="token punctuation">.</span><span class="token function">all</spa
 server<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token function">cors</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>但实际上，上线的网站，很少用cors解决跨域，因为加上这个意味着很多网站都可以访问你</p>
 <h4 id="postMessage"><a href="#postMessage" class="headerlink" title="postMessage"></a>postMessage</h4><p>这是由H5提出来的的API，IE8以上支持这个功能。window.postMessage() 方法可以安全地实现跨源通信。通常，对于两个不同页面的脚本，都遵循同源策略才能够实现通信。</p>
-<p><code>window.postMessage()</code> 方法提供了一种受控机制来规避此限制，只要正确的使用，这种方法就很安全</p>
+<p><code>window.postMessage()</code> 方法提供了一种受控机制来规避此限制，只要正确的使用，这种方法就很安全，原理是将<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/postMessage#The_dispatched_event" target="_blank" rel="noopener">通过消息事件对象暴露给接收消息的窗口</a>。</p>
 <h4 id="nginx代理跨域"><a href="#nginx代理跨域" class="headerlink" title="nginx代理跨域"></a>nginx代理跨域</h4><p><strong>跨域原理：</strong> 同源策略是浏览器的安全策略，不是HTTP协议的一部分。服务器端调用HTTP接口只是使用HTTP协议，不会执行JS脚本（没有使用ajax，ajax遵守同源策略），不需要同源策略，也就不存在跨越问题。</p>
 <p><strong>实现思路：</strong> 通过nginx配置一个代理服务器（域名与domain1相同，端口不同）做跳板机，反向代理访问domain2接口，并且可以顺便修改cookie中domain信息，方便当前域cookie写入，实现跨域登录。</p>
 <h4 id="json文件实现代理"><a href="#json文件实现代理" class="headerlink" title="json文件实现代理"></a>json文件实现代理</h4><p>代理未使用ajax，所以不需要遵守同源策略，但代理的域名、端口号、协议均和客户端同源，所以可以进行信息交互</p>
@@ -1657,7 +1657,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">190.4k</span>&nbsp;字
+                class="white-color">192.2k</span>&nbsp;字
             
             
             

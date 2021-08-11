@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.1k
+                    4.3k
                 </div>
                 
 
@@ -556,6 +556,13 @@
         arrow_r<span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<h5 id="关于定时器延时比设定更久的原因："><a href="#关于定时器延时比设定更久的原因：" class="headerlink" title="关于定时器延时比设定更久的原因："></a>关于定时器延时比设定更久的原因：</h5><p>最小延时 &gt;=4ms（也就是说有4ms的延时）</p>
+<p>在浏览器中，<code>setTimeout()/</code><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/WindowOrWorkerGlobalScope/setInterval" target="_blank" rel="noopener"><code>setInterval()</code></a> 的每调用一次定时器的最小间隔是4ms（不过，Chrome 已将其更改为 2 毫秒，并且显然存在<a href="http://code.google.com/p/chromium/issues/detail?id=888" target="_blank" rel="noopener">一些问题</a>。），这通常是由于函数嵌套导致（嵌套层级达到一定深度），或者是由于已经执行的setInterval的回调函数阻塞导致的。例如：</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">cb</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span>cb<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token function">setTimeout</span><span class="token punctuation">(</span>cb<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token function">setInterval</span><span class="token punctuation">(</span>f<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>如果想在浏览器中实现0ms延时的定时器，你可以参考（使用postMessage自己写一个定时器函数加载window对象上）</p>
+<p><a href="https://dbaron.org/log/20100309-faster-timeouts" target="_blank" rel="noopener">https://dbaron.org/log/20100309-faster-timeouts</a></p>
 <h5 id="requestAnimationFrame"><a href="#requestAnimationFrame" class="headerlink" title="requestAnimationFrame"></a>requestAnimationFrame</h5><p>（IE9-浏览器不支持该方法）官方解释：若你想在浏览器下次重绘之前继续更新下一帧动画，那么回调函数自身必须再次调用<code>window.requestAnimationFrame()</code></p>
 <p>有点像<code>setInterval</code>，默认每秒60帧，也就是 1000 / 60，采用系统时间间隔，保持最佳绘制效率</p>
 <p>对比起 <code>setInterval</code>和 <code>setTimeout</code>的优势</p>
@@ -1192,7 +1199,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">190.4k</span>&nbsp;字
+                class="white-color">192.2k</span>&nbsp;字
             
             
             

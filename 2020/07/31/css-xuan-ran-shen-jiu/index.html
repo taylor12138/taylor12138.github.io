@@ -502,7 +502,7 @@
 <li>JavaScript动画控制能力很强，动画能力强</li>
 <li>兼容性好</li>
 </ul>
-<h2 id="CSS的repaint和reflow"><a href="#CSS的repaint和reflow" class="headerlink" title="CSS的repaint和reflow"></a>CSS的repaint和reflow</h2><p><img src="../images/CSS%E9%AB%98%E7%BA%A7/reflow.jpg" alt></p>
+<h2 id="CSS的repaint和reflow"><a href="#CSS的repaint和reflow" class="headerlink" title="CSS的repaint和reflow"></a>CSS的repaint和reflow</h2><p><img src="/2020/07/31/css-xuan-ran-shen-jiu/reflow.jpg" alt></p>
 <p>以上为浏览器解析流程图(<strong>WebKit 主流程</strong>)</p>
 <p><strong>1、解析HTML以构建DOM树：</strong>渲染引擎开始解析HTML文档，转换树中的html标签或js生成的标签到DOM节点，它被称为 – 内容树；此外，CSS下载完之后对CSS进行解析，解析成CSS对象，然后把CSS对象组装起来，构建CSSOM树。</p>
 <p><strong>2、构建渲染树：</strong>解析CSS（包括外部CSS文件和样式元素以及js生成的样式），根据CSS选择器计算出节点的样式，在解析步骤中创建的CSSOM树和DOM树组合成一个Render树。（<code>display: none;</code>不会出现在render树上，<code>visibility: hidden</code>会出现在render树上，因为它们会占用空间）<br><strong>3、布局渲染树:</strong> 也就是layout，从根节点递归调用，计算每一个元素的大小、位置等，给每个节点所应该出现在屏幕上的精确坐标。<br><strong>4、绘制渲染树:</strong> 也就是paint，遍历渲染树，每个节点将使用UI后端层来绘制。</p>
@@ -575,7 +575,7 @@
 <li>通知GPU绘制位图到屏幕上(Draw)</li>
 </ul>
 <p>我们可以得到一个大概的浏览器线程模型：</p>
-<p><img src="../images/css_optimize.png" alt></p>
+<p><img src="/2020/07/31/css-xuan-ran-shen-jiu/css_optimize.png" alt></p>
 <p>而在什么情况下我们可以单独创建出这样一个复合层？</p>
 <p>它在以下情况下这样做：</p>
 <ul>
@@ -586,7 +586,7 @@
 </ul>
 <p>所以这时我们会想到：<code>transfrom: translate(x, y)</code>这种2D岂不是也不可以实现？</p>
 <p>雀食，所以我们可以看到两个额外的重绘操作在动画时间轴的开始和结束</p>
-<p><img src="../images/cssoptimize2.png" alt></p>
+<p><img src="/2020/07/31/css-xuan-ran-shen-jiu/cssoptimize2.png" alt></p>
 <p>3D 和 2D 变换之间的区别在于 3D 变换使浏览器预先创建一个单独的复合层，而 2D 变换则是即时完成的。在动画开始时，会创建一个新的复合层并将纹理加载到 GPU，从而启动重绘。然后动画由 GPU 中的合成器执行。当动画完成时，附加的复合层将被移除，这将导致另一个重绘操作。</p>
 <h4 id="如何开启GPU加速？"><a href="#如何开启GPU加速？" class="headerlink" title="如何开启GPU加速？"></a>如何开启GPU加速？</h4><p>并非元素上的所有 CSS 属性更改都可以直接在 GPU 中处理。仅支持以下属性：</p>
 <ul>
@@ -1134,7 +1134,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">195.4k</span>&nbsp;字
+                class="white-color">195.5k</span>&nbsp;字
             
             
             

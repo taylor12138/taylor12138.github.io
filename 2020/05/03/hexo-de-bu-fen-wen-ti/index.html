@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="http具体而微, Hexo">
+    <meta name="keywords" content="Hexo的部分问题, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>http具体而微 | Hexo</title>
+    <title>Hexo的部分问题 | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">http具体而微</h1>
+                    <h1 class="description center-align post-title">Hexo的部分问题</h1>
                 </div>
             </div>
         </div>
@@ -443,15 +443,6 @@
                 </div>
                 <div class="col s5 right-align">
                     
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/%E7%BD%91%E7%BB%9C/" class="post-category">
-                                网络
-                            </a>
-                        
-                    </div>
-                    
                 </div>
             </div>
 
@@ -459,7 +450,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-03-15
+                    2020-05-03
                 </div>
                 
 
@@ -468,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.7k
+                    308
                 </div>
                 
 
@@ -485,249 +476,15 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="1-http概述"><a href="#1-http概述" class="headerlink" title="1.http概述"></a>1.http概述</h2><p>从计算机网络的学习我们了解到：HTTP协议[超文本传输协议]，协议详细规定了浏览器和万维网服务器之间相互通信的规则</p>
-<h4 id="http-2-0"><a href="#http-2-0" class="headerlink" title="http 2.0"></a><strong>http 2.0</strong></h4><ul>
-<li><p>使用二进制传输（二进制分帧），减少服务端压力，连接吞吐量更大，改善TCP拥塞状况，同时慢启动时间减少</p>
-</li>
-<li><p>多路复用，多路复用允许同时通过单一的 HTTP/2 连接发起多重的请求-响应消息。</p>
-<ul>
-<li>不同浏览器在http1或http1.1对请求的限制数量</li>
-</ul>
-<p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/http_request.jpg" alt></p>
-</li>
-<li><p>压缩headers（最小数据量化）</p>
-</li>
-<li><p>支持server push（服务端推送），他可以对客户端的一个请求发送多个响应，，而且它特有的缓存机制，使用场景如下，<strong>「如果客户端早已在缓存中有了一份 copy 怎么办？]</strong></p>
-<p>这种情况下，HTTP/2 允许客户端通过 <strong>RESET_STREAM</strong> 主动取消 Push ，然而这样的话，原本可以用于更好方向的 Push 就白白的浪费掉数据往返的价值。</p>
-<p>对此，一个推荐的解决方案是，客户端使用一个简洁的 <a href="https://link.zhihu.com/?target=http%3A//mnot.github.io/I-D/h2-cache-digest/">Cache Digest</a> 来告诉服务器，哪些东西已经在缓存，因此服务器也就会知道哪些是客户端所需要的，因为 Cache Digest 使用的是 <a href="https://link.zhihu.com/?target=https%3A//www.imperialviolet.org/2011/04/29/filters.html">Golumb Compressed Sets</a>，浏览器客户端可以通过一个连接发送<strong>少于 1K 字节</strong>的 Packets 给服务端，通知哪些是已经在缓存中存在的；</p>
-<p>http/1处理减少请求的方式是线头阻塞（合并多个请求为一个请求），但实质上有一定的开销</p>
-</li>
-</ul>
-<p>下面我们阐述http 1.x版本的内容 </p>
-<h4 id="http协议的特点"><a href="#http协议的特点" class="headerlink" title="http协议的特点"></a>http协议的特点</h4><ul>
-<li><p>永远都是客户端发起请求，服务器回送响应</p>
-</li>
-<li><p>http协议是无状态的，但是在实际工作中，一些万维网网站希望能识别用户（给用户推销产品）=&gt;诞生了cookie小饼干，cookie是存储在用户主机的文本文件，记录一段时间内某用户的访问记录（不太敏感的数据）</p>
-</li>
-<li><p>http采用TCP作为运输层协议，但是http协议本身是无连接的 （交换http报文之前不需要建立连接）</p>
-</li>
-<li><p>http连接方式：持久连接（非流水线式（有点像停等协议）、流水线式（有点像GBN或SR协议，即后退N帧协议和选择重传协议））、非持久连接（每次传输都要三次握手）</p>
-</li>
-</ul>
-<h4 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h4><p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/url.jpg" alt></p>
-<p>URL：统一资源定位器</p>
-<p><strong>URL和域名的区别</strong><br>域名，Domain Name，通常指一个网址的顶级域名。<br>URL，website address，网页或网站的地址。</p>
-<p>URL中包含了网站的域名.<br>比如一个网址：<code>www.cnblogs.com/gopark/p/8430916.html</code><br>其中cnblogs.com是域名，cnblogs是网站名字，com是域名后缀；<code>www.cnblogs.com</code>代表一个二级域名，通常www被用来用为首页标识；<br><code>https://www.cnblogs.com/gopark/p/8430916.html</code>，这个则是一个完整的网站首页URL地址。https://，这是一个协议，是网站在网上传输的协议</p>
-<p><strong>URL和URI的区别：</strong></p>
-<p>URI，统一资源标志符，表示的是web上每一种可用的资源，如 HTML文档、图像、视频片段、程序等都由一个URI进行标识的。</p>
-<p>URL是URI的一个子集，通俗地说，URL是Internet上描述信息资源的字符串，主要用在各种WWW客户程序和服务器程序上</p>
-<p><strong>输入url到网页呈现的过程</strong>：</p>
-<ul>
-<li>域名解析</li>
-<li>建立TCP连接</li>
-<li>浏览器发送http请求</li>
-<li>服务器返回响应</li>
-<li>浏览器渲染页面</li>
-<li>TCP断开连接</li>
-</ul>
-<p><strong>url编码过程</strong></p>
-<p>对于正常英语，使用ASCII编码方式</p>
-<p>对于其他语言，Unicode编码方式，而我们常说的 <strong>UTF-8</strong>  就是在互联网上使用最广的一种 Unicode 的实现方式。其他实现方式还包括 UTF-16（字符用两个字节或四个字节表示）和 UTF-32（字符用四个字节表示），不过在互联网上基本不用。<strong>重复一遍，这里的关系是，UTF-8 是 Unicode 的实现方式之一。</strong>（阮一峰老师said）</p>
-<p><strong>utf-8</strong></p>
-<ul>
-<li>它是一种变长的编码方式。它可以使用1~4个字节表示一个符号</li>
-<li>对于单字节的符号，字节的第一位设为<code>0</code>，后面7位为这个符号的 Unicode 码。因此对于英语字母，UTF-8 编码和 ASCII 码是相同的。</li>
-<li>对于<code>n</code>字节的符号（<code>n &gt; 1</code>），第一个字节的前<code>n</code>位都设为<code>1</code>，第<code>n + 1</code>位设为<code>0</code>，后面字节的前两位一律设为<code>10</code>。剩下的没有提及的二进制位，全部为这个符号的 Unicode 码。</li>
-</ul>
-<h4 id="http请求"><a href="#http请求" class="headerlink" title="http请求"></a>http请求</h4><ul>
-<li><p>get 获取资源。get注重url获得的参数，且只产生一个TCP数据包</p>
-<p>数据格式：获得get请求的内容，它的内容是在url的<code>?</code> 之后的部分</p>
-<p>长度限制：Get方法提交的数据大小长度并没有限制，HTTP协议规范没有对URL长度进行限制。这个限制是特定的浏览器及服务器对它的限制；而这个长度限制，每个浏览器对应的限制都是不一样的。</p>
-</li>
-<li><p>post 创建资源（带请求体）。post的信息放在Request body中，且产生TCP两个数据包（firefox浏览器除外）</p>
-<p>数据格式：post回退时会再次提交请求；一般情况下，私密数据传输用POST + body就好</p>
-<p>长度限制：理论上讲，POST是没有大小限制的。HTTP协议规范也没有进行大小限制，起限制作用的是服务器的处理程序的处理能力。</p>
-</li>
-<li><p>put 更新资源（带请求体）</p>
-</li>
-<li><p>delete 删除资源</p>
-</li>
-<li><p>connect方法建立一个到由目标资源标识的服务器的隧道。</p>
-</li>
-<li><p>options方法用于描述目标资源的通信选项。</p>
-</li>
-</ul>
-<p><strong>请求报文</strong>：</p>
-<p>1.行     第一部分是请求类型（GET、POST之类的）   第二部分是url的路径    第三部分是http协议的版本（目前使用最多的是1.1）</p>
-<p>2.头（首部）     格式是值键对的形式</p>
-<p>Host: atguigu.com</p>
-<p>Cookie: name=guigu</p>
-<p>Content-type = application/x-www-form-urlencoded</p>
-<p>User-Agent: chrome 83</p>
-<p>3.空行</p>
-<p>4.体   GET的话，请求体为空，POST的话，请求体可以不为空</p>
-<p><strong>响应报文</strong></p>
-<p>1.行     第一部分是http协议的版本（目前使用最多的是1.1） 第二部分是响应状态码  第三是响应状态字符串</p>
-<p>2.头 （首部）    格式和请求头一样</p>
-<p>3.空行</p>
-<p>4.体   html的内容</p>
-<h4 id="报文和实体"><a href="#报文和实体" class="headerlink" title="报文和实体"></a>报文和实体</h4><p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/http1.jpg" alt></p>
-<p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/http2.jpg" alt></p>
-<p>http报文和http实体是不同的概念，http报文类似于运输的箱子，http实体类似于箱子中的货物（个人感觉  实体 = 报文 - 行 - 除了实体首部字段的所有首部字段）</p>
-<p>报文：网络中交换和传输的数据单元，即一次性要发送的数据块，包含了发送的完整数据信息</p>
-<p>实体：作为请求和响应的有效载荷数据</p>
-<h4 id="http工作"><a href="#http工作" class="headerlink" title="http工作"></a>http工作</h4><ul>
-<li>地址解析，通过DNS解析域名,得主机的IP地址</li>
-<li>封装http的请求数据包</li>
-<li>封装成TCP包，建立TCP连接（三次握手）</li>
-<li>客户端向服务器发送请求</li>
-<li>服务器向客户端返回响应</li>
-<li>关闭TCP连接（四次挥手）</li>
-</ul>
-<h4 id="http-only"><a href="#http-only" class="headerlink" title="http only"></a>http only</h4><p>如果想要实现服务端设置cookie，返回时让客户端无法查看，可以使用 <code>HttpOnly</code>属性</p>
-<p>（MDN：有两种方法可以确保 <code>Cookie</code> 被安全发送，并且不会被意外的参与者或脚本访问：<code>Secure</code> 属性和<code>HttpOnly</code> 属性。）</p>
-<p><code>HttpOnly = true</code> 的话，那此Cookie 只能通过服务器端修改，<code>Js</code> 是操作不了的，对于 <code>document.cookie</code> 来说是透明的</p>
-<p>此预防措施有助于缓解<a href="https://developer.mozilla.org/en-US/docs/Web/Security/Types_of_attacks" target="_blank" rel="noopener">跨站点脚本（XSS） (en-US)</a>攻击。</p>
-<h2 id="2-持久连接"><a href="#2-持久连接" class="headerlink" title="2.持久连接"></a>2.持久连接</h2><p>在http初始协议版本中，每进行一次http通信都要断开一次TCP连接，如果需要同时请求多个资源时就造成了无缘无故的TCP连接建立和断开，造成资源浪费，增加通信开销。</p>
-<p>为了解决上述问题，http/1.1和http/1.0想出了持久连接的方法，其特点是只要一方没有明确提出断开，就保持TCP连接。在 http/1.1 中，所有的连接默认都是持久连接</p>
-<h4 id="延伸出来的管线化"><a href="#延伸出来的管线化" class="headerlink" title="延伸出来的管线化"></a>延伸出来的管线化</h4><p>持久连接使得管线化的方式成为可能，管线化技术出现后，不用等待即可发送下个请求</p>
-<h2 id="3-首部字段"><a href="#3-首部字段" class="headerlink" title="3.首部字段"></a>3.首部字段</h2><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>HTTP 报文包含报文首部和报文主体，报文首部包含请求行（或状态行）和首部字段。</p>
-<p>在报文众多的字段当中，HTTP 首部字段包含的信息最为丰富。首部字段同时存在于请求和响应报文内，并涵盖 HTTP 报文相关的内容信息。使用首部字段是为了给客服端和服务器端提供报文主体大小、所使用的语言、认证信息等内容。</p>
-<p><strong>结构</strong></p>
-<p>格式是值键对的形式</p>
-<h4 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h4><p>分为：</p>
-<ol>
-<li>通用首部字段（请求和响应通用）Cache-Control、Connection等</li>
-<li>请求首部字段（请求专用）Accept、Accept-Charset、Host（请求资源所在服务器）等</li>
-<li>响应首部字段（响应专用）Accept-Ranges、Location（令客户端重定向至指定 URI）、Server（HTTP 服务器应用程序的信息）等</li>
-<li>实体首部字段（通用，针对报文的实体部分）Allow、Content-Encoding等</li>
-</ol>
-<h2 id="4-http和https"><a href="#4-http和https" class="headerlink" title="4.http和https"></a>4.http和https</h2><p><strong>http</strong>：超文本传输协议，它是以一种明文的方式（传输是明文的），没有任何加密，如果我们在该网站输入登录密码等信息，发送请求到服务器时，如果有人在中途截取我们的信息，那我们的信息可能就暴露了，默认80</p>
-<p><strong>https</strong>：超文本传输安全协议，利用SSL/TLS来加密数据包。默认443，需要到 CA 申请证书，一般免费证书很少，需要交费，握手阶段比较费时，会使页面的加载时间延长近50%，增加10%到20%的耗电；</p>
-<p><strong>对称密钥</strong>：直接发密钥，之后的通信都用过这个密钥打开。它的弊端就是，可能被中间人拦截，这样中间人就可以获取到了密钥，就可以对传输的信息就行窥视和篡改。</p>
-<p><strong>非对称密钥（RSA）</strong>：双方必须协商一对密钥，一个私钥一个公钥。用私钥加密的数据，只有对应的公钥才能解密，用公钥加密的数据， 只有对应的私钥才能解密</p>
-<p>但它的弊端就是，算法很慢</p>
-<p>我们使用结合的方式！</p>
-<p>使用 非对称密钥（RSA） 发送 对称密钥，然后双方使用 对称密钥 进行通信</p>
-<p><strong>SSL协议</strong>：这个协议简单来说就是提供数据安全和完整性的协议，也就是负责网络安全的加密。比如我们访问了一个https网站，客户端和服务端会（握手阶段）</p>
-<ul>
-<li>先建立安全的连接通道，客户端先给出协议版本号 + 支持的加密方法 + 随机数等</li>
-<li>确认信息后，服务器会生成一个加锁的箱子，但是这把锁有两把不一样的钥匙，一把留给服务器自己（私钥），一把提供给客户端（公钥）</li>
-<li>服务器发送 — &gt; 未上锁的箱子 + （里面放着一份网站的证书（证书包括公钥和数字签）到 – &gt; 客户端（你访问的服务器没问题））</li>
-<li>客户端生成两把对称密钥，一把留给自己，然后把信息 + 另一把对称密钥放到箱子中，用钥匙锁上（只能用私钥开）发送 —&gt;服务器</li>
-<li>然后服务器用另外一把钥匙（私钥）打开箱子，然后双方可以通过对称密钥通信了</li>
-</ul>
-<p>在这个过程中，即使箱子被拦截了，也很难打开箱子</p>
-<h4 id="中间人攻击"><a href="#中间人攻击" class="headerlink" title="中间人攻击"></a>中间人攻击</h4><p>因为传输非对称密钥的时候，服务端发送的是公钥，，有可能被中间人拦截后进行篡改</p>
-<p>这时我们就需要数字证书，确定服务端的身份，一定是服务端发送的，而数字证书类似于我们的公证处</p>
-<p>这篇文章可以生动形象地了解到 https 的原理 <a href="https://juejin.cn/post/6844903504046211079" target="_blank" rel="noopener">https://juejin.cn/post/6844903504046211079</a></p>
-<p>（而我们熟知的自动打卡，有些就是利用中间人攻击的原理（fiddler抓包），模拟客户端和服务端通信，当然，它也通过不了数字证书的校验，fiddler伪造的数字证书，是建立在我们手动信任的基础上）</p>
-<p>（所以连接陌生wifi、下载乱七八糟的软件，有可能会被装上乱七八糟的私发证书，从而出现中间人攻击）</p>
-<h4 id="TLS协议"><a href="#TLS协议" class="headerlink" title="TLS协议"></a>TLS协议</h4><p>它建立在SSL 3.0协议规范之上，是SSL 3.0的后续版本</p>
-<p>对比SSL的增强内容：</p>
-<ul>
-<li>更安全的MAC算法</li>
-<li>更严密的警报</li>
-<li>“灰色区域”规范更加明确定义</li>
-</ul>
-<h4 id="session恢复"><a href="#session恢复" class="headerlink" title="session恢复"></a>session恢复</h4><p>握手阶段通过SSL/TLS进行连接，如果出于某种原因，对话中断，就需要重新握手</p>
-<p>此时有两种方法可以恢复原来的session</p>
-<ul>
-<li>session ID</li>
-<li>session ticket</li>
-</ul>
-<p>Session用于保存每个用户的专用信息，变量的值保存在服务器端，通过Session ID来区分不同的客户，通过这个Session ID，双方还可以重新使用已有的”对话密钥“，无需重新生成</p>
-<p>session ID的优点是高兼容性，但缺点是只能保留在一个服务器上</p>
-<p>session ticket优点可在其他服务器上使用，它原理上就是让xx的的请求一直粘连在机器A上。缺点：目前只有火狐和谷歌支持</p>
-<p>session ticket是加密的，只有服务器才能解密，其中包括对话的主要信息，比如对话密钥和加密方法。当服务器收到session ticket以后，解密后就不必重新生成对话密钥了。</p>
-<h2 id="5-响应状态码"><a href="#5-响应状态码" class="headerlink" title="5.响应状态码"></a>5.响应状态码</h2><p>200：ok</p>
-<p>204：服务器接收的请求已成功处理，但在返回的响应报文中不含实体的主体部分。另外，也不允许返回任何实体的主体。</p>
-<p>206：客户端进行了范围请求，服务器成功执行部分get请求</p>
-<p>301：永久重定向   第一次进入a.com，请求-&gt;b.com，以后每次进入a.com就不用请求直接去b.com（请求的资源已被永久分配了新的 URI）</p>
-<p>302：临时重定向（暂时性转移）  每一次都会进入a.com，然后请求-&gt;b.com（请求的资源已被临时分配了新的 URI）</p>
-<p>303：有点像302，只不过303提醒你应该使用get请求</p>
-<p>304：自从上次请求后，请求的网页未修改过，所以没有响应主体部分</p>
-<p>307：同302</p>
-<p>400：报文存在语法错误</p>
-<p>401：未授权，请求用户身份认证</p>
-<p>403：服务器理解了请求但拒绝对其进行授权，被禁止，资源访问被服务器拒绝了</p>
-<p>404：找不到，</p>
-<p>413：表示http请求实体太大。</p>
-<p>500：内部错误</p>
-<p>502：错误网关，从上游服务器收到无效响应，可能也是停机维护，或者服务器暂未开启，</p>
-<p>503：服务器目前无法使用（由于超载或停机维护）通常，这只是暂时状态。（服务不可用）</p>
-<p>504：网关超时</p>
-<p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/ajax.jpg" alt></p>
-<h2 id="6-http缓存"><a href="#6-http缓存" class="headerlink" title="6.http缓存"></a>6.http缓存</h2><p>常见的http缓存只能缓存get请求响应的资源，对于其他类型的响应则无能为力。对于开发者来说，长久缓存复用重复不变的资源是性能优化的重要组成部分！！！</p>
-<p>浏览器第一次向一个web服务器发起<code>http</code>请求后，服务器会返回请求的资源，并且在响应头中添加一些有关<strong>缓存的字段</strong>（添加后浏览器才知道是否应该缓存资源）如：</p>
-<ul>
-<li><p><code>Cache-Control</code>（控制浏览器是否可以缓存资源、强制缓存校验、缓存时间）（通用头部）</p>
-<ul>
-<li><code>no-cache</code>：含义是不使用本地缓存，需要使用协商缓存，也就是先与服务器确认缓存是否可用。</li>
-<li><code>no-store</code>：禁用缓存。</li>
-<li><code>public</code>：表明其他用户也可使用缓存，适用于公共缓存服务器的情况。</li>
-<li><code>private</code>：表明只有特定用户才能使用缓存，适用于公共缓存服务器的情况</li>
-</ul>
-</li>
-<li><p><code>Expires</code>（与响应头中的 Date 对比）（实体头部）</p>
-<ul>
-<li><p><code>Expires</code> 更多的是为了兼容旧浏览器（只支持 HTTP/1.0 的上古时代浏览器）的响应标头。</p>
-<p>从 HTTP/1.1 以后就有了 <code>Cache-Control</code> 标头中的 <code>max-age</code>，设一个秒数；而是 <code>Expires</code> 设一个具体的时间点，显然 <code>Expires</code> 可能因为客户端与服务端时间不一致、或网络延迟导致过期时间不准确，并且 <code>Cache-Control</code> 能设的值更多也就更灵活。</p>
-</li>
-</ul>
-</li>
-<li><p><code>Last-Modified</code>（弱校验， 根据文件修改时间校验，可能内容未变，不精确）（实体头部）</p>
-</li>
-<li><p><code>ETag</code>（强校验，根据文件内容校验精确，这也是有了<code>Last-modified</code>还要有<code>ETag</code>的原因，</p>
-<p>可以看作 <code>Etag</code>是<code>last-Modifed</code>的补充，但是检查时 <code>Etag</code>先检查  ）（响应头部）</p>
-</li>
-<li><p><code>Date</code>等等。</p>
-</li>
-</ul>
-<p>http缓存都是从第二次请求开始的。第二次请求时，浏览器判断这些请求参数，命中强缓存就直接200，否则就把请求参数加到request header头中传给服务器，看是否命中协商缓存（当ETag和Last-Modified同时存在时，服务器先会检查ETag，然后再检查Last-Modified），命中则返回304，否则服务器会返回新的资源</p>
-<p>为什么有Last-Modified还要有ETag？</p>
-<p>考虑以下情况：</p>
-<p>1.一些文件也许会周期性的更改,但是他的内容并不改变(仅仅改变的修改时间),这个时候,我们并不希望客户端认为这个文件被修改了,而重新 get<br>2.某些文件修改非常频繁,比如在秒以下的时间内进行修改(比方说 1s 内修改了 N 次),If-Modified-Since能检查到的粒度时 s 级的,这种修改无法判断(或者说 UNIX 记录 MTIME只能精确到秒)<br>3.某些服务器不能精确得到的文件的最后修改时间</p>
-<h4 id="强缓存-协商缓存"><a href="#强缓存-协商缓存" class="headerlink" title="强缓存 + 协商缓存"></a>强缓存 + 协商缓存</h4><p>之后浏览器再向该服务器请求该资源就可以视情况使用<strong>强缓存</strong>和<strong>协商缓存</strong>。</p>
-<ul>
-<li>强缓存：（当前缓存未过期）浏览器直接从本地缓存中获取数据，不与服务器进行交互。</li>
-<li>协商缓存：（当前缓存过期）浏览器发送请求到服务器，服务器判定是否可使用本地缓存。</li>
-<li>联系与区别：两种缓存方式最终使用的都是本地缓存；前者无需与服务器交互，后者需要。</li>
-</ul>
-<p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/huancun2.jpg" alt></p>
-<h4 id="缓存过期策略"><a href="#缓存过期策略" class="headerlink" title="缓存过期策略"></a>缓存过期策略</h4><p>1、设置 Cache-Control: max-age=1000 。响应头中的 Date 经过 1000s 过期（比起首部字段<code>Expires</code>，会优先处理<code>s-maxage</code>或<code>max-age</code>。）（<code>Cache-Control</code>HTTP / 1.1通用头字段被用于为请求和响应缓存机制指定指令l）<br>2、设置 Expires 。此时间与本地时间(响应头中的 Date )对比，小于本地时间表示过期，由于本地时钟与服务器时钟无法保持一致，导致比较不精确（http1.0时代，Pragma也是1.0时代的产物）<br>3、如果以上均未设置，却设置了 Last-Modified ，浏览器隐式的设置资源过期时间为 (Date - Last-Modified) * 10% 缓存过期时间。</p>
-<p><strong>前端缓存图</strong>：</p>
-<p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/huancun.jpg" alt></p>
-<h2 id="7-其他"><a href="#7-其他" class="headerlink" title="7.其他"></a>7.其他</h2><h4 id="范围请求"><a href="#范围请求" class="headerlink" title="范围请求"></a>范围请求</h4><p>假设你正在下载一个很大的文件，已经下了四分之三，忽然网络中断了，那下载就必须重头再来一遍。为了解决这个问题，需要一种可恢复的机制，即能从之前下载中断处恢复下载，要实现该功能，这就要用到范围请求。（前提是上一次请求到这一次请求时间段内，下载对象没有发生改变）</p>
-<h2 id="8-QUIC"><a href="#8-QUIC" class="headerlink" title="8.QUIC"></a>8.QUIC</h2><p>Quic 全称 quick udp internet connection ，“快速 UDP 互联网连接”，也可以理解为http3.0</p>
-<p>应用：速度更快、网络切换（wifi -&gt; nG）无感知等、弱网络环境better</p>
-<p>对比http2.0：</p>
-<ol>
-<li><p><strong>减少了 TCP 三次握手及 TLS 握手时间。</strong></p>
-<p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/quic.jpg" alt></p>
-<p>HTTPS 的一次完全握手的建连过程，需要 3 个 RTT，而QUIC由于建立在UDP的基础上，只需要0RTT即可完成安全握手。</p>
-</li>
-<li><p><strong>改进的拥塞控制。</strong></p>
-<p>为啥你用UDP也能可靠啊？</p>
-<p>TCP 使用ACK（确认），还有基于字节序号的 <code>Sequence Number</code>为了保证可靠性，而QUIC也有使用ACK（确认）并且以 <code>Packet Number</code> 代替了 TCP 的 <code>sequence number</code>；</p>
-<p>传统TCP：超时事件 RTO 发生后，客户端发起重传，然后接收到了 Ack 数据。但是因为序列号一样，所以我们分不清这个 Ack 数据到底是原始请求的响应，还是重传请求的响应</p>
-<p> <code>Sequence Number</code>：当<code>Packet Number</code> 发生了丢失，<code>Packet Number</code> 传递的数值（也就是那个Number）会不一样，因为他是按照严格递增的，此时就可以发现传送的失误了。（在RTO 发生后，可以精确判断Ack 数据是原始请求的响应，还是重传请求的响应）</p>
-<p>还有可插拔、更多ACK块等</p>
-</li>
-<li><p><strong>避免队头阻塞的多路复用。</strong></p>
-<p>QUIC的多路复用，也可以实现在一条 QUIC 连接上可以并发发送多个 HTTP 请求 （stream），但是stream之间没有相互依赖，这导致了彼此不会相互影响，极大程度消除了对头阻塞的影响；</p>
-<p>并且QUIC 最基本的传输单元是 Packet，整个加密和认证过程都是基于 Packet 的，不会跨越多个 Packet。这样就能避免 TLS 协议存在的队头阻塞。</p>
-<p>而对比QUIC，http2.0的多路复用会队头阻塞，本身强制使用的TLS协议也存在一个队头阻塞</p>
-<p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/quic2.jpg" alt></p>
-<p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/quic3.jpg" alt></p>
-</li>
-<li><p><strong>连接迁移。</strong></p>
-<p>WIFI 和 4G 移动网络切换时， ip发生变化 -&gt; 重新建立TCP连接；而任何一条 QUIC 连接不再以 IP 及端口四元组标识，而是以一个 64 位的随机数作为 ID 来标识，继而上层业务逻辑感知不到变化</p>
-</li>
-<li><p><strong>前向冗余纠错</strong></p>
-</li>
-</ol>
-<p>QUIC参考链接<a href="https://zhuanlan.zhihu.com/p/32553477" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/32553477</a></p>
+                <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="打开"><a href="#打开" class="headerlink" title="打开"></a>打开</h3><p>win+R进入cmd，然后在正确目录下进入：cd source_post(指定blog下)</p>
+<h3 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h3><p>用typora修改完毕后，<br>1.使用“hexo clean”进行清理<br>（1.5.若是发生主题等修改后，要接上hexo g 来建立）<br>2.接上“hexo s”即可进入网站查看（退出键位：control+C，y）（本地浏览）<br>3.再次部署到远端：hexo d</p>
+<h3 id="关于主题"><a href="#关于主题" class="headerlink" title="关于主题"></a>关于主题</h3><p>1.可以使用git clone 网址.git themes\新建目录名<br>（或者使用码云gitee进行下载，然后复制到themes目录下）<br>2.cd..    (回到blog目录下)<br>notepad _config.yml<br>把记事本里面的theme：xx修改成theme：主题目录名<br>3.重新执行”基本操作”</p>
+<h3 id><a href="#" class="headerlink" title></a></h3><h2 id="关于图片"><a href="#关于图片" class="headerlink" title="关于图片"></a>关于图片</h2><p>再_post目录下安装 (必须得是这个)</p>
+<pre class=" language-shell"><code class="language-shell">npm i https://github.com/CodeFalling/hexo-asset-image</code></pre>
+<p>然后再_post下新建和md文件同名的文件夹，放入图片，再md中引入即可</p>
+<p>如果还是出现上传后没有图片，可能是因为图片命为 ‘ httpxxx ‘、甚至是文件名为http也是不能被允许的，这种格式也是不能被允许的！！（因此我不得不把文章名改为超文本传输协议。。。）</p>
+<p>参考文献</p>
+<p><a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">https://hexo.io/docs/one-command-deployment.html</a>)</p>
 
             </div>
             <hr/>
@@ -753,7 +510,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2021/03/15/http-ju-ti-er-wei/">https://taylor12138.github.io/2021/03/15/http-ju-ti-er-wei/</a>
+                    <a href="https://taylor12138.github.io/2020/05/03/hexo-de-bu-fen-wen-ti/">https://taylor12138.github.io/2020/05/03/hexo-de-bu-fen-wen-ti/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -960,47 +717,29 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/03/21/shen-ru-javascript-nei-cun/">
+                <a href="/2020/05/04/zhu-ti-yu-2d-ren-wu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="深入JavaScript内存">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="主题与2d人物">
                         
-                        <span class="card-title">深入JavaScript内存</span>
+                        <span class="card-title">主题与2d人物</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            内存概述内存也是有生命周期的，不管什么程序语言，一般可以按顺序分为三个周期：
-
-分配期
-分配所需要的内存
-
-使用期
-使用分配到的内存（读、写）
-
-释放期
-不需要时将其释放和归还
-
-
-定义变量自动分配内存
-绝大部分情况下也不需要手动释放内存
-
+                            Start人物使用命令安装npm：npm uninstall hexo-helper-live2d              npm install –save hexo-helper-live2d此时在blog/node_modeles下
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-03-21
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-04
                         </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                    前端
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Hello
                             
                         </span>
                     </div>
@@ -1015,31 +754,38 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/03/15/an-quan-wen-ti-hui-zong/">
+                <a href="/2020/01/31/express/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="安全问题汇总">
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="Express">
                         
-                        <span class="card-title">安全问题汇总</span>
+                        <span class="card-title">Express</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.XSS什么是XSSCross-Site Scripting（跨站脚本攻击）简称 XSS，是一种代码注入攻击，通过注入恶意脚本，，使之在用户浏览器上运行，然后利用这些恶意脚本，攻击者可以获取用户的敏感信息Cookie、SessionID等
+                            Express框架基于Node.js平台快速、开放、极简的Web开发框架，高度封装了http模块
+（截至在2021/4/18，在GitHub上，
+
+express：52.7k star；
+
+koa：31k star；
+
+Hapi：13.2k
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-03-15
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-01-31
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E7%BD%91%E7%BB%9C/" class="post-category">
-                                    网络
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
                                 </a>
                             
                             
@@ -1243,7 +989,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">195.4k</span>&nbsp;字
+                class="white-color">195.5k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.1k
+                    4.6k
                 </div>
                 
 
@@ -514,6 +514,9 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 <span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
 <p>然后再命令窗口输入</p>
 <pre class=" language-shell"><code class="language-shell">npm run build</code></pre>
+<h4 id="对比grunt和gule"><a href="#对比grunt和gule" class="headerlink" title="对比grunt和gule"></a>对比grunt和gule</h4><p>三者都是前端构建工具，grunt和gulp在早期比较流行，而webpack是现在的主流。</p>
+<p><a href="https://link.juejin.cn/?target=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%3A%2F%2Fwww.gruntjs.net%2F">grunt</a>和<a href="https://link.juejin.cn/?target=https%3A%2F%2Flink.zhihu.com%2F%3Ftarget%3Dhttps%3A%2F%2Fwww.gulpjs.com.cn%2F">gulp</a>是基于任务和流（Task、Stream）的。类似jQuery，找到一个（或一类）文件，对其做一系列链式操作，更新流上的数据， 整条链式操作构成了一个任务，多个任务就构成了整个web的构建流程。</p>
+<p>webpack基于入口，webpack会自动地<strong>递归</strong>解析入口所需要加载的所有资源文件，然后用不同的Loader来处理不同的文件，用Plugin来扩展webpack功能。</p>
 <h2 id="2-Loader"><a href="#2-Loader" class="headerlink" title="2.Loader"></a>2.Loader</h2><p>(前言：你已经是一个成熟的webpack了，应该学会自己安装loader！！！)</p>
 <p>webpack主要用来处理我们js代码，进行模块化开发，并且自动处理js之间的依赖关系</p>
 <p>但是在开发中，我们不仅仅有基本的js代码需要处理，也需要加载css、图片，包括一些高级的将ES6转化为ES5代码，或者TypeScript转化为ES5代码，将scss、less转化为css，css兼容低版本的等等</p>
@@ -629,8 +632,11 @@ module<span class="token punctuation">.</span>exports <span class="token operato
     <span class="token keyword">new</span> <span class="token class-name">VueLoaderPlugin</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   <span class="token punctuation">]</span>
 <span class="token punctuation">}</span></code></pre>
+<p>除此之外，常用的Loader还有</p>
+<ul>
+<li>eslint-loader：通过 ESLint 检查 JavaScript 代码</li>
+</ul>
 <h2 id="3-plugin"><a href="#3-plugin" class="headerlink" title="3.plugin"></a>3.plugin</h2><p>plugin是插件的意思，通常用于对某个现有架构进行扩展</p>
-<p>loader类似于一个转换器，plugin相对webpack本身的拓展，类似于一个拓展器</p>
 <p>使用：</p>
 <ul>
 <li>1.通过npm安装需要的插件（但是有些插件webpack已经内置了）</li>
@@ -689,7 +695,18 @@ module<span class="token punctuation">.</span>exports <span class="token operato
     <span class="token keyword">new</span> <span class="token class-name">HtmlWebpackPlugin</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   <span class="token punctuation">]</span>
 <span class="token punctuation">}</span></code></pre>
-<h2 id="4-其他"><a href="#4-其他" class="headerlink" title="4.其他"></a>4.其他</h2><h4 id="webpack搭建服务"><a href="#webpack搭建服务" class="headerlink" title="webpack搭建服务"></a>webpack搭建服务</h4><p>为了让webpack提供开发时服务，可以装载<code>webpack-dev-server</code>搭建本地服务器（脚手架2里使用的版本为2.9.3，所以这里我安装2.9.3），它内部使用了express框架</p>
+<h2 id="4-其他"><a href="#4-其他" class="headerlink" title="4.其他"></a>4.其他</h2><h4 id="Loader和Plugin"><a href="#Loader和Plugin" class="headerlink" title="Loader和Plugin"></a>Loader和Plugin</h4><p>loader类似于一个转换器，plugin相对webpack本身的拓展，类似于一个拓展器</p>
+<p><strong>不同的作用</strong></p>
+<ul>
+<li><strong>Loader</strong>可以实现让Webpack加载和解析除了JavaScript以外的能力。</li>
+<li><strong>Plugin</strong>直译为”插件”。Plugin可以扩展webpack的功能，让webpack具有更多的灵活性。 在 Webpack 运行的生命周期中会广播出许多事件，Plugin 可以监听这些事件，在合适的时机通过 Webpack 提供的 API 改变输出结果。</li>
+</ul>
+<p><strong>不同的用法</strong></p>
+<ul>
+<li><strong>Loader</strong>在<code>module.rules</code>中配置，也就是说他作为模块的解析规则而存在。 类型为数组，每一项都是一个<code>Object</code>，里面描述了对于什么类型的文件（<code>test</code>），使用什么加载(<code>loader</code>)和使用的参数（<code>options</code>）</li>
+<li><strong>Plugin</strong>在<code>plugins</code>中单独配置。 类型为数组，每一项是一个<code>plugin</code>的实例，参数都通过构造函数传入。</li>
+</ul>
+<h4 id="webpack搭建服务"><a href="#webpack搭建服务" class="headerlink" title="webpack搭建服务"></a>webpack搭建服务</h4><p>为了让webpack提供开发时服务，可以装载<code>webpack-dev-server</code>搭建本地服务器（脚手架2里使用的版本为2.9.3，所以这里我安装2.9.3），它内部使用了express框架</p>
 <p>实际上Vue、React脚手架搭建完毕后，呈现的页面都用到了这个本地服务器</p>
 <pre class=" language-shell"><code class="language-shell">npm install webpack-dev-server@2.9.3 --save-dev </code></pre>
 <p>在webpack.config.js里配置</p>
@@ -723,7 +740,7 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 <span class="token property">"dev"</span><span class="token operator">:</span> <span class="token string">"webpack-dev-server --config ./build/dev.config.js"</span></code></pre>
 <p>这里如果打包后文件出现不是在原来的目录，可以检查一下base.config.js文件的 <code>output</code>出口，进行修改</p>
 <h2 id="5-关于webpack"><a href="#5-关于webpack" class="headerlink" title="5.关于webpack"></a>5.关于webpack</h2><h4 id="Webpack缩小体积原理"><a href="#Webpack缩小体积原理" class="headerlink" title="Webpack缩小体积原理"></a>Webpack缩小体积原理</h4><p>将多个模块依赖，转变成单个静态资源（js、css、jpg、png）</p>
-<p><img src="../images/webpack%20(2).jpg" alt></p>
+<p><img src="/2021/02/07/webpack/webpack%20(2).jpg" alt></p>
 <p>打包，是指处理某些文件并将其输出为其他文件的能力。</p>
 <ul>
 <li>entry: 编译入口</li>
@@ -739,6 +756,13 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 <li><code>non-initial</code> 是可以延迟加载的块。可能会出现在使用 <a href="https://webpack.docschina.org/guides/code-splitting/#dynamic-imports" target="_blank" rel="noopener">动态导入(dynamic imports)</a> 或者 <a href="https://webpack.docschina.org/plugins/split-chunks-plugin/" target="_blank" rel="noopener">SplitChunksPlugin</a> 时。</li>
 </ul>
 <p>然后loader是文件转换器（将webpack不能处理的模块转换成能处理的模块，也就是js模块）、plugin是功能拓展</p>
+<h4 id="Webpack构建流程"><a href="#Webpack构建流程" class="headerlink" title="Webpack构建流程"></a>Webpack构建流程</h4><p>初始化参数：从配置文件和 Shell 语句中读取与合并参数，得出最终的参数；</p>
+<p>开始编译：用上一步得到的参数初始化 Compiler 对象（实例化），加载所有配置的插件，执行 <code>compiler.run</code> 开始执行编译；</p>
+<p>确定入口：根据配置中的 entry 找出所有的入口文件；</p>
+<p>编译模块：从入口文件出发，调用所有配置的 Loader 对模块进行翻译，再找出该模块依赖的模块，再递归本步骤直到所有入口依赖的文件都经过了本步骤的处理（对每个模块所依赖的对象进行收集。）；</p>
+<p>完成模块编译：在经过第4步使用 Loader 翻译完所有模块后，得到了每个模块被翻译后的最终内容以及它们之间的依赖关系；</p>
+<p>输出资源：根据入口和模块之间的依赖关系，组装成一个个包含多个模块的 Chunk，再把每个 Chunk 转换成一个单独的文件加入到输出列表，这步是可以修改输出内容的最后机会；</p>
+<p>输出完成：在确定好输出内容后，根据配置确定输出的路径和文件名，把文件内容写入到文件系统。</p>
 <h4 id="为什么使用webpack"><a href="#为什么使用webpack" class="headerlink" title="为什么使用webpack"></a>为什么使用webpack</h4><p>在浏览器中运行 JavaScript 有两种方法。</p>
 <p>第一种方式，引用一些脚本来存放每个功能；此解决方案很难扩展，因为加载太多脚本会导致网络瓶颈。</p>
 <p>第二种方式，使用一个包含所有项目代码的大型 <code>.js</code> 文件，但是这会导致作用域、文件大小、可读性和可维护性方面的问题。</p>
@@ -762,7 +786,18 @@ module.exports = <span class="token punctuation">{</span>
     // ...
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
-<h2 id="小笑话"><a href="#小笑话" class="headerlink" title="小笑话"></a>小笑话</h2><p><img src="../images/webpack.jpg" alt></p>
+<h4 id="实现热更新"><a href="#实现热更新" class="headerlink" title="实现热更新"></a>实现热更新</h4><p><img src="/2021/02/07/webpack/hotloading.jpg" alt></p>
+<p>图片来自饿了么前端@知乎专栏</p>
+<p>第一步，在 webpack 的 watch 模式下，文件系统中某一个文件发生修改，webpack 监听到文件变化，根据配置文件对模块重新编译打包，并将打包后的代码通过简单的 JavaScript 对象保存在内存中。</p>
+<p>第二步是 webpack-dev-server 和 webpack 之间的接口交互，而在这一步，主要是 dev-server 的中间件 webpack-dev-middleware 和 webpack 之间的交互，webpack-dev-middleware 调用 webpack 暴露的 API对代码变化进行监控，并且告诉 webpack，将代码打包到内存中。</p>
+<p>第三步是 webpack-dev-server 对文件变化的一个监控，这一步不同于第一步，并不是监控代码变化重新打包。当我们在配置文件中配置了devServer.watchContentBase 为 true 的时候，Server 会监听这些配置文件夹中静态文件的变化，变化后会通知浏览器端对应用进行 live reload。注意，这儿是浏览器刷新，和 HMR 是两个概念。</p>
+<p>第四步也是 webpack-dev-server 代码的工作，该步骤主要是通过 sockjs（webpack-dev-server 的依赖）在浏览器端和服务端之间建立一个 websocket 长连接，将 webpack 编译打包的各个阶段的状态信息告知浏览器端，同时也包括第三步中 Server 监听静态文件变化的信息。浏览器端根据这些 socket 消息进行不同的操作。当然服务端传递的最主要信息还是新模块的 hash 值，后面的步骤根据这一 hash 值来进行模块热替换。</p>
+<p>webpack-dev-server/client 端并不能够请求更新的代码，也不会执行热更模块操作，而把这些工作又交回给了 webpack，webpack/hot/dev-server 的工作就是根据 webpack-dev-server/client 传给它的信息以及 dev-server 的配置决定是刷新浏览器呢还是进行模块热更新。当然如果仅仅是刷新浏览器，也就没有后面那些步骤了。</p>
+<p>HotModuleReplacement.runtime 是客户端 HMR 的中枢，它接收到上一步传递给他的新模块的 hash 值，它通过 JsonpMainTemplate.runtime 向 server 端发送 Ajax 请求，服务端返回一个 json，该 json 包含了所有要更新的模块的 hash 值，获取到更新列表后，该模块再次通过 jsonp 请求，获取到最新的模块代码。这就是上图中 7、8、9 步骤。</p>
+<p>而第 10 步是决定 HMR 成功与否的关键步骤，在该步骤中，HotModulePlugin 将会对新旧模块进行对比，决定是否更新模块，在决定更新模块后，检查模块之间的依赖关系，更新模块的同时更新模块间的依赖引用。</p>
+<p>最后一步，当 HMR 失败后，回退到 live reload 操作，也就是进行浏览器刷新来获取最新打包代码。</p>
+<h2 id="小笑话"><a href="#小笑话" class="headerlink" title="小笑话"></a>小笑话</h2><p><img src="/2021/02/07/webpack/webpack.jpg" alt></p>
+<p>部分资料参考地址<a href="https://juejin.cn/post/6844903877771264013" target="_blank" rel="noopener">https://juejin.cn/post/6844903877771264013</a></p>
 
             </div>
             <hr/>
@@ -1262,7 +1297,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">195.5k</span>&nbsp;字
+                class="white-color">197k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7k
+                    7.7k
                 </div>
                 
 
@@ -491,6 +491,9 @@
 <h4 id="XML简介"><a href="#XML简介" class="headerlink" title="XML简介"></a>XML简介</h4><p>XML可扩展标记语言，是被设计用来传输和存储数据的，它和html很像，它们不同的是html中都是预定义标签，而xml没有预定义标签，全是自定义标签，用来表示一些数据</p>
 <p>最开始ajax在进行数据交换的时候，所使用的格式就是XML</p>
 <p>但是现在ajax都是使用json了，json相对xml更为简洁，而且在数据转换这块比较容易，可以借助json的一些api方法，快速将字符串转成js对象，灵活度远胜XML</p>
+<h4 id="XML和HTML"><a href="#XML和HTML" class="headerlink" title="XML和HTML"></a>XML和HTML</h4><p>这初看起来很奇怪：HTML 和 XML 非常相似。有很多 XML 解析器可以使用。HTML 存在一个 XML 变体 (XHTML)，那么有什么大的区别呢？</p>
+<p>区别在于 HTML 的处理更为“宽容”，它允许您省略某些隐式添加的标记，有时还能省略一些起始或者结束标记等等。和 XML 严格的语法不同，HTML 整体来看是一种“软性”的语法。</p>
+<p>显然，这种看上去细微的差别实际上却带来了巨大的影响。一方面，这是 HTML 如此流行的原因：它能包容您的错误，简化网络开发。另一方面，这使得它很难编写正式的语法。概括地说，HTML 无法很容易地通过常规解析器解析（因为它的语法不是与上下文无关的语法），也无法通过 XML 解析器来解析。</p>
 <h4 id="Ajax特点"><a href="#Ajax特点" class="headerlink" title="Ajax特点"></a>Ajax特点</h4><p>优点：</p>
 <p>1.可以无需刷新而与服务器端进行通信（提高用户体验）</p>
 <p>2.允许根据用户事件来更新部分页面内容</p>
@@ -975,6 +978,31 @@ app<span class="token punctuation">.</span><span class="token function">all</spa
 <span class="token keyword">var</span> server <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 server<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token function">cors</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>但实际上，上线的网站，很少用cors解决跨域，因为加上这个意味着很多网站都可以访问你</p>
+<h4 id="复杂请求和简单请求"><a href="#复杂请求和简单请求" class="headerlink" title="复杂请求和简单请求"></a>复杂请求和简单请求</h4><p>在涉及到CORS的请求中，我们会把请求分为简单请求和复杂请求。</p>
+<p>浏览器限制跨域请求一般有两种方式：</p>
+<ol>
+<li>浏览器限制发起跨域请求</li>
+<li>跨域请求可以正常发起，但是返回的结果被浏览器拦截了</li>
+</ol>
+<p>一般浏览器都是第二种方式限制跨域请求，那就是说请求已到达服务器，并有可能对数据库里的数据进行了操作，但是返回的结果被浏览器拦截了，那么我们就获取不到返回结果，这是一次失败的请求，但是可能对数据库里的数据产生了影响。<br>为了防止这种情况的发生，规范要求，对这种可能对服务器数据产生<code>不可预测</code>影响的HTTP请求方法，浏览器必须先使用OPTIONS方法发起一个预检请求，从而获知服务器是否允许该跨域请求：如果允许，就发送带数据的真实请求；如果不允许，则阻止发送带数据的真实请求。</p>
+<p>（OPTIONS不会携带请求参数和cookie,也不会对服务器数据产生副作用）</p>
+<p><strong>复杂请求：会发送发预检请求（OPTIONS请求）</strong></p>
+<p><strong>简单请求</strong></p>
+<p>那么有哪些简单请求呢？以下是来自MDN官方引用：</p>
+<p>1、使用下列方法之一：</p>
+<p>GET、</p>
+<p>POST、</p>
+<p>HEAD。</p>
+<p>2、不得人为设置该集合之外的其他首部字段。该集合为：</p>
+<pre><code>Accept
+Accept-Language
+Content-Language
+Content-Type </code></pre><p>3、Content-Type 的值仅限于下列三者之一：</p>
+<pre><code>text/plain
+multipart/form-data
+application/x-www-form-urlencoded</code></pre><p>4、请求中的任意XMLHttpRequestUpload 对象均没有注册任何事件监听器；XMLHttpRequestUpload 对象可以使用 XMLHttpRequest.upload 属性访问</p>
+<p>5、请求中没有使用 ReadableStream 对象</p>
+<p>那什么是复杂请求呢，除了简单请求都是复杂请求。</p>
 <h4 id="postMessage"><a href="#postMessage" class="headerlink" title="postMessage"></a>postMessage</h4><p>这是由H5提出来的的API，IE8以上支持这个功能。window.postMessage() 方法可以安全地实现跨源通信。通常，对于两个不同页面的脚本，都遵循同源策略才能够实现通信。</p>
 <p><code>window.postMessage()</code> 方法提供了一种受控机制来规避此限制，只要正确的使用，这种方法就很安全，原理是将<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/postMessage#The_dispatched_event" target="_blank" rel="noopener">通过消息事件对象暴露给接收消息的窗口</a>。</p>
 <h4 id="nginx代理跨域"><a href="#nginx代理跨域" class="headerlink" title="nginx代理跨域"></a>nginx代理跨域</h4><p><strong>跨域原理：</strong> 同源策略是浏览器的安全策略，不是HTTP协议的一部分。服务器端调用HTTP接口只是使用HTTP协议，不会执行JS脚本（没有使用ajax，ajax遵守同源策略），不需要同源策略，也就不存在跨越问题。</p>
@@ -1060,7 +1088,8 @@ server<span class="token punctuation">.</span><span class="token function">use</
 <p><strong>websocket方法</strong></p>
 <p><code>send()</code>方法，，用于给服务端发送数据</p>
 <p>然后再浏览器调试可以看到我们发送成功了</p>
-<p><img src="../images/Ajax/wsocket_send.jpg" alt=""></p>
+<p><img src="/.io//wsocket_send.jpg" alt></p>
+<p><img src="https://i.imgur.com/wsocket_send.jpg" alt></p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//H5已经提供了websocket的API，可以直接使用</span>
 <span class="token comment" spellcheck="true">//这是人家websocket官方提供测试的url</span>
 <span class="token keyword">let</span> ws <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WebSocket</span><span class="token punctuation">(</span><span class="token string">'ws://echo.websocket.org'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -1113,7 +1142,8 @@ ws<span class="token punctuation">.</span><span class="token function">addEventL
 <h3 id="websocket框架"><a href="#websocket框架" class="headerlink" title="websocket框架"></a>websocket框架</h3><p>可以从上面看到，我们使用websocket时每一步事件都需要我们自己去封装，支持的时间太少，可能会比较麻烦，在应对搞复杂度的代码是会略显冗杂；</p>
 <p>我们可以使用websocket框架 <code>socket.io</code> 进行替代 + 完善</p>
 <p>说是说框架，但官方也解释了<code>socket.io</code>并不是websocket的一个实践，即使他在其中有使用到websocket的传输协议，但它作出了许多拓展，这就是为什么 WebSocket 客户端无法成功连接到 Socket.IO 服务器，而 Socket.IO 客户端也无法连接到普通 WebSocket 服务器的原因。（但在实现功能上，我们可以看成是一致的）</p>
-<p><img src="../images/Ajax/socket_io.jpg" alt=""></p>
+<p><img src="/.io//socket_io.jpg" alt></p>
+<p><img src="https://i.imgur.com/socket_io.jpg" alt></p>
 <p>附上官网 <a href="https://socket.io/" target="_blank" rel="noopener">https://socket.io/</a></p>
 <h5 id="服务端使用"><a href="#服务端使用" class="headerlink" title="服务端使用"></a>服务端使用</h5><pre class=" language-shell"><code class="language-shell">npm install socket.io</code></pre>
 <p>在express中可以使用（官网还有在typescript、koa等语言框架中使用的方法）</p>
@@ -1657,7 +1687,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">192.2k</span>&nbsp;字
+                class="white-color">195.4k</span>&nbsp;字
             
             
             
@@ -1791,6 +1821,6 @@ $(function () {
     <script src="/libs/instantpage/instantpage.js" type="module"></script>
     
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 
 </html>

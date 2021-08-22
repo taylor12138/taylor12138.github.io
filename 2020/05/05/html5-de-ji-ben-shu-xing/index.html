@@ -511,19 +511,19 @@
 <p><code>&lt;h1&gt;&lt;/h1&gt;---&lt;h6&gt;&lt;/h6&gt;</code><!--（一级标题到六级标题，重要级别递减）--><br><code>&lt;p&gt;&lt;/p&gt;</code><!--（段落标签）--></p>
 <p><code>&lt;br /&gt;</code><!--(强制换行)--><br><code>&lt;strong&gt;&lt;/strong&gt;</code>(字体加粗)<br><code>&lt;del&gt;&lt;/del&gt;</code>（字体删除线）</p>
 <p><code>&lt;em&gt;&lt;/em&gt;</code> 标签告诉浏览器把其中的文本表示为强调的内容</p>
-<br />
+<br>
 
 <h2 id="3-盒子"><a href="#3-盒子" class="headerlink" title="3.盒子"></a>3.盒子</h2><p>类似于微信小程序的view，用于布局</p>
 <p><code>&lt;div&gt;&lt;/div&gt;</code>     //大盒子，独占一整行</p>
 <p><code>&lt;span&gt;&lt;/span&gt;</code> //小盒子   无法设置高度和宽度</p>
-<br />
+<br>
 
 <h2 id="4-img"><a href="#4-img" class="headerlink" title="4.img"></a>4.img</h2><p><code>&lt;img src=&quot;&quot;  alt=&quot;&quot;  title=&quot;&quot;  height=&quot;&quot;  width=&quot;&quot;&gt;</code></p>
 <p>//微信小程序是image  alt为图片无法加载时显示的文字，title为鼠标移到图片上显示的文字提示,</p>
 <p>但是对于height和width,一般只修改其中一个，另外一个就会跟着改变</p>
 <p>src种绝对路径  \    相对路径  /</p>
 <p>（图片设置宽高一般设置为width：100%，heigh：100%，可以自动适应盒子）</p>
-<br />
+<br>
 
 <h2 id="5-超链接-lt-a-gt"><a href="#5-超链接-lt-a-gt" class="headerlink" title="5.超链接&lt; a&gt;"></a>5.超链接&lt; a&gt;</h2><p><code>&lt;a href=&quot;&quot; target=&quot;&quot; &gt;文本或者图像&lt;/a&gt;</code></p>
 <p>类似于微信小程序中的navigator, href用于指定目标的url，可打开内部，外部链接</p>
@@ -534,10 +534,10 @@
 <p><code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt;</code>移动到链接时会出现提示框</p>
 <p>一般情况下，a如果包含有宽度的盒子，a需要转换为块级元素</p>
 <p><code>&lt;a href=&#39;javascript:;&#39;&gt;xx&lt;/a&gt;</code>  直接添加javascript:; 可以阻止链接跳转</p>
-<br />
+<br>
 
 <h2 id="6-特殊字符"><a href="#6-特殊字符" class="headerlink" title="6.特殊字符"></a>6.特殊字符</h2><p>空格：<code>&amp;nbsp</code>       (因无法识别大于号和小于号)  小于号：<code>&amp;lt</code>  大于号：<code>&amp;gt</code></p>
-<br />
+<br>
 
 <h2 id="7-表格（用于数据）"><a href="#7-表格（用于数据）" class="headerlink" title="7.表格（用于数据）"></a>7.表格（用于数据）</h2><p><code>&lt;table&gt;</code></p>
 <p>​    <code>&lt;tr&gt;</code></p>
@@ -546,7 +546,7 @@
 <p><code>&lt;/table&gt;</code></p>
 <p>table是表格，tr是行，td是单元格（th可充当表头单元格）。还可以加入<code>&lt;thead&gt;</code>和 <code>&lt;tbody&gt;</code>来帮助CSS区分表格结构</p>
 <h4 id="单元格合并"><a href="#单元格合并" class="headerlink" title="单元格合并"></a>单元格合并</h4><p>使用colspan=”（列）想要合并的单元个数”或者rowspan=”（行）想要合并的单元个数”，再删除多余的td（或th）</p>
-<br />
+<br>
 
 <h2 id="8-列表（用于布局）"><a href="#8-列表（用于布局）" class="headerlink" title="8.列表（用于布局）"></a>8.列表（用于布局）</h2><h4 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h4><p>ul里只能放li标签，所以其他容器放li里面就可以</p>
 <p><code>&lt;ul&gt;</code></p>
@@ -578,6 +578,8 @@
 <span class="token selector">ol </span><span class="token punctuation">{</span>
     <span class="token property">list-style-type</span><span class="token punctuation">:</span>lower-alpha<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* 每一项前都是小写字母 */</span>
 <span class="token punctuation">}</span></code></pre>
+<h4 id="li标签包含a标签"><a href="#li标签包含a标签" class="headerlink" title="li标签包含a标签"></a>li标签包含a标签</h4><p>实际开发中导航栏不会直接用a标签，而是用li（列表）包含a标签的做法，1.语义更加清晰  2.故意对其关键字有被搜索引擎降权的风险</p>
+<p>导航栏不给宽度是不想定死，让其自动适应</p>
 <h2 id="9-表单（用于填写信息，用户注册）"><a href="#9-表单（用于填写信息，用户注册）" class="headerlink" title="9.表单（用于填写信息，用户注册）"></a>9.表单（用于填写信息，用户注册）</h2><p><code>&lt;form action=&quot;url地址&quot; method=&quot;提交方式&quot; name=&quot;表单域名称&quot; maxlength=&quot;&quot;&gt;&lt;/form&gt;</code>表单域</p>
 <p>url地址为处理表单数据的地址，method有get，post</p>
 <p>表单具有默认的提交行为，默认是同步的，同步表单提交，浏览器会锁死（转圈儿）等待服务端的响应结果。</p>
@@ -1215,7 +1217,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">192.2k</span>&nbsp;字
+                class="white-color">195.4k</span>&nbsp;字
             
             
             
@@ -1349,6 +1351,6 @@ $(function () {
     <script src="/libs/instantpage/instantpage.js" type="module"></script>
     
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 
 </html>

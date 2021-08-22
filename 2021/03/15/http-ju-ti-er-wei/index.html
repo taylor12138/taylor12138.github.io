@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.8k
+                    5.7k
                 </div>
                 
 
@@ -486,14 +486,14 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="1-http概述"><a href="#1-http概述" class="headerlink" title="1.http概述"></a>1.http概述</h2><p>从计算机网络的学习我们了解到：HTTP协议[超文本传输协议]，协议详细规定了浏览器和万维网服务器之间相互通信的规则</p>
-<h4 id="新的http-2-0"><a href="#新的http-2-0" class="headerlink" title="新的http 2.0"></a><strong>新的http 2.0</strong></h4><ul>
+<h4 id="http-2-0"><a href="#http-2-0" class="headerlink" title="http 2.0"></a><strong>http 2.0</strong></h4><ul>
 <li><p>使用二进制传输（二进制分帧），减少服务端压力，连接吞吐量更大，改善TCP拥塞状况，同时慢启动时间减少</p>
 </li>
 <li><p>多路复用，多路复用允许同时通过单一的 HTTP/2 连接发起多重的请求-响应消息。</p>
 <ul>
 <li>不同浏览器在http1或http1.1对请求的限制数量</li>
 </ul>
-<p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/http_request.jpg" alt=""></p>
+<p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/http_request.jpg" alt></p>
 </li>
 <li><p>压缩headers（最小数据量化）</p>
 </li>
@@ -514,7 +514,7 @@
 <li><p>http连接方式：持久连接（非流水线式（有点像停等协议）、流水线式（有点像GBN或SR协议，即后退N帧协议和选择重传协议））、非持久连接（每次传输都要三次握手）</p>
 </li>
 </ul>
-<h4 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h4><p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/url.jpg" alt=""></p>
+<h4 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h4><p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/url.jpg" alt></p>
 <p>URL：统一资源定位器</p>
 <p><strong>URL和域名的区别</strong><br>域名，Domain Name，通常指一个网址的顶级域名。<br>URL，website address，网页或网站的地址。</p>
 <p>URL中包含了网站的域名.<br>比如一个网址：<code>www.cnblogs.com/gopark/p/8430916.html</code><br>其中cnblogs.com是域名，cnblogs是网站名字，com是域名后缀；<code>www.cnblogs.com</code>代表一个二级域名，通常www被用来用为首页标识；<br><code>https://www.cnblogs.com/gopark/p/8430916.html</code>，这个则是一个完整的网站首页URL地址。https://，这是一个协议，是网站在网上传输的协议</p>
@@ -541,14 +541,20 @@
 </ul>
 <h4 id="http请求"><a href="#http请求" class="headerlink" title="http请求"></a>http请求</h4><ul>
 <li><p>get 获取资源。get注重url获得的参数，且只产生一个TCP数据包</p>
-<p>获得get请求的内容，它的内容是在url的<code>?</code> 之后的部分</p>
+<p>数据格式：获得get请求的内容，它的内容是在url的<code>?</code> 之后的部分</p>
+<p>长度限制：Get方法提交的数据大小长度并没有限制，HTTP协议规范没有对URL长度进行限制。这个限制是特定的浏览器及服务器对它的限制；而这个长度限制，每个浏览器对应的限制都是不一样的。</p>
 </li>
 <li><p>post 创建资源（带请求体）。post的信息放在Request body中，且产生TCP两个数据包（firefox浏览器除外）</p>
-<p>post回退时会再次提交请求；一般情况下，私密数据传输用POST + body就好</p>
+<p>数据格式：post回退时会再次提交请求；一般情况下，私密数据传输用POST + body就好</p>
+<p>长度限制：理论上讲，POST是没有大小限制的。HTTP协议规范也没有进行大小限制，起限制作用的是服务器的处理程序的处理能力。</p>
 </li>
 <li><p>put 更新资源（带请求体）</p>
 </li>
 <li><p>delete 删除资源</p>
+</li>
+<li><p>connect方法建立一个到由目标资源标识的服务器的隧道。</p>
+</li>
+<li><p>options方法用于描述目标资源的通信选项。</p>
 </li>
 </ul>
 <p><strong>请求报文</strong>：</p>
@@ -565,8 +571,8 @@
 <p>2.头 （首部）    格式和请求头一样</p>
 <p>3.空行</p>
 <p>4.体   html的内容</p>
-<h4 id="报文和实体"><a href="#报文和实体" class="headerlink" title="报文和实体"></a>报文和实体</h4><p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/http1.jpg" alt=""></p>
-<p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/http2.jpg" alt=""></p>
+<h4 id="报文和实体"><a href="#报文和实体" class="headerlink" title="报文和实体"></a>报文和实体</h4><p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/http1.jpg" alt></p>
+<p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/http2.jpg" alt></p>
 <p>http报文和http实体是不同的概念，http报文类似于运输的箱子，http实体类似于箱子中的货物（个人感觉  实体 = 报文 - 行 - 除了实体首部字段的所有首部字段）</p>
 <p>报文：网络中交换和传输的数据单元，即一次性要发送的数据块，包含了发送的完整数据信息</p>
 <p>实体：作为请求和响应的有效载荷数据</p>
@@ -578,6 +584,10 @@
 <li>服务器向客户端返回响应</li>
 <li>关闭TCP连接（四次挥手）</li>
 </ul>
+<h4 id="http-only"><a href="#http-only" class="headerlink" title="http only"></a>http only</h4><p>如果想要实现服务端设置cookie，返回时让客户端无法查看，可以使用 <code>HttpOnly</code>属性</p>
+<p>（MDN：有两种方法可以确保 <code>Cookie</code> 被安全发送，并且不会被意外的参与者或脚本访问：<code>Secure</code> 属性和<code>HttpOnly</code> 属性。）</p>
+<p><code>HttpOnly = true</code> 的话，那此Cookie 只能通过服务器端修改，<code>Js</code> 是操作不了的，对于 <code>document.cookie</code> 来说是透明的</p>
+<p>此预防措施有助于缓解<a href="https://developer.mozilla.org/en-US/docs/Web/Security/Types_of_attacks" target="_blank" rel="noopener">跨站点脚本（XSS） (en-US)</a>攻击。</p>
 <h2 id="2-持久连接"><a href="#2-持久连接" class="headerlink" title="2.持久连接"></a>2.持久连接</h2><p>在http初始协议版本中，每进行一次http通信都要断开一次TCP连接，如果需要同时请求多个资源时就造成了无缘无故的TCP连接建立和断开，造成资源浪费，增加通信开销。</p>
 <p>为了解决上述问题，http/1.1和http/1.0想出了持久连接的方法，其特点是只要一方没有明确提出断开，就保持TCP连接。在 http/1.1 中，所有的连接默认都是持久连接</p>
 <h4 id="延伸出来的管线化"><a href="#延伸出来的管线化" class="headerlink" title="延伸出来的管线化"></a>延伸出来的管线化</h4><p>持久连接使得管线化的方式成为可能，管线化技术出现后，不用等待即可发送下个请求</p>
@@ -647,7 +657,7 @@
 <p>502：错误网关，从上游服务器收到无效响应，可能也是停机维护，或者服务器暂未开启，</p>
 <p>503：服务器目前无法使用（由于超载或停机维护）通常，这只是暂时状态。（服务不可用）</p>
 <p>504：网关超时</p>
-<p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/ajax.jpg" alt=""></p>
+<p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/ajax.jpg" alt></p>
 <h2 id="6-http缓存"><a href="#6-http缓存" class="headerlink" title="6.http缓存"></a>6.http缓存</h2><p>常见的http缓存只能缓存get请求响应的资源，对于其他类型的响应则无能为力。对于开发者来说，长久缓存复用重复不变的资源是性能优化的重要组成部分！！！</p>
 <p>浏览器第一次向一个web服务器发起<code>http</code>请求后，服务器会返回请求的资源，并且在响应头中添加一些有关<strong>缓存的字段</strong>（添加后浏览器才知道是否应该缓存资源）如：</p>
 <ul>
@@ -684,11 +694,40 @@
 <li>协商缓存：（当前缓存过期）浏览器发送请求到服务器，服务器判定是否可使用本地缓存。</li>
 <li>联系与区别：两种缓存方式最终使用的都是本地缓存；前者无需与服务器交互，后者需要。</li>
 </ul>
-<p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/huancun2.jpg" alt=""></p>
+<p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/huancun2.jpg" alt></p>
 <h4 id="缓存过期策略"><a href="#缓存过期策略" class="headerlink" title="缓存过期策略"></a>缓存过期策略</h4><p>1、设置 Cache-Control: max-age=1000 。响应头中的 Date 经过 1000s 过期（比起首部字段<code>Expires</code>，会优先处理<code>s-maxage</code>或<code>max-age</code>。）（<code>Cache-Control</code>HTTP / 1.1通用头字段被用于为请求和响应缓存机制指定指令l）<br>2、设置 Expires 。此时间与本地时间(响应头中的 Date )对比，小于本地时间表示过期，由于本地时钟与服务器时钟无法保持一致，导致比较不精确（http1.0时代，Pragma也是1.0时代的产物）<br>3、如果以上均未设置，却设置了 Last-Modified ，浏览器隐式的设置资源过期时间为 (Date - Last-Modified) * 10% 缓存过期时间。</p>
 <p><strong>前端缓存图</strong>：</p>
-<p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/huancun.jpg" alt=""></p>
+<p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/huancun.jpg" alt></p>
 <h2 id="7-其他"><a href="#7-其他" class="headerlink" title="7.其他"></a>7.其他</h2><h4 id="范围请求"><a href="#范围请求" class="headerlink" title="范围请求"></a>范围请求</h4><p>假设你正在下载一个很大的文件，已经下了四分之三，忽然网络中断了，那下载就必须重头再来一遍。为了解决这个问题，需要一种可恢复的机制，即能从之前下载中断处恢复下载，要实现该功能，这就要用到范围请求。（前提是上一次请求到这一次请求时间段内，下载对象没有发生改变）</p>
+<h2 id="8-QUIC"><a href="#8-QUIC" class="headerlink" title="8.QUIC"></a>8.QUIC</h2><p>Quic 全称 quick udp internet connection ，“快速 UDP 互联网连接”，也可以理解为http3.0</p>
+<p>应用：速度更快、网络切换（wifi -&gt; nG）无感知等、弱网络环境better</p>
+<p>对比http2.0：</p>
+<ol>
+<li><p><strong>减少了 TCP 三次握手及 TLS 握手时间。</strong></p>
+<p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/quic.jpg" alt></p>
+<p>HTTPS 的一次完全握手的建连过程，需要 3 个 RTT，而QUIC由于建立在UDP的基础上，只需要0RTT即可完成安全握手。</p>
+</li>
+<li><p><strong>改进的拥塞控制。</strong></p>
+<p>为啥你用UDP也能可靠啊？</p>
+<p>TCP 使用ACK（确认），还有基于字节序号的 <code>Sequence Number</code>为了保证可靠性，而QUIC也有使用ACK（确认）并且以 <code>Packet Number</code> 代替了 TCP 的 <code>sequence number</code>；</p>
+<p>传统TCP：超时事件 RTO 发生后，客户端发起重传，然后接收到了 Ack 数据。但是因为序列号一样，所以我们分不清这个 Ack 数据到底是原始请求的响应，还是重传请求的响应</p>
+<p> <code>Sequence Number</code>：当<code>Packet Number</code> 发生了丢失，<code>Packet Number</code> 传递的数值（也就是那个Number）会不一样，因为他是按照严格递增的，此时就可以发现传送的失误了。（在RTO 发生后，可以精确判断Ack 数据是原始请求的响应，还是重传请求的响应）</p>
+<p>还有可插拔、更多ACK块等</p>
+</li>
+<li><p><strong>避免队头阻塞的多路复用。</strong></p>
+<p>QUIC的多路复用，也可以实现在一条 QUIC 连接上可以并发发送多个 HTTP 请求 （stream），但是stream之间没有相互依赖，这导致了彼此不会相互影响，极大程度消除了对头阻塞的影响；</p>
+<p>并且QUIC 最基本的传输单元是 Packet，整个加密和认证过程都是基于 Packet 的，不会跨越多个 Packet。这样就能避免 TLS 协议存在的队头阻塞。</p>
+<p>而对比QUIC，http2.0的多路复用会队头阻塞，本身强制使用的TLS协议也存在一个队头阻塞</p>
+<p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/quic2.jpg" alt></p>
+<p><img src="../images/http%E5%85%B7%E4%BD%93%E8%80%8C%E5%BE%AE/quic3.jpg" alt></p>
+</li>
+<li><p><strong>连接迁移。</strong></p>
+<p>WIFI 和 4G 移动网络切换时， ip发生变化 -&gt; 重新建立TCP连接；而任何一条 QUIC 连接不再以 IP 及端口四元组标识，而是以一个 64 位的随机数作为 ID 来标识，继而上层业务逻辑感知不到变化</p>
+</li>
+<li><p><strong>前向冗余纠错</strong></p>
+</li>
+</ol>
+<p>QUIC参考链接<a href="https://zhuanlan.zhihu.com/p/32553477" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/32553477</a></p>
 
             </div>
             <hr/>
@@ -1204,7 +1243,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">192.2k</span>&nbsp;字
+                class="white-color">195.4k</span>&nbsp;字
             
             
             
@@ -1338,6 +1377,6 @@ $(function () {
     <script src="/libs/instantpage/instantpage.js" type="module"></script>
     
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 
 </html>

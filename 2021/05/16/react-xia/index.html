@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.8k
+                    9k
                 </div>
                 
 
@@ -521,7 +521,7 @@
 <li>当需要大量共享可以使用，但是能不用就不用，毕竟是全局的东西</li>
 </ul>
 <p>（实际上有点像Vuex，Vue人家就很少用这个，用自己内部的Vuex）</p>
-<p><img src="../images/React(%E4%B8%8B)/redux.jpg" alt=""></p>
+<p><img src="../images/React(%E4%B8%8B)/redux.jpg" alt></p>
 <p>以上为redux原理图</p>
 <h4 id="redux三个核心概念"><a href="#redux三个核心概念" class="headerlink" title="redux三个核心概念"></a>redux三个核心概念</h4><p><strong>action</strong></p>
 <p>有同步action （sync）和异步action （async）</p>
@@ -653,7 +653,7 @@ store<span class="token punctuation">.</span><span class="token function">subscr
 <pre class=" language-js"><code class="language-js">store<span class="token punctuation">.</span><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token function">asyncIncrement</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> <span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p><strong>异步action</strong>：<strong>它不是一个必须的东西</strong>，实际上我们可以在自己的组件函数里定义异步操作，只是当你不想要把异步操作放在组件里是，可以使用以上异步action方法</p>
 <h4 id="react-redux"><a href="#react-redux" class="headerlink" title="react-redux"></a>react-redux</h4><p>facebook为了让开发人员更加舒服使用redux，开发了react-redux（其实我个人觉得可以理解为，react让组件和redux之间的交互多了一个中间人：container）</p>
-<p><img src="../images/React(%E4%B8%8B)/react-redux.png" alt=""></p>
+<p><img src="../images/React(%E4%B8%8B)/react-redux.png" alt></p>
 <p>可以看得出外面要了一层容器，防止UI组件直接对接redux</p>
 <p>components文件夹存放的是UI组件（不能使用任何的redux API，只负责页面的呈现）</p>
 <p>我们要创建一个container的文件夹，然后新建一个容器组件，容器组件作为UI组件 和 react-redux的桥梁，不能直接rcc自定义组件，而是使用react-redux库创建。</p>
@@ -880,6 +880,7 @@ React<span class="token punctuation">.</span><span class="token function">useEff
 <span class="token comment" spellcheck="true">// React.useEffect(() => {</span>
 <span class="token comment" spellcheck="true">//   // do something</span>
 <span class="token comment" spellcheck="true">// }, [count])  只监测count的变化，有点像隶属于count的watcher，如果第二个参数不传入，则全部state都监听</span></code></pre>
+<p>其中第二个参数为依赖数组，每次都会进行“浅比较”，判断是否重新渲染</p>
 <p>Ref Hook 示范</p>
 <pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">Demo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token comment" spellcheck="true">// 感觉和类式组件的createRef差不多</span>
@@ -1396,12 +1397,33 @@ something2 <span class="token operator">=</span> <span class="token punctuation"
 <span class="token punctuation">}</span></code></pre>
 <p>此时在依赖项count不变的情况下，他会返回相同的引用，避免Button无意义的重复渲染。</p>
 <p><code>useCallback(fn, deps)</code> 相当于 <code>useMemo(() =&gt; fn, deps)</code>。</p>
-<p>导师说按照我给他描述的pureComponent，性质应该差不多（他貌似也没怎么使用过类式组件），公司里也有很多组件（涉及到一些回调函数操作），也经常使用到</p>
-<p>而useMemo</p>
-<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">const</span> memoizedValue <span class="token operator">=</span> <span class="token function">useMemo</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token function">computeExpensiveValue</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>a<span class="token punctuation">,</span> b<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="useMemo"><a href="#useMemo" class="headerlink" title="useMemo"></a>useMemo</h4><pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">const</span> memoizedValue <span class="token operator">=</span> <span class="token function">useMemo</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token function">computeExpensiveValue</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>a<span class="token punctuation">,</span> b<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>把“创建”函数和依赖项数组作为参数传入 useMemo，它仅会在某个依赖项改变时才重新计算 memoized 值。这种优化有助于避免在每次渲染时都进行高开销的计算。</p>
-<p>记住，传入 useMemo 的函数会在渲染期间执行。请不要在这个函数内部执行与渲染无关的操作，诸如副作用这类的操作属于 useEffect 的适用范畴，而不是 useMemo。</p>
 <p>关于useCallback和useMemo更深一侧的了解（利弊关系）可以查看<a href="https://jancat.github.io/post/2019/translation-usememo-and-usecallback/，实质上可以当成对时间、空间的分配置换关系来看就行了" target="_blank" rel="noopener">https://jancat.github.io/post/2019/translation-usememo-and-usecallback/，实质上可以当成对时间、空间的分配置换关系来看就行了</a></p>
+<p>使用场景：</p>
+<p>一、应该使用 <code>useMemo</code> 的场景</p>
+<ol>
+<li>保持引用相等</li>
+</ol>
+<ul>
+<li>对于组件内部用到的 object、array、函数等，如果用在了其他 Hook 的依赖数组中，或者作为 props 传递给了下游组件，应该使用 <code>useMemo</code>。</li>
+<li>自定义 Hook 中暴露出来的 object、array、函数等，都应该使用 <code>useMemo</code> 。以确保当值相同时，引用不发生变化。</li>
+<li>使用 <code>Context</code> 时，如果 <code>Provider</code> 的 value 中定义的值（第一层）发生了变化，即便用了 Pure Component 或者 <code>React.memo</code>，仍然会导致子组件 re-render。这种情况下，仍然建议使用 <code>useMemo</code> 保持引用的一致性。</li>
+</ul>
+<ol start="2">
+<li>成本很高的计算</li>
+</ol>
+<ul>
+<li><ul>
+<li>比如 <code>cloneDeep</code> 一个很大并且层级很深的数据</li>
+</ul>
+</li>
+</ul>
+<p>二、无需使用 useMemo 的场景</p>
+<ol>
+<li>如果返回的值是原始值： <code>string</code>, <code>boolean</code>, <code>null</code>, <code>undefined</code>, <code>number</code>, <code>symbol</code>（不包括动态声明的 Symbol），一般不需要使用 <code>useMemo</code>。</li>
+<li>仅在组件内部用到的 object、array、函数等（没有作为 props 传递给子组件），且没有用到其他 Hook 的依赖数组中，一般不需要使用 <code>useMemo</code>。</li>
+</ol>
 <h4 id="useCallback使用场景-死循环"><a href="#useCallback使用场景-死循环" class="headerlink" title="useCallback使用场景 + 死循环"></a>useCallback使用场景 + 死循环</h4><p><a href="https://segmentfault.com/a/1190000020108840" target="_blank" rel="noopener">https://segmentfault.com/a/1190000020108840</a></p>
 <p>死循环的出现（链接里面的两个例子）：</p>
 <ul>
@@ -1419,7 +1441,7 @@ something2 <span class="token operator">=</span> <span class="token punctuation"
 <h2 id="12-React-17-0"><a href="#12-React-17-0" class="headerlink" title="12.React 17.0"></a>12.React 17.0</h2><p>新增特性一览（主要的，也可以说是我所关注的）</p>
 <p>（1）在React 16和更早的版本中，React将对大多数事件执行<code>document.addEventListener()</code>。 React 17将在后调用<code>rootNode.addEventListener()</code>。（也就是将事件委托从 document 切换为 root）</p>
 <p>一张图明示两者的差异</p>
-<p><img src="../images/React(%E4%B8%8B)/react17.jpg" alt="">)（2) React 17支持新的JSX转换。我们还将对它支持到React 16.14.0，React 15.7.0和0.14.10。需要注意的是，这是完全选择启用的，您也不必使用它。之前的JSX转换的方式将继续存在，并且没有计划停止对其支持。</p>
+<p><img src="../images/React(%E4%B8%8B)/react17.jpg" alt>)（2) React 17支持新的JSX转换。我们还将对它支持到React 16.14.0，React 15.7.0和0.14.10。需要注意的是，这是完全选择启用的，您也不必使用它。之前的JSX转换的方式将继续存在，并且没有计划停止对其支持。</p>
 <p>更多：<a href="https://juejin.cn/post/6885881513741647886" target="_blank" rel="noopener">https://juejin.cn/post/6885881513741647886</a></p>
 
             </div>
@@ -1932,7 +1954,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">192.2k</span>&nbsp;字
+                class="white-color">195.4k</span>&nbsp;字
             
             
             
@@ -2066,6 +2088,6 @@ $(function () {
     <script src="/libs/instantpage/instantpage.js" type="module"></script>
     
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 
 </html>

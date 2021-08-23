@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.2k
+                    7.4k
                 </div>
                 
 
@@ -554,9 +554,26 @@ s2 <span class="token operator">=</span> <span class="token operator">-</span>s2
 <span class="token string">"12"</span> <span class="token operator">+</span> <span class="token keyword">null</span>      <span class="token comment" spellcheck="true">//"12null"</span></code></pre>
 <p><strong>减法操作符</strong></p>
 <p>当任意一个操作数是字符串、布尔值、null或undefined，则先在后台使用<code>Number()</code>转换为数值，若是对象则调用其<code>valueOf()</code>方法取得表示它的数值</p>
-<p><strong>== 和 ===</strong></p>
+<p><strong>== 和 ===、<code>Object.is()</code></strong></p>
 <p><code>==</code>和 <code>!=</code>都会先进行类型转换（强制类型转换），再确定操作数是否相等</p>
 <p>而 <code>===</code> 和 <code>!==</code> 都不会转换操作数</p>
+<p><code>Object.is()</code>确定两个值是否<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness" target="_blank" rel="noopener">相同</a>。如果以下条件之一成立，则两个值相同：</p>
+<ul>
+<li>两者 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined" target="_blank" rel="noopener"><code>undefined</code></a></li>
+<li>两者 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null" target="_blank" rel="noopener"><code>null</code></a></li>
+<li>两者<code>true</code>或两者<code>false</code></li>
+<li>相同长度的两个字符串以相同的顺序具有相同的字符</li>
+<li>两者都是同一个对象（意味着两个值都引用了内存中的同一个对象）</li>
+<li>数字和<ul>
+<li>两者 <code>+0</code></li>
+<li>两者 <code>-0</code></li>
+<li>两者 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN" target="_blank" rel="noopener"><code>NaN</code></a></li>
+<li>或两者都非零且两者都不是<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN" target="_blank" rel="noopener"><code>NaN</code></a>且两者都具有相同的值</li>
+</ul>
+</li>
+</ul>
+<p>这是<em>不</em>一样根据等于 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators#equality" target="_blank" rel="noopener"><code>==</code></a>运算符。该 <code>==</code>运营商应用各种强制转换双方（如果它们不是同一类型）测试相等（导致这种行为像以前一样 <code>&quot;&quot; == false</code>是<code>true</code>），但<code>Object.is</code>不强迫任何一个值。</p>
+<p>这也<em>不同于</em>根据<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators#identity" target="_blank" rel="noopener"><code>===</code></a>运营商的平等 。<code>Object.is()</code>和之间的唯一区别在于<code>===</code>它们对带符号零和 NaN 的处理。例如，<code>===</code> 运算符（和<code>==</code>运算符）将数值<code>-0</code> 和<code>+0</code>视为相等。此外，<code>===</code>运算符将 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/NaN" target="_blank" rel="noopener"><code>Number.NaN</code></a>和<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN" target="_blank" rel="noopener"><code>NaN</code></a>视为不相等。</p>
 <p><strong>break &amp; continue</strong></p>
 <p>break和continue都可以使用标签语句退出多重循环</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> num <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
@@ -1565,7 +1582,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">197k</span>&nbsp;字
+                class="white-color">198.7k</span>&nbsp;字
             
             
             

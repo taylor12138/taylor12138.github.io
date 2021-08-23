@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    596
+                    1.2k
                 </div>
                 
 
@@ -496,7 +496,7 @@
 </ol>
 <p>呈现引擎：用于CSS格式化HTML内容和图片</p>
 <p>Firefox 使用的是 Gecko，这是 Mozilla 公司“自制”的呈现引擎。而 Safari 和 Chrome 浏览器使用的都是 WebKit。</p>
-<h2 id="多进程"><a href="#多进程" class="headerlink" title="多进程"></a>多进程</h2><p>一般一个应用对应 -&gt;  一个进程</p>
+<h2 id="Chrome渲染流程"><a href="#Chrome渲染流程" class="headerlink" title="Chrome渲染流程"></a>Chrome渲染流程</h2><h4 id="多进程"><a href="#多进程" class="headerlink" title="多进程"></a>多进程</h4><p>一般一个应用对应 -&gt;  一个进程</p>
 <p>开发一个浏览器，它可以是单进程多线程的应用，也可以是使用 IPC 通信的多进程应用。</p>
 <p>Chrome 采用多进程架构，其顶层存在一个 Browser process 用以协调浏览器的其它进程</p>
 <p>chrome多进程的优点</p>
@@ -506,7 +506,36 @@
 </ol>
 <p>缺点：由于不同进程间的内存不共享，不同进程的内存常常需要包含相同的内容。（意思就是内存占用大呗）</p>
 <p>如果 Chrome 运行在强大的硬件上，它会分割不同的服务到不同的进程，这样 Chrome 整体的运行会更加稳定，但是如果 Chrome 运行在资源贫瘠的设备上，这些服务又会合并到同一个进程中运行，这样可以节省内存</p>
-<p>参考链接 <a href="https://www.html5rocks.com/zh/tutorials/internals/howbrowserswork/" target="_blank" rel="noopener">https://www.html5rocks.com/zh/tutorials/internals/howbrowserswork/</a></p>
+<h4 id="Site-Isolation"><a href="#Site-Isolation" class="headerlink" title="Site Isolation"></a><strong>Site Isolation</strong></h4><p>Site Isolation 机制允许在同一个 Tab 下的跨站 iframe 使用单独的进程来渲染，这样会更为安全。（相当于网页中内嵌iframe，使得进程之间保持独立性）</p>
+<h4 id="chrome导航"><a href="#chrome导航" class="headerlink" title="chrome导航"></a>chrome导航</h4><p>tab以外的工作也都是由Browser Process控制，而它对于导航栏，用不同的线程进行处理（这些线程包含在Browser Process中）</p>
+<ul>
+<li>UI thread ： 控制浏览器上的按钮及输入框；</li>
+<li>network thread: 处理网络请求，从网上获取数据；</li>
+<li>storage thread: 控制文件等的访问</li>
+</ul>
+<p>导航栏输入关键字之后：</p>
+<p>UI thread 判断输入 -&gt; </p>
+<p>network thread 获取请求，执行DNS查询，建立TLS连接 -&gt; </p>
+<p>根据相应的格式进行处理 -&gt; </p>
+<p>触发Safe Browsing， 如果当前匹配到的是恶意站点，则会发出警告 -&gt;     </p>
+<p>一切准备就绪，network thread：我们数据ok了，UI thread：收到，然后UI thread找到一个render process进行网页渲染（所有的 JS 代码其实都由 renderer Process 控制的） -&gt; </p>
+<p>Browser Process 收到 renderer process 的渲染确认消息，页面加载开始，history tab 进行更新</p>
+<h4 id="渲染工作"><a href="#渲染工作" class="headerlink" title="渲染工作"></a>渲染工作</h4><p>在Render Process中，包含以下线程</p>
+<ol>
+<li>主线程 Main thread</li>
+<li>工作线程 Worker thread</li>
+<li>排版线程 Compositor thread</li>
+<li>光栅线程 Raster thread</li>
+</ol>
+<p>渲染过程：</p>
+<p>主线程main thread构建DOM -&gt; </p>
+<p>若期间存在 <code>&lt;img&gt;</code> <code>&lt;link&gt;</code> 等标签，则传递给Browser Process 的network thread进行下载 -&gt;</p>
+<p>碰到<code>&lt;script&gt;</code> 标签会阻塞，除非带有defer或者async -&gt; </p>
+<p>形成CSSOM树和DOM树再合成render树，计算布局、样式，也就是我们常见的layout和paint，最后合成帧，其中如果添加了 <code>will-change</code> CSS 属性的元素，会被看做单独的一层，（类似于CSS的缓存效果）</p>
+<h4 id="chrome对事件的优化"><a href="#chrome对事件的优化" class="headerlink" title="chrome对事件的优化"></a>chrome对事件的优化</h4><p>一般我们屏幕的刷新速率为 60fps，但是某些事件的触发量会不止这个值，出于优化的目的，Chrome 会合并连续的事件(如 wheel, mousewheel, mousemove, pointermove, touchmove )，并延迟到下一帧渲染时候执行 。</p>
+<p>不过值得一提的是，那些非连续性的事件，也就是click之类的（毕竟你也点不了那么快），则会立即被触发</p>
+<p>参考链接<a href="https://zhuanlan.zhihu.com/p/47407398" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/47407398</a></p>
+<p>参考链接<a href="https://developer.mozilla.org/zh-CN/docs/Web/Performance/How_browsers_work" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/Performance/How_browsers_work</a></p>
 
             </div>
             <hr/>
@@ -1017,7 +1046,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">197k</span>&nbsp;字
+                class="white-color">198.7k</span>&nbsp;字
             
             
             

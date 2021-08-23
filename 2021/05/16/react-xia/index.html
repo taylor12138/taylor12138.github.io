@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9k
+                    5.9k
                 </div>
                 
 
@@ -485,322 +485,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>由于React部分太多了，分上下两篇进行浏览</p>
-<h2 id="7-React-UI库"><a href="#7-React-UI库" class="headerlink" title="7.React UI库"></a>7.React UI库</h2><p>material-ui（国外）</p>
-<ul>
-<li>官网：<a href="https://material-ui.com/zh/" target="_blank" rel="noopener">https://material-ui.com/zh/</a> </li>
-<li>GitHub：<a href="https://github.com/mui-org/material-ui" target="_blank" rel="noopener">https://github.com/mui-org/material-ui</a></li>
-</ul>
-<p>ant-design（国内蚂蚁金服）（推荐）</p>
-<ul>
-<li>官网：<a href="https://ant.design/index-cn" target="_blank" rel="noopener">https://ant.design/index-cn</a></li>
-<li>GitHub：<a href="https://github.com/ant-design/ant-design" target="_blank" rel="noopener">https://github.com/ant-design/ant-design</a></li>
-</ul>
-<p>下载antd</p>
-<pre class=" language-shell"><code class="language-shell">npm i antd --save</code></pre>
-<p>在引入的时候，不要忘记也要引入 <code>antd/dist/antd.css</code>（官网显示代码居然没有提示要引入css），不过最好要按需引入，<code>import &#39;antd/dist/antd.css&#39;</code>加载了全部的 antd 组件的样式 。</p>
-<p>此时我们可以进入官网 -&gt; 文档-&gt; 在create-react-app -&gt;高级配置中使用进行查看（看不到就看3.x版本）</p>
-<p>假如我只是用了Button组件</p>
-<pre class=" language-jsx"><code class="language-jsx"><span class="token comment" spellcheck="true">//引入Button组件</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span> Button <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'antd'</span>
-<span class="token keyword">import</span> <span class="token string">'antd/dist/antd.css'</span></code></pre>
-<p>Vue的话推荐使用element-UI库，后面反响不错，也出了react的UI</p>
-<p>对于React Native的按需导入，还得再babel.config.js进行配置</p>
-<pre class=" language-shell"><code class="language-shell">npm i ant-design/react-native</code></pre>
-<pre class=" language-js"><code class="language-js">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
-  presets<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'module:metro-react-native-babel-preset'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-  <span class="token comment" spellcheck="true">// 按需加载</span>
-  <span class="token string">"plugins"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
-    <span class="token punctuation">[</span><span class="token string">"import"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> libraryName<span class="token punctuation">:</span> <span class="token string">"@ant-design/react-native"</span> <span class="token punctuation">}</span><span class="token punctuation">]</span> <span class="token comment" spellcheck="true">// 与 Web 平台的区别是不需要设置 style</span>
-  <span class="token punctuation">]</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
-<h2 id="8-redux"><a href="#8-redux" class="headerlink" title="8.redux"></a>8.redux</h2><p>redux是一个专门做状态管理的JS库（集中式管理）</p>
-<p>它可以在React、Angular、Vue等项目中，但基本和React配合使用</p>
-<ul>
-<li>作用：集中式管理react应用中多个组件共享状态</li>
-<li>当需要大量共享可以使用，但是能不用就不用，毕竟是全局的东西</li>
-</ul>
-<p>（实际上有点像Vuex，Vue人家就很少用这个，用自己内部的Vuex）</p>
-<p><img src="/2021/05/16/react-xia/redux.jpg" alt></p>
-<p>以上为redux原理图</p>
-<h4 id="redux三个核心概念"><a href="#redux三个核心概念" class="headerlink" title="redux三个核心概念"></a>redux三个核心概念</h4><p><strong>action</strong></p>
-<p>有同步action （sync）和异步action （async）</p>
-<ul>
-<li>动作对象</li>
-<li>包含两个属性：<ul>
-<li>type：标识属性，值为字符串，唯一，必要属性</li>
-<li>data：数据属性，任意类型，可选属性</li>
-</ul>
-</li>
-</ul>
-<p><strong>reducer</strong></p>
-<p>Reducers不仅能加工状态（加工状态那么部分有点像Vue里的mutations），还能初始化状态</p>
-<p>加工时，根据旧的state和action，产生新的state纯函数</p>
-<p>在初始化时，reducer得到的previousState、action分别为 <code>undefined</code>、<code>type:&#39;@@init&#39; + 随机字符,data: 无</code></p>
-<p><strong>store</strong></p>
-<p>将state、action、reducer联系在一起的对象，负责对外暴露</p>
-<h4 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h4><p><strong>初始化</strong></p>
-<pre class=" language-shell"><code class="language-shell">npm i redux</code></pre>
-<p>新建一个redux文件夹，在里面新建 store.js和处理某组件的 xxx_reducer.js</p>
-<p><strong>建立store</strong></p>
-<p>store.js是专门用于暴露一个store对象，整个一应用只有一个store对象，配合redux的<code>createStore</code> API 可以创建一个store对象</p>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//store.js</span>
-<span class="token comment" spellcheck="true">//createStore专门用于创建store对象</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span> createStore <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'redux'</span>
-<span class="token comment" spellcheck="true">// 引入reducer</span>
-<span class="token keyword">import</span> countReducer <span class="token keyword">from</span> <span class="token string">'./count_reducer'</span>
-<span class="token comment" spellcheck="true">// 暴露store</span>
-<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">createStore</span><span class="token punctuation">(</span>countReducer<span class="token punctuation">)</span></code></pre>
-<p><strong>建立reducer</strong></p>
-<p>这里我模拟一个处理count数据的reducer</p>
-<p>xxx_reducer.js是用于创建一个为Count组件服务的reducer，reducer的本质就是一个函数，reducer函数会接到两个参数，分别为：之前的对象<code>preState</code>、动作对象<code>action</code> </p>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// reducer用于最基本的数据处理，是一个纯函数</span>
-<span class="token keyword">const</span> initState <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">//如果你要存多个数据，可以初始化成一个对象</span>
-<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">countReducer</span><span class="token punctuation">(</span>preState <span class="token operator">=</span> initState<span class="token punctuation">,</span> action<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>preState<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">const</span> <span class="token punctuation">{</span> type<span class="token punctuation">,</span> data <span class="token punctuation">}</span> <span class="token operator">=</span> action<span class="token punctuation">;</span>
-  <span class="token keyword">switch</span> <span class="token punctuation">(</span>type<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">case</span> <span class="token string">'increment'</span><span class="token punctuation">:</span>
-      <span class="token keyword">return</span> preState <span class="token operator">+</span> data <span class="token operator">*</span> <span class="token number">1</span><span class="token punctuation">;</span>
-    <span class="token keyword">case</span> <span class="token string">'decrement'</span><span class="token punctuation">:</span>
-      <span class="token keyword">return</span> preState <span class="token operator">-</span> data <span class="token operator">*</span> <span class="token number">1</span><span class="token punctuation">;</span>
-    <span class="token keyword">default</span><span class="token punctuation">:</span>
-      <span class="token comment" spellcheck="true">// 不加也不减，说明是初始化</span>
-      <span class="token keyword">return</span> preState
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
-<h5 id="关于reducer的小bug"><a href="#关于reducer的小bug" class="headerlink" title="关于reducer的小bug"></a>关于reducer的小bug</h5><p> 在redux底层会做一个判断，如果返回的东西，和之前的preState是一样的，那就不会进行页面更新。 </p>
-<p>注意redux的reducer必须是一个纯函数（纯函数的概念我在ES5篇章有提及到）</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">personReducer</span><span class="token punctuation">(</span>preState <span class="token operator">=</span> initState<span class="token punctuation">,</span> action<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> <span class="token punctuation">{</span> type<span class="token punctuation">,</span> data <span class="token punctuation">}</span> <span class="token operator">=</span> action<span class="token punctuation">;</span>
-  <span class="token keyword">switch</span> <span class="token punctuation">(</span>type<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">case</span> ADD_PERSON<span class="token punctuation">:</span>
-      <span class="token comment" spellcheck="true">// 做了一个浅比较，返回的preState的地址值和之前的是一样的，那就不进行页面更新了</span>
-      <span class="token comment" spellcheck="true">//错×：preState.unshift(data); return preState;</span>
-      <span class="token keyword">return</span> <span class="token punctuation">[</span>data<span class="token punctuation">,</span> <span class="token operator">...</span>preState<span class="token punctuation">]</span>
-    <span class="token keyword">default</span><span class="token punctuation">:</span>
-      <span class="token keyword">return</span> preState<span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
-<p>所以可以在React、Redux里面，我们很少使用push、unshift这些数组方法，而且这样会导致函数不再是纯函数了。</p>
-<p><strong>组件中导入 + 使用</strong></p>
-<pre class=" language-jsx"><code class="language-jsx"><span class="token comment" spellcheck="true">// 引入store，用于获取redux中保存的状态</span>
-<span class="token keyword">import</span> store <span class="token keyword">from</span> <span class="token string">'../redux/store'</span></code></pre>
-<p>在组件中使用 <code>store.getState()</code>可以直接获取store存储的数据</p>
-<p>这里我直接在组件内自定义increment函数<strong>模拟action</strong>向store发送更改 数据的类型<code>type</code> 和 传入的数据<code>data</code></p>
-<pre class=" language-js"><code class="language-js">increment <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> <span class="token punctuation">{</span> value <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>selectNumber<span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">// dispatch传入type和data </span>
-    store<span class="token punctuation">.</span><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">'increment'</span><span class="token punctuation">,</span> data<span class="token punctuation">:</span> value <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
-<p>但是平时我们使用setState会自动帮我们调用一次render更新页面，但是store更新没有调用render</p>
-<p>解决方法一：在组件内，在<code>componentDidMount</code>生命周期钩子后使用 redux 带的 <code>subscribe</code> API ，用于订阅状态更改，监听store数据的变化，发生变化则执行传入的回调函数（ <code>this.setState({})</code> -&gt; <code>render</code> ）</p>
-<pre class=" language-jsx"><code class="language-jsx"><span class="token comment" spellcheck="true">// DOM挂在完毕后，监听redux中状态的变化，只要变化就调用render</span>
-  <span class="token function">componentDidMount</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    store<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-      <span class="token comment" spellcheck="true">//虚晃一枪，让它帮我们调用一次render（自己调用this.render不管用）</span>
-      <span class="token comment" spellcheck="true">//不过我感觉使用forceUpdate()好像也行</span>
-      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
-  <span class="token punctuation">}</span></code></pre>
-<p>解决方法二：对于整个组件，直接用redux 带的 <code>subscribe</code> API 进行包裹，（这里老师说有了diff算法，实际上整体性能影响不会特别大）</p>
-<pre class=" language-js"><code class="language-js">ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token operator">&lt;</span>App <span class="token operator">/</span><span class="token operator">></span><span class="token punctuation">,</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'#root'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-store<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-  ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token operator">&lt;</span>App <span class="token operator">/</span><span class="token operator">></span><span class="token punctuation">,</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'#root'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
-<p>解决方法三：使用react-redux</p>
-<h4 id="补充Action"><a href="#补充Action" class="headerlink" title="补充Action"></a><strong>补充Action</strong></h4><p>此时可以补充action提交修改：向store发送更改 数据的类型<code>type</code> 和 传入的数据<code>data</code></p>
-<p>在redux文件夹下创建xxx_action.js，导出action方法</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">const</span> createIncrementAction <span class="token operator">=</span> data <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">'increment'</span><span class="token punctuation">,</span> data <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">export</span> <span class="token keyword">const</span> createdecrementAction <span class="token operator">=</span> data <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">'decrement'</span><span class="token punctuation">,</span> data <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>然后可以直接在组件中导入 + 使用，可以像官方redux原理图一样，不需要自己来 向store发送更改 数据的类型<code>type</code> 和 传入的数据<code>data</code></p>
-<p>和Vue一样，开发时定义常量是减少错误的基本方法（实际上也是防止单词写错）</p>
-<p>然后再组件中使用Action方法</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> createIncrementAction <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'../redux/count_action'</span></code></pre>
-<pre class=" language-jsx"><code class="language-jsx">increment <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> <span class="token punctuation">{</span> value <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>selectNumber<span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">// dispatch为action传入参数 </span>
-    store<span class="token punctuation">.</span><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token function">createIncrementAction</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span></code></pre>
-<p><strong>sync Action and async Action</strong></p>
-<p>action可以为对象（type、data属性），也可以为函数</p>
-<p>我们把对象类型的Action称为同步Action，函数类型的Action称为异步Action</p>
-<p>我们返回一个函数，把异步操作存放在这个函数里，再调用同步action（异步Action中一般都会调用一个同步action），由此形成一个异步操作，</p>
-<p><strong>但是</strong>！！：因为store只认action作为一个对象来返回，此时我们需要用到一个中间件，让store愿意接收一个函数，并且调用它：</p>
-<pre class=" language-shell"><code class="language-shell">npm i redux-thunk</code></pre>
-<p>然后再store.js里</p>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//store.js</span>
-<span class="token comment" spellcheck="true">//applyMiddleware为store使用中间件的API</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span> createStore<span class="token punctuation">,</span> applyMiddleware <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'redux'</span>
-<span class="token comment" spellcheck="true">// 引入reducer，thunk为接收函数式action必须的中间件</span>
-<span class="token keyword">import</span> countReducer <span class="token keyword">from</span> <span class="token string">'./count_reducer'</span>
-<span class="token keyword">import</span> thunk <span class="token keyword">from</span> <span class="token string">'redux-thunk'</span>
-<span class="token comment" spellcheck="true">// 暴露store，</span>
-<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">createStore</span><span class="token punctuation">(</span>countReducer<span class="token punctuation">,</span> <span class="token function">applyMiddleware</span><span class="token punctuation">(</span>thunk<span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
-<p>然后在action.js这个文件里定义异步action（作为一个函数返回，经过中间件的处理，接收一个dispatch方法，可帮助你调用同文件下的同步action方法）</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">const</span> asyncIncrement <span class="token operator">=</span> <span class="token punctuation">(</span>data<span class="token punctuation">,</span> time<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-  <span class="token keyword">return</span> <span class="token punctuation">(</span>dispatch<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-      <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token function">createIncrementAction</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span> time<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
-<p>在组件中使用：</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> store <span class="token keyword">from</span> <span class="token string">'../redux/store'</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span>asyncIncrement <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'../redux/count_action'</span></code></pre>
-<pre class=" language-js"><code class="language-js">store<span class="token punctuation">.</span><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token function">asyncIncrement</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> <span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p><strong>异步action</strong>：<strong>它不是一个必须的东西</strong>，实际上我们可以在自己的组件函数里定义异步操作，只是当你不想要把异步操作放在组件里是，可以使用以上异步action方法</p>
-<h4 id="react-redux"><a href="#react-redux" class="headerlink" title="react-redux"></a>react-redux</h4><p>facebook为了让开发人员更加舒服使用redux，开发了react-redux（其实我个人觉得可以理解为，react让组件和redux之间的交互多了一个中间人：container）</p>
-<p><img src="/2021/05/16/react-xia/react-redux.png" alt></p>
-<p>可以看得出外面要了一层容器，防止UI组件直接对接redux</p>
-<p>components文件夹存放的是UI组件（不能使用任何的redux API，只负责页面的呈现）</p>
-<p>我们要创建一个container的文件夹，然后新建一个容器组件，容器组件作为UI组件 和 react-redux的桥梁，不能直接rcc自定义组件，而是使用react-redux库创建。</p>
-<pre class=" language-shell"><code class="language-shell">npm i react-redux</code></pre>
-<p><strong>连接UI组件的方式</strong>：新建一个containers文件夹，index.jsx文件</p>
-<pre class=" language-jsx"><code class="language-jsx"><span class="token comment" spellcheck="true">// 引入CountUI组件,CountUI组件为components文件夹下的自定义组件</span>
-<span class="token keyword">import</span> CountUI <span class="token keyword">from</span> <span class="token string">'../../components/Count'</span>
-<span class="token comment" spellcheck="true">// 引入connect用于连接UI组件和redux</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span> connect <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-redux'</span>
-<span class="token comment" spellcheck="true">// 使用connect()()创建并且暴露一个Count容器组件</span>
-<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">(</span>CountUI<span class="token punctuation">)</span></code></pre>
-<p>此时把原来引入UI组件替换成容器的自定义组件</p>
-<p><strong>连接store的方式</strong>：在app组件使用容器组件时，通过定义属性props方式对 <code>Count</code> 容器 传入store（之前是导入 store后 ，通过  <code>store.getState()</code>获取数据的 ）</p>
-<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span>
-<span class="token comment" spellcheck="true">//import Count from './components/Count' //现在不需要在app.jsx文件里直接导入UI组件</span>
-<span class="token keyword">import</span> Count <span class="token keyword">from</span> <span class="token string">'./containers/Count'</span>   <span class="token comment" spellcheck="true">//而是需要导入container组件</span>
-<span class="token keyword">import</span> store <span class="token keyword">from</span> <span class="token string">'./redux/store'</span>
-<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
-  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> <span class="token punctuation">(</span>
-      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Count</span> <span class="token attr-name">store</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>store<span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span>
-      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
-    <span class="token punctuation">)</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
-<p><strong>开始container 和 component的数据交互</strong></p>
-<p>由于容器组件的创建比较不走寻常路，所以它传递给子组件（UI组件）props的方式也有点不寻常</p>
-<p>在连接UI组件时使用到的connect API，要传入两个参数，并且得传两个函数（mapStateToProps函数、mapDispatchToProps函数）作为参数 。（在上方react-redux模型图可以看到第一个参数传状态，第二个参数传方法）</p>
-<p><strong>mapStateToProps</strong>（函数）</p>
-<p>1.mapStateToProps函数的返回值是一个对象<br>2.作为状态(key: value 组合的对象)传递给UI组件<br>3.通过props传入store，使得第一个参数的函数默认传入store的state状态作为参数（state = store.getState()）</p>
-<p><strong>mapDispatchToProps</strong>（函数）</p>
-<p>1.mapDispatchToProps函数的返回值是一个对象<br>2.作为操作状态的方法（key: func 包含函数的对象）传递给UI组件<br>3.通过props传入store，使得第二个参数的函数默认传入store的dispatch方法，直接使用dispatch告诉action你要执行的事件</p>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//count组件的父容器的index文件</span>
-<span class="token comment" spellcheck="true">// 引入CountUI组件</span>
-<span class="token keyword">import</span> CountUI <span class="token keyword">from</span> <span class="token string">'../../components/Count'</span>
-<span class="token comment" spellcheck="true">// 引入connect用于连接UI组件和redux</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span> connect <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-redux'</span>
-<span class="token comment" spellcheck="true">// 引入redux中的action提交对状态的修改</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span> createIncrementAction<span class="token punctuation">,</span> asyncIncrement<span class="token punctuation">,</span> createdecrementAction <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'../../redux/count_action'</span>
-
-<span class="token keyword">function</span> <span class="token function">mapStateToProps</span><span class="token punctuation">(</span>state<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">return</span> <span class="token punctuation">{</span> count<span class="token punctuation">:</span> state <span class="token punctuation">}</span>  <span class="token comment" spellcheck="true">//假如state = 900,相当于正常父子组件传值 &lt;CountUI count={900}></span>
-<span class="token punctuation">}</span>
-
-<span class="token keyword">function</span> <span class="token function">mapDispatchToProps</span><span class="token punctuation">(</span>dispatch<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">return</span> <span class="token punctuation">{</span>
-    increment<span class="token punctuation">:</span> <span class="token punctuation">(</span>number<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-      <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token function">createIncrementAction</span><span class="token punctuation">(</span>number<span class="token punctuation">)</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    decrement<span class="token punctuation">:</span> <span class="token punctuation">(</span>number<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-      <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token function">createdecrementAction</span><span class="token punctuation">(</span>number<span class="token punctuation">)</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    asyncIncrement<span class="token punctuation">:</span> <span class="token punctuation">(</span>number<span class="token punctuation">,</span> time<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-      <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token function">asyncIncrement</span><span class="token punctuation">(</span>number<span class="token punctuation">,</span> time<span class="token punctuation">)</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-
-<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">connect</span><span class="token punctuation">(</span>mapStateToProps<span class="token punctuation">,</span> mapDispatchToProps<span class="token punctuation">)</span><span class="token punctuation">(</span>CountUI<span class="token punctuation">)</span></code></pre>
-<p>然后我们在子组件（UI组件），就可以直接通过props.xx获得传入的状态/修改状态的方法，对子组件进行操作修改</p>
-<pre class=" language-js"><code class="language-js">increment <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> value <span class="token operator">=</span> <span class="token function">parseInt</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>selectNumber<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span><span class="token function">increment</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
-<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">const</span> <span class="token punctuation">{</span> count <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">;</span></code></pre>
-<p><strong>优化部分</strong></p>
-<p>1.对于<strong>上述传参</strong> 的精简写法：</p>
-<p><strong>mapDispatchToProps</strong>（对象）</p>
-<p>在写mapDispatchToProps部分的时候，react-redux会帮你做一个自定分发的动作（<strong>自动dispatch</strong>）</p>
-<p>也就是判断当前是否为action，如果是就自动跑分发dispatch的逻辑；如果不是按照以往的代码逻辑执行</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">connect</span><span class="token punctuation">(</span>
-    state <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>count<span class="token punctuation">:</span>state<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-    <span class="token comment" spellcheck="true">//原本mapDispatchToProps函数变成一个对象（key: action）</span>
-    <span class="token punctuation">{</span>
-        increment<span class="token punctuation">:</span> createIncrementAction<span class="token punctuation">,</span>
-        decrement<span class="token punctuation">:</span> createdecrementAction<span class="token punctuation">,</span>
-        asyncIncrement<span class="token punctuation">:</span> asyncIncrement<span class="token punctuation">,</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">)</span><span class="token punctuation">(</span>CountUI<span class="token punctuation">)</span></code></pre>
-<p>2.使用react-redux不需要使用 <code>subscribe</code> API（用于订阅状态更改，监听store数据的变化），容器组件自带监听数据变化的能力</p>
-<p>3.连接store的方式为 在组件中传入store作为props属性<code>&lt;Count store={store}</code>，如果多个容器组件，岂不是要一个一个传？不用，react-redux里有个 <code>Provider</code>组件，用 <code>provider</code>组件 将外壳app组件包裹住，<strong>则在整个应用里面，但凡需要store的容器组件，都会传过去</strong></p>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//总的index.js文件</span>
-<span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">'react'</span>
-<span class="token keyword">import</span> ReactDOM <span class="token keyword">from</span> <span class="token string">'react-dom'</span>
-<span class="token keyword">import</span> App <span class="token keyword">from</span> <span class="token string">'./App'</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span> Provider <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-redux'</span>
-<span class="token keyword">import</span> store <span class="token keyword">from</span> <span class="token string">'./redux/store'</span>
-<span class="token comment" spellcheck="true">//此处使用Provider，使得APP的所有后代容器组件都能接收store</span>
-ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>
-    <span class="token operator">&lt;</span>Provider store<span class="token operator">=</span><span class="token punctuation">{</span>store<span class="token punctuation">}</span><span class="token operator">></span>
-        <span class="token operator">&lt;</span>App <span class="token operator">/</span><span class="token operator">></span>
-    <span class="token operator">&lt;</span><span class="token operator">/</span>Provider<span class="token operator">></span><span class="token punctuation">,</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'#root'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>4.我们自己对文件的优化：</p>
-<p>由于每个UI组件为了对接redux存储的状态，都会多一个容器组件，导致文件量成倍增长。</p>
-<p>所以我们可以自己把容器组件和UI组件写在同一个jsx文件里，对外暴露容器组件</p>
-<h4 id="在react-redux处理多个组件"><a href="#在react-redux处理多个组件" class="headerlink" title="在react-redux处理多个组件"></a>在react-redux处理多个组件</h4><p>(如果引入多个reducer（不同reducer对应处理不同组件的状态处理）)，要先使用redux的API：<code>combineReducers</code>，把所有的reducer组合起来，再进行暴露</p>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//store.js</span>
-<span class="token comment" spellcheck="true">//createStore专门用于创建store对象</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span> createStore<span class="token punctuation">,</span>combineReducers <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'redux'</span>
-<span class="token comment" spellcheck="true">// 引入reducer</span>
-<span class="token keyword">import</span> countReducer <span class="token keyword">from</span> <span class="token string">'./Count/reducer'</span>
-<span class="token keyword">import</span> personReducer <span class="token keyword">from</span> <span class="token string">'./Person/reducer'</span>
-<span class="token comment" spellcheck="true">// 汇总所有的reducers变成一个总的reducer</span>
-<span class="token keyword">const</span> allReducer <span class="token operator">=</span> <span class="token function">combineReducers</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  sum<span class="token punctuation">:</span> countReducer<span class="token punctuation">,</span>
-  people<span class="token punctuation">:</span>personReducer
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token comment" spellcheck="true">// 暴露store</span>
-<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">createStore</span><span class="token punctuation">(</span>allReducer<span class="token punctuation">)</span></code></pre>
-<p>使用connect()()创建并且暴露组件时，传入的<code>mapStateToProps</code>函数也要发生相应改变（因为传入的state由于要存储多个数据，已经变成一个对象了）</p>
-<p>但是由此实现了数据互通！</p>
-<pre class=" language-jsx"><code class="language-jsx"><span class="token comment" spellcheck="true">//Count/index.jsx</span>
-<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">connect</span><span class="token punctuation">(</span>
-  <span class="token comment" spellcheck="true">//mapStateToProps</span>
-  state <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token punctuation">{</span> 
-      count<span class="token punctuation">:</span> state<span class="token punctuation">.</span>sum  <span class="token comment" spellcheck="true">//在Count组件里，我并不需要使用到state.pepple数据</span>
-  <span class="token punctuation">}</span><span class="token punctuation">)</span>
-  <span class="token punctuation">{</span>
-    increment<span class="token punctuation">:</span> createIncrementAction<span class="token punctuation">,</span>
-    decrement<span class="token punctuation">:</span> createdecrementAction<span class="token punctuation">,</span>
-    asyncIncrement<span class="token punctuation">:</span> asyncIncrement<span class="token punctuation">,</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">)</span><span class="token punctuation">(</span>Count<span class="token punctuation">)</span></code></pre>
-<pre class=" language-jsx"><code class="language-jsx"><span class="token comment" spellcheck="true">//Person/index.jsx</span>
-<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">connect</span><span class="token punctuation">(</span>
-  state <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token punctuation">{</span> 
-      count<span class="token punctuation">:</span> state<span class="token punctuation">.</span>sum<span class="token punctuation">,</span>
-      personList<span class="token punctuation">:</span> state<span class="token punctuation">.</span>people
-  <span class="token punctuation">}</span><span class="token punctuation">)</span>
-  <span class="token punctuation">{</span>
-    addPersonAction
-  <span class="token punctuation">}</span>
-<span class="token punctuation">)</span><span class="token punctuation">(</span>Person<span class="token punctuation">)</span></code></pre>
-<h4 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h4><p>这里顺便推荐一下redux的相关开发者工具：Redux DevTools（这个工具很顶阿！）（React的开发者工具React Developer Tools也推荐安装），在谷歌商店添加拓展插件即可</p>
-<p>但是使用这个工具还得安装拓展库</p>
-<pre class=" language-shell"><code class="language-shell">npm i redux-devtools-extension</code></pre>
-<p>别忘了还要再store.js文件中导入 + 使用</p>
-<p>（你会看到一个奇葩的格式。。。这样子的语法：<code>composeWithDevTools(applyMiddleware(thunk))</code>）</p>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 引入redux-devtools-extension</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span>composeWithDevTools <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'redux-devtools-extension'</span>
-<span class="token comment" spellcheck="true">// 让store愿意接收action作为一个函数</span>
-<span class="token keyword">import</span> thunk <span class="token keyword">from</span> <span class="token string">'redux-thunk'</span>
-<span class="token comment" spellcheck="true">// 暴露store</span>
-<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">createStore</span><span class="token punctuation">(</span>allReducer<span class="token punctuation">,</span> <span class="token function">composeWithDevTools</span><span class="token punctuation">(</span><span class="token function">applyMiddleware</span><span class="token punctuation">(</span>thunk<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token comment" spellcheck="true">//如果没使用applyMiddleware(thunk)：export default createStore(allReducer, composeWithDevTools())</span></code></pre>
-<h2 id="9-Hooks"><a href="#9-Hooks" class="headerlink" title="9.Hooks"></a>9.Hooks</h2><p>React的Hook 是 16.8版本新增的特性/语法，可以让我们在函数式组件中使用state和其他React特性</p>
+                <h2 id="9-Hooks"><a href="#9-Hooks" class="headerlink" title="9.Hooks"></a>9.Hooks</h2><p>React的Hook 是 16.8版本新增的特性/语法，可以让我们在函数式组件中使用state和其他React特性</p>
 <p>函数式组件最主要没有上述功能的原因是没有实例对象，没有this（现在函数式组件是主流了）</p>
 <h4 id="三个常用的Hook"><a href="#三个常用的Hook" class="headerlink" title="三个常用的Hook"></a>三个常用的Hook</h4><ul>
 <li>State Hook：React.useState()，让我们是使用state<ul>
@@ -1033,7 +718,9 @@ React<span class="token punctuation">.</span><span class="token function">useEff
   <span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <p>从此中我们可以看到，是有点类似于redux的模式</p>
-<p>为什么用dispatch替换依赖项会更好？<strong>React会保证<code>dispatch</code>在组件的声明周期内保持不变。</strong>在下面的例子中我们不再重新订阅定时器</p>
+<p>为什么用dispatch替换依赖项会更好？<strong>React会保证<code>dispatch</code>在组件的声明周期内保持不变。</strong></p>
+<p>这就是<code>dispatch</code>的好处之一， <code>dispatch</code> 不会随着 re-render 而重新分配记忆位置（他会暂时记忆），在作为 props 传入到 child component 的时候也可以不用担心没有 <code>useMemo</code> 而造成 re-render 的问题。</p>
+<p>在下面的例子中我们不再重新订阅定时器</p>
 <p>（正常情况下使用useEffect订阅定时器，当step依赖项发生改变时，定时器将会被重新订阅；反观使用dispatch，在定时器开启后，如果step发生改变，定时器不会被重新渲染，而是采用之前的step）</p>
 <pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span> useReducer<span class="token punctuation">,</span> useEffect <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"react"</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> ReactDOM <span class="token keyword">from</span> <span class="token string">"react-dom"</span><span class="token punctuation">;</span>
@@ -1078,6 +765,19 @@ React<span class="token punctuation">.</span><span class="token function">useEff
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <p>（你可以从依赖中去除<code>dispatch</code>, <code>setState</code>, 和<code>useRef</code>包裹的值因为React会确保它们是静态的。不过你设置了它们作为依赖也没什么问题。）</p>
+<p>小知识：useState底层也是使用useReducer实现的</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">function</span> useState<span class="token operator">&lt;</span>S<span class="token operator">></span><span class="token punctuation">(</span>
+  initialState<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> S<span class="token punctuation">)</span> <span class="token operator">|</span> S<span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>S<span class="token punctuation">,</span> Dispatch<span class="token operator">&lt;</span>BasicStateAction<span class="token operator">&lt;</span>S<span class="token operator">></span><span class="token operator">></span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token function">useReducer</span><span class="token punctuation">(</span>
+    basicStateReducer<span class="token punctuation">,</span>
+    <span class="token comment" spellcheck="true">// useReducer has a special case to support lazy useState initializers</span>
+    <span class="token punctuation">(</span>initialState<span class="token punctuation">:</span> any<span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">function</span> basicStateReducer<span class="token operator">&lt;</span>S<span class="token operator">></span><span class="token punctuation">(</span>state<span class="token punctuation">:</span> S<span class="token punctuation">,</span> action<span class="token punctuation">:</span> BasicStateAction<span class="token operator">&lt;</span>S<span class="token operator">></span><span class="token punctuation">)</span><span class="token punctuation">:</span> S <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token keyword">typeof</span> action <span class="token operator">===</span> <span class="token string">'function'</span> <span class="token operator">?</span> <span class="token function">action</span><span class="token punctuation">(</span>state<span class="token punctuation">)</span> <span class="token punctuation">:</span> action<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
 <h2 id="10-React拓展"><a href="#10-React拓展" class="headerlink" title="10.React拓展"></a>10.React拓展</h2><h4 id="setState使用方法"><a href="#setState使用方法" class="headerlink" title="setState使用方法"></a>setState使用方法</h4><p>方法一：传统的对象式setState</p>
 <p><code>setState(stateChange, [callback])</code></p>
 <ul>
@@ -1110,6 +810,19 @@ something2 <span class="token operator">=</span> <span class="token punctuation"
     <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span>state <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>a<span class="token punctuation">:</span>state<span class="token punctuation">.</span>a<span class="token number">-1</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//不再需要 const {a} = this.state;  这个语句，一行解决</span>
 <span class="token punctuation">}</span></code></pre>
 <p>对象式的setState是函数式setState的语法糖</p>
+<h4 id="setState同步、异步问题"><a href="#setState同步、异步问题" class="headerlink" title="setState同步、异步问题"></a>setState同步、异步问题</h4><p>React的三个模式：</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token comment" spellcheck="true">//- legancy模式： </span>
+ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>App</span> <span class="token punctuation">/></span></span><span class="token punctuation">,</span> rootNode<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">//- blocking模式： </span>
+ReactDOM<span class="token punctuation">.</span><span class="token function">createBlockingRoot</span><span class="token punctuation">(</span>root<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>App</span> <span class="token punctuation">/></span></span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">//- legancy模式： </span>
+ReactDOM<span class="token punctuation">.</span><span class="token function">createRoot</span><span class="token punctuation">(</span>rootNode<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>App</span> <span class="token punctuation">/></span></span><span class="token punctuation">)</span></code></pre>
+<p>针对legancy模式：</p>
+<ul>
+<li><p>异步渲染。根据<code>batchedUpdates</code>函数进行优化，进行批处理，将多次setState转化为一次。其实也是<code>batchedUpdates</code>函数中，有一个 <code>executionContext</code>全局变量，如果当前更新，包含了 <code>BatchedContext</code>，则会认为这是一次批处理（因为是 <code>|=</code>， 所以可能包含，可能不包含），批处理中的 setState都会被合并为一次</p>
+<pre class=" language-js"><code class="language-js">executionContext <span class="token operator">|</span><span class="token operator">=</span> BatchedContext</code></pre>
+</li>
+</ul>
 <h4 id="LazyLoad-React的懒加载"><a href="#LazyLoad-React的懒加载" class="headerlink" title="LazyLoad-React的懒加载"></a>LazyLoad-React的懒加载</h4><p>如果有多个所有路由组件，所有的路由组件都会在第一次就全部给你加载完毕。我们可以借助react里面的 <code>Lazy</code> 函数</p>
 <pre class=" language-jsx"><code class="language-jsx"><span class="token comment" spellcheck="true">// lazy为路由懒加载函数，Suspence为如果当前路由组件没能即使请求出来，给用户展示的页面信息</span>
 <span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> lazy<span class="token punctuation">,</span> Suspense <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span></code></pre>
@@ -1722,28 +1435,26 @@ TypeScri
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/05/06/react-shang/">
+                <a href="/2021/05/10/react-zhong/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="React(上)">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="React(中)">
                         
-                        <span class="card-title">React(上)</span>
+                        <span class="card-title">React(中)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.React简介react由Facebook开发 &amp; 开源的一个用于构建用户界面、将数据渲染为html视图的开源JavaScript库
-react相对于原生js的优点：
-
-采用组件化模式，声明式编码，提高组件复用率
-React N
+                            6.React路由React和Vue一样，都是采取单页面富应用的方式配置网页（SPA），即单个页面通过路由的切换，展示不同的数据信息，
+而且改变url，依然是页面不发生整体刷新（只做页面的局部刷新）
+React-router有三种实现方式，
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-05-06
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-05-10
                             </span>
                         <span class="publish-author">
                             
@@ -1954,7 +1665,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">197k</span>&nbsp;字
+                class="white-color">198.7k</span>&nbsp;字
             
             
             

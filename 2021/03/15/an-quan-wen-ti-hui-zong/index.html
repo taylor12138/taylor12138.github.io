@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.1k
+                    2.3k
                 </div>
                 
 
@@ -547,6 +547,10 @@
 <li>POST类型的CSRF</li>
 <li>链接类型的CSRF，上面两种打开网页就中招，这种要点击的，比较low</li>
 </ul>
+<p>再来一个生动的例子认识CSRF：</p>
+<p>用户正在登陆银行网页，同时登陆了攻击者的网页，并且银行网页未对csrf攻击进行防护。</p>
+<p>攻击者就可以在网页放一个表单，该表单提交src为<code>http://www.bank.com/api/transfer</code>，body为<code>count=1000&amp;to=Tom</code>。</p>
+<p>倘若是session+cookie，用户打开网页的时候就已经转给Tom1000元了（此时cookie会根据path和domain发现当前访问域名和银行相同，则携带cookie信息），由此形成CSRF攻击</p>
 <h4 id="防御CSRF"><a href="#防御CSRF" class="headerlink" title="防御CSRF"></a>防御CSRF</h4><ul>
 <li>验证码；强制用户必须与应用进行交互，才能完成最终请求。此种方式能很好的遏制 csrf，但是用户体验比较差</li>
 <li>Referer check：请求来源限制，即同源检测，此种方法成本最低，但是并不能保证 100% 有效，因为服务器并不是什么时候都能取到 Referer，而且低版本的浏览器存在伪造 Referer 的风险。</li>
@@ -1100,7 +1104,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">198.7k</span>&nbsp;字
+                class="white-color">200.8k</span>&nbsp;字
             
             
             

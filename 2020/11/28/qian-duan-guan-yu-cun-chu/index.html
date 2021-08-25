@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.1k
+                    3.5k
                 </div>
                 
 
@@ -506,7 +506,8 @@
 <p><code>window.localStorage.getItem(&#39;key&#39;)</code>  获取</p>
 <p><code>window.localStorage.removeItem(&#39;key&#39;)</code> 删除</p>
 <p><code>window.localStorage.clear()</code> 删除所有数据(慎用)</p>
-<h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h2><p>Cookie是一种在客户端保持HTTP状态信息的技术：http协议是无状态的，但是在实际工作中，一些万维网网站希望能识别用户（给用户推销产品）=&gt;诞生了cookie小饼干（由服务器生成），cookie是存储在用户主机的文本文件，记录一段时间内某用户的访问记录</p>
+<h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h2><p>Cookie是一种在客户端保持HTTP状态信息的技术：http协议是无状态的，但是在实际工作中，一些万维网网站希望能识别用户（给用户推销产品）=&gt;诞生了cookie小饼干（由服务器生成）</p>
+<p>cookie是存储在用户主机的文本文件，存储在浏览器中的纯文本，浏览器的安装目录下会专门有一个 cookie 文件夹来存放各个域下设置的<code>cookie</code>，记录一段时间内某用户的访问记录</p>
 <ul>
 <li><p>一旦浏览器保存了某个Cookie，那么以后每次访问服务器时，都会在HTTP请求头中将这个Cookie回传给服务器</p>
 </li>
@@ -518,7 +519,24 @@
 </ul>
 <p>工作中识别用户给用户推销产品，用来保存一些不太敏感的数据（但我很纳闷，其实很多用户用cookie来记住密码）</p>
 <p>tips：一个浏览器针对一个网站最多存 20 个Cookie，浏览器一般只允许存放 300 个Cookie<br>移动端对 cookie 的支持不是很好，而 session 需要基于 cookie 实现，所以移动端常用的是 token</p>
+<h4 id="Cookie属性"><a href="#Cookie属性" class="headerlink" title="Cookie属性"></a>Cookie属性</h4><p><code>domain</code>是域名</p>
+<p><code>path</code>是路径</p>
+<p>两者加起来就构成了 URL，<code>domain</code>和<code>path</code>一起来限制 cookie 能被哪些 URL 访问。</p>
+<p>某cookie的 <code>domain</code>为“baidu.com”, <code>path</code>为“/ ”，若请求的URL(URL 可以是js/html/img/css资源请求，<strong>但不包括 XHR 请求</strong>)的域名是“baidu.com”或其子域如“api.baidu.com”、“dev.api.baidu.com”，且 URL 的路径是“/ ”或子路径“/home”、“/home/login”，则浏览器会将此 cookie 添加到该请求的 cookie 头部中。</p>
+<p><code>domain</code>和<code>path</code>2个选项共同决定了<code>cookie</code>何时被浏览器自动添加到请求头部中发送出去。如果没有设置这两个选项，则会使用默认值</p>
+<p><code>secure</code>属性</p>
+<p><code>secure</code> 选项用来设置<code>cookie</code>只在确保安全的请求中才会发送。当请求是<code>HTTPS</code>或者其他安全协议时，包含 <code>secure</code> 选项的 <code>cookie</code> 才能被发送至服务器。</p>
+<h4 id="设置cookie"><a href="#设置cookie" class="headerlink" title="设置cookie"></a>设置cookie</h4><p><strong>服务端设置cookie</strong></p>
+<p>传 <code>set-cookie</code>字段，当你要想设置多个 cookie，需要添加同样多的<code>set-Cookie</code>字段。</p>
+<ul>
+<li>服务端可以设置cookie 的所有选项：<code>expires</code>、<code>domain</code>、<code>path</code>、<code>secure</code>、<code>HttpOnly</code></li>
+</ul>
+<p><strong>客户端设置cookie</strong></p>
+<pre class=" language-js"><code class="language-js">document<span class="token punctuation">.</span>cookie <span class="token operator">=</span> <span class="token string">"name=Jonh"</span><span class="token punctuation">;</span>
+document<span class="token punctuation">.</span>cookie <span class="token operator">=</span> <span class="token string">"age=12"</span><span class="token punctuation">;</span>
+document<span class="token punctuation">.</span>cookie <span class="token operator">=</span> <span class="token string">"class=111"</span><span class="token punctuation">;</span></code></pre>
 <h2 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h2><p>cookie和session都是用来跟踪浏览器用户身份的会话方式，通常使用cookie方式存储session ID到客户端</p>
+<p>现在大多都是Session + Cookie，但是只用session不用cookie，或是只用cookie，不用session在理论上都可以保持会话状态。可是实际中因为多种原因，一般不会单独使用</p>
 <p>保持状态：cookie保存在浏览器端，session保存在服务器端</p>
 <p>存储的大小：cookie：单个cookie保存的数据不能超过4kb；session大小没有限制。</p>
 <p>安全性：cookie：针对cookie所存在的攻击：Cookie欺骗，Cookie截获；session的安全性大于cookie。</p>
@@ -555,7 +573,8 @@
 <li>无状态（实际上是来自于<code>JWT</code>），无需存储session信息，负载均衡服务器，能够将用户请求传递到任何一台服务器上</li>
 <li>可拓展，token保存在客户端本地，使用token可以和其他应用共享权限，比如将博客账号和qq账号进行关联，当通过第三方平台登录qq时，我们可以把博客发到qq平台中</li>
 <li>安全性，防止CSRF攻击，请求中发送的是token而不是cookie，浏览器会将接收到的token值存储在Local Storage、sessionStorage或者cookie中<ul>
-<li>在信任网站的HTML或js中，会向服务器传递参数token，不是通过Cookie传递的，若恶意网站要伪造用户的请求，也必须伪造这个token，否则用户身份验证不通过。但是，同源策略限制了恶意网站不能拿到信任网站的Cookie内容（而正常的session + cookie组合不受同源策略的限制），只能使用，所以就算是token是存放在Cookie中的，恶意网站也无法提取出Cookie中的token数据进行伪造。也就无法传递正确的token给服务器，进而无法成功伪装成用户了。</li>
+<li>在信任网站的HTML或js中，会向服务器传递参数token，不是通过Cookie传递的，若恶意网站要伪造用户的请求，也必须伪造这个token，否则用户身份验证不通过。</li>
+<li>但是，同源策略限制了恶意网站不能拿到信任网站的Cookie内容（token的生成需要提取Cookie里面的内容进行生成），只能使用（只能携带，不能拿出来看！！），所以就算是token是存放在Cookie中的，恶意网站也无法提取出Cookie中的token数据进行伪造。也就无法传递正确的token给服务器，进而无法成功伪装成用户了。</li>
 </ul>
 </li>
 <li>移动端上不支持 cookie，而 token 只要客户端能够进行存储就能够使用，因此 token 在移动端上也具有优势。</li>
@@ -1134,7 +1153,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">198.7k</span>&nbsp;字
+                class="white-color">200.8k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9k
+                    7.9k
                 </div>
                 
 
@@ -614,80 +614,7 @@ http<span class="token punctuation">.</span><span class="token function">createS
     <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">5208</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"5208服务器已启动！！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h2 id="3-Nodejs的包"><a href="#3-Nodejs的包" class="headerlink" title="3.Nodejs的包"></a>3.Nodejs的包</h2><p>通俗来说，单个js文件算一个模块，放在一个文件夹里就是一个包了</p>
-<p>CommonJS    的包规范由包结构和包描述两个部分组成  </p>
-<p><strong>包结构</strong>：用于组织包中的各种文件  </p>
-<p>​    -package.json 描述文件    （important）</p>
-<p>​    -bin 可执行二进制文件</p>
-<p>​    -lib js代码</p>
-<p>​    -doc 文档</p>
-<p>​    -test 单元测试</p>
-<p>包描述文件（上面的那个-package.json 描述文件）：描述包的相关信息，以供外部读取分析。它用于表达非代码相关信息，是一个json格式的文件，实际上加载包时使用的原则是：node_modules/express/package.json  main, 而且它其中保存着十分重要的第三方包依赖项信息（dependencies）</p>
-<p>并且建议每个项目里带一个（有且只有一个）package.json文件<code>npm init</code> </p>
-<p><code>npm init -y</code>  里面的-y就是yes的意思，在init的时候省去了敲回车的步骤，生成的默认的package.json</p>
-<h4 id="package-json和package-lock-json"><a href="#package-json和package-lock-json" class="headerlink" title="package.json和package-lock.json"></a>package.json和package-lock.json</h4><p>npm 5以前是不会有<code>package-lock.json</code>这个文件的</p>
-<p>npm 5 以后才加入</p>
-<p>从安装上看，npm都会生成或更新<code>package-lock.json</code>这个文件</p>
-<ul>
-<li>npm 5 版本以后的安装包，不用加–save添加依赖，它会自动保存依赖</li>
-<li>它会自动创建或者更新<code>package-lock.json</code></li>
-<li><code>package-lock.json</code>里面保存的是node_modules所有包的依赖，包括依赖的包里<code>package.json</code>所依赖的包名（套娃）</li>
-<li>因此重新<code>npm install</code>时速度会有所提升</li>
-</ul>
-<p>从文件上看</p>
-<ul>
-<li>lock是用来锁定版本的，如果当前项目依赖了1.1版本，但是重新<code>npm install</code> 其实会给你下载最新版本，而不是1.1</li>
-<li>而<code>package-lock.json</code>的另一个作用就是锁定版本号，防止自动升级最新版</li>
-</ul>
-<h4 id="NPM"><a href="#NPM" class="headerlink" title="NPM"></a>NPM</h4><p>（Node Package Manager）</p>
-<p>CommonJS包规范时理论，NPM是其中一种实践，是Node包管理器</p>
-<p>对于Node而言，NPM帮助其完成第三方模块的发布，安装和依赖（A-&gt;B-&gt;C，下载C直接A, B也下），借助NPM，Node与第三方模块之间形成良好的一个生态系统（安装了node以后，自带安装npm）</p>
-<p>在cmd命令行窗口：</p>
-<p><code>npm -v</code> 查看版本  （或者<code>包名 --version</code>）</p>
-<p><code>npm</code> 帮助说明</p>
-<p><code>npm search 包名</code> 搜索包</p>
-<p><strong>安装</strong></p>
-<p><code>npm install</code> 下载当前项目所依赖的包（根据package.json配置里的依赖下载）</p>
-<p><code>npm install 包名</code> / <code>npm i 包名</code> 当前目录安装包（可以先创建一个文件夹）（尾部加<code>--save</code>，则添加到当前package.json的依赖里）</p>
-<p>如果尾部加 <code>--save-dev</code>则为开发时依赖</p>
-<p><code>npm install 包名 -g</code> 全局模式安装包（一般都是计算机里的工具）</p>
-<p><strong>删除</strong></p>
-<p><code>npm remove 包名</code> / <code>npm r 包名</code> 删除包 （这个好像是旧版的）</p>
-<p><code>npm uninstall 模块</code>：删除模块，但不删除模块留在package.json中的对应信息</p>
-<p><code>npm uninstall 模块 --save</code> 删除模块，同时删除模块留在package.json中dependencies下的对应信息</p>
-<p><code>npm uninstall 模块 --save-dev</code> 删除模块，同时删除模块留在package.json中devDependencies下的对应信息</p>
-<h4 id="国内使用npm-npx"><a href="#国内使用npm-npx" class="headerlink" title="国内使用npm/npx"></a>国内使用npm/npx</h4><p>连接国外的npm服务器是，遇到卡顿问题可以试一试国内淘宝的镜像npm进行配置（此时指令<code>nmp</code>-&gt;<code>cnmp</code>）(但是听说cnmp会有诡异的bug，因为cnpm安装模块路径比较奇怪，packager不能正常识别)</p>
-<p>可以使用nrm切换淘宝源</p>
-<pre class=" language-shell"><code class="language-shell"># 使用nrm工具切换淘宝源
-npx nrm use taobao
-# 如果之后需要切换回官方源
-npx nrm use npm</code></pre>
-<h4 id="NPX"><a href="#NPX" class="headerlink" title="NPX"></a>NPX</h4><p>npx是一个工具，npm v5.2.0引入的一条命令（npx），一个npm包执行器，指在提高从npm注册表使用软件包时的体验 ，npm使得它非常容易地安装和管理托管在注册表上的依赖项，npx使得使用CLI工具和其他托管在注册表。它大大简化了一些事情。</p>
-<p>主要特点：</p>
-<ul>
-<li><p>临时安装可执行依赖包，不用全局安装，不用担心长期的污染。</p>
-</li>
-<li><p>可以执行依赖包中的命令，安装完成自动运行。</p>
-<ul>
-<li><p>（比如使用React时，我们使用npm）</p>
-<pre class=" language-shell"><code class="language-shell">npm i -g create-react-app 
-create-react-app 项目名称</code></pre>
-</li>
-<li><p>使用npx</p>
-<pre class=" language-shell"><code class="language-shell">npx create-react-app 项目名称</code></pre>
-</li>
-</ul>
-</li>
-<li><p>自动加载node_modules中依赖包，不用指定$PATH。</p>
-</li>
-<li><p>可以指定node版本、命令的版本，解决了不同项目使用不同版本的命令的问题。</p>
-<ul>
-<li><pre class=" language-shell"><code class="language-shell">npx -p node@8 npm run build</code></pre>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="4-Buffer缓冲区"><a href="#4-Buffer缓冲区" class="headerlink" title="4.Buffer缓冲区"></a>4.Buffer缓冲区</h2><p>数组不能存储二进制文件，而buffer就是专门来存储二进制数据</p>
+<h2 id="3-Buffer缓冲区"><a href="#3-Buffer缓冲区" class="headerlink" title="3.Buffer缓冲区"></a>3.Buffer缓冲区</h2><p>数组不能存储二进制文件，而buffer就是专门来存储二进制数据</p>
 <p>从结构上buffer非常像一个数组，他的元素为16进制的两位数</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">"hello, 艾伦"</span><span class="token punctuation">;</span>
 <span class="token keyword">var</span> buf <span class="token operator">=</span> Buffer<span class="token punctuation">.</span><span class="token keyword">from</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -701,7 +628,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>还有：<code>Buffer.allocUnsafe(size)</code>     创建一个指定大小的buffer，但是buffer可能含有敏感数据（分配时未清空上一次使用内存存放的数据，但是性能够好）</p>
 <p>Buffer的大小一旦确定，则不能修改，Buffer实际上是对底层内存的直接操作</p>
 <p>可以通过索引操作buffer中的元素 <code>buf[0] = 88</code> 这里的88是16进制，然后再控制台console.log进行输出时，显示的是10进制（只要数字在控制台输出一定是10进制）</p>
-<h2 id="5-文件系统fs"><a href="#5-文件系统fs" class="headerlink" title="5.文件系统fs"></a>5.文件系统fs</h2><p>通过node操作系统中的文件，在Node中，与文件系统的交互是非常重要的，服务器的本质就将本地文件发送给远程客户端，该模块提供了一些标准文件访问api来打开，读取，写入文件，以及与其交互</p>
+<h2 id="4-文件系统fs"><a href="#4-文件系统fs" class="headerlink" title="4.文件系统fs"></a>4.文件系统fs</h2><p>通过node操作系统中的文件，在Node中，与文件系统的交互是非常重要的，服务器的本质就将本地文件发送给远程客户端，该模块提供了一些标准文件访问api来打开，读取，写入文件，以及与其交互</p>
 <p>引入fs模块，fs是核心模块，直接引用不用下载</p>
 <p>fs模块中所有的操作都有两种形式可供选择：<strong>同步和异步</strong>  </p>
 <p>同步文件系统会阻塞程序的执行，也就是除非操作完毕，否则不会向下执行代码（顺序执行）</p>
@@ -859,7 +786,7 @@ fs<span class="token punctuation">.</span><span class="token function">createRea
     <span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>zlib<span class="token punctuation">.</span><span class="token function">createGunzip</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
     <span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>fs<span class="token punctuation">.</span><span class="token function">createWriteStream</span><span class="token punctuation">(</span><span class="token string">'copy2.jpg'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"解压缩完毕！！！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h2 id="6-创建服务"><a href="#6-创建服务" class="headerlink" title="6.创建服务"></a>6.创建服务</h2><p>1.先引入模块(Nodejs本身提供了http模块)</p>
+<h2 id="5-创建服务"><a href="#5-创建服务" class="headerlink" title="5.创建服务"></a>5.创建服务</h2><p>1.先引入模块(Nodejs本身提供了http模块)</p>
 <p><code>var _http = require(&#39;http&#39;);</code></p>
 <h4 id="创建服务器"><a href="#创建服务器" class="headerlink" title="创建服务器"></a>创建服务器</h4><p><code>http.createServer([options][, requestListener])</code></p>
 <p>request监听事件需要接收两个参数，Request请求对象（获取客户端请求信息），Response响应对象（用来给客户端发送响应消息）</p>
@@ -956,7 +883,7 @@ http<span class="token punctuation">.</span><span class="token function">createS
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">5208</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'running!!...'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h2 id="7-事件"><a href="#7-事件" class="headerlink" title="7.事件"></a>7.事件</h2><p>nodeJs它基本上，所有事件机制，都是基于设计模式种“观察者模式”来实现的</p>
+<h2 id="6-事件"><a href="#6-事件" class="headerlink" title="6.事件"></a>6.事件</h2><p>nodeJs它基本上，所有事件机制，都是基于设计模式种“观察者模式”来实现的</p>
 <p>简单来说，nodejs使用事件驱动的模型，每当接收到一个请求，就把他关掉进行处理，当这个请求完成，就把它放到处理队列当中，最后把结果返回给用户</p>
 <p>因为它的服务一直是处理接收请求，但不等待任何读写操作，所以性能很高，这也叫做“非阻塞式IO或是事件驱动IO”</p>
 <p>nodeJS事件使用events模块，通过实例化它里面的EventEmitter类来绑定和监听事件</p>
@@ -975,7 +902,7 @@ event<span class="token punctuation">.</span><span class="token function">on</sp
 <span class="token comment" spellcheck="true">// 触发一个事件</span>
 event<span class="token punctuation">.</span><span class="token function">emit</span><span class="token punctuation">(</span><span class="token string">'one'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>所有nodejs里面的异步io操作，都会在完成时，发送一个事件到事件队列</p>
-<h2 id="8-模板引擎"><a href="#8-模板引擎" class="headerlink" title="8.模板引擎"></a>8.模板引擎</h2><p>最早诞生于服务器领域，后来发展到前端</p>
+<h2 id="7-模板引擎"><a href="#7-模板引擎" class="headerlink" title="7.模板引擎"></a>7.模板引擎</h2><p>最早诞生于服务器领域，后来发展到前端</p>
 <p>官方文档：<a href="https://aui.github.io/art-template/" target="_blank" rel="noopener">https://aui.github.io/art-template/</a></p>
 <h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p><code>npm install art-template</code></p>
 <h4 id="浏览器应用"><a href="#浏览器应用" class="headerlink" title="浏览器应用"></a>浏览器应用</h4><p>引入 <code>&lt;script src=&quot;./node_modules/art-template/lib/template-web.js&quot;&gt;&lt;/script&gt;</code></p>
@@ -1041,7 +968,7 @@ event<span class="token punctuation">.</span><span class="token function">emit</
 <p><strong>Web 2.0时代最大的思想革命本质不是前后端分离，而是把网页当作独立的应用程序（app）。前后端分离只是实现这一新架构的必然结果。</strong>对程序而言指令和数据是分离的。HTTP GET拿到的不是渲染后的网页，而是一个由html和Javascript组成的app, 这个app以浏览器为虚拟机。装载和显示数据是app启动之后的运行逻辑。传统上app叫什么？叫Client，也就是前端。于是前后端就这么分离了，浏览器变成了app的运行环境，后端蜕化成了单纯的业务逻辑和数据接口。写Javascript不再是给网页添特效的小伎俩，而是正经的和写桌面应用程序一样的工程。于是我们看到了前端工程化，编译（转译），各种MVC/MVVM框架，依赖工具，等等。很新鲜吗？不新鲜，都是传统桌面开发玩剩下的。我很早就说过，前端NodeJS的那堆东西，什么npm，Babel，Webpack，gulp，各个框架的cli… 本质上就是开源社区东拼西凑做一个Visual Studio。</p>
 <p>来源于<a href="https://www.zhihu.com/question/59578433/answer/332545815" target="_blank" rel="noopener">https://www.zhihu.com/question/59578433/answer/332545815</a> 知乎某作者</p>
 <p>其实也可以看作加入了nodejs中间件，这个中间件作为伪“服务端”，由它来发送网页html等资源。</p>
-<h2 id="9-Path"><a href="#9-Path" class="headerlink" title="9.Path"></a>9.Path</h2><p>Path是一个核心模块 <code>var path = require(&#39;path&#39;)</code></p>
+<h2 id="8-Path"><a href="#8-Path" class="headerlink" title="8.Path"></a>8.Path</h2><p>Path是一个核心模块 <code>var path = require(&#39;path&#39;)</code></p>
 <p><code>path.basename(path[,ext])</code> 获取给定路径当中文件名部分，第二个参数可以用来去除指定的后缀名</p>
 <pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">basename</span><span class="token punctuation">(</span><span class="token string">'c:/a/b/c/index.js'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>          <span class="token comment" spellcheck="true">//index.js</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">basename</span><span class="token punctuation">(</span><span class="token string">'c:/a/b/c/index.js'</span><span class="token punctuation">,</span> <span class="token string">'.js'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//index</span>
@@ -1063,7 +990,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//express框架公开指定目录</span>
 app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">'/node_modules/'</span><span class="token punctuation">,</span> express<span class="token punctuation">.</span><span class="token keyword">static</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'./node_modules/'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p><strong>特殊</strong> ：模块中的路径标识（比如：<code>require(&#39;./a.js&#39;)</code>）是相对于当前文件模块，不受到node命令所处路径影响</p>
-<h2 id="10-其他"><a href="#10-其他" class="headerlink" title="10.其他"></a>10.其他</h2><p>进程为我们程序的运行提供一个必备的环境（<strong>进程是资源分配的最小单位</strong>）</p>
+<h2 id="9-其他"><a href="#9-其他" class="headerlink" title="9.其他"></a>9.其他</h2><p>进程为我们程序的运行提供一个必备的环境（<strong>进程是资源分配的最小单位</strong>）</p>
 <p>线程是计算机中最小的计算单位，线程负责执行保存到进程中的程序（<strong>线程是CPU调度的最小单位</strong>）</p>
 <p>JS、浏览器、nodejs是单线程</p>
 <h4 id="修改完自动重启服务器"><a href="#修改完自动重启服务器" class="headerlink" title="修改完自动重启服务器"></a>修改完自动重启服务器</h4><p>我们这里可以使用一个第三方工具：<code>nodemon</code>来帮我们解决修改代码重启服务器问题</p>
@@ -1606,7 +1533,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">198.7k</span>&nbsp;字
+                class="white-color">200.8k</span>&nbsp;字
             
             
             

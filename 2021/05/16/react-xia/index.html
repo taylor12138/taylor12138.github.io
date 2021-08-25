@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.9k
+                    6.4k
                 </div>
                 
 
@@ -487,6 +487,7 @@
             <div id="articleContent">
                 <h2 id="9-Hooks"><a href="#9-Hooks" class="headerlink" title="9.Hooks"></a>9.Hooks</h2><p>React的Hook 是 16.8版本新增的特性/语法，可以让我们在函数式组件中使用state和其他React特性</p>
 <p>函数式组件最主要没有上述功能的原因是没有实例对象，没有this（现在函数式组件是主流了）</p>
+<p>Hook主要是践行代数效应的思想（比如不使用async处理正常的函数（因为回将该函数变成一个promise），而是自定义语法以try、catch的理念将函数内部执行的无论同步、异步操作剥离出函数本身），长此以往，可能可以形成服务即组件的结果，从不同数据库，即不同的源获取，对应不同的单独组件</p>
 <h4 id="三个常用的Hook"><a href="#三个常用的Hook" class="headerlink" title="三个常用的Hook"></a>三个常用的Hook</h4><ul>
 <li>State Hook：React.useState()，让我们是使用state<ul>
 <li><code>const [xxx, setXxx] = React.useState(initValue)</code><ul>
@@ -549,23 +550,6 @@
   <span class="token punctuation">)</span>
 <span class="token punctuation">}</span>
 <span class="token keyword">export</span> <span class="token keyword">default</span> Demo<span class="token punctuation">;</span></code></pre>
-<p>Effect Hook 示范</p>
-<pre class=" language-jsx"><code class="language-jsx"><span class="token comment" spellcheck="true">// 总觉得有点像vue里的watch</span>
-<span class="token comment" spellcheck="true">//第一个参数相当于两个钩子，一个是DidMount、一个是DidUpdate</span>
-<span class="token comment" spellcheck="true">// 第一个参数返回值相当于componentWillUnmount</span>
-React<span class="token punctuation">.</span><span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-    <span class="token keyword">let</span> timer <span class="token operator">=</span> <span class="token function">setInterval</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-        <span class="token function">setCount</span><span class="token punctuation">(</span>count <span class="token operator">=</span><span class="token operator">></span> count <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>    <span class="token comment" spellcheck="true">//组件卸载前执行，相当于componentWillUnmount，可以执行比如清除定时器，取消订阅等操作</span>
-        <span class="token function">clearInterval</span><span class="token punctuation">(</span>timer<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//这里传入空数组，可以当作componentDidMount来使用</span>
-
-<span class="token comment" spellcheck="true">// React.useEffect(() => {</span>
-<span class="token comment" spellcheck="true">//   // do something</span>
-<span class="token comment" spellcheck="true">// }, [count])  只监测count的变化，有点像隶属于count的watcher，如果第二个参数不传入，则全部state都监听</span></code></pre>
-<p>其中第二个参数为依赖数组，每次都会进行“浅比较”，判断是否重新渲染</p>
 <p>Ref Hook 示范</p>
 <pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">Demo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token comment" spellcheck="true">// 感觉和类式组件的createRef差不多</span>
@@ -583,6 +567,52 @@ React<span class="token punctuation">.</span><span class="token function">useEff
 <p>对于Hook的理解不能只停留在这种桌面上对于周期函数 -&gt; useEffect，更要心领神会，忘记之前所学的“生命周期”，他们还是有很多不同之处的，</p>
 <p>比如 useEffect 直接使用state、props，会捕获到 “初始的 props和state”（当前渲染状态/ 次数下的props和state），而在useEffect中使用useRef可以获取到最新的数据之类的。</p>
 <p>下面这篇文章可以帮助大家加深React Hook的印象<a href="https://overreacted.io/zh-hans/a-complete-guide-to-useeffect/" target="_blank" rel="noopener">https://overreacted.io/zh-hans/a-complete-guide-to-useeffect/</a></p>
+<h4 id="useEffect"><a href="#useEffect" class="headerlink" title="useEffect"></a>useEffect</h4><p>Effect Hook 示范</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token comment" spellcheck="true">// 总觉得有点像vue里的watch</span>
+<span class="token comment" spellcheck="true">//第一个参数相当于两个钩子，一个是DidMount、一个是DidUpdate</span>
+React<span class="token punctuation">.</span><span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> timer <span class="token operator">=</span> <span class="token function">setInterval</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token function">setCount</span><span class="token punctuation">(</span>count <span class="token operator">=</span><span class="token operator">></span> count <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>    <span class="token comment" spellcheck="true">//组件卸载前执行，相当于componentWillUnmount，可以执行比如清除定时器，取消订阅等操作</span>
+        <span class="token function">clearInterval</span><span class="token punctuation">(</span>timer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//这里传入空数组，可以当作componentDidMount来使用</span>
+
+<span class="token comment" spellcheck="true">// React.useEffect(() => {</span>
+<span class="token comment" spellcheck="true">//   // do something</span>
+<span class="token comment" spellcheck="true">// }, [count])  只监测count的变化，有点像隶属于count的watcher，如果第二个参数不传入，则全部state都监听</span></code></pre>
+<p>其中第二个参数为依赖数组，每次都会进行“浅比较”，判断是否重新渲染</p>
+<p>在render阶段进入到commit阶段的时候，会通过一种被称为Effect（Flags）的数据结构</p>
+<p>插入DOM -&gt; fiber节点上增加Placement的effect</p>
+<p>更新DOM -&gt; fiber节点上增加Update的effect</p>
+<p>删除DOM -&gt; fiber节点上增加Deletion的effect</p>
+<p>更新Ref -&gt; fiber节点上增加Ref的effect</p>
+<p>useEffect回调执行 -&gt;  fiber节点上增加Passive的effect</p>
+<p><img src="/2021/05/16/react-xia/effect.jpg" alt></p>
+<p><img src="/2021/05/16/react-xia/effect2.jpg" alt></p>
+<p>然后在render阶段 -&gt; commit阶段的时候，会传递一条effect链表，里面可能包含了Placement、Passive等</p>
+<p>commit阶段处理链表上的每个effect</p>
+<p>commit阶段有三个小段：</p>
+<p>1.beforeMutation阶段</p>
+<p>2.mutation阶段</p>
+<p>3.layout阶段</p>
+<p><strong>useEffect和生命周期函数的区别</strong></p>
+<ul>
+<li>Placement -&gt; （mutation阶段）新增DOM节点，使用<code>appendChild</code>方法，然后再layout阶段调用componentDidmount（同步）</li>
+<li>Passive -&gt; 在以上三个子阶段都执行完毕后，异步调用我们的useEffect回调</li>
+</ul>
+<p>此时我们可以是用<code>useLayoutEffect(fn, [])</code>，那效果就和生命周期函数一样了，都在layout阶段调用</p>
+<h4 id="useLayoutEffect"><a href="#useLayoutEffect" class="headerlink" title="useLayoutEffect"></a>useLayoutEffect</h4><p>官方的推荐使用时机：</p>
+<p>如果你正在将代码从 class 组件迁移到使用 Hook 的函数组件，则需要注意 <code>useLayoutEffect</code> 与 <code>componentDidMount</code>、<code>componentDidUpdate</code> 的调用阶段是一样的。但是，我们推荐你<strong>一开始先用 <code>useEffect</code></strong>，只有当它出问题的时候再尝试使用 <code>useLayoutEffect</code>。</p>
+<p>所以我们可以看到useEffect 并不等价于 componentDidMout，而useLayoutEffect 才是与 componentDidMount 等价</p>
+<p><code>useEffect</code> 和 <code>useLayoutEffect</code>的差异</p>
+<ul>
+<li><code>useEffect</code> 是异步执行的，而<code>useLayoutEffect</code>是同步执行的。（所以设计到渲染操作放到<code>useLayoutEffect</code>里面去）</li>
+<li><code>useEffect</code> 的执行时机是浏览器完成渲染之后，而 <code>useLayoutEffect</code> 的执行时机是浏览器把内容真正渲染到界面之前，和 <code>componentDidMount</code> 等价。</li>
+<li>如果使用服务端渲染，使用 <code>useLayoutEffect</code> 可能会导致实际渲染效果和服务端渲染初衷不一致</li>
+</ul>
+<p>参考链接 <a href="https://zhuanlan.zhihu.com/p/348701319" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/348701319</a></p>
 <h4 id="React-Hook书写习惯"><a href="#React-Hook书写习惯" class="headerlink" title="React Hook书写习惯"></a>React Hook书写习惯</h4><p>（Borrowed by Robin Wieruch，who is famous in GitHub）</p>
 <ol>
 <li>在useEffect中调用异步请求时，顺便在useEffect中定义异步请求，如下（使用 try/catch 块进行错误处理）</li>
@@ -815,12 +845,21 @@ something2 <span class="token operator">=</span> <span class="token punctuation"
 ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>App</span> <span class="token punctuation">/></span></span><span class="token punctuation">,</span> rootNode<span class="token punctuation">)</span>
 <span class="token comment" spellcheck="true">//- blocking模式： </span>
 ReactDOM<span class="token punctuation">.</span><span class="token function">createBlockingRoot</span><span class="token punctuation">(</span>root<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>App</span> <span class="token punctuation">/></span></span><span class="token punctuation">)</span>
-<span class="token comment" spellcheck="true">//- legancy模式： </span>
+<span class="token comment" spellcheck="true">//- Concurrent模式： </span>
 ReactDOM<span class="token punctuation">.</span><span class="token function">createRoot</span><span class="token punctuation">(</span>rootNode<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>App</span> <span class="token punctuation">/></span></span><span class="token punctuation">)</span></code></pre>
 <p>针对legancy模式：</p>
 <ul>
 <li><p>异步渲染。根据<code>batchedUpdates</code>函数进行优化，进行批处理，将多次setState转化为一次。其实也是<code>batchedUpdates</code>函数中，有一个 <code>executionContext</code>全局变量，如果当前更新，包含了 <code>BatchedContext</code>，则会认为这是一次批处理（因为是 <code>|=</code>， 所以可能包含，可能不包含），批处理中的 setState都会被合并为一次</p>
 <pre class=" language-js"><code class="language-js">executionContext <span class="token operator">|</span><span class="token operator">=</span> BatchedContext</code></pre>
+<p>所以此时如果将 <code>setState()</code>方法放入<code>setTimeout</code>中（进行异步执行），使得 <code>executionContext |= BatchedContext</code>不能同步得到 <code>BatchedContext</code>这个值，则此时 <code>executionContext</code>啥也没有，源码中有：</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">if</span><span class="token punctuation">(</span>executionContext <span class="token operator">===</span> NoContext<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">resetRenderTimer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">flushSyncCallbackQueue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//同步执行本次渲染setState</span>
+<span class="token punctuation">}</span></code></pre>
+</li>
+<li><p>针对Concurrent模式：</p>
+<p>即使将 <code>setState()</code>方法放入<code>setTimeout</code>中（进行异步执行），也不会同步渲染，因为进入以上判断条件之前，还要进入一个判断，即是否为同步的优先级（<code>ReactDOM.render</code>），由于此时是ConCurrent模式，则不会进入这个逻辑判断，继续往下走命中</p>
+<p><code>flushSyncCallbackQueue()</code>函数。</p>
 </li>
 </ul>
 <h4 id="LazyLoad-React的懒加载"><a href="#LazyLoad-React的懒加载" class="headerlink" title="LazyLoad-React的懒加载"></a>LazyLoad-React的懒加载</h4><p>如果有多个所有路由组件，所有的路由组件都会在第一次就全部给你加载完毕。我们可以借助react里面的 <code>Lazy</code> 函数</p>
@@ -1016,16 +1055,6 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">cre
     <span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
-<h4 id="useLayoutEffect"><a href="#useLayoutEffect" class="headerlink" title="useLayoutEffect"></a>useLayoutEffect</h4><p>官方的推荐使用时机：</p>
-<p>如果你正在将代码从 class 组件迁移到使用 Hook 的函数组件，则需要注意 <code>useLayoutEffect</code> 与 <code>componentDidMount</code>、<code>componentDidUpdate</code> 的调用阶段是一样的。但是，我们推荐你<strong>一开始先用 <code>useEffect</code></strong>，只有当它出问题的时候再尝试使用 <code>useLayoutEffect</code>。</p>
-<p>所以我们可以看到useEffect 并不等价于 componentDidMout，而useLayoutEffect 才是与 componentDidMount 等价</p>
-<p><code>useEffect</code> 和 <code>useLayoutEffect</code>的差异</p>
-<ul>
-<li><code>useEffect</code> 是异步执行的，而<code>useLayoutEffect</code>是同步执行的。（所以设计到渲染操作放到<code>useLayoutEffect</code>里面去）</li>
-<li><code>useEffect</code> 的执行时机是浏览器完成渲染之后，而 <code>useLayoutEffect</code> 的执行时机是浏览器把内容真正渲染到界面之前，和 <code>componentDidMount</code> 等价。</li>
-<li>如果使用服务端渲染，使用 <code>useLayoutEffect</code> 可能会导致实际渲染效果和服务端渲染初衷不一致</li>
-</ul>
-<p>参考链接 <a href="https://zhuanlan.zhihu.com/p/348701319" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/348701319</a></p>
 <h4 id="useContext"><a href="#useContext" class="headerlink" title="useContext"></a>useContext</h4><p>函数式组件除了可以使用 Consumer 接受Context的数据，还可以使用useContext进行接收（特别是在多个context的时候，更能体现出useContext的优势）</p>
 <pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">HeaderBar</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">return</span> <span class="token punctuation">(</span>
@@ -1665,7 +1694,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">198.7k</span>&nbsp;字
+                class="white-color">200.8k</span>&nbsp;字
             
             
             

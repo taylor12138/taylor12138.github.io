@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6k
+                    6.2k
                 </div>
                 
 
@@ -723,9 +723,20 @@
 <p>为啥你用UDP也能可靠啊？</p>
 <p>TCP 使用ACK（确认），还有基于字节序号的 <code>Sequence Number</code>为了保证可靠性，而QUIC也有使用ACK（确认）并且以 <code>Packet Number</code> 代替了 TCP 的 <code>sequence number</code>；</p>
 <p>传统TCP：超时事件 RTO 发生后，客户端发起重传，然后接收到了 Ack 数据。但是因为序列号一样，所以我们分不清这个 Ack 数据到底是原始请求的响应，还是重传请求的响应</p>
-<p>QUIC：当<code>Packet Number</code> 发生了丢失，<code>Packet Number</code> 传递的数值（也就是那个Number）会不一样，因为他是按照严格递增的，此时就可以发现传送的失误了。（在RTO 发生后，可以精确判断Ack 数据是原始请求的响应，还是重传请求的响应）</p>
-<p>还有可插拔、更多ACK块等</p>
+<p>QUIC：</p>
+<ul>
+<li><p>当<code>Packet Number</code> 发生了丢失，<code>Packet Number</code> 传递的数值（也就是那个Number）会不一样，因为他是按照严格递增的，此时就可以发现传送的失误了。（在RTO 发生后，可以精确判断Ack 数据是原始请求的响应，还是重传请求的响应）</p>
 </li>
+<li><p>但是仅仅靠 <code>Packet Number</code> 肯定是无法保证数据的顺序性和可靠性，此时又引入了 <code>Stream Offset</code>。</p>
+<p>即一个 Stream 可以经过多个 Packet 传输，Packet Number 严格递增，没有依赖。但是 Packet 里的 Payload 如果是 Stream 的话，就需要依靠 Stream 的 Offset 来保证应用数据的顺序。如错误! 未找到引用源。所示，发送端先后发送了 Pakcet N 和 Pakcet N+1，Stream 的 Offset 分别是 x 和 x+y。</p>
+<p>假设 Packet N 丢失了，发起重传，重传的 Packet Number 是 N+2，但是它的 Stream 的 Offset 依然是 x，这样就算 Packet N + 2 是后到的，依然可以将 Stream x 和 Stream x+y 按照顺序组织起来，交给应用程序处理。</p>
+<p><img src="/2021/03/15/chao-wen-ben-chuan-shu-xie-yi/quic4.jpg" alt></p>
+</li>
+</ul>
+</li>
+</ol>
+<p>   还有可插拔、更多ACK块等</p>
+<ol start="3">
 <li><p><strong>避免队头阻塞的多路复用。</strong></p>
 <p>QUIC的多路复用，也可以实现在一条 QUIC 连接上可以并发发送多个 HTTP 请求 （stream），但是stream之间没有相互依赖，这导致了彼此不会相互影响，极大程度消除了对头阻塞的影响；</p>
 <p>并且QUIC 最基本的传输单元是 Packet，整个加密和认证过程都是基于 Packet 的，不会跨越多个 Packet。这样就能避免 TLS 协议存在的队头阻塞。</p>
@@ -1245,7 +1256,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">200.8k</span>&nbsp;字
+                class="white-color">202.6k</span>&nbsp;字
             
             
             

@@ -860,6 +860,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">cre
 <li><p>针对Concurrent模式：</p>
 <p>即使将 <code>setState()</code>方法放入<code>setTimeout</code>中（进行异步执行），也不会同步渲染，因为进入以上判断条件之前，还要进入一个判断，即是否为同步的优先级（<code>ReactDOM.render</code>），由于此时是ConCurrent模式，则不会进入这个逻辑判断，继续往下走命中</p>
 <p><code>flushSyncCallbackQueue()</code>函数。</p>
+<p>在Concurrent模式出现之前，是通过 包裹<code>unstable_batchedupdates</code>实现异步任务中批处理</p>
 </li>
 </ul>
 <h4 id="LazyLoad-React的懒加载"><a href="#LazyLoad-React的懒加载" class="headerlink" title="LazyLoad-React的懒加载"></a>LazyLoad-React的懒加载</h4><p>如果有多个所有路由组件，所有的路由组件都会在第一次就全部给你加载完毕。我们可以借助react里面的 <code>Lazy</code> 函数</p>
@@ -1694,7 +1695,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">200.8k</span>&nbsp;字
+                class="white-color">202.6k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.3k
+                    4.5k
                 </div>
                 
 
@@ -542,6 +542,8 @@
 <span class="token keyword">var</span> b <span class="token operator">=</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span>callback<span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//callback为一个函数</span></code></pre>
 <p>页面中时常有很多定时器，我们经常给定时器加标识符（名字）</p>
 <p>setTimeout() 这个调用函数我们也称之为回调函数（需要等待时间，时间到了才去调用该函数） callback ，以前onclick之类的函数也是回调函数</p>
+<p><strong>注意：</strong></p>
+<p>HTML5标准规定了setTimeout()的第二个参数的最小值（最短间隔），不得低于4毫秒，如果低于这个值，就会自动增加。在此之前，老版本的浏览器都将最短间隔设为10毫秒。另外，对于那些DOM的变动（尤其是涉及页面重新渲染的部分），通常不会立即执行，而是每16毫秒执行一次。这时使用requestAnimationFrame()的效果要好于setTimeout()。</p>
 <h5 id="停止定时器"><a href="#停止定时器" class="headerlink" title="停止定时器"></a>停止定时器</h5><p><code>window.clearTimeout (timeoutID)</code>    timeID为定时器的名字（所以我们上方说明了经常要给定时器加名字），这里的window也可以省略，调用该停止定时器方法后，定时器的调用函数不执行，时间被停止了</p>
 <h5 id="setInterval-定时器"><a href="#setInterval-定时器" class="headerlink" title="setInterval() 定时器"></a>setInterval() 定时器</h5><p><code>window.setInterval(回调函数, [间隔毫秒数])</code> 重复调用一个函数，每隔这个时间就去调用一次，写函数名函数不加括号、不带参数；window也可以省略，默认省略的话为0，同样我们也经常给该定时器加标识符（名字）</p>
 <ul>
@@ -612,12 +614,15 @@
 <p><strong>宏任务(macro-task)</strong>：是由宿主（Node、浏览器）发起的，比如整体代码script、setTimeOut、setInterval、postMessage</p>
 <p><strong>微任务(mincro-task)</strong>：由JavaScript自身发起，比如promise.then、process.nextTick(node)</p>
 <p>微任务先执行，宏任务后执行</p>
-<p>同步代码执行完成后，会先执行微任务队列。注意：此时会把所有微任务队列全部执行完。再去宏队列macrotask取出一个执行，如果宏任务执行过程中产生新的微任务，会跳过微任务继续执行并立即把微任务放到异步任务队列大池子中。当前条宏任务执行完后，又去检查待执行的任务队列大池子，如果有微任务，就优先执行微任务，如果没有就继续执行宏任务队列</p>
+<p>同步代码执行完成后，会先执行微任务队列。注意：此时会把所有微任务队列全部执行完。再去宏队列macrotask取出一个执行，如果宏任务执行过程中产生新的微任务，会跳过微任务继续执行并立即把微任务放到异步任务队列大池子中。当前宏任务执行完后，又去检查待执行的任务队列大池子，如果有微任务，就优先执行微任务，如果没有就继续执行宏任务队列</p>
 <h4 id="（3）执行机制"><a href="#（3）执行机制" class="headerlink" title="（3）执行机制"></a>（3）执行机制</h4><p>1.先执行执行栈中的同步任务</p>
-<p>2.异步任务（回调函数）放入任务队列中</p>
-<p>3.一旦执行栈所有同步任务执行完毕，系统就会按次序读取任务队列的异步任务，于是被读取的异步任务结束等待状态，进入执行栈，开始执行</p>
+<p>2.异步任务（回调函数）放入任务队列中（只要异步任务有了<strong>运行结果</strong>，就在”任务队列”之中放置一个事件。）</p>
+<p>3.”任务队列”中的事件，除了IO设备的事件以外，还包括一些用户产生的事件（比如鼠标点击、页面滚动等等）。只要指定过回调函数，这些事件发生时就会进入”任务队列”，等待主线程读取。</p>
+<p>4.一旦执行栈所有同步任务执行完毕，系统就会按次序读取任务队列的异步任务，于是被读取的异步任务结束等待状态，进入执行栈，开始执行</p>
+<p>注意：！！</p>
+<p>所谓”回调函数”（callback），就是那些会被主线程挂起来的代码。<strong>异步任务必须指定回调函数</strong>，当主线程开始执行异步任务，就是执行对应的回调函数。（比如setTimeout(fn, time)，第一个参数为回调函数）</p>
 <p><img src="/2020/11/14/bom/JSzhixing.jpg" alt></p>
-<p>有异步任务交给异步进程处理（新开一个线程用来执行那些异步任务，我们暂且称为<strong>工作线程</strong>），异步任务执行完毕后推入任务队列</p>
+<p>有异步任务交给<strong>异步进程</strong>处理（新开一个线程用来执行那些异步任务，我们暂且称为<strong>工作线程</strong>），异步任务执行完毕后推入任务队列</p>
 <p>当主线程执行完毕就来查询任务队列，取排在第一位的事件推入主线程处理，执行完再来取，不断循环，这个过程叫作<strong>事件循环</strong>   （实际上细分异步事件的优先级有宏任务和微任务，优先级：微任务&gt;宏任务）</p>
 <p>异步任务执行顺序不一定按照原来顺序，要取决于文件大小、操作系统调度机制等多方面原因</p>
 <h4 id="（4）node的执行机制"><a href="#（4）node的执行机制" class="headerlink" title="（4）node的执行机制"></a>（4）node的执行机制</h4><p>node的事件循环包括六大阶段</p>
@@ -1199,7 +1204,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">200.8k</span>&nbsp;字
+                class="white-color">202.6k</span>&nbsp;字
             
             
             

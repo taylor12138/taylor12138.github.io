@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.3k
+                    2.4k
                 </div>
                 
 
@@ -558,9 +558,16 @@
 </ul>
 <h2 id="3-劫持"><a href="#3-劫持" class="headerlink" title="3.劫持"></a>3.劫持</h2><p><strong>DNS劫持</strong></p>
 <p>DNS  ： 域名 -&gt;  ip地址 ，进行域名解析的服务器</p>
-<p>（DNS服务器的IP地址，有可能是动态的，每次上网时由网关分配，这叫做DHCP机制；也有可能是事先指定的固定地址。Linux系统里面，DNS服务器的IP地址保存在<code>/etc/resolv.conf</code>文件。）</p>
 <p>DNS劫持又称域名劫持,是指通过某些手段取得某域名的解析控制权，修改此域名的解析结果，导致对该域名的访问由原IP地址转入到修改后的指定IP，其结果就是对特定的网址不能访问或访问的是假网址。</p>
 <p>DNS劫持其实并不是真的“黑掉”了对方的网站，而是冒名顶替、招摇撞骗罢了</p>
+<p>案例</p>
+<ul>
+<li><p>在查找本机系统是否缓存ip地址时，可能碰到黑客设置绑定好的解析ip（host文件），使得我们到达了一个错误的ip地址（本地DNS劫持）;</p>
+</li>
+<li><p>亦或者是像《巴西银行钓鱼事件》，黑客利用D-Link路由器的漏洞，更改对应的DNS配置，重新定向到黑客自己搭建的恶意DNS服务器上（DNS解析路径劫持）</p>
+</li>
+</ul>
+<p>（DNS服务器的IP地址，有可能是动态的，每次上网时由网关分配，这叫做DHCP机制；也有可能是事先指定的固定地址。Linux系统里面，DNS服务器的IP地址保存在<code>/etc/resolv.conf</code>文件。）</p>
 <p><strong>防止DNS劫持</strong></p>
 <p>网络层面：</p>
 <ul>
@@ -569,11 +576,14 @@
 </ul>
 <p>应用层面：</p>
 <ul>
-<li>有点复杂，可以网上查询（泪。。）</li>
+<li><p>安装杀毒软件，防御木马病毒和恶意软件；定期修改路由器管理账号密码和更新固件。</p>
+</li>
+<li><p>有点复杂，可以网上查询（泪。。）</p>
+</li>
 </ul>
 <p><strong>HTTP劫持</strong></p>
 <p>你DNS解析的域名的IP地址不变。在和网站交互过程中的劫持了你的请求。在网站发给你信息前就给你返回了请求。</p>
-<p>HTTP劫持很好判断，当年正常访问一个无广告的页面时，页面上出现广告弹窗，八成就是运营商劫持了HTTP。下图中，右下角的广告并不是所访问的网站放置的。</p>
+<p>HTTP劫持很好判断，当年正常访问一个无广告的页面时，页面上出现广告弹窗，八成就是运营商劫持了HTTP。</p>
 <h2 id="4-SQL注入攻击"><a href="#4-SQL注入攻击" class="headerlink" title="4.SQL注入攻击"></a>4.SQL注入攻击</h2><h4 id="什么是SQL注入攻击"><a href="#什么是SQL注入攻击" class="headerlink" title="什么是SQL注入攻击"></a>什么是SQL注入攻击</h4><p>sql作为一种解释型语言（数据库语言），在运行时是由一个运行时<a href="http://www.2cto.com/kf/all/zujian/" target="_blank" rel="noopener">组件</a>解释语言代码并执行其中包含的指令的语言。基于这种执行方式，产生了一系列叫做代码注入（code injection）的漏洞</p>
 <p>程序员在web开发时，没有过滤敏感字符，绑定变量，导致攻击者可以通过sql灵活多变的语法，构造精心巧妙的语句，不择手段，达成目的，或者通过<a href="http://www.2cto.com/os/" target="_blank" rel="noopener">系统</a>报错，返回对自己有用的信息。</p>
 <p>个人感觉有点像XSS攻击，都是利用语言漏洞进行代码注入</p>
@@ -1104,7 +1114,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">200.8k</span>&nbsp;字
+                class="white-color">202.6k</span>&nbsp;字
             
             
             

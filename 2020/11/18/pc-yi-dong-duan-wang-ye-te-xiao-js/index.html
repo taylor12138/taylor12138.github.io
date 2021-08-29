@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.3k
+                    4.4k
                 </div>
                 
 
@@ -496,11 +496,17 @@
 <p>offsetWidth等是包含padding+border                                    style.width获得不包含padding和border的值</p>
 <p>offsetWidth等属性是只读属性，只能获取不能赋值                style.width是可读写属性，可以赋值</p>
 <p>所以offset适合读值，style适合赋值改值</p>
+<p>一张图解offset</p>
+<p><img src="/2020/11/18/pc-yi-dong-duan-wang-ye-te-xiao-js/offset.jpg" alt></p>
 <h2 id="2-元素可视区client"><a href="#2-元素可视区client" class="headerlink" title="2.元素可视区client"></a>2.元素可视区client</h2><p>通过client系列的相关属性可以动态得到该元素的边框大小、元素大小等（与offset不同点是边框是否囊括其中）</p>
 <p><code>element.clientTop</code>      返回元素上边框的大小</p>
 <p><code>element.clientLeft</code>    返回元素左边框的大小</p>
 <p><code>element.clientWidth</code>   返回自身包括padding、内容区的宽度，不包含border，返回数值不带单位</p>
 <p><code>element.clientHeight</code>  同上，返回高度</p>
+<ul>
+<li><code>clientHeight</code> 可以通过 CSS <code>height</code> + CSS <code>padding</code> - 水平滚动条高度 (如果存在)来计算.</li>
+<li><strong>备注:</strong> 此属性会将获取的值四舍五入取整数。 如果你需要小数结果, 请使用 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/getBoundingClientRect" target="_blank" rel="noopener"><code>element.getBoundingClientRect()</code></a>.</li>
+</ul>
 <h2 id="（番外）立即执行函数"><a href="#（番外）立即执行函数" class="headerlink" title="（番外）立即执行函数"></a>（番外）立即执行函数</h2><p>立即执行函数，不需要调用，直接执行</p>
 <p>传统：</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
@@ -531,7 +537,7 @@
 <h4 id="判断图片是否滚动到浏览器的可视区域"><a href="#判断图片是否滚动到浏览器的可视区域" class="headerlink" title="判断图片是否滚动到浏览器的可视区域"></a>判断图片是否滚动到浏览器的可视区域</h4><p>方法一：图片/元素的<code>offsetTop</code>  &lt; 当前的元素父亲的<code>scrollTop</code> </p>
 <p>图片/元素 <code>offsetTop</code> +图片/元素 <code>clientHeight</code> &gt; 当前元素父亲的 <code>scrollTop</code></p>
 <p>方法二：<code>window.scrollY</code> &gt; 图片/元素的<code>offsetTop</code></p>
-<p>方法三：<code>element.getBoundingClientRect()</code>,返回的结果是包含完整元素的最小矩形，并且拥有<code>left</code>, <code>top</code>, <code>right</code>, <code>bottom</code>, <code>x</code>, <code>y</code>, <code>width</code>, 和 <code>height</code>这几个以像素为单位的<strong>只读属性</strong>用于描述整个边框。除了<code>width</code> 和 <code>height</code> 以外的属性是相对于视图窗口的左上角来计算的。</p>
+<p>方法三：<code>element.getBoundingClientRect()</code>,返回的结果是包含完整元素的最小矩形，并且拥有<code>left</code>, <code>top</code>, <code>right</code>, <code>bottom</code>, <code>x</code>, <code>y</code>, <code>width</code>, 和 <code>height</code>这几个以像素为单位的<strong>只读属性</strong>用于描述整个边框。除了<code>width</code> 和 <code>height</code> 以外的属性是相对于<strong>视图窗口</strong>的左上角来计算的。</p>
 <p> 图片/元素的<code>getBoundingClientRect().top</code> &lt;  <code>document.clientHeight</code>  且</p>
 <p> 图片/元素的<code>getBoundingClientRect().bottom</code> &gt; 0 </p>
 <p><img src="/2020/11/18/pc-yi-dong-duan-wang-ye-te-xiao-js/getbund.jpg" alt></p>
@@ -1335,7 +1341,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">200.8k</span>&nbsp;字
+                class="white-color">202.6k</span>&nbsp;字
             
             
             

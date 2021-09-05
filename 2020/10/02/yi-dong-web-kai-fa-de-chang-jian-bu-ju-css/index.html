@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.3k
+                    4.7k
                 </div>
                 
 
@@ -582,6 +582,50 @@
 <pre class=" language-css"><code class="language-css"><span class="token selector">span<span class="token pseudo-class">:nth-child(2)</span> </span><span class="token punctuation">{</span>
     <span class="token property">order</span><span class="token punctuation">:</span>-<span class="token number">1</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">/*让2号盒子跑到1号盒子前面，因为默认是0，0&lt;1*/</span>
 <span class="token punctuation">}</span></code></pre>
+<h4 id="（4）flex的参数"><a href="#（4）flex的参数" class="headerlink" title="（4）flex的参数"></a>（4）flex的参数</h4><pre class=" language-css"><code class="language-css"><span class="token property">flex</span><span class="token punctuation">:</span> <span class="token number">1</span></code></pre>
+<p>相当于</p>
+<pre class=" language-css"><code class="language-css">flex-grow：<span class="token number">1</span>
+flex-shrink：<span class="token number">1</span>
+flex-basis：<span class="token number">0%</span>。</code></pre>
+<ul>
+<li>第一个参数表示: <strong>flex-grow 定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大</strong></li>
+<li>第二个参数表示: <strong>flex-shrink 定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小</strong></li>
+<li>第三个参数表示: <strong>flex-basis</strong>给上面两个属性分配多余空间之前, 计算项目是否有多余空间, 默认值为 auto, 即项目本身的大小**</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">单值语法</th>
+<th align="center">等同于</th>
+<th align="center">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">flex: initial</td>
+<td align="center">flex: 0 1 auto</td>
+<td align="center">初始值，常用</td>
+</tr>
+<tr>
+<td align="center">flex: 0</td>
+<td align="center">flex: 0 1 0%</td>
+<td align="center">适用场景少</td>
+</tr>
+<tr>
+<td align="center">flex: none</td>
+<td align="center">flex: 0 0 auto</td>
+<td align="center">推荐</td>
+</tr>
+<tr>
+<td align="center">flex: 1</td>
+<td align="center">flex: 1 1 0%</td>
+<td align="center">推荐</td>
+</tr>
+<tr>
+<td align="center">flex: auto</td>
+<td align="center">flex: 1 1 auto</td>
+<td align="center">适用场景少</td>
+</tr>
+</tbody></table>
 <h3 id="Rem适配布局"><a href="#Rem适配布局" class="headerlink" title="Rem适配布局"></a>Rem适配布局</h3><h4 id="（1）rem基础"><a href="#（1）rem基础" class="headerlink" title="（1）rem基础"></a>（1）rem基础</h4><p>rem是一个单位（root em），是一个相对单位，类似于em，em是父元素的字体大小，如父元素的font-size为12px，子元素设置宽高为10em，则大小实际为10*12=120px；而不同的地方在于rem是相对于html元素的字体大小，rem的优点是可以通过修改html的文字大小来改变页面中的元素大小</p>
 <h4 id="（2）媒体查询"><a href="#（2）媒体查询" class="headerlink" title="（2）媒体查询"></a>（2）媒体查询</h4><p>媒体查询是CSS3的新语法，使用@media可以针对不同屏幕尺寸设置不同的屏幕样式</p>
 <pre class=" language-css"><code class="language-css"><span class="token comment" spellcheck="true">/*用@media开头，mediatype是媒体类型，关键字and、not、only，media feature是媒体特性，要用小括号包含*/</span>
@@ -639,7 +683,7 @@ npm install -D less-loader@7.x</code></pre>
 <p>2.CSS中，设计稿元素宽、高、相对位置等取值，按照同等比例换算为rem</p>
 <p>rem适配方案一：less   媒体查询  rem</p>
 <p>适配方案二：flexible.js    rem   (推荐)</p>
-<h4 id="适配方案二：rem适配之flexible-js"><a href="#适配方案二：rem适配之flexible-js" class="headerlink" title="适配方案二：rem适配之flexible.js"></a>适配方案二：rem适配之flexible.js</h4><p>再也不用太过繁琐的写下多个媒体查询，使用js做了处理</p>
+<h4 id="flexible-js-gt-rem"><a href="#flexible-js-gt-rem" class="headerlink" title="flexible.js -&gt; rem"></a>flexible.js -&gt; rem</h4><p>再也不用太过繁琐的写下多个媒体查询，使用js做了处理</p>
 <p>它的原理是把当前设备自动划分为10等份</p>
 <p>会根据屏幕自动修改文字大小</p>
 <p>github下载地址：<a href="https://github.com/amfe/lib-flexible" target="_blank" rel="noopener">https://github.com/amfe/lib-flexible</a></p>
@@ -650,8 +694,23 @@ npm install -D less-loader@7.x</code></pre>
         <span class="token property">font-size</span><span class="token punctuation">:</span> <span class="token number">75</span>px!important<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/*提权重*/</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
-<h4 id="适配方案（add）：Vscode-px转换rem插件cssrem"><a href="#适配方案（add）：Vscode-px转换rem插件cssrem" class="headerlink" title="适配方案（add）：Vscode px转换rem插件cssrem"></a>适配方案（add）：Vscode px转换rem插件cssrem</h4><p><strong>（堪称外挂），及其好用</strong> 可以使得px直接转换rem</p>
+<h4 id="VScode-gt-rem"><a href="#VScode-gt-rem" class="headerlink" title="VScode -&gt; rem"></a>VScode -&gt; rem</h4><p>适配方案（add）：Vscode px转换rem插件cssrem</p>
+<p><strong>（堪称外挂），及其好用</strong> 可以使得px直接转换rem</p>
 <p>该插件默认的html字体大小为16px（根据当前页面大小（正常大小状态）/划分份数=得到我们应该设置的字体大小）,需要在设置里更改setting.json里的<code>&quot;cssrem.rootFontSize&quot;: 16</code>才可以</p>
+<h3 id="Grid布局"><a href="#Grid布局" class="headerlink" title="Grid布局"></a>Grid布局</h3><p>也被称为网格布局。擅长于将一个页面划分为几个主要区域，以及定义这些区域的大小、位置、层次等关系（前提是HTML生成了这些区域）。类似于以下的效果</p>
+<p><img src="/2020/10/02/yi-dong-web-kai-fa-de-chang-jian-bu-ju-css/grid.jpg" alt></p>
+<p>指定父元素横竖网格的大小（从而规定子元素的大小）</p>
+<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token id">#container</span></span><span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> grid<span class="token punctuation">;</span>
+  <span class="token property">grid-template-columns</span><span class="token punctuation">:</span> <span class="token number">50</span>px <span class="token number">50</span>px <span class="token number">50</span>px<span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">/*33.33% 33.33% 33.33%; 也可以*/</span>
+  <span class="token property">grid-template-rows</span><span class="token punctuation">:</span> <span class="token number">50</span>px <span class="token number">50</span>px <span class="token number">50</span>px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>为了方便表示比例关系，网格布局提供了<code>fr</code>关键字（一下表示宽度比 1  ： 2）</p>
+<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.container</span> </span><span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> grid<span class="token punctuation">;</span>
+  <span class="token property">grid-template-columns</span><span class="token punctuation">:</span> <span class="token number">1</span>fr <span class="token number">2</span>fr<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>详情可以参考阮一峰老师的教程<a href="https://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html" target="_blank" rel="noopener">https://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html</a></p>
 <h3 id="响应式布局"><a href="#响应式布局" class="headerlink" title="响应式布局"></a>响应式布局</h3><p>其原理就是根据媒体查询对不同宽度设备进行布局和样式设置，从而适配不同设备的目的</p>
 <p>小屏幕（手机）&lt;768px </p>
 <p>小屏设备（平板） &gt;=768px~&lt;992px</p>
@@ -1245,7 +1304,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">202.6k</span>&nbsp;字
+                class="white-color">205.3k</span>&nbsp;字
             
             
             

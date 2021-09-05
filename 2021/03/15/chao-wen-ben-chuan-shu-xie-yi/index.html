@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.2k
+                    6.5k
                 </div>
                 
 
@@ -619,7 +619,7 @@
 <p>但它的弊端就是，算法很慢</p>
 <p>我们使用结合的方式！</p>
 <p>使用 非对称密钥（RSA） 发送 对称密钥，然后双方使用 对称密钥 进行通信</p>
-<p><strong>SSL协议</strong>：这个协议简单来说就是提供数据安全和完整性的协议，也就是负责网络安全的加密。比如我们访问了一个https网站，客户端和服务端会（握手阶段）</p>
+<p><strong>SSL协议</strong>：这个协议简单来说就是提供数据安全和完整性的<strong>协议</strong>，简而言之，它是一项标准技术。比如我们访问了一个https网站，客户端和服务端会（握手阶段）如果某个网站受 SSL 证书保护，其相应的 URL 中会显示 HTTPS</p>
 <ul>
 <li>先建立安全的连接通道，客户端先给出协议版本号 + 支持的加密方法 + 随机数等</li>
 <li>确认信息后，服务器会生成一个加锁的箱子，但是这把锁有两把不一样的钥匙，一把留给服务器自己（私钥），一把提供给客户端（公钥）</li>
@@ -633,6 +633,21 @@
 <p>这篇文章可以生动形象地了解到 https 的原理 <a href="https://juejin.cn/post/6844903504046211079" target="_blank" rel="noopener">https://juejin.cn/post/6844903504046211079</a></p>
 <p>（而我们熟知的自动打卡，有些就是利用中间人攻击的原理（fiddler抓包），模拟客户端和服务端通信，当然，它也通过不了数字证书的校验，fiddler伪造的数字证书，是建立在我们手动信任的基础上）</p>
 <p>（所以连接陌生wifi、下载乱七八糟的软件，有可能会被装上乱七八糟的私发证书，从而出现中间人攻击）</p>
+<h4 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h4><ul>
+<li>数字证书是什么东西?其实它就是一个 .crt 文件</li>
+<li>数字证书是谁颁发的?由权威证书认证机构颁发，一般我们简称为 CA 机构</li>
+<li>数字证书如何申请的：<ul>
+<li>服务器上生成一对公钥和私钥。然后将域名、申请者、公钥(注意不是私钥，私钥是无论如何也不能泄露的)等其他信息整合在一起，生成<code>.csr</code> 文件。</li>
+<li><code>.csr</code>文件发送给CA机构，收到申请后会验证申请者的组织和个人信息，然后 CA 就会使用散列算法对<code>.csr</code>里的明文信息先做一个HASH，得到一个信息摘要，再用 CA 自己的私钥对这个信息摘要进行加密，生成一串密文，密文即是所说的 签名</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2021/03/15/chao-wen-ben-chuan-shu-xie-yi/CA.jpg" alt></p>
+<ul>
+<li>客户端(浏览器)向服务端发出请求，服务端返回证书给客户端。</li>
+<li>客户端拿到证书后，把证书里的签名与及明文信息分别取出来，然后会<strong>用自身携带的CA机构的公钥</strong>去解密签名，然后信息摘要1，然后再对明文信息进行HASH，得到一个信息摘要2，对比信息摘要1 和信息摘要2，如果一样，说明证书是合法的，也就是证书里的公钥是正确的。</li>
+</ul>
+<p>参考：<a href="https://network.51cto.com/art/202010/628890.htm" target="_blank" rel="noopener">https://network.51cto.com/art/202010/628890.htm</a></p>
 <h4 id="TLS协议"><a href="#TLS协议" class="headerlink" title="TLS协议"></a>TLS协议</h4><p>它建立在SSL 3.0协议规范之上，是SSL 3.0的后续版本</p>
 <p>对比SSL的增强内容：</p>
 <ul>
@@ -1256,7 +1271,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">202.6k</span>&nbsp;字
+                class="white-color">205.3k</span>&nbsp;字
             
             
             

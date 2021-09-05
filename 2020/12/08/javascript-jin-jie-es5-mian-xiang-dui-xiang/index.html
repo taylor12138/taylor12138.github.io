@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9.4k
+                    9.5k
                 </div>
                 
 
@@ -616,7 +616,7 @@ son<span class="token punctuation">.</span><span class="token function">say</spa
 <p>创建对象：(JavaScript基础也有做过笔记)</p>
 <p>1.对象字面量       <code>var obj = {}</code></p>
 <p>2.new Object()    <code>var obj = new Object()</code></p>
-<p>3.</p>
+<p>3.<strong><code>Object.create()</code></strong>方法创建一个新对象，使用现有的对象来提供新创建的对象的<code>__proto__</code></p>
 <h4 id="自定义构造函数"><a href="#自定义构造函数" class="headerlink" title="自定义构造函数"></a>自定义构造函数</h4><pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">构造函数名</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
     <span class="token keyword">this</span><span class="token punctuation">.</span>属性<span class="token operator">=</span>值<span class="token punctuation">;</span>
     <span class="token keyword">this</span><span class="token punctuation">.</span>方法<span class="token operator">=</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
@@ -726,6 +726,24 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>原型继承方式的缺点是：原型中包含的引用值会在所有实例中共享，而使用 <code>Son.prototype = new Father();</code>的方式继承时，<code>Son.prototype</code> 是<code>Father</code>类的一个实例，<code>Father</code>的所有属性都会被继承下来，而这些属性都会被当成共享属性</p>
 <p>构造函数继承的缺点是：必须在构造函数中定义方法，因此函数不能重用；此外，子类也不能访问父类原型上定义的方法</p>
 <p><strong>组合继承</strong>=原型继承+构造函数继承（结合两者的优点）</p>
+<p>但是组合继承会构造函数实例化了两次，更优解法为<strong>寄生组合继承</strong>：</p>
+<p>使用 <code>Object.create()</code>方法来实现，以下为寄生组合继承 — 完美方式 </p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">Shape</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+Shape<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>move <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//...</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// Rectangle - 子类(subclass)</span>
+<span class="token keyword">function</span> <span class="token function">Rectangle</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  Shape<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// call super constructor.</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// 子类续承父类</span>
+Rectangle<span class="token punctuation">.</span>prototype <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>Shape<span class="token punctuation">.</span>prototype<span class="token punctuation">)</span><span class="token punctuation">;</span>
+Rectangle<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>constructor <span class="token operator">=</span> Rectangle<span class="token punctuation">;</span></code></pre>
 <h4 id="类的本质"><a href="#类的本质" class="headerlink" title="类的本质"></a>类的本质</h4><p>class本质还是function（用 typeof 查看），所以我们可以认为类就是构造函数的另一种写法</p>
 <p>但是新的class写法只是让对象原型的写法更加清晰，更像面向对象编程的语法</p>
 <p>和构造函数相同点：</p>
@@ -1779,7 +1797,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">202.6k</span>&nbsp;字
+                class="white-color">205.3k</span>&nbsp;字
             
             
             

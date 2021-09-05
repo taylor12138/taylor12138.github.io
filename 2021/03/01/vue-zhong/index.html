@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.1k
+                    7.2k
                 </div>
                 
 
@@ -491,8 +491,8 @@
 <p>1.<strong>后端路由</strong>（后端渲染）：服务器处理一个url映射一个页面，通过正则匹配，交给controller进行处理，然后生成html等数据返回前端</p>
 <p>2.<strong>前后端分离</strong>（前端渲染）：</p>
 <ul>
-<li>输入url 去静态服务器里获取 html + css + js</li>
-<li>浏览器执行JS代码 -&gt; JS代码中有API请求，去到API接口服务器中获取数据</li>
+<li>输入url 去静态服务器（前端服务器）里获取 html + css + js</li>
+<li>浏览器执行JS代码 -&gt; JS代码中有API请求，去到API接口服务器（后端服务器）中获取数据</li>
 </ul>
 <p><img src="/2021/03/01/vue-zhong/QdXr.jpg" alt></p>
 <p>随着Ajax的出现，有了前后端分离的开发模式，前后端分离最大的优点就是责任清晰，分工明确，并且在移动端（IOS/Android）出现后，后端使用之前一套API即可</p>
@@ -929,6 +929,14 @@ router<span class="token punctuation">.</span><span class="token function">befor
 <p>多界面共享的例子：用户登陆状态、用户名称头像、地理位置、购物车信息</p>
 <p>单页面状态管理： View(视图template部分) -&gt; Actions(事件行为) -&gt; State(变量) -&gt; View</p>
 <p>多页面状态管理：Vuex</p>
+<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><ul>
+<li><p>利用vue的<a href="https://link.zhihu.com/?target=https%3A//cn.vuejs.org/v2/guide/plugins.html">插件机制</a>，使用Vue.use(vuex)时，会调用vuex的install方法，装载vuex</p>
+</li>
+<li><p>vuex是利用vue的mixin混入机制，在beforeCreate钩子前混入vuexInit方法，vuexInit方法实现了store注入vue组件实例，并注册了vuex store的引用属性$store</p>
+</li>
+<li><p>而其中的响应式，state是通过创建Vue实例来保存state，getters是通过</p>
+</li>
+</ul>
 <h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p><strong>安装</strong></p>
 <pre class=" language-shell"><code class="language-shell">npm install vuex --save</code></pre>
 <p><strong>初始化</strong></p>
@@ -1501,51 +1509,6 @@ methods<span class="token punctuation">:</span> <span class="token punctuation">
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/03/08/xiang-mu-bu-shu/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="项目部署">
-                        
-                        <span class="card-title">项目部署</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            1.部署方式利用脚手架打包后得到dist文件
-将自己电脑作为服务器，部署本地 ：window -&gt; 使用nginx或者tomcat
-远程主机，进行部署：linux centos -&gt; nginx
-如
-注意 ：使用nginx时，关
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-03-08
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                    前端
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
                 <a href="/2021/03/01/git-ji-ben-ming-ling-fu/">
                     <div class="card-image">
                         
@@ -1563,13 +1526,56 @@ SVN：集中式版本控制、所有版本存在服务器上，需要连网才
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-03-01
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-03-01
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
                             Hello
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2021/02/07/webpack/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="webpack">
+                        
+                        <span class="card-title">webpack</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            1.Webpack概述webpack是一个现代的JavaScript应用的静态模块打包工具（依赖于node环境）
+它可以帮你把AMD、CMD、CommonJS、ES6的一些模块化编写方式，转化为— &gt; 浏览器可以识别的模块化方案
+而且
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-02-07
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
+                                </a>
+                            
                             
                         </span>
                     </div>
@@ -1771,7 +1777,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">202.6k</span>&nbsp;字
+                class="white-color">205.3k</span>&nbsp;字
             
             
             

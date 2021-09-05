@@ -712,6 +712,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
 <p>虽然你可以在这里看到一个大括号，但是这只是表明要在jsx中插入js表达式的含义</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> p <span class="token operator">=</span> <span class="token punctuation">{</span>name<span class="token operator">=</span><span class="token string">"Allen"</span><span class="token punctuation">,</span>age<span class="token operator">=</span><span class="token string">"18"</span><span class="token punctuation">,</span>sex<span class="token operator">=</span><span class="token string">"男"</span><span class="token punctuation">}</span>
 ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token operator">&lt;</span>MyComponent <span class="token punctuation">{</span><span class="token operator">...</span>p<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">></span><span class="token punctuation">,</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'#container'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>接着子组件通过 <code>this.props.xx</code>进行使用</p>
 <h4 id="PropTypes"><a href="#PropTypes" class="headerlink" title="PropTypes"></a>PropTypes</h4><p>当需要对传入的props进行数据类型、数据默认值等进行<strong>限制</strong>时，需要引入另一个包</p>
 <p>（像 <a href="https://flow.org/" target="_blank" rel="noopener">Flow</a> 和 <a href="https://www.typescriptlang.org/" target="_blank" rel="noopener">TypeScript</a> 等这些静态类型检查器，可以在运行前识别某些类型的问题。他们还可以通过增加自动补全等功能来改善开发者的工作流程。出于这个原因，我们建议在大型代码库中使用 Flow 或 TypeScript 来代替 <code>PropTypes</code>。）</p>
 <p>（对于Vue，可以直接让子组件在props属性里定义props传入的数据格式即可）</p>
@@ -994,7 +995,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
       <span class="token punctuation">}</span></code></pre>
 <h4 id="React渲染"><a href="#React渲染" class="headerlink" title="React渲染"></a>React渲染</h4><p><strong>Render阶段</strong></p>
 <p>在render阶段，React将更新应用于通过setState或render方法触发的组件，并确定需要在用户屏幕上做哪些更新–哪些节点需要插入，更新或删除，哪些组件需要调用其生命周期方法。最终的这些更新信息被保存在一个叫effect list的fiber 节点树上。</p>
-<p><strong>在新生命周期图中</strong>render阶段被标记为纯的、没有副作用的，可能会被React暂停、终止或者重新执行。也就是说，React会根据产生的任务的优先级，安排任务的调度（schedule）。利用类似requestIdleCallback的原理在浏览器空闲阶段进行更新计算，而不会阻塞动画，事件等的执行。</p>
+<p><strong>在新生命周期图中</strong>render阶段被标记为纯的、没有副作用的，可能会被React暂停、终止或者重新执行。也就是说，React会根据产生的任务的优先级，安排任务的调度（schedule）。利用类似<code>requestIdleCallback</code>的原理在浏览器空闲阶段进行更新计算，而不会阻塞动画，事件等的执行。</p>
 <p>通俗来说，也就是讲我们想要做的操作，做什么任务，以及会调用到的生命周期方法作为信息保存在 <code>fiber</code>节点树上</p>
 <p><strong>Commit阶段</strong></p>
 <p>commit阶段会遍历<code>effect list</code>，把所有更新都commit到DOM树上。在<code>pre-commit</code>阶段，主要是执行getSnapshotBeforeUpdate方法，可以获取当前DOM的快照（snap，详情可以收看新生命周期图中的 <code>getSnapshotBeforeUpdate</code> ），然后给需要卸载的组件执行componentWillUnmount方法。接着会把current fiber tree 替换为workInProgress fiber tree。最后执行DOM的插入、更新和删除，给更新的组件执行componentDidUpdate，给插入的组件执行componentDidMount。</p>
@@ -1789,7 +1790,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">202.6k</span>&nbsp;字
+                class="white-color">205.3k</span>&nbsp;字
             
             
             

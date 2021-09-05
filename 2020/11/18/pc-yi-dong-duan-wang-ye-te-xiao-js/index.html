@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.4k
+                    4.8k
                 </div>
                 
 
@@ -538,9 +538,39 @@
 <p>图片/元素 <code>offsetTop</code> +图片/元素 <code>clientHeight</code> &gt; 当前元素父亲的 <code>scrollTop</code></p>
 <p>方法二：<code>window.scrollY</code> &gt; 图片/元素的<code>offsetTop</code></p>
 <p>方法三：<code>element.getBoundingClientRect()</code>,返回的结果是包含完整元素的最小矩形，并且拥有<code>left</code>, <code>top</code>, <code>right</code>, <code>bottom</code>, <code>x</code>, <code>y</code>, <code>width</code>, 和 <code>height</code>这几个以像素为单位的<strong>只读属性</strong>用于描述整个边框。除了<code>width</code> 和 <code>height</code> 以外的属性是相对于<strong>视图窗口</strong>的左上角来计算的。</p>
-<p> 图片/元素的<code>getBoundingClientRect().top</code> &lt;  <code>document.clientHeight</code>  且</p>
+<p> 图片/元素的<code>getBoundingClientRect().top</code> &lt;  <code>window.innerHeight</code>  且</p>
 <p> 图片/元素的<code>getBoundingClientRect().bottom</code> &gt; 0 </p>
 <p><img src="/2020/11/18/pc-yi-dong-duan-wang-ye-te-xiao-js/getbund.jpg" alt></p>
+<h4 id="方法四-：IntersectionObserver-API"><a href="#方法四-：IntersectionObserver-API" class="headerlink" title="方法四 ：IntersectionObserver API"></a>方法四 ：IntersectionObserver API</h4><p>传统的实现方法是，监听到<code>scroll</code>事件后，调用目标元素（绿色方块）的<a href="https://developer.mozilla.org/en/docs/Web/API/Element/getBoundingClientRect" target="_blank" rel="noopener"><code>getBoundingClientRect()</code></a>方法，得到它对应于视口左上角的坐标，再判断是否在视口之内。这种方法的缺点是，由于<code>scroll</code>事件密集发生，计算量很大，容易造成<a href="https://www.ruanyifeng.com/blog/2015/09/web-page-performance-in-depth.html" target="_blank" rel="noopener">性能问题</a>。</p>
+<p>目前有一个新的 <a href="https://wicg.github.io/IntersectionObserver/" target="_blank" rel="noopener">IntersectionObserver API</a>，可以自动”观察”元素是否可见，Chrome 51+ 已经支持。由于可见（visible）的本质是，目标元素与视口产生一个交叉区，所以这个 API 叫做”交叉观察器”。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> io <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">IntersectionObserver</span><span class="token punctuation">(</span>callback<span class="token punctuation">,</span> option<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><code>callback</code>一般会触发两次。一次是目标元素刚刚进入视口（开始可见），另一次是完全离开视口（开始不可见）。</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 开始观察</span>
+io<span class="token punctuation">.</span><span class="token function">observe</span><span class="token punctuation">(</span>document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'example'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 停止观察</span>
+io<span class="token punctuation">.</span><span class="token function">unobserve</span><span class="token punctuation">(</span>element<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 关闭观察器</span>
+io<span class="token punctuation">.</span><span class="token function">disconnect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><code>callback</code>函数的参数（<code>entries</code>）是一个数组，每个成员都是一个<a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry" target="_blank" rel="noopener"><code>IntersectionObserverEntry</code></a>对象</p>
+<p><code>IntersectionObserverEntry</code>对象提供目标元素的信息，一共有六个属性。</p>
+<ul>
+<li><code>time</code>：可见性发生变化的时间，是一个高精度时间戳，单位为毫秒</li>
+<li><code>target</code>：被观察的目标元素，是一个 DOM 节点对象</li>
+<li><code>rootBounds</code>：根元素的矩形区域的信息，<code>getBoundingClientRect()</code>方法的返回值，如果没有根元素（即直接相对于视口滚动），则返回<code>null</code></li>
+<li><code>boundingClientRect</code>：目标元素的矩形区域的信息</li>
+<li><code>intersectionRect</code>：目标元素与视口（或根元素）的交叉区域的信息</li>
+<li><code>intersectionRatio</code>：目标元素的可见比例，即<code>intersectionRect</code>占<code>boundingClientRect</code>的比例，完全可见时为<code>1</code>，完全不可见时小于等于<code>0</code></li>
+</ul>
+<h2 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h2><ul>
+<li>Chrome 51+（发布于 2016-05-25）</li>
+<li>Android 5+ （Chrome 56 发布于 2017-02-06）</li>
+<li>Edge 15 （2017-04-11）</li>
+<li>iOS <strong>不支持</strong></li>
+</ul>
+<p>。。。IOS</p>
+<p>more：阮一峰老师<a href="http://www.ruanyifeng.com/blog/2016/11/intersectionobserver_api.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/11/intersectionobserver_api.html</a></p>
 <h2 id="4-动画函数封装"><a href="#4-动画函数封装" class="headerlink" title="4.动画函数封装"></a>4.动画函数封装</h2><p>原理：获取盒子当前位置（position），通过定时器<code>setinterval()</code>不断移动盒子位置，利用定时器不断让盒子当前位置加上一个移动距离，最后加一个结束定时器条件（其实也可以用CSS  animation  定义动画）</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script language-javascript">
@@ -1341,7 +1371,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">202.6k</span>&nbsp;字
+                class="white-color">205.3k</span>&nbsp;字
             
             
             

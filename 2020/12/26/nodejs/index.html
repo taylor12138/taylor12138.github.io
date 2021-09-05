@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.9k
+                    8.5k
                 </div>
                 
 
@@ -505,13 +505,45 @@
 <p>他们都使用了ECMAScript语法，只是分别向前后端的方向拓展了</p>
 <h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>在cmd命令符窗口中使用 <code>node xx.js</code> 即可完成（在执行文件的目录下按住shift+鼠标右键可快速进入当前目录的命令符窗口，然后配合tab键位快速打开）</p>
 <p>也可以直接使用 <code>node</code>进行回车，可以直接供测试使用（核心模块可以直接用，不用require），类似于浏览器的console控制台</p>
-<h2 id="2-Node-js模块化开发"><a href="#2-Node-js模块化开发" class="headerlink" title="2.Node.js模块化开发"></a>2.Node.js模块化开发</h2><p>JavaScript弊端：文件依赖（a.js-&gt;b.js-&gt;c.js，相互依赖，但是很难直接看出来，分析完后才知道要一个一个引入）和命名冲突（在相互依赖的js中声明同样的变量名导致的错误）</p>
+<h2 id="2-模块化开发"><a href="#2-模块化开发" class="headerlink" title="2.模块化开发"></a>2.模块化开发</h2><p>JavaScript弊端：文件依赖（a.js-&gt;b.js-&gt;c.js，相互依赖，但是很难直接看出来，分析完后才知道要一个一个引入）和命名冲突（在相互依赖的js中声明同样的变量名导致的错误）</p>
 <p>模块化开发：一个功能一个模块，多模块组合完整应用，抽离一个模块不会影响其他功能的运行，降低程序的耦合性，方便代码复用（虽然开发效率低一点）</p>
-<h4 id="commonJS的提出"><a href="#commonJS的提出" class="headerlink" title="commonJS的提出"></a>commonJS的提出</h4><p>为了弥补JavaScript没有标准的缺陷，希望JS’能在任何和地方运行，CommonJS对模块的定义十分简单</p>
-<h4 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h4><p>node.js规定一个JavaScript文件就是一个模块，模块内部定义的变量和函数默认情况下在外部无法得到（除了console.log的输出内容），因为在node的定义中，每个js文件的js代码都是独立运行在一个函数中，而不是全局作用域。</p>
-<p>当node执行模块中代码，它首先在代码顶部添加：</p>
-<p><code>function(exports, require, module, __filename, __dirname){}</code>  将代码包含进去</p>
+<p>commonJS的提出：</p>
+<p>为了弥补JavaScript没有标准的缺陷，希望JS’能在任何和地方运行，CommonJS对模块的定义十分简单</p>
+<h4 id="CommonJS特点"><a href="#CommonJS特点" class="headerlink" title="CommonJS特点"></a>CommonJS特点</h4><p>node.js规定一个JavaScript文件就是一个模块，模块内部定义的变量和函数默认情况下在外部无法得到（除了console.log的输出内容），因为在node的定义中，每个js文件的js代码都是独立运行在一个函数中，而不是全局作用域。</p>
+<ul>
+<li><p>当node执行模块中代码，它首先在代码顶部添加：</p>
+<p><code>function(exports, require, module, __filename, __dirname){}</code>  将代码包含进去，此时由于在外部包裹了一层function，就会形成一个作用域，避免了全局污染</p>
+</li>
+</ul>
 <p>模块内部使用exports 对象进行成员导出，使用require方法导入其他模块（注意ES6不使用require而是使用import）</p>
+<ul>
+<li><p><code>CommonJS</code> 规范是在代码运行时同步阻塞性地加载模块，在执行代码过程中遇到 <code>require(X)</code> 时会停下来等待，直到新的模块加载完成之后再继续执行接下去的代码。</p>
+<ul>
+<li>虽说是同步阻塞性，但这一步实际上非常快，和浏览器上阻塞性下载、解析、执行 <code>js</code> 文件不是一个级别，硬盘上读文件比网络请求快得多。</li>
+</ul>
+</li>
+<li><p>在模块代码被运行前就已经写入了 <code>cache</code>，同一个模块被多次 <code>require</code> 时只会执行一次，重复的 <code>require</code> 得到的是相同的 <code>exports</code> 引用。</p>
+</li>
+<li><p>出现文件互相引用的情况下，会去缓存查看之前是否写入过，若写入过，被引用下个文件形成循环引用之前的到处变量变得”可视”；否则被统计为 “undefined”</p>
+</li>
+</ul>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// main.js</span>
+<span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./a'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'in main, a.a1 = %j, a.a2 = %j'</span><span class="token punctuation">,</span> a<span class="token punctuation">.</span>a1<span class="token punctuation">,</span> a<span class="token punctuation">.</span>a2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// a.js</span>
+exports<span class="token punctuation">.</span>a1 <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> b <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./b.js'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'in a, b.done = %j'</span><span class="token punctuation">,</span> b<span class="token punctuation">.</span>done<span class="token punctuation">)</span><span class="token punctuation">;</span>
+exports<span class="token punctuation">.</span>a2 <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// b.js</span>
+<span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./a.js'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'in b, a.a1 = %j, a.a2 = %j'</span><span class="token punctuation">,</span> a<span class="token punctuation">.</span>a1<span class="token punctuation">,</span> a<span class="token punctuation">.</span>a2<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<pre><code>in b, a.a1 = true, a.a2 = undefined
+in main, a.a1 = true, a.a2 = true</code></pre><p>进入 <code>b</code> 模块前， 这时候 <code>a2</code> 代码还没执行。</p>
+<p>进入 <code>b</code> 模块，<code>require a.js</code> 时发现缓存上已经存在了，获取 <code>a</code> 模块上的 <code>exports</code> 。打印 <code>a1, a2</code> 分别是 <code>true</code>，和 <code>undefined</code>。</p>
+<p>实践：</p>
 <p><code>exports</code></p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//a.js</span>
 <span class="token keyword">let</span> version <span class="token operator">=</span> <span class="token number">1.0</span><span class="token punctuation">;</span>
@@ -543,77 +575,97 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p><code>__filename</code> 当前模块的完整路径</p>
 <p><code>__dirname</code> 当前模块所在文件夹完整路径（所属目录的绝对路径）</p>
 <p><strong>注意</strong>：如果a加载了b ，b又加载了a，（即a require b，b require a）说明思路有问题</p>
-<h4 id="模块分类"><a href="#模块分类" class="headerlink" title="模块分类"></a>模块分类</h4><p>核心模块   由node引擎提供   核心模块的标识就是模块的名字（如node提供的文件模块fs）</p>
+<p>查找过程</p>
+<pre><code>从 Y 路径运行 require(X)
+
+1. 如果 X 是内置模块（比如 require(&#39;http&#39;）)
+　　a. 返回该模块。
+　　b. 不再继续执行。
+
+2. 如果 X 是以 &#39;/&#39; 开头、
+   a. 设置 Y 为 &#39;/&#39;
+
+3. 如果 X 是以 &#39;./&#39; 或 &#39;/&#39; 或 &#39;../&#39; 开头
+   a. 依次尝试加载文件，如果找到则不再执行
+      - (Y + X)
+      - (Y + X).js
+      - (Y + X).json
+      - (Y + X).node
+   b. 依次尝试加载目录，如果找到则不再执行
+      - (Y + X + package.json 中的 main 字段).js
+      - (Y + X + package.json 中的 main 字段).json
+      - (Y + X + package.json 中的 main 字段).node
+　　c. 抛出 &quot;not found&quot;
+4. 遍历 module paths 查找，如果找到则不再执行
+5. 抛出 &quot;not found&quot;</code></pre><h4 id="模块分类"><a href="#模块分类" class="headerlink" title="模块分类"></a>模块分类</h4><p>核心模块   由node引擎提供   核心模块的标识就是模块的名字（如node提供的文件模块fs）</p>
 <p>文件模块   由用户自己定义</p>
 <p>第三方模块（可以通过npm下载，它的查找方式是先找到当前目录下node_modules/xx/package.json文件，查看其中main属性，记录了js文件的入口，当main没有指定，默认执行node_modules/xx/目录下的index.js）（模块查找机制：如果以上任何条件不成立，则会进入上一级目录中的node_modules）</p>
-<h4 id="global"><a href="#global" class="headerlink" title="global"></a>global</h4><p>nodejs的全局变量保存在global里面  <code>global.a</code></p>
-<h4 id="get"><a href="#get" class="headerlink" title="get"></a>get</h4><p>在地址栏输入网址永远是get、get在回退时是无害的</p>
-<p>get注重url获得的参数，且只产生一个TCP数据包</p>
-<p>get长度有限制，其实是特定的浏览器及服务器对它的限制（不同浏览器对其限制不同，网络上一直信奉的1024Get请求长度，是错误的）</p>
-<p>获得get请求的内容，它的内容是在url的<code>?</code> 之后的部分</p>
-<ul>
-<li><p>url 是nodeJs的url模块</p>
-</li>
-<li><p>url.parse 解析url请求  (<code>url.parse(req.url, true)</code> 对 url的信息进行解析，得到一个对象，使用true的话，能把里面的重要属性query（查询字符串），也转换成对象)</p>
-</li>
-</ul>
-<p>比如创建端口号为5208的服务器，在网址末尾写上<code>?a=1&amp;b=2&amp;c=3</code>之类     <a href="http://localhost:5208/?a=1&amp;b=2&amp;c=3" target="_blank" rel="noopener">http://localhost:5208/?a=1&amp;b=2&amp;c=3</a></p>
-<p>（查询Content-type网址：<a href="http://tool.oschina.net/）" target="_blank" rel="noopener">http://tool.oschina.net/）</a></p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> http <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'http'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">var</span> url <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'url'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-http<span class="token punctuation">.</span><span class="token function">createServer</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    res<span class="token punctuation">.</span><span class="token function">writeHead</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token string">'Content-Type'</span><span class="token punctuation">:</span><span class="token string">'text/plain;charset=utf-8'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">// req.url是：/?a=1&amp;b=2&amp;c=3</span>
-    <span class="token comment" spellcheck="true">//url.parse(req.url, true)是： 转对象</span>
-    <span class="token comment" spellcheck="true">//有用的信息保存于query属性中  [a: 1,b: 2,c: 3]</span>
-    <span class="token keyword">var</span> _param <span class="token operator">=</span> url<span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>req<span class="token punctuation">.</span>url<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">.</span>query<span class="token punctuation">;</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>_param<span class="token punctuation">.</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>_param<span class="token punctuation">.</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>_param<span class="token punctuation">.</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">5208</span><span class="token punctuation">)</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"5208服务器已经启动。。。。"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h4 id="post"><a href="#post" class="headerlink" title="post"></a>post</h4><p>post请求，要么是表单post请求，要么是api的post请求，只要记得一般情况下，私密数据传输用POST + body就好。</p>
-<p>理论上讲，post是没有大小限制的</p>
-<p>post的信息放在Request body中，且产生TCP两个数据包（firefox浏览器除外）</p>
-<ul>
-<li>多数浏览器对于POST采用两阶段发送数据的，先发送请求头，再发送请求体，即使参数再少再短，也会被分成两个步骤来发送（相对于GET）,也就是第一步发送header数据，第二部再发送body部分。</li>
-</ul>
-<p>post回退时会再次提交请求</p>
-<p><code>querystring</code> 模块从字面上意思就是查询字符串，一般是对http请求所带的数据进行解析</p>
-<p><code>querystring.parse(str[, sep[, eq[, options]]])</code>   将一个字符串反序列化为对象</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> http <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'http'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">var</span> querystring <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'querystring'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">var</span> _formHtml <span class="token operator">=</span>
-    <span class="token string">'&lt;form method=post>'</span> <span class="token operator">+</span>
-    <span class="token string">'网站名：&lt;input name="name">&lt;br>'</span> <span class="token operator">+</span>
-    <span class="token string">'年龄：&lt;input name="age">&lt;br>'</span> <span class="token operator">+</span>
-    <span class="token string">'&lt;input type="submit">'</span> <span class="token operator">+</span>
-    <span class="token string">'&lt;/form>'</span><span class="token punctuation">;</span>
-http<span class="token punctuation">.</span><span class="token function">createServer</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">var</span> body <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">//当服务端接收到数据时触发data</span>
-    req<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'data'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>_d<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        body <span class="token operator">+</span><span class="token operator">=</span> _d<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
-    req<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'end'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">// 转换成一个对象</span>
-        body <span class="token operator">=</span> querystring<span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>body<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>body<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        res<span class="token punctuation">.</span><span class="token function">writeHead</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
-            <span class="token string">'Content-Type'</span><span class="token punctuation">:</span> <span class="token string">'text/html;charset=utf-8'</span>
-        <span class="token punctuation">}</span><span class="token punctuation">)</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>body<span class="token punctuation">.</span>name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            res<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">"姓名："</span> <span class="token operator">+</span> body<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            res<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">'&lt;br>'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            res<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">"年龄："</span> <span class="token operator">+</span> body<span class="token punctuation">.</span>age<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-            res<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>_formHtml<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-        res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">5208</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"5208服务器已启动！！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="ES6的模块化"><a href="#ES6的模块化" class="headerlink" title="ES6的模块化"></a>ES6的模块化</h4><p>常见的模块化规范：<code>CommonJS</code>、<code>AMD</code>、<code>CMD</code>、<code>ES6的Modules</code></p>
+<p>ES6模块化 ： <code>export</code>导出                           <code>import</code> 导入</p>
+<p>在 style 里导入使用 <code>@import</code></p>
+<p>首先将模块化的js文件引入时需要添加类型 <code>module</code> ：<code>&lt;script src=&quot;js地址&quot; type=&quot;module&quot;&gt;&lt;/script&gt;</code></p>
+<p>然后再所需模块内进行导出 / 导入（有模块代码自动进入严格模式）</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//方式1、2的导出实际上是一致的</span>
+<span class="token comment" spellcheck="true">// 导出方式1</span>
+<span class="token keyword">let</span> name <span class="token operator">=</span> <span class="token string">'allen'</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token punctuation">{</span>
+  name
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// 导出方式2</span>
+<span class="token keyword">export</span> <span class="token keyword">var</span> num <span class="token operator">=</span> <span class="token number">1000</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// 导出方式3,这种方法只能导出一个,使用一次default导出一个</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> adress</code></pre>
+<p>四种导入方法</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 1.导入单个num（要使用上面的导出方式2）</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> num <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"./aaa.js"</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>num<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 2.导入默认的值（default），能够自己命名（要使用上面的导出方式3）</span>
+<span class="token keyword">import</span> add <span class="token keyword">from</span> <span class="token string">"./aaa.js"</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>add<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 3.统一全部导入（要使用上面的导出方式2）</span>
+<span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> aaa <span class="token keyword">from</span> <span class="token string">"./aaa"</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>aaa<span class="token punctuation">.</span>num<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//1.下载后module的引用比较特殊</span>
+<span class="token keyword">import</span> Vue <span class="token keyword">from</span> <span class="token string">'vue'</span></code></pre>
+<h4 id="ES6引入的特点"><a href="#ES6引入的特点" class="headerlink" title="ES6引入的特点"></a>ES6引入的特点</h4><p>1.首先下载、查找 + 构建关系图</p>
+<p>ES6 模块会在程序开始前先根据模块关系查找到所有模块，生成一个无环关系图，并将所有模块实例都创建好，这种方式天然地避免了循环引用的问题，当然也有模块加载缓存，重复 import 同一个模块，只会执行一次代码。</p>
+<p>2.内存腾出空间，然后使 import 和 export 指向内存中的这些空间，这个过程也叫连接。</p>
+<h4 id="ES6和ComonJS"><a href="#ES6和ComonJS" class="headerlink" title="ES6和ComonJS"></a>ES6和ComonJS</h4><p>1.<code>ES6</code> 模块中不存在 <code>require</code>, <code>module.exports</code>, <code>__filename</code> 等变量，<code>CommonJS</code> 中也不能使用 <code>import</code>。两种规范是不兼容的，一般来说平日里写的 <code>ES6</code> 模块代码最终都会经由 <code>Babel</code>, <code>Typescript</code> 等工具处理成 <code>CommonJS</code> 代码。</p>
+<p> <code>ES6</code> 模块和 <code>CommonJS</code> 模块有很大差异，不能直接混着写（实际上好像是可以，只是会产生很多麻烦）</p>
+<p>2.通过对模块内变量的修改（非引用值的修改），CommonJS到处的变量不变，但是ES6会改变（其实我们也可以解释为ES6 模块输出的是值的引用，CommonJS模块输出的是值的拷贝）</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// counter.js</span>
+<span class="token keyword">let</span> count <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> increment <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  count<span class="token operator">++</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  count<span class="token punctuation">,</span>
+  increment
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// main.js</span>
+<span class="token keyword">const</span> counter <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'counter.cjs'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+counter<span class="token punctuation">.</span><span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>counter<span class="token punctuation">.</span>count<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 1</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// counter.mjs</span>
+<span class="token keyword">export</span> <span class="token keyword">let</span> count <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">function</span> increment <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  count<span class="token operator">++</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// main.mjs</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> increment<span class="token punctuation">,</span> count <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./counter.mjs'</span>
+
+<span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>count<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 2</span></code></pre>
+<p>3.<code>CommonJS</code> 可以在运行时使用变量进行 require</p>
+<p>4.<code>require</code> 会将完整的 <code>exports</code> 对象引入，<code>import</code> 可以只 <code>import</code> 部分必要的内容，这也是为什么使用 <code>Tree Shaking</code> 时必须使用 ES6 模块 的写法。</p>
+<p>参考链接<a href="https://juejin.cn/post/6844904080955932680#heading-3" target="_blank" rel="noopener">https://juejin.cn/post/6844904080955932680#heading-3</a></p>
 <h2 id="3-Buffer缓冲区"><a href="#3-Buffer缓冲区" class="headerlink" title="3.Buffer缓冲区"></a>3.Buffer缓冲区</h2><p>数组不能存储二进制文件，而buffer就是专门来存储二进制数据</p>
 <p>从结构上buffer非常像一个数组，他的元素为16进制的两位数</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">"hello, 艾伦"</span><span class="token punctuation">;</span>
@@ -938,37 +990,56 @@ event<span class="token punctuation">.</span><span class="token function">emit</
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> ret <span class="token operator">=</span> template<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token string">'hello {{ name }}'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
     name<span class="token punctuation">:</span> <span class="token string">'Jack'</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
-<h4 id="服务端和客户端渲染"><a href="#服务端和客户端渲染" class="headerlink" title="服务端和客户端渲染"></a>服务端和客户端渲染</h4><p>客户端渲染</p>
-<p><img src="/2020/12/26/nodejs/nodejs.jpg" alt></p>
-<p>服务端渲染</p>
-<p><img src="/2020/12/26/nodejs/nodejs2.jpg" alt></p>
-<p>服务端渲染更快，但是会增大服务端的压力（右键查看网页源代码可以看得到具体内容就是服务端渲染），可以被爬虫抓取到</p>
-<p>客户端渲染有利于用户体验，但是不利于SEO搜索引擎优化</p>
-<p>很多网站是结合两者进行渲染的</p>
-<h4 id="SSR渲染"><a href="#SSR渲染" class="headerlink" title="SSR渲染"></a>SSR渲染</h4><p>SSR：server side render</p>
+<h2 id="8-SSR渲染"><a href="#8-SSR渲染" class="headerlink" title="8.SSR渲染"></a>8.SSR渲染</h2><h4 id="SSR简介"><a href="#SSR简介" class="headerlink" title="SSR简介"></a>SSR简介</h4><p>SSR：server side render</p>
 <p>当前端为vue、react这种spa应用时，非常不利于SEO，各种路由的跳转也变得复杂，并且在首屏渲染时间上也花费了大量时间。<strong>在整体架构部署上，还需要利用各种web服务（如ngxin），这点很麻烦</strong></p>
-<p>SSR就是类似于老的node ejs或者java jsp方式的web技术。使用后端将html全部准备好，直接抛给前端。</p>
+<p>服务端将我们需要的HTML文本组装好，并返回给浏览器，这个HTML文本被浏览器解析之后，<strong>不需要经过 JavaScript 脚本的执行</strong>，即可直接构建出希望的 DOM 树并展示到页面中。这个服务端组装HTML的过程，叫做服务端渲染。</p>
 <p>SSR优势</p>
 <ul>
 <li>更利于SEO。</li>
-<li>更利于首屏渲染</li>
+<li>更利于首屏渲染，即白屏时长更短</li>
 <li>服务端在内网进行请求，数据响应速度快</li>
 </ul>
 <p><img src="/2020/12/26/nodejs/SSR1.jpg" alt></p>
 <p><img src="/2020/12/26/nodejs/SSR2.jpg" alt></p>
-<p>我们可以看见中间少了两个步骤</p>
+<p>我们可以看见服务端渲染中间少了两个步骤</p>
 <p>SSR劣势</p>
 <ul>
 <li>服务端压力较大</li>
 <li>开发条件受限，在服务端渲染中，只会执行到componentDidMount之前的生命周期钩子，因此项目引用的第三方的库也不可用其它生命周期钩子，这对引用库的选择产生了很大的限制；</li>
 <li>学习成本相对较高。除了对webpack、React要熟悉，还需要掌握node、Koa2等相关技术。相对于客户端渲染，项目构建、部署过程更加复杂。</li>
 </ul>
-<h4 id="以前-amp-now服务端渲染"><a href="#以前-amp-now服务端渲染" class="headerlink" title="以前 &amp; now服务端渲染"></a>以前 &amp; now服务端渲染</h4><p>现在的服务端渲染和过去的服务端渲染完全是两码事</p>
-<p>以前的服务器渲染，是以“文档”为核心思想。服务器端的逻辑是把HTML, CSS, Javascript当作一个静态文件，对“文档”而言不存在“指令”和“数据”的区别，一切都是数据。所以我们可以看到服务器渲染，GET就是请求一个文件，而web 1.0时代的诸多服务端框架最基础的组件之一就是文档模版，比如asp, JSP之类，核心设计理念就是HTML文件里放占位符然后由服务端逻辑替换成实际数据后一股脑返回。</p>
-<p><strong>Web 2.0时代最大的思想革命本质不是前后端分离，而是把网页当作独立的应用程序（app）。前后端分离只是实现这一新架构的必然结果。</strong>对程序而言指令和数据是分离的。HTTP GET拿到的不是渲染后的网页，而是一个由html和Javascript组成的app, 这个app以浏览器为虚拟机。装载和显示数据是app启动之后的运行逻辑。传统上app叫什么？叫Client，也就是前端。于是前后端就这么分离了，浏览器变成了app的运行环境，后端蜕化成了单纯的业务逻辑和数据接口。写Javascript不再是给网页添特效的小伎俩，而是正经的和写桌面应用程序一样的工程。于是我们看到了前端工程化，编译（转译），各种MVC/MVVM框架，依赖工具，等等。很新鲜吗？不新鲜，都是传统桌面开发玩剩下的。我很早就说过，前端NodeJS的那堆东西，什么npm，Babel，Webpack，gulp，各个框架的cli… 本质上就是开源社区东拼西凑做一个Visual Studio。</p>
-<p>来源于<a href="https://www.zhihu.com/question/59578433/answer/332545815" target="_blank" rel="noopener">https://www.zhihu.com/question/59578433/answer/332545815</a> 知乎某作者</p>
-<p>其实也可以看作加入了nodejs中间件，这个中间件作为伪“服务端”，由它来发送网页html等资源。</p>
-<h2 id="8-Path"><a href="#8-Path" class="headerlink" title="8.Path"></a>8.Path</h2><p>Path是一个核心模块 <code>var path = require(&#39;path&#39;)</code></p>
+<h4 id="重新认识服务端渲染"><a href="#重新认识服务端渲染" class="headerlink" title="重新认识服务端渲染"></a>重新认识服务端渲染</h4><p>现在的服务端渲染和过去的服务端渲染完全是两码事</p>
+<ol>
+<li><p><strong>Web1.0</strong>时期，在没有AJAX的时候，也就是web1.0时代，几乎所有应用都是服务端渲染，浏览器接收请求后，到数据库查询数据，将数据丢到后端的组件模板（php、asp、jsp等）中，并渲染成HTML片段，然后浏览器拿到的是一个完整的HTML，然后渲染页面，过程没有任何JavaScript代码的参与。。</p>
+<ul>
+<li><p>这样做的缺点是：每一次更新都要请求后，让服务端查一次数据库，重新组装html返回</p>
+</li>
+<li><p>代码混杂，难以维护（jsp、php）</p>
+<p><img src="/2020/12/26/nodejs/SSR3.jpg" alt></p>
+</li>
+</ul>
+</li>
+<li><p>前后端分离时代，SPA模式出现，前端团队接管页面渲染，后端团队仅负责数据查询和API</p>
+<p><img src="/2020/12/26/nodejs/SSR4.jpg" alt></p>
+</li>
+<li><p>随着SPA的发展，弊端也逐渐暴露：JS脚本的臃肿，SEO的退化</p>
+<p>此时后端渲染再次出现，但不同的是连接口导向 </p>
+<p>浏览器 &lt;-&gt; 前端服务器 &lt;-&gt; 后端服务器 </p>
+<p>其实也可以看作加入了nodejs中间件，这个中间件作为伪“服务端”，由这个前端服务器组装一个携带了具体数据的HTML文本，并且返回给浏览器。</p>
+<p>但是！值得一提的是，<strong>浏览器加载并执行 JavaScript 脚本</strong>，（这个是之前服务端渲染不会的做）给页面上的元素绑定事件，让页面变得可交互，当用户与浏览器页面进行交互，如跳转到下一个页面时，浏览器会执行 JavaScript 脚本，向后端服务器请求数据，获取完数据之后再次执行 JavaScript 代码动态渲染页面。</p>
+<p><img src="/2020/12/26/nodejs/SSR5.jpg" alt></p>
+</li>
+</ol>
+<p>使用了服务端渲染之后，你还要实现同构！即一份代码，既可以客户端渲染，也可以服务端渲染。</p>
+<p>因为这时你要用到两种页面渲染：</p>
+<ul>
+<li>前端服务器通过请求后端服务器获取数据并组装HTML返回给浏览器，浏览器直接解析HTML后渲染页面（首屏渲染）</li>
+<li>浏览器在交互过程中，请求新的数据并动态更新渲染页面（交互渲染）</li>
+</ul>
+<p>参考</p>
+<p><a href="https://www.zhihu.com/question/59578433/answer/332545815" target="_blank" rel="noopener">https://www.zhihu.com/question/59578433/answer/332545815</a> </p>
+<p><a href="https://github.com/yacan8/blog/issues/30" target="_blank" rel="noopener">https://github.com/yacan8/blog/issues/30</a></p>
+<h2 id="9-Path"><a href="#9-Path" class="headerlink" title="9.Path"></a>9.Path</h2><p>Path是一个核心模块 <code>var path = require(&#39;path&#39;)</code></p>
 <p><code>path.basename(path[,ext])</code> 获取给定路径当中文件名部分，第二个参数可以用来去除指定的后缀名</p>
 <pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">basename</span><span class="token punctuation">(</span><span class="token string">'c:/a/b/c/index.js'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>          <span class="token comment" spellcheck="true">//index.js</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">basename</span><span class="token punctuation">(</span><span class="token string">'c:/a/b/c/index.js'</span><span class="token punctuation">,</span> <span class="token string">'.js'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//index</span>
@@ -990,7 +1061,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//express框架公开指定目录</span>
 app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">'/node_modules/'</span><span class="token punctuation">,</span> express<span class="token punctuation">.</span><span class="token keyword">static</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'./node_modules/'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p><strong>特殊</strong> ：模块中的路径标识（比如：<code>require(&#39;./a.js&#39;)</code>）是相对于当前文件模块，不受到node命令所处路径影响</p>
-<h2 id="9-其他"><a href="#9-其他" class="headerlink" title="9.其他"></a>9.其他</h2><p>进程为我们程序的运行提供一个必备的环境（<strong>进程是资源分配的最小单位</strong>）</p>
+<h2 id="10-其他"><a href="#10-其他" class="headerlink" title="10.其他"></a>10.其他</h2><p>进程为我们程序的运行提供一个必备的环境（<strong>进程是资源分配的最小单位</strong>）</p>
 <p>线程是计算机中最小的计算单位，线程负责执行保存到进程中的程序（<strong>线程是CPU调度的最小单位</strong>）</p>
 <p>JS、浏览器、nodejs是单线程</p>
 <h4 id="修改完自动重启服务器"><a href="#修改完自动重启服务器" class="headerlink" title="修改完自动重启服务器"></a>修改完自动重启服务器</h4><p>我们这里可以使用一个第三方工具：<code>nodemon</code>来帮我们解决修改代码重启服务器问题</p>
@@ -1533,7 +1604,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">202.6k</span>&nbsp;字
+                class="white-color">205.3k</span>&nbsp;字
             
             
             

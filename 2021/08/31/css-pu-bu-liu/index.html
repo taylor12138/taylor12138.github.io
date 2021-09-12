@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    287
+                    636
                 </div>
                 
 
@@ -497,7 +497,7 @@
 <li><code>column-gap</code>: 设置列与列之间的间距</li>
 </ul>
 <p>demo样式：</p>
-<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.all</span> </span><span class="token punctuation">{</span>
+<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.container</span> </span><span class="token punctuation">{</span>
   <span class="token selector">column-count: 2;
   column-gap: 10px;
   padding: 10px;
@@ -512,7 +512,7 @@
 <p><code>multi-column</code>布局（也就是上方的布局方法）会将其内的元素自动进行流动和平衡，尽可能保证每列的高度趋于相同，所以会将其内的文本阶段分布在两列内。</p>
 <p>因此可能导致文本内容被切断</p>
 <p>但是可以使用 <code>break-inside</code>中断这种平衡，保持每个元素的独立性</p>
-<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.all</span> </span><span class="token punctuation">{</span>
+<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.container</span> </span><span class="token punctuation">{</span>
   <span class="token selector">column-count: 2;
   column-gap: 10px;
   padding: 10px;
@@ -525,7 +525,34 @@
 <span class="token punctuation">}</span></code></pre>
 <p>但还有缺点：</p>
 <p>这种方式仅适用于数据固定不变的情况，对于滚动加载更多等可动态添加数据的情况就并不适用了。</p>
-<h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h4><p>未完待续。。。</p>
+<h4 id="方法二Grid布局"><a href="#方法二Grid布局" class="headerlink" title="方法二Grid布局"></a>方法二Grid布局</h4><p>首先要明确的grid布局中的一些属性</p>
+<p>主要设置在父元素</p>
+<ul>
+<li><code>display</code>:设置为<code>grid</code>指明当前容器为<code>Grid布局</code></li>
+<li><code>grid-template-columns</code>: 定义每一列的列宽</li>
+<li><code>grid-template-rows</code>: 定义每一行的行高</li>
+<li><code>column-gap</code>：用于设置列间距</li>
+<li><code>grid-auto-rows</code>：用来设置多余网格的行高</li>
+</ul>
+<p>主要设置在子元素</p>
+<ul>
+<li><code>grid-row-start</code>：上边框所在的水平<code>网格线</code></li>
+<li><code>grid-row-end</code>：下边框所在的水平<code>网格线</code></li>
+<li><code>grid-column-start</code>：左边框所在的垂直<code>网格线</code></li>
+<li><code>grid-column-end</code>：右边框所在的垂直<code>网格线</code></li>
+</ul>
+<p>以上四个属性的属性值为 auto | 网格线的自定义名称 | 网格线的索引值（从1开始） | span + 数字，表示边框跨域多少网格</p>
+<p>由此，我们只需要不设置行高(<code>grid-template-rows</code>)，此时设置<code>grid-auto-rows</code>后，所有单元格的高度均为<code>grid-auto-rows</code>指定的值。将<code>grid-auto-rows</code>设置一个很小的值，比如<code>10px</code>，然后对其进行拉伸将其高度指定为真实高度，每一个单元格都做如下操作，那么瀑布流就实现了~</p>
+<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.container</span> </span><span class="token punctuation">{</span>
+    <span class="token selector">display: grid;
+    grid-template-columns: 1fr 1fr 1fr; // 分为3列
+    column-gap<span class="token pseudo-class">:5px</span>; // 列间距5px
+    grid-auto-rows: 10px; 
+    <span class="token class">.item</span></span><span class="token punctuation">{</span>
+        <span class="token property">grid-row-start</span><span class="token punctuation">:</span> auto<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="方法三Flex布局"><a href="#方法三Flex布局" class="headerlink" title="方法三Flex布局"></a>方法三Flex布局</h4><p>使用flex，将容器分成固定数量等列，每列在添加flex布局，修改其 <code>flex-direction</code>即可实现</p>
 <p>参考链接<a href="https://juejin.cn/post/6844904004720263176" target="_blank" rel="noopener">https://juejin.cn/post/6844904004720263176</a></p>
 
             </div>
@@ -1033,7 +1060,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">205.3k</span>&nbsp;字
+                class="white-color">207.3k</span>&nbsp;字
             
             
             

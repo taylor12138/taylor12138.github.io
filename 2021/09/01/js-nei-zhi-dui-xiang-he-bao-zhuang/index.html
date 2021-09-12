@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.6k
+                    2.8k
                 </div>
                 
 
@@ -558,58 +558,47 @@ Math<span class="token punctuation">.</span><span class="token function">floor</
 <thead>
 <tr>
 <th>方法</th>
-<th>参数</th>
 <th>效果</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>new Date()</code></td>
-<td></td>
 <td>返回一个标准时间（复杂的字符串结构）</td>
 </tr>
 <tr>
 <td><code>Date.now()</code></td>
-<td></td>
 <td>返回一个number，自 1970 年 1 月 1 日 00:00:00 (UTC) 到当前时间的毫秒数，H5新增</td>
 </tr>
 <tr>
 <td><code>new Date(xx).getFullYear()</code></td>
-<td></td>
 <td>返回年份</td>
 </tr>
 <tr>
 <td><code>new Date(xx).getMonth()+1</code></td>
-<td></td>
 <td>返回月份</td>
 </tr>
 <tr>
 <td><code>new Date(xx).getDate()</code></td>
-<td></td>
 <td>返回日期</td>
 </tr>
 <tr>
 <td><code>new Date(xx).getHours()</code></td>
-<td></td>
 <td>返回时</td>
 </tr>
 <tr>
 <td><code>new Date(xx).getMinutes()</code></td>
-<td></td>
 <td>返回分</td>
 </tr>
 <tr>
 <td><code>new Date(xx).getSeconds()</code></td>
-<td></td>
 <td>返回秒</td>
 </tr>
 <tr>
 <td><code>new Date(xx).valueOf()</code></td>
-<td></td>
 <td>返回从1970年1月1日0时0分0秒（UTC，即协调世界时）到该日期的毫秒数。</td>
 </tr>
 <tr>
 <td><code>new Date(xx).getTime()</code></td>
-<td></td>
 <td>同上</td>
 </tr>
 </tbody></table>
@@ -623,7 +612,7 @@ Math<span class="token punctuation">.</span><span class="token function">floor</
 <p>注意：<code>const date = new Date(&#39;2020-10-1 8:8:8&#39;);</code>这种写法，会导致安卓端和ios端的时间上有所不同，并且有明显的差异！！最好以</p>
 <p><code>const birthday = new Date(1995, 11, 17, 3, 24, 0);</code>的形式进行命名</p>
 <p><code>const date = new Date(&#39;2020/10/1 8:8:8&#39;);</code>也可以，但是兼容性好象不如逗号分隔的形式</p>
-<h3 id="（3）数组对象"><a href="#（3）数组对象" class="headerlink" title="（3）数组对象"></a>（3）数组对象</h3><h4 id="填充数组"><a href="#填充数组" class="headerlink" title="填充数组"></a>填充数组</h4><p>数组的每个槽位可以储存任意类型数据</p>
+<h3 id="（3）数组对象"><a href="#（3）数组对象" class="headerlink" title="（3）数组对象"></a>（3）数组对象</h3><h5 id="填充数组"><a href="#填充数组" class="headerlink" title="填充数组"></a>填充数组</h5><p>数组的每个槽位可以储存任意类型数据</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">var</span> arr1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Array</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">//相当于[2,3]的数组</span>
 <span class="token keyword">var</span> arr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Array</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//创造一个数组长度为5的数组，但是此方法会自动往里面填undefined值，让数组最起码有值了！</span>
 <span class="token keyword">var</span> arr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Array</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//也可以填写你想要的值，比如0</span></code></pre>
@@ -636,7 +625,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> arr <span class="token operator">=</span> Array<span class="token punctuation">.</span><span class="token keyword">from</span><span class="token punctuation">(</span><span class="token function">Array</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token function">Array</span><span class="token punctuation">(</span>m<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">//from的使用</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Array<span class="token punctuation">.</span><span class="token keyword">from</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span> x <span class="token operator">=</span><span class="token operator">></span> x <span class="token operator">+</span> x<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">// expected output: Array [2, 4, 6]</span></code></pre>
-<h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><pre class=" language-js"><code class="language-js">arr1<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span>b<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<h5 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h5><pre class=" language-js"><code class="language-js">arr1<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span>b<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> a<span class="token operator">-</span>b<span class="token punctuation">;</span>      <span class="token comment" spellcheck="true">//从小到大 </span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                  <span class="token comment" spellcheck="true">//该排序可能是快排等结合的很优算法。升序 如果不加function则为按照字符串排序</span></code></pre>
 <p><code>arr.sort([compareFunction])</code></p>
@@ -660,30 +649,98 @@ console<span class="token punctuation">.</span><span class="token function">log<
 </ul>
 </li>
 </ul>
-<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><pre class=" language-js"><code class="language-js">arr1 <span class="token keyword">instanceof</span> <span class="token class-name">Array</span> <span class="token comment" spellcheck="true">//检验是否为数组，是返回true，否则false</span>
-Array<span class="token punctuation">.</span><span class="token function">isArray</span><span class="token punctuation">(</span>arr1<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//同上,H5新增,但这个效果好，防止多个不同版本的Array构造函数</span>
-arr1<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>xx<span class="token punctuation">)</span><span class="token punctuation">;</span>        <span class="token comment" spellcheck="true">//在数组末尾增加数组元素，push完毕之后，返回结果是新数组的长度,push实际上可以接收多个参数一次增加</span>
-arr1<span class="token punctuation">.</span><span class="token function">unshift</span><span class="token punctuation">(</span>xx<span class="token punctuation">)</span><span class="token punctuation">;</span>       <span class="token comment" spellcheck="true">//在数组开头增加数组元素，unshift完毕之后，返回结果是新数组的长度</span>
-arr1<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>           <span class="token comment" spellcheck="true">//删除数组的最后一个元素  返回值为被删除的元素值</span>
-arr1<span class="token punctuation">.</span><span class="token function">shift</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>         <span class="token comment" spellcheck="true">//删除数组的第一个元素  返回值为被删除的元素值</span>
-arr1<span class="token punctuation">.</span><span class="token function">reverse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>       <span class="token comment" spellcheck="true">//翻转数组</span>
-arr1<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span>xx<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//返回该数组元素的索引号（只返回第一个满足条件的索引号），找不到返回-1</span>
-                     <span class="token comment" spellcheck="true">//indexOf还可以用于判断对象是否存在</span>
-arr1<span class="token punctuation">.</span><span class="token function">includes</span><span class="token punctuation">(</span>xx<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//是否含有该元素，判断对象是否存在</span>
-arr1<span class="token punctuation">.</span><span class="token function">lastindexOf</span><span class="token punctuation">(</span>xx<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//同上，只返回倒数第一个满足条件的索引号</span>
-arr1<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">//转换成字符串，逗号分隔</span>
-arr1<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">'你想要的分隔符'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                                     <span class="token comment" spellcheck="true">//用指定分隔符分割不同的数组元素，并转换成字符串</span>
-array<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span>开始的指针下标<span class="token punctuation">,</span>删除的个数<span class="token punctuation">[</span><span class="token punctuation">,</span> item1<span class="token punctuation">[</span><span class="token punctuation">,</span> item2<span class="token punctuation">[</span><span class="token punctuation">,</span> <span class="token operator">...</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//用于删除多组元素并且添加新元素，返回一个数组保存删除                                                               //的内容</span>
-arr<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token string">"William"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                                    <span class="token comment" spellcheck="true">//从index序号为2地开始，删除掉一个，并添加william元素</span>
-arr<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span>start<span class="token punctuation">,</span>end<span class="token punctuation">)</span>                                          <span class="token comment" spellcheck="true">//slice() 方法可从已有的数组中返回选定的元素。</span>
-                                                              <span class="token comment" spellcheck="true">//这里是指从start到end-1，不包含end</span>
-
+<h5 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h5><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>参数</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>arr instanceof Array</code></td>
+<td></td>
+<td>检验是否为数组，是返回true，否则false</td>
+</tr>
+<tr>
+<td><code>Array.isArray(x);</code></td>
+<td>数组</td>
+<td>同上,H5新增,但这个效果好，防止多个不同版本的Array构造函数</td>
+</tr>
+<tr>
+<td><code>arr.push(xx);</code></td>
+<td>n个元素</td>
+<td>在数组末尾增加数组元素，返回结果是新数组的长度</td>
+</tr>
+<tr>
+<td><code>arr.unshift(xx);</code></td>
+<td>n个元素</td>
+<td>在数组开头增加数组元素，返回结果是新数组的长度</td>
+</tr>
+<tr>
+<td><code>arr.pop();</code></td>
+<td></td>
+<td>删除数组的最后一个元素  返回值为被删除的元素值</td>
+</tr>
+<tr>
+<td><code>arr.shift();</code></td>
+<td></td>
+<td>删除数组的第一个元素  返回值为被删除的元素值</td>
+</tr>
+<tr>
+<td><code>arr.reverse()</code></td>
+<td></td>
+<td>翻转数组，返回颠倒后的数组，该方法会改变原数组。</td>
+</tr>
+<tr>
+<td><code>arr.indexOf(xx)</code></td>
+<td>1.查找的元素；2.查找开始处（可选）</td>
+<td>返回该数组元素的索引号（第一个满足条件的索引号），找不到返回-1。</td>
+</tr>
+<tr>
+<td><code>arr.includes(xx)</code></td>
+<td>1.查找的元素；2.查找开始处（可选）</td>
+<td>返回布尔值是否含有该元素，判断元素是否存在</td>
+</tr>
+<tr>
+<td><code>arr.lastindexOf(xx)</code></td>
+<td>1.查找的元素；2.查找开始处（可选，从此位置开始逆向查找）</td>
+<td>返回该数组元素的索引号（最后一个满足条件的索引号），从后往前找，找不到返回-1。</td>
+</tr>
+<tr>
+<td><code>arr.toString()</code></td>
+<td></td>
+<td>转换成字符串，逗号分隔</td>
+</tr>
+<tr>
+<td><code>arr.join(x);</code></td>
+<td>分隔符</td>
+<td>用指定分隔符分割不同的数组元素，并转换成字符串</td>
+</tr>
+<tr>
+<td><code>arr.splice(i, n, [x3, x4])</code></td>
+<td>1.开始下标；2.删除的元素个数；3.添加进数组的元素（可选，可以多个）</td>
+<td>用于删除多组元素并且添加新元素，返回一个数组保存内容（此方法会改变原数组。）</td>
+</tr>
+<tr>
+<td><code>arr.slice([begin[, end]])</code></td>
+<td>1.提取起始处的索引，2.终止索引（不包含end）</td>
+<td>返回一个新的数组对象，这一对象是一个由 <code>begin</code> 和 <code>end</code> 决定的原数组的<strong>浅拷贝</strong>（从 <code>begin</code>到 <code>end-1</code> ，不包括<code>end</code>）。原始数组不会被改变。</td>
+</tr>
+<tr>
+<td><code>arr.concat(value1[, value2[, ...[, valueN]]])</code></td>
+<td>可传入1个/多个数组或者值</td>
+<td>用于合并两个或多个数组。此方法不会更改现有数组，而是返回一个新数组。</td>
+</tr>
+<tr>
+<td><code>arr.from(.from(arrayLike[, mapFn[, thisArg]]));</code></td>
+<td>想要转换成数组的伪数组对象或可迭代对象。</td>
+<td>一个新的<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array" target="_blank" rel="noopener"><code>数组</code></a>实例。</td>
+</tr>
+</tbody></table>
+<pre class=" language-js"><code class="language-js">arr<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token string">"William"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                                    <span class="token comment" spellcheck="true">//从index序号为2地开始，删除掉一个，并添加william元素</span>
 arr<span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>arrayX<span class="token punctuation">,</span> arrayX<span class="token punctuation">,</span> arryX<span class="token punctuation">)</span>                             <span class="token comment" spellcheck="true">//concat()参数可以传入数组或者值。</span>
-                                                              <span class="token comment" spellcheck="true">// 它可以连接两个或多个数组,</span>
-                                                              <span class="token comment" spellcheck="true">//该方法不会改变现有的数组，而仅仅会返回被连接数组的一                                                               //个副本。</span>
-
-Array<span class="token punctuation">.</span><span class="token keyword">from</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">//() 方法用于通过拥有 length 属性的对象或可迭代的对象来返回一个数组(浅拷贝的数组实例);</span>
-                     <span class="token comment" spellcheck="true">//对于字符串有点类似于 Array.from(str) = str.spilt("");</span></code></pre>
+                                                              <span class="token comment" spellcheck="true">// 它可以连接两个或多个数组</span></code></pre>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">//案例，数组去重</span>
 <span class="token comment" spellcheck="true">//利用indexoOf，返回-1则添加入新数组</span>
 <span class="token keyword">function</span> <span class="token function">unique</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -728,6 +785,7 @@ Object.mycreate = function(proto, properties) {
 */</span>
 <span class="token keyword">var</span> hh <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">mycreate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>a<span class="token punctuation">:</span> <span class="token number">11</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>mm<span class="token punctuation">:</span> <span class="token punctuation">{</span>value<span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">dir</span><span class="token punctuation">(</span>hh<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><strong>Object.keys(obj)</strong>方法会返回一个由一个给定对象的自身可枚举属性组成的数组</p>
 <h2 id="2-基本包装类型"><a href="#2-基本包装类型" class="headerlink" title="2.基本包装类型"></a>2.基本包装类型</h2><p>基本数据类型是没有属性和方法的，而对象才有属性和方法</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">//String  </span>
 <span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">'andy'</span><span class="token punctuation">;</span>
@@ -1274,7 +1332,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">205.3k</span>&nbsp;字
+                class="white-color">207.3k</span>&nbsp;字
             
             
             

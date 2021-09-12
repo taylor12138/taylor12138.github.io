@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.4k
+                    2.5k
                 </div>
                 
 
@@ -513,12 +513,18 @@
 <li>用户打开后，浏览器解析，<strong>JavaScript取出URL</strong>然后执行</li>
 <li>恶意代码被浏览器执行，然后将用户数据发送给攻击者网站</li>
 </ul>
+<p>实际案例：</p>
+<pre class=" language-html"><code class="language-html">&lt;a href\="javascript:alert('xss')"\>click me<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a\</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">onclick</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>alert(<span class="token punctuation">'</span>xss<span class="token punctuation">'</span>)<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>this is a text<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>xxx.com/test.jpg<span class="token punctuation">"</span></span> <span class="token attr-name">onerror</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>alert(<span class="token punctuation">'</span>xss<span class="token punctuation">'</span>)<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span></code></pre>
+<p>甚至是CSS</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token style-attr language-css"><span class="token attr-name"> <span class="token attr-name">style</span></span><span class="token punctuation">="</span><span class="token attr-value"><span class="token property">background</span><span class="token punctuation">:</span><span class="token url">url(javacript:alert('xss')</span><span class="token punctuation">)</span></span><span class="token punctuation">"</span></span><span class="token punctuation">></span></span></code></pre>
 <h4 id="防范XSS"><a href="#防范XSS" class="headerlink" title="防范XSS"></a>防范XSS</h4><p>常用的防范手段：</p>
 <ul>
 <li><strong>httpOnly:</strong> 在 cookie 中设置 HttpOnly 属性后，js脚本将无法读取到 cookie 信息。</li>
 <li><strong>输入过滤:</strong> 一般是用于对于输入格式的检查，例如：邮箱，电话号码，用户名，密码……等，按照规定的格式输入。</li>
-<li><strong>转义 HTML:</strong> 如果拼接 HTML 是必要的，就需要对于引号，尖括号，斜杠进行转义</li>
-<li><strong>添加白名单</strong>：对于显示富文本来说，以上方法可能会将需要的格式也过滤掉，这时我们可以添加白名单的方式</li>
+<li><strong>转义 HTML:</strong> 如果拼接 HTML 是必要的，就需要对于引号，尖括号，斜杠进行转义（比如 将 &gt; 转译为 <code>&amp;gt;</code>）</li>
+<li><strong>添加白名单</strong>：对于显示富文本来说，以上方法可能会将需要的格式也过滤掉，这时我们可以添加白名单的方式，其实也就是对匹配到的字段进行处理</li>
 </ul>
 <p>预防存储型XSS和反射型XSS攻击：</p>
 <ul>
@@ -532,6 +538,15 @@
 <li>Vue的 <code>v-html</code>也容易导致xss攻击（原理也是innerHTML），与此同时，<code>v-html</code>也会替换掉标签内部子元素，所以 <code>v-html</code>尽量别用</li>
 <li>减少<code>eval()</code>的使用</li>
 </ul>
+<h4 id="添加白名单防范XSS"><a href="#添加白名单防范XSS" class="headerlink" title="添加白名单防范XSS"></a>添加白名单防范XSS</h4><p><a href="https://jsxss.com/zh/index.html" target="_blank" rel="noopener">https://jsxss.com/zh/index.html</a></p>
+<p>一个添加白名单进行过滤防范XSS攻击的工具，它的名字也叫做XSS</p>
+<p>安装和使用</p>
+<pre class=" language-shell"><code class="language-shell">$ npm install xss --save</code></pre>
+<p>node端使用</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> xss <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'xss'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">xss</span><span class="token punctuation">(</span><span class="token string">'&lt;a href="#" onclick="alert(/xss/)">click me&lt;/a>'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>浏览器端使用</p>
+<pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">filterXSS</span><span class="token punctuation">(</span><span class="token string">'&lt;a href="#" onclick="alert(/xss/)">click me&lt;/a>'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h2 id="2-CSRF"><a href="#2-CSRF" class="headerlink" title="2.CSRF"></a>2.CSRF</h2><h4 id="什么是CSRF"><a href="#什么是CSRF" class="headerlink" title="什么是CSRF"></a>什么是CSRF</h4><p>CSRF是一种跨站请求伪造，也被称为 one-click-attack 或者 session riding</p>
 <p>下面的图源自这个大佬 ： <a href="https://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html" target="_blank" rel="noopener">https://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html</a> （随便点开，放心绝对不是XSS或者CSRF ，手动狗头）</p>
 <p><img src="/2021/03/15/an-quan-wen-ti-hui-zong/csrf.jpg" alt></p>
@@ -1114,7 +1129,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">205.3k</span>&nbsp;字
+                class="white-color">207.3k</span>&nbsp;字
             
             
             

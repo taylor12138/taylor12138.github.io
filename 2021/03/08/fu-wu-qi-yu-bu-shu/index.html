@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="项目部署, Hexo">
+    <meta name="keywords" content="服务器与部署, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>项目部署 | Hexo</title>
+    <title>服务器与部署 | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">项目部署</h1>
+                    <h1 class="description center-align post-title">服务器与部署</h1>
                 </div>
             </div>
         </div>
@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2k
+                    2.9k
                 </div>
                 
 
@@ -533,16 +533,17 @@ pm2 restart all               # 重启所有应用</code></pre>
 <p>（2） 可以做缓存，加速访问资源</p>
 <p>（3）对客户端访问授权，上网进行认证</p>
 <p>（4）代理可以记录用户访问记录（上网行为管理），对外隐藏用户信息</p>
-<p><img src="/2021/03/08/xiang-mu-bu-shu/zhengdaili.jpg" alt></p>
+<p><img src="/2021/03/08/fu-wu-qi-yu-bu-shu/zhengdaili.jpg" alt></p>
 <h4 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h4><p>反向代理，其实客户端对代理是无感知的，因为客户端不需要任何配置就可以访问。</p>
 <p>我们只 需要将请求发送到反向代理服务器，由反向代理服务器去选择目标服务器获取数据后，在返 回给客户端，此时反向代理服务器和目标服务器对外就是一个服务器，暴露的是代理服务器 地址，隐藏了真实服务器 IP 地址。</p>
 <p><strong>反向代理的作用：</strong></p>
 <p>（1）保证内网的安全，阻止web攻击，大型网站，通常将反向代理作为公网访问地址，Web服务器是内网</p>
 <p>（2）负载均衡，通过反向代理服务器来优化网站的负载</p>
-<p><img src="/2021/03/08/xiang-mu-bu-shu/fandaili.jpg" alt></p>
-<h4 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h4><p>将原先请求集中到单个服务器上的 情况改为将请求分发到多个服务器上，将负载分发到不同的服务器，也就是我们所说的负 载均衡</p>
-<p>客户端发送多个请求到服务器，服务器处理请求，有一些可能要与数据库进行交互，服 务器处理完毕后，再将结果返回给客户端</p>
+<p><img src="/2021/03/08/fu-wu-qi-yu-bu-shu/fandaili.jpg" alt></p>
 <p>实际上用一种通俗比喻来形容正反向代理，可以解说为正向代理为我国的海关关口，反向代理是目标国家（外国）的海关关口</p>
+<h4 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h4><p>将原先请求集中到单个服务器上的 情况改为，中间经过一个负载均衡器，然后将请求分发到多个服务器上，将负载分发到不同的服务器，也就是我们所说的负 载均衡</p>
+<p>客户端发送多个请求到服务器，服务器处理请求，有一些可能要与数据库进行交互，服 务器处理完毕后，再将结果返回给客户端</p>
+<p><img src="/2021/03/08/fu-wu-qi-yu-bu-shu/junheng.jpg" alt></p>
 <h2 id="4-自建服务器"><a href="#4-自建服务器" class="headerlink" title="4.自建服务器"></a>4.自建服务器</h2><p>借助<code>serve</code>库，能让某一指定文件夹（作为根目录）快速开启一台服务器</p>
 <pre class=" language-shell"><code class="language-shell">npm i serve -g</code></pre>
 <p>然后在自建的文件夹下开启服务器：</p>
@@ -586,11 +587,46 @@ pm2 restart all               # 重启所有应用</code></pre>
 <li>降低前期成本</li>
 </ul>
 <p>附上前端本人的照片（美人部分）</p>
-<p><img src="/2021/03/08/xiang-mu-bu-shu/qianduan.jpg" alt></p>
+<p><img src="/2021/03/08/fu-wu-qi-yu-bu-shu/qianduan.jpg" alt></p>
 <h4 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h4><p>RPC是指远程过程调用，比如说服务器A上的项目调用服务器B上提供的函数和方法</p>
 <p>rpc需要面临的问题</p>
 <p>1.由于网络协议是基于二进制的，所以需要<strong>序列化和反序列化</strong></p>
 <p>2.解决通信、寻址等网络问题</p>
+<h2 id="6-CDN服务器"><a href="#6-CDN服务器" class="headerlink" title="6.CDN服务器"></a>6.CDN服务器</h2><p>为了缩短<code>http</code>请求的时间，我们应该把大量的静态资源放置的离用户近一点。</p>
+<p>内容发布网络<code>CDN</code>（<code>Content Delivery Networks</code>）就是其中一种方式。<code>CDN</code>是一组分布在<strong>多个</strong>不同地理位置或网段的<code>web</code><strong>服务器</strong>，用于更加有效的向用户发布内容。</p>
+<p>CDN的基本原理是广泛采用各种缓存服务器，将这些缓存服务器分布到用户访问相对集中的地区或网络中，在用户访问网站时，利用全局负载技术将用户的访问指向距离最近的工作正常的缓存服务器上，由缓存服务器直接响应用户请求。</p>
+<p>基本机制</p>
+<ul>
+<li>尽可能避开互联网上有可能影响数据传输速度和稳定性的瓶颈和环节，使内容传输的更快、更稳定；</li>
+<li>通过在网络各处放置节点服务器，在现有的互联网基础之上构成一层智能虚拟网络；</li>
+<li><code>CDN</code>系统能够实时地根据网络流量和各节点的连接、负载状况以及到用户的距离和响应时间等综合信息<br>将用户的请求重新导向离用户最近的服务节点上。选择的缓存服务器：<ul>
+<li>哪一台服务器距用户最近</li>
+<li>哪一台有所需内容</li>
+<li>查询各个服务器当前的负载情况，判断哪一台服务器尚有服务能力</li>
+</ul>
+</li>
+</ul>
+<p>最简单的CDN网络由一个DNS服务器和几台缓存服务器组成</p>
+<p>用户输入url -&gt; DNS域名解析 -&gt; 解析权交给CNAME指向的CDN专用DNS服务器。</p>
+<p>用户向CDN的全局负载均衡设备发起内容URL访问请求 -&gt; 负载均衡器选择缓存服务器 -&gt; 返回该缓存服务器给用户</p>
+<p>用户向缓存服务器发起请求，缓存服务器响应用户请求</p>
+<h4 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h4><ul>
+<li><p>网站站点/应用加速：</p>
+<p>站点或者应用中大量静态资源的加速分发，建议将站点内容进行动静分离，动态文件可以结合云服务器<code>ECS</code>，静态资源如各类型图片、<code>html</code>、<code>css</code>、<code>js</code>文件等，使用<code>CDN</code>服务器存储，可以有效加速内容加载速度，轻松搞定网站图片、短视频等内容分发。</p>
+</li>
+<li><p>移动应用加速：</p>
+<p>移动<code>APP</code>更新文件（<code>apk</code>文件）分发，移动<code>APP</code>内图片、页面、短视频、<code>UGC</code>等内容的优化加速分发。提供<code>httpDNS</code>服务，避免<code>DNS</code>劫持并获得实时精确的<code>DNS</code>解析结果，有效缩短用户访问时间，提升用户体验。</p>
+</li>
+<li><p>视音频点播/大文件下载分发加速；</p>
+</li>
+<li><p>视频直播加速；</p>
+</li>
+</ul>
+<h4 id="值得注意"><a href="#值得注意" class="headerlink" title="值得注意"></a>值得注意</h4><ol>
+<li>CDN是只对网站的某一个具体的域名加速，如果同一个网站有多个域名，则访客访问加入CDN的域名获得加速效果，访问未加入CDN的域名，或者直接访问IP地址，则无法获得CDN效果。</li>
+<li>CDN对网站的访客完全透明，不需要访客手动选择要访问的镜像站点，保证了网站对访客的友好性。　CDN部署简单，对原站基本不做任何改动即可生效。</li>
+</ol>
+<p>参考文章<a href="https://zhuanlan.zhihu.com/p/28940451" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/28940451</a></p>
 
             </div>
             <hr/>
@@ -616,7 +652,7 @@ pm2 restart all               # 重启所有应用</code></pre>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2021/03/08/xiang-mu-bu-shu/">https://taylor12138.github.io/2021/03/08/xiang-mu-bu-shu/</a>
+                    <a href="https://taylor12138.github.io/2021/03/08/fu-wu-qi-yu-bu-shu/">https://taylor12138.github.io/2021/03/08/fu-wu-qi-yu-bu-shu/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1096,7 +1132,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">205.3k</span>&nbsp;字
+                class="white-color">207.3k</span>&nbsp;字
             
             
             

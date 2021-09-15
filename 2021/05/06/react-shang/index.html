@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.6k
+                    8k
                 </div>
                 
 
@@ -993,22 +993,6 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
           <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
         <span class="token punctuation">)</span>
       <span class="token punctuation">}</span></code></pre>
-<h4 id="React渲染"><a href="#React渲染" class="headerlink" title="React渲染"></a>React渲染</h4><p><strong>Render阶段</strong></p>
-<p>在render阶段，React将更新应用于通过setState或render方法触发的组件，并确定需要在用户屏幕上做哪些更新–哪些节点需要插入，更新或删除，哪些组件需要调用其生命周期方法。最终的这些更新信息被保存在一个叫effect list的fiber 节点树上。</p>
-<p><strong>在新生命周期图中</strong>render阶段被标记为纯的、没有副作用的，可能会被React暂停、终止或者重新执行。也就是说，React会根据产生的任务的优先级，安排任务的调度（schedule）。利用类似<code>requestIdleCallback</code>的原理在浏览器空闲阶段进行更新计算，而不会阻塞动画，事件等的执行。</p>
-<p>通俗来说，也就是讲我们想要做的操作，做什么任务，以及会调用到的生命周期方法作为信息保存在 <code>fiber</code>节点树上</p>
-<p><strong>Commit阶段</strong></p>
-<p>commit阶段会遍历<code>effect list</code>，把所有更新都commit到DOM树上。在<code>pre-commit</code>阶段，主要是执行getSnapshotBeforeUpdate方法，可以获取当前DOM的快照（snap，详情可以收看新生命周期图中的 <code>getSnapshotBeforeUpdate</code> ），然后给需要卸载的组件执行componentWillUnmount方法。接着会把current fiber tree 替换为workInProgress fiber tree。最后执行DOM的插入、更新和删除，给更新的组件执行componentDidUpdate，给插入的组件执行componentDidMount。</p>
-<p>这一阶段无法终止</p>
-<p><code>this.setState</code>被触发 -&gt; </p>
-<p>（Render阶段）reconcile算法（diff算法），计算状态变化 -&gt;</p>
-<p>（Commit阶段）然后进入ReactDOM渲染器，将状态变化渲染在视图中。</p>
-<p>这两个阶段可以帮助我们更加认清生命周期函数（在下方新生命周期图中，render及其以上的生命周期在render阶段内，其他的在commit阶段）</p>
-<p>调用ReactDOM.render（此时未进入ReactDOM渲染器，是Render阶段），会采用深度优先遍历创建fiber树（也就是虚拟DOM树），并且以深度优先遍历（从父到子，APP -&gt; P1 -&gt; C1 -&gt; C2 -&gt; P2）的形式调用它们的生命周期函数（constructor、render等）</p>
-<p><img src="/2021/05/06/react-shang/render1.jpg" alt></p>
-<p>进入Commit阶段后，从子节点回退（从子到父,C1-&gt; C2 -&gt; P1 -&gt; P2 -&gt; APP），执行生命周期函数（ComponentDidMount、CoponentDidUpdate等）</p>
-<p>而其中Diff算法帮助我们决定该组件是否重新渲染/ 重新执行生命周期函数</p>
-<p>（Vue的生命周期亦是如此。）</p>
 <h4 id="React生命周期函数"><a href="#React生命周期函数" class="headerlink" title="React生命周期函数"></a>React生命周期函数</h4><p>生命周期函数可以不用箭头函数，因为它们和render属于同一性质，在创建页面/销毁页面的时候通过类的实例调用一次</p>
 <p>1.挂载组件<code>mount</code>                                   卸载组件<code>unmount</code></p>
 <p><code>componentDidMount</code>（和Vue的<code>mounted</code>一样，只调用一次，即挂载组件的时候调用<strong>一次</strong>，类似于render的兄弟，只不过setState不能在 <code>render</code>里进行调用，然而setState可以在 <code>mountd</code>里面调用  ） </p>
@@ -1790,7 +1774,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">207.3k</span>&nbsp;字
+                class="white-color">208.5k</span>&nbsp;字
             
             
             

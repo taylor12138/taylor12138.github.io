@@ -554,6 +554,9 @@
 <p>（<code>Vue</code>的生命周期亦是如此。）</p>
 <h4 id="React渲染后的结构"><a href="#React渲染后的结构" class="headerlink" title="React渲染后的结构"></a>React渲染后的结构</h4><p>首次渲染之后，React 会生成一个对应于 UI 渲染的 fiber 树，称之为 current 树，也就是刚才我们在render阶段所讲的，我们想要做的操作，做什么任务，以及会调用到的生命周期方法作为信息保存在 <code>fiber</code>节点树上。</p>
 <p>当 React 遍历 current 树时，它会为每一个存在的 fiber 节点创建了一个替代节点，这些替代节点形成 workInProgress 树，后续的变更在workInProgress 树上执行，当 workInProgress 树被提交后将会在 commit 阶段的某一子阶段被替换成为 current 树。</p>
+<p><strong>Effect List</strong></p>
+<p>React 采用DFS，在 render 阶段遍历 fiber 树时，把每一个有副作用的 fiber 筛选出来，最后构建生成一个只带副作用的 effect list 链表。</p>
+<p>这里有从fiber树到Effect List构建过程的视频 <a href="https://www.bilibili.com/video/av48384879/" target="_blank" rel="noopener">https://www.bilibili.com/video/av48384879/</a></p>
 <h4 id="分片更新的影响"><a href="#分片更新的影响" class="headerlink" title="分片更新的影响"></a>分片更新的影响</h4><p>这会导致啥?</p>
 <p>如果你使用的是类式组件（带生命周期函数），你会发现：<strong>在React Fiber中，不再是这样了，第一阶段中的生命周期函数在一次加载和更新过程中可能会被多次调用！</strong></p>
 <p>参考链接：</p>
@@ -787,43 +790,45 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/09/15/react-fiber/">
+                <a href="/2021/09/16/shu-ju-jie-gou/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="React Fiber">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="数据结构">
                         
-                        <span class="card-title">React Fiber</span>
+                        <span class="card-title">数据结构</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            React FiberReact Fiber介绍进程（Process）和线程（Thread），在计算机科学中还有一个概念叫做Fiber，英文含义就是“纤维”，意指比Thread更细的线，也就是比线程(Thread)控制得更精密的并发处理机制
+                            线性结构线性结构作为最常用的数据结构，其特点是数据元素之间存在一对一的线性关系
+比如数组、链表
+非线性结构一般未一对多的形式
+比如树、多维数组、图结构
+双向链表双向链表，又稱為双链表，是链表的一种，它的每个数据结点中都有两个指针，分别指向直
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-15
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-09-16
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                    前端
+                            <a href="/categories/personal/" class="post-category">
+                                    personal
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
             </div>
         </div>
@@ -1064,7 +1069,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">208.5k</span>&nbsp;字
+                class="white-color">206.6k</span>&nbsp;字
             
             
             

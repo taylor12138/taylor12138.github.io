@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9.5k
+                    9.7k
                 </div>
                 
 
@@ -505,6 +505,10 @@
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 <span class="token keyword">var</span> xxx <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Star</span><span class="token punctuation">(</span><span class="token string">'xxx'</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>假如一个函数进行多次 <code>bind</code>呢？</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token keyword">let</span> fn <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span> <span class="token punctuation">}</span>
+fn<span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// => ?</span></code></pre>
 <h4 id="类里添加方法"><a href="#类里添加方法" class="headerlink" title="类里添加方法"></a>类里添加方法</h4><p>1.在类里面构造函数，不需要加function</p>
 <p>2.多个方法、函数之间不需要添加逗号进行分割</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">class</span> <span class="token class-name">Star</span> <span class="token punctuation">{</span>
@@ -993,12 +997,16 @@ myObj<span class="token punctuation">.</span><span class="token function">getThi
 <p>1.<code>call()</code>前面讲过，call的主要作用可以实现继承</p>
 <p>2.<code>apply()</code>方法调用一个函数，简单理解为调用函数的方式，但是它可以改变this的指向</p>
 <p><code>fun.apply(thisArg, [argsArray])</code> </p>
-<p><code>thisArg</code>：在函数执行时指定的this对象     </p>
-<p><code>argsArray</code>: 传递的值，必须包含在数组（伪数组）里面<strong>（这个是和call的不同点）</strong></p>
+<ul>
+<li><p><code>thisArg</code>：在函数执行时指定的this对象 ，<strong>不传，或者传null,undefined， 函数中的 this 指向 window 对象</strong></p>
+</li>
+<li><p><code>argsArray</code>: 传递的值，必须包含在数组（伪数组）里面<strong>（这个是和call的不同点）</strong></p>
+</li>
+</ul>
 <p>返回值为函数的返回值，因为它就是调用函数</p>
 <p>应用方面：apply传递数组参数，所以可以借助数学内置对象求最大值 <code>Math.max.apply(Math,arr)</code></p>
 <p>（es6拓展运算符…<code>Math.max(...arr)</code>也可以，但是不能 <code>Math.max(arr)</code>，因为max不接受数组，只接受一个一个的参数）</p>
-<p>3.<code>bind()</code>方法不会调用函数，但是能改变函数内部this指向</p>
+<p>3.<code>bind()</code>方法不会调用函数，但是能改变函数内部this指向，当使用 new 操作符调用绑定函数时，该参数无效。</p>
 <p><code>fun.bind(thisArg, arg1, arg2....)</code> </p>
 <p>返回指定this值和初始化参数改造的原函数<strong>拷贝</strong>（即创造新的函数 <code>var f = fn.bind(xx)</code>）</p>
 <p>应用方面：定时器等不想立即调用的函数（或者处理其他只能用that来暂时储存对象的情况）</p>
@@ -1032,6 +1040,46 @@ myObj<span class="token punctuation">.</span><span class="token function">getThi
         <span class="token keyword">this</span><span class="token punctuation">.</span>className <span class="token operator">=</span> <span class="token string">'liactive'</span>
         that<span class="token punctuation">.</span>sections<span class="token punctuation">[</span><span class="token keyword">this</span><span class="token punctuation">.</span>index<span class="token punctuation">]</span><span class="token punctuation">.</span>className <span class="token operator">=</span> <span class="token string">'conactive'</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>如果一个函数进行多次 <code>bind</code>的情况：！！</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token keyword">let</span> fn <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span> <span class="token punctuation">}</span>
+fn<span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>答案是一下的结果，即this只想第一个bind传入的this，这里没有的话就是window</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// fn.bind().bind(a) 等于</span>
+<span class="token keyword">let</span> fn2 <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token function">fn1</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> fn<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token function">fn2</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<h4 id="三大this指向手写模式"><a href="#三大this指向手写模式" class="headerlink" title="三大this指向手写模式"></a>三大this指向手写模式</h4><p>call指向</p>
+<pre class=" language-js"><code class="language-js">Function<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>myCall <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> <span class="token keyword">this</span> <span class="token operator">!==</span> <span class="token string">'function'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">TypeError</span><span class="token punctuation">(</span><span class="token string">'Error'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  context <span class="token operator">=</span> context <span class="token operator">||</span> window
+  context<span class="token punctuation">.</span>fn <span class="token operator">=</span> <span class="token keyword">this</span>
+  <span class="token keyword">const</span> args <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span>arguments<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+  <span class="token keyword">const</span> result <span class="token operator">=</span> context<span class="token punctuation">.</span><span class="token function">fn</span><span class="token punctuation">(</span><span class="token operator">...</span>args<span class="token punctuation">)</span>
+  <span class="token keyword">delete</span> context<span class="token punctuation">.</span>fn
+  <span class="token keyword">return</span> result
+<span class="token punctuation">}</span></code></pre>
+<p>bind的实现（借助一波apply / call）</p>
+<pre class=" language-js"><code class="language-js">Function<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>myBind <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> <span class="token keyword">this</span> <span class="token operator">!==</span> <span class="token string">'function'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">TypeError</span><span class="token punctuation">(</span><span class="token string">'Error'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">const</span> _this <span class="token operator">=</span> <span class="token keyword">this</span>
+  <span class="token keyword">const</span> args <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span>arguments<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+  <span class="token comment" spellcheck="true">// 返回一个函数</span>
+  <span class="token keyword">return</span> <span class="token keyword">function</span> <span class="token function">F</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 因为返回了一个函数，我们可以 new F()，所以需要判断</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span> <span class="token keyword">instanceof</span> <span class="token class-name">F</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">_this</span><span class="token punctuation">(</span><span class="token operator">...</span>args<span class="token punctuation">,</span> <span class="token operator">...</span>arguments<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> _this<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> args<span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span><span class="token operator">...</span>arguments<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <h2 id="8-严格模式"><a href="#8-严格模式" class="headerlink" title="8.严格模式"></a>8.严格模式</h2><p>ie10以上版本才支持    它是让JavaScript以严格的条件下运行代码</p>
 <p>1.消除了JavaScript一些语法不严谨的地方，减少怪异行为</p>
@@ -1797,7 +1845,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">208.5k</span>&nbsp;字
+                class="white-color">206.6k</span>&nbsp;字
             
             
             

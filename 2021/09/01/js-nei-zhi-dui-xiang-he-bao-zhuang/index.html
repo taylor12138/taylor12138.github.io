@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.8k
+                    3.1k
                 </div>
                 
 
@@ -623,6 +623,7 @@ a<span class="token punctuation">[</span><span class="token number">0</span><spa
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// [{name: "张三"}, {name: "张三"}, {name: "张三"}, {name: "张三"}, {name: "张三"}]</span></code></pre>
 <p>但是可以使用这个方法创建二维数组</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> arr <span class="token operator">=</span> Array<span class="token punctuation">.</span><span class="token keyword">from</span><span class="token punctuation">(</span><span class="token function">Array</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token function">Array</span><span class="token punctuation">(</span>m<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> arr2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Array</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">new</span> <span class="token class-name">Array</span><span class="token punctuation">(</span>m<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">//from的使用</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Array<span class="token punctuation">.</span><span class="token keyword">from</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span> x <span class="token operator">=</span><span class="token operator">></span> x <span class="token operator">+</span> x<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">// expected output: Array [2, 4, 6]</span></code></pre>
 <h5 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h5><pre class=" language-js"><code class="language-js">arr1<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span>b<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -822,6 +823,41 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token string">'x'</span><span class="token punctuation">.</span><span class="token function">padEnd</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token string">'ab'</span><span class="token punctuation">)</span>   <span class="token comment" spellcheck="true">// 'xabab'</span>
 <span class="token string">'x'</span><span class="token punctuation">.</span><span class="token function">padEnd</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token string">'ab'</span><span class="token punctuation">)</span>   <span class="token comment" spellcheck="true">// 'xaba'</span></code></pre>
 <p>如果原字符串的长度，等于或大于指定的最小长度，则返回原字符串。</p>
+<h4 id="复杂-gt-简单"><a href="#复杂-gt-简单" class="headerlink" title="复杂 -&gt; 简单"></a>复杂 -&gt; 简单</h4><p>复杂数据类型转简单数据类型</p>
+<ul>
+<li>调用 <code>x.valueOf()</code>，如果转换为基础类型，就返回转换的值<ul>
+<li>JavaScript调用<code>valueOf</code>方法将对象转换为原始值。你很少需要自己调用<code>valueOf</code>方法；当遇到要预期的原始值的对象时，JavaScript会自动调用它。</li>
+</ul>
+</li>
+<li>调用 <code>x.toString()</code>，如果转换为基础类型，就返回转换的值<ul>
+<li><code>toString()</code> 方法返回一个表示该对象的字符串。</li>
+</ul>
+</li>
+</ul>
+<p><strong>Symbol.toPrimitive</strong></p>
+<p><code>Symbol.toPrimitive</code> 是一个内置的 Symbol 值，它是作为对象的函数值属性存在的，当一个对象转换为对应的原始值时，会调用此函数。</p>
+<p>入参：该函数被调用时，会被传递一个字符串参数 <code>hint</code> ，表示要转换到的原始值的预期类型。 <code>hint</code> 参数的取值是 <code>&quot;number&quot;</code>、<code>&quot;string&quot;</code> 和 <code>&quot;default&quot;</code> 中的任意一个。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> object1 <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token punctuation">[</span>Symbol<span class="token punctuation">.</span>toPrimitive<span class="token punctuation">]</span><span class="token punctuation">(</span>hint<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>hint <span class="token operator">===</span> <span class="token string">'number'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token number">42</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<p>重写 <code>Symbol.toPrimitive</code> ，该方法在对象转原始类型时调用<strong>优先级最高</strong>。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token function">valueOf</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token number">0</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token string">'1'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">[</span>Symbol<span class="token punctuation">.</span>toPrimitive<span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token number">2</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token number">1</span> <span class="token operator">+</span> a <span class="token comment" spellcheck="true">// => 3</span></code></pre>
 
             </div>
             <hr/>
@@ -1328,7 +1364,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">208.5k</span>&nbsp;字
+                class="white-color">206.6k</span>&nbsp;字
             
             
             

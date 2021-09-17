@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.7k
+                    7.8k
                 </div>
                 
 
@@ -510,7 +510,7 @@
 <p>3.发送</p>
 <p><code>xhr.send()</code></p>
 <p>4.事件绑定，处理服务端返回的结果  <code>onreadystatechange</code></p>
-<p>on 有 when的意思，即当。。。的时候<br>readystate是xhr对象当中的属性，表示状态0/1/2/3/4，分别对应以上步骤完成与否的状态<br>    0：未初始化<br>    1：open方法已经调用完毕<br>    2：send方法已经调用完毕<br>    3：表示服务端返回了部分的结果<br>    4：服务端返回了所有的结果<br>change 改变的时候触发，这里一般会触发四次，改一次触发一次</p>
+<p>on 有 when的意思，即当。。。的时候<br>readystate是xhr对象当中的属性，表示状态0/1/2/3/4，分别对应以上步骤完成与否的状态<br>    0：未初始化<br>    1：open方法已经调用完毕<br>    2：send方法已经调用完毕，并且头部和状态已经可获得<br>    3：loading, 下载中； <code>responseText</code> 属性已经包含部分数据。<br>    4：服务端返回了所有的结果<br>change 改变的时候触发，这里一般会触发四次，改一次触发一次</p>
 <p>5.此时<code>xhr</code>对象的属性有：</p>
 <p><code>status</code>状态码（200等） </p>
 <p><code>statusText</code>  状态字符串（OK等）   </p>
@@ -518,7 +518,7 @@
 <p><code>response</code> 响应体</p>
 <h4 id="ajax的get请求案例"><a href="#ajax的get请求案例" class="headerlink" title="ajax的get请求案例"></a>ajax的get请求案例</h4><pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> btn <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'button'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token keyword">const</span> result <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'#result'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        btn<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        btn<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
             <span class="token comment" spellcheck="true">//1.创建对象，控制平台中network也有XHR，它是对ajax请求做一个筛选</span>
             <span class="token keyword">const</span> xhr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">XMLHttpRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
             <span class="token comment" spellcheck="true">//2.初始化，设置请求方法（请求类型）和url</span>
@@ -526,7 +526,7 @@
             <span class="token comment" spellcheck="true">//3.发送</span>
             xhr<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
             <span class="token comment" spellcheck="true">//4.事件绑定，处理服务端返回的结果</span>
-            xhr<span class="token punctuation">.</span>onreadystatechange <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            xhr<span class="token punctuation">.</span>onreadystatechange <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
                 <span class="token comment" spellcheck="true">//判断,服务端返回了所有的结果</span>
                 <span class="token keyword">if</span> <span class="token punctuation">(</span>xhr<span class="token punctuation">.</span>readyState <span class="token operator">===</span> <span class="token number">4</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
                     <span class="token comment" spellcheck="true">//判断响应状态码</span>
@@ -1685,7 +1685,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">208.5k</span>&nbsp;字
+                class="white-color">206.6k</span>&nbsp;字
             
             
             

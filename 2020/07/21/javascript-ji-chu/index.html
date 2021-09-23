@@ -715,10 +715,6 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>（1）下载并解压包后，把其中的swiper.min.js和swiper.min.css放入网页文件夹的js和css中</p>
 <p>（2）官网找到类似的案例，复制html，css和js（进入官网swiper演示中，然后新窗口打开，查看网页源代码）</p>
 <p>（3）根据需求修改模块</p>
-<h4 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h4><p>JavaScript天生不支持模块化，node.js中才有</p>
-<p>但是在浏览器中也可以像在node.js中模块进行编程，如果 <code>&lt;scirpt&gt;</code>标签进行引用加载，还得考虑加载顺序问题，这时需要第三方库：    require.js（AMD）或sea.js（CMD）</p>
-<p>为了上述方法都是民间自主创造出来的，为了解决模块化问题，官方自己发布了ES6标准，其中包含了官方对JavaScript模块化的支持，虽然标准已经发布，但是JavaScript运行环境还不支持</p>
-<p>目前很多前端都是使用很多新技术，然后利用编译器工具打包，可以在低版本浏览器中运行，类似于less =&gt; css</p>
 <h4 id="浅拷贝和深拷贝"><a href="#浅拷贝和深拷贝" class="headerlink" title="浅拷贝和深拷贝"></a>浅拷贝和深拷贝</h4><p><strong>深拷贝和浅拷贝是只针对object和Array这样的引用数据类型的</strong></p>
 <h5 id="1-赋值"><a href="#1-赋值" class="headerlink" title="1.赋值"></a>1.赋值</h5><p>当我们把一个对象赋值给一个新的变量时，<strong>赋的其实是该对象在栈中的地址，而不是堆中的数据</strong>，只要修改了里面的的值，原来都都会受到影响</p>
 <h5 id="2-浅拷贝"><a href="#2-浅拷贝" class="headerlink" title="2.浅拷贝"></a>2.浅拷贝</h5><p><strong>他会创建一个新对象</strong>，这个对象有着原始对象属性值的一份精确拷贝。如果属性基本类型，拷贝的基本类型的值（修改后原来的变量的值不会受到影响）；如果属性是内存地址（引用类型，比如数组、对象），拷贝的就是内存地址，即其中一个变量修改了这个地址存放的对象，则另外一个会受到影响</p>
@@ -727,6 +723,12 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <h5 id="3-深拷贝"><a href="#3-深拷贝" class="headerlink" title="3.深拷贝"></a>3.深拷贝</h5><p>所谓”深拷贝”，就是能够实现真正意义上的数组和对象的拷贝，使得两个对象不会相互影响</p>
 <p>具体深拷贝的手写我在 “JavaScript进阶ES5+面向对象”篇章中写过</p>
 <p><img src="/2020/07/21/javascript-ji-chu/kaobei.jpg" alt></p>
+<h4 id="每种for的差异"><a href="#每种for的差异" class="headerlink" title="每种for的差异"></a>每种for的差异</h4><p>从基本的for循环，到for in、 for of和数组的forEach，差异性在面试的时候有被问到，在这里记录一下</p>
+<p> 网络上通过高数量级数组的遍历测试（地址：<a href="https://blog.csdn.net/qq_24357165/article/details/82748976），得出：" target="_blank" rel="noopener">https://blog.csdn.net/qq_24357165/article/details/82748976），得出：</a></p>
+<p>时间上：for循环遍历 &lt; for…of遍历 &lt; forEach遍历 &lt; for…in遍历 &lt; map遍历</p>
+<p>for … in语法是第一个能够迭代对象键的JavaScript语句，循环对象键（{}）与在数组（[]）上进行循环不同，引擎会执行一些额外的工作来跟踪已经迭代的属性。</p>
+<p>而for of 实现的是迭代器 <code>[Symbol.iterator]</code>方法实际上也是走的原生的for遍历，通过索引获取数组的数值，只是在函数里多增加了next、done判断遍历的结束与否</p>
+<p>（实际上我个人认为，内部全都是以传统for为基准实现的遍历，时间和空间的额外花费取决于该遍历方法的调用占用）</p>
 <h2 id="8-JS数值精度"><a href="#8-JS数值精度" class="headerlink" title="8.JS数值精度"></a>8.JS数值精度</h2><p>JavaScript 内部，所有数字都是以64位浮点数形式储存，即使整数也是如此。所以，<code>1</code>与<code>1.0</code>是相同的，是同一个数</p>
 <p>而位操作并不直接应用到64位，而是先把值转换为32位整数，在进行位操作，最后再把32位转换为34位存储起来</p>
 <p><img src="/2020/07/21/javascript-ji-chu/jingdu.png" alt></p>
@@ -1330,7 +1332,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">206.6k</span>&nbsp;字
+                class="white-color">208.3k</span>&nbsp;字
             
             
             

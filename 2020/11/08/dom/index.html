@@ -629,7 +629,7 @@ Btn_All<span class="token punctuation">.</span>onclick <span class="token operat
 <p>自定义属性：<code>&lt;div id=&quot;demo&quot; index=&quot;1&quot;&gt;&lt;/div&gt;</code>    中的index</p>
 <p>设定属性值：</p>
 <p><code>element.属性 = 值</code>     设置内置属性</p>
-<p><code>element.setArribute(&#39;属性&#39;,&#39;值&#39;)</code>  同上，主要设置自定义属性，它的class比较特殊，不使用className，使用class，如 div.setAttribute(‘class’, ‘footer’);</p>
+<p><code>element.setAttribute(&#39;属性&#39;,&#39;值&#39;)</code>  同上，主要设置自定义属性，它的class比较特殊，不使用className，使用class，如 div.setAttribute(‘class’, ‘footer’);</p>
 <p>移除属性：<code>element.removeAttribute(&#39;属性名&#39;)</code></p>
 <p><strong>Hs规范：</strong>H5规定自定义属性以“data-”作为开头，并且赋值，比如 <code>&lt;div data-index=&quot;1&quot;&gt;&lt;/div&gt;</code></p>
 <p>H5新增获取自定义属性的方法：<code>div.dataset.index</code>（属性名为data-index）， <code>div.dataset.listName</code>(属性名为data-list-name) ，dataset是一个集合里面存放了所有以data开头的自定义属性</p>
@@ -656,13 +656,19 @@ for (var i = 0; i &lt; ul.childNodes.length; i++) {
 <p>上一个兄弟元素节点：<code>node.previousElementSibling</code>    找不到返回null  </p>
 <p>这两个方法有兼容问题ie9以上才能使用 </p>
 <p><strong>创建节点</strong> <code>document.createElement(&#39;targetName&#39;)</code>  动态创建节点 </p>
+<p><strong>创建文本节点</strong> <code>document.createTextNode(vNode)</code> </p>
 <p><strong>添加节点</strong> <code>node.appendChild(child)</code> 创建完后需要添加节点，此方法是将一个节点添加到指定父节点的子节点列表末尾，类似于CSS中的after伪元素 ,child写名称不用加 ‘  ’（不支持追加字符串子元素）</p>
 <p>or： <code>node.insertBefore(child, 指定元素（子节点）)</code> 将一个节点添加到父节点指定的子节点<strong>前面</strong></p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> li <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'li'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">var</span> ul <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'ul'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 ul<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>li<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
 <span class="token keyword">var</span> li_2 <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'li'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-ul<span class="token punctuation">.</span><span class="token function">insertBefore</span><span class="token punctuation">(</span>li_2<span class="token punctuation">,</span> ul<span class="token punctuation">.</span>children<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">/*添加至开头*/</span></code></pre>
+ul<span class="token punctuation">.</span><span class="token function">insertBefore</span><span class="token punctuation">(</span>li_2<span class="token punctuation">,</span> ul<span class="token punctuation">.</span>children<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">/*添加至开头*/</span>
+
+<span class="token keyword">var</span> h<span class="token operator">=</span>document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"H1"</span><span class="token punctuation">)</span>
+<span class="token keyword">var</span> t<span class="token operator">=</span>document<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token string">"Hello World"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+h<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">/*创建一个标题 (H1), 你必须创建 "H1" 元素和文本节点:*/</span></code></pre>
 <p>发表评论案例：</p>
 <pre class=" language-js"><code class="language-js"><span class="token operator">&lt;</span>textarea name<span class="token operator">=</span><span class="token string">""</span> id<span class="token operator">=</span><span class="token string">""</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>textarea<span class="token operator">></span>
     <span class="token operator">&lt;</span>button<span class="token operator">></span>发布<span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">></span>
@@ -1378,7 +1384,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">206.6k</span>&nbsp;字
+                class="white-color">208.3k</span>&nbsp;字
             
             
             

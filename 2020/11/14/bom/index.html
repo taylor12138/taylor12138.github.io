@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.6k
+                    4.7k
                 </div>
                 
 
@@ -498,7 +498,7 @@
         <span class="token punctuation">}</span>
 </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span></code></pre>
-<p>但是window.onlaod传统注册方式只能写一次，如果写多个，只以最后一个onload为准，所以推荐</p>
+<p>但是window.onload传统注册方式只能写一次，如果写多个，只以最后一个onload为准，所以推荐</p>
 <pre class=" language-javascript"><code class="language-javascript">window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'load'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <p>所以一般情况下引入js文件，则该js文件都要添加 ↑  </p>
 <h4 id="pageshow事件"><a href="#pageshow事件" class="headerlink" title="pageshow事件"></a>pageshow事件</h4><p>下面三种情况会触发load事件：</p>
@@ -564,6 +564,15 @@
         arrow_r<span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p>通常来说不建议使用 <code>setInterval</code>。第一，它和 <code>setTimeout</code> 一样，不能保证在预期的时间执行任务。第二，它存在执行累积的问题，请看以下伪代码</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">demo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">setInterval</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token number">1000</span><span class="token punctuation">)</span>
+  <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">2000</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token function">demo</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>以上代码在浏览器环境中，如果定时器执行过程中出现了耗时操作，多个回调函数会在耗时操作结束以后同时执行，这样可能就会带来性能上的问题。</p>
 <h4 id="定时器的问题"><a href="#定时器的问题" class="headerlink" title="定时器的问题"></a>定时器的问题</h4><p>关于定时器延时比设定更久的原因：</p>
 <p>最小延时 &gt;=4ms（也就是说有4ms的延时）</p>
 <p>在浏览器中，<code>setTimeout()/</code><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/WindowOrWorkerGlobalScope/setInterval" target="_blank" rel="noopener"><code>setInterval()</code></a> 的每调用一次定时器的最小间隔是4ms（不过，Chrome 已将其更改为 2 毫秒，并且显然存在<a href="http://code.google.com/p/chromium/issues/detail?id=888" target="_blank" rel="noopener">一些问题</a>。），这通常是由于函数嵌套导致（嵌套层级达到一定深度），或者是由于已经执行的setInterval的回调函数阻塞导致的。例如：</p>
@@ -1198,7 +1207,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">206.6k</span>&nbsp;字
+                class="white-color">208.3k</span>&nbsp;字
             
             
             

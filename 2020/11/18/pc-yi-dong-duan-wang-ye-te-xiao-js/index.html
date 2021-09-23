@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.8k
+                    4.7k
                 </div>
                 
 
@@ -563,7 +563,7 @@ io<span class="token punctuation">.</span><span class="token function">disconnec
 <li><code>intersectionRect</code>：目标元素与视口（或根元素）的交叉区域的信息</li>
 <li><code>intersectionRatio</code>：目标元素的可见比例，即<code>intersectionRect</code>占<code>boundingClientRect</code>的比例，完全可见时为<code>1</code>，完全不可见时小于等于<code>0</code></li>
 </ul>
-<h2 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h2><ul>
+<h4 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h4><ul>
 <li>Chrome 51+（发布于 2016-05-25）</li>
 <li>Android 5+ （Chrome 56 发布于 2017-02-06）</li>
 <li>Edge 15 （2017-04-11）</li>
@@ -631,19 +631,6 @@ btn500<span class="token punctuation">.</span><span class="token function">addEv
 btn800<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token function">animate</span><span class="token punctuation">(</span>div<span class="token punctuation">,</span> <span class="token number">800</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
-<h2 id="5-节流阀"><a href="#5-节流阀" class="headerlink" title="5.节流阀"></a>5.节流阀</h2><p>控制速度，用于类似于防止轮播图按钮连续点击，导致播放过快的后果</p>
-<p>即当上一个函数动画内容执行完毕再去执行下一个函数动画，让事件无法连续触发</p>
-<p>核心思路是：利用回调函数，添加变量进行控制。锁住函数和解锁函数</p>
-<pre class=" language-js"><code class="language-js"> <span class="token comment" spellcheck="true">// 设置节流阀</span>
-    <span class="token keyword">let</span> flag <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
-    arrow_r<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>flag<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            flag <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
-            <span class="token function">fun</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                flag <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <h1 id="移动端"><a href="#移动端" class="headerlink" title="移动端"></a>移动端</h1><p>移动端兼容性较好，我们不需要考虑以前js的兼容问题，可以放心使用原生的JS书写，但是移动端也有自己独特的地方，如touch事件等</p>
 <h2 id="1-touch事件"><a href="#1-touch事件" class="headerlink" title="1.touch事件"></a>1.touch事件</h2><p>响应用户手指对屏幕的操作</p>
 <p><code>touchstart</code>  手指触摸到一个dom元素  （像<code>mousedown</code>）</p>
@@ -705,11 +692,6 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>在 main.js 中</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> fastClick <span class="token keyword">from</span> <span class="token string">'fastclick'</span>
 fastClick<span class="token punctuation">.</span><span class="token function">attach</span><span class="token punctuation">(</span>document<span class="token punctuation">.</span>body<span class="token punctuation">)</span></code></pre>
-<h2 id="3-插件"><a href="#3-插件" class="headerlink" title="3.插件"></a>3.插件</h2><p>js插件就是js文件，它遵循一定规范进行编写，方便程序展示效果，拥有特定功能且方便调用，功能单一且文件小</p>
-<p>插件的使用：</p>
-<p>1.引入js文件</p>
-<p>2.按照语法规范进行使用</p>
-<p>比较常见的还有swiper插件（轮播图）、supersilide插件（无缝滚动等）、iscroll插件、视频插件等等</p>
 <h2 id="4-框架"><a href="#4-框架" class="headerlink" title="4.框架"></a>4.框架</h2><p>比如bootstrap，同样</p>
 <p>来自于twitter，目前最受欢迎的前端框架(拿来主义)</p>
 <p>中文官网：<a href="https://www.bootcss.com/" target="_blank" rel="noopener">https://www.bootcss.com/</a></p>
@@ -834,6 +816,19 @@ console<span class="token punctuation">.</span><span class="token function">log<
         <span class="token function">refresh</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//调用refesh进行更新</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
+<h2 id="7-节流阀"><a href="#7-节流阀" class="headerlink" title="7.节流阀"></a>7.节流阀</h2><p>控制速度，用于类似于防止轮播图按钮连续点击，导致播放过快的后果</p>
+<p>即当上一个函数动画内容执行完毕再去执行下一个函数动画，让事件无法连续触发</p>
+<p>核心思路是：利用回调函数，添加变量进行控制。锁住函数和解锁函数</p>
+<pre class=" language-js"><code class="language-js"> <span class="token comment" spellcheck="true">// 设置节流阀</span>
+    <span class="token keyword">let</span> flag <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    arrow_r<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>flag<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            flag <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+            <span class="token function">fun</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                flag <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <p>平时开发中常遇到的场景：</p>
 <ol>
 <li>搜索框input事件，例如要支持输入实时搜索可以使用节流方案（间隔一段时间就必须查询相关内容），或者实现输入间隔大于某个值（如500ms），就当做用户输入完成，然后开始搜索，具体使用哪种方案要看业务需求。</li>
@@ -1371,7 +1366,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">206.6k</span>&nbsp;字
+                class="white-color">208.3k</span>&nbsp;字
             
             
             

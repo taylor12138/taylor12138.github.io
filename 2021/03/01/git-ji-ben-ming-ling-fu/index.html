@@ -459,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.3k
+                    1.5k
                 </div>
                 
 
@@ -495,12 +495,14 @@ git config --global user.email "277421392@qq.com"</code></pre>
 <pre class=" language-shell"><code class="language-shell">git config --local--list</code></pre>
 <h4 id="基本理论"><a href="#基本理论" class="headerlink" title="基本理论"></a>基本理论</h4><p>Git本地有三个工作区域：</p>
 <ul>
-<li>工作目录（Working Directory）：平时存放项目代码的地方（主要跟我们挂钩的两个区域之一）</li>
-<li>暂存区（Stage/Index）：临时存放改动，事实上只是一个文件</li>
-<li>资源库（Respository/Git Directory）：安全存放数据的位置，这里有提交到所有版本的数据</li>
-</ul>
-<ul>
-<li>再加上远程仓库（Remote Directory）：托管代码的服务器（主要跟我们挂钩的两个区域之一）</li>
+<li><p>工作目录（Working Directory）：平时存放项目代码的地方（主要跟我们挂钩的两个区域之一）</p>
+</li>
+<li><p>暂存区（Stage/Index）：临时存放改动，事实上只是一个文件</p>
+</li>
+<li><p>资源库（Respository/Git Directory）：安全存放数据的位置，这里有提交到所有版本的数据</p>
+</li>
+<li><p>再加上远程仓库（Remote Directory）：托管代码的服务器（主要跟我们挂钩的两个区域之一）</p>
+</li>
 </ul>
 <p><img src="/2021/03/01/git-ji-ben-ming-ling-fu/git.jpg" alt></p>
 <h4 id="忽略文件"><a href="#忽略文件" class="headerlink" title="忽略文件"></a>忽略文件</h4><p>有时我们不想把某些文件也一并上传，比如前端项目中的 <code>npm_modules</code></p>
@@ -529,6 +531,23 @@ doc/*.txt     #忽略doc/notes.txt但不包括doc/server/arch.txt</code></pre>
 <p>创建一个全空的仓库</p>
 <p>然后该项目有提示：<code>git remote add orgin https://github.com/xxxxxxxx.git</code>的指令 和 <code>git push -u origin master</code>指令</p>
 <p>在项目的终端执行 </p>
+<h4 id="git撤回操作"><a href="#git撤回操作" class="headerlink" title="git撤回操作"></a>git撤回操作</h4><p>如果只是add（暂存）或者commit（提交到本地仓库），可以使用</p>
+<pre class=" language-shell"><code class="language-shell">git reset HEAD <filename></code></pre>
+<p><strong>HEAD 说明：</strong></p>
+<ul>
+<li>HEAD 表示当前版本</li>
+<li>HEAD^ 上一个版本</li>
+<li>HEAD^^ 上上一个版本</li>
+<li>HEAD^^^ 上上上一个版本</li>
+<li>以此类推…</li>
+</ul>
+<p>如果是已经推送到远程仓库了，需要进行回滚（reset或者revert）</p>
+<pre class=" language-shell"><code class="language-shell">$ git revert HEAD
+$ git push origin master</code></pre>
+<p>reset和revert都可以用来回滚代码。但他们是有区别的。</p>
+<p>使用reset命令，Git会把要回退版本之后提交的修改都删除掉。要从第四次修改回退到第一次修改，那么会删除第二、三、四次的修改。（并不是真正的物理删除）</p>
+<p>使用revert命令，Git会保留回退版本之后提交的修改</p>
+<p>并不是真正的物理删除：实际上Git会把分支的每次修改记录都会保留下来，还是可以查看历史记录来调整姿态的</p>
 <h2 id="Git分支"><a href="#Git分支" class="headerlink" title="Git分支"></a>Git分支</h2><pre class=" language-shell"><code class="language-shell">git branch          #查看所有分支
 git branch -r       #查看远程分支
 git branch dev      #新建dev分支，但是现在仍停留在原分支
@@ -1064,7 +1083,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">206.6k</span>&nbsp;字
+                class="white-color">208.3k</span>&nbsp;字
             
             
             

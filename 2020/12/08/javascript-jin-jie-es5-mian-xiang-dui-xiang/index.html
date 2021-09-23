@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9.7k
+                    9.8k
                 </div>
                 
 
@@ -942,9 +942,13 @@ o<span class="token punctuation">.</span><span class="token function">say</span>
     bar<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>a<span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
+    bad<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>a
+    <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>foo<span class="token punctuation">.</span><span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token comment" spellcheck="true">//2</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token punctuation">(</span>foo<span class="token punctuation">.</span>bar<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>          <span class="token comment" spellcheck="true">//2</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>foo<span class="token punctuation">.</span><span class="token function">bad</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token comment" spellcheck="true">//1</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token punctuation">(</span>foo<span class="token punctuation">.</span>bar<span class="token operator">=</span>foo<span class="token punctuation">.</span>bar<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//1</span></code></pre>
 <p>“匿名函数的执行环境具有全局性”，所以最里层那个函数中this指向全局环境，全局环境没有定义foo变量所以输出undefined。在匿名函数外部将this保存到一个内部函数可以访问的变量self中，可以通过self访问这个对象，所以self.foo为bar</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">var</span> myobject <span class="token operator">=</span> <span class="token punctuation">{</span>
@@ -1053,7 +1057,8 @@ fn<span class="token punctuation">.</span><span class="token function">bind</spa
   <span class="token punctuation">}</span><span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span>
 <span class="token punctuation">}</span>
 <span class="token function">fn2</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
-<h4 id="三大this指向手写模式"><a href="#三大this指向手写模式" class="headerlink" title="三大this指向手写模式"></a>三大this指向手写模式</h4><p>call指向</p>
+<h4 id="三大this指向手写模式"><a href="#三大this指向手写模式" class="headerlink" title="三大this指向手写模式"></a>三大this指向手写模式</h4><p>解释一下，在<code>Function.prototype</code>里通过属性定义方法，此时this指向函数本身</p>
+<p>call指向</p>
 <pre class=" language-js"><code class="language-js">Function<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>myCall <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> <span class="token keyword">this</span> <span class="token operator">!==</span> <span class="token string">'function'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">TypeError</span><span class="token punctuation">(</span><span class="token string">'Error'</span><span class="token punctuation">)</span>
@@ -1241,9 +1246,9 @@ console<span class="token punctuation">.</span><span class="token function">log<
     <span class="token punctuation">}</span><span class="token punctuation">;</span>
     <span class="token keyword">var</span> o <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
     <span class="token keyword">function</span> <span class="token function">deepcopy</span><span class="token punctuation">(</span>newobj<span class="token punctuation">,</span> oldobj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">var</span> k <span class="token keyword">in</span> oldobj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> k <span class="token keyword">in</span> oldobj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
             <span class="token comment" spellcheck="true">// 获取属性值</span>
-            <span class="token keyword">var</span> item <span class="token operator">=</span> oldobj<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token keyword">const</span> item <span class="token operator">=</span> oldobj<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">;</span>
             <span class="token comment" spellcheck="true">// 判断该值是否属于数组(数组也属于object，所以要先写)</span>
             <span class="token keyword">if</span><span class="token punctuation">(</span>item <span class="token keyword">instanceof</span> <span class="token class-name">Array</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
                 newobj<span class="token punctuation">[</span>k<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
@@ -1845,7 +1850,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">206.6k</span>&nbsp;字
+                class="white-color">208.3k</span>&nbsp;字
             
             
             

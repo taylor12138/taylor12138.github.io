@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.7k
+                    4.8k
                 </div>
                 
 
@@ -619,6 +619,18 @@
 <p>微任务先执行，宏任务后执行</p>
 <p>同步代码执行完成后，会先执行微任务队列。注意：此时会把所有微任务队列全部执行完。再去宏队列macrotask取出一个执行，如果宏任务执行过程中产生新的微任务，会跳过微任务继续执行并立即把微任务放到异步任务队列大池子中。当前宏任务执行完后，又去检查待执行的任务队列大池子，如果有微任务，就优先执行微任务，如果没有就继续执行宏任务队列</p>
 <h4 id="（3）执行机制"><a href="#（3）执行机制" class="headerlink" title="（3）执行机制"></a>（3）执行机制</h4><p>1.先执行执行栈中的同步任务</p>
+<ul>
+<li><p>其实我们平时也可以在报错信息看到执行栈</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span><span class="token string">'error'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">function</span> <span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p><img src="/2020/11/14/bom/zhan.png" alt></p>
+</li>
+</ul>
 <p>2.异步任务（回调函数）放入任务队列中（只要异步任务有了<strong>运行结果</strong>，就在”任务队列”之中放置一个事件。）</p>
 <p>3.”任务队列”中的事件，除了IO设备的事件以外，还包括一些用户产生的事件（比如鼠标点击、页面滚动等等）。只要指定过回调函数，这些事件发生时就会进入”任务队列”，等待主线程读取。</p>
 <p>4.一旦执行栈所有同步任务执行完毕，系统就会按次序读取任务队列的异步任务，于是被读取的异步任务结束等待状态，进入执行栈，开始执行</p>
@@ -633,8 +645,15 @@
 <li>timers阶段（setTimeout、setInterval的事件回调）</li>
 <li>I/O callbacks 阶段：处理上一轮循环中少数未执行的I/O回调</li>
 <li>idle，prepare阶段：仅node内部使用</li>
-<li>poll阶段：获取新的I/o事件，适当条件下node阻塞在这里</li>
-<li>check阶段：执行setImmediate回调</li>
+<li>poll阶段：会做两件事，适当条件下node阻塞在这里<ul>
+<li>两件事情：<ol>
+<li>回到 timer 阶段执行回调</li>
+<li>执行 I/O 回调</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>check阶段：执行<code>setImmediate</code>回调</li>
 <li>close callbacks 阶段：执行socket的close回调</li>
 </ul>
 <p>这导致了node和浏览器端执行<strong>宏任务</strong>和<strong>微任务</strong>的顺序不一样！！</p>
@@ -1207,7 +1226,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">208.3k</span>&nbsp;字
+                class="white-color">210.1k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9.8k
+                    9.7k
                 </div>
                 
 
@@ -727,10 +727,13 @@ Son<span class="token punctuation">.</span>prototype<span class="token punctuati
 <span class="token punctuation">}</span>
 <span class="token keyword">let</span> son <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Son</span><span class="token punctuation">(</span><span class="token string">'xxx'</span><span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>son<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>原型继承方式的缺点是：原型中包含的引用值会在所有实例中共享，而使用 <code>Son.prototype = new Father();</code>的方式继承时，<code>Son.prototype</code> 是<code>Father</code>类的一个实例，<code>Father</code>的所有属性都会被继承下来，而这些属性都会被当成共享属性</p>
-<p>构造函数继承的缺点是：必须在构造函数中定义方法，因此函数不能重用；此外，子类也不能访问父类原型上定义的方法</p>
 <p><strong>组合继承</strong>=原型继承+构造函数继承（结合两者的优点）</p>
-<p>但是组合继承会构造函数实例化了两次，更优解法为<strong>寄生组合继承</strong>：</p>
+<p>组合继承方式的缺点是：</p>
+<ol>
+<li>原型中包含的引用值会在所有实例中共享，而使用 <code>Son.prototype = new Father();</code>的方式继承时，<code>Son.prototype</code> 是<code>Father</code>类的一个实例，<code>Father</code>的所有属性都会被继承下来，而这些属性都会被当成共享属性</li>
+<li>组合继承会构造函数实例化了两次</li>
+</ol>
+<p>更优解法为<strong>寄生组合继承</strong>：</p>
 <p>使用 <code>Object.create()</code>方法来实现，以下为寄生组合继承 — 完美方式 </p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">Shape</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">this</span><span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
@@ -1850,7 +1853,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">208.3k</span>&nbsp;字
+                class="white-color">210.1k</span>&nbsp;字
             
             
             

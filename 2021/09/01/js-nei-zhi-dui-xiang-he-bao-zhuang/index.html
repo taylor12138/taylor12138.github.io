@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.4k
+                    3.7k
                 </div>
                 
 
@@ -756,7 +756,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token punctuation">}</span></code></pre>
 <h4 id="Object部分方法"><a href="#Object部分方法" class="headerlink" title="Object部分方法"></a>Object部分方法</h4><p><strong>Object.create</strong></p>
 <p><code>Object.create(proto[, propertiesObject])</code></p>
-<p><code>proto</code>必填参数，是新对象的原型对象，如上面代码里新对象<code>me</code>的<code>__proto__</code>指向<code>person</code>。注意，如果这个参数是<code>null</code>，那新对象就彻彻底底是个空对象，没有继承<code>Object.prototype</code>上的任何属性和方法，如<code>hasOwnProperty()、toString()</code>等。</p>
+<p><code>proto</code>必填参数，是新对象的原型对象。注意，如果这个参数是<code>null</code>，那新对象就彻彻底底是个空对象，没有继承<code>Object.prototype</code>上的任何属性和方法，如<code>hasOwnProperty()、toString()</code>等。</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> person <span class="token operator">=</span> <span class="token punctuation">{</span>
   isHuman<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
   printIntroduction<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -803,6 +803,33 @@ console<span class="token punctuation">.</span><span class="token function">dir<
 <p>如果你想获取一个对象的所有属性,，甚至包括不可枚举的，请查看<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames" target="_blank" rel="noopener"><code>Object.getOwnPropertyNames</code></a>。（红宝书）</p>
 </li>
 </ul>
+<p><strong>Object.is()</strong></p>
+<p><code>Object.is()</code>确定两个值是否<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness" target="_blank" rel="noopener">相同</a>。如果以下条件之一成立，则两个值相同：</p>
+<ul>
+<li>两者 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined" target="_blank" rel="noopener"><code>undefined</code></a></li>
+<li>两者 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null" target="_blank" rel="noopener"><code>null</code></a></li>
+<li>两者<code>true</code>或两者<code>false</code></li>
+<li>相同长度的两个字符串以相同的顺序具有相同的字符</li>
+<li>两者都是同一个对象（意味着两个值都引用了内存中的同一个对象）</li>
+<li>数字和<ul>
+<li>两者 <code>+0</code></li>
+<li>两者 <code>-0</code></li>
+<li>两者 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN" target="_blank" rel="noopener"><code>NaN</code></a></li>
+<li>或两者都非零且两者都不是<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN" target="_blank" rel="noopener"><code>NaN</code></a>且两者都具有相同的值</li>
+</ul>
+</li>
+</ul>
+<p>这是<em>不</em>一样根据等于 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators#equality" target="_blank" rel="noopener"><code>==</code></a>运算符。该 <code>==</code>运营商应用各种强制转换双方（如果它们不是同一类型）测试相等（导致这种行为像以前一样 <code>&quot;&quot; == false</code>是<code>true</code>），但<code>Object.is</code>不强迫任何一个值。</p>
+<p>这也<em>不同于</em>根据<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators#identity" target="_blank" rel="noopener"><code>===</code></a>运营商的平等 。<code>Object.is()</code>和之间的唯一区别在于<code>===</code>它们对带符号零和 NaN 的处理。例如，<code>===</code> 运算符（和<code>==</code>运算符）将数值<code>-0</code> 和<code>+0</code>视为相等。此外，<code>===</code>运算符将 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/NaN" target="_blank" rel="noopener"><code>Number.NaN</code></a>和<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN" target="_blank" rel="noopener"><code>NaN</code></a>视为不相等。</p>
+<pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Object<span class="token punctuation">.</span><span class="token function">is</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//false</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Object<span class="token punctuation">.</span><span class="token function">is</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//false</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Object<span class="token punctuation">.</span><span class="token function">is</span><span class="token punctuation">(</span><span class="token string">"2"</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//false</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Object<span class="token punctuation">.</span><span class="token function">is</span><span class="token punctuation">(</span><span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//false</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Object<span class="token punctuation">.</span><span class="token function">is</span><span class="token punctuation">(</span><span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//false</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Object<span class="token punctuation">.</span><span class="token function">is</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//false</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Object<span class="token punctuation">.</span><span class="token function">is</span><span class="token punctuation">(</span><span class="token number">NaN</span><span class="token punctuation">,</span> <span class="token number">NaN</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//true</span></code></pre>
 <h2 id="2-基本包装类型"><a href="#2-基本包装类型" class="headerlink" title="2.基本包装类型"></a>2.基本包装类型</h2><p>基本数据类型是没有属性和方法的，而对象才有属性和方法</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">//String  </span>
 <span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">'andy'</span><span class="token punctuation">;</span>
@@ -1399,7 +1426,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">208.3k</span>&nbsp;字
+                class="white-color">210.1k</span>&nbsp;字
             
             
             

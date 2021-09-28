@@ -877,7 +877,7 @@ with(this) {
 <h4 id="组件使用三个步骤"><a href="#组件使用三个步骤" class="headerlink" title="组件使用三个步骤"></a>组件使用三个步骤</h4><ul>
 <li>创建组件构造器 <code>Vue.extend()</code>，通常我们在创建组件构造器时会传入template作为自定义模板</li>
 <li>注册组件 <code>Vue.component(自定义组件标签名, 组件构造器对象)</code> 注意：定义的标签必须小写</li>
-<li>使用组件 必须在Vue的实例范围内使用组件，即使用该组件时，必须把标签放在Vue绑定的标签内</li>
+<li>使用组件 必须在<code>Vue</code>的实例范围内使用组件，即使用该组件时，必须把标签放在<code>Vue</code>绑定的标签内</li>
 <li>最终内部调用 <code>$mount()</code>进行挂载</li>
 </ul>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>app<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
@@ -900,9 +900,9 @@ with(this) {
     <span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Vue</span><span class="token punctuation">(</span><span class="token punctuation">{</span>el<span class="token punctuation">:</span> <span class="token string">'#app'</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
 <p>注意：在父组件中使用子组件不能使用 <code>v-on</code> 监听原生事件，必须添加 <code>native</code>修饰符，才能进行监听</p>
-<pre class=" language-HTML"><code class="language-HTML"><div>
-    <back-top @click.native="backClick"></back-top>
-</div></code></pre>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>back-top</span> <span class="token attr-name">@click.native</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>backClick<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>back-top</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
 <p>获取组件内的元素，需要用到 <code>$el</code>，所有组件都有一个元素 <code>$el</code> 用于获取组件中的元素，比如获取 组件 的 <code>offsetTop</code></p>
 <pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>$refs<span class="token punctuation">.</span>tabControl<span class="token punctuation">.</span>$el<span class="token punctuation">.</span>offsetTop<span class="token punctuation">;</span><span class="token punctuation">)</span></code></pre>
 <h4 id="组件分类"><a href="#组件分类" class="headerlink" title="组件分类"></a>组件分类</h4><p><strong>全局注册&amp;局部注册</strong>：上面的例子为注册全局组件，意味着可以再多个Vue实例下使用</p>
@@ -1826,7 +1826,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">208.3k</span>&nbsp;字
+                class="white-color">210.1k</span>&nbsp;字
             
             
             

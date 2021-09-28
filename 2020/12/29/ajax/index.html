@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.8k
+                    7.9k
                 </div>
                 
 
@@ -953,7 +953,13 @@ app<span class="token punctuation">.</span><span class="token keyword">get</span
 <h4 id="CORS解决跨域问题"><a href="#CORS解决跨域问题" class="headerlink" title="CORS解决跨域问题"></a>CORS解决跨域问题</h4><p>CORS，跨域资源共享，它是官方的跨域解决方案，它的特点是不需要在客户端做任何特殊操作，完全在服务器中进行处理，支持get、post请求，跨域资源共享标准新增了一组http首部字段，允许服务器声明哪些源站通过浏览器权限访问哪些资源</p>
 <p>工作原理：设置一个响应头（<strong>使用自定义的HTTP头部</strong>）告诉浏览器，该请求允许跨域，然后浏览器收到该响应以后对响应放行</p>
 <p><code>setHeader(&quot;允许跨域响应头&quot;, &quot;*&quot;);</code></p>
-<p>设置允许跨域的响应头,有Access-Control-Allow-Origin、Access-Control-Expose-Headers、Access-Control-Max-Age、Access-Control-Allow-Credentials、Access-Control-Allow-Methods、Access-Control-Allow-Headers</p>
+<p>设置允许跨域的响应头，它们的格式分别所代表的含义是</p>
+<p>1.origin 参数的值指定了允许访问该资源的外域 URI，可以指定该字段的值为通配符（*），表示允许来自所有域的请求。</p>
+<pre class=" language-text"><code class="language-text">Access-Control-Allow-Origin: <origin> | *</code></pre>
+<p>2.指明了实际请求所允许使用的 HTTP 方法。</p>
+<pre><code>Access-Control-Allow-Methods: &lt;method&gt;[, &lt;method&gt;]*</code></pre><p>3.指明了实际请求中允许携带的首部字段。</p>
+<pre><code>Access-Control-Allow-Headers: &lt;field-name&gt;[, &lt;field-name&gt;]*</code></pre><p>4.表示是否允许发送Cookie。默认情况下，Cookie不包括在CORS请求之中。设为<code>true</code>，即表示服务器明确许可，Cookie可以包含在请求中，一起发给服务器。这个值也只能设为<code>true</code>，如果服务器不要浏览器发送Cookie，删除该字段即可。</p>
+<pre><code>Access-Control-Allow-Credentials: true</code></pre><p>等等。。。。。</p>
 <p>第二个参数<code>*</code>是通用的意思，也可以设置专用的url</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//服务器部分</span>
 app<span class="token punctuation">.</span><span class="token function">all</span><span class="token punctuation">(</span><span class="token string">'/CORS'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
@@ -1685,7 +1691,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">208.3k</span>&nbsp;字
+                class="white-color">210.1k</span>&nbsp;字
             
             
             

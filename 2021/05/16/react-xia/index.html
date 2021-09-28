@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.4k
+                    6.5k
                 </div>
                 
 
@@ -564,9 +564,6 @@
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
   <span class="token punctuation">)</span>
 <span class="token punctuation">}</span></code></pre>
-<p>对于Hook的理解不能只停留在这种桌面上对于周期函数 -&gt; useEffect，更要心领神会，忘记之前所学的“生命周期”，他们还是有很多不同之处的，</p>
-<p>比如 useEffect 直接使用state、props，会捕获到 “初始的 props和state”（当前渲染状态/ 次数下的props和state），而在useEffect中使用useRef可以获取到最新的数据之类的。</p>
-<p>下面这篇文章可以帮助大家加深React Hook的印象<a href="https://overreacted.io/zh-hans/a-complete-guide-to-useeffect/" target="_blank" rel="noopener">https://overreacted.io/zh-hans/a-complete-guide-to-useeffect/</a></p>
 <h4 id="useEffect"><a href="#useEffect" class="headerlink" title="useEffect"></a>useEffect</h4><p>Effect Hook 示范</p>
 <pre class=" language-jsx"><code class="language-jsx"><span class="token comment" spellcheck="true">// 总觉得有点像vue里的watch</span>
 <span class="token comment" spellcheck="true">//第一个参数相当于两个钩子，一个是DidMount、一个是DidUpdate</span>
@@ -583,6 +580,9 @@ React<span class="token punctuation">.</span><span class="token function">useEff
 <span class="token comment" spellcheck="true">//   // do something</span>
 <span class="token comment" spellcheck="true">// }, [count])  只监测count的变化，有点像隶属于count的watcher，如果第二个参数不传入，则全部state都监听</span></code></pre>
 <p>其中第二个参数为依赖数组，每次都会进行“浅比较”，判断是否重新渲染</p>
+<p>对于Hook的理解不能只停留在这种桌面上对于周期函数 -&gt; useEffect，更要心领神会，忘记之前所学的“生命周期”，他们还是有很多不同之处的，</p>
+<p>比如 useEffect 直接使用state、props，会捕获到 “初始的 props和state”（当前渲染状态/ 次数下的props和state），而在useEffect中使用useRef可以获取到最新的数据之类的。</p>
+<p>下面这篇文章可以帮助大家加深React Hook的印象<a href="https://overreacted.io/zh-hans/a-complete-guide-to-useeffect/" target="_blank" rel="noopener">https://overreacted.io/zh-hans/a-complete-guide-to-useeffect/</a></p>
 <p>在render阶段进入到commit阶段的时候，会通过一种被称为Effect（Flags）的数据结构</p>
 <p>插入DOM -&gt; fiber节点上增加Placement的effect</p>
 <p>更新DOM -&gt; fiber节点上增加Update的effect</p>
@@ -861,8 +861,16 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">cre
 <p>即使将 <code>setState()</code>方法放入<code>setTimeout</code>中（进行异步执行），也不会同步渲染，因为进入以上判断条件之前，还要进入一个判断，即是否为同步的优先级（<code>ReactDOM.render</code>），由于此时是ConCurrent模式，则不会进入这个逻辑判断，继续往下走命中</p>
 <p><code>flushSyncCallbackQueue()</code>函数。</p>
 <p>在Concurrent模式出现之前，是通过 包裹<code>unstable_batchedupdates</code>实现异步任务中批处理</p>
+<p>实际上，Concurrent还处于实验阶段，在稳定版本中尚不可用。它面向的人群是早期使用者以及好奇心较强的人。</p>
 </li>
 </ul>
+<pre class=" language-js"><code class="language-js"><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// 模拟异步</span>
+    ReactDOM<span class="token punctuation">.</span><span class="token function">unstable_batchedUpdates</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// 仅仅加了unstable_batchedUpdates</span>
+        <span class="token comment" spellcheck="true">// 这里的两个setState会合并执行一次。</span>
+        <span class="token function">setNum</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+        <span class="token function">setStr</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h4 id="LazyLoad-React的懒加载"><a href="#LazyLoad-React的懒加载" class="headerlink" title="LazyLoad-React的懒加载"></a>LazyLoad-React的懒加载</h4><p>如果有多个所有路由组件，所有的路由组件都会在第一次就全部给你加载完毕。我们可以借助react里面的 <code>Lazy</code> 函数</p>
 <pre class=" language-jsx"><code class="language-jsx"><span class="token comment" spellcheck="true">// lazy为路由懒加载函数，Suspence为如果当前路由组件没能即使请求出来，给用户展示的页面信息</span>
 <span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> lazy<span class="token punctuation">,</span> Suspense <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span></code></pre>
@@ -954,7 +962,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">cre
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
   <span class="token punctuation">)</span>
 <span class="token punctuation">}</span></code></pre>
-<h4 id="React的插槽技术"><a href="#React的插槽技术" class="headerlink" title="React的插槽技术"></a>React的插槽技术</h4><p>在我们封装自定义的 <code>Link</code> 标签时（React（上）路由篇章部分），我们直接在自定义路由组件标签内写入文字，从而在子组件里面可以使用 <code>children</code>属性进行接收（<code>this.props.children</code>）</p>
+<h4 id="React的插槽技术"><a href="#React的插槽技术" class="headerlink" title="React的插槽技术"></a>React的插槽技术</h4><p>在我们封装自定义的 <code>Link</code> 标签时（React（中）路由篇章部分），我们直接在自定义路由组件标签内写入文字，从而在子组件里面可以使用 <code>children</code>属性进行接收（<code>this.props.children</code>）</p>
 <p>插槽技术的实用性在于：预留位置，随时改变整个组件</p>
 <p>由此，我们可以看到React在处理组件插槽时的策略</p>
 <pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
@@ -1695,7 +1703,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">208.3k</span>&nbsp;字
+                class="white-color">210.1k</span>&nbsp;字
             
             
             

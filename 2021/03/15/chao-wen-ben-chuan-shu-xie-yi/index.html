@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.6k
+                    6.7k
                 </div>
                 
 
@@ -540,11 +540,11 @@
 <li>对于<code>n</code>字节的符号（<code>n &gt; 1</code>），第一个字节的前<code>n</code>位都设为<code>1</code>，第<code>n + 1</code>位设为<code>0</code>，后面字节的前两位一律设为<code>10</code>。剩下的没有提及的二进制位，全部为这个符号的 Unicode 码。</li>
 </ul>
 <h4 id="http请求"><a href="#http请求" class="headerlink" title="http请求"></a>http请求</h4><ul>
-<li><p>get 获取资源。get注重url获得的参数</p>
+<li><p>GET获取资源。get注重url获得的参数</p>
 <p>数据格式：获得get请求的内容，它的内容是在url的<code>?</code> 之后的部分</p>
 <p>长度限制：Get方法提交的数据大小长度并没有限制，HTTP协议规范没有对URL长度进行限制。这个限制是特定的浏览器及服务器对它的限制；而这个长度限制，每个浏览器对应的限制都是不一样的。</p>
 </li>
-<li><p>post 创建资源（带请求体）。post的信息放在Request body中（firefox浏览器除外）</p>
+<li><p>POST创建资源（带请求体）。post的信息放在Request body中（firefox浏览器除外）</p>
 <p>数据格式：post回退时会再次提交请求；一般情况下，私密数据传输用POST + body就好</p>
 <p>长度限制：理论上讲，POST是没有大小限制的。HTTP协议规范也没有进行大小限制，起限制作用的是服务器的处理程序的处理能力。</p>
 <ul>
@@ -554,13 +554,16 @@
 </li>
 </ul>
 </li>
-<li><p>put 更新资源（带请求体）</p>
+<li><p>PUT更新资源（带请求体）</p>
+<ul>
+<li>PUT请求：如果两个请求相同，后一个请求会把第一个请求覆盖掉。（所以PUT用来改资源）Post请求：后一个请求不会把第一个请求覆盖掉。（所以Post用来增资源）</li>
+</ul>
 </li>
-<li><p>delete 删除资源</p>
+<li><p>DELETE删除资源</p>
 </li>
-<li><p>connect方法建立一个到由目标资源标识的服务器的隧道。</p>
+<li><p>CONNECT方法建立一个到由目标资源标识的服务器的隧道。</p>
 </li>
-<li><p>options方法用于描述目标资源的通信选项。</p>
+<li><p>OPTIONS方法用于描述目标资源的通信选项。</p>
 </li>
 </ul>
 <p><strong>请求报文</strong>：</p>
@@ -668,6 +671,7 @@
 <h2 id="5-响应状态码"><a href="#5-响应状态码" class="headerlink" title="5.响应状态码"></a>5.响应状态码</h2><p>100：信息型状态响应码表示目前为止一切正常, 客户端应该继续请求, 如果已完成请求则忽略.</p>
 <p>101：HTTP <code>**101 Switching Protocol**</code>（协议切换）状态码表示<strong>服务器</strong>应<strong>客户端**</strong>升级协议**的请求对协议进行切换。</p>
 <p>200：ok</p>
+<p>201：代表成功的应答状态码，表示请求已经被成功处理，并且创建了新的资源，常规使用场景是作为 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Methods/POST" target="_blank" rel="noopener"><code>POST</code></a> 、PUT请求的返回值</p>
 <p>204：服务器接收的请求已成功处理，但在返回的响应报文中不含实体的主体部分。另外，也不允许返回任何实体的主体。</p>
 <p>206：客户端进行了范围请求，服务器成功执行部分get请求</p>
 <p>301：永久重定向   第一次进入a.com，请求-&gt;b.com，以后每次进入a.com就不用请求直接去b.com（请求的资源已被永久分配了新的 URI）</p>
@@ -713,7 +717,7 @@
 </li>
 </ul>
 <p>http缓存都是从第二次请求开始的。第二次请求时，浏览器判断这些请求参数，命中强缓存就直接200，否则就把请求参数加到request header头中传给服务器，看是否命中协商缓存（当ETag和Last-Modified同时存在时，服务器先会检查ETag，然后再检查Last-Modified），命中则返回304，否则服务器会返回新的资源</p>
-<p>为什么有Last-Modified还要有ETag？</p>
+<p>为什么有<code>Last-Modified</code> 还要有 <code>ETag</code>？</p>
 <p>考虑以下情况：</p>
 <p>1.一些文件也许会周期性的更改,但是他的内容并不改变(仅仅改变的修改时间),这个时候,我们并不希望客户端认为这个文件被修改了,而重新 get<br>2.某些文件修改非常频繁,比如在秒以下的时间内进行修改(比方说 1s 内修改了 N 次),If-Modified-Since能检查到的粒度时 s 级的,这种修改无法判断(或者说 UNIX 记录 MTIME只能精确到秒)<br>3.某些服务器不能精确得到的文件的最后修改时间</p>
 <h4 id="强缓存-协商缓存"><a href="#强缓存-协商缓存" class="headerlink" title="强缓存 + 协商缓存"></a>强缓存 + 协商缓存</h4><p>之后浏览器再向该服务器请求该资源就可以视情况使用<strong>强缓存</strong>和<strong>协商缓存</strong>。</p>
@@ -1272,7 +1276,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">208.3k</span>&nbsp;字
+                class="white-color">210.1k</span>&nbsp;字
             
             
             

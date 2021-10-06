@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.5k
+                    3.3k
                 </div>
                 
 
@@ -547,6 +547,52 @@
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">xss</span><span class="token punctuation">(</span><span class="token string">'&lt;a href="#" onclick="alert(/xss/)">click me&lt;/a>'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>浏览器端使用</p>
 <pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">filterXSS</span><span class="token punctuation">(</span><span class="token string">'&lt;a href="#" onclick="alert(/xss/)">click me&lt;/a>'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h3 id="CSP"><a href="#CSP" class="headerlink" title="CSP"></a>CSP</h3><p>内容安全策略( CSP )</p>
+<p>内容安全策略  (<a href="https://developer.mozilla.org/zh-CN/docs/Glossary/CSP" target="_blank" rel="noopener">CSP</a>) 是一个额外的安全层，用于检测并削弱某些特定类型的攻击，包括跨站脚本 (<a href="https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting" target="_blank" rel="noopener">XSS (en-US)</a>) 和数据注入攻击等</p>
+<p>CSP 本质上就是建立白名单，开发者明确告诉浏览器哪些外部资源可以加载和执行。我们只需要配置规则，如何拦截是<strong>由浏览器自己实现</strong>的。我们可以通过这种方式来尽量减少 XSS 攻击。</p>
+<p><strong>使用</strong>（开启 CSP）</p>
+<ol>
+<li><p>设置 HTTP Header 中的 <code>Content-Security-Policy</code>（有时你会看到一些关于<code>X-Content-Security-Policy</code>头部的提法, 那是旧版本，你无须再如此指定它）</p>
+<ul>
+<li><pre><code>Content-Security-Policy: policy</code></pre></li>
+</ul>
+<p>policy参数是一个包含了各种描述你的CSP策略指令的字符串。</p>
+<p>使用案例：</p>
+<p><strong>示例 1</strong></p>
+<p>一个网站管理者想要所有内容均来自站点的同一个源 (不包括其子域名)</p>
+<pre><code>Content-Security-Policy: default-src &#39;self&#39;</code></pre><p><strong>示例 2</strong></p>
+<p>一个网站管理者允许内容来自信任的域名及其子域名 (域名不必须与CSP设置所在的域名相同)</p>
+<pre><code>Content-Security-Policy: default-src &#39;self&#39; *.trusted.com</code></pre><p><strong>示例 3</strong></p>
+<p>一个线上银行网站的管理者想要确保网站的所有内容都要通过SSL方式获取，以避免攻击者窃听用户发出的请求。</p>
+<pre><code>Content-Security-Policy: default-src https://onlinebanking.jumbobank.com</code></pre><p>该服务器仅允许通过HTTPS方式并仅从onlinebanking.jumbobank.com域名来访问文档。</p>
+<p><strong>示例 4</strong></p>
+<pre><code>Content-Security-Policy: script-src &#39;self&#39;; object-src &#39;none&#39;;
+style-src cdn.example.org third-party.org; child-src https:</code></pre><ul>
+<li>脚本：只信任当前域名</li>
+<li><code>&lt;object&gt;</code>标签：不信任任何URL，即不加载任何资源</li>
+<li>样式表：只信任<code>cdn.example.org</code>和<code>third-party.org</code></li>
+<li>框架（frame）：必须使用HTTPS协议加载</li>
+<li>其他资源：没有限制</li>
+</ul>
+<p>每个限制选项可以设置以下几种值，这些值就构成了白名单。</p>
+<blockquote>
+<ul>
+<li>主机名：<code>example.org</code>，<code>https://example.com:443</code></li>
+<li>路径名：<code>example.org/resources/js/</code></li>
+<li>通配符：<code>*.example.org</code>，<code>*://*.example.com:*</code>（表示任意协议、任意子域名、任意端口）</li>
+<li>协议名：<code>https:</code>、<code>data:</code></li>
+<li>关键字<code>&#39;self&#39;</code>：当前域名，需要加引号</li>
+<li>关键字<code>&#39;none&#39;</code>：禁止加载任何外部资源，需要加引号</li>
+</ul>
+</blockquote>
+<p>更多可以收看阮一峰老师的教程<a href="http://www.ruanyifeng.com/blog/2016/09/csp.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/09/csp.html</a></p>
+</li>
+<li><p>在HTML的放到<code>head</code>区域设置 <code>meta</code> 标签的方式 <code>&lt;meta http-equiv=&quot;Content-Security-Policy&quot;&gt;</code></p>
+</li>
+</ol>
+<p><strong>作用效果</strong></p>
+<p>CSP 的主要目标是减少和报告 XSS 攻击 ，XSS 攻击利用了浏览器对于从服务器所获取的内容的信任</p>
+<p>CSP通过指定有效域——即浏览器认可的可执行脚本的有效来源——使服务器管理者有能力减少或消除XSS攻击所依赖的载体。一个CSP兼容的浏览器将会<strong>仅执行从白名单域获取到的脚本文件</strong>，忽略所有的其他脚本</p>
 <h2 id="2-CSRF"><a href="#2-CSRF" class="headerlink" title="2.CSRF"></a>2.CSRF</h2><h4 id="什么是CSRF"><a href="#什么是CSRF" class="headerlink" title="什么是CSRF"></a>什么是CSRF</h4><p>CSRF是一种跨站请求伪造，也被称为 one-click-attack 或者 session riding</p>
 <p>下面的图源自这个大佬 ： <a href="https://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html" target="_blank" rel="noopener">https://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html</a> （随便点开，放心绝对不是XSS或者CSRF ，手动狗头）</p>
 <p><img src="/2021/03/15/an-quan-wen-ti-hui-zong/csrf.jpg" alt></p>
@@ -1129,7 +1175,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">210.1k</span>&nbsp;字
+                class="white-color">215.2k</span>&nbsp;字
             
             
             

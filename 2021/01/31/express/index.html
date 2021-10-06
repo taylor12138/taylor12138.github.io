@@ -969,6 +969,12 @@ app<span class="token punctuation">.</span><span class="token function">use</spa
 app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>middlewareB<span class="token punctuation">)</span><span class="token punctuation">;</span>
 app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>middlewareC<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>执行：A开始 -&gt; B开始 -&gt; C开始 -&gt; C结束 -&gt; B结束 -&gt; A结束</p>
+<p>其实也可以以异步调用的方式看待中间件的执行顺序</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> fn <span class="token operator">=</span> <span class="token keyword">async</span> <span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> next<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">await</span> <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
 
             </div>
             <hr/>
@@ -1474,7 +1480,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">210.1k</span>&nbsp;字
+                class="white-color">215.2k</span>&nbsp;字
             
             
             

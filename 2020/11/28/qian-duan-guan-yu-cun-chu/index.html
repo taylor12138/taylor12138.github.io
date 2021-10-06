@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.5k
+                    3.9k
                 </div>
                 
 
@@ -650,6 +650,54 @@ npm i express-jwt</code></pre>
 <li>options：可以配置 header 、荷载、指定算法类型（常用的只有 <code>exp(expiresIn)</code>有效时间 和 <code>algorithm</code> 算法类型这两个字段）</li>
 </ul>
 <p>参考文章<a href="https://juejin.cn/post/6932374305758167054" target="_blank" rel="noopener">https://juejin.cn/post/6932374305758167054</a></p>
+<h2 id="Service-Worker"><a href="#Service-Worker" class="headerlink" title="Service Worker"></a>Service Worker</h2><p>Service workers 本质上充当 Web 应用程序、浏览器与网络（可用时）之间的代理服务器。这个 API 旨在创建有效的离线体验，它会拦截网络请求并根据网络是否可用采取来适当的动作、更新来自服务器的的资源。它还提供入口以推送通知和访问后台同步 API。</p>
+<p>这个 API 之所以令人兴奋，是因为它可以支持离线体验，让开发者能够全面控制这一体验。</p>
+<p>在 Service Worker 出现前，存在能够在网络上为用户提供离线体验的另一个 API，称为 <a href="https://www.html5rocks.com/en/tutorials/appcache/beginner/" target="_blank" rel="noopener">AppCache</a>。 AppCache API 存在的许多相关问题，在设计 Service Worker 时已予以避免。</p>
+<p>使用条件：</p>
+<p>传输协议必须为 <strong>HTTPS</strong>。因为 Service Worker 中涉及到请求拦截，所以必须使用 HTTPS 协议来保障安全。</p>
+<p>在Firefox浏览器的<a href="https://support.mozilla.org/zh-CN/kb/隐私浏览" target="_blank" rel="noopener">用户隐私模式</a>，Service Worker不可用。</p>
+<h4 id="使用Service-Worker"><a href="#使用Service-Worker" class="headerlink" title="使用Service Worker"></a>使用Service Worker</h4><ol>
+<li>注册Service Worker（通过 <code>.register</code>方法进行注册，通过 <code>.then</code>方法进行回调）</li>
+<li>监听install事件，缓存需要的文件</li>
+<li>拦截请求查看是否已经有需要的数据</li>
+</ol>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// index.js</span>
+<span class="token comment" spellcheck="true">/* 判断当前浏览器是否支持serviceWorker */</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>navigator<span class="token punctuation">.</span>serviceWorker<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  navigator<span class="token punctuation">.</span>serviceWorker
+    <span class="token punctuation">.</span><span class="token function">register</span><span class="token punctuation">(</span><span class="token string">'sw.js'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>registration<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'service worker 注册成功'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'servcie worker 注册失败'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">//sw.js</span>
+<span class="token comment" spellcheck="true">// 监听 `install` 事件，回调中缓存所需文件</span>
+self<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'install'</span><span class="token punctuation">,</span> e <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  e<span class="token punctuation">.</span><span class="token function">waitUntil</span><span class="token punctuation">(</span>
+    caches<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">'my-cache'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>cache<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> cache<span class="token punctuation">.</span><span class="token function">addAll</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'./index.html'</span><span class="token punctuation">,</span> <span class="token string">'./index.js'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// 拦截所有请求事件</span>
+<span class="token comment" spellcheck="true">// 如果缓存中已经有请求的数据就直接用缓存，否则去请求数据</span>
+self<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'fetch'</span><span class="token punctuation">,</span> e <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  e<span class="token punctuation">.</span><span class="token function">respondWith</span><span class="token punctuation">(</span>
+    caches<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>request<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>response<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> response
+      <span class="token punctuation">}</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'fetch source'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">)</span>
+</code></pre>
+<p>此时，我们可以在chrome的F12开发者模式中查看 <code>Application</code> 看到 Service Worker 已经启动了</p>
+<p>在 Cache 中也可以发现我们所需的文件已被缓存</p>
 
             </div>
             <hr/>
@@ -1153,7 +1201,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">210.1k</span>&nbsp;字
+                class="white-color">215.2k</span>&nbsp;字
             
             
             

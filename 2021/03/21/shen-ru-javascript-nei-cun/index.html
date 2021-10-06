@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.9k
+                    2.7k
                 </div>
                 
 
@@ -533,13 +533,28 @@ destroyed <span class="token punctuation">(</span><span class="token punctuation
 <li>标记阶段</li>
 <li>清除阶段</li>
 </ul>
-<p>算法缺陷：无法从根对象查询到的对象都会被清除，垃圾收集完毕后会造成大量内存碎片</p>
+<p><strong>算法缺陷</strong>：无法从根对象查询到的对象都会被清除，垃圾收集完毕后会造成大量内存碎片，也就是造成内存空间不连续的问题（缺陷详情可以在下面的V8老生代垃圾回收机制查看）</p>
 <p>从2012年起，所有现代浏览器都使用了标记-清除垃圾回收算法。所有对JavaScript垃圾回收算法的改进都是基于标记-清除算法的改进</p>
 <h4 id="引用计数算法"><a href="#引用计数算法" class="headerlink" title="引用计数算法"></a><strong>引用计数算法</strong></h4><p>古老的垃圾回收算法，没那么常用了</p>
 <p>原理是跟踪记录每个值被引用的次数，被引用一次，则count + 1（除了弱引用类型<code>WeakMap</code>、<code>WeakSet</code>）</p>
 <p>垃圾回收程序下次运行的时候就会释放引用数为0的内存</p>
 <p>它有很多计数问题，比如引用循环，对象A有一个指针指向对象B，而对象B也引用了A，他们的引用书永远不会变成0</p>
-<h4 id="chrome-V8-回收算法"><a href="#chrome-V8-回收算法" class="headerlink" title="chrome V8 回收算法"></a>chrome V8 回收算法</h4><p>Chrome 浏览器所使用的 V8 引擎就是采用的分代回收策略。这个和 Java 回收策略思想是一致的。目的是通过区分「临时」与「持久」对象；多回收「临时对象区」（<strong>新生代</strong>young generation），少回收「持久对象区」（<strong>老生代</strong> tenured generation），减少每次需遍历的对象，从而减少每次GC的耗时。</p>
+<h2 id="V8的内存分代和回收算法"><a href="#V8的内存分代和回收算法" class="headerlink" title="V8的内存分代和回收算法"></a>V8的内存分代和回收算法</h2><p>Chrome 浏览器所使用的 V8 引擎就是采用的分代回收策略。这个和 Java 回收策略思想是一致的。目的是通过区分「临时」与「持久」对象；多回收「临时对象区」（<strong>新生代</strong>young generation），少回收「持久对象区」（<strong>老生代</strong> tenured generation），减少每次需遍历的对象，从而减少每次GC的耗时。</p>
+<p><strong>新生代</strong>中的对象存活时间较短的对象，<strong>老生代</strong>中的对象存活时间较长，或常驻内存的对象。</p>
+<h4 id="新生代"><a href="#新生代" class="headerlink" title="新生代"></a>新生代</h4><p>新生代中的对象主要通过Scavenge算法进行垃圾回收</p>
+<p>它将堆内存一分为二切开，让每一个空间成为一个<code>semispace</code>，而这两个空间中，一个处于使用中（From空间），另一个处于闲置状态（To空间）。由于新生代生命周期短，所以比较适合这个频繁对换 + 释放的算法</p>
+<p><img src="/2021/03/21/shen-ru-javascript-nei-cun/v8.jpg" alt></p>
+<p>此时垃圾回收开始：</p>
+<p>1.检查From空间中存活对象，然后复制到To空间中，而非存活对象空间会被释放掉，From空间和To空间的身份对换。</p>
+<p>2.当一个对象多次复制之后依然存活，说明人家比较长寿，就会被迁移至老生代之中</p>
+<h4 id="老生代"><a href="#老生代" class="headerlink" title="老生代"></a>老生代</h4><p>老生代使用的是标记清除法，活对象在新生代中只占叫小部分，死对象在老生代中只占较小部分，这是为什么采用标记清除算法的原因。</p>
+<p>从上文我们也可以清楚标记清除法的缺陷问题（内存碎片问题，内存空间不连续）</p>
+<p><img src="/2021/03/21/shen-ru-javascript-nei-cun/clean.jpg" alt></p>
+<ul>
+<li>此时如果需要分配一个大对象，这时所有的碎片空间都无法完成此次分配，就会提前触发垃圾回收，而这次回收是不必要的。</li>
+<li>为了解决碎片问题，标记整理被提出来。就是在对象被标记死亡后，在整理的过程中，将活着的对象往一端移动，移动完成后，直接清理掉边界外的内存。</li>
+</ul>
+<p>参考链接<a href="https://juejin.cn/post/6844903951742025736" target="_blank" rel="noopener">https://juejin.cn/post/6844903951742025736</a></p>
 <p>减少垃圾回收对性能的影响：1.让垃圾回收尽量少地进行 2.避免内存泄露</p>
 <h2 id="提升性能"><a href="#提升性能" class="headerlink" title="提升性能"></a>提升性能</h2><p>避免JavaScript的先创建再补充的动态属性赋值，而是一次性声明所有属性，让实例们共享一个隐藏类</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//错误示范❌</span>
@@ -558,6 +573,26 @@ a1<span class="token punctuation">.</span>author <span class="token operator">=<
 <span class="token keyword">let</span> a2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Article</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>由于JavaScript数组大小是动态可变的，，引擎会删除大小为100的数组，在创建一个新的大小为200的数组，垃圾回收程序看到这个删除操作，说不定看你对象更替速度那么快，就加快对你这里垃圾回收的频率，从而降低性能。要避免这种动态分配的操作，可以在初始化时就创建一个大小够用的数组，从而避免上述先删除再创建的操作，不过，你必须事先想好这个数组有多大。</p>
 <p>（实际上静态分配是优化的一种极端方式，如果你的应用程序被垃圾回收严重拖了后腿，可以利用它来提升性能，但这种情况并不多见，大多情况下，这都属于过早优化。）</p>
+<h4 id="V8性能优化"><a href="#V8性能优化" class="headerlink" title="V8性能优化"></a>V8性能优化</h4><p>在 V8 引擎下，又引入了 <code>TurboFan</code> 编译器，他会在特定的情况下进行优化，将代码编译成执行效率更高的 <strong>Machine Code</strong></p>
+<p>然而什么情况下会转换成为machine code？</p>
+<p>1.</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">test</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> x <span class="token operator">+</span> x
+<span class="token punctuation">}</span>
+<span class="token function">test</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+<span class="token function">test</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+<span class="token function">test</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+<span class="token function">test</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span></code></pre>
+<p>以上函数被<strong>多次调用</strong>并且参数一直传入 <code>number</code> 类型，那么 V8 就会认为该段代码可以编译为 Machine Code，因为你<strong>固定了类型</strong>，不需要再执行很多判断逻辑了。</p>
+<p>所以我们要尽可能保证传入类型一致</p>
+<p>这也给我们带来了一个思考，这是不是也是使用 TypeScript 能够带来的好处之一</p>
+<p>2.</p>
+<p>另外，编译器还有个骚操作 <strong>Lazy-Compile</strong>，当函数没有被执行的时候，会对函数进行一次预解析，直到代码被执行以后才会被解析编译。然而有时候，我们的函数只需要被预解析一次，然后在调用的时候再被解析编译。但是<strong>对于这种函数马上就被调用的情况</strong>来说，预解析这个过程其实是多余的，那么有什么办法能够让代码不被预解析呢？</p>
+<p>立即执行函数</p>
+<pre class=" language-js"><code class="language-js"><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token function">test</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> x <span class="token operator">+</span> x
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>但是不可能我们为了性能优化，给所有的函数都去套上括号，并且也不是所有函数都需要这样做。</p>
 <h2 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h2><p>缓存雪崩就是指缓存由于某些原因（比如 宕机、cache服务挂了或者不响应），导致大量请求到达后端数据库，从而导致数据库崩溃，整个系统崩溃，发生灾难。</p>
 <p>其实也可以解释为cache crash之后，牵一发而动全身，导致后端的各大区域接而无法进行服务而崩溃，全部拖死</p>
 <p>前情提要：redis是一个开源的、使用C语言编写的、支持网络交互的、可基于内存也可持久化的Key-Value数据库。</p>
@@ -1091,7 +1126,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">210.1k</span>&nbsp;字
+                class="white-color">215.2k</span>&nbsp;字
             
             
             

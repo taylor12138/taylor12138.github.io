@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.8k
+                    5.4k
                 </div>
                 
 
@@ -546,6 +546,7 @@
 <p>setTimeout() 这个调用函数我们也称之为回调函数（需要等待时间，时间到了才去调用该函数） callback ，以前onclick之类的函数也是回调函数</p>
 <p><strong>注意：</strong></p>
 <p>HTML5标准规定了setTimeout()的第二个参数的最小值（最短间隔），不得低于4毫秒，如果低于这个值，就会自动增加。在此之前，老版本的浏览器都将最短间隔设为10毫秒。另外，对于那些DOM的变动（尤其是涉及页面重新渲染的部分），通常不会立即执行，而是每16毫秒执行一次。这时使用requestAnimationFrame()的效果要好于setTimeout()。</p>
+<p>在node中，当第二个参数<code>delay</code>大于<code>2147483647</code>或小于 时<code>1</code>，<code>delay</code> 将设置为<code>1</code>。非整数延迟被截断为整数。</p>
 <p><strong>停止定时器</strong></p>
 <p><code>window.clearTimeout (timeoutID)</code>    timeID为定时器的名字（所以我们上方说明了经常要给定时器加名字），这里的window也可以省略，调用该停止定时器方法后，定时器的调用函数不执行，时间被停止了</p>
 <h4 id="setInterval"><a href="#setInterval" class="headerlink" title="setInterval"></a>setInterval</h4><p><code>window.setInterval(回调函数, [间隔毫秒数])</code> 重复调用一个函数，每隔这个时间就去调用一次，写函数名函数不加括号、不带参数；window也可以省略，默认省略的话为0，同样我们也经常给该定时器加标识符（名字）</p>
@@ -640,10 +641,10 @@
 <p>有异步任务交给<strong>异步进程</strong>处理（新开一个线程用来执行那些异步任务，我们暂且称为<strong>工作线程</strong>），异步任务执行完毕后推入任务队列</p>
 <p>当主线程执行完毕就来查询任务队列，取排在第一位的事件推入主线程处理，执行完再来取，不断循环，这个过程叫作<strong>事件循环</strong>   （实际上细分异步事件的优先级有宏任务和微任务，优先级：微任务&gt;宏任务）</p>
 <p>异步任务执行顺序不一定按照原来顺序，要取决于文件大小、操作系统调度机制等多方面原因</p>
-<h4 id="（4）node的执行机制"><a href="#（4）node的执行机制" class="headerlink" title="（4）node的执行机制"></a>（4）node的执行机制</h4><p>node的事件循环包括六大阶段</p>
+<h4 id="（4）node的执行机制"><a href="#（4）node的执行机制" class="headerlink" title="（4）node的执行机制"></a>（4）node的执行机制</h4><p>node的事件循环包括六大阶段，每个阶段都有一个自己的先进先出的队列，只有当这个队列的事件执行完或者达到该阶段的上限时，才会进入下一个阶段。</p>
 <ul>
 <li>timers阶段（setTimeout、setInterval的事件回调）</li>
-<li>I/O callbacks 阶段：处理上一轮循环中少数未执行的I/O回调</li>
+<li>pending callbacks 阶段：处理上一轮循环中少数未执行的I/O回调</li>
 <li>idle，prepare阶段：仅node内部使用</li>
 <li>poll阶段：会做两件事，适当条件下node阻塞在这里<ul>
 <li>两件事情：<ol>
@@ -660,6 +661,47 @@
 <p>不过！！在node新的版本逐步完善了，也就是node新版本标准和浏览器趋于相同 （V12.7以上）</p>
 <p><strong>process.nextTick</strong></p>
 <p>这个函数其实是独立于node的 Event Loop 之外的，它有一个自己的队列，当每个阶段完成后，如果存在 nextTick 队列，就会清空队列中的所有回调函数，并且优先于其他 microtask 执行。</p>
+<p>一个小案例：（<a href="https://segmentfault.com/a/1190000023315304）" target="_blank" rel="noopener">https://segmentfault.com/a/1190000023315304）</a></p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'setTimeout'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">setImmediate</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'setImmediate'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<ol>
+<li>外层是一个<code>setTimeout</code>，所以执行他的回调的时候已经在<code>timers</code>阶段了</li>
+<li>处理里面的<code>setTimeout</code>，因为本次循环的<code>timers</code>正在执行，所以他的回调其实加到了下个<code>timers</code>阶段</li>
+<li>处理里面的<code>setImmediate</code>，将它的回调加入<code>check</code>阶段的队列</li>
+<li>外层<code>timers</code>阶段执行完，之后事件循环继续往后面的阶段走，进入<code>pending callbacks</code>，<code>idle, prepare</code>，<code>poll</code>，这几个队列都是空的，所以继续往下</li>
+<li>到了<code>check</code>阶段，发现了<code>setImmediate</code>的回调，拿出来执行</li>
+<li>然后是<code>close callbacks</code>，队列是空的，跳过</li>
+<li>又是<code>timers</code>阶段，执行我们的<code>console</code></li>
+</ol>
+<p>但如果把 <code>setTimeout</code>、 <code>setImmediate</code>放在外面会怎么样？</p>
+<pre class=" language-javascript"><code class="language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'outer'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'setTimeout'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">setImmediate</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'setImmediate'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>结果是！多运行几次，结果不一样<img src="/2020/11/14/bom/node.jpg" alt></p>
+<p>而其中的执行是这样子的：</p>
+<ol>
+<li>外层同步代码一次性全部执行完，遇到异步API就塞到对应的阶段</li>
+<li>遇到<code>setTimeout</code>，虽然设置的是0毫秒触发，但是被node.js强制改为1毫秒，塞入<code>timers</code>阶段</li>
+<li>遇到<code>setImmediate</code>塞入<code>check</code>阶段</li>
+<li>同步代码执行完毕，进入Event Loop</li>
+<li>先进入<code>times</code>阶段，检查当前时间过去了1毫秒没有，如果过了1毫秒，满足<code>setTimeout</code>条件，执行回调，如果没过1毫秒，跳过</li>
+<li>跳过空的阶段，进入check阶段，执行<code>setImmediate</code>回调</li>
+</ol>
+<p><strong>最后总结的原因是</strong>：</p>
+<p>通过上述流程的梳理，我们发现关键就在这个1毫秒，如果同步代码执行时间较长，进入Event Loop的时候1毫秒已经过了，<code>setTimeout</code>执行，如果1毫秒还没到，就先执行了<code>setImmediate</code>。</p>
+<p>每次我们运行脚本时，机器状态可能不一样，导致运行时有1毫秒的差距，一会儿<code>setTimeout</code>先执行，一会儿<code>setImmediate</code>先执行</p>
 <h2 id="6-location对象"><a href="#6-location对象" class="headerlink" title="6.location对象"></a>6.location对象</h2><p>location是window对象提供给我们的一个属性，用于获取或设置窗体的URL，并且可以用于解析URL，返回的是一个对象</p>
 <p>URL：统一资源定位符是互联网上标准资源的地址，互联网上每个文件都有唯一的URL，它包含的信息支持文件的位置以及浏览器该如何使用它（URL也就是我们的网址）</p>
 <p>组成：  protocol://host[:port]/path/[?query]#fragment</p>
@@ -1226,7 +1268,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">210.1k</span>&nbsp;字
+                class="white-color">215.2k</span>&nbsp;字
             
             
             

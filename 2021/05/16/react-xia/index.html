@@ -579,6 +579,7 @@ React<span class="token punctuation">.</span><span class="token function">useEff
 <span class="token comment" spellcheck="true">// React.useEffect(() => {</span>
 <span class="token comment" spellcheck="true">//   // do something</span>
 <span class="token comment" spellcheck="true">// }, [count])  只监测count的变化，有点像隶属于count的watcher，如果第二个参数不传入，则全部state都监听</span></code></pre>
+<p>第一个参数返回值是一个清除函数，为防止内存泄漏，清除函数会在组件卸载前执行。另外，如果组件多次渲染（通常如此），则<strong>在执行下一个 effect 之前，上一个 effect 就已被清除</strong></p>
 <p>其中第二个参数为依赖数组，每次都会进行“浅比较”，判断是否重新渲染</p>
 <p>对于Hook的理解不能只停留在这种桌面上对于周期函数 -&gt; useEffect，更要心领神会，忘记之前所学的“生命周期”，他们还是有很多不同之处的，</p>
 <p>比如 useEffect 直接使用state、props，会捕获到 “初始的 props和state”（当前渲染状态/ 次数下的props和state），而在useEffect中使用useRef可以获取到最新的数据之类的。</p>
@@ -1703,7 +1704,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">210.1k</span>&nbsp;字
+                class="white-color">215.2k</span>&nbsp;字
             
             
             

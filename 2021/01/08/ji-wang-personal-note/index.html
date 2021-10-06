@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    14.1k
+                    14.2k
                 </div>
                 
 
@@ -941,6 +941,22 @@ Origin: http://example.com</code></pre><h5 id="WebSocket推送技术"><a href="#
 </ul>
 <h5 id="Socket"><a href="#Socket" class="headerlink" title="Socket"></a>Socket</h5><p>Socket 其实并不是一个协议，是应用层与 TCP/IP 协议通信的中间软件抽象层，它是一组接口。</p>
 <p>通过Socket，我们才能使用TCP/IP协议。</p>
+<h5 id="websocket协议升级"><a href="#websocket协议升级" class="headerlink" title="websocket协议升级"></a>websocket协议升级</h5><pre><code>客户端
+GET ws://localhost:3000/ws/chat HTTP/1.1
+Host: localhost
+Upgrade: websocket
+Connection: Upgrade
+Origin: http://localhost:3000
+Sec-WebSocket-Key: client-random-string
+Sec-WebSocket-Version: 13</code></pre><p>1.GET请求的地址以<code>ws://</code>开头的地址；</p>
+<p>2.请求头<code>Upgrade: websocket</code>和<code>Connection: Upgrade</code>表示转换成为<code>WebSocket</code>连接；</p>
+<p><code>Sec-WebSocket-Key</code>是用于标识这个连接，并非用于加密数据；</p>
+<p><code>Sec-WebSocket-Version</code>指定了<code>WebSocket</code>的协议版本。</p>
+<pre><code>服务端
+HTTP/1.1 101 Switching Protocols
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Accept: server-random-string</code></pre><p>该响应代码101表示本次连接的HTTP协议即将被更改，更改后的协议就是<code>Upgrade: websocket</code>指定的WebSocket协议。</p>
 <h4 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h4><p>无连接的用户数据报协议</p>
 <p>1.传送数据前不用建立连接，收到报文后也不需要任何确认，不保证可靠交付</p>
 <p>2.UDP是面向报文的（面对应用层交下来的报文，不拆分也不合并，保留报文边界），适合一次性传输少量数据的网络应用（够小就可以完整交付，不用拆分），适用小文件</p>
@@ -1549,7 +1565,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">210.1k</span>&nbsp;字
+                class="white-color">215.2k</span>&nbsp;字
             
             
             

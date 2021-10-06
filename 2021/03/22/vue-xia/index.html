@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.7k
+                    6.8k
                 </div>
                 
 
@@ -491,9 +491,51 @@
 <p>2.发射 <code>this.$bus.$emit(&#39;事件名&#39;[, 参数])</code> </p>
 <p>3.接受 <code>this.$bus.$on(&quot;事件名&quot;, 回调函数(参数))</code></p>
 <p>4.可以在deactivated里设置离开时不接受该事件的传递（取消全局事件监听）：<code>this.$bus.$off(&quot;事件名&quot;, 接收时的回调函数(参数));</code>，回调函数要和接收时发生的回调函数保持一致</p>
+<h4 id="provide-inject"><a href="#provide-inject" class="headerlink" title="provide / inject"></a>provide / inject</h4><p>可以理解为祖父与孙子组件们的通信方法</p>
+<p>这对选项需要一起使用，以允许一个祖先组件向其所有子孙后代注入一个依赖，不论组件层次有多深，并在其上下游关系成立的时间里始终生效。如果你熟悉 React，这与 React 的上下文特性很相似。</p>
+<p><code>provide</code> 选项应该是一个对象或返回一个对象的函数。该对象包含可注入其子孙的 property。在该对象中你可以使用 ES2015 Symbols 作为 key，但是只在原生支持 <code>Symbol</code> 和 <code>Reflect.ownKeys</code> 的环境下可工作。</p>
+<p><code>inject</code> 选项应该是：</p>
+<ul>
+<li>一个字符串数组，或</li>
+<li>一个对象，对象的 key 是本地的绑定名，value 是：<ul>
+<li>在可用的注入内容中搜索用的 key (字符串或 Symbol)，或</li>
+<li>一个对象，该对象的：<ul>
+<li><code>from</code> property 是在可用的注入内容中搜索用的 key (字符串或 Symbol)</li>
+<li><code>default</code> property 是降级情况下使用的 value</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>提示：<code>provide</code> 和 <code>inject</code> 绑定并不是可响应的。这是刻意为之的。然而，如果你传入了一个可监听的对象，那么其对象的 property 还是可响应的。</p>
+</blockquote>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 父级组件提供 'foo'</span>
+<span class="token keyword">var</span> Provider <span class="token operator">=</span> <span class="token punctuation">{</span>
+  provide<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    foo<span class="token punctuation">:</span> <span class="token string">'bar'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment" spellcheck="true">// ...</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// 子组件注入 'foo'</span>
+<span class="token keyword">var</span> Child <span class="token operator">=</span> <span class="token punctuation">{</span>
+  inject<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'foo'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  created <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>foo<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// => "bar"</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment" spellcheck="true">// ...</span>
+<span class="token punctuation">}</span></code></pre>
 <h4 id="mixin（混入）"><a href="#mixin（混入）" class="headerlink" title="mixin（混入）"></a>mixin（混入）</h4><p>Vue中相同逻辑的代码如何抽离？</p>
 <p>为了减少两个对象之间重复的代码，Vue官方提供了 <code>minxin</code>（较少类重复的代码可以用es6的继承）</p>
-<p>官方示例：</p>
+<p><strong>全局混入</strong></p>
+<p><code>mixin</code> 用于全局混入，会影响到每个组件实例，通常插件都是这样做初始化的。</p>
+<pre><code>Vue.mixin({
+    beforeCreate() {
+        // ...逻辑
+        // 这种方式会影响到每个组件的 beforeCreate 钩子函数
+    }
+})</code></pre><p><strong>拓展组件的局部混入</strong></p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> mixin <span class="token operator">=</span> <span class="token punctuation">{</span>
   created<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
@@ -708,8 +750,7 @@ Vue<span class="token punctuation">.</span><span class="token function">use</spa
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <p><code>Object.freeze()</code>会阻止修改现有的 property，也意味着响应系统无法再追踪双向绑定变化。</p>
 <p>当数据发生改变，Vue是如何通知哪一部分发生刷新？(<code>set() {}</code> 里面该如何进行操作？)</p>
-<p>发布订阅者模式：</p>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 发布者类</span>
+<h5 id="发布订阅者模式"><a href="#发布订阅者模式" class="headerlink" title="发布订阅者模式"></a>发布订阅者模式</h5><pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 发布者类</span>
 <span class="token keyword">class</span> <span class="token class-name">Dep</span> <span class="token punctuation">{</span>
     <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token comment" spellcheck="true">// 用于存储订阅者的数组</span>
@@ -750,9 +791,7 @@ dep<span class="token punctuation">.</span><span class="token function">notify</
 <p><img src="/2021/03/22/vue-xia/vue_origin.jpg" alt></p>
 <p>Observer：每个属性创建一个Dep对象（发布者），若data数据发生改动，则调用Dep对象的notify方法</p>
 <p>Compile：解析el中的指令，每次使用到data的数据，就创建一个Watcher（订阅者），然后加入到该属性对应的发布者</p>
-<p><strong>响应式的注意事项</strong></p>
-<p>Vue的缺点：</p>
-<p>1.必须在 <code>data</code> 对象上存在才能让 Vue 将它转换为响应式的</p>
+<h5 id="Vue2-0双向绑定的缺点"><a href="#Vue2-0双向绑定的缺点" class="headerlink" title="Vue2.0双向绑定的缺点"></a>Vue2.0双向绑定的缺点</h5><p>1.必须在 <code>data</code> 对象上存在才能让 Vue 将它转换为响应式的</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> vm <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Vue</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   data<span class="token punctuation">:</span><span class="token punctuation">{</span>
     a<span class="token punctuation">:</span><span class="token number">1</span>
@@ -764,7 +803,7 @@ vm<span class="token punctuation">.</span>b <span class="token operator">=</span
 <p>2.若原来属性不存在，对象新增属性，Vue也检测不到</p>
 <p>3.Vue 不能检测以下数组的变动：</p>
 <ul>
-<li><p>1.当你利用<strong>索引</strong>直接设置一个数组项时，例如：<code>vm.items[indexOfItem] = newValue</code></p>
+<li><p>1.当你利用<strong>索引</strong>直接设置一个数组项时，例如：<code>vm.items[indexOfItem] = newValue</code>（但是Vue提供了API进行重写，还重写了数组方法）</p>
 </li>
 <li><p>2.当你修改数组的<strong>长度</strong>时，例如：<code>vm.items.length = newLength</code></p>
 <p>上述数组的改变无法检测得到，使用Vue.set()才能新增一个属性</p>
@@ -773,6 +812,37 @@ vm<span class="token punctuation">.</span>b <span class="token operator">=</span
 <p>实际上尤大已经回答了，是考虑到性能原因，才不用Object.defineProperty 对对象属性进行监听</p>
 <p>4.还有个小缺陷，就是默认会递归，递归你data里的属性，可能导致性能不高</p>
 <p><strong>注意</strong> 2020年后 Vue3.0已经换成用proxy代理了 </p>
+<h4 id="手写日常版发布订阅者模式"><a href="#手写日常版发布订阅者模式" class="headerlink" title="手写日常版发布订阅者模式"></a>手写日常版发布订阅者模式</h4><pre class=" language-js"><code class="language-js"><span class="token keyword">class</span> <span class="token class-name">EventBus</span> <span class="token punctuation">{</span>
+  map <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span> 
+  <span class="token comment" spellcheck="true">//如果有人发布了该消息名type则进行回调</span>
+  <span class="token function">on</span><span class="token punctuation">(</span>type<span class="token punctuation">,</span> handler<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>map<span class="token punctuation">[</span>type<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>map<span class="token punctuation">[</span>type<span class="token punctuation">]</span> <span class="token operator">||</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>handler<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment" spellcheck="true">//发送消息</span>
+  <span class="token function">fire</span><span class="token punctuation">(</span>type<span class="token punctuation">,</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>map<span class="token punctuation">[</span>type<span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>map<span class="token punctuation">[</span>type<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>handler <span class="token operator">=</span><span class="token operator">></span> <span class="token function">handler</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment" spellcheck="true">//取消订阅</span>
+  <span class="token function">off</span><span class="token punctuation">(</span>type<span class="token punctuation">,</span> handler<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>map<span class="token punctuation">[</span>type<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>handler<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">delete</span> <span class="token keyword">this</span><span class="token punctuation">.</span>map<span class="token punctuation">[</span>type<span class="token punctuation">]</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> index <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>map<span class="token punctuation">[</span>type<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span>handler<span class="token punctuation">)</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>map<span class="token punctuation">[</span>type<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span>index<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> eventBus <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">EventBus</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+eventBus<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'click:btn'</span><span class="token punctuation">,</span> data <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+eventBus<span class="token punctuation">.</span><span class="token function">fire</span><span class="token punctuation">(</span><span class="token string">'click:btn'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>a<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> b<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+eventBus<span class="token punctuation">.</span><span class="token function">off</span><span class="token punctuation">(</span><span class="token string">'click:btn'</span><span class="token punctuation">)</span>
+eventBus<span class="token punctuation">.</span><span class="token function">fire</span><span class="token punctuation">(</span><span class="token string">'click:btn'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>a<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> b<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <h4 id="Vue原理小知识"><a href="#Vue原理小知识" class="headerlink" title="Vue原理小知识"></a>Vue原理小知识</h4><p><strong>Vue检测数组中的变化</strong></p>
 <p>我们都知道数组有push、shift、pop这些方法</p>
 <p>而Vue对data里数组的原型方法（prototype）进行了重写，<code>__proto__</code>指向新的原型对象， 通过原型链定义函数，这样的话我们就可以在其中设置响应式（原来的函数.apply   +   调用更新视图方法 <code>notify()</code>）</p>
@@ -860,13 +930,42 @@ vm<span class="token punctuation">.</span>b <span class="token operator">=</span
 <li><p>响应式方面 性能得到很大提升 不用初始化的时候就递归遍历属性；响应式不区分数组和对象</p>
 </li>
 </ul>
+<h4 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h4><p>代理模式（英语：Proxy Pattern）是程序设计中的一种设计模式。</p>
+<p>当一个复杂对象的多份副本须存在时，代理模式可以结合享元模式以减少内存用量。典型作法是创建一个复杂对象及多个代理者，每个代理者会引用到原本的复杂对象。而作用在代理者的运算会转送到原本对象。一旦所有的代理者都不存在时，复杂对象会被移除。</p>
 <h4 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h4><p>vue3.0 使用proxy代替了vue2.0版本中的defineProperty的数据拦截</p>
-<p>Proxy代理Object   <strong>控制和修改Object的基本行为</strong>，比如属性调用、属性赋值、删除属性、方法调用等</p>
+<p>Proxy代理Object   <strong>控制和修改Object的基本行为</strong>（覆盖对象的基本操作），比如属性调用、属性赋值、删除属性、方法调用等</p>
 <p><code>target</code>是被代理的对象，<code>handler</code>是一个对象，属性是各种控制或修改target基本行为的方法</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> p <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Proxy</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span> handler<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>它里面的<code>get()</code>、<code>set()</code>和<code>Object.defineProperty()</code>的<code>get</code>方法、<code>set</code>方法有点像，重新定义了属性的读取、设置行为</p>
+<p><code>handler</code>里面的<code>get()</code>、<code>set()</code>和<code>Object.defineProperty()</code>的<code>get</code>方法、<code>set</code>方法有点像，重新定义了属性的读取、设置行为</p>
 <p><code>get()</code>拦截某个属性的读取操作。可以接受三个参数，依次为目标对象、属性名和 proxy 实例本身（严格地说，是操作行为所针对的对象），其中最后一个参数可选。</p>
 <p><code>set()</code>拦截某个属性的赋值操作。可以接受四个参数，依次为目标对象、属性名、属性值和 Proxy 实例本身，其中最后一个参数可选。</p>
+<p>其实handler有13种方法</p>
+<pre class=" language-js"><code class="language-js">handler<span class="token punctuation">.</span><span class="token function">getPrototypeOf</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// 在读取代理对象的原型时触发该操作，比如在执行 Object.getPrototypeOf(proxy) 时。</span>
+handler<span class="token punctuation">.</span><span class="token function">setPrototypeOf</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// 在设置代理对象的原型时触发该操作，比如在执行 Object.setPrototypeOf(proxy, null) 时。</span>
+handler<span class="token punctuation">.</span><span class="token function">isExtensible</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// 在判断一个代理对象是否是可扩展时触发该操作，比如在执行 Object.isExtensible(proxy) 时。</span>
+handler<span class="token punctuation">.</span><span class="token function">preventExtensions</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// 在让一个代理对象不可扩展时触发该操作，比如在执行 Object.preventExtensions(proxy) 时。</span>
+handler<span class="token punctuation">.</span><span class="token function">getOwnPropertyDescriptor</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// 在获取代理对象某个属性的属性描述时触发该操作，比如在执行 Object.getOwnPropertyDescriptor(proxy, "foo") 时。</span>
+handler<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// 在定义代理对象某个属性时的属性描述时触发该操作，比如在执行 Object.defineProperty(proxy, "foo", {}) 时。</span>
+handler<span class="token punctuation">.</span><span class="token function">has</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// 在判断代理对象是否拥有某个属性时触发该操作，比如在执行 "foo" in proxy 时。</span>
+handler<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// 在读取代理对象的某个属性时触发该操作，比如在执行 proxy.foo 时。</span>
+handler<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// 在给代理对象的某个属性赋值时触发该操作，比如在执行 proxy.foo = 1 时。</span>
+handler<span class="token punctuation">.</span><span class="token function">deleteProperty</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// 在删除代理对象的某个属性时触发该操作，比如在执行 delete proxy.foo 时。</span>
+handler<span class="token punctuation">.</span><span class="token function">ownKeys</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// 在获取代理对象的所有属性键时触发该操作，比如在执行 Object.getOwnPropertyNames(proxy) 时。</span>
+handler<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// 在调用一个目标对象为函数的代理对象时触发该操作，比如在执行 proxy() 时。</span>
+handler<span class="token punctuation">.</span><span class="token function">construct</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// 在给一个目标对象为构造函数的代理对象构造实例时触发该操作，比如在执行new proxy() 时。</span></code></pre>
 <p>里面的方法一般都需要返回值</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Proxy</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
   <span class="token keyword">get</span><span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>target<span class="token punctuation">,</span> propKey<span class="token punctuation">,</span> receiver<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -1432,7 +1531,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">210.1k</span>&nbsp;字
+                class="white-color">215.2k</span>&nbsp;字
             
             
             

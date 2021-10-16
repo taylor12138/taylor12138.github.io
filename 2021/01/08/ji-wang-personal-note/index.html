@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    14.2k
+                    14.6k
                 </div>
                 
 
@@ -913,11 +913,27 @@
 <p>网络性能下降、网络吞吐量随输入负荷增大而下降</p>
 <p>拥塞控制是全局性的过程，防止过多数据注入网络</p>
 <p><img src="/2021/01/08/ji-wang-personal-note/jiwang12.jpg" alt></p>
-<p>拥塞控制的方法：慢开始、拥塞避免、快重传、快恢复</p>
+<p>拥塞控制的方法：</p>
+<ul>
+<li><p>慢开始：不要一开始就发送大量的数据，先探测一下网络的拥塞程度，也就是说由小到大逐渐增加拥塞窗口的大小</p>
+</li>
+<li><p>拥塞避免：拥塞窗口缓慢增长，即每经过一个往返时间RTT就把发送方的拥塞窗口cwnd加1，而不是加倍。这样拥塞窗口按线性规律缓慢增长。</p>
+</li>
+<li><p>快重传：发送方只要一连收到三个重复确认就应当立即重传对方尚未收到的报文段，而不必继续等待设置的重传计时器时间到期</p>
+</li>
+<li><p>快恢复：</p>
+<p>（1）当发送方连续收到三个重复确认时，就执行“乘法减小”算法，把慢开始门限减半。这是为了预防网络发生拥塞，但不执行慢开始算法。</p>
+<p>（2）由于发送方现在认为网络很可能没有发生拥塞（如果网络发生了严重拥塞，就不会一连有好几个报文段连续到达接收方，也就不会导致接收方连续发送重复确认）。因此与慢开始不同之处就是现在不执行慢开始算法（即拥塞窗口现在不设置为1）而是把拥塞窗口的值设置为慢开始门限减半后的值，然后开始执行拥塞避免算法（“加法增大”），使拥塞窗口缓慢地线性增大。</p>
+</li>
+</ul>
 <p>发送窗口 = Min{接收窗口，拥塞窗口}</p>
 <p>接收窗口：接收方根据接收缓存设置的值，反应接收方容量</p>
 <p>拥塞窗口：发送方根据自己估算的网络拥塞程度设置的值，反应当前网络容量</p>
 <p>一个传输轮次 = 一个RTT</p>
+<p>慢开始 + 拥塞避免</p>
+<p><img src="/2021/01/08/ji-wang-personal-note/yongse.jpg" alt></p>
+<p>慢开始+拥塞避免+快重传+快恢复</p>
+<p><img src="/2021/01/08/ji-wang-personal-note/kuai.jpg" alt></p>
 <h4 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h4><p><code>WebSocket</code> 是 HTML5 开始提供的一种在单个 TCP 连接上进行全双工通讯的协议，是一个持久化的协议。</p>
 <p><code>WebSocket</code> 使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推送数据。在 <code>WebSocket</code> API 中，浏览器和服务器只需要完成一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输。（打破了三次握手定律？？！NoNoNo，这里指的是一次握手指的是建立连接，完成握手归根到底于传输层tcp协议的三次握手）</p>
 <p>但是<code>WebSocket</code>是基于http1.1（<code>Websocket</code> 通过HTTP/1.1 协议的101状态码进行握手。） + TCP协议的，http/2选择了基于SPDY</p>
@@ -1565,7 +1581,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">215.2k</span>&nbsp;字
+                class="white-color">216.7k</span>&nbsp;字
             
             
             

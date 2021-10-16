@@ -550,7 +550,10 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>如果返回的是一个对象，不能直接加大括号</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//const sum1 = a => {};  错，返回undefined</span>
 <span class="token keyword">const</span> sum1 <span class="token operator">=</span> a <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//对</span></code></pre>
-<p>箭头函数和传统函数不一样，箭头函数的this指向函数定义位置（使用了箭头函数的那个函数）的上下文this（定义函数地点最近作用域中的this），所以 1. 箭头函数不适合事件回调</p>
+<p>箭头函数和传统函数不一样，箭头函数的this指向函数定义位置（使用了箭头函数的那个函数）的上下文this（定义函数地点最近作用域中的this），所以</p>
+<ol>
+<li>箭头函数不适合事件回调</li>
+</ol>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
@@ -601,6 +604,15 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token keyword">let</span> sum <span class="token operator">=</span> <span class="token punctuation">(</span>num1<span class="token punctuation">,</span> num2<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> num1 <span class="token operator">+</span> num2
 <span class="token punctuation">}</span></code></pre>
+<p>4.箭头函数是不存在原型的</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> arrow <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'a'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">function</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'a'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arrow<span class="token punctuation">.</span>prototype<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// undefined</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>fn<span class="token punctuation">.</span>prototype<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// {constructor: ƒ}</span></code></pre>
 <h4 id="arguments的使用"><a href="#arguments的使用" class="headerlink" title="arguments的使用"></a>arguments的使用</h4><p>当我们不确定函数用多少个参数来传递的时候，arguments实际上是当前函数的一个内置对象（函数才拥有），arguments储存了传递的所有实参,它展示的方式是伪数组，因此可以进行遍历（使用for等）</p>
 <p><strong>注意：</strong></p>
 <ul>
@@ -1215,13 +1227,14 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token keyword">const</span> REJECTED <span class="token operator">=</span> <span class="token string">'rejected'</span>
 
 <span class="token keyword">function</span> <span class="token function">MyPromise</span><span class="token punctuation">(</span>fn<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> that <span class="token operator">=</span> <span class="token keyword">this</span>
+    <span class="token keyword">const</span> that <span class="token operator">=</span> <span class="token keyword">this</span> <span class="token comment" spellcheck="true">//此时this指向MyPromise</span>
     that<span class="token punctuation">.</span>state <span class="token operator">=</span> PENDING
     that<span class="token punctuation">.</span>value <span class="token operator">=</span> <span class="token keyword">null</span>
     that<span class="token punctuation">.</span>resolvedCallbacks <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
     that<span class="token punctuation">.</span>rejectedCallbacks <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
     <span class="token comment" spellcheck="true">// 待完善 resolve 和 reject 函数</span>
     <span class="token keyword">function</span> <span class="token function">resolve</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//此时this指向window</span>
         <span class="token keyword">if</span> <span class="token punctuation">(</span>that<span class="token punctuation">.</span>state <span class="token operator">===</span> PENDING<span class="token punctuation">)</span> <span class="token punctuation">{</span>
             that<span class="token punctuation">.</span>state <span class="token operator">=</span> RESOLVED
             that<span class="token punctuation">.</span>value <span class="token operator">=</span> value
@@ -1244,6 +1257,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token punctuation">}</span>
 <span class="token comment" spellcheck="true">// then方法</span>
 MyPromise<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>then <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>onFulfilled<span class="token punctuation">,</span> onRejected<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//实际上这里面的的this都指向MyPromise，甚至不换也行，但是为了美观和易读性都换成that</span>
     <span class="token keyword">const</span> that <span class="token operator">=</span> <span class="token keyword">this</span>
     onFulfilled <span class="token operator">=</span> <span class="token keyword">typeof</span> onFulfilled <span class="token operator">===</span> <span class="token string">'function'</span> <span class="token operator">?</span> onFulfilled <span class="token punctuation">:</span> v <span class="token operator">=</span><span class="token operator">></span> v
     onRejected <span class="token operator">=</span>
@@ -1546,7 +1560,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>我在网上搜到的解释，希望对你们有帮助（请自行脑部理解！！！）</p>
 <p><img src="/2020/12/27/javascript-jin-jie-es6/guiyi.jpg" alt></p>
 <p><img src="/2020/12/27/javascript-jin-jie-es6/guiyi2.jpg" alt></p>
-<p><img src="/2020/12/27/javascript-jin-jie-es6/guiyi3.jpg" alt>s塔塔</p>
+<p><img src="/2020/12/27/javascript-jin-jie-es6/guiyi3.jpg" alt></p>
 
             </div>
             <hr/>
@@ -2053,7 +2067,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">215.2k</span>&nbsp;字
+                class="white-color">216.7k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.7k
+                    6.8k
                 </div>
                 
 
@@ -540,11 +540,11 @@
 <li>对于<code>n</code>字节的符号（<code>n &gt; 1</code>），第一个字节的前<code>n</code>位都设为<code>1</code>，第<code>n + 1</code>位设为<code>0</code>，后面字节的前两位一律设为<code>10</code>。剩下的没有提及的二进制位，全部为这个符号的 Unicode 码。</li>
 </ul>
 <h4 id="http请求"><a href="#http请求" class="headerlink" title="http请求"></a>http请求</h4><ul>
-<li><p>GET获取资源。get注重url获得的参数</p>
+<li><p>GET：获取资源。get注重url获得的参数</p>
 <p>数据格式：获得get请求的内容，它的内容是在url的<code>?</code> 之后的部分</p>
 <p>长度限制：Get方法提交的数据大小长度并没有限制，HTTP协议规范没有对URL长度进行限制。这个限制是特定的浏览器及服务器对它的限制；而这个长度限制，每个浏览器对应的限制都是不一样的。</p>
 </li>
-<li><p>POST创建资源（带请求体）。post的信息放在Request body中（firefox浏览器除外）</p>
+<li><p>POST：创建资源（带请求体）。post的信息放在Request body中（firefox浏览器除外）</p>
 <p>数据格式：post回退时会再次提交请求；一般情况下，私密数据传输用POST + body就好</p>
 <p>长度限制：理论上讲，POST是没有大小限制的。HTTP协议规范也没有进行大小限制，起限制作用的是服务器的处理程序的处理能力。</p>
 <ul>
@@ -554,16 +554,18 @@
 </li>
 </ul>
 </li>
-<li><p>PUT更新资源（带请求体）</p>
+<li><p>PUT：更新资源（带请求体）</p>
 <ul>
 <li>PUT请求：如果两个请求相同，后一个请求会把第一个请求覆盖掉。（所以PUT用来改资源）Post请求：后一个请求不会把第一个请求覆盖掉。（所以Post用来增资源）</li>
 </ul>
 </li>
-<li><p>DELETE删除资源</p>
+<li><p>DELETE：删除资源</p>
 </li>
-<li><p>CONNECT方法建立一个到由目标资源标识的服务器的隧道。</p>
+<li><p>CONNECT：方法建立一个到由目标资源标识的服务器的隧道。</p>
 </li>
-<li><p>OPTIONS方法用于描述目标资源的通信选项。</p>
+<li><p>OPTIONS：方法用于描述目标资源的通信选项。</p>
+</li>
+<li><p>HEAD： 只请求页面的首部。</p>
 </li>
 </ul>
 <p><strong>请求报文</strong>：</p>
@@ -731,6 +733,9 @@
 <p><strong>前端缓存图</strong>：</p>
 <p><img src="/2021/03/15/chao-wen-ben-chuan-shu-xie-yi/huancun.jpg" alt></p>
 <h2 id="7-其他"><a href="#7-其他" class="headerlink" title="7.其他"></a>7.其他</h2><h4 id="范围请求"><a href="#范围请求" class="headerlink" title="范围请求"></a>范围请求</h4><p>假设你正在下载一个很大的文件，已经下了四分之三，忽然网络中断了，那下载就必须重头再来一遍。为了解决这个问题，需要一种可恢复的机制，即能从之前下载中断处恢复下载，要实现该功能，这就要用到范围请求。（前提是上一次请求到这一次请求时间段内，下载对象没有发生改变）</p>
+<p>单一范围：我们可以请求资源的某一部分</p>
+<p>多重范围：一次请求文档的多个部分</p>
+<p>条件式范围：当（中断之后）重新开始请求更多资源片段的时候，必须确保自从上一个片段被接收之后该资源没有进行过修改。</p>
 <h2 id="8-QUIC"><a href="#8-QUIC" class="headerlink" title="8.QUIC"></a>8.QUIC</h2><p>Quic 全称 quick udp internet connection ，“快速 UDP 互联网连接”，也可以理解为http3.0</p>
 <p>应用：速度更快、网络切换（wifi -&gt; nG）无感知等、弱网络环境better</p>
 <p>对比http2.0：</p>
@@ -1276,7 +1281,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">215.2k</span>&nbsp;字
+                class="white-color">216.7k</span>&nbsp;字
             
             
             

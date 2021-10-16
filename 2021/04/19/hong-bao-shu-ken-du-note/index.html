@@ -721,8 +721,9 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token keyword">let</span> person <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">[</span>name<span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token string">'Matt'</span><span class="token punctuation">}</span></code></pre>
 <p><strong>原型链</strong></p>
 <p><code>原型对象.isPrototypeOf(实例)</code>方法确定两个对象之间的 <code>[[Prototype]]</code>关系</p>
+<pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Array<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function">isPrototypeOf</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// true</span></code></pre>
 <p>还有一个 <code>getPrototypeOf()</code> 和 <code>setPrototypeOf()</code>方法，分别对应湖片区参数的原型对象和修改参数的原型对象，但是  <code>Object.setPrototypeOf()</code>会严重影响代码性能</p>
-<pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Person<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function">isPrototypeOf</span><span class="token punctuation">(</span>person1<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//true</span></code></pre>
+<p>使用<code>Object.getPrototypeOf(obj)</code>方法 === <code>obj.__proto__</code></p>
 <p>可以使用<code>hasOwnProerty()</code>方法用于确定某个属性是实例上还是在原型对象，这个方法是继承自Object的，会在属性存在于调用它的对象实例上时返回true（这个方法也应用于Vue3.0检测数组属性的存在 + 修改属性 + 新增属性）</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//person1有name属性、但是没有othername属性</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>person1<span class="token punctuation">.</span><span class="token function">hasOwnProperty</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//true</span>
@@ -1586,7 +1587,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">215.2k</span>&nbsp;字
+                class="white-color">216.7k</span>&nbsp;字
             
             
             

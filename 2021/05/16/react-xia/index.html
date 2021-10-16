@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.5k
+                    6.8k
                 </div>
                 
 
@@ -872,6 +872,11 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">cre
         <span class="token function">setStr</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="追溯异步回调中批处理问题"><a href="#追溯异步回调中批处理问题" class="headerlink" title="追溯异步回调中批处理问题"></a>追溯异步回调中批处理问题</h4><p><strong>为什么之前异步回调中的setState不能批处理？</strong></p>
+<p>React 的更新是基于 <a href="https://zhuanlan.zhihu.com/p/28532725" target="_blank" rel="noopener">Transaction</a>（事务）的，Transacation 就是给目标执行的函数包裹一下，加上前置和后置的 hook （有点类似 koa 的 middleware），在开始执行之前先执行 initialize hook，结束之后再执行 close hook，这样搭配上 isBatchingUpdates 这样的布尔标志位就可以实现一整个函数调用栈内的多次 setState 全部入 pending 队列，结束后统一 apply 了。</p>
+<p>但是 setTimeout 这样的方法执行是脱离了事务的，react 管控不到，所以就没法 batch 了。</p>
+<p><strong>为什么Vue没有这个限制？</strong></p>
+<p>是因为 vue 采用了 nexttick 的方式，利用 EventLoop，将一个同步事件循环过程中所有修改合并，它本质上属于延迟的批量更新</p>
 <h4 id="LazyLoad-React的懒加载"><a href="#LazyLoad-React的懒加载" class="headerlink" title="LazyLoad-React的懒加载"></a>LazyLoad-React的懒加载</h4><p>如果有多个所有路由组件，所有的路由组件都会在第一次就全部给你加载完毕。我们可以借助react里面的 <code>Lazy</code> 函数</p>
 <pre class=" language-jsx"><code class="language-jsx"><span class="token comment" spellcheck="true">// lazy为路由懒加载函数，Suspence为如果当前路由组件没能即使请求出来，给用户展示的页面信息</span>
 <span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> lazy<span class="token punctuation">,</span> Suspense <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span></code></pre>
@@ -1704,7 +1709,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">215.2k</span>&nbsp;字
+                class="white-color">216.7k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.7k
+                    5.5k
                 </div>
                 
 
@@ -531,17 +531,17 @@
 <p>滚动条在滚动时发生的事件：onscroll事件</p>
 <p>检测整个页面的滚动属性： <code>window.pageYOffset</code>    <code>window.pageXOffset</code>等  (ie9以上才支持)</p>
 <p>让窗口滚动事件：<code>window.scroll(x, y)</code></p>
-<h2 id="三大系列总结"><a href="#三大系列总结" class="headerlink" title="三大系列总结"></a>三大系列总结</h2><p>offset常用于获取元素位置  <code>element.offsetTop</code>   <code>element.offsetLeft</code>  只读的</p>
+<h4 id="三大系列总结"><a href="#三大系列总结" class="headerlink" title="三大系列总结"></a>三大系列总结</h4><p>offset常用于获取元素位置  <code>element.offsetTop</code>   <code>element.offsetLeft</code>  只读的</p>
 <p>client常用于获取元素大小 <code>element.clientWidth</code>   <code>element.clientHeight</code> 只读的</p>
 <p>scroll常用于获取滚动距离  <code>element.scrollTop</code>    <code>element.scrollLeft</code>  可设置</p>
-<h4 id="判断图片是否滚动到浏览器的可视区域"><a href="#判断图片是否滚动到浏览器的可视区域" class="headerlink" title="判断图片是否滚动到浏览器的可视区域"></a>判断图片是否滚动到浏览器的可视区域</h4><p>方法一：图片/元素的<code>offsetTop</code>  &lt; 当前的元素父亲的<code>scrollTop</code> </p>
+<h2 id="4-滚动至浏览器的可视区域"><a href="#4-滚动至浏览器的可视区域" class="headerlink" title="4.滚动至浏览器的可视区域"></a>4.滚动至浏览器的可视区域</h2><p>方法一：图片/元素的<code>offsetTop</code>  &lt; 当前的元素父亲的<code>scrollTop</code> </p>
 <p>图片/元素 <code>offsetTop</code> +图片/元素 <code>clientHeight</code> &gt; 当前元素父亲的 <code>scrollTop</code></p>
 <p>方法二：<code>window.scrollY</code> &gt; 图片/元素的<code>offsetTop</code></p>
 <p>方法三：<code>element.getBoundingClientRect()</code>,返回的结果是包含完整元素的最小矩形，并且拥有<code>left</code>, <code>top</code>, <code>right</code>, <code>bottom</code>, <code>x</code>, <code>y</code>, <code>width</code>, 和 <code>height</code>这几个以像素为单位的<strong>只读属性</strong>用于描述整个边框。除了<code>width</code> 和 <code>height</code> 以外的属性是相对于<strong>视图窗口</strong>的左上角来计算的。</p>
 <p> 图片/元素的<code>getBoundingClientRect().top</code> &lt;  <code>window.innerHeight</code>  且</p>
 <p> 图片/元素的<code>getBoundingClientRect().bottom</code> &gt; 0 </p>
 <p><img src="/2020/11/18/pc-yi-dong-duan-wang-ye-te-xiao-js/getbund.jpg" alt></p>
-<h4 id="方法四-：IntersectionObserver-API"><a href="#方法四-：IntersectionObserver-API" class="headerlink" title="方法四 ：IntersectionObserver API"></a>方法四 ：IntersectionObserver API</h4><p>传统的实现方法是，监听到<code>scroll</code>事件后，调用目标元素（绿色方块）的<a href="https://developer.mozilla.org/en/docs/Web/API/Element/getBoundingClientRect" target="_blank" rel="noopener"><code>getBoundingClientRect()</code></a>方法，得到它对应于视口左上角的坐标，再判断是否在视口之内。这种方法的缺点是，由于<code>scroll</code>事件密集发生，计算量很大，容易造成<a href="https://www.ruanyifeng.com/blog/2015/09/web-page-performance-in-depth.html" target="_blank" rel="noopener">性能问题</a>。</p>
+<h4 id="方法四-IntersectionObserver-API"><a href="#方法四-IntersectionObserver-API" class="headerlink" title="方法四 IntersectionObserver API"></a>方法四 IntersectionObserver API</h4><p>传统的实现方法是，监听到<code>scroll</code>事件后，调用目标元素（绿色方块）的<a href="https://developer.mozilla.org/en/docs/Web/API/Element/getBoundingClientRect" target="_blank" rel="noopener"><code>getBoundingClientRect()</code></a>方法，得到它对应于视口左上角的坐标，再判断是否在视口之内。这种方法的缺点是，由于<code>scroll</code>事件密集发生，计算量很大，容易造成<a href="https://www.ruanyifeng.com/blog/2015/09/web-page-performance-in-depth.html" target="_blank" rel="noopener">性能问题</a>。</p>
 <p>目前有一个新的 <a href="https://wicg.github.io/IntersectionObserver/" target="_blank" rel="noopener">IntersectionObserver API</a>，可以自动”观察”元素是否可见，Chrome 51+ 已经支持。由于可见（visible）的本质是，目标元素与视口产生一个交叉区，所以这个 API 叫做”交叉观察器”。</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> io <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">IntersectionObserver</span><span class="token punctuation">(</span>callback<span class="token punctuation">,</span> option<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p><code>callback</code>一般会触发两次。一次是目标元素刚刚进入视口（开始可见），另一次是完全离开视口（开始不可见）。</p>
@@ -563,15 +563,57 @@ io<span class="token punctuation">.</span><span class="token function">disconnec
 <li><code>intersectionRect</code>：目标元素与视口（或根元素）的交叉区域的信息</li>
 <li><code>intersectionRatio</code>：目标元素的可见比例，即<code>intersectionRect</code>占<code>boundingClientRect</code>的比例，完全可见时为<code>1</code>，完全不可见时小于等于<code>0</code></li>
 </ul>
+<p>实现懒加载实例</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> observer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">IntersectionObserver</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>changes<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  changes<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>element<span class="token punctuation">,</span> index<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   <span class="token comment" spellcheck="true">// 当这个值大于0，说明满足我们的加载条件了，这个值可通过rootMargin手动设置</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>element<span class="token punctuation">.</span>intersectionRatio <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// 放弃监听，防止性能浪费，并加载图片。</span>
+      observer<span class="token punctuation">.</span><span class="token function">unobserve</span><span class="token punctuation">(</span>element<span class="token punctuation">.</span>target<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      element<span class="token punctuation">.</span>target<span class="token punctuation">.</span>src <span class="token operator">=</span> element<span class="token punctuation">.</span>target<span class="token punctuation">.</span>dataset<span class="token punctuation">.</span>src<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">function</span> <span class="token function">initObserver</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> listItems <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelectorAll</span><span class="token punctuation">(</span><span class="token string">'.list-item-img'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  listItems<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   <span class="token comment" spellcheck="true">// 对每个list元素进行监听</span>
+    observer<span class="token punctuation">.</span><span class="token function">observe</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token function">initObserver</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h4 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h4><ul>
 <li>Chrome 51+（发布于 2016-05-25）</li>
 <li>Android 5+ （Chrome 56 发布于 2017-02-06）</li>
 <li>Edge 15 （2017-04-11）</li>
-<li>iOS <strong>不支持</strong></li>
+<li>iOS 支持</li>
+<li>IE不支持。。。</li>
 </ul>
-<p>。。。IOS</p>
 <p>more：阮一峰老师<a href="http://www.ruanyifeng.com/blog/2016/11/intersectionobserver_api.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/11/intersectionobserver_api.html</a></p>
-<h2 id="4-动画函数封装"><a href="#4-动画函数封装" class="headerlink" title="4.动画函数封装"></a>4.动画函数封装</h2><p>原理：获取盒子当前位置（position），通过定时器<code>setinterval()</code>不断移动盒子位置，利用定时器不断让盒子当前位置加上一个移动距离，最后加一个结束定时器条件（其实也可以用CSS  animation  定义动画）</p>
+<h4 id="Chrome-的黑科技——loading-属性"><a href="#Chrome-的黑科技——loading-属性" class="headerlink" title="Chrome 的黑科技——loading 属性"></a>Chrome 的黑科技——loading 属性</h4><p>从新版本 Chrome(76)开始，已经默认支持一种新的 html 属性——loading，它包含三种取值:auto、lazy 和 eager(ps: 之前有文章说是 lazyload 属性，后来 chrome 的工程师已经将其确定为 loading 属性，原因是 lazyload 语义不够明确)，我们看看这三种属性有什么不同：</p>
+<p><strong>auto</strong>：让浏览器自动决定是否进行懒加载，这其中的机制尚不明确。</p>
+<p><strong>lazy</strong>：明确地让浏览器对此图片进行懒加载，即当用户滚动到图片附近时才进行加载，但目前没有具体说明这个“附近”具体是多近。</p>
+<p><strong>eager</strong>：让浏览器立刻加载此图片。</p>
+<p>我们可以通过 chrome 的开发工具看看这个<a href="https://codepen.io/fecoder2019/pen/jgwpqx" target="_blank" rel="noopener">demo</a>中的图片加载方式，我们把上一个 demo 中的 js 脚本都删掉了，只用了 loading=lazy 这个属性。接着，勾选工具栏中的 Disabled Cache 后仔细观察 Network 一栏，细心的人应该会发现，一张图片被分为了两次去请求！第一次的状态码是 206，第二次的状态码才是 200，如图所示：</p>
+<p><strong>要注意</strong>，使用这项特性进行图片懒加载时，记得先进行兼容性处理，对不支持这项属性的浏览器，转而使用 JavaScript 来实现，比如上面说到的 <code>IntersectionObserver</code></p>
+<p>使用：</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>list-item<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>list-item-img<span class="token punctuation">"</span></span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>loading<span class="token punctuation">"</span></span> <span class="token attr-name">loading</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>lazy<span class="token punctuation">"</span></span>                            <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u<span class="token punctuation">=</span>3648955221,727328923&amp;fm<span class="token punctuation">=</span>26&amp;gp<span class="token punctuation">=</span>0.jpg<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span></code></pre>
+<p><strong>原理</strong></p>
+<ol>
+<li>浏览器会发送一个预请求，但是这个请求只拉取这张图片的头部数据，从这段数据中，浏览器就可以解析出图片的宽高等基本维度，接着浏览器立马为它生成一个空白的占位，此时返回206（范围请求）</li>
+<li>在用户滚动到图片附近时，再发起一个请求，完整地拉取图片的数据下来，这个才是我们熟悉的状态码200请求。</li>
+<li>面对连接数，不用怕，有http2.0的多路复用撑腰</li>
+</ol>
+<p>兼容处理</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token string">"loading"</span> <span class="token keyword">in</span> HTMLImageElement<span class="token punctuation">.</span>prototype<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// 没毛病</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// .....</span>
+    <span class="token punctuation">}</span></code></pre>
+<p>来源<a href="https://zhuanlan.zhihu.com/p/76820878" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/76820878</a></p>
+<h2 id="5-动画函数封装"><a href="#5-动画函数封装" class="headerlink" title="5.动画函数封装"></a>5.动画函数封装</h2><p>原理：获取盒子当前位置（position），通过定时器<code>setinterval()</code>不断移动盒子位置，利用定时器不断让盒子当前位置加上一个移动距离，最后加一个结束定时器条件（其实也可以用CSS  animation  定义动画）</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script language-javascript">
     <span class="token comment" spellcheck="true">//简单动画函数封装obj目标函数，target目标位置</span>
@@ -861,6 +903,22 @@ console<span class="token punctuation">.</span><span class="token function">log<
 　　console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'滚动条位置：'</span> <span class="token operator">+</span> scrollTop<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 window<span class="token punctuation">.</span>onscroll <span class="token operator">=</span> <span class="token function">throttle</span><span class="token punctuation">(</span>showTop<span class="token punctuation">,</span><span class="token number">1000</span><span class="token punctuation">)</span> </code></pre>
+<h2 id="8-异步竞态"><a href="#8-异步竞态" class="headerlink" title="8.异步竞态"></a>8.异步竞态</h2><p>解决方案：</p>
+<p>节流阀：可能导致用户点击无法响应</p>
+<p>防抖：可能导致用户点击延迟相应</p>
+<p>设置加载中的弹窗</p>
+<p>闭包的方式：(React代码)，每一次重新渲染会重新加载<code>useEffect</code>，并且调用return里的函数，由此将闭包中的独立的<code>didRequest</code>改为true，使得数据无法更改（setState）</p>
+<p>官方解释：如果组件多次渲染（通常如此），则<strong>在执行下一个 effect 之前，上一个 effect 就已被清除</strong></p>
+<pre class=" language-js"><code class="language-js"><span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> didRequest <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    异步请求<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>didRequest<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">setState</span><span class="token punctuation">(</span>xx<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">//..</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> didRequest <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 
             </div>
             <hr/>
@@ -1366,7 +1424,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">215.2k</span>&nbsp;字
+                class="white-color">216.7k</span>&nbsp;字
             
             
             

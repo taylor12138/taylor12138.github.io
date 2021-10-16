@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.3k
+                    3.7k
                 </div>
                 
 
@@ -499,6 +499,24 @@
 <li>超过<code>1000kb</code>的图片，<code>base64</code>编码会使图片大小增大，导致网页整体下载速度减慢</li>
 </ul>
 </li>
+<li>压缩图片可以使用统一的压缩工具 — <code>imagemin</code>，里面提供图片压缩、渐进式图片转换<ul>
+<li>渐进式图片一开始就决定了大小，而不像Baseline图片一样，不断地从上往下加载，从而造成多次回流，但渐进式图片需要消耗CPU去多次计算渲染，这是其主要缺点</li>
+</ul>
+</li>
+</ul>
+<h4 id="Base64Url"><a href="#Base64Url" class="headerlink" title="Base64Url"></a>Base64Url</h4><p>Base64就是一种基于64个可打印字符来表示二进制数据的方法，编码过程是从二进制数据到字符串的过程.</p>
+<p>而我们经常用它来传输图片数据</p>
+<p>HTML中，img的src和css样式的background-image都可以接受base64字符串，从而在页面上渲染出对应的图片</p>
+<p>再次我们先了解下bse64的缺点</p>
+<ul>
+<li>转换之后字符串的体积一般会比原图更大，一般会多出接近3成的大小，反而“增重了”</li>
+<li>base64Url可能会被你的应用多次复用，本来浏览器可以直接从本地缓存取出的图片，换成base64Url，将造成应用中多个页面重复下载1.3倍大小的文本 约等于 流量消耗 * 13倍</li>
+<li>低版本浏览器兼容问题</li>
+<li>不利于开发者工具调试</li>
+</ul>
+<p>优点呢？</p>
+<ul>
+<li>在http2.0的加持下（二进制帧传输），保留了http1.1的长连接，请求和响应可以交错甚至可以复用，多个并行请求的开销已经大大降低，我已经不知道还有什么理由继续坚持base64Url的使用了。</li>
 </ul>
 <h4 id="svg-canvas"><a href="#svg-canvas" class="headerlink" title="svg + canvas"></a>svg + canvas</h4><p><code>SVG</code> 指可伸缩矢量图形 (Scalable Vector Graphics)，基于可扩展标记语言XML（老），SVG 图像在放大或改变尺寸的情况下其图形质量不会有所损失。SVG是通过DOM操作来显示的。</p>
 <p><code>canvas</code>：canvas 是H5新出来的标签(技术比较新)。画布是一个矩形区域，您可以控制其每一像素，Canvas是逐像素进行渲染的，一旦图形绘制完成，就不会继续被浏览器关注。canvas 拥有多种绘制路径、矩形、圆形、字符以及添加图像的方法</p>
@@ -956,21 +974,21 @@ transform:translate(-50%,-50%);</code></pre><p>但是它对行内标签没有效
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/17/ji-shu-pai-xu/">
+                <a href="/2020/05/17/pai-xu-suan-fa/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="基数排序">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="排序算法">
                         
-                        <span class="card-title">基数排序</span>
+                        <span class="card-title">排序算法</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            基数排序使用的大致思路是：根据关键字进行分类，再次排序，在分类，在排序，以此类推直至完成结果
-如扑克牌中根据分13类，排序，再根据花色分类，再排序；  对百位数排序，先根据个位分类，排，再根据十位分类，排，再根据百位分类，排
-//算法8.1
+                            快速排序设置个关键字，将大的放在它后面，小的放在前面，分成两个子表，并且重复上述过程，直到每一个子表只有一个记录为止
+const quickSort = function(arr){
+  if(arr.length &lt;= 0)retu
                         
                     </div>
                     <div class="publish-info">
@@ -1186,7 +1204,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">215.2k</span>&nbsp;字
+                class="white-color">216.7k</span>&nbsp;字
             
             
             

@@ -547,6 +547,7 @@ destroyed <span class="token punctuation">(</span><span class="token punctuation
 <p>此时垃圾回收开始：</p>
 <p>1.检查From空间中存活对象，然后复制到To空间中，而非存活对象空间会被释放掉，From空间和To空间的身份对换。</p>
 <p>2.当一个对象多次复制之后依然存活，说明人家比较长寿，就会被迁移至老生代之中</p>
+<p>3.To闲置空间内存占用超过25%，也会被迁移至老生代之中</p>
 <h4 id="老生代"><a href="#老生代" class="headerlink" title="老生代"></a>老生代</h4><p>老生代使用的是标记清除法，活对象在新生代中只占叫小部分，死对象在老生代中只占较小部分，这是为什么采用标记清除算法的原因。</p>
 <p>从上文我们也可以清楚标记清除法的缺陷问题（内存碎片问题，内存空间不连续）</p>
 <p><img src="/2021/03/21/shen-ru-javascript-nei-cun/clean.jpg" alt></p>
@@ -1126,7 +1127,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">215.2k</span>&nbsp;字
+                class="white-color">216.7k</span>&nbsp;字
             
             
             

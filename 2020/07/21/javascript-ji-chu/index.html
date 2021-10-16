@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.5k
+                    4.7k
                 </div>
                 
 
@@ -604,7 +604,7 @@ s <span class="token keyword">instanceof</span> <span class="token class-name">S
 <li><code>null</code>：所有机器码均为0（这就是type null 返回 object的原因）</li>
 <li><code>undefined</code>：用 −2^30 整数来表示</li>
 </ul>
-<p>红宝书阐述：typeof虽然对原始值很有用，但是对引用值用处不大。。</p>
+<p>红宝书阐述：<code>typeof</code>虽然对原始值很有用，但是对引用值用处不大。。</p>
 <h4 id="instanceof"><a href="#instanceof" class="headerlink" title="instanceof"></a><strong>instanceof</strong></h4><ul>
 <li><p><strong>instanceof</strong> 用于判断一个变量是否某个对象的实例，如 <code>var a=new Array();alert(a instanceof Array);</code> 会返回 true</p>
 </li>
@@ -618,6 +618,15 @@ s <span class="token keyword">instanceof</span> <span class="token class-name">S
 </ul>
 </li>
 </ul>
+<p>手写instanceOf</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">myInstanceof</span><span class="token punctuation">(</span>left<span class="token punctuation">,</span> right<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> proto <span class="token operator">=</span> left<span class="token punctuation">.</span>__proto__<span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>proto <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>proto <span class="token operator">==</span> right<span class="token punctuation">.</span>prototype<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        proto <span class="token operator">=</span> proto<span class="token punctuation">.</span>__proto__<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <h4 id="constructor-NaN"><a href="#constructor-NaN" class="headerlink" title="constructor"></a><strong>constructor</strong></h4><ul>
 <li><p><strong>constructor</strong></p>
 <pre class=" language-js"><code class="language-js"><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">.</span>constructor<span class="token punctuation">.</span>name<span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//Array</span>
@@ -689,7 +698,8 @@ obj<span class="token punctuation">.</span>say<span class="token operator">=</sp
 <span class="token punctuation">}</span>  <span class="token comment" spellcheck="true">//我们使用for in 喜欢var k或者key</span>
    <span class="token comment" spellcheck="true">//或者使用</span>
 <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> item <span class="token keyword">of</span> 迭代对象<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//每个属性的属性值，不过仅适用于可遍历对象，比如map、set、数组之类的，普通对象不行</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//每个属性的属性值，不过仅适用于可遍历对象，比如map、set、数组之类的，</span>
+                       <span class="token comment" spellcheck="true">//普通对象不行</span>
 <span class="token punctuation">}</span></code></pre>
 <h4 id="对象删除键值对"><a href="#对象删除键值对" class="headerlink" title="对象删除键值对"></a>对象删除键值对</h4><pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> json <span class="token operator">=</span> <span class="token punctuation">{</span>
     name<span class="token punctuation">:</span><span class="token string">'张三'</span><span class="token punctuation">,</span>
@@ -817,6 +827,20 @@ Math<span class="token punctuation">.</span><span class="token function">pow</sp
   <span class="token keyword">return</span> Math<span class="token punctuation">.</span><span class="token function">round</span><span class="token punctuation">(</span>num1<span class="token operator">*</span>m<span class="token operator">+</span>num2<span class="token operator">*</span>m<span class="token punctuation">)</span><span class="token operator">/</span>m<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <p>还有一个办法就是，把小数部分逐个转换成字符，然后一个一个作为单个数字去做加减乘除，实现大数加减乘除，实现方法可能比较繁琐。</p>
+<h4 id="使用BigInt"><a href="#使用BigInt" class="headerlink" title="使用BigInt"></a>使用BigInt</h4><p>要创建BigInt，只需要在数字末尾追加n即可。</p>
+<pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span> 9007199254740995n <span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">// → 9007199254740995n    </span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span> <span class="token number">9007199254740995</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">// → 9007199254740996</span>
+复制代码</code></pre>
+<p>另一种创建BigInt的方法是用BigInt()构造函数、</p>
+<pre class=" language-js"><code class="language-js"><span class="token function">BigInt</span><span class="token punctuation">(</span><span class="token string">"9007199254740995"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">// → 9007199254740995n</span></code></pre>
+<p>注意：</p>
+<ul>
+<li><p>BigInt不支持一元加号运算符，这可能是某些程序可能依赖于 + 始终生成 Number 的不变量，或者抛出异常。另外，更改 + 的行为也会破坏 asm.js代码</p>
+<pre class=" language-js"><code class="language-js"><span class="token operator">+</span>10n<span class="token punctuation">;</span>         <span class="token comment" spellcheck="true">// → TypeError: Cannot convert a BigInt value to a number    </span></code></pre>
+</li>
+<li><p>因为隐式类型转换可能丢失信息，所以不允许在bigint和 Number 之间进行混合操作</p>
+</li>
+</ul>
 
             </div>
             <hr/>
@@ -1332,7 +1356,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">215.2k</span>&nbsp;字
+                class="white-color">216.7k</span>&nbsp;字
             
             
             

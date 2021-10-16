@@ -712,6 +712,7 @@ Vue<span class="token punctuation">.</span><span class="token function">use</spa
 <li>（我在观看视频老师对比React and Vue的时候看到的结果（虚拟DOM与DOM Diff 的原理，作者饥人谷，第二集））在测试插入10w个div标签的时候，DOM的原生渲染速度是大概2s；React的速度大概接近30s；Vue竟然是接近原生DOM，1s-3s</li>
 <li>自我学习感受，React很多操作要比Vue麻烦（可能也是因为不熟练），学习React有扎实的JS基础要求</li>
 </ul>
+<h4 id="原生和框架"><a href="#原生和框架" class="headerlink" title="原生和框架"></a>原生和框架</h4><p>详情可以见尤大大的答案<a href="https://www.zhihu.com/question/31809713/answer/53544875" target="_blank" rel="noopener">https://www.zhihu.com/question/31809713/answer/53544875</a></p>
 <h4 id="Vue常见性能优化"><a href="#Vue常见性能优化" class="headerlink" title="Vue常见性能优化"></a>Vue常见性能优化</h4><ul>
 <li>不要把所有数据放在data，data的数据会增加 getter 和 setter，会收集对应的 watcher</li>
 <li>vue在v-for时给每项元素绑定事件需要用事件代理</li>
@@ -819,7 +820,7 @@ vm<span class="token punctuation">.</span>b <span class="token operator">=</span
     <span class="token keyword">this</span><span class="token punctuation">.</span>map<span class="token punctuation">[</span>type<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>map<span class="token punctuation">[</span>type<span class="token punctuation">]</span> <span class="token operator">||</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>handler<span class="token punctuation">)</span>
   <span class="token punctuation">}</span>
   <span class="token comment" spellcheck="true">//发送消息</span>
-  <span class="token function">fire</span><span class="token punctuation">(</span>type<span class="token punctuation">,</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">emit</span><span class="token punctuation">(</span>type<span class="token punctuation">,</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">this</span><span class="token punctuation">.</span>map<span class="token punctuation">[</span>type<span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>map<span class="token punctuation">[</span>type<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>handler <span class="token operator">=</span><span class="token operator">></span> <span class="token function">handler</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">)</span>
   <span class="token punctuation">}</span>
   <span class="token comment" spellcheck="true">//取消订阅</span>
@@ -840,9 +841,9 @@ eventBus<span class="token punctuation">.</span><span class="token function">on<
   console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 
-eventBus<span class="token punctuation">.</span><span class="token function">fire</span><span class="token punctuation">(</span><span class="token string">'click:btn'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>a<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> b<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+eventBus<span class="token punctuation">.</span><span class="token function">emit</span><span class="token punctuation">(</span><span class="token string">'click:btn'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>a<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> b<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
 eventBus<span class="token punctuation">.</span><span class="token function">off</span><span class="token punctuation">(</span><span class="token string">'click:btn'</span><span class="token punctuation">)</span>
-eventBus<span class="token punctuation">.</span><span class="token function">fire</span><span class="token punctuation">(</span><span class="token string">'click:btn'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>a<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> b<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+eventBus<span class="token punctuation">.</span><span class="token function">emit</span><span class="token punctuation">(</span><span class="token string">'click:btn'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>a<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> b<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <h4 id="Vue原理小知识"><a href="#Vue原理小知识" class="headerlink" title="Vue原理小知识"></a>Vue原理小知识</h4><p><strong>Vue检测数组中的变化</strong></p>
 <p>我们都知道数组有push、shift、pop这些方法</p>
 <p>而Vue对data里数组的原型方法（prototype）进行了重写，<code>__proto__</code>指向新的原型对象， 通过原型链定义函数，这样的话我们就可以在其中设置响应式（原来的函数.apply   +   调用更新视图方法 <code>notify()</code>）</p>
@@ -1531,7 +1532,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">215.2k</span>&nbsp;字
+                class="white-color">216.7k</span>&nbsp;字
             
             
             

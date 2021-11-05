@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.4k
+                    5.9k
                 </div>
                 
 
@@ -507,15 +507,16 @@
 <p>3.前进或后退</p>
 <p>但是在火狐中有个“往返缓存”，它不仅保留着页面数据，还保存着DOM和Javascript的状态，实际上将整个页面保存在内存里，导致后退按钮不能刷新页面（无法触发load事件）</p>
 <p>所以此时可以用pageshow事件来触发，它有点像load，但是事件在页面显示时就会触发，无论页面是否来自缓存（注意这个事件是给window添加的）</p>
-<pre><code>window.addEventListener(&#39;pageshow&#39;, fucntion(e){
-//e.persisted返回的是true，就是说如果这个页面是从缓存取过来的页面，也需要重新计算一下rem
-    if(e.persisted) {
-        setRemUnit();   //这个函数是设置rem的
-    }
-})</code></pre><h4 id="DOMContentLoaded"><a href="#DOMContentLoaded" class="headerlink" title="DOMContentLoaded"></a>DOMContentLoaded</h4><p>当DOM加载完毕时触发，不包括样式表，图片，flash等，ie9以上支持，如果页面图片很多，onload的出发会比较久，用户体验不佳 ，此时DOMContentLoaded比较合适，执行顺序DOMContentLoaded &gt; onload</p>
+<pre class=" language-js"><code class="language-js">window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'pageshow'</span><span class="token punctuation">,</span> <span class="token function">fucntion</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+<span class="token comment" spellcheck="true">//e.persisted返回的是true，就是说如果这个页面是从缓存取过来的页面，也需要重新计算一下rem</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>persisted<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">setRemUnit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//这个函数是设置rem的</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<h4 id="DOMContentLoaded"><a href="#DOMContentLoaded" class="headerlink" title="DOMContentLoaded"></a>DOMContentLoaded</h4><p>当DOM加载完毕时触发，不包括样式表，图片，flash等，ie9以上支持，如果页面图片很多，onload的出发会比较久，用户体验不佳 ，此时DOMContentLoaded比较合适，执行顺序DOMContentLoaded &gt; onload</p>
 <pre class=" language-js"><code class="language-js">document<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'DOMContentLoaded'</span><span class="token punctuation">,</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>如果页面中同时存在css和js，并且存在js在css后面，则DOMContentLoaded事件会在css加载完后才执行。</p>
-<p>其他情况下，DOMContentLoaded都不会等待css加载，并且DOMContentLoaded事件也不会等待图片、视频等其他资源加载。</p>
+<p>其他情况下，DOMContentLoaded都不会等待css加载，并且DOMContentLoaded事件也不会等待图片、视频等其他资源加载，因为DOMContentLoaded事件会在DOM树构建之后触发。</p>
 <h4 id="load和ready"><a href="#load和ready" class="headerlink" title="load和ready"></a>load和ready</h4><p><strong>（jQuery）</strong></p>
 <p>一般情况下一个页面响应加载的基本顺序是：<strong>域名解析 -&gt; 加载html -&gt; 加载js和css -&gt; 加载图片等其他信息</strong></p>
 <p><strong>$(document).ready()</strong>（在原生的jS中不包括ready()）</p>
@@ -523,6 +524,10 @@
 <p><strong>load</strong></p>
 <p>是当页面所有资源全部加载完成后（包括DOM文档树，css文件，js文件，图片资源等），执行一个函数，load方法就是onload事件。</p>
 <p>所以对应的缺点是：如果图片资源较多，加载时间较长，onload后等待执行的函数需要等待较长时间，所以一些效果可能受到影响</p>
+<h4 id="unload事件"><a href="#unload事件" class="headerlink" title="unload事件"></a>unload事件</h4><p>与load相对的是unload事件，它在文档卸载之后触发（有点像生命周期里的beforeDestory）；一般是从一个页面导航到另外一个页面市被触发，常用于清理引用，避免内存泄漏</p>
+<pre class=" language-js"><code class="language-js">window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"unload"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"unLoad!!!!"</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <h2 id="3-调整窗口大小"><a href="#3-调整窗口大小" class="headerlink" title="3.调整窗口大小"></a>3.调整窗口大小</h2><p>只要窗口发生变化，就会触发这个事件</p>
 <p><code>window.onresize = function() {}</code></p>
 <p><code>window.addEventListener(&#39;resize&#39;, function() {})</code></p>
@@ -583,7 +588,12 @@
 <p>如果想在浏览器中实现0ms延时的定时器，你可以参考（使用postMessage自己写一个定时器函数加载window对象上）</p>
 <p><a href="https://dbaron.org/log/20100309-faster-timeouts" target="_blank" rel="noopener">https://dbaron.org/log/20100309-faster-timeouts</a></p>
 <p>因此，在间隔时间极端的情况下，不建议使用定时器</p>
-<h4 id="requestAnimationFrame"><a href="#requestAnimationFrame" class="headerlink" title="requestAnimationFrame"></a>requestAnimationFrame</h4><p>（IE9-浏览器不支持该方法）官方解释：若你想在浏览器下次重绘之前继续更新下一帧动画，那么回调函数自身必须再次调用<code>window.requestAnimationFrame()</code></p>
+<h4 id="requestAnimationFrame"><a href="#requestAnimationFrame" class="headerlink" title="requestAnimationFrame"></a>requestAnimationFrame</h4><p>（IE9-浏览器不支持该方法）官方解释：若你想在浏览器下次<strong>重绘</strong>之前继续更新下一帧动画，那么回调函数自身必须再次调用<code>window.requestAnimationFrame()</code></p>
+<ul>
+<li><p>参数：callback</p>
+<p>下一次重绘之前更新动画帧所调用的函数(即上面所说的回调函数)。该回调函数<strong>会被传入<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/DOMHighResTimeStamp" target="_blank" rel="noopener"><code>DOMHighResTimeStamp</code></a>参数</strong>，该参数与<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Performance/now" target="_blank" rel="noopener"><code>performance.now()</code></a>的返回值相同，它表示<code>requestAnimationFrame()</code> 开始去执行回调函数的时刻。</p>
+</li>
+</ul>
 <p>有点像<code>setInterval</code>，但是默认每秒60帧，也就是 1000 / 60，采用系统时间间隔，保持最佳绘制效率，动画不会掉帧，自然流畅</p>
 <p>对比起 <code>setInterval</code>和 <code>setTimeout</code>的优势</p>
 <ul>
@@ -605,6 +615,30 @@
             <span class="token function">cancelAnimationFrame</span><span class="token punctuation">(</span>rafId<span class="token punctuation">)</span>
         <span class="token punctuation">}</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>对于requestAnimationFrame 任务类型的划分：</p>
+<p> W3C 工作组在 2015 年 9 月 22 日的一篇工作笔记<a href="https://www.w3.org/TR/animation-timing/" target="_blank" rel="noopener">《Timing control for script-based animations》</a> 中提到了 <code>animation task source</code> 这一概念，在该文中，确实将 animation frame request callback list 中的 callback 作为 task 处理。另外，在 <a href="https://github.com/angular/zone.js/blob/e9f68bedcba044cb0be1a4fbf41fb35b62ca9f25/STANDARD-APIS.md" target="_blank" rel="noopener">zone.js 中也将 requestAnimationFrame 划进 macrotask 分类中</a>。但 whatwg 规范中对 requestAnimationFrame callback 未明确出现任何 task 相关字眼，由于 whatwg 和 w3c 的分歧，我对 requestAnimationFrame 是否该划分为 task 存保留意见。</p>
+<pre class=" language-js"><code class="language-js"><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'A'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+<span class="token function">requestAnimationFrame</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'B'</span><span class="token punctuation">)</span>
+  Promise<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'C'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">/*多刷新几次
+结果1：
+B
+C
+A
+结果2：
+A
+B
+C
+*/</span></code></pre>
+<p>执行 requestAnimationFrame callback 是 UI Render 的其中一步。</p>
+<p>如果浏览器试图实现 60Hz 的刷新率，那么 UI Render 只需要每秒执行 60 次（每 16.7 ms）。如果浏览器发现『顶层浏览器上下文』无法维持住这个频率，可能会下调到可维持的 30Hz，而不是掉帧。（本规范并不对何时进行 render 做任何规定。）类似的，如果一个顶层浏览器上下文在后台运行，用户代理可能决定将该页面的刷新率降到 4Hz，甚至更低。</p>
+<p>由于规范没有做约定，所以浏览器在 render 策略上有充分的自主性。既有可能出现每一轮 eventloop 后都 render 的现象，也有可能出现几十轮 eventloop 都不 render 的情况。</p>
 <h2 id="5-JS执行队列"><a href="#5-JS执行队列" class="headerlink" title="5.JS执行队列"></a>5.JS执行队列</h2><p><strong>JS原先是单线程</strong>，也就是说同一时间只能做一件事，但是单线程就意味着，所有任务需要排队，钱一个任务结束后，才能执行下一个任务，如果JS执行时间过长，就会造成页面的渲染不连贯，导致页面渲染加载阻塞</p>
 <p><strong>多线程</strong>十分强大，但是多线程同步比较复杂，并且危险，稍有不慎就会崩溃死锁 &amp; 造成大量并发问题</p>
 <p>而传统上，JS旨在用于简短，快速运行的代码片段，作为浏览器脚本语言，主要用途是与用户互动，以及操作DOM，所以JS比较适合单线程</p>
@@ -1268,7 +1302,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">216.7k</span>&nbsp;字
+                class="white-color">227.6k</span>&nbsp;字
             
             
             

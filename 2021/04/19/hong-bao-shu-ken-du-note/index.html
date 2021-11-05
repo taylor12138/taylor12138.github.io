@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.8k
+                    9k
                 </div>
                 
 
@@ -1064,7 +1064,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <li><code>confirm()</code> ，有点像<code>alert()</code>，但是确认框有两个按钮 <code>Cancel</code>、<code>OK</code>，返回一个布尔值</li>
 <li><code>prompt()</code>，有点像 <code>confirm()</code>的升级版，还多了一个文本框让用户输入，prompt会返回文本框中的值</li>
 </ul>
-<h2 id="十三章客户端的检测"><a href="#十三章客户端的检测" class="headerlink" title="十三章客户端的检测"></a>十三章客户端的检测</h2><p>用户代理检测通过浏览器的用户代理字符串确定使用的是什么浏览器。用户代理字符串包含在每个HTTP请求头部，在JavaScript中可以通过 <code>navigator.userAgent</code>访问。</p>
+<h2 id="第十三章客户端的检测"><a href="#第十三章客户端的检测" class="headerlink" title="第十三章客户端的检测"></a>第十三章客户端的检测</h2><p>用户代理检测通过浏览器的用户代理字符串确定使用的是什么浏览器。用户代理字符串包含在每个HTTP请求头部，在JavaScript中可以通过 <code>navigator.userAgent</code>访问。</p>
 <p>在服务器端，常见的做法是根据接收到的用户代理字符串确定浏览器并执行相应的操作。而在客户端，用户代理检测被认为是不可靠的（字符串可以造假）。</p>
 <p>本来 <code>userAgent</code>是一个只读属性</p>
 <pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>window<span class="token punctuation">.</span>navigator<span class="token punctuation">.</span>userAgent<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -1072,11 +1072,82 @@ window<span class="token punctuation">.</span>navigator<span class="token punctu
 <p>不过，通过简单的方法可以绕过这个限制，比如有些浏览器提供伪私有的 <code>__defineGetter__</code>方法，利用它可以篡改用户代理字符串。</p>
 <pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>window<span class="token punctuation">.</span>navigator<span class="token punctuation">.</span>userAgent<span class="token punctuation">)</span><span class="token punctuation">;</span>
 window<span class="token punctuation">.</span>navigator<span class="token punctuation">.</span><span class="token function">__defineGetter__</span><span class="token punctuation">(</span><span class="token string">'userAgent'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">'foobar'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//无效</span></code></pre>
-<h2 id="十四章DOM"><a href="#十四章DOM" class="headerlink" title="十四章DOM"></a>十四章DOM</h2><p><code>cloneNode()</code>：会返回与调用它的节点一模一样的节点，该方法接收一个布尔值参数，表示是否深复制</p>
+<h2 id="第十四章DOM"><a href="#第十四章DOM" class="headerlink" title="第十四章DOM"></a>第十四章DOM</h2><p>得到的是当前节点在同一父节点下的兄弟节点: <code>node.previousSibling</code>和 <code>node.nextSibling</code></p>
+<p>是否有孩子节点： <code>hasChildNodes()</code></p>
+<p><code>cloneNode()</code>：会返回与调用它的节点一模一样的节点，该方法接收一个布尔值参数，表示是否深复制</p>
 <p>深复制会复制节点及其整个子DOM树，如果传入false，则只会复制调用该方法的节点。</p>
+<p>注意：此方法并不会复制JavaScript属性，只复制了html属性</p>
 <p><code>document.URL</code>取得当前页面的完整URL</p>
-<p><code>document.domain</code>取得当前页面的域名</p>
+<p><code>document.domain</code>取得当前页面的域名，浏览器对domain属性还有一个限制，就是这个属性一旦放松就不能再收紧，比如把document.domain设置成A，就不能再设置成B了</p>
+<pre class=" language-js"><code class="language-js">document<span class="token punctuation">.</span>domain <span class="token operator">=</span> <span class="token string">'baidu.com'</span><span class="token punctuation">;</span>
+document<span class="token punctuation">.</span>domain <span class="token operator">=</span> <span class="token string">'google.com'</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//收紧，错误</span></code></pre>
 <p><code>document.referrer</code>取得来源</p>
+<p><code>element.attributes</code>获取当前元素所有属性，他最有用的场景是需要迭代元素上所有属性的时候，这时候往往是要把DOM结构序列化为XML或HTML字符串。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">output</span><span class="token punctuation">(</span>element<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">let</span> pairs <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">let</span> len <span class="token operator">=</span> element<span class="token punctuation">.</span>attributes<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> len<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> attribute <span class="token operator">=</span> element<span class="token punctuation">.</span>attributes<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        pairs<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>attribute<span class="token punctuation">.</span>nodeName<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> = </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>attribute<span class="token punctuation">.</span>nodeValue<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> pairs<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>用 <code>innerHTML</code>创建的 <code>script</code>标签永远不会被执行</p>
+<p>逻辑上可以在JS修改CSS代码(除了IE)</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> style <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'style'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+style<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>document<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token string">"body{background-color: red}"</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
+<p>理解NodeList、HTMLCollection、NamedNodeMap是理解DOM编程的关键，这三个集合都是实时的，意味着它们的值都是“最新的”</p>
+<p><code>MutationObserver</code>接口：观察元素属性、子节点、文本或者前三者任意组合的变化</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> observer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MutationObserver</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'&lt;body> attributes changed'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+observer<span class="token punctuation">.</span><span class="token function">observe</span><span class="token punctuation">(</span>document<span class="token punctuation">.</span>body<span class="token punctuation">,</span> <span class="token punctuation">{</span>attributes<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>执行以上代码之后，body元素任何属性变化都会触发回调</p>
+<p>它接受一个MutationRecord数组，保存着变化信息</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> observer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MutationObserver</span><span class="token punctuation">(</span><span class="token punctuation">(</span>mutationRecords<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>mutationRecords<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>通常只要被观察元素不被垃圾回收，MutationObserver的回调都会相应DOM变化事件，从而被执行，若要提前终止回调，可以调用 <code>disconnect()</code>方法</p>
+<pre class=" language-js"><code class="language-js">observer<span class="token punctuation">.</span><span class="token function">disconnect</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>个人感觉和  IntersectionObserver API 有所关联</p>
+<p><code>MutationObserver</code>的垃圾回收：</p>
+<p><code>MutationObserver</code>拥有对要观察的目标结点的弱引用，因为是弱引用，所以不会妨碍垃圾回收程序回收目标节点</p>
+<p>然而目标节点对 <code>MutationObserver</code>有强引用，如果目标节点从DOM被移除，随后被垃圾回收，则关联的 <code>MutationObserver</code>也会被垃圾回收</p>
+<h2 id="第十七章事件"><a href="#第十七章事件" class="headerlink" title="第十七章事件"></a>第十七章事件</h2><p>使用click事件执行代码，有人认为，换成mousedown执行代码应用程序会更快，但是对于障碍用户使用的屏幕阅读器上，会导致代码无法执行，因为屏幕阅读器无法触发mousedown事件</p>
+<p><code>oncontextmanu</code>事件默认在网页出现点击鼠标右键弹出上下文菜单</p>
+<p>contextmenu事件冒泡，因此只要给document指定一个事件处理程序就可以处理页面上的所有同类事件</p>
+<p>这个时间可以在所有浏览器中取消，即使用<code>event.preventDefault</code></p>
+<p><code>hashchange</code>事件：用于URL散列值（#后面部分发生改变而回调的事件）</p>
+<p>hashchange事件处理必须交付给window，，它的event对象有两个新属性：oldURL、newURL</p>
+<h2 id="第十九章表单脚本"><a href="#第十九章表单脚本" class="headerlink" title="第十九章表单脚本"></a>第十九章表单脚本</h2><p>表单可以通过按钮提交表单，也可以通过<code>form.submit()</code>提交表单。通过 <code>submit()</code>提交表单的时候，submit事件不会触发，因此在调用这个方法之前要先做数据验证。</p>
+<p>表单提交的一个最大的问题是可能会提交2次表单。如果表单提交之后没有什么反应，那么没有耐心的用户可能会多次点击，结果造成服务器处理重复请求，甚至造成多次下单的严重后果！</p>
+<p>解决方法：1.提交后禁用按钮；2.通过onsubmit事件处理程序取消之后的表单提交</p>
+<p>同样的，也可以通过 <code>form.reset()</code>重置表单，但是与submit不同的是，<code>reset()</code>方法会像单击重置按钮一样触发reset事件</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> form <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"myForm"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+form<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"submit"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> target <span class="token operator">=</span> e<span class="token punctuation">.</span>target<span class="token punctuation">;</span>
+    <span class="token keyword">let</span> btn <span class="token operator">=</span> target<span class="token punctuation">.</span>elements<span class="token punctuation">[</span><span class="token string">"submit-btn"</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//name属性为submit-btn的在form内嵌的按钮</span>
+    btn<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p>注意这个功能不能直接通过提交按钮添加click事件来实现，因为不同的浏览器中触发事件的时间是不一样的，有些浏览器是触发时机：submit &gt; click ；有一些是 submit &lt; click9</p>
+<p>跨浏览器得到/ 设置剪切板数据</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">getClipboardText</span><span class="token punctuation">(</span>event<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> clipboardData <span class="token operator">=</span> <span class="token punctuation">(</span>event<span class="token punctuation">.</span>clipboardData <span class="token operator">||</span> window<span class="token punctuation">.</span>clipboardData<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> clipboardData<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">"text"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">function</span> <span class="token function">setClipboardText</span><span class="token punctuation">(</span>event<span class="token punctuation">,</span> value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>clipboardData<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> event<span class="token punctuation">.</span>clipboardData<span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token string">"text/plain"</span><span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>window<span class="token punctuation">.</span>clipboardData<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> window<span class="token punctuation">.</span>clip
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="第二十章JavaScript-API"><a href="#第二十章JavaScript-API" class="headerlink" title="第二十章JavaScript API"></a>第二十章JavaScript API</h2><p>Notifications API 用于向用户显示通知，这里的通知很像alert</p>
+<p>Notifications API又被滥用的可能性，因此会默认开启两项安全措施</p>
+<ul>
+<li>通知只能在运行在安全上下文的代码中被触发</li>
+<li>通知必须按照每个源的原则明确得到用户允许</li>
+</ul>
+<pre class=" language-js"><code class="language-js">Notification<span class="token punctuation">.</span><span class="token function">requestPermission</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span>permission<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>permission<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 
             </div>
             <hr/>
@@ -1587,7 +1658,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">216.7k</span>&nbsp;字
+                class="white-color">227.6k</span>&nbsp;字
             
             
             

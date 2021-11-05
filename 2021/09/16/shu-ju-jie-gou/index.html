@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.1k
+                    1.5k
                 </div>
                 
 
@@ -499,6 +499,12 @@
 <li>满的判断条件应为：(rear+1)%LENGTH == front 。</li>
 <li>空的判断条件为 rear == front。</li>
 </ul>
+<h2 id="链表VS数组"><a href="#链表VS数组" class="headerlink" title="链表VS数组"></a>链表VS数组</h2><p>数组优点：访问速度快，内存为连续的区域</p>
+<p>链表优点：插入、删除方便，大小不定，动态添加</p>
+<p>为什么JS中的数组时可以动态转变大小？</p>
+<ul>
+<li>JavaScript 中的数组，本质上还是对象，不过用了 Integer Index 的键名而已，和对象并没有什么本质的区别</li>
+</ul>
 <h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2><p>堆(Heap)是<a href="https://baike.baidu.com/item/计算机科学/9132" target="_blank" rel="noopener">计算机科学</a>中一类特殊的数据结构的统称。堆通常是一个可以被看做一棵<a href="https://baike.baidu.com/item/完全二叉树/7773232" target="_blank" rel="noopener">完全二叉树</a>的数组对象。</p>
 <p>满二叉树：除最后一层无任何子<a href="https://baike.baidu.com/item/节点/865052" target="_blank" rel="noopener">节点</a>外，每一层上的所有结点都有两个子结点的二叉树。</p>
 <p>完全二叉树的特点：叶子结点只能出现在最下层和次下层，且最下层的叶子结点集中在树的左部。需要注意的是，满二叉树肯定是完全二叉树，而完全二叉树不一定是满二叉树。 [1] </p>
@@ -519,6 +525,39 @@
 <h2 id="数组偏移量"><a href="#数组偏移量" class="headerlink" title="数组偏移量"></a>数组偏移量</h2><p>数组偏移量：数组的标准定义为：<strong>一个存储元素的线性集合（collection），元素可以通过索引来任意存取，索引通常为数字，用来计算元素存储位置的偏移量</strong></p>
 <p>如果你有了解过其他语言，就会知道所有编程语言都有类似的数据结构。但javascript的数组和其他语言有所不同。</p>
 <p>JavaScript中的数组是一种特殊的对象，索引为该对象的素性，索引可能是整数。然而，这些数字索引在内部被转换为字符串类型，这是因为JavaScript对象的属性名必须是字符串类型。</p>
+<h2 id="JS的存储"><a href="#JS的存储" class="headerlink" title="JS的存储"></a>JS的存储</h2><p>资料基本是这样说的: 基本数据类型用<code>栈</code>存储，引用数据类型用<code>堆</code>存储。</p>
+<p>但是还得补充：闭包变量书存储与堆中的，毕竟函数被调用完之后，栈顶空间销毁，但是闭包还得存在</p>
+<p>对于系统栈来说，调用以下函数</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">f</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">func</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">f</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token function">func</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><code>func</code> + <code>func</code>的上下文压入栈底 -&gt; </p>
+<p> <code>f</code> + <code>f</code>的上下文压入栈底 -&gt; </p>
+<p>执行完毕<code>f</code>，对应的栈顶空间被回收 -&gt; </p>
+<p>执行完<code>func</code>，对应的栈顶空间被回收</p>
+<p>修改变量的时候（基本数据类型） : 在当前空间栈开辟一个地址，并且赋予一个值，然后修改原本变量的的地址</p>
+<p>如下面的foo变量</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> foo <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> bar <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span>
+    foo<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    bar<span class="token punctuation">:</span> <span class="token number">2</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> x <span class="token operator">=</span> foo
+foo <span class="token operator">=</span> <span class="token string">'foo'</span>  <span class="token comment" spellcheck="true">//将 foo 的引用地址修改为 0x0204。</span></code></pre>
+<p><img src="/2021/09/16/shu-ju-jie-gou/space1.jpg" alt></p>
+<p><img src="/2021/09/16/shu-ju-jie-gou/space2.jpg" alt></p>
+<p>如果碰到<code>const</code>，则会</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> foo <span class="token operator">=</span> <span class="token string">'foo'</span><span class="token punctuation">;</span>
+foo <span class="token operator">=</span> <span class="token string">'bar'</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Error</span></code></pre>
+<p><img src="/2021/09/16/shu-ju-jie-gou/space3.jpg" alt></p>
+<p>推荐链接<a href="https://blog.csdn.net/weixin_40013817/article/details/103287271" target="_blank" rel="noopener">https://blog.csdn.net/weixin_40013817/article/details/103287271</a></p>
 
             </div>
             <hr/>
@@ -1022,7 +1061,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">216.7k</span>&nbsp;字
+                class="white-color">227.6k</span>&nbsp;字
             
             
             

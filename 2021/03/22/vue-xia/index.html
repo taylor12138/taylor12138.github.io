@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.8k
+                    7.2k
                 </div>
                 
 
@@ -891,6 +891,30 @@ eventBus<span class="token punctuation">.</span><span class="token function">emi
 <p>优点就是：复用性提高；</p>
 <p>缺点就是由于diff算法，导致了实际上比较简便的操作变得复杂了（可以使用key避免）</p>
 <p>时间复杂度：两棵树的diff时间复杂度为O(n^3)，但是Vue优化了（双指针），O(n^3) -&gt; O(n)，即4个指针分别指向新节点头，新节点尾、旧节点头、旧节点尾，两两进行比较</p>
+<h4 id="虚拟DOM渲染特殊案例"><a href="#虚拟DOM渲染特殊案例" class="headerlink" title="虚拟DOM渲染特殊案例"></a>虚拟DOM渲染特殊案例</h4><p>这里在输入input数据之后，再点击切换按钮，会出现另外一个input框内仍保留之前输入的数据的情况</p>
+<p>这是因为Vue在进行DOM渲染的时候，会先把所有元素标签通过一个虚拟DOM（virtual DOM）放到内存里，然后再渲染到浏览器上；所以出于性能考虑，会尽可能复用已经存在的元素，而不是创建新元素；复用的时候对比每个层级，把修改之后的套在原来的元素上（比如属性类型，属性id等）</p>
+<p>在以下的案例中，Vue内部会发现原来的input元素不再使用，直接作为else中的input来使用（类似于让现任穿前任的衣服）</p>
+<p>也就是说，在第一个<code>input</code>输入字符，然后“切换类型”，转为第二个<code>input</code>后，你依旧可以看到刚才输入的字符</p>
+<p>解决方法：增加key属性，作为唯一的标识，key不同不进行复用 <code>&lt;input type=&quot;text&quot; placeholder=&quot;用户名&quot; key=&quot;username&quot;&gt;</code></p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>app<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">v-if</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>loginType<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>email<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>用户邮箱<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>用户邮箱<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">v-else</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>nickname<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>用户名<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>用户名<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>loginType<span class="token punctuation">=</span>!loginType<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>切换类型<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>./js/vue.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            loginType: true
+        }
+    });</code></pre>
 <h2 id="10-Vue3-0"><a href="#10-Vue3-0" class="headerlink" title="10.Vue3.0"></a>10.Vue3.0</h2><p>他在介绍中表明的是：</p>
 <ul>
 <li>更小、更快、更易维护，一些命令的变化。</li>
@@ -1532,7 +1556,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">216.7k</span>&nbsp;字
+                class="white-color">227.6k</span>&nbsp;字
             
             
             

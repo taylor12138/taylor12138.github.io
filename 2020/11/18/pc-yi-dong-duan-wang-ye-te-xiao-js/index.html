@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.5k
+                    5.9k
                 </div>
                 
 
@@ -535,7 +535,7 @@
 <p>client常用于获取元素大小 <code>element.clientWidth</code>   <code>element.clientHeight</code> 只读的</p>
 <p>scroll常用于获取滚动距离  <code>element.scrollTop</code>    <code>element.scrollLeft</code>  可设置</p>
 <h2 id="4-滚动至浏览器的可视区域"><a href="#4-滚动至浏览器的可视区域" class="headerlink" title="4.滚动至浏览器的可视区域"></a>4.滚动至浏览器的可视区域</h2><p>方法一：图片/元素的<code>offsetTop</code>  &lt; 当前的元素父亲的<code>scrollTop</code> </p>
-<p>图片/元素 <code>offsetTop</code> +图片/元素 <code>clientHeight</code> &gt; 当前元素父亲的 <code>scrollTop</code></p>
+<p>图片/元素 <code>offsetTop</code> +图片/元素 <code>offsetHeight</code> &gt; 当前元素父亲的 <code>scrollTop</code></p>
 <p>方法二：<code>window.scrollY</code> &gt; 图片/元素的<code>offsetTop</code></p>
 <p>方法三：<code>element.getBoundingClientRect()</code>,返回的结果是包含完整元素的最小矩形，并且拥有<code>left</code>, <code>top</code>, <code>right</code>, <code>bottom</code>, <code>x</code>, <code>y</code>, <code>width</code>, 和 <code>height</code>这几个以像素为单位的<strong>只读属性</strong>用于描述整个边框。除了<code>width</code> 和 <code>height</code> 以外的属性是相对于<strong>视图窗口</strong>的左上角来计算的。</p>
 <p> 图片/元素的<code>getBoundingClientRect().top</code> &lt;  <code>window.innerHeight</code>  且</p>
@@ -575,7 +575,7 @@ io<span class="token punctuation">.</span><span class="token function">disconnec
   <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">function</span> <span class="token function">initObserver</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> listItems <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelectorAll</span><span class="token punctuation">(</span><span class="token string">'.list-item-img'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> listItems <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelectorAll</span><span class="token punctuation">(</span><span class="token string">'list-item-img'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   listItems<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token punctuation">{</span>
    <span class="token comment" spellcheck="true">// 对每个list元素进行监听</span>
     observer<span class="token punctuation">.</span><span class="token function">observe</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -727,13 +727,49 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>解决方案1：禁用缩放功能 <code>&lt;meta name=&quot;viewport&quot; content=&quot;user-scalable=no&quot;&gt;</code>  在最顶端的视口标签处写下user-scalable=no</p>
 <p>解决方案2：利用touch事件自己封装：</p>
 <p>手指触屏记录触摸时间</p>
-<p>手指离开屏幕，用离开时间减去触摸的时间，若时间小于150ms则没有缩放屏幕，定义为点击事件</p>
+<p>手指离开屏幕，用离开时间减去触摸的时间，若时间小于指定时间则没有缩放屏幕，定义为点击事件</p>
+<p>禁止双指放大</p>
+<pre class=" language-js"><code class="language-js">document<span class="token punctuation">.</span>documentElement<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'touchstart'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>event<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>event<span class="token punctuation">.</span>touches<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+  <span class="token comment" spellcheck="true">//touches是一个 TouchList，其会列出所有当前在与触摸表面接触的  Touch 对象</span>
+    event<span class="token punctuation">.</span><span class="token function">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>禁止双击放大</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> lastTouchEnd <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+document<span class="token punctuation">.</span>documentElement<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'touchend'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>event<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> now <span class="token operator">=</span> Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>now <span class="token operator">-</span> lastTouchEnd <span class="token operator">&lt;=</span> <span class="token number">300</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    event<span class="token punctuation">.</span><span class="token function">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  lastTouchEnd <span class="token operator">=</span> now<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>解决方案3：使用fastclick插件</p>
 <p>在 vue 中</p>
 <pre class=" language-shell"><code class="language-shell">npm i fastclick -S</code></pre>
 <p>在 main.js 中</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> fastClick <span class="token keyword">from</span> <span class="token string">'fastclick'</span>
 fastClick<span class="token punctuation">.</span><span class="token function">attach</span><span class="token punctuation">(</span>document<span class="token punctuation">.</span>body<span class="token punctuation">)</span></code></pre>
+<h4 id="展望现在"><a href="#展望现在" class="headerlink" title="展望现在"></a>展望现在</h4><p>谷歌的开发者文档<a href="https://link.zhihu.com/?target=https%3A//developers.google.com/web/updates/2013/12/300ms-tap-delay-gone-away">《300ms tap delay, gone away》</a>里面还提到在2014年的Chrome 32版本已经把这个延迟去掉了，如果有一个meta标签：</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>viewport<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>width<span class="token punctuation">=</span>device-width<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></code></pre>
+<p>即把viewport设置成设备的实际像素，那么就不会有这300ms的延迟，并且这个举动受到了IE/Firefox/Safari(IOS 9.3)的支持，也就是说现在的移动端开发可以不用顾虑click会比较迟钝的问题。</p>
+<p>如果设置initial-scale=1.0，在chrome上是可以生效，但是Safari不会：</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>viewport<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>initial-scale<span class="token punctuation">=</span>1.0<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></code></pre>
+<p>还有第三种办法就是设置CSS：</p>
+<pre class=" language-css"><code class="language-css"><span class="token selector">html</span><span class="token punctuation">{</span>
+    <span class="token property">touch-action</span><span class="token punctuation">:</span> manipulation<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>这样也可以取消掉300ms的延迟，Chrome和Safari都可以生效。</p>
+<h2 id="3-摇一摇事件"><a href="#3-摇一摇事件" class="headerlink" title="3.摇一摇事件"></a>3.摇一摇事件</h2><p>html5新增了一个devicemotion的事件，可以使用手机的重力感应。如下代码所示：</p>
+<pre class=" language-js"><code class="language-js">window<span class="token punctuation">.</span>ondevicemotion <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>event<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">var</span> gravity <span class="token operator">=</span> event<span class="token punctuation">.</span>accelerationIncludingGravity<span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>gravity<span class="token punctuation">.</span>x<span class="token punctuation">,</span> gravity<span class="token punctuation">.</span>y<span class="token punctuation">,</span> gravity<span class="token punctuation">.</span>z<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>x，y，z表示三个方向的重力加速度</p>
+<p><img src="/2020/11/18/pc-yi-dong-duan-wang-ye-te-xiao-js/shake.jpg" alt></p>
+<p><code>devicemotion</code>事件会被不断地触发，根据以上，我们可以拿到摇摆的角度 + 时间间隔来判断用户是否是摇一摇！</p>
+<p>注意：ios 13 beat2 更新之后, <code>devicemotion</code>实践需要用户授权了</p>
+<p>参考链接<a href="https://zhuanlan.zhihu.com/p/28052894" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/28052894</a></p>
 <h2 id="4-框架"><a href="#4-框架" class="headerlink" title="4.框架"></a>4.框架</h2><p>比如bootstrap，同样</p>
 <p>来自于twitter，目前最受欢迎的前端框架(拿来主义)</p>
 <p>中文官网：<a href="https://www.bootcss.com/" target="_blank" rel="noopener">https://www.bootcss.com/</a></p>
@@ -1424,7 +1460,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">216.7k</span>&nbsp;字
+                class="white-color">227.6k</span>&nbsp;字
             
             
             

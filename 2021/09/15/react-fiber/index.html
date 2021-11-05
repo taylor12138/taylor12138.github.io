@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.8k
+                    3.1k
                 </div>
                 
 
@@ -489,61 +489,121 @@
 <p>然而虽然Fiber和React Fiber是两个不同的概念，但取名却有异曲同工之妙</p>
 <p>而官方解释到：<strong>React Fiber是对核心算法的一次重新实现</strong></p>
 <p>React 实现了一个<strong>虚拟堆栈帧</strong>。实际上，这个所谓的虚拟堆栈帧本质上是建立了多个包含节点和指针的链表数据结构。每一个节点就是一个 fiber 基本单元，这个对象存储了一定的组件相关的数据域信息。而指针的指向，则是串联起整个 fibers 树。重新自定义堆栈带来显而易见的优点是，可以将堆栈保留在内存中，在需要执行的时候执行它们，这使得暂停遍历和停止堆栈递归成为可能。</p>
+<p>所以我个人偏向理解fiber为一个工作单元（units of work）</p>
 <p>fiber对象主要属性一览</p>
 <pre class=" language-js"><code class="language-js">Fiber <span class="token operator">=</span> <span class="token punctuation">{</span>
     <span class="token comment" spellcheck="true">// 标识 fiber 类型的标签，详情参看下述 WorkTag</span>
     tag<span class="token punctuation">:</span> WorkTag<span class="token punctuation">,</span>
 
+    <span class="token comment" spellcheck="true">// 节点的连接</span>
     <span class="token comment" spellcheck="true">// 指向父节点</span>
     <span class="token keyword">return</span><span class="token punctuation">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
-
     <span class="token comment" spellcheck="true">// 指向子节点</span>
     child<span class="token punctuation">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
-
     <span class="token comment" spellcheck="true">// 指向兄弟节点</span>
     sibling<span class="token punctuation">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
 
+    <span class="token comment" spellcheck="true">// 动态工作单元</span>
     <span class="token comment" spellcheck="true">// 在开始执行时设置 props 值</span>
     pendingProps<span class="token punctuation">:</span> any<span class="token punctuation">,</span>
-
     <span class="token comment" spellcheck="true">// 在结束时设置的 props 值</span>
     memoizedProps<span class="token punctuation">:</span> any<span class="token punctuation">,</span>
-
     <span class="token comment" spellcheck="true">// 当前 state</span>
     memoizedState<span class="token punctuation">:</span> any<span class="token punctuation">,</span>
-
     <span class="token comment" spellcheck="true">// Effect 类型，详情查看以下 effectTag</span>
     effectTag<span class="token punctuation">:</span> SideEffectTag<span class="token punctuation">,</span>
-
     <span class="token comment" spellcheck="true">// effect 节点指针，指向下一个 effect</span>
     nextEffect<span class="token punctuation">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
-
     <span class="token comment" spellcheck="true">// effect list 是单向链表，第一个 effect</span>
     firstEffect<span class="token punctuation">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
-
     <span class="token comment" spellcheck="true">// effect list 是单向链表，最后一个 effect</span>
     lastEffect<span class="token punctuation">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
 
-    <span class="token comment" spellcheck="true">// work 的过期时间，可用于标识一个 work 优先级顺序</span>
+    <span class="token comment" spellcheck="true">// 调度优先级相关</span>
+    <span class="token comment" spellcheck="true">// work 的过期时间，可用于标识一个 work 优先级顺序，在2020年5月，调度优先级策略经历了比较大的重构。以expirationTime属性为代表的优先级模型被lane取代</span>
     expirationTime<span class="token punctuation">:</span> ExpirationTime<span class="token punctuation">,</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>lanes <span class="token operator">=</span> NoLanes<span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>childLanes <span class="token operator">=</span> NoLanes<span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
 <h4 id="React-Fiber出现缘由"><a href="#React-Fiber出现缘由" class="headerlink" title="React Fiber出现缘由"></a>React Fiber出现缘由</h4><p>fiber出现之前的React -&gt; </p>
 <p>当组件树很大的时候就会出现这种问题，因为更新过程是同步地一层组件套一层组件，逐渐深入的过程，在更新完所有组件之前不停止，而且很长时间不会返回。</p>
 <p>因为JavaScript单线程的特点，每个同步任务不能耗时太长，不然就会让程序不会对其他输入作出相应，React的更新过程就是犯了这个禁忌，而React Fiber就是要改变现状。</p>
+<p>比如 JS引擎解析JS代码 -&gt; 样式布局 -&gt; 样式绘制</p>
+<p>当JS执行时间过长，超出了16.6ms（主流浏览器1000ms / 60帧），这次刷新就没有时间执行<strong>样式布局</strong>和<strong>样式绘制</strong>了。由此在同步工作而过程当中，可能无法绘制完全？！(图片源自卡佬的<a href="https://react.iamkasong.com/" target="_blank" rel="noopener">https://react.iamkasong.com/</a>)</p>
+<p><img src="/2021/09/15/react-fiber/fault.jpg" alt></p>
 <p>然而解决同步更新整个巨大的DOM的方案，就是分片操作（内心os：让我想起了cpu的时间分片）</p>
 <p>把当前任务进行分片，每一个小片按照一定算法执行，这样子线程就不会被独占，让其他任务有可乘之机！</p>
 <p>React Fiber把更新过程碎片化（分片数据结构维护的leader），每执行完一段更新过程，就把控制权交还给React负责任务协调的模块，看看有没有其他紧急任务要做，如果没有就继续去更新，如果有紧急任务，那就去做紧急任务。</p>
+<h4 id="React16架构"><a href="#React16架构" class="headerlink" title="React16架构"></a>React16架构</h4><p>React16架构可以分为三层（之前是只有两层，没有 Scheduler）：</p>
+<ul>
+<li>Scheduler（调度器）—— 调度任务的优先级，高优任务优先进入<strong>Reconciler</strong></li>
+<li>Reconciler（协调器）—— 负责找出变化的组件</li>
+<li>Renderer（渲染器）—— 负责将变化的组件渲染到页面上</li>
+</ul>
+<p><code>Fiber</code>包含三层含义：</p>
+<ol>
+<li>作为架构来说，之前<code>React15</code>的<code>Reconciler</code>采用递归的方式执行，数据保存在递归调用栈中，所以被称为<code>stack Reconciler</code>。<code>React16</code>的<code>Reconciler</code>基于<code>Fiber节点</code>实现，被称为<code>Fiber Reconciler</code>。</li>
+<li>作为静态的数据结构来说，每个<code>Fiber节点</code>对应一个<code>React element</code>，保存了该组件的类型（函数组件/类组件/原生组件…）、对应的DOM节点等信息。</li>
+<li>作为动态的工作单元来说，每个<code>Fiber节点</code>保存了本次更新中该组件改变的状态、要执行的工作（需要被删除/被插入页面中/被更新…）。</li>
+</ol>
 <h2 id="React-Fiber的影响"><a href="#React-Fiber的影响" class="headerlink" title="React Fiber的影响"></a>React Fiber的影响</h2><p>先说一下React的渲染过程</p>
-<h4 id="React渲染"><a href="#React渲染" class="headerlink" title="React渲染"></a>React渲染</h4><p><strong>Render阶段</strong></p>
-<p>（1）Reconciliation Phase（Render阶段，低优先级）：React将更新应用于通过setState或render方法触发的组件，并确定需要在用户屏幕上做哪些更新–哪些节点需要插入，更新或删除，哪些组件需要调用其生命周期方法。（找出需要更新哪些DOM）最终的这些更新信息被保存在一个叫effect list的fiber 节点树上。</p>
+<h4 id="Render阶段"><a href="#Render阶段" class="headerlink" title="Render阶段"></a><strong>Render阶段</strong></h4><p>（1）Reconciliation Phase（Render阶段，低优先级）：React将更新应用于通过setState或render方法触发的组件，并确定需要在用户屏幕上做哪些更新–哪些节点需要插入，更新或删除（利用effectTag来标识，比如）</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// DOM需要插入到页面中</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> Placement <span class="token operator">=</span> <span class="token comment" spellcheck="true">/*                */</span> <span class="token number">0b00000000000010</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// DOM需要更新</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> Update <span class="token operator">=</span> <span class="token comment" spellcheck="true">/*                   */</span> <span class="token number">0b00000000000100</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// DOM需要插入到页面中并更新</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> PlacementAndUpdate <span class="token operator">=</span> <span class="token comment" spellcheck="true">/*       */</span> <span class="token number">0b00000000000110</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// DOM需要删除</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> Deletion <span class="token operator">=</span> <span class="token comment" spellcheck="true">/*                 */</span> <span class="token number">0b00000000001000</span><span class="token punctuation">;</span></code></pre>
+<p>哪些组件需要调用其生命周期方法。（找出需要更新哪些DOM）最终的这些更新信息被保存在一个叫effect list的fiber 节点树上，然后在这个阶段创建出<code>workInProgress Fiber Tree</code>。</p>
+<p>但是值得注意的是，首屏渲染时期，也就是mount时间段，<code>reconcileChildren</code>中调用的<code>mountChildFibers</code>不会为<code>Fiber</code>节点赋值<code>effectTag</code>，而是在 <code>completeWork</code>阶段当中创建 <code>fiber.stateNode</code>。因为首次渲染的时候毫无疑问整棵fiber树为空，则每个节点都会被赋值上，<code>Placement effectTag</code>，此时每个节点都会执行一次插入操作，效果是极低的，而只有<code>rootFiber</code>会赋值<code>Placement effectTag</code></p>
 <p><strong>在新生命周期图中</strong>render阶段被标记为纯的、没有副作用的，可能会被React暂停、终止或者重新执行。也就是说，React会根据产生的任务的优先级，安排任务的调度（schedule）。利用类似<code>requestIdleCallback</code>的原理在浏览器空闲阶段进行更新计算，而不会阻塞动画，事件等的执行。</p>
 <p>通俗来说，也就是讲我们想要做的操作，做什么任务，以及会调用到的生命周期方法作为信息保存在 <code>fiber</code>节点树上</p>
-<p>并且一次更新过程会分成多个分片完成，所以完全有可能一个更新任务还没有完成，就被另一个更高优先级的更新过程打断，这时候，优先级高的更新任务会优先处理完，而低优先级更新任务所做的工作则会<strong>完全作废，然后等待机会重头再来</strong>。</p>
-<p><strong>Commit阶段</strong></p>
-<p>（2）Commit Phase（Commit阶段，高优先级）：会遍历<code>effect list</code>，把所有更新都commit到DOM树上。在<code>pre-commit</code>阶段，主要是执行<code>getSnapshotBeforeUpdate</code>方法，可以获取当前DOM的快照（snap，详情可以收看新生命周期图中的 <code>getSnapshotBeforeUpdate</code> ），然后给需要卸载的组件执行<code>componentWillUnmount</code>方法。接着会把current fiber tree 替换为<code>workInProgress</code> fiber tree。最后执行DOM的插入、更新和删除，给更新的组件执行<code>componentDidUpdate</code>，给插入的组件执行<code>componentDidMount</code>。</p>
+<p>并且一次更新过程会分成多个分片完成，所以完全有可能一个更新任务还没有完成，就被另一个更高优先级的更新过程打断（比如用户交互的优先级 &gt; 数据请求），这时候，优先级高的更新任务会优先处理完，而低优先级更新任务所做的工作则会<strong>完全作废，然后等待机会重头再来</strong>。</p>
+<h4 id="Commit阶段"><a href="#Commit阶段" class="headerlink" title="Commit阶段"></a><strong>Commit阶段</strong></h4><p>（2）Commit Phase（Commit阶段，高优先级）：会遍历<code>effect list</code>，把所有更新都commit到DOM树上。在<code>pre-commit</code>阶段，主要是执行<code>getSnapshotBeforeUpdate</code>方法，可以获取当前DOM的快照（snap，详情可以收看新生命周期图中的 <code>getSnapshotBeforeUpdate</code> ），然后给需要卸载的组件执行<code>componentWillUnmount</code>方法。接着会把current fiber tree 替换为<code>workInProgress</code> fiber tree。最后执行DOM的插入、更新和删除（mutation阶段），给更新的组件执行<code>componentDidUpdate</code>，给插入的组件执行<code>componentDidMount</code>。</p>
 <p>这一阶段无法终止（一鼓作气，再而衰，三而竭地更新DOM，never打断）</p>
 <p>在 commit 阶段，work 执行总是同步的，这是因为在此阶段执行的工作将导致用户可见的更改。这就是为什么在 commit 阶段， React 需要一次性提交并完成这些工作的原因。</p>
-<p><code>this.setState</code>被触发 -&gt; </p>
+<p>进入到commit阶段的时候，会遍历<code>effect list</code></p>
+<p>插入DOM -&gt; fiber节点上增加Placement的effect</p>
+<p>更新DOM -&gt; fiber节点上增加Update的effect</p>
+<p>删除DOM -&gt; fiber节点上增加Deletion的effect</p>
+<p>更新Ref -&gt; fiber节点上增加Ref的effect</p>
+<p>useEffect回调执行 -&gt;  fiber节点上增加Passive的effect</p>
+<p><img src="/2021/09/15/react-fiber/effect.jpg" alt></p>
+<p><img src="/2021/09/15/react-fiber/effect2.jpg" alt></p>
+<p>然后在render阶段 -&gt; commit阶段的时候，会传递一条effect链表，里面可能包含了Placement、Passive等</p>
+<p>commit阶段处理链表上的每个effect</p>
+<p>commit阶段有三个小段（全程都在遍历<code>effectList</code>）：</p>
+<p>1.beforeMutation阶段</p>
+<ul>
+<li>处理<code>DOM节点</code>渲染/删除后的 <code>autoFocus</code>、<code>blur</code> 逻辑。</li>
+<li>调用<code>getSnapshotBeforeUpdate</code>生命周期钩子。</li>
+<li>调度<code>useEffect</code>。</li>
+</ul>
+<p>2.mutation阶段</p>
+<ul>
+<li>根据<code>ContentReset effectTag</code>重置文字节点</li>
+<li>更新<code>ref</code></li>
+<li>根据<code>effectTag</code>分别进行DOM的处理，增删改DOM，执行<code>useLayoutEffect hook</code>的销毁函数，执行 <code>componentWillUnmount</code>生命周期函数</li>
+</ul>
+<p>3.layout阶段</p>
+<ul>
+<li>commitLayoutEffectOnFiber（调用生命周期钩子和<code>hook</code>相关操作）<ul>
+<li><code>componentDidMount</code>、<code>ComponentDidUpdate</code> </li>
+<li>执行<code>useLayoutEffect hook</code>的回调</li>
+</ul>
+</li>
+<li>commitAttachRef（赋值 ref）</li>
+</ul>
+<p>以上三个在以上三个子阶段都执行完毕后，异步调用我们的useEffect的回调</p>
+<p>摘录自<code>React</code>文档<a href="https://zh-hans.reactjs.org/docs/hooks-reference.html#timing-of-effects" target="_blank" rel="noopener">effect 的执行时机 (opens new window)</a>：</p>
+<blockquote>
+<p>与 componentDidMount、componentDidUpdate 不同的是，在浏览器完成布局与绘制之后，传给 useEffect 的函数会延迟调用。这使得它适用于许多常见的副作用场景，比如设置订阅和事件处理等情况，因此不应在函数中执行阻塞浏览器更新屏幕的操作。</p>
+</blockquote>
+<p>可见，<code>useEffect</code>异步执行的原因主要是防止同步执行时阻塞浏览器渲染。</p>
+<h4 id="渲染大致"><a href="#渲染大致" class="headerlink" title="渲染大致"></a>渲染大致</h4><p><code>this.setState</code>被触发 -&gt; </p>
 <p>（Render阶段）reconcile算法（diff算法），计算状态变化 -&gt;</p>
 <p>（Commit阶段）然后进入<code>ReactDOM</code>渲染器，将状态变化渲染在视图中。</p>
 <p>这两个阶段可以帮助我们更加认清生命周期函数</p>
@@ -553,15 +613,33 @@
 <p>而其中Diff算法帮助我们决定该组件是否重新渲染/ 重新执行生命周期函数</p>
 <p>（<code>Vue</code>的生命周期亦是如此。）</p>
 <h4 id="React渲染后的结构"><a href="#React渲染后的结构" class="headerlink" title="React渲染后的结构"></a>React渲染后的结构</h4><p>首次渲染之后，React 会生成一个对应于 UI 渲染的 fiber 树，称之为 current 树，也就是刚才我们在render阶段所讲的，我们想要做的操作，做什么任务，以及会调用到的生命周期方法作为信息保存在 <code>fiber</code>节点树上。</p>
-<p>当 React 遍历 current 树时，它会为每一个存在的 fiber 节点创建了一个替代节点，这些替代节点形成 workInProgress 树，后续的变更在workInProgress 树上执行，当 workInProgress 树被提交后将会在 commit 阶段的某一子阶段被替换成为 current 树。</p>
+<p>当 React 遍历 current 树时，它会为每一个存在的 fiber 节点创建了一个替代节点，这些替代节点形成 <code>workInProgress</code> 树，后续的变更在<code>workInProgress</code> 树上执行，当 <code>workInProgress</code> 树被提交后将会在 commit 阶段的某一子阶段被替换成为 <code>current</code> 树。</p>
+<p>每次状态更新都会产生新的<code>workInProgress Fiber树</code>，通过<code>current</code>与<code>workInProgress</code>的替换，完成<code>DOM</code>更新。</p>
+<p>多建一棵树是为了做缓存，保障构建和绘制的流畅性</p>
 <p><strong>Effect List</strong></p>
 <p>React 采用DFS，在 render 阶段遍历 fiber 树时，把每一个有副作用的 fiber 筛选出来，最后构建生成一个只带副作用的 effect list 链表。</p>
+<p>为什么有Effect List呢，因为Mount生命周期对应的是HooksDispatcherOnMount，里面有它自己的useState、useEffect；update生命周期对应的是HooksDispatcherOnUpdate，里面也有它自己的useState、useEffect，而其中他们的useEffect形成的链表就形成effect list</p>
 <p>这里有从fiber树到Effect List构建过程的视频 <a href="https://www.bilibili.com/video/av48384879/" target="_blank" rel="noopener">https://www.bilibili.com/video/av48384879/</a></p>
+<p>借用<code>React</code>团队成员<strong>Dan Abramov</strong>的话：<code>effectList</code>相较于<code>Fiber树</code>，就像圣诞树上挂的那一串彩灯。</p>
 <h4 id="分片更新的影响"><a href="#分片更新的影响" class="headerlink" title="分片更新的影响"></a>分片更新的影响</h4><p>这会导致啥?</p>
-<p>如果你使用的是类式组件（带生命周期函数），你会发现：<strong>在React Fiber中，不再是这样了，第一阶段中的生命周期函数在一次加载和更新过程中可能会被多次调用！</strong></p>
+<ul>
+<li>一次更新分成多个分片，所以完全有可能一个更新任务还没完成，就被高优先级的任务打断，从而之前的工作作废。<ul>
+<li>因此如果你使用的是类式组件（带生命周期函数），你会发现：<strong>在React Fiber中，不再是这样了，第一阶段中的生命周期函数（render阶段的生命周期函数）在一次加载和更新过程中可能会被多次调用！</strong></li>
+</ul>
+</li>
+</ul>
+<h2 id="React-Diff"><a href="#React-Diff" class="headerlink" title="React Diff"></a>React Diff</h2><p>正常的完全对比算法是O(n^3)</p>
+<p>React对diff的三个限制（优化）：</p>
+<ol>
+<li>只对比同层级节点</li>
+<li>元素类型改变之后，将本身及其子孙一同销毁</li>
+<li>通过key、prop保持diff的稳定性</li>
+</ol>
+<p>看完之后感觉和Vue的差不多，但是由于fiber是单链表，所以好像不能和Vue一样使用双指针的优化方案</p>
 <p>参考链接：</p>
 <p><a href="https://zhuanlan.zhihu.com/p/26027085" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/26027085</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/179934120" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/179934120</a></p>
+<p><a href="https://react.iamkasong.com/" target="_blank" rel="noopener">https://react.iamkasong.com/</a></p>
 
             </div>
             <hr/>
@@ -1069,7 +1147,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">216.7k</span>&nbsp;字
+                class="white-color">227.6k</span>&nbsp;字
             
             
             

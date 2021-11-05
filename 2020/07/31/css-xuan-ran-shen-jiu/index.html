@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.7k
+                    3.3k
                 </div>
                 
 
@@ -509,7 +509,7 @@
 <p>在 Chrome、Opera、Safari 和 Internet Explorer 中称为布局 (Layout)。 在 Firefox 中称为自动重排 (Reflow)，但实际上其过程是一样的。</p>
 <h4 id="reflow"><a href="#reflow" class="headerlink" title="reflow"></a><strong>reflow</strong></h4><p>对节点大小和位置的重新计算称为回流reflow/ layout，每个页面至少需要一次回流（reflow/ layout），就是页面第一次加载的时候。</p>
 <p>对于DOM结构中的各个元素都有自己的盒子（模型），这些都需要浏览器根据各种样式（浏览器的、开发人员定义的等）来计算并根据计算结果将元素放到它该出现的位置，过程称为reflow</p>
-<p>它一般在DOM元素位置发生改变后触发，比如JS添加 <code>DOM</code>元素，CSS <code>width</code>的改变、CSS3的<code>animation</code>、Scroll页面</p>
+<p>它一般在DOM元素位置发生改变后触发，比如JS添加 <code>DOM</code>元素，CSS <code>width</code>的改变、CSS3的<code>animation</code>（animation里面藏着width的改变）、Scroll页面</p>
 <h4 id="repaint"><a href="#repaint" class="headerlink" title="repaint"></a>repaint</h4><p>当各种盒子的位置、大小以及其他属性，例如颜色、字体大小等都确定下来后，浏览器于是便把这些元素都按照各自的特性绘制了一遍，于是页面的内容出现了，过程称为repaint</p>
 <p>它一般在改变 DOM 元素的视觉效果时触发，即不涉及任何排版布局的问题时触发，比如<code>color</code>、<code>text-align</code>、</p>
 <p><strong>注意：回流reflow一定会触发重绘repaint，而重绘不一定会回流</strong></p>
@@ -629,10 +629,20 @@
 <h2 id="性能监控"><a href="#性能监控" class="headerlink" title="性能监控"></a>性能监控</h2><p>对于性能监控来说，我们可以直接使用浏览器自带的 <a href="https://link.juejin.im/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FPerformance">Performance API</a> 来实现这个功能。</p>
 <p>我们只需要调用 <code>performance.getEntriesByType(&#39;navigation&#39;)</code></p>
 <p>亦或者再开发者模式下（F12）查看performance栏</p>
+<h2 id="层爆炸"><a href="#层爆炸" class="headerlink" title="层爆炸"></a>层爆炸</h2><p>由于某些原因可能导致产生大量不在预期内的合成层（也就是上方所谈及的复合层），虽然有浏览器的层压缩机制，但是也有很多无法进行压缩的情况，这就可能出现层爆炸的现象（简单理解就是，很多不需要提升为合成层的元素因为某些不当操作成为了合成层）。</p>
+<p>首先回顾一下层的创建标准</p>
+<p>从目前来说，满足以下任意情况便会创建层：<br>1、3D 或透视变换(perspective transform) CSS 属性<br>2、使用加速视频解码的 元素<br>3、拥有 3D (WebGL) 上下文或加速的 2D 上下文的 元素<br>4、混合插件(如 Flash)<br>5、对自己的 opacity 做 CSS 动画或使用一个动画 webkit 变换的元素<br>6、拥有加速 CSS 过滤器的元素<br>7、元素有一个包含复合层的后代节点(换句话说，就是一个元素拥有一个子元素，该子元素在自己的层里)<br>8、元素有一个 z-index 较低且包含一个复合层的兄弟元素(换句话说就是该元素在复合层的上层渲染)</p>
+<p>而最容易不经意间产生层爆炸的是最后一条：</p>
+<p>如果有一个元素，它的兄弟元素在复合层中渲染，而这个兄弟元素的z-index比较小，那么这个元素（不管是不是应用了硬件加速样式）也会被放到复合层中。</p>
+<p>最可怕的是，<strong>浏览器有可能给复合层之后的所有相对或绝对定位的元素都创建一个复合层来渲染</strong></p>
+<p>例子演示<a href="http://fouber.github.io/test/layer/" target="_blank" rel="noopener">http://fouber.github.io/test/layer/</a></p>
+<p>解决：人为提升动画元素（复合层标签）的z-index，让浏览器知道这个元素的层排序，就不会很傻地把其他z-index比它高的元素也弄到复合层中了</p>
+<h4 id="解决层爆炸"><a href="#解决层爆炸" class="headerlink" title="解决层爆炸"></a>解决层爆炸</h4><p>最佳方案是打破 overlap 的条件，也就是说让其他元素不要和合成层元素重叠。简单直接的方式：使用3D硬件加速提升动画性能时，最好给元素<strong>增加一个z-index属性</strong>，人为干扰合成的排序，可以有效减少chrome创建不必要的合成层，也就是让他们回归普通的渲染层，提升渲染性能，移动端优化效果尤为明显。</p>
 <p>渲染优化的文章参考链接</p>
 <p>参考链接<a href="https://github.com/amfe/article/issues/47" target="_blank" rel="noopener">https://github.com/amfe/article/issues/47</a></p>
 <p>参考链接:<a href="https://www.w3cplus.com/css3/introduction-css-will-change-property.html" target="_blank" rel="noopener">https://www.w3cplus.com/css3/introduction-css-will-change-property.html</a></p>
 <p>参考链接<a href="https://www.sitepoint.com/introduction-to-hardware-acceleration-css-animations/" target="_blank" rel="noopener">https://www.sitepoint.com/introduction-to-hardware-acceleration-css-animations/</a></p>
+<p>参考链接<a href="https://www.cnblogs.com/qiqi715/p/10207568.html" target="_blank" rel="noopener">https://www.cnblogs.com/qiqi715/p/10207568.html</a></p>
 
             </div>
             <hr/>
@@ -911,25 +921,29 @@ class(变量)得到变量类型
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/07/21/javascript-ji-chu/">
+                <a href="/2020/07/31/canvas/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="JavaScript基础">
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="Canvas">
                         
-                        <span class="card-title">JavaScript基础</span>
+                        <span class="card-title">Canvas</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.JS的介绍JS是脚本语言，不需要编译，直接由js解释器逐行进行解释并执行（编译一行，执行一行），（解释型的编程语言）现在也可以基于node.js技术（后台）进行服务器编程
-实现业务逻辑和页面控制功能，浏览器的JS引擎，也就是JS解释器，
+                            红宝书关于Canvas绘制图形需要先取得绘图上下文
+let drawing = document.getElementByTagName('canvas');
+if(drawing.getContext) {
+    //...
+}
+2D绘
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-21
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-31
                             </span>
                         <span class="publish-author">
                             
@@ -1140,7 +1154,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">216.7k</span>&nbsp;字
+                class="white-color">227.6k</span>&nbsp;字
             
             
             

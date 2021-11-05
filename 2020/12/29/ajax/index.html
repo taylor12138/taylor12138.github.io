@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.9k
+                    6.4k
                 </div>
                 
 
@@ -1023,168 +1023,6 @@ application/x-www-form-urlencoded</code></pre><p>4、请求中的任意XMLHttpRe
 <span class="token comment" spellcheck="true">//此时先去本地3000找该资源，找不到就去到5000找</span></code></pre>
 <p>优点：配置简单</p>
 <p>缺点：但是注意这个方法只能代理一个网址，这是个取巧的方式，当我同时需要对 “http//localhost:5000”、”http//localhost:5001”发送请求，就不可以使用了，此时React可以新建一个setupProxy.js 进行正向代理</p>
-<h2 id="6-websocket实践"><a href="#6-websocket实践" class="headerlink" title="6.websocket实践"></a>6.websocket实践</h2><p>在<strong>计网personnel篇章</strong>中我们阐述了websocket的实现原理，websocket协议让服务端实现向客户端主动推送消息的功能，不再需要采用旧版Ajax轮询这种浪费资源的方式。</p>
-<p>websocket基于http 1.1协议</p>
-<p>来自客户端的握手形式</p>
-<pre class=" language-http"><code class="language-http">GET ws://localhost/chat HTTP/1.1
-<span class="token header-name keyword">Host:</span> localhost
-<span class="token header-name keyword">Upgrade:</span> websocket
-<span class="token header-name keyword">Connection:</span> Upgrade
-<span class="token header-name keyword">Sec-WebSocket-Key:</span> dGhlIHNhbXBsZSBub25jZQ==
-<span class="token header-name keyword">Sec-WebSocket-Extension:</span> permessage-deflate
-<span class="token header-name keyword">Sec-WebSocket-Version:</span> 13</code></pre>
-<ul>
-<li>Upgrade表明是一个升级链接，升级为websocket</li>
-<li><code>Sec-WebSocket-Key</code>是客户端采用base64位随机字符序列，服务器接收客户端HTTP协议升级的证明，用于标识该客户端，要求服务端响应一个对应的加密 <code>Sec-WebSocket-Accept</code></li>
-<li><code>Sec-WebSocket-Extension</code>协议拓展类型</li>
-</ul>
-<p>来自服务端的握手形式</p>
-<pre class=" language-http"><code class="language-http"><span class="token response-status">HTTP/1.1 <span class="token property">101 Switching Protocols</span></span>
-<span class="token header-name keyword">Upgrade:</span> websocket
-<span class="token header-name keyword">Connection:</span> Upgrade
-<span class="token header-name keyword">Sec-WebSocket-Accept:</span> s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
-<span class="token header-name keyword">Sec-WebSocket-Extension:</span> permessage-deflate</code></pre>
-<h4 id="客户端的实现"><a href="#客户端的实现" class="headerlink" title="客户端的实现"></a>客户端的实现</h4><p>创建<code>websocket</code>对象</p>
-<p><code>var aWebSocket = new WebSocket(url [, protocols]);</code></p>
-<ul>
-<li><p><code>url</code></p>
-<ul>
-<li>要连接的URL；这应该是WebSocket服务器将响应的URL。</li>
-</ul>
-</li>
-<li><p><code>protocols</code> 可选</p>
-<ul>
-<li>一个协议字符串或者一个包含协议字符串的数组。这些字符串用于指定子协议，这样单个服务器可以实现多个WebSocket子协议（例如，您可能希望一台服务器能够根据指定的协议（<code>protocol</code>）处理不同类型的交互）。如果不指定协议字符串，则假定为空字符串。</li>
-</ul>
-</li>
-</ul>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// H5已经提供了websocket的API，可以直接使用</span>
-<span class="token comment" spellcheck="true">//这是人家websocket官方提供测试的url</span>
-<span class="token keyword">let</span> socket <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WebSocket</span><span class="token punctuation">(</span><span class="token string">'ws://echo.websocket.org'</span><span class="token punctuation">)</span></code></pre>
-<p><strong>websocket事件</strong></p>
-<table>
-<thead>
-<tr>
-<th>事件</th>
-<th>事件处理程序</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>open</td>
-<td>websocket对象.onopen</td>
-<td>建立连接时触发</td>
-</tr>
-<tr>
-<td>message</td>
-<td>websocket对象.onmessage</td>
-<td>客户端接收服务端数据时触发</td>
-</tr>
-<tr>
-<td>error</td>
-<td>websocket对象.onerror</td>
-<td>通信发生错误触发</td>
-</tr>
-<tr>
-<td>close</td>
-<td>websocket对象.onclose</td>
-<td>连接关闭触发</td>
-</tr>
-</tbody></table>
-<p><strong>websocket方法</strong></p>
-<p><code>send()</code>方法，，用于给服务端发送数据</p>
-<p>然后再浏览器调试可以看到我们发送成功了</p>
-<p><img src="/2020/12/29/ajax/wsocket_send.jpg" alt></p>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//H5已经提供了websocket的API，可以直接使用</span>
-<span class="token comment" spellcheck="true">//这是人家websocket官方提供测试的url</span>
-<span class="token keyword">let</span> ws <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WebSocket</span><span class="token punctuation">(</span><span class="token string">'ws://echo.websocket.org'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">// 1.连接成功的回调</span>
-ws<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'open'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'连接成功'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token comment" spellcheck="true">// 2.主动给websocket发消息</span>
-button<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">let</span> val <span class="token operator">=</span> input<span class="token punctuation">.</span>value<span class="token punctuation">;</span>
-    ws<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>val<span class="token punctuation">)</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token comment" spellcheck="true">// 3.接收websocket服务的数据，通过事件对象e可以得到服务端返回的数据</span>
-ws<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'message'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    div<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> e<span class="token punctuation">.</span>data<span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
-<h4 id="服务端的实现"><a href="#服务端的实现" class="headerlink" title="服务端的实现"></a>服务端的实现</h4><p>这里我使用的是nodejs带的websocket包（<a href="https://github.com/sitegui/nodejs-websocket" target="_blank" rel="noopener">https://github.com/sitegui/nodejs-websocket</a> 这个是该包对应的源码地点，里面有详解该包创建服务对象后，可以使用的方法）</p>
-<pre class=" language-shell"><code class="language-shell">npm install nodejs-websocket</code></pre>
-<p>在新建的nodejs服务器上使用</p>
-<p>每一次只要有用户进行连接，就会执行该回调函数，<strong>然后给当前用户创建一个connect对象</strong></p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> ws <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"nodejs-websocket"</span><span class="token punctuation">)</span>
-<span class="token keyword">const</span> server <span class="token operator">=</span> ws<span class="token punctuation">.</span><span class="token function">createServer</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>connect<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"New connection"</span><span class="token punctuation">)</span>
-    <span class="token comment" spellcheck="true">//text事件用于接收用户请求，data为用户发送的数据</span>
-    connect<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">"text"</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"Received "</span> <span class="token operator">+</span> data<span class="token punctuation">)</span>
-        <span class="token comment" spellcheck="true">//服务器给客户端发送响应</span>
-        connect<span class="token punctuation">.</span><span class="token function">sendText</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span><span class="token function">toUpperCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"!!!"</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
-    <span class="token comment" spellcheck="true">//websocket连接断开（用户关闭网页等操作），执行的回调函数</span>
-    connect<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">"close"</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>code<span class="token punctuation">,</span> reason<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"Connection closed"</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
-    <span class="token comment" spellcheck="true">//一般使用注册close伴随着一个error事件，处理用户错误信息</span>
-    connect<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'error'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'用户连接异常'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
-    <span class="token comment" spellcheck="true">//监听端口5208</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">5208</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'app is running at port!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
-<p>给所有用户发送信息（广播）的方法 <code>broadcast</code></p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">broadcast</span><span class="token punctuation">(</span>server<span class="token punctuation">,</span> msg<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    server<span class="token punctuation">.</span>connections<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>conn<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        conn<span class="token punctuation">.</span><span class="token function">sendText</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span></code></pre>
-<p>然后在每个connect对象的事件里调用 <code>broadcast(msg)</code>即可，如果msg是一个对象，要将对象转化为字符串才能发送 <code>send(JSON.stringfy(msg))</code></p>
-<h3 id="websocket框架"><a href="#websocket框架" class="headerlink" title="websocket框架"></a>websocket框架</h3><p>可以从上面看到，我们使用websocket时每一步事件都需要我们自己去封装，支持的时间太少，可能会比较麻烦，在应对搞复杂度的代码是会略显冗杂；</p>
-<p>我们可以使用websocket框架 <code>socket.io</code> 进行替代 + 完善</p>
-<p>说是说框架，但官方也解释了<code>socket.io</code>并不是websocket的一个实践，即使他在其中有使用到websocket的传输协议，但它作出了许多拓展，这就是为什么 WebSocket 客户端无法成功连接到 Socket.IO 服务器，而 Socket.IO 客户端也无法连接到普通 WebSocket 服务器的原因。（但在实现功能上，我们可以看成是一致的）</p>
-<p><img src="/2020/12/29/ajax/socket_io.jpg" alt></p>
-<p>附上官网 <a href="https://socket.io/" target="_blank" rel="noopener">https://socket.io/</a></p>
-<h5 id="服务端使用"><a href="#服务端使用" class="headerlink" title="服务端使用"></a>服务端使用</h5><pre class=" language-shell"><code class="language-shell">npm install socket.io</code></pre>
-<p>在express中可以使用（官网还有在typescript、koa等语言框架中使用的方法）</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"express"</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> httpServer <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"http"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">createServer</span><span class="token punctuation">(</span>app<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//以前我们使用原生nodejs创建服务器、发送请求调用过http包</span>
-<span class="token keyword">const</span> options <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* ... */</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> io <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"socket.io"</span><span class="token punctuation">)</span><span class="token punctuation">(</span>httpServer<span class="token punctuation">,</span> <span class="token punctuation">[</span>options<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-httpServer<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">3000</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>1.此时监听用户连接事件 <code>io.on(&quot;connection&quot;, socket =&gt; {})</code></p>
-<ul>
-<li>socket 参数表示当前用户</li>
-<li><code>socket.emit(事件名, 传入数据参数)</code>socket主动触发事件的方法</li>
-<li><code>socket.on(事件名, 接收数据参数)</code>socket监听浏览器（客户端）/ 服务器 事件的方法</li>
-<li>事件名参数是自定义的，该传递方式有点像Vue的事件总线（eventbus），实行订阅和发布消息数据</li>
-</ul>
-<p>广播消息:   <code>io.emit</code>   <code>io.on</code></p>
-<pre class=" language-js"><code class="language-js">io<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">"connection"</span><span class="token punctuation">,</span> socket <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span> 
-    <span class="token comment" spellcheck="true">/* ... */</span> 
-    socket<span class="token punctuation">.</span><span class="token function">emit</span><span class="token punctuation">(</span><span class="token string">'send'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>name<span class="token punctuation">:</span><span class="token string">'Allen'</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//发送数据到客户端</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>2.此时监听用户断开事件 <code>io.on(&quot;disconnect&quot;, () =&gt; {})</code></p>
-<p>3.跨域问题</p>
-<p>注意：在 <code>socket.io</code> 中使用 cors允许跨域时，必须在option选项里进行设置，不然会报错</p>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// socket 初始化</span>
-<span class="token keyword">const</span> io <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"socket.io"</span><span class="token punctuation">)</span><span class="token punctuation">(</span>server<span class="token punctuation">,</span> <span class="token punctuation">{</span> cors<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
-<h5 id="客户端使用"><a href="#客户端使用" class="headerlink" title="客户端使用"></a>客户端使用</h5><p>安装</p>
-<pre class=" language-html"><code class="language-html">&lt;script  src = "/socket.io/socket.io.js" ><span class="token script language-javascript"> </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span> 
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script language-javascript"> <span class="token keyword">const</span> socket <span class="token operator">=</span> <span class="token function">io</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
-<p>or</p>
-<pre class=" language-shell"><code class="language-shell">$ npm install socket.io-client</code></pre>
-<p>在同一个域通信</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> socket <span class="token operator">=</span> <span class="token function">io</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>不同域通信</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> socket <span class="token operator">=</span> <span class="token function">io</span><span class="token punctuation">(</span><span class="token string">"服务器地址url"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>相对服务端，客户端并不需要将监听和发布时间放在 <code>io.on(&quot;connection&quot;, () =&gt; {})</code>里面，直接在script/ js文件里使用 <code>socket.emit(事件名, 数据参数)</code> / <code>socket.on(事件名, 数据参数)</code>  来实施客户端的事件监听和发布</p>
-<p>踩坑之路：</p>
-<p>部署到服务器上时，url地址记得为协议名 + ip + 端口号</p>
 
             </div>
             <hr/>
@@ -1460,13 +1298,13 @@ httpServer<span class="token punctuation">.</span><span class="token function">l
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/12/27/javascript-jin-jie-es6/">
+                <a href="/2020/12/27/javascript-jin-jie-es6-shang/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="JavaScript进阶ES6">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="JavaScript进阶ES6(上)">
                         
-                        <span class="card-title">JavaScript进阶ES6</span>
+                        <span class="card-title">JavaScript进阶ES6(上)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1691,7 +1529,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">216.7k</span>&nbsp;字
+                class="white-color">227.6k</span>&nbsp;字
             
             
             

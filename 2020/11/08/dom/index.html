@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.2k
+                    5.4k
                 </div>
                 
 
@@ -492,7 +492,9 @@
 <p>节点：网页中所有内容都是一个节点（注释，文本，属性等），用node表示</p>
 <p>顶级对象是document</p>
 <p><strong>注意</strong>：因为文档是从上往下加载，所以script要写到文档标签的下面</p>
-<h3 id="（1）获取页面元素"><a href="#（1）获取页面元素" class="headerlink" title="（1）获取页面元素"></a>（1）获取页面元素</h3><p>id获取（id是大小写敏感的字符串组成）</p>
+<h3 id="（1）获取页面元素"><a href="#（1）获取页面元素" class="headerlink" title="（1）获取页面元素"></a>（1）获取页面元素</h3><p><strong>前情提要</strong>：</p>
+<p>HTMLCollection是元素集合而NodeList是节点集合（即可以包含元素，也可以包含文本节点）。所以 node.childNodes 返回 NodeList，而 node.children 和 node.getElementsByXXX 返回 HTMLCollection 。</p>
+<p>id获取（id是大小写敏感的字符串组成）</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>time<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>2019<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script language-javascript">
       <span class="token keyword">var</span> timer <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'time'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/*返回的是一个元素对象*/</span>
@@ -513,7 +515,10 @@
 <p>H5新增获取元素方法，根据类名获取</p>
 <p><code>document.getElementsByClassName(&#39;类名&#39;);</code></p>
 <p>H5新增的万能选择器，<code>querySelector</code>返回选择器的第一个元素对象，切记里面选择器需要加符号</p>
-<p><code>querySelectorAll</code>  返回指定选择器的所有对象集合（伪数组），但是通过querySelectorAll获取的是返回的是<code>NodeListOf&lt;HTMLElementTagNameMap[K]&gt;</code>，经过了一次包装（有了一个包装对象！），保存的是当时状态的快照，所以是静态的，是死的，不会随着数据更新而改变，最好使用 <code>getElementsByTagName</code> （返回的是<code>HTMLCollection</code>）这些进行替代</p>
+<p><code>querySelectorAll</code>  返回指定选择器的所有对象集合（伪数组）</p>
+<p><code>querySelectorAll</code>和 <code>getElementsByTagName</code>对比</p>
+<p>通过querySelectorAll获取的是返回的是<code>NodeListOf&lt;HTMLElementTagNameMap[K]&gt;</code>，经过了一次包装（有了一个包装对象！），保存的是当时状态的快照，所以是静态的，是死的，不会随着数据更新而改变，最好使用 <code>getElementsByTagName</code> （返回的是<code>HTMLCollection</code>）这些进行替代</p>
+<p>它这样做的的原因是避免了使用NodeList对象可能造成的性能问题</p>
 <p>里面的原理我们可以从typescript角度来观看 <a href="https://blog.csdn.net/HermitSun/article/details/95780715" target="_blank" rel="noopener">https://blog.csdn.net/HermitSun/article/details/95780715</a></p>
 <p>伪数组可以使用es6的扩展运算符转化为数组：<code>let lis2 = [...lis]</code></p>
 <pre class=" language-js"><code class="language-js"> <span class="token comment" spellcheck="true">// 选择类名</span>
@@ -625,28 +630,31 @@ Btn_All<span class="token punctuation">.</span>onclick <span class="token operat
 <span class="token punctuation">}</span></code></pre>
 <h3 id="（4）自定义属性"><a href="#（4）自定义属性" class="headerlink" title="（4）自定义属性"></a>（4）自定义属性</h3><p>js的两种元素属性获取方法：</p>
 <p><code>element.属性</code>获取属性</p>
-<p><code>element.getArribute(&#39;属性&#39;)</code>也是获取属性，不过这个可以获取自定义属性</p>
+<p><code>element.getAttribute(&#39;属性&#39;)</code>也是获取属性，不过这个可以获取自定义属性</p>
 <p>自定义属性：<code>&lt;div id=&quot;demo&quot; index=&quot;1&quot;&gt;&lt;/div&gt;</code>    中的index</p>
 <p>设定属性值：</p>
 <p><code>element.属性 = 值</code>     设置内置属性</p>
 <p><code>element.setAttribute(&#39;属性&#39;,&#39;值&#39;)</code>  同上，主要设置自定义属性，它的class比较特殊，不使用className，使用class，如 div.setAttribute(‘class’, ‘footer’);</p>
 <p>移除属性：<code>element.removeAttribute(&#39;属性名&#39;)</code></p>
-<p><strong>Hs规范：</strong>H5规定自定义属性以“data-”作为开头，并且赋值，比如 <code>&lt;div data-index=&quot;1&quot;&gt;&lt;/div&gt;</code></p>
+<p>是否拥有该属性：<code>element.hasAttribute(&#39;属性名&#39;)</code></p>
+<p><strong>H5规范：</strong>H5规定自定义属性以“data-”作为开头，并且赋值，比如 <code>&lt;div data-index=&quot;1&quot;&gt;&lt;/div&gt;</code></p>
 <p>H5新增获取自定义属性的方法：<code>div.dataset.index</code>（属性名为data-index）， <code>div.dataset.listName</code>(属性名为data-list-name) ，dataset是一个集合里面存放了所有以data开头的自定义属性</p>
 <h3 id="（5）节点操作"><a href="#（5）节点操作" class="headerlink" title="（5）节点操作"></a>（5）节点操作</h3><p>dom提供的获取元素方法比较繁琐，利用节点父子兄弟关系获取元素比较方便，但是兼容性差</p>
+<p>在DOM的所有节点中都实现了Node这个接口</p>
 <p>一般的，节点至少拥有节点类型（nodeType）、节点名称（nodeName）、节点值（nodeValue）</p>
-<p>元素节点 nodeType = 1    节点操作一般都是操作元素节点</p>
+<p>元素节点 nodeType = 1    节点操作一般都是操作元素节点，唯一使用attributes属性的DOM节点类型</p>
 <p>属性节点 nodeType = 2</p>
 <p>文本节点 nodeType = 3</p>
+<p>（总共有12种节点，以下展示部分节点）</p>
 <p><img src="/2020/11/08/dom/jiedian.jpg" alt></p>
 <p>父亲节点： <code>node.parentNode</code> (得到的是离元素最近的父节点，找不到父节点返回空值)</p>
-<p>孩子节点： <code>parentNode.childNodes</code> 返回包含节点的子节点的集合，包含元素节点，文本节点等等，该集合为及时更新的集合，若只想获取元素节点：(因为繁琐，所以实际开发不提倡使用childNodes)</p>
+<p>孩子节点： <code>node.childNodes</code> 返回包含节点的子节点的集合(NodeList，因为繁琐，所以实际开发不提倡使用childNodes)</p>
 <pre><code>var ul = document.querySelect(&#39;ul&#39;);
 for (var i = 0; i &lt; ul.childNodes.length; i++) {
     if(ul.childNodes[i].nodeType == 1) {
         console.log(lu.childNodes[i]);
     }
-}</code></pre><p>(new) 孩子节点： <code>parentNode.children</code>  返回所有子元素节点  （常用）</p>
+}</code></pre><p>(new) 孩子节点： <code>parentNode.children</code>  返回所有子元素节点  （常用,HTMLCollection）</p>
 <p><code>parentNode.firsElementtChild</code> 返回第一个元素子节点，找不到返回null</p>
 <p><code>parentNode.firstChild</code> 返回第一个元素子节点，找不到返回null</p>
 <p><code>parentNode.lastChild</code> 返回最后一个元素子节点，找不到返回null</p>
@@ -702,7 +710,12 @@ h<span class="token punctuation">.</span><span class="token function">appendChil
 <p>复制节点： <code>node.cloneNode()</code>  克隆完节点之后，和创建节点一样也必须要添加节点才能显示出来</p>
 <p>1.如果括号参数为空，是浅拷贝，只克隆该节点本身，不克隆其子节点，即没有任何内容    </p>
 <p> <code>node.cloneNode(true)</code> 深拷贝  复制标签并且复制里面的内容 </p>
-<h3 id="（6）创建标签的四种方法："><a href="#（6）创建标签的四种方法：" class="headerlink" title="（6）创建标签的四种方法："></a>（6）创建标签的四种方法：</h3><p>1.<code>element.write()</code> 写入内容（标签），但是页面文档流加载完毕，再调用会导致页面重绘，不好用</p>
+<h3 id="（6）创建标签的四种方法："><a href="#（6）创建标签的四种方法：" class="headerlink" title="（6）创建标签的四种方法："></a>（6）创建标签的四种方法：</h3><p>1.<code>element.write()</code> 写入内容（标签），但是页面文档流加载完毕，如果在页面加载完成后再调用 <code>document.write()</code>，则会重写整个页面</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text/javascript<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript">
+    window<span class="token punctuation">.</span>onload <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        document<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">"hello, world"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//hello world 重写整个页面</span>
+    <span class="token punctuation">}</span>
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
 <p>2.<code>element.innerHTML</code>    从起始位置到终止位置的内容，保留（识别）html标签和空格，换行（W3C标准）</p>
 <p>同时，这两个标签是可读写的，可以获取元素里面的内容</p>
 <p> 3.<code>document.createElement(&#39;targetName&#39;)</code>  动态创建节点</p>
@@ -717,7 +730,7 @@ xx<span class="token punctuation">.</span>innerHTML <span class="token operator"
 <p>执行起来会比 <code>document.createElement(&#39;targetName&#39;)</code> 更快，但是结构不太清晰    </p>
 <ol start="4">
 <li><p><code>element.insertAdjacentHTML(插入的位置, 插入的字符串)</code>可以直接把字符串格式元素添加到父元素中</p>
-<p>(如：<code>&quot;&lt;a href=&quot;#&quot;&gt;百度&lt;/a&gt;&quot;</code>)</p>
+<pre class=" language-js"><code class="language-js">element<span class="token punctuation">.</span><span class="token function">insertAdjacentHTML</span><span class="token punctuation">(</span><span class="token string">"beforebegin"</span><span class="token punctuation">,</span> <span class="token string">"&lt;a href="</span>#<span class="token string">">百度&lt;/a>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 </li>
 </ol>
 <p>插入位置：beforebegin 元素自身前面                                             afterbegin  插入元素内部第一个子节点之前</p>
@@ -731,6 +744,8 @@ xx<span class="token punctuation">.</span>innerHTML <span class="token operator"
 <p>（3）createDocumentFragment创建的元素是一次性的，添加之后再就不能操作了</p>
 <p>（4） 通过<code>createElement</code>新建元素必须指定元素<code>tagName</code>,因为其可用<code>innerHTML</code>添加子元素。通过<code>createDocumentFragment</code>则不必。</p>
 <p>（5）通过<code>createElement</code>创建的元素插入文档后，还可以取到创建时的返回值</p>
+</li>
+<li><p><code>element.outerHTML</code>类似于 <code>innerHTML</code>的效果，只不过是起到了replace的效果</p>
 </li>
 </ol>
 <h2 id="事件部分"><a href="#事件部分" class="headerlink" title="事件部分"></a>事件部分</h2><h3 id="1-注册事件"><a href="#1-注册事件" class="headerlink" title="1.注册事件"></a>1.注册事件</h3><p>传统方式：</p>
@@ -834,11 +849,11 @@ document<span class="token punctuation">.</span><span class="token function">add
 document<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'selectstart'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     e<span class="token punctuation">.</span><span class="token function">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
-<p>（e代表事件对象）</p>
+<p>（e代表事件对象，可视区域为除去收藏夹、网址等部分）</p>
 <p><code>e.clientX</code> 返回鼠标对于浏览器窗口可视区域的X坐标</p>
 <p><code>e.clientY</code> 返回鼠标对于浏览器窗口可视区域的Y坐标</p>
-<p><code>e.pageX</code> 返回鼠标相对于文档页面的X坐标，ie9+支持 </p>
-<p><code>e.pageY</code> 返回鼠标相对于文档页面的Y坐标，ie9+支持   </p>
+<p><code>e.pageX</code> 返回鼠标相对于文档页面的X坐标，ie9+支持 （无滚动时同clientX）</p>
+<p><code>e.pageY</code> 返回鼠标相对于文档页面的Y坐标，ie9+支持   （无滚动时同clientY）</p>
 <p><code>e.screenX</code> 返回鼠标相对于电脑屏幕的X轴坐标</p>
 <p><code>e.screenY</code> 返回鼠标相对于电脑屏幕的Y轴坐标</p>
 <p> pink老师天使跟随鼠标案例</p>
@@ -862,8 +877,8 @@ document<span class="token punctuation">.</span><span class="token function">add
     </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span></code></pre>
 <h3 id="7-常用键盘事件"><a href="#7-常用键盘事件" class="headerlink" title="7.常用键盘事件"></a>7.常用键盘事件</h3><p><code>onkeyup</code>   某个按键松开时被触发  （松开瞬间）</p>
-<p><code>onkeydown</code>  某个按键被按下时被触发  （按下瞬间）</p>
-<p><code>onkeypress</code>  同onkeydown   但是它不识别功能键如ctrl shift等</p>
+<p><code>onkeydown</code>  某个按键被按下时被触发  （按下瞬间），按住会持续触发</p>
+<p><code>onkeypress</code>  同onkeydown   但是它不识别功能键如ctrl shift等，按住会持续触发</p>
 <p>执行顺序down&gt;press&gt;up    <strong>使用addEventListener不需要加on</strong>          keyon和keydown不能区分大小写</p>
 <p> keyon和keydown不能区分大小写 （a和A得到的ASCII码值得到的都是65）</p>
 <p>键盘事件  （e代表事件对象）</p>
@@ -1390,7 +1405,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">216.7k</span>&nbsp;字
+                class="white-color">227.6k</span>&nbsp;字
             
             
             

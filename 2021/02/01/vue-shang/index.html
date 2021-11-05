@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9.8k
+                    9.5k
                 </div>
                 
 
@@ -519,7 +519,7 @@
 <p>以 <code>Vue</code> 框架来举例，<code>ViewModel</code> 就是组件的实例。View 就是模板，Model 的话在引入 <code>Vuex</code> 的情况下是完全可以和组件分离的。</p>
 <ul>
 <li>Model 层: 仅仅关注数据本身，对应数据层的域模型，它主要做域模型的同步。通过 Ajax/fetch 等 API 完成客户端和服务端业务 Model 的同步</li>
-<li>View 层:作为视图模板存在， 数据绑定的声明、 指令的声明、 事件绑定的声明。</li>
+<li>View 层:作为视图模板存在（template）， 数据绑定的声明、 指令的声明、 事件绑定的声明。</li>
 <li>ViewModel 层（vue）:把 View 需要的数据暴露，并为 View 层的 数据绑定声明、 指令声明、 事件绑定声明 <strong>负责</strong></li>
 </ul>
 <p>VM（Virtual DOM）除了提高性能，最大的优势还是在于：</p>
@@ -776,30 +776,12 @@
 <p>通过索引值修改数组元素并不会向页面及时响应结果：</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//修改对象用splice或者 Vue.set(修改对象, 索引值, 修改后的值)</span>
 <span class="token keyword">this</span><span class="token punctuation">.</span>arr<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'nothing'</span><span class="token punctuation">;</span></code></pre>
-<h4 id="虚拟DOM渲染特殊案例"><a href="#虚拟DOM渲染特殊案例" class="headerlink" title="虚拟DOM渲染特殊案例"></a>虚拟DOM渲染特殊案例</h4><p>这里在输入input数据之后，再点击切换按钮，会出现另外一个input框内仍保留之前输入的数据的情况</p>
-<p>这是因为Vue在进行DOM渲染的时候，会先把所有元素标签通过一个虚拟DOM（virtual DOM）放到内存里，然后再渲染到浏览器上；所以出于性能考虑，会尽可能复用已经存在的元素，而不是创建新元素；复用的时候对比每个层级，把修改之后的套在原来的元素上（比如属性类型，属性id等）</p>
-<p>在以下的案例中，Vue内部会发现原来的input元素不再使用，直接作为else中的input来使用（类似于让现任穿前任的衣服）</p>
-<p>也就是说，在第一个<code>input</code>输入字符，然后“切换类型”，转为第二个<code>input</code>后，你依旧可以看到刚才输入的字符</p>
-<p>解决方法：增加key属性，作为唯一的标识，key不同不进行复用 <code>&lt;input type=&quot;text&quot; placeholder=&quot;用户名&quot; key=&quot;username&quot;&gt;</code></p>
-<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>app<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">v-if</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>loginType<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>email<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>用户邮箱<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>用户邮箱<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">v-else</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>nickname<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>用户名<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>用户名<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>loginType<span class="token punctuation">=</span>!loginType<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>切换类型<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>./js/vue.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span>
-    const app = new Vue({
-        el: '#app',
-        data: {
-            loginType: true
-        }
-    });</code></pre>
+<h4 id="Methods注意事项"><a href="#Methods注意事项" class="headerlink" title="Methods注意事项"></a>Methods注意事项</h4><blockquote>
+<p>注意</p>
+<p>不应该使用箭头函数来定义method函数（例如plus: () =&gt; this.a++）。理由是箭头函数</p>
+<p>绑定了父级作用域的上下文，所以this将不会按照期望指向组件实例，this.a将会是undefined</p>
+</blockquote>
+<p>这里和React是相反的，React就是要使用箭头函数来绑定组件实例</p>
 <h4 id="过滤器filters"><a href="#过滤器filters" class="headerlink" title="过滤器filters"></a>过滤器filters</h4><p>Vue对象的option之一,当成属性去使用，调用需要在元素标签中添加 </p>
 <pre><code>{{传入的参数 | 过滤器函数名}}</code></pre><p>可以把过滤器简单理解为一种格式化，比如时间，数字等等；它的实际效果和methods调用函数方法也差不多，只是编写样式更易懂、简洁</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>{{book.price | Price_str}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span></code></pre>
@@ -1835,7 +1817,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">216.7k</span>&nbsp;字
+                class="white-color">227.6k</span>&nbsp;字
             
             
             

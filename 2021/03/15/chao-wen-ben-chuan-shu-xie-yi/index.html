@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.8k
+                    7.8k
                 </div>
                 
 
@@ -497,7 +497,10 @@
 </li>
 <li><p>压缩headers（最小数据量化）</p>
 </li>
-<li><p>支持server push（服务端推送），他可以对客户端的一个请求发送多个响应，，而且它特有的缓存机制，使用场景如下，<strong>「如果客户端早已在缓存中有了一份 copy 怎么办？]</strong></p>
+<li><p>支持server push（服务端推送），<strong>唯一一个需要开发者自己配置的功能</strong>，他可以对客户端的一个请求发送多个响应，实际上是还没有收到浏览器的请求，服务器就把各种资源推送给浏览器。</p>
+<p>比如，浏览器只请求了<code>index.html</code>，但是服务器把<code>index.html</code>、<code>style.css</code>、<code>example.png</code>全部发送给浏览器。这样的话，只需要一轮 HTTP 通信，浏览器就得到了全部资源，提高了性能。</p>
+</li>
+<li><p>而且它特有的缓存机制，使用场景如下，<strong>「如果客户端早已在缓存中有了一份 copy 怎么办？]</strong>，此时再推送就是浪费带宽。</p>
 <p>这种情况下，HTTP/2 允许客户端通过 <strong>RESET_STREAM</strong> 主动取消 Push ，然而这样的话，原本可以用于更好方向的 Push 就白白的浪费掉数据往返的价值。</p>
 <p>对此，一个推荐的解决方案是，客户端使用一个简洁的 <a href="https://link.zhihu.com/?target=http%3A//mnot.github.io/I-D/h2-cache-digest/">Cache Digest</a> 来告诉服务器，哪些东西已经在缓存，因此服务器也就会知道哪些是客户端所需要的，因为 Cache Digest 使用的是 <a href="https://link.zhihu.com/?target=https%3A//www.imperialviolet.org/2011/04/29/filters.html">Golumb Compressed Sets</a>，浏览器客户端可以通过一个连接发送<strong>少于 1K 字节</strong>的 Packets 给服务端，通知哪些是已经在缓存中存在的；</p>
 <p>http/1处理减少请求的方式是线头阻塞（合并多个请求为一个请求），但实质上有一定的开销</p>
@@ -606,6 +609,18 @@
 <pre><code>Connection: Keep-Alive</code></pre><p>服务端，响应头</p>
 <pre><code>Connection: Keep-Alive</code></pre><p>在这种情况下，<a href="https://zh.wikipedia.org/wiki/HTML5" target="_blank" rel="noopener">HTML5</a>定义了WebSocket协议，能更好的节省服务器资源和带宽，并且能够更实时地进行通讯。</p>
 <h4 id="延伸出来的管线化"><a href="#延伸出来的管线化" class="headerlink" title="延伸出来的管线化"></a>延伸出来的管线化</h4><p>持久连接使得管线化的方式成为可能，管线化技术出现后，不用等待即可发送下个请求</p>
+<p><strong>非管道化</strong>，完全串行执行，请求-&gt;响应-&gt;请求-&gt;响应…，后一个请求必须在前一个响应之后发送。</p>
+<p><strong>管道化</strong>，请求可以并行发出，但是响应必须串行返回。后一个响应必须在前一个响应之后。原因是，没有序号标明顺序，只能串行接收。</p>
+<p><strong>管道化请求的致命弱点</strong>:</p>
+<ol>
+<li>会造成队头阻塞，前一个响应未及时返回，后面的响应被阻塞</li>
+<li>请求必须是幂等请求，不能修改资源。因为，意外中断时候，客户端需要把未收到响应的请求重发，非幂等请求，会造成资源破坏。</li>
+</ol>
+<p>由于这个原因，目前大部分浏览器和Web服务器，都关闭了管道化，采用非管道化模式。</p>
+<p>无论是非管道化还是管道化，都会造成队头阻塞(请求阻塞)。</p>
+<h4 id="解决http队头阻塞的方法"><a href="#解决http队头阻塞的方法" class="headerlink" title="解决http队头阻塞的方法"></a><strong>解决http队头阻塞的方法</strong></h4><p><strong>1. 并发TCP连接</strong>：一个域名允许分配多个长连接，那么相当于增加了任务队列，不至于一个队伍的任务阻塞其它所有任务。（浏览器一个域名采用6-8个TCP连接，并发HTTP请求）<br><strong>2. 域名分片</strong>：一个域名的并发 长连接数是一定的，比如上方说的6-8个，那我就多分几个域名（多个域名，可以建立更多的TCP连接，从而提高HTTP请求的并发）</p>
+<p><strong>3.HTTP2方式</strong></p>
+<p>http2使用一个域名单一TCP连接发送请求，请求包被二进制分帧，不同请求可以互相穿插，避免了http层面的请求队头阻塞。<br>但是不能避免TCP层面的队头阻塞。</p>
 <h2 id="3-首部字段"><a href="#3-首部字段" class="headerlink" title="3.首部字段"></a>3.首部字段</h2><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>HTTP 报文包含报文首部和报文主体，报文首部包含请求行（或状态行）和首部字段。</p>
 <p>在报文众多的字段当中，HTTP 首部字段包含的信息最为丰富。首部字段同时存在于请求和响应报文内，并涵盖 HTTP 报文相关的内容信息。使用首部字段是为了给客服端和服务器端提供报文主体大小、所使用的语言、认证信息等内容。</p>
 <p><strong>结构</strong></p>
@@ -651,6 +666,11 @@
 <ul>
 <li>客户端(浏览器)向服务端发出请求，服务端返回证书给客户端。</li>
 <li>客户端拿到证书后，把证书里的签名与及明文信息分别取出来，然后会<strong>用自身携带的CA机构的公钥</strong>去解密签名，然后信息摘要1，然后再对明文信息进行HASH，得到一个信息摘要2，对比信息摘要1 和信息摘要2，如果一样，说明证书是合法的，也就是证书里的公钥是正确的。</li>
+<li>使用到的算法：摘要算法（Digest Algorithm），也就是常说的散列函数、哈希函数（Hash Function）。<ul>
+<li>目前 TLS 推荐使用的是 SHA-1 的后继者：SHA-2。</li>
+<li>SHA-2 实际上是一系列摘要算法的统称，总共有 6 种，常用的有 SHA224、SHA256、SHA384，分别能够生成 28 字节、32 字节、48 字节的摘要。</li>
+</ul>
+</li>
 </ul>
 <p>参考：<a href="https://network.51cto.com/art/202010/628890.htm" target="_blank" rel="noopener">https://network.51cto.com/art/202010/628890.htm</a></p>
 <h4 id="TLS协议"><a href="#TLS协议" class="headerlink" title="TLS协议"></a>TLS协议</h4><p>它建立在SSL 3.0协议规范之上，是SSL 3.0的后续版本</p>
@@ -667,8 +687,10 @@
 <li>session ticket</li>
 </ul>
 <p>Session用于保存每个用户的专用信息，变量的值保存在服务器端，通过Session ID来区分不同的客户，通过这个Session ID，双方还可以重新使用已有的”对话密钥“，无需重新生成</p>
-<p>session ID的优点是高兼容性，但缺点是只能保留在一个服务器上</p>
-<p>session ticket优点可在其他服务器上使用，它原理上就是让xx的的请求一直粘连在机器A上。缺点：目前只有火狐和谷歌支持</p>
+<p>session ID的优点是高兼容性</p>
+<p>缺点是只能保留在一个服务器上</p>
+<p>session ticket优点可在其他服务器上使用，它原理上就是让xx的的请求一直粘连在机器A上，下次重连的时候，就把这个 Ticket 进行解密，验证它过没过期，如果没过期那就直接恢复之前的会话状态。</p>
+<p>缺点：目前只有火狐和谷歌支持</p>
 <p>session ticket是加密的，只有服务器才能解密，其中包括对话的主要信息，比如对话密钥和加密方法。当服务器收到session ticket以后，解密后就不必重新生成对话密钥了。</p>
 <h2 id="5-响应状态码"><a href="#5-响应状态码" class="headerlink" title="5.响应状态码"></a>5.响应状态码</h2><p>100：信息型状态响应码表示目前为止一切正常, 客户端应该继续请求, 如果已完成请求则忽略.</p>
 <p>101：HTTP <code>**101 Switching Protocol**</code>（协议切换）状态码表示<strong>服务器</strong>应<strong>客户端**</strong>升级协议**的请求对协议进行切换。</p>
@@ -733,9 +755,29 @@
 <p><strong>前端缓存图</strong>：</p>
 <p><img src="/2021/03/15/chao-wen-ben-chuan-shu-xie-yi/huancun.jpg" alt></p>
 <h2 id="7-其他"><a href="#7-其他" class="headerlink" title="7.其他"></a>7.其他</h2><h4 id="范围请求"><a href="#范围请求" class="headerlink" title="范围请求"></a>范围请求</h4><p>假设你正在下载一个很大的文件，已经下了四分之三，忽然网络中断了，那下载就必须重头再来一遍。为了解决这个问题，需要一种可恢复的机制，即能从之前下载中断处恢复下载，要实现该功能，这就要用到范围请求。（前提是上一次请求到这一次请求时间段内，下载对象没有发生改变）</p>
+<p>当然，前提是服务器要支持<strong>范围请求</strong>，要支持这个功能，就必须加上这样一个响应头:</p>
+<pre class=" language-http"><code class="language-http"><span class="token header-name keyword">Accept-Ranges:</span> none</code></pre>
 <p>单一范围：我们可以请求资源的某一部分</p>
 <p>多重范围：一次请求文档的多个部分</p>
 <p>条件式范围：当（中断之后）重新开始请求更多资源片段的时候，必须确保自从上一个片段被接收之后该资源没有进行过修改。</p>
+<h4 id="HTTP代理"><a href="#HTTP代理" class="headerlink" title="HTTP代理"></a>HTTP代理</h4><p>代理有三个大功能</p>
+<p>1.<strong>负载均衡</strong></p>
+<p>2.<strong>保障安全</strong></p>
+<p>3.<strong>缓存代理</strong></p>
+<p>Via首部字段：里存储着代理服务器名称，他们的顺序为HTTP 传输中报文传达的顺序。</p>
+<p>X-Forwarded-For首部字段：它记录的是请求方的<code>IP</code>地址，但是这意味着每经过一个不同的代理，这个字段的名字都要变</p>
+<p>但是这会产生两个问题:</p>
+<ol>
+<li>意味着代理必须解析 HTTP 请求头，然后修改，比直接转发数据性能下降。</li>
+<li>在 HTTPS 通信加密的过程中，原始报文是不允许修改的。</li>
+</ol>
+<p>由此产生了<code>代理协议</code>，一般使用明文版本，只需要在 HTTP 请求行上面加上这样格式的文本即可:</p>
+<pre><code>// PROXY + TCP4/TCP6 + 请求方地址 + 接收方地址 + 请求端口 + 接收端口
+PROXY TCP4 0.0.0.1 0.0.0.2 1111 2222
+GET / HTTP/1.1
+...
+复制代码</code></pre><p>这样就可以解决<code>X-Forwarded-For</code>带来的问题了。</p>
+<p>X-Real-IP首部字段：始终记录最初的客户端的IP</p>
 <h2 id="8-QUIC"><a href="#8-QUIC" class="headerlink" title="8.QUIC"></a>8.QUIC</h2><p>Quic 全称 quick udp internet connection ，“快速 UDP 互联网连接”，也可以理解为http3.0</p>
 <p>应用：速度更快、网络切换（wifi -&gt; nG）无感知等、弱网络环境better</p>
 <p>对比http2.0：</p>
@@ -763,12 +805,16 @@
 <p>   还有可插拔、更多ACK块等</p>
 <ol start="3">
 <li><p><strong>避免队头阻塞的多路复用。</strong></p>
-<p>QUIC的多路复用，也可以实现在一条 QUIC 连接上可以并发发送多个 HTTP 请求 （stream），但是stream之间没有相互依赖，这导致了彼此不会相互影响，极大程度消除了对头阻塞的影响；</p>
-<p>并且QUIC 最基本的传输单元是 Packet，整个加密和认证过程都是基于 Packet 的，不会跨越多个 Packet。这样就能避免 TLS 协议存在的队头阻塞。</p>
-<p>而对比QUIC，http2.0的多路复用会队头阻塞，本身强制使用的TLS协议也存在一个队头阻塞</p>
-<p><img src="/2021/03/15/chao-wen-ben-chuan-shu-xie-yi/quic2.jpg" alt></p>
-<p><img src="/2021/03/15/chao-wen-ben-chuan-shu-xie-yi/quic3.jpg" alt></p>
+<p><strong>TCP队头阻塞</strong>：</p>
+<p>TCP数据包是有序传输，中间一个数据包丢失，会等待该数据包重传，造成后面的数据包的阻塞。</p>
 </li>
+</ol>
+<p>   QUIC的多路复用，也可以实现在一条 QUIC 连接上可以并发发送多个 HTTP 请求 （stream），但是stream之间没有相互依赖，这导致了彼此不会相互影响，极大程度消除了对头阻塞的影响；</p>
+<p>   并且QUIC 最基本的传输单元是 Packet，整个加密和认证过程都是基于 Packet 的，不会跨越多个 Packet。这样就能避免 TLS 协议存在的队头阻塞。</p>
+<p>   而对比QUIC，http2.0的多路复用会队头阻塞，本身强制使用的TLS协议也存在一个队头阻塞</p>
+<p>   <img src="/2021/03/15/chao-wen-ben-chuan-shu-xie-yi/quic2.jpg" alt></p>
+<p>   <img src="/2021/03/15/chao-wen-ben-chuan-shu-xie-yi/quic3.jpg" alt></p>
+<ol start="4">
 <li><p><strong>连接迁移。</strong></p>
 <p>WIFI 和 4G 移动网络切换时， ip发生变化 -&gt; 重新建立TCP连接；而任何一条 QUIC 连接不再以 IP 及端口四元组标识，而是以一个 64 位的随机数作为 ID 来标识，继而上层业务逻辑感知不到变化</p>
 </li>
@@ -1281,7 +1327,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">216.7k</span>&nbsp;字
+                class="white-color">227.6k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    14.6k
+                    14.7k
                 </div>
                 
 
@@ -874,13 +874,20 @@
 <p>tcp连接建立采用客户服务器方式，主动发起连接的应用进程叫作客户，被动等待连接建立的应用进程叫服务器</p>
 <p>连接建立过程：三次握手</p>
 <ul>
-<li>客户端发送报文段，里面无应用层数据，SYN（同步位） = 1，seq（序号） = x（随机）</li>
-<li>服务器端为该TCP连接分配缓存和变量，并向客户端返回确认报文段，允许连接，无应用层数据 SYN = 1，ACK（确认位） = 1，seq = y，ack（确认号） = x + 1.</li>
-<li>客户端为TCP连接分配缓存和变量，并向服务器返回确认的确认，可以携带数据，SYN = 0，ACK = 1，seq = x + 1，ack = y + 1</li>
+<li><p>客户端发送报文段，里面无应用层数据</p>
+<p>SYN（同步位） = 1，seq（序号） = x（随机）</p>
+</li>
+<li><p>服务器端为该TCP连接分配缓存和变量，并向客户端返回确认报文段，允许连接，无应用层数据 </p>
+<p>SYN = 1，ACK（确认位） = 1，seq = y，ack（确认号） = x + 1.</p>
+</li>
+<li><p>客户端为TCP连接分配缓存和变量，并向服务器返回确认的确认，可以携带数据</p>
+<p>SYN = 0，ACK = 1，seq = x + 1，ack = y + 1</p>
+</li>
 </ul>
 <p><strong>2次不行</strong>：</p>
 <ul>
 <li>客户端向服务器发送建立连接的请求报文段，有可能因为网络滞留了，之后等到这个滞留报文段到达服务端时，客户端早已重新发送请求连接的报文，而服务端不这么认为，服务端他以为你发了新的连接请求，此时服务端向客户端发送确认报文，而客户端收到这个响应，但是发现这个请求在之前就发过了，就会忽略，而此时服务端苦苦等待客户端的响应，这样就会造成资源浪费</li>
+<li>当然也可以概括为：并不知道客户端的接受能力是否正常</li>
 </ul>
 <p><strong>4次不行</strong>：</p>
 <ul>
@@ -941,11 +948,13 @@
 <pre><code>GET /chat HTTP/1.1
 Host: server.example.com
 Upgrade: websocket
-Connection: Upgrade                        （Connection：通用首部字段）
-Sec-WebSocket-Key: x3JJHMbDL1EzLkh9GBhXDw==
-Sec-WebSocket-Protocol: chat, superchat
-Sec-WebSocket-Version: 13
-Origin: http://example.com</code></pre><h5 id="WebSocket推送技术"><a href="#WebSocket推送技术" class="headerlink" title="WebSocket推送技术"></a>WebSocket推送技术</h5><p>现在，很多网站为了实现推送技术，所用的技术都是 Ajax 轮询。轮询是在特定的的时间间隔（如每1秒），由浏览器对服务器发出HTTP请求，然后由服务器返回最新的数据给客户端的浏览器</p>
+Connection: Upgrade                         （Connection：通用首部字段）
+Sec-WebSocket-Key: x3JJHMbDL1EzLkh9GBhXDw== （浏览器随机生成，验证作用）
+Sec-WebSocket-Protocol: chat, superchat     （不同的服务所需要的协议）
+Sec-WebSocket-Version: 13                   （协议版本）
+Origin: http://example.com</code></pre><p>而其中的核心在</p>
+<pre><code>Upgrade: websocket
+Connection: Upgrade</code></pre><h5 id="WebSocket推送技术"><a href="#WebSocket推送技术" class="headerlink" title="WebSocket推送技术"></a>WebSocket推送技术</h5><p>现在，很多网站为了实现推送技术，所用的技术都是 Ajax 轮询。轮询是在特定的的时间间隔（如每1秒），由浏览器对服务器发出HTTP请求，然后由服务器返回最新的数据给客户端的浏览器</p>
 <p>1.浏览器通过 JavaScript 向服务器发出建立 WebSocket 连接的请求，连接建立以后，客户端和服务器端就可以通过 TCP 连接直接交换数据。（通过握手建立连接，http协议升级为websocket协议，服务端响应101状态码）</p>
 <p>2.当你获取 Web Socket 连接后，你可以通过 <strong>send()</strong> 方法来向服务器发送数据，并通过 <strong>onmessage</strong> 事件来接收服务器返回的数据。（允许服务端主动向客户端推送数据）</p>
 <p><img src="/2021/01/08/ji-wang-personal-note/WebSocket.jpg" alt></p>
@@ -1581,7 +1590,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">216.7k</span>&nbsp;字
+                class="white-color">227.6k</span>&nbsp;字
             
             
             

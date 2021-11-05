@@ -547,7 +547,8 @@
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">xss</span><span class="token punctuation">(</span><span class="token string">'&lt;a href="#" onclick="alert(/xss/)">click me&lt;/a>'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>浏览器端使用</p>
 <pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">filterXSS</span><span class="token punctuation">(</span><span class="token string">'&lt;a href="#" onclick="alert(/xss/)">click me&lt;/a>'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h3 id="CSP"><a href="#CSP" class="headerlink" title="CSP"></a>CSP</h3><p>内容安全策略( CSP )</p>
+<p>当然除了XSS过滤工具，还有<strong>Sanitizer</strong>这个API，可以配置白名单，黑名单，但兼容性很差</p>
+<h4 id="CSP"><a href="#CSP" class="headerlink" title="CSP"></a>CSP</h4><p>内容安全策略( CSP )</p>
 <p>内容安全策略  (<a href="https://developer.mozilla.org/zh-CN/docs/Glossary/CSP" target="_blank" rel="noopener">CSP</a>) 是一个额外的安全层，用于检测并削弱某些特定类型的攻击，包括跨站脚本 (<a href="https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting" target="_blank" rel="noopener">XSS (en-US)</a>) 和数据注入攻击等</p>
 <p>CSP 本质上就是建立白名单，开发者明确告诉浏览器哪些外部资源可以加载和执行。我们只需要配置规则，如何拦截是<strong>由浏览器自己实现</strong>的。我们可以通过这种方式来尽量减少 XSS 攻击。</p>
 <p><strong>使用</strong>（开启 CSP）</p>
@@ -1175,7 +1176,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">216.7k</span>&nbsp;字
+                class="white-color">227.6k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.1k
+                    2.7k
                 </div>
                 
 
@@ -538,13 +538,18 @@
 <p><code>npm install 包名</code> / <code>npm i 包名</code> 当前目录安装包（可以先创建一个文件夹）（尾部加<code>--save</code>，则添加到当前package.json的依赖里）</p>
 <p>如果尾部加 <code>--save-dev</code>则为开发时依赖</p>
 <p><code>npm install 包名 -g</code> 全局模式安装包（一般都是计算机里的工具）</p>
+<p>如果本身电脑上有该包，则直接 <code>npm install 包名</code>则会直接下载最新版本 </p>
 <p><strong>删除</strong></p>
 <p><code>npm remove 包名</code> / <code>npm r 包名</code> 删除包 （这个好像是旧版的）</p>
 <p><code>npm uninstall 模块</code>：删除模块，但不删除模块留在package.json中的对应信息</p>
 <p><code>npm uninstall 模块 --save</code> 删除模块，同时删除模块留在package.json中dependencies下的对应信息</p>
 <p><code>npm uninstall 模块 --save-dev</code> 删除模块，同时删除模块留在package.json中devDependencies下的对应信息</p>
 <p><strong>查看包版本</strong><br><code>npm view &lt;pkg&gt; version</code> 查看包版本<br><code>npm view &lt;pkg&gt; versions</code> 查看包更多历史版本</p>
-<h4 id="国内使用npm-npx"><a href="#国内使用npm-npx" class="headerlink" title="国内使用npm/npx"></a>国内使用npm/npx</h4><p>连接国外的npm服务器是，遇到卡顿问题可以试一试国内淘宝的镜像npm进行配置（此时指令<code>nmp</code>-&gt;<code>cnmp</code>）(但是听说cnmp会有诡异的bug，因为cnpm安装模块路径比较奇怪，packager不能正常识别)</p>
+<pre><code>npm i module_name  -S  = &gt;  npm install module_name --save    写入到 dependencies 对象
+
+npm i module_name  -D  =&gt; npm install module_name --save-dev   写入到 devDependencies 对象
+
+npm i module_name  -g  全局安装</code></pre><h4 id="国内使用npm-npx"><a href="#国内使用npm-npx" class="headerlink" title="国内使用npm/npx"></a>国内使用npm/npx</h4><p>连接国外的npm服务器是，遇到卡顿问题可以试一试国内淘宝的镜像npm进行配置（此时指令<code>nmp</code>-&gt;<code>cnmp</code>）(但是听说cnmp会有诡异的bug，因为cnpm安装模块路径比较奇怪，packager不能正常识别)</p>
 <p>可以使用nrm切换淘宝源</p>
 <pre class=" language-shell"><code class="language-shell"># 使用nrm工具切换淘宝源
 npx nrm use taobao
@@ -573,6 +578,19 @@ npx nrm use npm</code></pre>
 <p><strong>后期</strong>：为了解决 <code>npm install</code> 的不确定性问题，在 <code>npm 5.x</code> 版本新增了 <code>package-lock.json</code> 文件，而安装方式还沿用了 <code>npm 3.x</code> 的扁平化的方式。</p>
 <p><code>package-lock.json</code> 的作用是锁定依赖结构，即只要你目录下有 <code>package-lock.json</code> 文件，那么你每次执行 <code>npm install</code> 后生成的 <code>node_modules</code> 目录结构一定是完全相同、一一对应的。</p>
 <h4 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a><strong>缓存</strong></h4><p>在执行 <code>npm install</code> 或 <code>npm update</code>命令下载依赖后，除了将依赖包安装在<code>node_modules</code> 目录下外，还会在本地的缓存目录缓存一份。</p>
+<h2 id="管理Node版本"><a href="#管理Node版本" class="headerlink" title="管理Node版本"></a>管理Node版本</h2><p>可以使用nvm进行包管理，随时切换node版本（来源<a href="https://juejin.cn/post/7025207757242531847）" target="_blank" rel="noopener">https://juejin.cn/post/7025207757242531847）</a></p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 设置 node 安装源</span>
+nvm node_mirror https<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>npm<span class="token punctuation">.</span>taobao<span class="token punctuation">.</span>org<span class="token operator">/</span>mirrors<span class="token regex">/node/</span>
+nvm npm_mirror https<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>npm<span class="token punctuation">.</span>taobao<span class="token punctuation">.</span>org<span class="token operator">/</span>mirrors<span class="token regex">/npm/</span>
+
+<span class="token comment" spellcheck="true">// 安装版本</span>
+nvm install latest
+<span class="token comment" spellcheck="true">// 使用指定版本</span>
+nvm use v17<span class="token number">.0</span><span class="token punctuation">.</span><span class="token number">0</span>
+<span class="token comment" spellcheck="true">// 查看系统存在的 node 版本</span>
+nvm list
+<span class="token comment" spellcheck="true">// 卸载指定 node 版本</span>
+nvm uninstall <span class="token number">17.0</span><span class="token punctuation">.</span><span class="token number">0</span></code></pre>
 <h2 id="NPX"><a href="#NPX" class="headerlink" title="NPX"></a>NPX</h2><p>npx是一个工具，npm v5.2.0引入的一条命令（npx），一个npm包执行器，指在提高从npm注册表使用软件包时的体验 ，npm使得它非常容易地安装和管理托管在注册表上的依赖项，npx使得使用CLI工具和其他托管在注册表。它大大简化了一些事情。</p>
 <p>主要特点：</p>
 <ul>
@@ -591,14 +609,22 @@ create-react-app 项目名称</code></pre>
 </li>
 <li><p>自动加载node_modules中依赖包，不用指定$PATH。</p>
 </li>
-<li><p>可以指定node版本、命令的版本，解决了不同项目使用不同版本的命令的问题。</p>
+<li><p>可以指定node版本、命令的版本，解决了不同项目使用不同版本的命令的问题。（<code>-p</code>参数用于指定 npx 所要安装的模块）</p>
 <ul>
 <li><pre class=" language-shell"><code class="language-shell">npx -p node@8 npm run build</code></pre>
 </li>
 </ul>
 </li>
 </ul>
-<h2 id="PNMP"><a href="#PNMP" class="headerlink" title="PNMP"></a>PNMP</h2><p>截至2021/11/5, GitHub的Star数量为13.4k</p>
+<p>  甚至可以</p>
+<p>  利用 npx 可以下载模块这个特点，可以指定某个版本的 Node 运行脚本。它的窍门就是使用 npm 的 <a href="https://www.npmjs.com/package/node" target="_blank" rel="noopener">node 模块</a>。</p>
+<blockquote>
+<pre class=" language-bash"><code class="language-bash">$ npx node@0.12.8 -v
+v0.12.8</code></pre>
+</blockquote>
+<p>  上面命令会使用 0.12.8 版本的 Node 执行脚本。原理是从 npm 下载这个版本的 node，使用后再删掉。</p>
+<p>  某些场景下，这个方法用来切换 Node 版本，要比 nvm 那样的版本管理器方便一些。</p>
+<h2 id="PNMP"><a href="#PNMP" class="headerlink" title="PNMP"></a>PNMP</h2><p>截至2021/11/5, GitHub的Star数量为13.4k，目前Vue、微软、字节都有在使用</p>
 <p>下载同yarn：</p>
 <pre class=" language-shell"><code class="language-shell">npm install -g pnpm</code></pre>
 <p>从结果上来看，它具有以下优势：</p>
@@ -607,14 +633,26 @@ create-react-app 项目名称</code></pre>
 <li>极其简洁的node_modules目录</li>
 <li>避免了开发时使用间接依赖的问题</li>
 <li>能极大的降低磁盘空间的占用</li>
+<li>对<strong>monorepo</strong>支持</li>
 </ul>
-<p>优势来源： pnpm 使用<strong>符号链接和硬链接</strong>（Hard Link）</p>
+<p>优势来源： pnpm 使用<strong>符号链接和硬链接</strong>（Hard Link），它会在全局的 store 目录里存储项目 <code>node_modules</code> 文件的 <code>hard links</code> </p>
 <ul>
 <li><p>一个<strong>硬链接</strong>是一个<a href="https://en.wikipedia.org/wiki/Directory_entry" target="_blank" rel="noopener">目录条目</a>，一个名字与关联<a href="https://en.wikipedia.org/wiki/Computer_file" target="_blank" rel="noopener">文件</a>的<a href="https://en.wikipedia.org/wiki/File_system" target="_blank" rel="noopener">文件系统</a>。所有<a href="https://en.wikipedia.org/wiki/Directory_(computing)" target="_blank" rel="noopener">基于目录的</a>文件系统必须至少有一个硬链接，为每个文件提供原始名称</p>
-<p>一个优势例子来源于知乎<a href="https://zhuanlan.zhihu.com/p/404784010" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/404784010</a></p>
+<p>硬链接指通过索引节点来进行连接。在Linux的文件系统中，保存在磁盘分区中的文件不管是什么类型都给它分配一个编号，称为索引节点号(Inode Index)。在Linux中，多个文件名指向同一索引节点是存在的</p>
+<p>一个优势例子来源于知乎</p>
+<p><a href="https://zhuanlan.zhihu.com/p/404784010" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/404784010</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/352437367" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/352437367</a></p>
 <p>例如项目里面有个 1MB 的依赖 a，在 pnpm 中，看上去这个 a 依赖同时占用了 1MB 的 node_modules 目录以及全局 store 目录 1MB 的空间(加起来是 2MB)，但因为 <code>hard link</code> 的机制使得两个目录下相同的 1MB 空间能从两个不同位置进行寻址，因此实际上这个 a 依赖只用占用 1MB 的空间，而不是 2MB。</p>
 </li>
 </ul>
+<ul>
+<li><p>软链接</p>
+<p>符号连接（Symbolic Link），也叫软连接。软链接文件有类似于Windows的快捷方式。它实际上是一个特殊的文件。在符号连接中，文件实际上是一个文本文件，其中包含的有另一文件的位置信息。</p>
+<p>不论是硬连结或软链结都不会将原本的档案复制一份，只会占用非常少量的磁碟空间。</p>
+</li>
+</ul>
+<h2 id="关于Node切换版本"><a href="#关于Node切换版本" class="headerlink" title="关于Node切换版本"></a>关于Node切换版本</h2><p>可以参考以下文章</p>
+<p><a href="https://blog.csdn.net/weixin_44582077/article/details/110237056" target="_blank" rel="noopener">https://blog.csdn.net/weixin_44582077/article/details/110237056</a></p>
 
             </div>
             <hr/>
@@ -1125,7 +1163,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">227.6k</span>&nbsp;字
+                class="white-color">237k</span>&nbsp;字
             
             
             

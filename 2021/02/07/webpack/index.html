@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.6k
+                    7.5k
                 </div>
                 
 
@@ -490,7 +490,22 @@
 <p>而且不仅仅JS文件，CSS文件、图片文件等在Webpack也会被当成模块来使用</p>
 <p>打包后生成一个文件夹，在服务器进行部署即可</p>
 <p>首先推荐一个wepack入门 <a href="https://segmentfault.com/a/1190000006178770" target="_blank" rel="noopener">https://segmentfault.com/a/1190000006178770</a></p>
-<h4 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h4><p>新建两个文件夹，src放置开发的源码，dist放置之后打包的文件</p>
+<h4 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h4><p>安装</p>
+<pre class=" language-shell"><code class="language-shell">npm i webpack webpack-cli -g</code></pre>
+<ul>
+<li>执行webapck命令，会执行node_modules下面的bin目录的webpack</li>
+<li>webpack执行时依赖webpack-cli，如果没有安装则会报错</li>
+<li>webpack-cli执行的时候才是真正利用webpack进行编译和打包的过程</li>
+<li>所以在安装webpack的时候，我们需要安装webpack-cli（但是第三方脚手架没有用到webpack-cli，因为他们有类似的东西，比如vue-service-cli）</li>
+</ul>
+<p>若只想执行本目录下node_modules的webpack版本可以使用</p>
+<pre class=" language-shell"><code class="language-shell">npx webpack</code></pre>
+<p>这种在package.json的script里（脚本），设置 </p>
+<pre class=" language-json"><code class="language-json"><span class="token property">"script"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"build"</span><span class="token operator">:</span> <span class="token string">"webpack"</span>
+<span class="token punctuation">}</span></code></pre>
+<p>执行 <code>npm run build</code>即可</p>
+<p>新建两个文件夹，src放置开发的源码，dist放置之后打包的文件</p>
 <p>方法一：webpack在打包的时候，会查看你有没有依赖其他文件，所以给一个入口文件(<code>main.js</code>或者<code>index.js</code>)就好了 </p>
 <pre class=" language-powershell"><code class="language-powershell">webpack 入口文件<span class="token punctuation">.</span>js <span class="token punctuation">.</span><span class="token punctuation">.</span>\dist\打包后文件名<span class="token punctuation">.</span>js</code></pre>
 <p>这时在html文件内用script引用打包后的js文件即可</p>
@@ -521,25 +536,58 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 <p>webpack主要用来处理我们js代码，进行模块化开发，并且自动处理js之间的依赖关系</p>
 <p>但是在开发中，我们不仅仅有基本的js代码需要处理，也需要加载css、图片，包括一些高级的将ES6转化为ES5代码，或者TypeScript转化为ES5代码，将scss、less转化为css，css兼容低版本的等等</p>
 <p>对于webpack本身能力来说，对于这些转化是不支持的，这时我们需要用到loader。</p>
+<p>注意：在use选项中，loader的放置顺序需要注意下，是从下往上的，比如style-loader一定要比css-loader后执行，所以style-loader放上面，css-loader放下面</p>
 <p>1.通过npm安装需要使用的loader</p>
 <p>2.在webpack.config.js的module关键字下进行配置（根据官网给的配置信息填充就可以了）</p>
-<h4 id="处理CSS文件"><a href="#处理CSS文件" class="headerlink" title="处理CSS文件"></a><strong>处理CSS文件</strong></h4><p>这里举一个CSS文件打包的例子，需要配置 <code>style-loader</code> （负责将导出的样式添加到DOM）和 <code>css-loader</code>（负责加载并解析import的CSS文件）</p>
+<h4 id="处理CSS文件"><a href="#处理CSS文件" class="headerlink" title="处理CSS文件"></a><strong>处理CSS文件</strong></h4><p>这里举一个CSS文件打包的例子，需要配置 <code>style-loader</code> （负责将导出的样式添加到DOM（用于生效））和 <code>css-loader</code>（负责加载并解析import的CSS文件（用于加载））</p>
 <p>在 <strong>入口的js文件</strong> 里添加 指定的css文件，这时候打包使用webpack进行打包就会连同css文件也打包进去了</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//依赖CSS文件</span>
 <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./css/normal.css'</span><span class="token punctuation">)</span></code></pre>
 <p>兼容低版本浏览器，css还可以使用postcss-loader</p>
 <pre class=" language-shell"><code class="language-shell">npm i -D postcss postcss-loader postcss-preset-env</code></pre>
-<h4 id="处理图片"><a href="#处理图片" class="headerlink" title="处理图片"></a><strong>处理图片</strong></h4><p>在使用到图片的场景时，又需要对应的图片<code>url-loader</code></p>
+<h4 id="处理图片"><a href="#处理图片" class="headerlink" title="处理图片"></a><strong>处理图片</strong></h4><p>（在webpack5里面，url-loader和file-loader不再使用）</p>
+<p>当CSS要使用 <code>background-image</code>的url导入图片时，可以安装 <code>file-loader</code>并且在webpack.config.js中配置，用于加载图片</p>
+<p>若想要在html中设置某元素的src，我们不应该直接根据当前图片距离我们的路径进行字符串设置，而是应该由打包的思想，引入模块来连接它们之间的关系</p>
+<pre class=" language-js"><code class="language-js"> module<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 指定加载规则</span>
+    rules<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        test<span class="token punctuation">:</span> <span class="token regex">/\.(jpe?g|png|gif|svg)/</span>
+        use<span class="token punctuation">:</span> <span class="token string">"file-loader"</span>
+       <span class="token punctuation">}</span>
+     <span class="token punctuation">]</span>
+ <span class="token punctuation">}</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> Image <span class="token keyword">from</span> <span class="token string">'../img/xx.jpg'</span>
+imgEl<span class="token punctuation">.</span>src <span class="token operator">=</span> Image<span class="token punctuation">;</span></code></pre>
+<p>在使用到图片的场景时，也可以使用对应的图片<code>url-loader</code></p>
 <p>关于url的loader中配置的<code>option</code>选项有一个<code>limit</code>      可以进行设置： <code>limit: 8192,</code></p>
 <p>当加载的图片小于这个<code>limit</code>时，会将图片编译成base64字符串形式</p>
 <p>若大于limit，则还需要安装一个loader，即<code>file-loader</code>模块进行加载，从入口js文件打包会得到一张随机命名（32位的哈希值）的图片于dist文件夹中。（安装后并不需要配置<code>file-loader</code>）</p>
 <p>（如果index.html（想要加载到的页面）在dist文件外面，这时就还需要在webpack的配置文件里的<code>output</code>中，添加<code>publicPath:&#39;dist/&#39;</code>，这样以后涉及到url的路径，都会自动添加上 <code>&#39;dist/&#39;</code>；但是如果安装了HtmlWebpackPlugin插件之后，html文件将在dist文件夹中自动生成，此操作则要<strong>废弃</strong>）</p>
 <p>但是真实开发中对打包的图片命名有一定要求，我们可以在<code>url-loader</code>的配置option里面，增加其他属性</p>
+<p>命名规范：<a href="https://v4.webpack.js.org/loaders/file-loader/#n" target="_blank" rel="noopener">https://v4.webpack.js.org/loaders/file-loader/#n</a></p>
 <pre class=" language-js"><code class="language-js">options<span class="token punctuation">:</span> <span class="token punctuation">{</span>
     limit<span class="token punctuation">:</span> <span class="token number">8192</span><span class="token punctuation">,</span>
-    <span class="token comment" spellcheck="true">// 按照这个规范进行命名</span>
-    name<span class="token punctuation">:</span> <span class="token string">'img/[name].[hash:8].[ext]'</span><span class="token punctuation">,</span>
+    name<span class="token punctuation">:</span> <span class="token string">'img/[name].[hash:8].[ext]'</span><span class="token punctuation">,</span>  <span class="token comment" spellcheck="true">// 按照这个规范进行命名，ext是拓展名，打包的时候放到</span>
+    <span class="token comment" spellcheck="true">//output: "img"                     上方没有“img/”的时候可以写，输出到打包文件夹下img文件里</span>
 <span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
+<h4 id="webpack5资源模块类型"><a href="#webpack5资源模块类型" class="headerlink" title="webpack5资源模块类型"></a>webpack5资源模块类型</h4><p>上述说道webpack5开始，我们可以直接使用资源模块类型（asset module type）来替代以上处理图片、其他资源的loader</p>
+<p>注意！不用下载loader了！！</p>
+<ul>
+<li>asset/resource，发送一个文件并导出url（替代file-loader）</li>
+<li>asset/inline，导出一个资源URI（替代url-loader，通过<a href="https://webpack.docschina.org/configuration/module/#ruleparserdataurlcondition" target="_blank" rel="noopener"><code>Rule.parser.dataUrlCondition.maxSize</code></a> 选项来修改此limit）</li>
+<li>asset/source，导出资源的源代码（替代raw-loader）</li>
+<li>asset在导出data URI和发送一个单独的文件之间自动选择，之前通过url-loader，并且通过配置资源体积限制实现</li>
+</ul>
+<pre class=" language-js"><code class="language-js"> module<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 指定加载规则</span>
+    rules<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        test<span class="token punctuation">:</span> <span class="token regex">/\.(jpe?g|png|gif|svg)/</span>
+        type<span class="token punctuation">:</span> <span class="token string">"asset/resource"</span>
+       <span class="token punctuation">}</span>
+     <span class="token punctuation">]</span>
+ <span class="token punctuation">}</span></code></pre>
 <h4 id="处理ES6语法"><a href="#处理ES6语法" class="headerlink" title="处理ES6语法"></a>处理ES6语法</h4><p>如果希望将ES6语法转化成ES5语法，我们可以使用babel对应的loader，配置打包得到新的js文件</p>
 <pre class=" language-shell"><code class="language-shell">npm install -D babel-loader @babel/core @babel/preset-env webpack</code></pre>
 <ul>
@@ -557,6 +605,7 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 </li>
 </ul>
 <p>其实还可以装一个<code>core-js</code>，<code>core-js</code>用来使老版本的浏览器支持新版ES语法（比如老版本没有Promise，它会给你引进去coreJs库里的Promise函数），然后按需加载可以使用到的 <code>core-js</code> 部分</p>
+<p>（如果想要不依赖webpack，单独使用babel，可以再安装一个@babel/cli ，可以让我们在命令行使用babel，可以取到babeljs.io，也就是babel的官网查看命令）</p>
 <p>配置：</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'path'</span><span class="token punctuation">)</span>
 
@@ -603,7 +652,15 @@ module<span class="token punctuation">.</span>exports <span class="token operato
     <span class="token punctuation">]</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span></code></pre>
-<h4 id="babel优化"><a href="#babel优化" class="headerlink" title="babel优化"></a>babel优化</h4><p>影响打包效率的loader首当其冲必属 Babel 了</p>
+<p>当然，现在babel的配置看起来十分冗长，我们可以创建一个babel.config.js / babel.config.json 将babel配置信息放在一个独立的文件中</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//babel.config.js</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+    preset<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">"@babel/preset-env"</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>然后在webpack.config.js里的rules里直接use <code>babel-loader</code>即可</p>
+<h5 id="babel优化"><a href="#babel优化" class="headerlink" title="babel优化"></a>babel优化</h5><p>影响打包效率的loader首当其冲必属 Babel 了</p>
 <p>我们可以控制babel文件搜索范围，只转换指定文件夹下的代码，去除没必要转换的部分，比如node_modules</p>
 <pre class=" language-js"><code class="language-js">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
   module<span class="token punctuation">:</span> <span class="token punctuation">{</span>
@@ -620,6 +677,13 @@ module<span class="token punctuation">.</span>exports <span class="token operato
     <span class="token punctuation">]</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
+<h5 id="babel原理"><a href="#babel原理" class="headerlink" title="babel原理"></a><strong>babel</strong>原理</h5><p>babel就是从一种源代码转换为另外一种源代码，或者把babel看成一种编译器</p>
+<p>工作流程</p>
+<ul>
+<li>解析阶段（词法分析，语法分析）</li>
+<li>转换阶段（中间代码生成，AST抽象语法树）</li>
+<li>生成阶段</li>
+</ul>
 <h4 id="处理Vue"><a href="#处理Vue" class="headerlink" title="处理Vue"></a>处理Vue</h4><p>引入Vue.js 首先在项目中使用Vue.js，需要先通过npm安装Vue</p>
 <pre class=" language-shell"><code class="language-shell">npm install vue --save</code></pre>
 <p>但是，vue在最终构建发布版本时，会构建两类版本，分别是 </p>
@@ -635,8 +699,8 @@ module<span class="token punctuation">.</span>exports <span class="token operato
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <p>如果想要通过vue文件分离组件和主要的main.js文件时，会是使用到vue文件</p>
-<p>这时需要安装 <code>vue-loader</code>（负责加载） 和 <code>vue-template-compiler</code>（负责编译）</p>
-<p>老样子在<code>module</code>的 <code>rules</code> 添加配置信息</p>
+<p>这时需要安装 <code>vue-loader</code>（负责加载，如果是Vue3则安装 <code>vue-loader@next</code> ） 和 <code>@vue/complier-sfc-D</code>（负责编译）</p>
+<p>老样子在<code>module</code>的 <code>rules</code> 添加配置信息（这里没use@vue/complier-sfc-D是因为vue-loader内部已经use了）</p>
 <pre class=" language-js"><code class="language-js">test<span class="token punctuation">:</span> <span class="token regex">/\.vue$/</span><span class="token punctuation">,</span>
 use<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'vue-loader'</span><span class="token punctuation">]</span></code></pre>
 <p>但是Vue Loader v15 现在需要配合一个 webpack 插件才能正确使用：</p>
@@ -649,6 +713,15 @@ module<span class="token punctuation">.</span>exports <span class="token operato
     <span class="token keyword">new</span> <span class="token class-name">VueLoaderPlugin</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   <span class="token punctuation">]</span>
 <span class="token punctuation">}</span></code></pre>
+<h4 id="PostCSS工具"><a href="#PostCSS工具" class="headerlink" title="PostCSS工具"></a>PostCSS工具</h4><p>PostCSS是一个通过JavaScript转换样式的工具，这个工具可以帮助我们进行一些CSS的适配，比如添加浏览器前缀、css样式重置等。</p>
+<p>使用：</p>
+<ul>
+<li>查找PostCSS在构建工具中的拓展、入webpack的postcss-loader</li>
+<li>选择可以添加你需要的PostCSS相关插件</li>
+</ul>
+<p>比如比较好用的插件比如</p>
+<p>autoprefixer（浏览器前缀处理，使用<a href="http://www.caniuse.com/" target="_blank" rel="noopener">Can I Use</a>的数据来决定哪些前缀是需要的）；</p>
+<p>postcss-preset-env，它可以帮助我们将一些现代的CSS特型转化大多浏览器都认识的CSS，并且根据目标浏览器或运行时的环境添加所需polyfill，也包括会自动帮我们添加autoprefixer</p>
 <h4 id="优化的Loader"><a href="#优化的Loader" class="headerlink" title="优化的Loader"></a>优化的Loader</h4><p><strong>HappyPack</strong>：受限于 Node 是单线程运行的，所以 Webpack 在打包的过程中也是单线程的，特别是在执行 Loader 的时候，长时间编译的任务很多，这样就会导致等待的情况，然而HappyLoader可以将Loader单行转换为并行</p>
 <p><strong>eslint-loader</strong>：通过 ESLint 检查 JavaScript 代码</p>
 <h2 id="3-plugin"><a href="#3-plugin" class="headerlink" title="3.plugin"></a>3.plugin</h2><p>plugin是插件的意思，通常用于对某个现有架构进行扩展</p>
@@ -683,9 +756,11 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 <span class="token punctuation">}</span></code></pre>
 <p>此时生成的html文件的<code>body</code>内还没有根元素绑定Vue，我们可以给个模板，模板里有我们理想的存放好的标签，让它根据模板生成该 <code>div</code>元素</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">HtmlWebpackPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 寻找当前目录下的index.html, 根据这个生成模板</span>
+    <span class="token comment" spellcheck="true">// 寻找当前目录下的index.html, 根据这个生成模板，可以参考Vue的脚手架搭建时下面防止的模板html</span>
     template<span class="token punctuation">:</span> <span class="token string">'index.html'</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<h4 id="DefinePlugin全局变量"><a href="#DefinePlugin全局变量" class="headerlink" title="DefinePlugin全局变量"></a>DefinePlugin全局变量</h4><p>webpack内部有一个DefinePlugin，可以直接通过以下方式进行获取，然后在webpack.config.js里面获取设置全局变量</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> DefinePlugin <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"webpack"</span><span class="token punctuation">)</span></code></pre>
 <h4 id="js压缩的plugin"><a href="#js压缩的plugin" class="headerlink" title="js压缩的plugin"></a>js压缩的plugin</h4><p>压缩js代码空间（丑化）安装：这里我是用的 <code>uglifyjs-webpack-plugin</code>版本时1.1.1，和CLI2保持一致</p>
 <pre class=" language-shell"><code class="language-shell">npm install uglifyjs-webpack-plugin@1.1.1 --save-dev</code></pre>
 <pre class=" language-js"><code class="language-js">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
@@ -710,6 +785,20 @@ module<span class="token punctuation">.</span>exports <span class="token operato
     <span class="token keyword">new</span> <span class="token class-name">HtmlWebpackPlugin</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   <span class="token punctuation">]</span>
 <span class="token punctuation">}</span></code></pre>
+<h4 id="一些其他的webpack设置"><a href="#一些其他的webpack设置" class="headerlink" title="一些其他的webpack设置"></a>一些其他的webpack设置</h4><pre class=" language-js"><code class="language-js">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/*设置模式，可以去官网查看，其实这个模式代表webpack帮你调了很多配置
+    1.development，开发阶段
+    2.production，打包上线阶段
+    */</span>
+    mode<span class="token punctuation">:</span> <span class="token string">"development"</span><span class="token punctuation">,</span>
+    <span class="token comment" spellcheck="true">//设置source-map，简历js映射文件（类似于我们在vue3中调试源码的行为），方便调试代码错误</span>
+    devtool<span class="token punctuation">:</span> <span class="token string">"source-map"</span><span class="token punctuation">,</span>
+    entry<span class="token punctuation">:</span> <span class="token string">'./src/main.js'</span><span class="token punctuation">,</span>
+    output<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        path<span class="token punctuation">:</span> path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'dist'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        filename<span class="token punctuation">:</span> <span class="token string">'bundle.js'</span>        <span class="token comment" spellcheck="true">//打包后的文件名</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <h2 id="4-其他"><a href="#4-其他" class="headerlink" title="4.其他"></a>4.其他</h2><h4 id="Loader和Plugin"><a href="#Loader和Plugin" class="headerlink" title="Loader和Plugin"></a>Loader和Plugin</h4><p>loader类似于一个转换器，plugin相对webpack本身的拓展，类似于一个拓展器</p>
 <p><strong>不同的作用</strong></p>
 <ul>
@@ -721,33 +810,83 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 <li><strong>Loader</strong>在<code>module.rules</code>中配置，也就是说他作为模块的解析规则而存在。 类型为数组，每一项都是一个<code>Object</code>，里面描述了对于什么类型的文件（<code>test</code>），使用什么加载(<code>loader</code>)和使用的参数（<code>options</code>）</li>
 <li><strong>Plugin</strong>在<code>plugins</code>中单独配置。 类型为数组，每一项是一个<code>plugin</code>的实例，参数都通过构造函数传入。</li>
 </ul>
+<h4 id="webpack的watch模式"><a href="#webpack的watch模式" class="headerlink" title="webpack的watch模式"></a>webpack的watch模式</h4><p>开启方法：</p>
+<p>方法一：在导出配置中，添加<code>watch: true</code></p>
+<p>方法二：在启动webpack的命令中，添加 <code>--watch</code>的标识</p>
+<p>该模式下，webpack依赖图的所有文件，只要有一个发生了更新，那么代码将被重新编译</p>
+<p>但如果使用下方搭建服务，则没必要开启这个watch模式</p>
 <h4 id="webpack搭建服务"><a href="#webpack搭建服务" class="headerlink" title="webpack搭建服务"></a>webpack搭建服务</h4><p>为了让webpack提供开发时服务，可以装载<code>webpack-dev-server</code>搭建本地服务器（脚手架2里使用的版本为2.9.3，所以这里我安装2.9.3），它内部使用了express框架</p>
 <p>实际上Vue、React脚手架搭建完毕后，呈现的页面都用到了这个本地服务器</p>
 <pre class=" language-shell"><code class="language-shell">npm install webpack-dev-server@2.9.3 --save-dev </code></pre>
 <p>在webpack.config.js里配置</p>
+<p>再推荐一个<code>copyWebpackPlugin</code>，帮助你把资源在webpack打包的时候，也放进去</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'path'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
     <span class="token comment" spellcheck="true">//...</span>
     devServer<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">/*
+        contentBase为：在webpack给我们打包的资源中找不到时，再去查找的地址，是一个额外的文件地址
+        一般用于在开发时段不想使用copyWebpackPlugin，避免打包的时候速度太慢
+        开发阶段：contentBase
+        打包阶段：copyWebpackPlugin，然后放到服务器中
+        */</span>
         contentBase<span class="token punctuation">:</span> path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'dist'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
         <span class="token comment" spellcheck="true">// inline是否实时监听</span>
         inline<span class="token punctuation">:</span><span class="token boolean">true</span><span class="token punctuation">,</span>
-        compress<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
-        port<span class="token punctuation">:</span> <span class="token number">9000</span>
+        host<span class="token punctuation">:</span> <span class="token number">0.0</span><span class="token punctuation">.</span><span class="token number">0.0</span><span class="token punctuation">,</span>  <span class="token comment" spellcheck="true">//设置地址，默认localhost</span>
+        compress<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//是否开启gzip压缩资源</span>
+        port<span class="token punctuation">:</span> <span class="token number">9000</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//端口号设置</span>
+        open<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//自动打开浏览器</span>
+        proxy<span class="token punctuation">:</span> <span class="token punctuation">{</span>    <span class="token comment" spellcheck="true">//类似React配置正向代理,仅限测试环境下跨域解决方案</span>
+            target<span class="token punctuation">:</span>xxxx<span class="token punctuation">,</span>
+            pathRewrite<span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token string">'^/api'</span><span class="token punctuation">:</span> <span class="token string">''</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
-<p>此时还可以和起步配置 <code>npm run build</code> 一样顺便在package.json文件的script中增加 <code>&quot;dev&quot;:&quot;webpack-dev-server&quot;</code></p>
+<p>此时还可以和起步配置 <code>npm run build</code> 一样顺便在package.json文件的script中增加</p>
+<p> <code>&quot;dev&quot;:&quot;webpack-dev-server&quot;</code> / <code>&quot;serve&quot;: &quot;webpack serve&quot;</code></p>
 <p>这时候运行起来就直接  <code>npm run dev</code>即可</p>
+<p>实际上webpack是有进行打包的，只是放到内存中，而没做文件输出</p>
+<h4 id="webpack模块热更新"><a href="#webpack模块热更新" class="headerlink" title="webpack模块热更新"></a>webpack模块热更新</h4><p>也就是HMR，Hot Module Replacement，它是指应用程序运行过程中，替换、添加、删除模块，而<strong>无需刷新整个页面</strong></p>
+<p>这里要注意的是和 <code>webpack-dev-server</code>不同， 热更新的时候，并没有自动刷新浏览器</p>
+<ul>
+<li>不需要重新加载整个页面，可以保证某些应用程序的状态不丢失。</li>
+<li>只更新需要变化的内容，节省开发时间</li>
+<li>修改了css、js的源代码，便会立即在浏览器更新，相当于在浏览器开发者模式devtools中直接更改样式</li>
+</ul>
+<p>使用：默认情况下 <code>webpack-dev-server</code>（也就是上方安装的搭建服务）已经支持了HMR，我们只需要开启即可。不开启则为live reloading，整个页面进行刷新</p>
+<pre class=" language-js"><code class="language-js">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//...</span>
+    target<span class="token punctuation">:</span> <span class="token string">"web"</span><span class="token punctuation">,</span>  <span class="token comment" spellcheck="true">//给web打包，或者值为node，则为node打包</span>
+    devServer<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        contentBase<span class="token punctuation">:</span> path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'dist'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        hot<span class="token punctuation">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<p>但是需要告诉webpack，哪些模块用到热更新，在webpack中需要配合<code>module.hot</code>进行使用.</p>
+<p>但是像Vue、React等框架，他们有vue-loader、react-refresh等，可以做到开箱即用</p>
+<h4 id="webpack的resolve配置"><a href="#webpack的resolve配置" class="headerlink" title="webpack的resolve配置"></a>webpack的resolve配置</h4><p>在webpack.config.js中配置，用于解析</p>
+<pre class=" language-js"><code class="language-js">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//...</span>
+    resolve<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//默认配置好的后缀名处理,导包的时候不同添加以下后缀名，可以自动识别，当然你也可以自己添加</span>
+        extensions<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">".js"</span><span class="token punctuation">,</span> <span class="token string">".json"</span><span class="token punctuation">,</span> <span class="token string">".mjs"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token comment" spellcheck="true">//配置别名 alias</span>
+        alias<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            <span class="token string">"js"</span><span class="token punctuation">:</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">"./src/js"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
 <h4 id="配置文件分离"><a href="#配置文件分离" class="headerlink" title="配置文件分离"></a>配置文件分离</h4><p>开发时依赖的配置文件和发布时依赖的配置文件进行分离</p>
-<p>新建一个build文件夹 -&gt; 新建一个 base.config.js文件 (公共的配置放在base里) 、prod.config.js文件（放置生产时的配置）和dev.config.js（放置开发时的配置）</p>
-<p>这里还需要安装 </p>
+<p>新建一个config文件夹 -&gt; 新建一个 base.config.js文件 (公共的配置放在base里) 、prod.config.js文件（放置生产时的配置）和dev.config.js（放置开发时的配置）</p>
+<p>这里还需要安装merge，用于合并公共配置和生产/开发配置 </p>
 <pre class=" language-shell"><code class="language-shell">npm i webpack-merge@4.1.5 --save-dev</code></pre>
 <p>然后分别在prod.config.js文件 和dev.config.js 写好各自的配置</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> webpackMerge <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'webpack-merge'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span>merge<span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'webpack-merge'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> baseConfig <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./base.config'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">// 合并导出</span>
-module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token function">webpackMerge</span><span class="token punctuation">(</span>baseConfig<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token function">merge</span><span class="token punctuation">(</span>baseConfig<span class="token punctuation">,</span> <span class="token punctuation">{</span>
     <span class="token comment" spellcheck="true">//各自配置</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>最后在package.json配置文件中，修改 原来运行webpack 和 运行webpack服务器的 键位 改为 ：</p>
@@ -889,25 +1028,14 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 <li>删除死代码</li>
 <li>提取公共代码</li>
 </ul>
-<h2 id="6-webpack热更新"><a href="#6-webpack热更新" class="headerlink" title="6.webpack热更新"></a>6.webpack热更新</h2><p>热更新是：使得应用在运行状态下，不重载刷新就能更新、增加、移除模块的机制（有点像node的nodemon功能）</p>
-<p>用通俗的话来说，就是修改代码以后，不刷新就可以查看到页面更改后变化的效果，提升了开发效率</p>
-<p>开启热更新：</p>
+<h2 id="6-webpack热更新原理"><a href="#6-webpack热更新原理" class="headerlink" title="6.webpack热更新原理"></a>6.webpack热更新原理</h2><p>HMR原理是webpack-dev-server会创建两个服务，提供静态资源服务的express、和Socket服务（net.Socket）</p>
+<p>HMR Socket Server是一个socket长连接：</p>
 <ul>
-<li>使用 <code>HotModuleReplacementPlugin</code> 插件</li>
-<li>打开 <code>webpack-dev-server</code> 的热更新开关</li>
+<li>长连接的好处是建立连接后双方可以通信（联想到websocket的通信）</li>
+<li>当服务器监听到对应模块变化，会生成js文件和json文件，然后进行推送至客户端（浏览器）</li>
+<li>浏览器拿到这两个文件之后，进行HMR runtime机制，加载这两文件，针对修改的模块进行更新</li>
 </ul>
-<pre class=" language-json"><code class="language-json">// webpack.config.js
-module.exports = <span class="token punctuation">{</span>
-  // ...
-  plugins<span class="token operator">:</span> <span class="token punctuation">[</span>
-    webpack.HotModuleReplacementPlugin(<span class="token punctuation">)</span><span class="token punctuation">,</span> //使用插件
-   // ...
-  <span class="token punctuation">]</span>
-  devServer<span class="token operator">:</span> <span class="token punctuation">{</span>
-    hot<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>                            //开启开关
-    // ...
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
+<p>也可以理解为本地服务器和浏览器端形成一个完成的通信双方，进行socket通信</p>
 <h4 id="实现热更新"><a href="#实现热更新" class="headerlink" title="实现热更新"></a>实现热更新</h4><p><img src="/2021/02/07/webpack/hotloading.jpg" alt></p>
 <p>图片来自饿了么前端@知乎专栏</p>
 <p>第一步，在 webpack 的 watch 模式下，文件系统中某一个文件发生修改，webpack 监听到文件变化，根据配置文件对模块重新编译打包，并将打包后的代码通过简单的 JavaScript 对象保存在内存中。</p>
@@ -1164,9 +1292,8 @@ module.exports = <span class="token punctuation">{</span>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            5.Vue router前后端路由概述路由就是网络把信息从源地址传输到目的地址的活动
-后端渲染是将数据在后端处理生成html发给浏览器，前端渲染是通过ajax拿到数据，操作dom节点 渲染ui
-（相当于Node.js里的服务器渲染和客户端渲
+                            4.Vue CLI在开发大型项目的时候，则必须使用到Vue CLI，CLI是Command-Line Interface ，翻译为命令行界面，俗称脚手架
+使用 vue-cli 可以快速搭建Vue开发环境以及对应的webpack配置（终于不用
                         
                     </div>
                     <div class="publish-info">
@@ -1424,7 +1551,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">227.6k</span>&nbsp;字
+                class="white-color">237k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.5k
+                    1.9k
                 </div>
                 
 
@@ -558,6 +558,23 @@ foo <span class="token operator">=</span> <span class="token string">'foo'</span
 foo <span class="token operator">=</span> <span class="token string">'bar'</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Error</span></code></pre>
 <p><img src="/2021/09/16/shu-ju-jie-gou/space3.jpg" alt></p>
 <p>推荐链接<a href="https://blog.csdn.net/weixin_40013817/article/details/103287271" target="_blank" rel="noopener">https://blog.csdn.net/weixin_40013817/article/details/103287271</a></p>
+<h2 id="JAVA的HashMap"><a href="#JAVA的HashMap" class="headerlink" title="JAVA的HashMap"></a>JAVA的HashMap</h2><p><code>HashMap</code>是一个数组+链表的结合，通过key计算哈希值，放入“桶”，如果当前桶已经存放过，则将以链表的形式加入桶的后面</p>
+<p>当每个桶的链表只有一个元素的时候，则存储效率最高，但如果链表过长（碰撞次数过多），则十分不理想</p>
+<p>优化hash算法：</p>
+<h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><p><code>HashMap</code>中Hash算法减少碰撞的两个做法：</p>
+<ul>
+<li><p>Hash方法中存在奇怪的位移运算，以使最终的Hash值中0和1较为均匀。</p>
+</li>
+<li><p>使用h &amp; （length-1）来进行桶的定位，length应为2的指数幂。</p>
+</li>
+</ul>
+<p>为什么当<code>HashMap</code>初始化大小为2的指数幂时，效率最高？</p>
+<p>h&amp;（length-1）原理时，比如和14（1110） 进行与运算，0001、0011、0101、1001、1011、0111、1101这几个位置永远都不能存放元素，空间浪费相当大</p>
+<ul>
+<li>回头看一下 <code>HashMap</code> 中默认的数组大小，查看源代码可以得知是16，为什么是16而不是15，也不是20呢？因为16是2的整数次幂，在数据量小的情况下16比15和20更能减少碰撞，进而提高查询的效率。</li>
+</ul>
+<h4 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h4><p>当<code>HashMap</code>中的元素越来越多的时候，碰撞的概率也就越来越高（因为数组的长度是固定的），所以为了提高查询效率，就要对 <code>HashMap</code> 的数组进行扩容</p>
+<p>当<code>HashMap</code>中的元素个数超过数组大小loadFactor时，就会进行数组扩容，loadFactor 的默认值为0.75。也就是说，在默认情况下，数组大小为16，当<code>HashMap</code>中元素个数超过16×0.75=12的时候，就把数组的大小扩展为2×16=32，即扩大一倍，然后重新计算每个元素在数组中的位置。</p>
 
             </div>
             <hr/>
@@ -1061,7 +1078,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">227.6k</span>&nbsp;字
+                class="white-color">237k</span>&nbsp;字
             
             
             

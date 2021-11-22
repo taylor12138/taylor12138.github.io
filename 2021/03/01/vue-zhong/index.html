@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.2k
+                    8.5k
                 </div>
                 
 
@@ -485,7 +485,105 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="5-Vue-router"><a href="#5-Vue-router" class="headerlink" title="5.Vue router"></a>5.Vue router</h2><h4 id="前后端路由概述"><a href="#前后端路由概述" class="headerlink" title="前后端路由概述"></a>前后端路由概述</h4><p>路由就是网络把信息从源地址传输到目的地址的活动</p>
+                <h2 id="4-Vue-CLI"><a href="#4-Vue-CLI" class="headerlink" title="4.Vue CLI"></a>4.Vue CLI</h2><p>在开发大型项目的时候，则必须使用到Vue CLI，CLI是Command-Line Interface ，翻译为命令行界面，俗称脚手架</p>
+<p>使用 vue-cli 可以<strong>快速搭建</strong>Vue开发环境以及对应的webpack配置（终于不用自己配置webpack了！）</p>
+<p>Vue CLI 的使用前提：Node &amp; Webpack</p>
+<p>安装脚手架（同时也自动装上vue）：</p>
+<pre class=" language-shell"><code class="language-shell">npm install -g @vue/cli</code></pre>
+<p>CLI 3+ 初始化</p>
+<pre class=" language-shell"><code class="language-shell">vue create my-project</code></pre>
+<p>但是我们这里也要使用<code>cli 2</code> 的功能所以还得 拉取 2.x模板</p>
+<pre class=" language-shell"><code class="language-shell">npm install -g @vue/cli-init</code></pre>
+<p>CLI 2 初始化项目</p>
+<pre class=" language-shell"><code class="language-shell">vue init webpack my-project</code></pre>
+<h4 id="CLI-2-初始化"><a href="#CLI-2-初始化" class="headerlink" title="CLI 2 初始化"></a>CLI 2 初始化</h4><p><code>vue init webpack 项目名称</code>，这个项目名称为创建最终项目文件夹名</p>
+<p>然后会出现选项：</p>
+<p><img src="/2021/03/01/vue-zhong/vue_cli2.jpg" alt></p>
+<p>然后得到一个文件，可以查看 <code>package.json</code> 文件里的 script，得知相应的运行命令；下面对存放在里面的每个文件进行介绍</p>
+<ul>
+<li>build、config（配置基础变量）存放webpack的配置区域</li>
+<li>src 放置源代码区域</li>
+<li>static 放置静态资源的区域，原封不动复制到dist文件夹里</li>
+<li>.babelrc 关于转化为ES5的相关配置</li>
+</ul>
+<h4 id="部分配置的介绍"><a href="#部分配置的介绍" class="headerlink" title="部分配置的介绍"></a>部分配置的介绍</h4><p>关闭ESLint代码规范（可能不符合部分代码风格，比如不加分号，定义函数时函数名后空一格等）</p>
+<p>config -&gt; index.js -&gt; useEslint: false</p>
+<p>Runtime-only 和 Runtime + Compiler的不同之处在<code>main.js</code>里面</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//runtime  compiler</span>
+<span class="token keyword">new</span> <span class="token class-name">Vue</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  el<span class="token punctuation">:</span> <span class="token string">'#app'</span><span class="token punctuation">,</span>
+  components<span class="token punctuation">:</span> <span class="token punctuation">{</span> App <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  template<span class="token punctuation">:</span> <span class="token string">'&lt;App/>'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//runtime-only</span>
+<span class="token comment" spellcheck="true">//直接render，跳过template部分</span>
+<span class="token keyword">new</span> <span class="token class-name">Vue</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  el<span class="token punctuation">:</span> <span class="token string">'#app'</span><span class="token punctuation">,</span>
+  render<span class="token punctuation">:</span> h <span class="token operator">=</span><span class="token operator">></span> <span class="token function">h</span><span class="token punctuation">(</span>App<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p>Runtime-only在实际公司开发中使用的比较多，性能更好，代码更少（不用处理template和ast， 它的 <code>.vue</code>文件由 webpack用到的loader：<code>vue-template-compiler</code> 解析成render， 也就是render(App)  -&gt;  组件App的 template 替换掉绑定的元素 ）</p>
+<p>实际上，<code>Vue</code>实例的<code>template</code> -&gt; 会保存在<code>option</code>里 -&gt; 进行parse解析成抽象语法树（<code>ast</code>）（描述了我们标签的详情数据情况） -&gt; compile编译成 <code>render</code>函数  -&gt;  </p>
+<p>翻译成虚拟DOM（<code>virtual DOM</code>） -&gt; 渲染成UI</p>
+<p><img src="/2021/03/01/vue-zhong/runtime.jpg" alt></p>
+<p>所以实际上compiler是处理 <code>template</code>部分和 <code>ast</code>部分</p>
+<p>动态创建标签：<code>createElement(&#39;标签&#39;, {标签属性}, [&#39;&#39;])</code>,                                     <code>createElement(组件)</code>也可以</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//render函数的真身：(APP为组件对象)</span>
+render<span class="token punctuation">:</span> <span class="token function">funciton</span><span class="token punctuation">(</span>createElement<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">createElement</span><span class="token punctuation">(</span>APP<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="CLI-3"><a href="#CLI-3" class="headerlink" title="CLI 3"></a>CLI 3</h4><p>与2版本有很大区别</p>
+<ul>
+<li>基于webpack 4 打造</li>
+<li>设计原则是“0配置”，移除根目录下的build、config</li>
+<li>提供了vue ui 命令，提供了可视化配置，更加人性化</li>
+<li>移除了static，新增了public，并且将index.html移动到public中，public类似于新的static</li>
+</ul>
+<p>初始化后同样会出现初始化的配置选项</p>
+<ul>
+<li>preset 预设：default是默认；manually select features是手动</li>
+<li>feature特性：按空格选中/取消（Linter代码规范可以取消掉、Babel为支持es6以上语法 ）</li>
+<li>placing config配置的存放：config files 独立存放；package.json 放在package.json中</li>
+<li>save prest：是否保存刚才配置好的预设 （如果想删除，则要找到<code>.vuerc</code>文件，进入后进行修改删除）</li>
+</ul>
+<p><img src="/2021/03/01/vue-zhong/vuecli3.jpg" alt></p>
+<p>CLI 3 的配置去哪里了？ </p>
+<p>-&gt; 启动配置服务器（可视化配置）：</p>
+<pre class=" language-shell"><code class="language-shell">vue ui </code></pre>
+<p>导入当前项目脚手架的文件夹，然后可以在当前页面添加需要的插件，配置甚至运行等</p>
+<p>如果真的要手动修改掉基础的配置，需要新建vue.config.js在当前项目目录下（原来build和Config文件的配置都放在node_modules里面了），在里面进行 <code>module.exports = {}</code>配置，到时会和原来的配置进行合并作为整体配置</p>
+<pre class=" language-js"><code class="language-js">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  devServer<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//运行后默认打开浏览器</span>
+    open<span class="token punctuation">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="脚手架的模块化样式"><a href="#脚手架的模块化样式" class="headerlink" title="脚手架的模块化样式"></a>脚手架的模块化样式</h4><p>当style标签具有该scoped属性时，其CSS将作用域化当前组件的元素（实质上脚手架会处理加上data-v-xxxx的属性）</p>
+<p>我们通常在vue.config.js配置路径别名 </p>
+<pre class=" language-js"><code class="language-js">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  devServer<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//运行后默认打开浏览器</span>
+    open<span class="token punctuation">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment" spellcheck="true">//publicPath为部署的配置</span>
+  publicPath<span class="token punctuation">:</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span>NODE_ENV <span class="token operator">===</span> <span class="token string">'production'</span> <span class="token operator">?</span> <span class="token string">'./'</span> <span class="token punctuation">:</span> <span class="token string">'/'</span><span class="token punctuation">,</span>
+  configureWebpack<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    resolve<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// 配置别名,内部其实已经配置过一个，就是 '@':src</span>
+      <span class="token comment" spellcheck="true">// 在cli3以上版本，配置别名的值可以引用之前配置过的别名，如'@/assets',不过cli4好像这里用不了。。</span>
+      alias<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">'assets'</span><span class="token punctuation">:</span> <span class="token string">'@/assets'</span><span class="token punctuation">,</span>
+        <span class="token string">'components'</span><span class="token punctuation">:</span> <span class="token string">'@/components'</span><span class="token punctuation">,</span>
+        <span class="token string">'view'</span><span class="token punctuation">:</span> <span class="token string">'@/view'</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>但是该别名 <code>@</code> 在css中无法直接使用，需要变成 <code>~@</code>的形式；还有 img 标签的 src中，也需要 <code>~@</code>的形式</p>
+<h4 id="运行项目"><a href="#运行项目" class="headerlink" title="运行项目"></a>运行项目</h4><p>根据配置的提示为</p>
+<pre class=" language-shell"><code class="language-shell">npm run serve</code></pre>
+<p>实质上会执行node_modules下面的bin目录的vue-cli-service文件夹下代码</p>
+<p>里面的比如 <code>const Service = require(../lib/Serive)</code>也不要被欺骗了，并不是当前目录下的 <code>../</code>，而是内部有一个软连接，会去找到真是代码所在的位置，执行真实的代码</p>
+<h2 id="5-Vue-router"><a href="#5-Vue-router" class="headerlink" title="5.Vue router"></a>5.Vue router</h2><h4 id="前后端路由概述"><a href="#前后端路由概述" class="headerlink" title="前后端路由概述"></a>前后端路由概述</h4><p>路由就是网络把信息从源地址传输到目的地址的活动</p>
 <p>后端渲染是将数据在后端处理生成html发给浏览器，前端渲染是通过ajax拿到数据，操作dom节点 渲染ui</p>
 <p>（相当于Node.js里的服务器渲染和客户端渲染）</p>
 <p>1.<strong>后端路由</strong>（后端渲染）：服务器处理一个url映射一个页面，通过正则匹配，交给controller进行处理，然后生成html等数据返回前端</p>
@@ -918,10 +1016,39 @@ router<span class="token punctuation">.</span><span class="token function">befor
 <li>include：字符串或正则表达，只有匹配的组件才会被缓存</li>
 <li>exclude：字符串或正则表达，任何匹配的组件都不会被缓存</li>
 </ul>
+<p>还有一个max属性</p>
+<ul>
+<li>max：最多可以缓存多少个组件实例，一旦达到这个数字，那么缓存的最近没被访问的组件就会被销毁</li>
+</ul>
 <p>注意：这里的 “,”不能加空格</p>
 <pre class=" language-html"><code class="language-html"><span class="token comment" spellcheck="true">&lt;!-- 使用keep-alive include="组件的name" --></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>keep-alive</span> <span class="token attr-name">include</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>home,User<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>router-view</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>router-view</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>keep-alive</span><span class="token punctuation">></span></span></code></pre>
+<h4 id="动态组件"><a href="#动态组件" class="headerlink" title="动态组件"></a>动态组件</h4><p>可以看成简易版路由组件</p>
+<p>页面切换</p>
+<pre class=" language-vue"><code class="language-vue"> <!-- 方法一：v-if判断 -->
+    <template v-if="currentTab === 'home'">
+      <home />
+    </template>
+    <template v-else-if="currentTab === 'about'">
+      <about />
+    </template>
+    <template v-else-if="currentTab === 'category'">
+      <category />
+    </template>
+
+    <!-- 方法二：动态组件 -->
+    <component :is="currentTab"></component></code></pre>
+<p>component就是vue的一个内置组件<br>他有一个特殊的<code>attribute</code>：<code>is</code></p>
+<p>is属性要注入</p>
+<ul>
+<li>通过component函数注册的组件（全局注册）</li>
+<li>一个组件对象的component对象里注册的组件（局部注册）</li>
+</ul>
+<p>同样的，想要让动态组件保持切换之后不被销毁，可以使用 <code>keep-alive</code>内置组件进行包裹</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>keep-alive</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>component</span> <span class="token attr-name">:is</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>currentTab<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>component</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>keep-alive</span><span class="token punctuation">></span></span></code></pre>
 <h2 id="6-Vuex"><a href="#6-Vuex" class="headerlink" title="6.Vuex"></a>6.Vuex</h2><h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><p>Vuex是一个转为Vue.js应用程序开发的状态管理模式</p>
 <p>其实可以简单看成把需要多个组件共享的变量全部存储在一个对象里面（状态：变量），然后把这个对象放在顶层的Vue实例中，让其他组件一起使用（而且交给Vuex大管家来管理，其数据还是<strong>响应式</strong>的）</p>
@@ -1777,7 +1904,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">227.6k</span>&nbsp;字
+                class="white-color">237k</span>&nbsp;字
             
             
             

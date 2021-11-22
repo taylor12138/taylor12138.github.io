@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.7k
+                    3.8k
                 </div>
                 
 
@@ -628,10 +628,27 @@
 <p>……</p>
 <h4 id="CSS3calc函数-计算函数"><a href="#CSS3calc函数-计算函数" class="headerlink" title="CSS3calc函数(计算函数)"></a>CSS3calc函数(计算函数)</h4><p><code>width: calc(100% - 80px);</code>    //宽度永远比父盒子宽度小30px</p>
 <h4 id="CSS过渡（重点）"><a href="#CSS过渡（重点）" class="headerlink" title="CSS过渡（重点）"></a>CSS过渡（重点）</h4><p>一些变化的动画效果（时间缓滞），经常和 :hover 一起搭配</p>
+<p>在官网中查看到兼容性比较差，反而@keyframe的兼容性很不错？！！</p>
 <pre class=" language-css"><code class="language-css"><span class="token property">transition</span><span class="token punctuation">:</span> 要过渡的属性 花费的时间（单位为s） 运动曲线（默认ease，可以省略） 何时开始（默认<span class="token number">0</span>s，可省略）<span class="token punctuation">;</span>
 <span class="token property">transition</span><span class="token punctuation">:</span> width <span class="token number">0.5</span>s,heigh <span class="token number">0.5</span>s<span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">/*多个属性","分割，想要更多属性，直接属性值写all*/</span>
 <span class="token selector">xx<span class="token pseudo-class">:hover</span></span><span class="token punctuation">{</span><span class="token property">width</span><span class="token punctuation">:</span><span class="token number">100</span>px<span class="token punctuation">;</span><span class="token property">heigh</span><span class="token punctuation">:</span><span class="token number">100</span>px<span class="token punctuation">;</span><span class="token punctuation">}</span></code></pre>
-<p>transition: all 0.xs;  使用的比较多</p>
+<p>过渡的属性：</p>
+<table>
+<thead>
+<tr>
+<th>none</th>
+<th>没有属性会获得过渡效果。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>all</td>
+<td>所有属性都将获得过渡效果。</td>
+</tr>
+<tr>
+<td><em>property</em></td>
+<td>定义应用过渡效果的 CSS 属性名称列表，列表以逗号分隔。</td>
+</tr>
+</tbody></table>
 <h2 id="10-CSS的more"><a href="#10-CSS的more" class="headerlink" title="10.CSS的more"></a>10.CSS的more</h2><h3 id="css的2D转换"><a href="#css的2D转换" class="headerlink" title="css的2D转换"></a>css的2D转换</h3><p><code>transform</code>可以理解为变形  移动：translate   旋转：rotate   缩放：scale</p>
 <p>2d为二维坐标，x轴向右，y轴向下</p>
 <h4 id="translate类似于定位"><a href="#translate类似于定位" class="headerlink" title="translate类似于定位"></a>translate类似于定位</h4><pre class=" language-css"><code class="language-css"><span class="token property">transform</span><span class="token punctuation">:</span><span class="token function">translate</span><span class="token punctuation">(</span>x,y<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -677,12 +694,16 @@ transform:translate(-50%,-50%);</code></pre><p>但是它对行内标签没有效
     <span class="token property">animation-name</span><span class="token punctuation">:</span>动画名称<span class="token punctuation">;</span>
     <span class="token property">animation-duration</span><span class="token punctuation">:</span>持续时间<span class="token punctuation">;</span>
     <span class="token property">animation-iteration-count</span><span class="token punctuation">:</span>播放次数，可以为infinite<span class="token punctuation">;</span>
-    <span class="token property">animation-direction</span><span class="token punctuation">:</span>xx<span class="token punctuation">;</span> //默认normal，alternate为设置逆向播放
+    <span class="token property">animation-direction</span><span class="token punctuation">:</span>xx<span class="token punctuation">;</span> 
+    <span class="token comment" spellcheck="true">/*设置动画在每次运行完后是反向运行还是重新回到开始位置重复运行。*/</span>
+    <span class="token comment" spellcheck="true">/*默认normal，alternate为设置动画交替反向运行，reverse为反向运行*/</span>
     <span class="token property">animation-fill-mode</span><span class="token punctuation">:</span>xx<span class="token punctuation">;</span> //默认backwards，动画结束后返回原来位置，forwards可取消该功能
     <span class="token property">animation-play-state</span><span class="token punctuation">:</span>xx<span class="token punctuation">;</span> //running/paused  是动画运行或者暂停
     <span class="token property">animation-timing-fuction</span><span class="token punctuation">:</span> ease<span class="token punctuation">;</span> //默认ease加速度，linear匀速，step分步。。。
 <span class="token punctuation">}</span></code></pre>
-<p>使用多个动画用“，”分隔，如animation: bear 0.7s steps(8) infinite, move 0.7s ……（<code>animation: name duration timing-function delay iteration-count direction fill-mode play-state;</code>）</p>
+<p>使用多个动画用“，”分隔</p>
+<p>如animation: bear 0.7s steps(8) infinite, move 0.7s ……</p>
+<p>（<code>animation: name duration timing-function delay iteration-count direction fill-mode play-state;</code>）</p>
 <h3 id="3D转换"><a href="#3D转换" class="headerlink" title="3D转换"></a>3D转换</h3><p>x轴向右，y轴向下，z轴向外，最常用的是3d位移和3d旋转,以下许多功能与2d十分相似</p>
 <p>设置为3d模式(变形效果)</p>
 <pre class=" language-css"><code class="language-css"><span class="token property">transform-style</span><span class="token punctuation">:</span> preserve-<span class="token number">3</span>d</code></pre>
@@ -1204,7 +1225,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">227.6k</span>&nbsp;字
+                class="white-color">237k</span>&nbsp;字
             
             
             

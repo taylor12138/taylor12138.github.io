@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    247
+                    3.2k
                 </div>
                 
 
@@ -485,7 +485,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="Vue3-Start"><a href="#Vue3-Start" class="headerlink" title="Vue3 Start"></a>Vue3 Start</h2><p><strong>源码改动</strong></p>
+                <h2 id="1-Vue3-Start"><a href="#1-Vue3-Start" class="headerlink" title="1.Vue3 Start"></a>1.Vue3 Start</h2><p><strong>源码改动</strong></p>
 <p>它的源码是通过monorepo的形式管理源代码的</p>
 <ul>
 <li>Mono单个</li>
@@ -510,6 +510,474 @@
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Vue</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <p>变成了</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> app <span class="token operator">=</span> Vue<span class="token punctuation">.</span><span class="token function">createApp</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<h4 id="查看源码"><a href="#查看源码" class="headerlink" title="查看源码"></a>查看源码</h4><p>（2021/11/6），在官网<code>git clone</code>项目，使用pnpm下载依赖，使用 <code>yarn dev</code>打包出文件进行调试，然后在项目下引用这个打包好的包（/dist/vue.global.js）即可</p>
+<p>可以在webpack的设置里面</p>
+<pre class=" language-json"><code class="language-json"><span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"dev"</span><span class="token operator">:</span> <span class="token string">"node scripts/dev.js --sourcemap"</span><span class="token punctuation">,</span>
+    //...
+<span class="token punctuation">}</span></code></pre>
+<p>此时再次打完包之后会在dist下出现一个 <code>vue.global.js.map</code> 文件，此时调试代码的时候 进行 <code>step into next function</code>可以跳转到达文件夹而非打包文件下对应的方法</p>
+<p>注意：需要在chrome的setting里设置 <code>Enable JavaScript source map</code></p>
+<h2 id="2-回顾Vnode"><a href="#2-回顾Vnode" class="headerlink" title="2.回顾Vnode"></a>2.回顾Vnode</h2><p>VNode全称Virtual Node，也就是虚拟节点（VNode Tree组成虚拟DOM）；在Vue中无论大大小小元素都可以在Vue中被VNode表示出来，</p>
+<p>类似如下</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> vnode <span class="token operator">=</span> <span class="token punctuation">{</span>
+    type<span class="token punctuation">:</span> <span class="token string">"div"</span><span class="token punctuation">,</span>
+    props<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token keyword">class</span><span class="token punctuation">:</span> <span class="token string">"title"</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    children<span class="token punctuation">:</span> <span class="token string">"hello world"</span>
+<span class="token punctuation">}</span></code></pre>
+<p>它本质上是一个对象，作为一个对象而未转化为DOM，最大的好处在于多平台的适配</p>
+<h4 id="diff"><a href="#diff" class="headerlink" title="diff"></a>diff</h4><p>vue3的diff做了一点优化</p>
+<p>对于diff算法来说，如果列表中有key，则执行 <code>patchKeyedChildren</code>方法；没有 key，执行 <code>patchUnkeyedChildren</code>方法</p>
+<p><code>patchUnkeyedChildren</code>函数：取较短的节点进行遍历，一一对比（patch）</p>
+<p><code>patchKeyedChildren</code>函数：从头开始while循环，让节点进行对比，节点类型不同直接break；</p>
+<p>然后从尾部开始while，让节点进行对比，不同直接跳出循环；</p>
+<p>然后判断是否新增节点，拿一个null和新节点进行patch，挂载一个新的节点；</p>
+<p>然后再判断如有仍残留旧节点，则进行删除（unmount）；</p>
+<p>最后处理中间乱序的节点，新建一个map哈希表，以key和节点作为键值对存储，使用key进行匹配、对比，最后等移动/删除/增加</p>
+<h2 id="3-API对于2-x的改动"><a href="#3-API对于2-x的改动" class="headerlink" title="3.API对于2.x的改动"></a>3.API对于2.x的改动</h2><h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>许多原本 <code>Vue.xxx</code>的操作，现在是通过 <code>const app = Vue.createApp({})</code>创建实例，，然后变成了 <code>app.xxx</code></p>
+<p>(比如全局混入 <code>Vue.minxin</code> =&gt; <code>app.minxin</code>，注册全局组件 <code>Vue.component</code> =&gt; <code>app.component</code>  )</p>
+<h4 id="template"><a href="#template" class="headerlink" title="template"></a>template</h4><p>原来Vue2.x中只允许有一个根元素（一般为div）</p>
+<p>Vue3.x以上，允许template有多个根元素，且允许不需要div标签进行包裹</p>
+<p>option API - &gt; Composition API</p>
+<h4 id="子组件emit"><a href="#子组件emit" class="headerlink" title="子组件emit"></a>子组件emit</h4><p>Vue 3 现在提供一个 <code>emits</code> 选项，和现有的 <code>props</code> 选项类似。这个选项可以用来定义一个组件可以向其父组件触发的事件。</p>
+<p>和 prop 类似，现在可以通过 <code>emits</code> 选项来定义组件可触发的事件：</p>
+<pre class=" language-vue"><code class="language-vue"><template>
+  <div>
+    <子组件 @accepted="listener">OK</button>
+  </div>
+</template></code></pre>
+<pre class=" language-vue"><code class="language-vue"><template>
+  <div>
+    <p>{{ text }}</p>
+    <button @click="increment">OK</button>
+  </div>
+</template>
+<script>
+  export default {
+    props: ['text'],
+    emits: ['accepted'],
+    methods: {
+        increment() {
+            this.$emit('accepted', '参数')
+        }
+    }
+  }
+</script></code></pre>
+<p>该选项也可以接收一个对象，该对象允许开发者定义传入事件参数的验证器，和 <code>props</code> 定义里的验证器类似。</p>
+<p>emit的对象写法，一般针对于将传递给父组件的参数进行验证，如果false，则vue会报一个警告（但是参数还是会传过去）</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+    emits<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        add<span class="token punctuation">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//不需要传参数</span>
+        addn<span class="token punctuation">:</span> <span class="token punctuation">(</span>payload1<span class="token punctuation">,</span> payload2<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">//有俩参数</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>payload1 <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="Vue3-x事件总线"><a href="#Vue3-x事件总线" class="headerlink" title="Vue3.x事件总线"></a>Vue3.x事件总线</h4><p>Vue3官方实例移除了 <code>$on</code> 、<code>$off</code> 、<code>$once</code>方法，所以不能像Vue2.x一样通过创建Vue实例来进行事件总线。如果我们希望继续使用事件总线，可以通过一些第三方的库，Vue3官方推荐 <code>mitt</code>或者<code>tiny-emitter</code></p>
+<p><strong>mitt库的使用</strong></p>
+<pre class=" language-shell"><code class="language-shell">npm i mitt</code></pre>
+<p>js文件封装</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> mitt <span class="token keyword">from</span> <span class="token string">'mitt'</span>
+<span class="token keyword">const</span> emitter <span class="token operator">=</span> <span class="token function">mitt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> emitter<span class="token punctuation">;</span></code></pre>
+<p>组件使用（直接发布订阅完事）</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> emitter <span class="token keyword">from</span> <span class="token string">'xxx.js'</span>
+<span class="token function">事件</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    emitter<span class="token punctuation">.</span><span class="token function">emit</span><span class="token punctuation">(</span><span class="token string">'事件名称'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>a<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> b<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> emitter <span class="token keyword">from</span> <span class="token string">'xxx.js'</span>
+<span class="token comment" spellcheck="true">//创建初期直接监听发布</span>
+<span class="token function">created</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    emitter<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'事件名称'</span><span class="token punctuation">,</span> data <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//....</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>；
+    emitter<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'*'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>type<span class="token punctuation">,</span> data<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`如果是*则监听所有事件,事件类型：</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>type<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">，传递参数：</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>mit事件监听取消</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//全部一次性取消</span>
+emitter<span class="token punctuation">.</span>all<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">//单个取消，函数需要定义</span>
+<span class="token keyword">function</span> <span class="token function">onFoo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+emitter<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'foo'</span><span class="token punctuation">,</span> onFoo<span class="token punctuation">)</span><span class="token punctuation">;</span>
+emitter<span class="token punctuation">.</span><span class="token function">off</span><span class="token punctuation">(</span><span class="token string">'foo'</span><span class="token punctuation">,</span> onFoo<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="keep-alive内置组件"><a href="#keep-alive内置组件" class="headerlink" title="keep-alive内置组件"></a>keep-alive内置组件</h4><p>可以传入数组类的值作为include、exclude属性</p>
+<ul>
+<li><p><code>include</code> - <code>string | RegExp | Array</code>。只有名称匹配的组件会被缓存。</p>
+</li>
+<li><p><code>exclude</code> - <code>string | RegExp | Array</code>。任何名称匹配的组件都不会被缓存。</p>
+</li>
+<li><p><code>max</code> - <code>number | string</code>。最多可以缓存多少组件实例。</p>
+</li>
+</ul>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>keep-alive</span> <span class="token attr-name">include</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>a,b<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>component</span> <span class="token attr-name">:is</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>componentId<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>component</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>keep-alive</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>keep-alive</span> <span class="token attr-name">:include</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/a|b/<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>component</span> <span class="token attr-name">:is</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>componentId<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>component</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>keep-alive</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>keep-alive</span> <span class="token attr-name">:include</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>[a,b]<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>component</span> <span class="token attr-name">:is</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>componentId<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>component</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>keep-alive</span><span class="token punctuation">></span></span></code></pre>
+<h4 id="异步组件"><a href="#异步组件" class="headerlink" title="异步组件"></a>异步组件</h4><p>Vue3中使用异步组件可以导入内置的 <code>defineAsyncComponent</code></p>
+<p>它接受两种参数</p>
+<ul>
+<li><p>类型一工厂函数，该工厂函数需要返回一个Promise对象</p>
+<ul>
+<li><pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span>defineAsyncComponent<span class="token punctuation">}</span> <span class="token keyword">from</span> vue<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 此时vue打包时会将该异步组件单独打包到另外一个js文件里</span>
+<span class="token keyword">const</span> AsyncComponent <span class="token operator">=</span> <span class="token function">defineAsyncComponent</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">'./AsyncTest.vue'</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
+</li>
+</ul>
+</li>
+<li><p>接受一个对象类型，对异步函数进行配置</p>
+<ul>
+<li><pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> AsyncComponent <span class="token operator">=</span> <span class="token function">defineAsyncComponent</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  loader<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">'./AsyncTest.vue'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  loadingComponent<span class="token punctuation">:</span> Loading<span class="token punctuation">,</span>  <span class="token comment" spellcheck="true">//加载时占位的组件</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="组件的v-model"><a href="#组件的v-model" class="headerlink" title="组件的v-model"></a>组件的v-model</h4><p>在 3.x 中，自定义组件上的 <code>v-model</code> 相当于传递了 <code>modelValue</code> prop 并接收抛出的 <code>update:modelValue</code> 事件：</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ChildComponent</span> <span class="token attr-name">v-model</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>pageTitle<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+
+<span class="token comment" spellcheck="true">&lt;!-- 是以下的简写: --></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ChildComponent</span>
+  <span class="token attr-name">:modelValue</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>pageTitle<span class="token punctuation">"</span></span>
+  <span class="token attr-name"><span class="token namespace">@update:</span>modelValue</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>pageTitle <span class="token punctuation">=</span> $event<span class="token punctuation">"</span></span>
+<span class="token punctuation">/></span></span></code></pre>
+<p>子组件则相对处理</p>
+<pre class=" language-vue"><code class="language-vue"><template>
+  <div>
+    I am Son
+    <input type="text" :value="modelValue" @input="changeInput" />
+  </div>
+</template>
+<script>
+export default {
+  props: {
+    modelValue: String,
+  },
+  emit: ["update:modelValue"],
+  methods: {
+    changeInput(event) {
+      this.$emit("update:modelValue", event.target.value);
+    },
+  },
+};
+</script></code></pre>
+<p>当然也可以使用computed，以计算属性关联数据的设置和获取，子组件直接通过v-model绑定computed，一种更优雅的方式</p>
+<pre class=" language-vue"><code class="language-vue"><template>
+  <div>
+    I am Son
+    <input type="text" v-model="value" />
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    modelValue: String,
+  },
+  emit: ["update:modelValue"],
+  computed: {
+    value: {
+      set(value) {
+        this.$emit("update:modelValue", value);
+      },
+      get() {
+        return this.modelValue;
+      },
+    },
+  },
+};
+</script></code></pre>
+<p><strong>自定义v-model</strong></p>
+<p>如果想要在一个子组件上绑定多个v-model，则可以使用 <code>v-model:自定义名称=&quot;xx&quot;</code>来定义其他绑定的属性名称</p>
+<p>此时子组件通过 <code>props: {</code>  <code>自定义名称: String,</code> <code>},</code>来接收，通过 <code>this.$emit(&#39;update:自定义名称&#39;, value)</code>方法来发送监听事件参数</p>
+<p>示例：</p>
+<p>父组件</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>child</span> <span class="token attr-name">v-model</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>message<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">v-model:</span>title</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>title<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span></code></pre>
+<p>子组件</p>
+<pre class=" language-vue"><code class="language-vue"><template>
+  <div>
+    I am Son
+    <input type="text" v-model="value" />
+    <input type="text" v-model="value2" />
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    modelValue: String,
+    title: String,
+  },
+  emit: ["update:modelValue", "update:title"],
+  computed: {
+    value: {
+      set(value) {
+        this.$emit("update:modelValue", value);
+      },
+      get() {
+        return this.modelValue;
+      },
+    },
+    value2: {
+      set(value) {
+        this.$emit("update:title", value);
+      },
+      get() {
+        return this.title;
+      },
+    },
+  },
+};
+</script></code></pre>
+<h2 id="4-Composition-API"><a href="#4-Composition-API" class="headerlink" title="4.Composition API"></a>4.Composition API</h2><h2 id="5-废弃"><a href="#5-废弃" class="headerlink" title="5.废弃"></a>5.废弃</h2><h4 id="children属性"><a href="#children属性" class="headerlink" title="$children属性"></a>$children属性</h4><p>在Vue3中已经移除了 <code>$children</code> 属性，不再使用了</p>
+<h2 id="6-Vue动画处理"><a href="#6-Vue动画处理" class="headerlink" title="6.Vue动画处理"></a>6.Vue动画处理</h2><p>vue有个内置组件 <code>transition</code></p>
+<p>基本使用：使用name定义过渡类名，然后常常与<code>v-if</code>、<code>v-show</code>、动态组件进行搭配</p>
+<p>官方：</p>
+<p>可以给任何元素和组件添加进入/离开过渡</p>
+<ul>
+<li>条件渲染 (使用 <code>v-if</code>)</li>
+<li>条件展示 (使用 <code>v-show</code>)</li>
+<li>动态组件</li>
+<li>组件根节点</li>
+</ul>
+<h4 id="基本使用（CSS）"><a href="#基本使用（CSS）" class="headerlink" title="基本使用（CSS）"></a>基本使用（CSS）</h4><pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>transition</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>why<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span> <span class="token attr-name">v-if</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>isShow<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Hello World<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>transition</span><span class="token punctuation">></span></span></code></pre>
+<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.why-enter-from</span>,
+<span class="token class">.why-leave-to</span> </span><span class="token punctuation">{</span>
+    <span class="token property">opacity</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector"><span class="token class">.why-enter-to</span>, 
+<span class="token class">.why-leave-from</span> </span><span class="token punctuation">{</span>
+    <span class="token property">opacity</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector"><span class="token class">.why-enter-active</span>,
+<span class="token class">.why-leave-active</span> </span><span class="token punctuation">{</span>
+    <span class="token property">transition</span><span class="token punctuation">:</span> opacity <span class="token number">2</span>s ease<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>class几个transition的类（我们可以通过name来定义前缀，比如name=”allen”，则类为<code>allen-enter-from</code>）</p>
+<ol>
+<li><code>v-enter-from</code>：定义进入过渡的开始状态。在元素被插入之前生效，在元素被插入之后的下一帧移除。（插入时样式）</li>
+<li><code>v-enter-active</code>：定义进入过渡生效时的状态。在整个进入过渡的阶段中应用，在元素被插入之前生效，在过渡/动画完成之后移除。这个类可以被用来定义进入过渡的过程时间，延迟和曲线函数。（插入ing样式，常存放动画）</li>
+<li><code>v-enter-to</code>：定义进入过渡的结束状态。在元素被插入之后下一帧生效 (与此同时 <code>v-enter-from</code> 被移除)，在过渡/动画完成之后移除。（插入后样式）</li>
+<li><code>v-leave-from</code>：定义离开过渡的开始状态。在离开过渡被触发时立刻生效，下一帧被移除。（移除前样式）</li>
+<li><code>v-leave-active</code>：定义离开过渡生效时的状态。在整个离开过渡的阶段中应用，在离开过渡被触发时立刻生效，在过渡/动画完成之后移除。这个类可以被用来定义离开过渡的过程时间，延迟和曲线函数。（移除ing样式，常存放动画）</li>
+<li><code>v-leave-to</code>：离开过渡的结束状态。在离开过渡被触发之后下一帧生效 (与此同时 <code>v-leave-from</code> 被删除)，在过渡/动画完成之后移除。（移除后样式）</li>
+</ol>
+<p>transition的几个props</p>
+<ul>
+<li><code>name</code> - <code>string</code> 用于自动生成 CSS 过渡类名。例如：<code>name: &#39;fade&#39;</code> 将自动拓展为 <code>.fade-enter</code>，<code>.fade-enter-active</code> 等。</li>
+<li><code>appear</code> - <code>boolean</code>，是否在初始渲染时使用过渡。默认为 <code>false</code>。</li>
+<li><code>mode</code> - <code>string</code> 控制离开/进入过渡的时间序列。有效的模式有 <code>&quot;out-in&quot;</code> （先移除，再插入）和 <code>&quot;in-out&quot;</code>（先插入，再移除）；默认同时进行。</li>
+<li><code>duration</code> - <code>number | { enter: number, leave: number }</code>。指定过渡的持续时间，指定之后css动画里原来写好的时间则无效</li>
+<li><code>css</code>，指定 <code>:css=&#39;false&#39;</code>可以让css过渡属性失效，提高性能（用于只执行js动画）</li>
+</ul>
+<h4 id="第三方动画库"><a href="#第三方动画库" class="headerlink" title="第三方动画库"></a>第三方动画库</h4><h5 id="animate-css"><a href="#animate-css" class="headerlink" title="animate.css"></a><strong>animate.css</strong></h5><p>官网：<a href="https://animate.style/" target="_blank" rel="noopener">https://animate.style/</a></p>
+<pre class=" language-shell"><code class="language-shell">npm i animate.css --save</code></pre>
+<p>然后直接在main.js里面引入</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token string">"animate.css"</span><span class="token punctuation">;</span></code></pre>
+<p>在官网搜寻自己想要的动画名称，并且在transition类中添加，比如</p>
+<pre class=" language-css"><code class="language-css"> <span class="token selector"><span class="token class">.allen-enter-active</span> </span><span class="token punctuation">{</span>
+     <span class="token property">animation</span><span class="token punctuation">:</span> bounceInUp <span class="token number">1</span>s linear
+ <span class="token punctuation">}</span>
+  <span class="token selector"><span class="token class">.allen-leave-active</span> </span><span class="token punctuation">{</span>
+      <span class="token property">animation</span><span class="token punctuation">:</span> bounceInUp <span class="token number">1</span>s linear reverse
+  <span class="token punctuation">}</span></code></pre>
+<h5 id="gsap库"><a href="#gsap库" class="headerlink" title="gsap库"></a>gsap库</h5><p>一个JS动画库（vue官方有在用），官网：<a href="https://greensock.com/" target="_blank" rel="noopener">https://greensock.com/</a></p>
+<ul>
+<li>通过JavaScript为CSS属性，SVG、Canvas等设置动画，并且都是浏览器兼容的</li>
+</ul>
+<pre class=" language-shell"><code class="language-shell">npm i gsap</code></pre>
+<p>使用gsap库配合js钩子使用</p>
+<pre class=" language-js"><code class="language-js">methods<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token function">enter</span><span class="token punctuation">(</span>el<span class="token punctuation">,</span> done<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"enter"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        gsap<span class="token punctuation">.</span><span class="token keyword">from</span><span class="token punctuation">(</span>el<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+            scale<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+            x<span class="token punctuation">:</span> <span class="token number">200</span><span class="token punctuation">,</span>
+            onComplete<span class="token punctuation">:</span> done
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token function">leave</span><span class="token punctuation">(</span>el<span class="token punctuation">,</span> done<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"leave"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            gsap<span class="token punctuation">.</span><span class="token function">to</span><span class="token punctuation">(</span>el<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+                scale<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+                x<span class="token punctuation">:</span> <span class="token number">200</span><span class="token punctuation">,</span>
+                onComplete<span class="token punctuation">:</span> done
+            <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>gsap除了对元素（element）进行JS动画处理，也可以对某个普通对象，进行按照时间间隔逐步改变属性值</p>
+<pre class=" language-vue"><code class="language-vue"><template>
+  <div class="app">
+    <input type="number" step="100" v-model="counter">
+    <h2>当前计数: {{showNumber.toFixed(0)}}</h2>
+  </div>
+</template>
+
+<script>
+  import gsap from 'gsap';
+
+  export default {
+    data() {
+      return {
+        counter: 0,
+        showNumber: 0
+      }
+    },
+    watch: {
+      counter(newValue) {
+        gsap.to(this, {duration: 1, showNumber: newValue})
+      }
+    }
+  }
+</script></code></pre>
+<h4 id="JS钩子"><a href="#JS钩子" class="headerlink" title="JS钩子"></a>JS钩子</h4><p><code>transition</code>内置组件除了可以使用CSS动画，还可以配合上JS动画</p>
+<p>此时使用里面定义好的JS钩子即可（钩子作用分别查看字面意思即可， <code>enter-cancelled</code>和 <code>leave-cancelled</code>对应的是取消操作 ）</p>
+<p>用的最多是enter和leave</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>transition</span>
+  <span class="token attr-name">@before-enter</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>beforeEnter<span class="token punctuation">"</span></span>
+  <span class="token attr-name">@enter</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>enter<span class="token punctuation">"</span></span>
+  <span class="token attr-name">@after-enter</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>afterEnter<span class="token punctuation">"</span></span>
+  <span class="token attr-name">@enter-cancelled</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>enterCancelled<span class="token punctuation">"</span></span>
+  <span class="token attr-name">@before-leave</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>beforeLeave<span class="token punctuation">"</span></span>
+  <span class="token attr-name">@leave</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>leave<span class="token punctuation">"</span></span>
+  <span class="token attr-name">@after-leave</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>afterLeave<span class="token punctuation">"</span></span>
+  <span class="token attr-name">@leave-cancelled</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>leaveCancelled<span class="token punctuation">"</span></span>
+  <span class="token attr-name">:css</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>false<span class="token punctuation">"</span></span>
+<span class="token punctuation">></span></span>
+  <span class="token comment" spellcheck="true">&lt;!-- ... --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>transition</span><span class="token punctuation">></span></span></code></pre>
+<p>钩子函数可以选择带入参数：</p>
+<ul>
+<li>el：当前元素</li>
+<li>done：当只用 JavaScript 过渡的时候，在 <strong><code>enter</code> 和 <code>leave</code> 钩中必须使用 <code>done</code> 进行回调</strong>。否则，它们将被同步调用，过渡会立即完成。</li>
+</ul>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// ...</span>
+methods<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+  <span class="token function">beforeEnter</span><span class="token punctuation">(</span>el<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// ...</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment" spellcheck="true">// 当与 CSS 结合使用时</span>
+  <span class="token comment" spellcheck="true">// 回调函数 done 是可选的</span>
+  <span class="token function">enter</span><span class="token punctuation">(</span>el<span class="token punctuation">,</span> done<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// ...</span>
+    <span class="token function">done</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">afterEnter</span><span class="token punctuation">(</span>el<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// ...</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">enterCancelled</span><span class="token punctuation">(</span>el<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// ...</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">// --------</span>
+  <span class="token comment" spellcheck="true">// 离开时</span>
+  <span class="token comment" spellcheck="true">// --------</span>
+
+  <span class="token function">beforeLeave</span><span class="token punctuation">(</span>el<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// ...</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment" spellcheck="true">// 当与 CSS 结合使用时</span>
+  <span class="token comment" spellcheck="true">// 回调函数 done 是可选的</span>
+  <span class="token function">leave</span><span class="token punctuation">(</span>el<span class="token punctuation">,</span> done<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// ...</span>
+    <span class="token function">done</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">afterLeave</span><span class="token punctuation">(</span>el<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// ...</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment" spellcheck="true">// leaveCancelled 只用于 v-show 中</span>
+  <span class="token function">leaveCancelled</span><span class="token punctuation">(</span>el<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// ...</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="列表插入"><a href="#列表插入" class="headerlink" title="列表插入"></a>列表插入</h4><p>列表新增 / 删除元素的时候，可以模拟成v-if时，新增/ 删除 元素</p>
+<p>只不过通过 <code>transition-group</code> 进行包裹</p>
+<p>props：</p>
+<ul>
+<li>tag：将 <code>transition-group</code>变成 xx标签</li>
+</ul>
+<p>不过，列表多出了其他元素，而添加 / 删除元素时影响到其他列表元素位置时，调整的动画该如何设置？</p>
+<ul>
+<li>我们可以使用 v-move的class来完成动画的设置，它会在元素改变位置的时候应用，和之前的名字一样，我们可以通过name定义前缀</li>
+</ul>
+<p>添加 / 删除列表元素小案例</p>
+<pre class=" language-vue"><code class="language-vue"><template>
+  <div>
+    <button @click="addNum">添加数字</button>
+    <button @click="removeNum">删除数字</button>
+
+    <transition-group tag="p" name="why">
+      <span v-for="item in numbers" :key="item" class="item">
+        {{item}}
+      </span>
+    </transition-group>
+  </div>
+</template>
+
+<script>
+  export default {
+    data() {
+      return {
+        numbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+        numCounter: 10
+      }
+    },
+    methods: {
+      addNum() {
+        this.numbers.splice(this.randomIndex(), 0, this.numCounter++)
+      },
+      removeNum() {
+        this.numbers.splice(this.randomIndex(), 1)
+      },
+      randomIndex() {
+        return Math.floor(Math.random() * this.numbers.length)
+      }
+    },
+  }
+</script>
+
+<style scoped>
+  .item {
+    margin-right: 10px;
+    display: inline-block;
+  }
+
+  .why-enter-from,
+  .why-leave-to {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .why-enter-active,
+  .why-leave-active {
+    transition: all 1s ease;
+  }
+
+  .why-leave-active {
+    position: absolute;    /*防止移除的过程中仍占据原来的位置，导致元素移动的动画不成功*/
+  }
+
+  .why-move {
+    transition: transform 1s ease;
+  }
+</style></code></pre>
 
             </div>
             <hr/>
@@ -738,35 +1206,30 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/11/05/vue3/">
+                <a href="/2021/11/14/vite/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="Vue3">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Vite">
                         
-                        <span class="card-title">Vue3</span>
+                        <span class="card-title">Vite</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Vue3 Start源码改动
-它的源码是通过monorepo的形式管理源代码的
-
-Mono单个
-Repo：repository仓库
-主要是将许多项目的代码存储在同一个repository仓库中，，这样的话可以让多个包相互独立的同时，又在同一
+                            Vite概述Webpack是前端使用最多的构建工具，但是除了webpack还有一些其他的构建工具，比如rollup、parcel、gulp、vite
+ Vite 是 vue 的作者尤雨溪在开发 vue3.0 的时候开发的一个基于原生 ES-
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-05
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-11-14
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -779,7 +1242,6 @@ Repo：repository仓库
                         </span>
                     </div>
                 </div>
-
                 
             </div>
         </div>
@@ -810,8 +1272,12 @@ Repo：repository仓库
 页面可交互
 功能交互响应
 
-2.白屏白屏时长我们可以从URL地址的输入 -&gt; 请求发出 -&gt; 页面渲染完成，之中找到优化的方案
-DNS -&gt; TCP -&g
+Steve Souders在《高性能网站建设指南》总结的12条提高性能的基本规则
+
+尽量减少http请求
+使用CDN
+静态资源使用Cache
+启用
                         
                     </div>
                     <div class="publish-info">
@@ -1027,7 +1493,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">227.6k</span>&nbsp;字
+                class="white-color">237k</span>&nbsp;字
             
             
             

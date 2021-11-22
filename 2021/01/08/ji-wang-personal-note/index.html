@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    14.7k
+                    14.9k
                 </div>
                 
 
@@ -796,8 +796,22 @@
 <p>网络号全1，主机号全1，本网广播地址，只能作为目的地址</p>
 <p>网络号特定值，主机号全0，网络地址，表示一个网络，啥也不能作</p>
 <p>网络号特定值，主机号全1，直接广播地址，只能作为目的地址，表示对特定网络上所有主机广播</p>
-<p>网络号127，主机号任意，用于本地软件测试</p>
+<p>网络号127，主机号任意，<strong>用于本地软件测试</strong></p>
 <p>分类ip地址缺点：ip地址空间利用率有时很低；2级地址不够灵活</p>
+<h5 id="localhost和0-0-0-0的区别"><a href="#localhost和0-0-0-0的区别" class="headerlink" title="localhost和0.0.0.0的区别"></a>localhost和0.0.0.0的区别</h5><p>localhost本质上是一个域名，通常被解析为127.0.0.1</p>
+<ul>
+<li>127.0.0.1回环地址，表达的意思其实是我们主机发出去的包，直接被自己接收，<ul>
+<li>正常数据包流程：应用层-传输层-网络层-数据链路层-物理层</li>
+<li>而回环地址被网络层获取到，不会往下流</li>
+<li>而监听127.0.0.1时，同网段下主机无法通过ip地址访问</li>
+</ul>
+</li>
+<li>0.0.0.0：监听IPV4上所有地址，再根据端口找到不同的地址<ul>
+<li>比如我们监听0.0.0.0时，同网段下的主机可以通过ip地址访问</li>
+<li>当然我们输入127.0.0.1、localhost也可以访问</li>
+</ul>
+</li>
+</ul>
 <h5 id="子网的划分"><a href="#子网的划分" class="headerlink" title="子网的划分"></a>子网的划分</h5><p>ip地址{&lt;网络号&gt;, &lt;&lt;子网号&gt;，&lt;主机号&gt;&gt;}，三级的ip地址，但是就算划分子网后，对外表现仍然是一个网络，即本单位外网络看不见本单位内子网划分</p>
 <p>子网号能否全0、全1要看情况，主机号部分仍然不能全0、全1</p>
 <p>子网掩码：极力推荐子网掩码中使用连续的1：比如B类 11111111   11111111   11111111  00000000，子网掩码和ip地址相与，就可以得到子网网络地址</p>
@@ -1590,7 +1604,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">227.6k</span>&nbsp;字
+                class="white-color">237k</span>&nbsp;字
             
             
             

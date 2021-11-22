@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    565
+                    1.1k
                 </div>
                 
 
@@ -493,6 +493,21 @@
 <li>页面可交互</li>
 <li>功能交互响应</li>
 </ul>
+<p>Steve Souders在《高性能网站建设指南》总结的12条提高性能的基本规则</p>
+<ol>
+<li>尽量减少http请求</li>
+<li>使用CDN</li>
+<li>静态资源使用Cache</li>
+<li>启用Gzip压缩</li>
+<li>JavaScript脚本尽量放在页面底部</li>
+<li>CSS样式表放在顶部</li>
+<li>避免CSS表达式（也就是不要频繁动态改动CSS）</li>
+<li>减少内联的CSS和JavaScript</li>
+<li>减少DNS查询</li>
+<li>精简JavaScript</li>
+<li>避免重定向</li>
+<li>删除重复脚本</li>
+</ol>
 <h2 id="2-白屏"><a href="#2-白屏" class="headerlink" title="2.白屏"></a>2.白屏</h2><p>白屏时长我们可以从URL地址的输入 -&gt; 请求发出 -&gt; 页面渲染完成，之中找到优化的方案</p>
 <p>DNS -&gt; TCP -&gt;服务端响应 -&gt; 客户端下载、解析、渲染显示页面</p>
 <h4 id="DNS-Lookup"><a href="#DNS-Lookup" class="headerlink" title="DNS Lookup"></a>DNS Lookup</h4><p>DNS的优化策略有很多</p>
@@ -523,6 +538,11 @@
 </ul>
 <h2 id="3-页面整体加载完成"><a href="#3-页面整体加载完成" class="headerlink" title="3.页面整体加载完成"></a>3.页面整体加载完成</h2><p>又被称为PageLoad，顾名思义所有页面相关资源全部加载完成的时间，而其中这个时间点为我们熟知的“8s”原则</p>
 <p>随后在2006年，一个来自Akamai的新研究，发表了新的观点：通常4s左右的平均加载时间，是用户可能会等待页面加载的最长时间。</p>
+<h2 id="4-加快首次渲染"><a href="#4-加快首次渲染" class="headerlink" title="4.加快首次渲染"></a>4.加快首次渲染</h2><h4 id="方案一"><a href="#方案一" class="headerlink" title="方案一"></a>方案一</h4><p>首屏渲染时render树的合成时长之一，子啊与DOM节点数量，而如果使用 TextArea存放HTML代码，而浏览器解析的时候不会识别，不被当做DOM去解析，会让首屏渲染DOM树包含的节点大幅减少，从而提高首次渲染速度</p>
+<p>在服务端：将一些特殊字符（&amp;之类的）进行HTMLEncode转义，在浏览器端，则需要在首屏区域处于可见状态时，将TextArea的HTML代码取出，将其恢复到DOM树进行渲染，这一行为在 《大型网站性能优化实战》中被称为延迟渲染</p>
+<h2 id="5-测试性能工具"><a href="#5-测试性能工具" class="headerlink" title="5.测试性能工具"></a>5.测试性能工具</h2><p><code>YSlow</code>性能检测插件，以firefox插件的形式</p>
+<p><code>PageSpeed</code>和YSlow类似的，Google的优化工具<code>PageSpeed</code>除了有网站的入口，也能以插件的形式在Firefox和Google上运行，也是基于基础性能优化实践规则分析代码，提供一系列页面优化建议</p>
+<p><code>WebPagetest</code>同样也使用和它们相似的一组最佳性能实践来分析网页，它通过浏览器访问，基于输入的Website URL，以及选择的国家城市、浏览器类型、网络带宽等信息，启动对应的远程服务器上的浏览器进行性能分析测试。（据官网介绍，他们提供的不同城市的性能分析测试，是通过真实的部署在对应城市的物理服务器来实现的，而不是通过其他类似代理或者虚拟机等方式模拟实现的）</p>
 <p>参考书籍《大型网站性能优化实战》—周涛明、张荣华、张新兵</p>
 
             </div>
@@ -768,12 +788,12 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Vue3 Start源码改动
+                            1.Vue3 Start源码改动
 它的源码是通过monorepo的形式管理源代码的
 
 Mono单个
 Repo：repository仓库
-主要是将许多项目的代码存储在同一个repository仓库中，，这样的话可以让多个包相互独立的同时，又在同一
+主要是将许多项目的代码存储在同一个repository仓库中，，这样的话可以让多个包相互独立的同时，又在
                         
                     </div>
                     <div class="publish-info">
@@ -1031,7 +1051,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">227.6k</span>&nbsp;字
+                class="white-color">237k</span>&nbsp;字
             
             
             

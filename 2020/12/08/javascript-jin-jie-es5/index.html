@@ -672,9 +672,9 @@ o<span class="token punctuation">.</span><span class="token function">say</span>
     a<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
     bar<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>a<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
     bad<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>a
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>a             <span class="token comment" spellcheck="true">//箭头函数导致this永远绑定了父级作用域window</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>foo<span class="token punctuation">.</span><span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token comment" spellcheck="true">//2</span>
@@ -996,7 +996,11 @@ console<span class="token punctuation">.</span><span class="token function">log<
     <span class="token punctuation">}</span>
     <span class="token function">deepcopy</span><span class="token punctuation">(</span>o<span class="token punctuation">,</span> obj<span class="token punctuation">)</span><span class="token punctuation">;</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>o<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h4 id="完整版深拷贝"><a href="#完整版深拷贝" class="headerlink" title="完整版深拷贝"></a>完整版深拷贝</h4><pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> getType <span class="token operator">=</span> obj <span class="token operator">=</span><span class="token operator">></span> Object<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>toString<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<p>使用 <code>JSON.parse</code>和 <code>JSON.stringify</code>实现深拷贝</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> info <span class="token operator">=</span> <span class="token punctuation">{</span>name<span class="token punctuation">:</span> <span class="token string">"Allen"</span><span class="token punctuation">,</span> friends<span class="token punctuation">:</span> <span class="token punctuation">{</span>name<span class="token punctuation">:</span> <span class="token string">"Khan"</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> newobj <span class="token operator">=</span> JSON<span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>info<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="完整版深拷贝"><a href="#完整版深拷贝" class="headerlink" title="完整版深拷贝"></a>完整版深拷贝</h4><p>github上一个叫lodash的库，使用深拷贝也差不多是类似的方法</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> getType <span class="token operator">=</span> obj <span class="token operator">=</span><span class="token operator">></span> Object<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>toString<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token keyword">const</span> isObject <span class="token operator">=</span> <span class="token punctuation">(</span>target<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> target <span class="token operator">===</span> <span class="token string">'object'</span> <span class="token operator">||</span> <span class="token keyword">typeof</span> target <span class="token operator">===</span> <span class="token string">'function'</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> target <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
 
@@ -1691,7 +1695,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">227.6k</span>&nbsp;字
+                class="white-color">237k</span>&nbsp;字
             
             
             

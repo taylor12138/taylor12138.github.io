@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.2k
+                    7.4k
                 </div>
                 
 
@@ -492,9 +492,9 @@
 <p>3.接受 <code>this.$bus.$on(&quot;事件名&quot;, 回调函数(参数))</code></p>
 <p>4.可以在deactivated里设置离开时不接受该事件的传递（取消全局事件监听）：<code>this.$bus.$off(&quot;事件名&quot;, 接收时的回调函数(参数));</code>，回调函数要和接收时发生的回调函数保持一致</p>
 <h4 id="provide-inject"><a href="#provide-inject" class="headerlink" title="provide / inject"></a>provide / inject</h4><p>可以理解为祖父与孙子组件们的通信方法</p>
-<p>这对选项需要一起使用，以允许一个祖先组件向其所有子孙后代注入一个依赖，不论组件层次有多深，并在其上下游关系成立的时间里始终生效。如果你熟悉 React，这与 React 的上下文特性很相似。</p>
-<p><code>provide</code> 选项应该是一个对象或返回一个对象的函数。该对象包含可注入其子孙的 property。在该对象中你可以使用 ES2015 Symbols 作为 key，但是只在原生支持 <code>Symbol</code> 和 <code>Reflect.ownKeys</code> 的环境下可工作。</p>
-<p><code>inject</code> 选项应该是：</p>
+<p>这对选项需要一起使用，以允许一个祖先组件向其所有子孙后代注入一个依赖，不论组件层次有多深，并在其上下游关系成立的时间里始终生效。如果你熟悉 React，这与 React 的上下文（Context）特性很相似。</p>
+<p><code>provide</code> 选项（option）应该是一个对象或返回一个对象的函数。该对象包含可注入其子孙的 property。在该对象中你可以使用 ES2015 Symbols 作为 key，但是只在原生支持 <code>Symbol</code> 和 <code>Reflect.ownKeys</code> 的环境下可工作。</p>
+<p><code>inject</code> 选项（option）应该是：</p>
 <ul>
 <li>一个字符串数组，或</li>
 <li>一个对象，对象的 key 是本地的绑定名，value 是：<ul>
@@ -515,7 +515,7 @@
   provide<span class="token punctuation">:</span> <span class="token punctuation">{</span>
     foo<span class="token punctuation">:</span> <span class="token string">'bar'</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token comment" spellcheck="true">// ...</span>
+  <span class="token comment" spellcheck="true">//也支持写成一个函数，此时才可以使用this：provide(){ return { foo: 'bar' } }</span>
 <span class="token punctuation">}</span>
 
 <span class="token comment" spellcheck="true">// 子组件注入 'foo'</span>
@@ -526,16 +526,43 @@
   <span class="token punctuation">}</span>
   <span class="token comment" spellcheck="true">// ...</span>
 <span class="token punctuation">}</span></code></pre>
+<p>既然不是响应式的，那如果用到需要响应式怎么办？！！</p>
+<p>常规做法</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> Provider <span class="token operator">=</span> <span class="token punctuation">{</span>
+<span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+        foo<span class="token punctuation">:</span> <span class="token string">'bar'</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+  provide<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    fooProvide<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>fooFn <span class="token comment" spellcheck="true">// 传递一个引用类型函数过去</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+ methods<span class="token punctuation">:</span><span class="token punctuation">{</span>
+     <span class="token function">fooFn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>foo
+      <span class="token punctuation">}</span>
+ <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>其他做法：</p>
+<p>配合上计算属性computed</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> Provider <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token function">provide</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token punctuation">{</span>
+        length<span class="token punctuation">:</span> <span class="token function">computed</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">this</span><span class="token punctuation">.</span>names<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">.</span>value<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//computed返回的是一个ref对象，如果拿到值必须得.value</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <h4 id="mixin（混入）"><a href="#mixin（混入）" class="headerlink" title="mixin（混入）"></a>mixin（混入）</h4><p>Vue中相同逻辑的代码如何抽离？</p>
 <p>为了减少两个对象之间重复的代码，Vue官方提供了 <code>minxin</code>（较少类重复的代码可以用es6的继承）</p>
 <p><strong>全局混入</strong></p>
 <p><code>mixin</code> 用于全局混入，会影响到每个组件实例，通常插件都是这样做初始化的。</p>
-<pre><code>Vue.mixin({
-    beforeCreate() {
-        // ...逻辑
-        // 这种方式会影响到每个组件的 beforeCreate 钩子函数
-    }
-})</code></pre><p><strong>拓展组件的局部混入</strong></p>
+<pre class=" language-js"><code class="language-js">Vue<span class="token punctuation">.</span><span class="token function">mixin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    <span class="token function">beforeCreate</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// ...逻辑</span>
+        <span class="token comment" spellcheck="true">// 这种方式会影响到每个组件的 beforeCreate 钩子函数</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p><strong>拓展组件的局部混入</strong></p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> mixin <span class="token operator">=</span> <span class="token punctuation">{</span>
   created<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
@@ -545,6 +572,17 @@
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token comment" spellcheck="true">// => 1</span>
 <span class="token comment" spellcheck="true">// => 2</span></code></pre>
+<p>mixin合并规则：</p>
+<p>比如Mixin对象中选项和组件对象中的选项发生冲突时</p>
+<ul>
+<li>如果是data，则选择组件对象中的选项</li>
+<li>如果是生命周期，则会把两者（生命周期函数）都放在一个数组里，等到合适的生命周期拿出来，都调用（都会执行）</li>
+<li>如果是对象类型（比如methods、components、watch等），将被合并成一个对象<ul>
+<li>如果对象的key相同，则会选择组件对象的键值对</li>
+<li>（理论上合并，都会执行，实际上有冲突还是选择组件对象）</li>
+</ul>
+</li>
+</ul>
 <h4 id="Vue插件机制"><a href="#Vue插件机制" class="headerlink" title="Vue插件机制"></a>Vue插件机制</h4><p>插件通常用来为 Vue 添加全局功能。插件的功能范围没有严格的限制——一般有下面几种：</p>
 <ol>
 <li>添加全局方法或者 property。如：<a href="https://github.com/karol-f/vue-custom-element" target="_blank" rel="noopener">vue-custom-element</a></li>
@@ -1556,7 +1594,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">227.6k</span>&nbsp;字
+                class="white-color">237k</span>&nbsp;字
             
             
             

@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Canvas, Hexo">
+    <meta name="keywords" content="计算机基础知识合集, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Canvas | Hexo</title>
+    <title>计算机基础知识合集 | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Canvas</h1>
+                    <h1 class="description center-align post-title">计算机基础知识合集</h1>
                 </div>
             </div>
         </div>
@@ -443,15 +443,6 @@
                 </div>
                 <div class="col s5 right-align">
                     
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                前端
-                            </a>
-                        
-                    </div>
-                    
                 </div>
             </div>
 
@@ -459,7 +450,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-07-31
+                    2021-12-10
                 </div>
                 
 
@@ -468,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    616
+                    628
                 </div>
                 
 
@@ -485,64 +476,32 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="红宝书关于Canvas"><a href="#红宝书关于Canvas" class="headerlink" title="红宝书关于Canvas"></a>红宝书关于Canvas</h2><p>绘制图形需要先取得绘图上下文</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> drawing <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementByTagName</span><span class="token punctuation">(</span><span class="token string">'canvas'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">if</span><span class="token punctuation">(</span>drawing<span class="token punctuation">.</span>getContext<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">//...</span>
-<span class="token punctuation">}</span></code></pre>
-<h4 id="2D绘图"><a href="#2D绘图" class="headerlink" title="2D绘图"></a>2D绘图</h4><p>2D上下文的坐标原点（0，0）在canvas标签的左上角，x向右增长，y向下增长</p>
-<p><strong>矩形</strong></p>
-<p><code>fillRect</code>、<code>strokeRect</code>、<code>clearRect</code>接收4个参数，分别为x坐标、y坐标、矩形宽度、高度</p>
-<p>绘制矩形 + 填充 可以使用 <code>fillRect</code></p>
-<p>绘制非实星填充使用 <code>strokeRect</code></p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">if</span><span class="token punctuation">(</span>drawing<span class="token punctuation">.</span>getContext<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">let</span> context <span class="token operator">=</span> drawing<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">"2d"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    context<span class="token punctuation">.</span>fillStyle <span class="token operator">=</span> <span class="token string">"#ff000"</span><span class="token punctuation">;</span>
-    context<span class="token punctuation">.</span><span class="token function">fillRect</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span></code></pre>
-<p><code>clearRect</code>方法可以擦除画布中某个区域，让其变得透明</p>
-<p><strong>路径</strong></p>
-<p>在绘制路径之前，需要“创建路径”，结束之后再“描画路径”</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">if</span><span class="token punctuation">(</span>drawing<span class="token punctuation">.</span>getContext<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">let</span> context <span class="token operator">=</span> drawing<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">"2d"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    context<span class="token punctuation">.</span><span class="token function">beginPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//创建路径</span>
-    <span class="token comment" spellcheck="true">//..</span>
-    context<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//描画路径</span>
-<span class="token punctuation">}</span></code></pre>
-<p><code>arc(x, y, radius, startAngle, endAngle, counterclockwise)</code></p>
-<ul>
-<li>x，y坐标为圆心</li>
-<li>radius为半径，startAngle开始角度，endAngle结束角度</li>
-<li>counterclockwise是否逆时针计算</li>
-</ul>
-<p><code>moveTo(x, y)</code>不绘制线条，把当前绘制光标移动至x，y，有点类似把圆心像鼠标一项，移动到x，y罢了</p>
-<p><strong>变换</strong></p>
-<p>当然我们也可以在其中使用我们熟悉的老朋友</p>
-<ul>
-<li><code>rorate（angle）</code></li>
-<li><code>scale(scaleX, scaleY)</code></li>
-<li><code>translate(x, y)</code>，执行这个操作之后，原本我们要仪仗的(0, 0)的原点坐标，变成了(x, y)</li>
-</ul>
-<p>所有的变换，包括fillStyle、strokeStyle属性，都会一直保留在上下文中，直到再次修改他们。虽然没有办法明确地将所有之都重置为默认值，但是有两个方法可以帮我们跟踪变化：<code>save()</code>被调用之后，，当前时刻的所有设置会放到一个暂存栈中，之后调用 <code>restore()</code>方法可以取出并恢复之前保存的设置。</p>
-<p>记住保存的是上下文的设置和变换，并没有保存上下文的内容。</p>
-<p><strong>绘制图像</strong></p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> img <span class="token operator">=</span> document<span class="token punctuation">.</span>imges<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-context<span class="token punctuation">.</span><span class="token function">drawImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p><code>drawImage(图像, 绘制目标的x坐标, 绘制目标的y坐标)</code></p>
-<p><code>drawImage(图像, 绘制目标的x坐标, 绘制目标的y坐标, 目标宽度, 目标高度)</code></p>
-<h4 id="WebGL"><a href="#WebGL" class="headerlink" title="WebGL"></a>WebGL</h4><p>webGL是画布的3D上下文，它是Khronos Group的标准</p>
-<p>同样的，使用前我们提倡对于WebGL的支持检测</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> drawing <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementByTagName</span><span class="token punctuation">(</span><span class="token string">'canvas'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">if</span><span class="token punctuation">(</span>drawing<span class="token punctuation">.</span>getContext<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">let</span> context <span class="token operator">=</span> drawing<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">"webg1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">//...</span>
-<span class="token punctuation">}</span></code></pre>
-<p>在创建初期，可以为3d上下文附加一些属性</p>
-<ul>
-<li>alpha，表示是否为上下文纹创建透明通道缓冲区</li>
-<li>depth，表示是否适用16位深缓冲区，默认为true</li>
-<li>……..</li>
-</ul>
+                <h2 id="字符编码"><a href="#字符编码" class="headerlink" title="字符编码"></a>字符编码</h2><h4 id="ASCII"><a href="#ASCII" class="headerlink" title="ASCII"></a>ASCII</h4><p>每一位2进制有0、1两种状态，1字节 = 256种状态</p>
+<p>上个世纪60年代，美国制定了一套字符编码，对英语字符与二进制位之间的关系，做了统一规定。这被称为 ASCII 码，一直沿用至今。</p>
+<p>ASCII 码一共规定了128个字符的编码</p>
+<p>但是英语用128个符号编码就够了，但是用来表示其他语言，128个符号是不够的（特别是亚洲国家，我们汉字就更加难顶了）</p>
+<h4 id="Unicode"><a href="#Unicode" class="headerlink" title="Unicode"></a>Unicode</h4><p>Unicode，统一码（Unicode），也叫万国码。就像它的名字都表示的，这是一种所有符号的编码。</p>
+<p>它是一个很大的集合，现在的规模可以容纳100多万个符号</p>
+<p>网络上流传比较广的说法是：</p>
+<p>ASCII编码是1个字节，而Unicode编码通常是多个字节。</p>
+<p>用Unicode编码比ASCII编码需要多很多的的存储空间</p>
+<p>阮一峰老师：Unicode 的多种存储方式，也就是说有许多种不同的二进制格式，且Unicode的规定导致本身的表示方式会造成极大的浪费</p>
+<h4 id="UTF-8"><a href="#UTF-8" class="headerlink" title="UTF-8"></a>UTF-8</h4><p>UTF-8 就是在互联网上使用最广的一种 Unicode 的实现方式</p>
+<p>其他实现方式还包括 UTF-16（字符用两个字节或四个字节表示）和 UTF-32（字符用四个字节表示），不过在互联网上<strong>基本不用</strong></p>
+<p>UTF-8 最大的一个特点，就是它是一种变长的编码方式。它可以使用1~4个字节表示一个符号，根据不同的符号而变化字节长度。</p>
+<p><strong>规则</strong>！！！</p>
+<p>1）对于单字节的符号，字节的第一位设为<code>0</code>，后面7位为这个符号的 Unicode 码。因此对于英语字母，UTF-8 编码和 ASCII 码是相同的。</p>
+<p>2）对于<code>n</code>字节的符号（<code>n &gt; 1</code>），第一个字节的前<code>n</code>位都设为<code>1</code>，第<code>n + 1</code>位设为<code>0</code>，后面字节的前两位一律设为<code>10</code>。剩下的没有提及的二进制位，全部为这个符号的 Unicode 码。</p>
+<p>下表总结了编码规则，字母<code>x</code>表示可用编码的位。</p>
+<pre><code>Unicode符号范围      |            UTF-8编码方式
+(十六进制)           |              （二进制）
+--------------------+---------------------------------------------
+0000 0000-0000 007F | 0xxxxxxx
+0000 0080-0000 07FF | 110xxxxx 10xxxxxx
+0000 0800-0000 FFFF | 1110xxxx 10xxxxxx 10xxxxxx
+0001 0000-0010 FFFF | 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx</code></pre><p>UTF-8和Unicode</p>
+<p><code>严</code>的 Unicode码 是<code>4E25</code>，UTF-8 编码是<code>E4B8A5</code></p>
+<p>参考：<a href="https://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html《阮一峰的网络日志》" target="_blank" rel="noopener">https://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html《阮一峰的网络日志》</a></p>
 
             </div>
             <hr/>
@@ -568,7 +527,7 @@ context<span class="token punctuation">.</span><span class="token function">draw
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2020/07/31/canvas/">https://taylor12138.github.io/2020/07/31/canvas/</a>
+                    <a href="https://taylor12138.github.io/2021/12/10/ji-suan-ji-ji-chu-zhi-shi-he-ji/">https://taylor12138.github.io/2021/12/10/ji-suan-ji-ji-chu-zhi-shi-he-ji/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -771,53 +730,41 @@ context<span class="token punctuation">.</span><span class="token function">draw
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/07/31/css-xuan-ran-shen-jiu/">
+                <a href="/2021/12/10/ji-suan-ji-ji-chu-zhi-shi-he-ji/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="CSS渲染深究">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="计算机基础知识合集">
                         
-                        <span class="card-title">CSS渲染深究</span>
+                        <span class="card-title">计算机基础知识合集</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            CSS动画和JS动画的对比CSS动画优点：
-
-动画流畅（以每一帧的间隔保证恰当的时间刷新UI）
-性能较优
-动画效果对帧速不好的低版本浏览器
-代码简单，调优方向固定
-
-缺点：
-
-运行过程控制较弱,无法附加事件绑定回调函数
-代码冗长
-
-JS动画
+                            字符编码ASCII每一位2进制有0、1两种状态，1字节 = 256种状态
+上个世纪60年代，美国制定了一套字符编码，对英语字符与二进制位之间的关系，做了统一规定。这被称为 ASCII 码，一直沿用至今。
+ASCII 码一共规定了128个字符
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-07-31
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-12-10
+                            </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                    前端
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Hello
                             
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -828,25 +775,25 @@ JS动画
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/07/21/javascript-ji-chu/">
+                <a href="/2021/11/14/vite/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="JavaScript基础">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Vite">
                         
-                        <span class="card-title">JavaScript基础</span>
+                        <span class="card-title">Vite</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.JS的介绍JS是脚本语言，不需要编译，直接由js解释器逐行进行解释并执行（编译一行，执行一行），（解释型的编程语言）现在也可以基于node.js技术（后台）进行服务器编程
-实现业务逻辑和页面控制功能，浏览器的JS引擎，也就是JS解释器，
+                            Vite概述Webpack是前端使用最多的构建工具，但是除了webpack还有一些其他的构建工具，比如rollup、parcel、gulp、vite
+ Vite 是 vue 的作者尤雨溪在开发 vue3.0 的时候开发的一个基于原生 ES-
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-21
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-14
                             </span>
                         <span class="publish-author">
                             

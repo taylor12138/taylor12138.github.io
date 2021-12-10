@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.5k
+                    8.8k
                 </div>
                 
 
@@ -521,9 +521,9 @@
   el<span class="token punctuation">:</span> <span class="token string">'#app'</span><span class="token punctuation">,</span>
   render<span class="token punctuation">:</span> h <span class="token operator">=</span><span class="token operator">></span> <span class="token function">h</span><span class="token punctuation">(</span>App<span class="token punctuation">)</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
-<p>Runtime-only在实际公司开发中使用的比较多，性能更好，代码更少（不用处理template和ast， 它的 <code>.vue</code>文件由 webpack用到的loader：<code>vue-template-compiler</code> 解析成render， 也就是render(App)  -&gt;  组件App的 template 替换掉绑定的元素 ）</p>
+<p><code>Runtime-only</code>在实际公司开发中使用的比较多，性能更好，代码更少（不用处理template和ast， 它的 <code>.vue</code>文件由 webpack用到的loader：<code>vue-template-compiler</code> 解析成render， 也就是render(App)  -&gt;  组件App的 template 替换掉绑定的元素 ）</p>
 <p>实际上，<code>Vue</code>实例的<code>template</code> -&gt; 会保存在<code>option</code>里 -&gt; 进行parse解析成抽象语法树（<code>ast</code>）（描述了我们标签的详情数据情况） -&gt; compile编译成 <code>render</code>函数  -&gt;  </p>
-<p>翻译成虚拟DOM（<code>virtual DOM</code>） -&gt; 渲染成UI</p>
+<p>翻译成虚拟DOM（<code>virtual DOM</code>） -&gt; 渲染成UI（真实DOM）</p>
 <p><img src="/2021/03/01/vue-zhong/runtime.jpg" alt></p>
 <p>所以实际上compiler是处理 <code>template</code>部分和 <code>ast</code>部分</p>
 <p>动态创建标签：<code>createElement(&#39;标签&#39;, {标签属性}, [&#39;&#39;])</code>,                                     <code>createElement(组件)</code>也可以</p>
@@ -583,7 +583,7 @@ render<span class="token punctuation">:</span> <span class="token function">func
 <pre class=" language-shell"><code class="language-shell">npm run serve</code></pre>
 <p>实质上会执行node_modules下面的bin目录的vue-cli-service文件夹下代码</p>
 <p>里面的比如 <code>const Service = require(../lib/Serive)</code>也不要被欺骗了，并不是当前目录下的 <code>../</code>，而是内部有一个软连接，会去找到真是代码所在的位置，执行真实的代码</p>
-<h2 id="5-Vue-router"><a href="#5-Vue-router" class="headerlink" title="5.Vue router"></a>5.Vue router</h2><h4 id="前后端路由概述"><a href="#前后端路由概述" class="headerlink" title="前后端路由概述"></a>前后端路由概述</h4><p>路由就是网络把信息从源地址传输到目的地址的活动</p>
+<h2 id="5-Vue-router"><a href="#5-Vue-router" class="headerlink" title="5.Vue router"></a>5.Vue router</h2><h4 id="前后端路由概述"><a href="#前后端路由概述" class="headerlink" title="前后端路由概述"></a>前后端路由概述</h4><p>路由就是网络把信息从源地址传输到目的地址的活动，路由器主要维护一个映射表（ip地址和mac地址的映射关系）</p>
 <p>后端渲染是将数据在后端处理生成html发给浏览器，前端渲染是通过ajax拿到数据，操作dom节点 渲染ui</p>
 <p>（相当于Node.js里的服务器渲染和客户端渲染）</p>
 <p>1.<strong>后端路由</strong>（后端渲染）：服务器处理一个url映射一个页面，通过正则匹配，交给controller进行处理，然后生成html等数据返回前端</p>
@@ -602,7 +602,7 @@ render<span class="token punctuation">:</span> <span class="token function">func
 <p>而在前端路由中：</p>
 <ul>
 <li>静态资源服务器只有一个html（甚至也只有一个CSS + 一个JS）</li>
-<li>网页获取到静态资源后，由前端路由配置映射关系</li>
+<li>网页获取到静态资源后，由前端路由配置映射关系，一个路径对应一个组件（/home -&gt; Home.vue）</li>
 <li>点击url，通过JS代码判断，从那个获取的一个静态资源里再抽取资源，然后显示出来（这里抽取的资源，再vue里，相当于一个url映射一个组件，一个组件对应一个网页）</li>
 </ul>
 <p>改变url，依然是页面不发生整体刷新</p>
@@ -611,7 +611,10 @@ render<span class="token punctuation">:</span> <span class="token function">func
 <ul>
 <li><p>Push：通过<code>window.location.hash = &#39;xxx&#39;</code>更改href，网页不会刷新（默认），也就是重定向（带有hash的前端路由，优点是兼容性高，缺点是URL带#号不好看）</p>
 <ul>
-<li>hash（#）是URL 的锚点，代表的是网页中的一个位置，单单改变#后的部分，浏览器只会滚动到相应位置，不会重新加载网页，也就是说 #是用来指导浏览器动作的，对服务器端完全无用，HTTP请求中也不会不包括#；同时每一次改变#后的部分，都会在浏览器的访问历史中增加一个记录，使用”后退”按钮，就可以回到上一个位置；</li>
+<li><p>继而此时我们可以通过 <code>window.addEventListener(&quot;hashchange&quot;, fn)</code> 监听hash改变时回调的事件</p>
+</li>
+<li><p>hash（#）是URL 的锚点，代表的是网页中的一个位置，单单改变#后的部分，浏览器只会滚动到相应位置，不会重新加载网页，也就是说 #是用来指导浏览器动作的，对服务器端完全无用，HTTP请求中也不会不包括#；同时每一次改变#后的部分，都会在浏览器的访问历史中增加一个记录，使用”后退”按钮，就可以回到上一个位置；</p>
+</li>
 </ul>
 </li>
 <li><p>Push：也可以通过<code>history.pushState({}, &#39;&#39;, &#39;xxx&#39;)</code>更改href，进行重定向</p>
@@ -641,7 +644,7 @@ render<span class="token punctuation">:</span> <span class="token function">func
 <pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> Router <span class="token keyword">from</span> <span class="token string">'vue-router'</span>
 <span class="token keyword">import</span> Vue <span class="token keyword">from</span> <span class="token string">'vue'</span>
 Vue<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>Router<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> routes <span class="token operator">=</span> <span class="token punctuation">[</span>  <span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> routes <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> router <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Router</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
     routes
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
@@ -660,7 +663,7 @@ Vue<span class="token punctuation">.</span>config<span class="token punctuation"
 <p>使用</p>
 <p>1.在components文件夹里新建组件 如： <code>home.vue</code> 和 <code>about.vue</code>，里面自己适配好template 和 script</p>
 <p>2.在routes里编写映射关系，一个对象对应一个映射关系</p>
-<p><strong>踩坑</strong>：配置路由映射时，component不能加s</p>
+<p>3.可以通过 <code>&quot;/:pathMatch(.*)&quot;</code> 匹配找不到路径填补的组件（404 not found），而对于此时匹配不到时拿到的路径参数，通过 <code>$route.params.patchMath</code>拿到</p>
 <p>url 中出现 path,则显示该对象里的组件component</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> Home <span class="token keyword">from</span> <span class="token string">'../components/home'</span>
 <span class="token keyword">import</span> About <span class="token keyword">from</span> <span class="token string">'../components/about'</span>
@@ -672,6 +675,10 @@ Vue<span class="token punctuation">.</span>config<span class="token punctuation"
     <span class="token punctuation">{</span>
         path<span class="token punctuation">:</span> <span class="token string">'/about'</span><span class="token punctuation">,</span>
         component<span class="token punctuation">:</span> About
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+        path<span class="token punctuation">:</span> <span class="token string">'/:pathMatch(.*)'</span><span class="token punctuation">,</span>
+        component<span class="token punctuation">:</span> NotFound
     <span class="token punctuation">}</span>
 <span class="token punctuation">]</span><span class="token punctuation">;</span></code></pre>
 <p>3.通过<code>&lt;router-link&gt;</code>和<code>&lt;router-view&gt;</code>使用路由: </p>
@@ -850,9 +857,10 @@ $router<span class="token punctuation">.</span><span class="token function">push
 <li>传递方式：在配置路由映射时，path后面跟上响应的值进行接收声明 <code>路由路径名/:参数名</code>；<ul>
 <li>接着在组件的router-link的to属性添加参数进行传递 /</li>
 <li>或者利用<code>this.$router.push(&quot;/detail/&quot; + userId)</code>进行进行跳转</li>
+<li>当然传递多个参数还可以： <code>路由路径名/:参数名/路由路径名2/:参数名2</code> 进行重叠</li>
 </ul>
 </li>
-<li>传递后形成的路径 <code>/router/123</code>， <code>/router/abc</code></li>
+<li>传递后形成的路径 <code>/router/123</code>， <code>/router/abc</code>等</li>
 <li>子组件通过 <code>this.$route.params.参数名</code>获取参数</li>
 </ul>
 <p><strong>query类型： 正常路由配置方式</strong></p>
@@ -865,7 +873,7 @@ $router<span class="token punctuation">.</span><span class="token function">push
       <span class="token attr-name">:to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{ path: <span class="token punctuation">'</span>/Profile<span class="token punctuation">'</span>, query: { name: <span class="token punctuation">'</span>Allen<span class="token punctuation">'</span>, age: 18, heigh: 1.88 } }<span class="token punctuation">"</span></span>
       <span class="token attr-name">tag</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>button<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
     档案<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>router-link</span><span class="token punctuation">></span></span></code></pre>
-<p>或者利用事件进行跳转+传递query</p>
+<p>或者利用事件进行跳转+传递query（router.push可以传入一个对象）</p>
 <pre class=" language-js"><code class="language-js"><span class="token function">事件名</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
     <span class="token keyword">this</span><span class="token punctuation">.</span>$router<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
         path<span class="token punctuation">:</span><span class="token string">'/detail'</span><span class="token punctuation">,</span>
@@ -883,7 +891,7 @@ $router<span class="token punctuation">.</span><span class="token function">push
 <p>大前提：所有的组件都继承vue类的原型</p>
 <p>vue-router源码往所有组件里都添加了$router属性（往vue的原型上加的，用的是<code>vue.prototype</code>在原型对象上添加）</p>
 <p>所以在任何一个组件里，都可以使用 <code>this.$router</code>进行获取</p>
-<p>前端路由使用history刷新页面时，router-link的原理中使用到 <code>$router.push(&quot;路径&quot;)</code>，router对象为路由文件夹router中index.js导出的router对象</p>
+<p>前端路由使用history刷新页面时，router-link的原理中使用到 <code>$router.push(&quot;路径&quot;)</code>、<code>$router.replace(&quot;路径&quot;)</code>、<code>$router.go(-1)</code>，router对象为路由文件夹router中index.js导出的router对象（有点当作 <code>history</code> 使用内味了 ）</p>
 <p>而 route 是当前活跃的路由，vue-router源码往所有组件里也添加了$route属性（往vue的原型上加的，用的是<code>vue.prototype</code>在原型对象上添加）</p>
 <p>所以在任何一个组件里，都可以使用 <code>this.$route</code>进行获取</p>
 <h4 id="导航守卫"><a href="#导航守卫" class="headerlink" title="导航守卫"></a>导航守卫</h4><p>在发生路由跳转时，我们有时需要去监听这个跳转事件，然后对网页进行相应的变化（比如网页标题的改变）</p>
@@ -921,6 +929,7 @@ $router<span class="token punctuation">.</span><span class="token function">push
     <span class="token punctuation">}</span>
 <span class="token punctuation">]</span></code></pre>
 <p>使用导航守卫，这时可以使用<code>to.meta.title</code>获取，但是如果路由中使用了路由嵌套，还得格外注意使用 <code>to.matched[0].meta.title</code>获取，使用下标为0的进行获取，则当你未进行嵌套时，还能正常获取，因为确实是当前选定路由的第一个</p>
+<p>其实也可以通过<code>this.$route</code>获取</p>
 <p><code>next()</code> 进行管道中的下一个钩子。如果全部钩子执行完了，则导航的状态就是 <strong>confirmed</strong> (确认的)。</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 导航守卫</span>
 router<span class="token punctuation">.</span><span class="token function">beforeEach</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>to<span class="token punctuation">,</span> <span class="token keyword">from</span><span class="token punctuation">,</span> next<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -932,6 +941,16 @@ router<span class="token punctuation">.</span><span class="token function">befor
 <p>这里的<code>beforeEach</code> 是前置守卫，是路由跳转之前进行的回调</p>
 <p>后置钩子 <code>afterEach(to, from)</code>   不需要主动调用next函数，等待路由跳转结束后也会调用函数</p>
 <p>无论是前置守卫还是后置钩子，都被称为全局守卫，除此之外，还有路由独享守卫 <code>beforeEnter</code>、 组件内守卫 <code>beforeRouteEnter</code> 等</p>
+<p><strong>路由name属性</strong></p>
+<p>路有记录独一无二的名称</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> routes <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+        path<span class="token punctuation">:</span> <span class="token string">'/'</span><span class="token punctuation">,</span>
+        name<span class="token punctuation">:</span> <span class="token string">'home'</span><span class="token punctuation">,</span>
+        redirect<span class="token punctuation">:</span> <span class="token string">'/home'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span></code></pre>
+<p>此时可以通过<code>this.$route</code>获取</p>
 <h4 id="守卫分类"><a href="#守卫分类" class="headerlink" title="守卫分类"></a>守卫分类</h4><p>全局守卫：</p>
 <ul>
 <li><code>router.beforeEach((to, from, next) =&gt; {})</code> 全局前置守卫，每一个导航被触发时，被调用的总是全局前置守卫</li>
@@ -1636,6 +1655,51 @@ methods<span class="token punctuation">:</span> <span class="token punctuation">
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
+                <a href="/2021/03/08/fu-wu-qi-yu-bu-shu/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="服务器与部署">
+                        
+                        <span class="card-title">服务器与部署</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            1.部署方式利用脚手架打包后得到dist文件
+将自己电脑作为服务器，部署本地 ：window -&gt; 使用nginx或者tomcat
+远程主机，进行部署：linux centos -&gt; nginx
+如
+注意 ：使用nginx时，关
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-03-08
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
                 <a href="/2021/03/01/git-ji-ben-ming-ling-fu/">
                     <div class="card-image">
                         
@@ -1653,56 +1717,13 @@ SVN：集中式版本控制、所有版本存在服务器上，需要连网才
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-03-01
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-03-01
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
                             Hello
-                            
-                        </span>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2021/02/07/webpack/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="webpack">
-                        
-                        <span class="card-title">webpack</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            1.Webpack概述webpack是一个现代的JavaScript应用的静态模块打包工具（依赖于node环境）
-它可以帮你把AMD、CMD、CommonJS、ES6的一些模块化编写方式，转化为— &gt; 浏览器可以识别的模块化方案
-而且
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-02-07
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                    前端
-                                </a>
-                            
                             
                         </span>
                     </div>
@@ -1904,7 +1925,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">237k</span>&nbsp;字
+                class="white-color">243.1k</span>&nbsp;字
             
             
             

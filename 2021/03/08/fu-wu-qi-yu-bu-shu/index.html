@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3k
+                    3.3k
                 </div>
                 
 
@@ -541,8 +541,8 @@ pm2 restart all               # 重启所有应用</code></pre>
 <p>（2）负载均衡，通过反向代理服务器来优化网站的负载</p>
 <p><img src="/2021/03/08/fu-wu-qi-yu-bu-shu/fandaili.jpg" alt></p>
 <p>实际上用一种通俗比喻来形容正反向代理，可以解说为正向代理为我国的海关关口，反向代理是目标国家（外国）的海关关口</p>
-<h4 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h4><p>将原先请求集中到单个服务器上的 情况改为，中间经过一个负载均衡器，然后将请求分发到多个服务器上，将负载分发到不同的服务器，也就是我们所说的负 载均衡</p>
-<p>客户端发送多个请求到服务器，服务器处理请求，有一些可能要与数据库进行交互，服 务器处理完毕后，再将结果返回给客户端</p>
+<h4 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h4><p>将原先请求集中到单个服务器上的 情况改为，中间经过一个负载均衡器，然后将请求分发到多个服务器上，将负载分发到不同的服务器，也就是我们所说的负载均衡</p>
+<p>客户端发送多个请求到服务器，服务器处理请求，有一些可能要与数据库进行交互，服务器处理完毕后，再将结果返回给客户端</p>
 <p><img src="/2021/03/08/fu-wu-qi-yu-bu-shu/junheng.jpg" alt></p>
 <h2 id="4-自建服务器"><a href="#4-自建服务器" class="headerlink" title="4.自建服务器"></a>4.自建服务器</h2><p>借助<code>serve</code>库，能让某一指定文件夹（作为根目录）快速开启一台服务器</p>
 <pre class=" language-shell"><code class="language-shell">npm i serve -g</code></pre>
@@ -597,7 +597,9 @@ pm2 restart all               # 重启所有应用</code></pre>
 <p>CDN的基本原理是广泛采用各种缓存服务器，将这些缓存服务器分布到用户访问相对集中的地区或网络中，在用户访问网站时，利用全局负载技术将用户的访问指向距离最近的工作正常的缓存服务器上，由缓存服务器直接响应用户请求。</p>
 <p>大白话：</p>
 <ul>
-<li>就是CDN是一堆服务器，其中一部分服务器分布在各个地点，被称为边缘节点，用户访问的时候边缘节点服务器没有对应资源，就会递归查询去查边缘节点的父节点服务器，一直没有就一直查询到<strong>源站</strong>，然后父节点从源站下载该资源，父节点分发给刚才用户访问的边缘节点，下一次另外一个用户访问的时候，直接访问该边缘节点就可以直接访问到了</li>
+<li>就是CDN是一堆服务器，其中一部分服务器分布在各个地点，被称为边缘节点，</li>
+<li>源服务器把静态内容提前备份给边缘节点服务器（push）（主要是静态资源）</li>
+<li>如果用户访问的时候边缘节点服务器没有对应资源，就会递归查询去查边缘节点的父节点服务器，一直没有就一直查询到<strong>源站</strong>，然后父节点从源站下载该资源（pull），父节点分发给刚才用户访问的边缘节点，下一次另外一个用户访问的时候，直接访问该边缘节点就可以直接访问到了</li>
 </ul>
 <p>基本机制</p>
 <ul>
@@ -614,6 +616,9 @@ pm2 restart all               # 重启所有应用</code></pre>
 <p>用户输入url -&gt; DNS域名解析 -&gt; 解析权交给CNAME指向的CDN专用DNS服务器。</p>
 <p>用户向CDN的全局负载均衡设备发起内容URL访问请求 -&gt; 负载均衡器选择缓存服务器 -&gt; 返回该缓存服务器给用户</p>
 <p>用户向缓存服务器发起请求，缓存服务器响应用户请求</p>
+<p><strong>一加一减</strong></p>
+<p>加速了网络请求，减少了网络带宽费用（网站主要根据网络带宽消耗向主机商支付费用）</p>
+<p>安全：大量CDN节点的存在，可以有效地将攻击由中心化分散到CDN的边缘上，从而有效地阻止或者减小攻击造成的危害</p>
 <h4 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h4><ul>
 <li><p>网站站点/应用加速：</p>
 <p>站点或者应用中大量静态资源的加速分发，建议将站点内容进行动静分离，动态文件可以结合云服务器<code>ECS</code>，静态资源如各类型图片、<code>html</code>、<code>css</code>、<code>js</code>文件等，使用<code>CDN</code>服务器存储，可以有效加速内容加载速度，轻松搞定网站图片、短视频等内容分发。</p>
@@ -630,7 +635,14 @@ pm2 restart all               # 重启所有应用</code></pre>
 <li>CDN是只对网站的某一个具体的域名加速，如果同一个网站有多个域名，则访客访问加入CDN的域名获得加速效果，访问未加入CDN的域名，或者直接访问IP地址，则无法获得CDN效果。</li>
 <li>CDN对网站的访客完全透明，不需要访客手动选择要访问的镜像站点，保证了网站对访客的友好性。　CDN部署简单，对原站基本不做任何改动即可生效。</li>
 </ol>
+<h4 id="性能提高"><a href="#性能提高" class="headerlink" title="性能提高"></a>性能提高</h4><ol>
+<li>比较不同服务等级license的差别（购买的vip等级）</li>
+<li>避免全量发布新图片格式（no更换图片格式）</li>
+<li>尽量对图片只新增不修改，有利于提高CDN命中率</li>
+<li>CDN的性能问题一般和大量回源相关，可以通过细分监控来确定是由哪个域名引起的，通过监控的衰变时间点，确定项目发布是否会引起大量的回源，一般成熟的CDN是能够保障稳定性的</li>
+</ol>
 <p>参考文章<a href="https://zhuanlan.zhihu.com/p/28940451" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/28940451</a></p>
+<p>参考书籍《大型网站性能优化实战》—周涛明、张荣华、张新兵</p>
 
             </div>
             <hr/>
@@ -906,20 +918,20 @@ http 2.0
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/03/01/git-ji-ben-ming-ling-fu/">
+                <a href="/2021/03/01/vue-zhong/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="git基本命令符">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="Vue(中)">
                         
-                        <span class="card-title">git基本命令符</span>
+                        <span class="card-title">Vue(中)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            版本控制它是一种软件开发过程中，管理我们对文件、目录、或工程等内容的修改历史、方便我们查看更改历史记录，备份以便恢复以前的版本软件工程技术。简单来说就是用于管理多人协同开发项目的技术
-SVN：集中式版本控制、所有版本存在服务器上，需要连网才
+                            4.Vue CLI在开发大型项目的时候，则必须使用到Vue CLI，CLI是Command-Line Interface ，翻译为命令行界面，俗称脚手架
+使用 vue-cli 可以快速搭建Vue开发环境以及对应的webpack配置（终于不用
                         
                     </div>
                     <div class="publish-info">
@@ -928,8 +940,12 @@ SVN：集中式版本控制、所有版本存在服务器上，需要连网才
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            Hello
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
+                                </a>
+                            
                             
                         </span>
                     </div>
@@ -1131,7 +1147,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">237k</span>&nbsp;字
+                class="white-color">243.1k</span>&nbsp;字
             
             
             

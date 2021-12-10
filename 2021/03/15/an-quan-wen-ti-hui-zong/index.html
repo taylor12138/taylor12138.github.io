@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.3k
+                    3.9k
                 </div>
                 
 
@@ -659,6 +659,32 @@ style-src cdn.example.org third-party.org; child-src https:</code></pre><ul>
 <h2 id="5-序列化"><a href="#5-序列化" class="headerlink" title="5.序列化"></a>5.序列化</h2><h4 id="反序列化漏洞"><a href="#反序列化漏洞" class="headerlink" title="反序列化漏洞"></a>反序列化漏洞</h4><p>简单来说，序列化可以理解为就是将对象转化为字节流，字节流中包括这个对象的数据和信息，序列化和反序列化便于类的持久保存，并且很利于网络传输</p>
 <p>而在反序列化处理中，如果攻击者通过构建恶意输入，使得反序列化产生非预期的类或者对象，这个类或者对象就有可能带来任意代码的执行</p>
 <p>所以这个问题的根源在于，字节流进行还原时，即用到ObjectInputStream在反序列化时，没有对生成的对象的类型做限制</p>
+<h2 id="6-DDos攻击"><a href="#6-DDos攻击" class="headerlink" title="6.DDos攻击"></a>6.DDos攻击</h2><p>DOS：Denial of Service，拒绝服务，通过占用网络资源让它应接不暇，从而拒绝正常业务流量的一种网络攻击方式</p>
+<p>DDOS：Distributed denial of service，分布式拒绝服务，俗称群殴（单台设备攻击能力有限，但是成百上千设备同时攻击很猛）</p>
+<p>发起攻击的网络（组成成百上千设备的攻击网络）称为僵尸网络</p>
+<p>这个网络可以通过木马、蠕虫等感染大量设备从而获取僵尸网络（亦或者富人直接买就行了）</p>
+<p>DDos攻击可以出现在网络的很多层：</p>
+<ol>
+<li>网络层：霸占服务器网络带宽资源，发送大量的IP协议数据包（比如ping工具，产生ICMP包），这种攻击方式也称为ICMP flood</li>
+<li>除此之外还有 UDP flood<ul>
+<li>多损的招数：</li>
+<li>反射攻击：伪造自身ip地址为攻击目标的地址，然后向大量第三方机器发送请求，然后让第三方机器回复的响应大量涌入攻击目标ip</li>
+<li>放大攻击：一次DNS查询，返回的数据往往大于请求数据，根据带宽放大因子，一般60B的请求数据可以获得3000B的返回数据，此时再结合反射攻击，让DNS返回的数据响应到攻击地址上，更加BT（maybe，50倍的攻击效果）</li>
+</ul>
+</li>
+<li>TCP flood，因为有三次握手，所以无法伪装ip</li>
+<li>RST洪水攻击，同样是利用TCP协议，一方可以发送RST数据强行切断连接，而不用四次挥手，此时我们让攻击设备不断尝试伪造各种ip地址，发送RST数据，进行盲打，此时有可能可以命中某位xx用户的连接</li>
+</ol>
+<h4 id="反击"><a href="#反击" class="headerlink" title="反击"></a>反击</h4><p>根治DDos攻击的方法：</p>
+<ul>
+<li>网络设备检测ip，过滤掉伪装的ip地址</li>
+<li>根据路由转发逻辑，过滤伪装ip</li>
+</ul>
+<p>保守治疗：</p>
+<ul>
+<li>使用CDN节点</li>
+<li>流量清洗设备（有点像保镖），先自己来应答，如果是正常的流量就放行</li>
+</ul>
 
             </div>
             <hr/>
@@ -1176,7 +1202,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">237k</span>&nbsp;字
+                class="white-color">243.1k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.3k
+                    4.1k
                 </div>
                 
 
@@ -489,7 +489,9 @@
 <p>面向对象（OOP）：把事物分解成一个个对象，然后由对象之间分工合作（找出对象出来，然后写出这些对象的功能）</p>
 <p>面向过程的性能比较高，适合和硬件联系很紧密的东西，如单片机，缺点是难维护、难拓展、难复用</p>
 <p>面向对象的代码灵活，代码可复用性高，容易维护和开发，更适合多人合作的大型软件项目</p>
-<p>面向对象：封装性（直接使用，不需要了解内部）、继承性、多态性（多功能）</p>
+<p>面向对象：封装性（直接使用，不需要了解内部）、继承性、多态性（通过继承 + 不同的拓展）</p>
+<h4 id="JS的类"><a href="#JS的类" class="headerlink" title="JS的类"></a>JS的类</h4><p>JavaScript只有一些近似类的语法元素，比如class关键字</p>
+<p>但是这并不意味着JavaScript实际上有类，但是类是一种设计模式，所以我们可以用一些方法实现近似类的功能</p>
 <h2 id="2-面向对象"><a href="#2-面向对象" class="headerlink" title="2.面向对象"></a>2.面向对象</h2><p>1.抽取对象公共属性和行为组织封装成一个类（class）</p>
 <p><code>class name {   class body  }</code></p>
 <p>2.对象实例化，获取类的对象（对象是特指某一个，实例化的具体对象）</p>
@@ -525,9 +527,12 @@ fn<span class="token punctuation">.</span><span class="token function">bind</spa
     a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <h4 id="类的继承"><a href="#类的继承" class="headerlink" title="类的继承"></a>类的继承</h4><p>使用extends进行继承</p>
+<blockquote>
+<p>注意：JavaScript本身不提供“多重继承”功能，毕竟有诸多类似钻石问题的复杂情况，但开发者们还是通过其他方法实现多重继承，比如混入</p>
+</blockquote>
 <p>super关键字用于访问和调用对象父类上的函数，可以调用父类的构造函数，也可以调用父类的普通函数</p>
 <ol>
-<li>在constructor中，super必须在字类this的之前进行调用，即必须先调用父类的构造函数，再使用子类的构造函数</li>
+<li>在constructor中，super必须在子类this的之前进行调用，即必须先调用父类的构造函数，再使用子类的构造函数</li>
 <li>super只能在派生类（子类）的构造函数和静态方法中使用</li>
 </ol>
 <p>不过要注意的是：（错误示范❌）</p>
@@ -552,7 +557,7 @@ son<span class="token punctuation">.</span><span class="token function">sum</spa
 <ul>
 <li><p>类里面的语法中，只要符合类继承 + 子类有个构造函数(constructor)则一定要调用super，否则也会报错</p>
 <ul>
-<li>如果只需要继承到x、y的属性，自身不需要新的属性，类似于下方的id属性，则甚至可以不用写构造函数</li>
+<li>如果只需要继承到x、y的属性，自身不需要新的属性（类似于下方的id属性），则甚至可以不用写构造函数</li>
 </ul>
 </li>
 <li><p>此时参数传递给子类的constructor的x和y，而父类的sum函数用的是父类的constructor的x和y</p>
@@ -616,6 +621,7 @@ son<span class="token punctuation">.</span><span class="token function">say</spa
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <p>3.类构造函数和构造函数最主要的区别是，类构造函数必须使用new，不然会报错，而构造函数不用new会被当作普通函数去使用</p>
+<h4 id="static"><a href="#static" class="headerlink" title="static"></a>static</h4><p>类（class）通过 <strong>static</strong> 关键字定义静态方法。<strong>不能在类的实例上调用静态方法</strong>，而应该通过类本身调用。这些通常是实用程序方法，例如创建或克隆对象的功能。（也可以解释为实例上加，要想用必先new , 对象上加，可以 直接用）</p>
 <h2 id="3-构造函数和原型"><a href="#3-构造函数和原型" class="headerlink" title="3.构造函数和原型"></a>3.构造函数和原型</h2><p>在ES6（ECMAScript6.0）之前，JavaScript没有类的概念，在ES6之前，对象不是基于类创建的，而是用一种称为构造函数的特殊函数来定义对象和他们的特征的。</p>
 <p>创建对象：(JavaScript基础也有做过笔记)</p>
 <p>1.对象字面量       <code>var obj = {}</code></p>
@@ -668,13 +674,37 @@ Person<span class="token punctuation">.</span>prototype <span class="token opera
 <span class="token keyword">let</span> friend2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 friend1<span class="token punctuation">.</span><span class="token function">saySomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//错误</span>
 friend2<span class="token punctuation">.</span><span class="token function">saySomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//通过</span></code></pre>
-<h4 id="原型对象的this指向"><a href="#原型对象的this指向" class="headerlink" title="原型对象的this指向"></a>原型对象的this指向</h4><p>谁调用，指向谁</p>
-<p>1.在构造函数中，this指向的是对象实例</p>
-<p>2.原型对象里面的this指向的<strong>也是</strong>调用它的实例对象</p>
+<h4 id="对象中的prototype"><a href="#对象中的prototype" class="headerlink" title="对象中的prototype"></a>对象中的prototype</h4><p>使用for in 遍历对象时原理和查找 <code>[[prototype]]</code> 链类似，任何可以通过原型链访问到的属性（<code>enumberable</code>）都会被枚举，而使用 <code>in</code> 操作符来检查属性在对象中是否存在时，同样会查找对象的整条原型链</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span>
+  a<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> myobj <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span>k <span class="token keyword">in</span> myobj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p><strong>属性屏蔽</strong></p>
+<p>对于以上代码，如果添加</p>
+<pre class=" language-js"><code class="language-js">myobj<span class="token punctuation">.</span>foo <span class="token operator">=</span> <span class="token string">"bar"</span></code></pre>
+<p>会出现以下几种情况</p>
+<ol>
+<li>foo不存在于<code>myobj</code>和 <code>[[prototype]]</code>上，直接把foo添加到<code>myobj</code>身上。</li>
+<li>foo仅存在于原型链 <code>[[prototype]]</code> 上<ul>
+<li>如果是只读的，进行了赋值则啥也不干（严格模式下会报错）</li>
+<li>如果存在一个setter，则执行setter</li>
+<li>其余情况则在<code>myobj</code>本身添加一个foo，这个foo为<strong>屏蔽属性</strong></li>
+</ul>
+</li>
+<li>foo既存在于 <code>myobj</code>上，也存在 foo上，发生屏蔽，<code>myobj</code>中包含的foo属性会屏蔽上层原型链的所有foo属性</li>
+</ol>
 <h4 id="对象原型-proto"><a href="#对象原型-proto" class="headerlink" title="对象原型: __proto__"></a>对象原型: <code>__proto__</code></h4><p>对象都会有一个属性 <code>__proto__</code> 指向构造函数的prototype原型对象，之所以我们对象可以使用构造函数prototype原型对象的属性和方法，就是因为 <code>__proto__</code> 的存在</p>
 <p><code>实例化的对象.__proto__ === 构造函数名.prototype</code> 返回true</p>
+<p>在社区里其实也因为双下划线，被称为 “笨蛋proto”</p>
 <h4 id="constructor构造函数"><a href="#constructor构造函数" class="headerlink" title="constructor构造函数"></a>constructor构造函数</h4><p>对象原型（<code>__proto__</code>）和构造函数原型对象（<code>prototype</code>）里面都有一个<code>constructor</code>属性，constructor我们称为构造函数，因为它<strong>指回构造函数本身</strong></p>
+<blockquote>
+<p>注意，实际上 <code>实例化对象.constructor</code>是被委托给了 <code>prototype</code>，是原型链访问到的属性，而实例化对象本身没有这个属性</p>
+</blockquote>
 <p>主要目的：用于记录该对象引用于哪个构造函数（很多情况下我们需要用它来指回原来的构造函数）</p>
+<p>但是《你不知道的JavaScript》告诫： <code>constructor</code> 是一个不可靠并且不安全的引用，它不一定会指向默认的函数引用，通常来说尽量避免这些引用</p>
 <h4 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h4><p>任何构造函数原型对象<code>prototype</code>，它作为一个对象，也有它自己的对象原型 <code>__proto__</code> ，而此时原型对象的 <code>__proto__</code> 指向的是<code>Object.prototype</code>， 即<code>某构造函数名.prototype.__proto__ === Object.prototype</code></p>
 <p>而我们Object也有prototype原型对象，而它作为一个对象，也有它自己的对象原型 <code>__proto__</code> ，而此时指向null（到达了终点）</p>
 <p>即<code>Object.prototype.__proto__ === null</code></p>
@@ -751,6 +781,12 @@ Shape<span class="token punctuation">.</span>prototype<span class="token punctua
 <span class="token comment" spellcheck="true">// 子类续承父类</span>
 Rectangle<span class="token punctuation">.</span>prototype <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>Shape<span class="token punctuation">.</span>prototype<span class="token punctuation">)</span><span class="token punctuation">;</span>
 Rectangle<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>constructor <span class="token operator">=</span> Rectangle<span class="token punctuation">;</span></code></pre>
+<p>但实际上使用 <code>Object.create()</code> 要抛弃掉默认的 <code>Rectangle.prototype</code> ，而ES6开始之后，可以通过 </p>
+<pre class=" language-js"><code class="language-js">Object<span class="token punctuation">.</span><span class="token function">setPrototypeOf</span><span class="token punctuation">(</span>Rectangle<span class="token punctuation">.</span>prototype<span class="token punctuation">,</span> Shape<span class="token punctuation">.</span>prototype<span class="token punctuation">)</span></code></pre>
+<p>直接修改原来的原型对象（《你不知道的JavaScript》推荐）</p>
+<p>又又又但是MDN对于  <code>Object.setPrototypeOf</code>  有个警告</p>
+<p><strong>警告:</strong> 由于现代 JavaScript 引擎优化属性访问所带来的特性的关系，更改对象的 <code>[[Prototype]]</code>在<strong><em>各个</em></strong>浏览器和 JavaScript 引擎上都是一个很慢的操作。其在更改继承的性能上的影响是微妙而又广泛的，这不仅仅限于 <code>obj.__proto__ = ...</code> 语句上的时间花费，而且可能会延伸到<strong><em>任何</em></strong>代码，那些可以访问<strong><em>任何</em></strong><code>[[Prototype]]</code>已被更改的对象的代码。如果你关心性能，你应该避免设置一个对象的 <code>[[Prototype]]</code>。相反，你应该使用 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/create" target="_blank" rel="noopener"><code>Object.create()</code></a>来创建带有你想要的<code>[[Prototype]]</code>的新对象。</p>
+<p>所以还是老老实实用 <code>Object.create()</code></p>
 <h4 id="类的本质"><a href="#类的本质" class="headerlink" title="类的本质"></a>类的本质</h4><p>class本质还是function（用 typeof 查看），所以我们可以认为类就是构造函数的另一种写法</p>
 <p>但是新的class写法只是让对象原型的写法更加清晰，更像面向对象编程的语法</p>
 <p>和构造函数相同点：</p>
@@ -1266,7 +1302,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">243.1k</span>&nbsp;字
+                class="white-color">253.1k</span>&nbsp;字
             
             
             

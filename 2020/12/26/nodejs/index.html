@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.5k
+                    8.7k
                 </div>
                 
 
@@ -510,6 +510,9 @@
 <p>模块化开发：一个功能一个模块，多模块组合完整应用，抽离一个模块不会影响其他功能的运行，降低程序的耦合性，方便代码复用（虽然开发效率低一点）</p>
 <p>commonJS的提出：</p>
 <p>为了弥补JavaScript没有标准的缺陷，希望JS’能在任何和地方运行，CommonJS对模块的定义十分简单</p>
+<blockquote>
+<p>注意，一般认为Node.js的模块系统使用了CommonJS的规范，实际上并不完全正确，Node.js使用了轻微修改版本的CommonJS，因为Node.JS主要在服务器环境下使用，所以不需要考虑网络延迟问题</p>
+</blockquote>
 <h4 id="CommonJS特点"><a href="#CommonJS特点" class="headerlink" title="CommonJS特点"></a>CommonJS特点</h4><p>node.js规定一个JavaScript文件就是一个模块，模块内部定义的变量和函数默认情况下在外部无法得到（除了console.log的输出内容），因为在node的定义中，每个js文件的js代码都是独立运行在一个函数中，而不是全局作用域。</p>
 <ul>
 <li><p>当node执行模块中代码，它首先在代码顶部添加：</p>
@@ -524,6 +527,12 @@
 </ul>
 </li>
 <li><p>在模块代码被运行前就已经写入了 <code>cache</code>，同一个模块被多次 <code>require</code> 时只会执行一次，重复的 <code>require</code> 得到的是相同的 <code>exports</code> 引用。</p>
+<ul>
+<li><pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> a1 <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./moduleA'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> a2 <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./moduleB'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a1 <span class="token operator">===</span> a2<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// true</span></code></pre>
+</li>
+</ul>
 </li>
 <li><p>出现文件互相引用的情况下，会去缓存查看之前是否写入过，若写入过，被引用下个文件形成循环引用之前的到处变量变得”可视”；否则被统计为 “undefined”</p>
 </li>
@@ -576,7 +585,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p><code>__filename</code> 当前模块的完整路径</p>
 <p><code>__dirname</code> 当前模块所在文件夹完整路径（所属目录的绝对路径）</p>
 <p><strong>注意</strong>：如果a加载了b ，b又加载了a，（即a require b，b require a）说明思路有问题</p>
-<p>查找过程</p>
+<p>模块查找过程</p>
 <pre><code>从 Y 路径运行 require(X)
 
 1. 如果 X 是内置模块（比如 require(&#39;http&#39;）)
@@ -617,14 +626,19 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
 <span class="token comment" spellcheck="true">// 导出方式3,这种方法只能导出一个,使用一次default导出一个</span>
 <span class="token keyword">export</span> <span class="token keyword">default</span> adress</code></pre>
+<p>因为命名导出和默认导出不会冲突，所有ES6支持一个模块中同时定义这两种导出</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> foo <span class="token operator">=</span> <span class="token string">'foo'</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> bar <span class="token operator">=</span> <span class="token string">'bar'</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token punctuation">{</span> bar <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> foo<span class="token punctuation">;</span></code></pre>
 <p>四种导入方法</p>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 1.导入单个num（要使用上面的导出方式2）</span>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 1.导入单个num（要使用上面的导出方式1、2）</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> num <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"./aaa.js"</span><span class="token punctuation">;</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>num<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
 <span class="token comment" spellcheck="true">// 2.导入默认的值（default），能够自己命名（要使用上面的导出方式3）</span>
 <span class="token keyword">import</span> add <span class="token keyword">from</span> <span class="token string">"./aaa.js"</span><span class="token punctuation">;</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>add<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">// 3.统一全部导入（要使用上面的导出方式2）</span>
+
+<span class="token comment" spellcheck="true">// 3.统一全部导入（要使用上面的导出方式1、2）</span>
 <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> aaa <span class="token keyword">from</span> <span class="token string">"./aaa"</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>aaa<span class="token punctuation">.</span>num<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">//1.下载后module的引用比较特殊</span>
@@ -635,7 +649,8 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <h4 id="ES6和ComonJS"><a href="#ES6和ComonJS" class="headerlink" title="ES6和ComonJS"></a>ES6和ComonJS</h4><p>1.<code>ES6</code> 模块中不存在 <code>require</code>, <code>module.exports</code>, <code>__filename</code> 等变量，<code>CommonJS</code> 中也不能使用 <code>import</code>。两种规范是不兼容的，一般来说平日里写的 <code>ES6</code> 模块代码最终都会经由 <code>Babel</code>, <code>Typescript</code> 等工具处理成 <code>CommonJS</code> 代码。</p>
 <p> <code>ES6</code> 模块和 <code>CommonJS</code> 模块有很大差异，不能直接混着写（实际上好像是可以，只是会产生很多麻烦）</p>
 <p>2.通过对模块内变量的修改（非引用值的修改），CommonJS导出的变量不变，但是ES6会改变（其实我们也可以解释为ES6 模块输出的是值的引用，CommonJS模块输出的是值的拷贝）</p>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// counter.js</span>
+<p>但是！值得注意的是导出对模块而言是只读的，在使用 * 执行批量导出时，赋值给别名的命名导出就好像使用 <code>Object.freeze()</code> 冻结过一样，直接修改导出的值是不可能的，但是可以修改导出的对象的属性</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// counter.js,Commonjs</span>
 <span class="token keyword">let</span> count <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
 
 <span class="token keyword">function</span> increment <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -652,7 +667,7 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 
 counter<span class="token punctuation">.</span><span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>counter<span class="token punctuation">.</span>count<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 1</span></code></pre>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// counter.mjs</span>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// counter.mjs,es6</span>
 <span class="token keyword">export</span> <span class="token keyword">let</span> count <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
 
 <span class="token keyword">export</span> <span class="token keyword">function</span> increment <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -666,6 +681,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>count<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 2</span></code></pre>
 <p>3.<code>CommonJS</code> 可以在运行时使用变量进行 require</p>
 <p>4.<code>require</code> 会将完整的 <code>exports</code> 对象引入，<code>import</code> 可以只 <code>import</code> 部分必要的内容，这也是为什么使用 <code>Tree Shaking</code> 时必须使用 ES6 模块 的写法。</p>
+<p>5.模块加载方式不同</p>
 <p>参考链接<a href="https://juejin.cn/post/6844904080955932680#heading-3" target="_blank" rel="noopener">https://juejin.cn/post/6844904080955932680#heading-3</a></p>
 <h2 id="3-Buffer缓冲区"><a href="#3-Buffer缓冲区" class="headerlink" title="3.Buffer缓冲区"></a>3.Buffer缓冲区</h2><p>数组不能存储二进制文件，而buffer就是专门来存储二进制数据</p>
 <p>从结构上buffer非常像一个数组，他的元素为16进制的两位数</p>
@@ -1604,7 +1620,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">243.1k</span>&nbsp;字
+                class="white-color">253.1k</span>&nbsp;字
             
             
             

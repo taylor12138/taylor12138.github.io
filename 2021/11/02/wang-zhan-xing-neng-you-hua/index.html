@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.1k
+                    1.5k
                 </div>
                 
 
@@ -543,7 +543,50 @@
 <h2 id="5-测试性能工具"><a href="#5-测试性能工具" class="headerlink" title="5.测试性能工具"></a>5.测试性能工具</h2><p><code>YSlow</code>性能检测插件，以firefox插件的形式</p>
 <p><code>PageSpeed</code>和YSlow类似的，Google的优化工具<code>PageSpeed</code>除了有网站的入口，也能以插件的形式在Firefox和Google上运行，也是基于基础性能优化实践规则分析代码，提供一系列页面优化建议</p>
 <p><code>WebPagetest</code>同样也使用和它们相似的一组最佳性能实践来分析网页，它通过浏览器访问，基于输入的Website URL，以及选择的国家城市、浏览器类型、网络带宽等信息，启动对应的远程服务器上的浏览器进行性能分析测试。（据官网介绍，他们提供的不同城市的性能分析测试，是通过真实的部署在对应城市的物理服务器来实现的，而不是通过其他类似代理或者虚拟机等方式模拟实现的）</p>
-<p>参考书籍《大型网站性能优化实战》—周涛明、张荣华、张新兵</p>
+<h2 id="6-红宝书最佳实践"><a href="#6-红宝书最佳实践" class="headerlink" title="6.红宝书最佳实践"></a>6.红宝书最佳实践</h2><p>避免全局查找</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">updateUI</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> imgs <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementsBtTagName</span><span class="token punctuation">(</span><span class="token string">"img"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> imgs<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        imgs<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>title <span class="token operator">=</span> <span class="token template-string"><span class="token string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>document<span class="token punctuation">.</span>title<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> imge </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>i<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">let</span> msg <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"msg"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    msg<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> <span class="token string">"Update complete"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>这个地方三次引用了全局document对象，而for甚至要引用成百上千次，每次都要遍历作用域链，我们应该保存对document对象的引用，明显提升该函数的性能</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">updateUI</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> doc <span class="token operator">=</span> document<span class="token punctuation">;</span>
+    <span class="token keyword">let</span> imgs <span class="token operator">=</span> doc<span class="token punctuation">.</span><span class="token function">getElementsBtTagName</span><span class="token punctuation">(</span><span class="token string">"img"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> imgs<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        imgs<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>title <span class="token operator">=</span> <span class="token template-string"><span class="token string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>doc<span class="token punctuation">.</span>title<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> imge </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>i<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">let</span> msg <span class="token operator">=</span> doc<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"msg"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    msg<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> <span class="token string">"Update complete"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>不使用with，他主要用途是减少代码量</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">updateBody</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">with</span><span class="token punctuation">(</span>document<span class="token punctuation">.</span>body<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>tagName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>不使用eval</p>
+<p>最悲观的情况是，如果出现了eval和with，所有的优化可能是无意义的，因此如果使用它们最简单的做法就是完全不做优化</p>
+<p>减少属性查找的迭代次数，属性查找会增加访问对象属性的算法复杂度</p>
+<p>下面是错误示范</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> query <span class="token operator">=</span> window<span class="token punctuation">.</span>location<span class="token punctuation">.</span>href<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span>window<span class="token punctuation">.</span>location<span class="token punctuation">.</span>href<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">"?"</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
+<p>下面是正确示范</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> url <span class="token operator">=</span> window<span class="token punctuation">.</span>location<span class="token punctuation">.</span>href<span class="token punctuation">;</span>
+<span class="token keyword">const</span> query <span class="token operator">=</span> url<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span>url<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">"?"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>比之前省了33%</p>
+<p>性能提升其他注意事项</p>
+<ul>
+<li>原生方法很快，应该尽可能使用原生方法，而不是使用JavaScript写的方法。原生方法是使用C或者C++等编译型语言写的。因此比JavaScript写的方法要快得多。JavaScript经常被忽视的是Math对象上那些执行复杂数学运算的方法。这些方法总是比执行相同任务的JavaScript函数快得多，比如正弦、余弦等</li>
+<li>switch语句很快</li>
+<li>位操作很快</li>
+</ul>
+<p>参考书籍</p>
+<p>《大型网站性能优化实战》—周涛明、张荣华、张新兵</p>
+<p>《JavaScript高级程序设计》</p>
+<p>《你不知道的的JavaScript（上卷）》</p>
 
             </div>
             <hr/>
@@ -776,25 +819,25 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/11/05/vue3/">
+                <a href="/2021/11/05/vue3-xia/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="Vue3">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Vue3(下)">
                         
-                        <span class="card-title">Vue3</span>
+                        <span class="card-title">Vue3(下)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.Vue3 Start他在介绍中表明的是：
+                            6.Vue动画处理vue有个内置组件 transition
+基本使用：使用name定义过渡类名，然后常常与v-if、v-show、动态组件进行搭配
+官方：
+可以给任何元素和组件添加进入/离开过渡
 
-更小、更快、更易维护，一些命令的变化。
-3.0 新加入了 TypeScript 以及 PWA 的支持
-支持了 composiiton API
-vdom的对比算法更新，只更新绑定了动态数据部分
-
+条件渲染 (使用 v-if)
+条件展示 (
                         
                     </div>
                     <div class="publish-info">
@@ -1052,7 +1095,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">243.1k</span>&nbsp;字
+                class="white-color">253.1k</span>&nbsp;字
             
             
             

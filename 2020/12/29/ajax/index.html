@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.4k
+                    6.8k
                 </div>
                 
 
@@ -503,19 +503,42 @@
 <p>3.SEO不友好（搜索引擎优化）（源代码（响应体）没有部分商品信息，那些商品信息都是ajax向服务端发请求，通过服务端返结果，然后js动态创建到页面，所以爬虫也爬不到商品数据）</p>
 <h4 id="Ajax原理"><a href="#Ajax原理" class="headerlink" title="Ajax原理"></a>Ajax原理</h4><p>Ajax请求数据流程最核心的依赖是浏览器提供的XMLHttpRequest对象，它扮演的角色相当于秘书，使得浏览器可以发出HTTP请求与接收HTTP响应。浏览器接着做其他事情，等收到XHR返回来的数据再渲染页面。</p>
 <h2 id="2-原生ajax的get-post请求"><a href="#2-原生ajax的get-post请求" class="headerlink" title="2.原生ajax的get/post请求"></a>2.原生ajax的get/post请求</h2><p>先在script绑定事件对象</p>
-<p>1.创建对象（控制平台中network也有XHR，它是对ajax请求做一个筛选）</p>
+<ol>
+<li><p>创建对象（控制平台中network也有XHR，它是对ajax请求做一个筛选）</p>
 <p><code>XMLHttpRequest</code>（XHR）对象用于与服务器交互，是BOM的范畴内。通过 XMLHttpRequest 可以在不刷新页面的情况下请求特定 URL，获取数据。这允许网页在不影响用户操作的情况下，更新页面的局部内容。<code>XMLHttpRequest</code> 在 ajax 编程中被大量使用。</p>
-<p>2.初始化，设置请求方法（请求类型）和url</p>
-<p><code>xhr.open(请求类型, url)</code>，请求类型为get或post</p>
-<p>3.发送</p>
-<p><code>xhr.send()</code></p>
-<p>4.事件绑定，处理服务端返回的结果  <code>onreadystatechange</code></p>
-<p>on 有 when的意思，即当。。。的时候<br>readystate是xhr对象当中的属性，表示状态0/1/2/3/4，分别对应以上步骤完成与否的状态<br>    0：未初始化<br>    1：open方法已经调用完毕<br>    2：send方法已经调用完毕，并且头部和状态已经可获得<br>    3：loading, 下载中； <code>responseText</code> 属性已经包含部分数据。<br>    4：服务端返回了所有的结果<br>change 改变的时候触发，这里一般会触发四次，改一次触发一次</p>
-<p>5.此时<code>xhr</code>对象的属性有：</p>
-<p><code>status</code>状态码（200等） </p>
-<p><code>statusText</code>  状态字符串（OK等）   </p>
-<p><code>getAllResponseHeaders()</code>  所有响应头 </p>
-<p><code>response</code> 响应体</p>
+</li>
+<li><p>初始化，设置请求方法（请求类型）和url</p>
+<ul>
+<li><code>xhr.open(请求类型, url)</code>，请求类型为get或post</li>
+</ul>
+</li>
+<li><p>发送，send方法接受一个参数，作为<strong>请求体（body）发送的数据</strong>，如果不需要发送请求体，则必须传null，因为这个参数在某些浏览器中是必须的</p>
+<ul>
+<li><code>xhr.send(null)</code></li>
+</ul>
+</li>
+<li><p>事件绑定，处理服务端返回的结果  <code>onreadystatechange</code></p>
+<p>on 有 when的意思，即当。。。的时候<br>readystate是xhr对象当中的属性，表示状态0/1/2/3/4，分别对应以上步骤完成与否的状态</p>
+<pre><code>0：未初始化
+1：open方法已经调用完毕
+2：send方法已经调用完毕，并且头部和状态已经可获得
+3：loading, 下载中； `responseText` 属性已经包含部分数据。
+4：服务端返回了所有的结果</code></pre><p>change 改变的时候触发，这里一般会触发四次，改一次触发一次</p>
+</li>
+<li><p>此时<code>xhr</code>对象的属性有：</p>
+<ul>
+<li><code>status</code>状态码（200等） </li>
+<li><code>statusText</code>  状态字符串（OK等）   </li>
+<li><code>getAllResponseHeaders()</code>  所有响应头 </li>
+<li><code>response</code> 响应体</li>
+</ul>
+</li>
+<li><p>若收到相应之前如果想要取消异步请求，可以调通 <code>abort</code> 方法</p>
+<ul>
+<li><code>xhr.abort()</code></li>
+</ul>
+</li>
+</ol>
 <h4 id="ajax的get请求案例"><a href="#ajax的get请求案例" class="headerlink" title="ajax的get请求案例"></a>ajax的get请求案例</h4><pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> btn <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'button'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token keyword">const</span> result <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'#result'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         btn<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
@@ -548,8 +571,32 @@
 <p>1.初始化<code>xhr.open(&#39;POST&#39;, url)</code></p>
 <p>2.get是在初始化时，<code>xhr.open(&#39;GET&#39;, &#39;http://127.0.0.1:8000/server?a=100&amp;b=200&#39;);</code>进行参数传递的</p>
 <p>而post是在发送时<code>send(a=100&amp;b=200);</code>进行参数传递的</p>
-<h2 id="3-ajax其他"><a href="#3-ajax其他" class="headerlink" title="3.ajax其他"></a>3.ajax其他</h2><h4 id="ajax请求头设置"><a href="#ajax请求头设置" class="headerlink" title="ajax请求头设置"></a>ajax请求头设置</h4><p>设置请求头，并且必须在open之后，send之前</p>
-<p><code>xhr.setRequestHeader(头的名字, 头的值);</code></p>
+<h4 id="load事件"><a href="#load事件" class="headerlink" title="load事件"></a>load事件</h4><p>Firefox最初在实现XHR的时候，曾致力于简化交互模式。最终增加了一个load事件替代readystatechange事件，load事件会在响应接收完成之后立刻触发，这样就不用检查readystate属性了。虽然onload传入了一个event对象，但是并不是所有浏览器都实现了这个event对象，所以还是使用XHR对象变量比较好</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> xhr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">XMLHttpRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+xhr<span class="token punctuation">.</span>onload <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token punctuation">(</span>xhr<span class="token punctuation">.</span>status <span class="token operator">>=</span> <span class="token number">200</span> <span class="token operator">&amp;&amp;</span> xhr<span class="token punctuation">.</span>status <span class="token operator">&lt;</span> <span class="token number">300</span><span class="token punctuation">)</span> <span class="token operator">||</span> xhr<span class="token punctuation">.</span>status <span class="token operator">==</span> <span class="token number">304</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">alert</span><span class="token punctuation">(</span>xhr<span class="token punctuation">.</span>response<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'err'</span><span class="token punctuation">,</span> <span class="token string">'xhr.status'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+xhr<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span>xxxxxx<span class="token punctuation">)</span><span class="token punctuation">;</span>
+xhr<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span>l</code></pre>
+<h2 id="3-ajax其他"><a href="#3-ajax其他" class="headerlink" title="3.ajax其他"></a>3.ajax其他</h2><h4 id="http请求头"><a href="#http请求头" class="headerlink" title="http请求头"></a>http请求头</h4><ul>
+<li>Accept：浏览器可以处理的内容类型</li>
+<li>Accept-Charset：浏览器可以显示的字符集</li>
+<li>Accept-Encoding：浏览器可以处理的编码类型</li>
+<li>Accept-Language：浏览器使用的语言</li>
+<li>Connection：浏览器与服务器连接类型</li>
+<li>Cookie</li>
+<li>Host：所在域</li>
+<li>Referer：发送请求的页面URI</li>
+<li>User-Agent：浏览器的用户代理字符串</li>
+</ul>
+<p>我们可以通过 <code>xhr.getResponseHeader(请求头名称)</code> 获取响应头部</p>
+<p>当然也可以使用 <code>xhr.getAllResponseHeaders()</code> 获取所有包含响应头部的字符串</p>
+<h4 id="ajax请求头设置"><a href="#ajax请求头设置" class="headerlink" title="ajax请求头设置"></a>ajax请求头设置</h4><p>设置请求头，并且必须在open之后，send之前</p>
+<p><code>xhr.setRequestHeader(属性名, 属性值);</code></p>
 <pre class=" language-js"><code class="language-js">xhr<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">'POST'</span><span class="token punctuation">,</span> <span class="token string">'http://127.0.0.1:8000/server'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 xhr<span class="token punctuation">.</span><span class="token function">setRequestHeader</span><span class="token punctuation">(</span><span class="token string">'Content-Type'</span><span class="token punctuation">,</span> <span class="token string">'application/x-www-form-urlencoded'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 xhr<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">'a=100&amp;b=200&amp;c=300'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
@@ -835,16 +882,20 @@ instance<span class="token punctuation">.</span>interceptors<span class="token p
 <p><code>const fetchResponsePromise = fetch(resource [, init])</code></p>
 <p>resource：url，或者一个request对象</p>
 <p>init：可选的配置项</p>
-<pre class=" language-js"><code class="language-js">btn<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> payload <span class="token operator">=</span> JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    foo<span class="token punctuation">:</span> <span class="token string">'bar'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> jsonheader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Headers</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    <span class="token string">'Content-type'</span><span class="token punctuation">:</span> <span class="token string">'application/json'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+btn<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token function">fetch</span><span class="token punctuation">(</span><span class="token string">'http://127.0.0.1:8000/fetch'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
         <span class="token comment" spellcheck="true">//请求方法</span>
         method<span class="token punctuation">:</span> <span class="token string">'POST'</span><span class="token punctuation">,</span>
         <span class="token comment" spellcheck="true">// 请求头</span>
-        headers<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-            name<span class="token punctuation">:</span> <span class="token string">'Allen'</span>
-        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        headers<span class="token punctuation">:</span> jsonheader
         <span class="token comment" spellcheck="true">//请求体,经MDN文档上介绍，这里可以以多种形式来撰写</span>
-        body<span class="token punctuation">:</span> <span class="token string">'username=allen&amp;age=18'</span>
+        body<span class="token punctuation">:</span> payload
     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>res <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
         <span class="token comment" spellcheck="true">//返回的结果是一个promise对象,所以使用then回调方式接收和处理结果</span>
         <span class="token comment" spellcheck="true">//但是这里的res结果不是返回数据，而是提示联系服务器成功 or 失败</span>
@@ -857,7 +908,7 @@ instance<span class="token punctuation">.</span>interceptors<span class="token p
     <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <p>详情可进入了解fetch介绍（十分推荐）<a href="https://segmentfault.com/a/1190000003810652" target="_blank" rel="noopener">https://segmentfault.com/a/1190000003810652</a></p>
-<p>缺点：兼容性差</p>
+<p>缺点：兼容性较一般</p>
 <h2 id="5-跨域"><a href="#5-跨域" class="headerlink" title="5.跨域"></a>5.跨域</h2><h4 id="同源策略"><a href="#同源策略" class="headerlink" title="同源策略"></a>同源策略</h4><p>它是<strong>浏览器</strong>最核心也最基本的安全功能</p>
 <p>同源，即（当前网页的url和ajax请求的目标资源的url之间）协议、域名、端口号必须完全相同，<strong>而ajax是默认遵从同源策略</strong>，</p>
 <p><strong>而违背同源策略就是跨域</strong>，假如当前网页时a.com，而你向b.com发送了请求，则此时是跨域请求</p>
@@ -890,11 +941,16 @@ app<span class="token punctuation">.</span><span class="token keyword">get</span
 app<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">9000</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"服务已启动，9000端口监听中..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<h4 id="JSONP实现跨域原理"><a href="#JSONP实现跨域原理" class="headerlink" title="JSONP实现跨域原理"></a>JSONP实现跨域原理</h4><p>JSONP：JSON with padding</p>
 <p>JSONP是一个非官方解决跨域的问题，只支持get请求。</p>
 <p>在网页有一些标签天生具备跨域能力，比如img，link，script</p>
-<p>而JSONP是利用script标签的跨域能力来发送请求</p>
-<h4 id="JSONP实现跨域原理"><a href="#JSONP实现跨域原理" class="headerlink" title="JSONP实现跨域原理"></a>JSONP实现跨域原理</h4><p>优点：兼容性非常好</p>
-<p>缺点：是只支持get请求，不支持post请求。</p>
+<p>优点：兼容性非常好</p>
+<p>缺点：</p>
+<ul>
+<li>是只支持get请求，不支持post请求。</li>
+<li>不好确定请求是否失败</li>
+<li>要保证Web服务安全性才能使用它，因为域不可信时，可能加入恶意内容，此时只能完全删除掉JSONP</li>
+</ul>
 <pre class=" language-js"><code class="language-js"><span class="token operator">&lt;</span>script src<span class="token operator">=</span><span class="token string">"http://127.0.0.1:9000/jsonp"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span></code></pre>
 <pre class=" language-js"><code class="language-js">app<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'/jsonp'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
     res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">'console.log("hello world")'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -959,8 +1015,8 @@ app<span class="token punctuation">.</span><span class="token keyword">get</span
 <pre class=" language-text"><code class="language-text">Access-Control-Allow-Origin: <origin> | *</code></pre>
 <p>2.指明了实际请求所允许使用的 HTTP 方法。</p>
 <pre><code>Access-Control-Allow-Methods: &lt;method&gt;[, &lt;method&gt;]*</code></pre><p>3.指明了实际请求中允许携带的首部字段。</p>
-<pre><code>Access-Control-Allow-Headers: &lt;field-name&gt;[, &lt;field-name&gt;]*</code></pre><p>4.表示是否允许发送Cookie。默认情况下，Cookie不包括在CORS请求之中。设为<code>true</code>，即表示服务器明确许可，Cookie可以包含在请求中，一起发给服务器。这个值也只能设为<code>true</code>，如果服务器不要浏览器发送Cookie，删除该字段即可。</p>
-<pre><code>Access-Control-Allow-Credentials: true</code></pre><p>等等。。。。。</p>
+<pre><code>Access-Control-Allow-Headers: &lt;field-name&gt;[, &lt;field-name&gt;]*</code></pre><p>4.表示是否允许发送Cookie。<strong>默认情况下，Cookie不包括在CORS请求之中</strong>，也就是说，不能发送和接受cookie。设为<code>true</code>，即表示服务器明确许可，Cookie可以包含在请求中，一起发给服务器。这个值也只能设为<code>true</code>，如果服务器不要浏览器发送Cookie，删除该字段即可。</p>
+<pre><code>Access-Control-Allow-Credentials: true</code></pre><p>等等…….</p>
 <p>第二个参数<code>*</code>是通用的意思，也可以设置专用的url</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//服务器部分</span>
 app<span class="token punctuation">.</span><span class="token function">all</span><span class="token punctuation">(</span><span class="token string">'/CORS'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
@@ -1530,7 +1586,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">243.1k</span>&nbsp;字
+                class="white-color">253.1k</span>&nbsp;字
             
             
             

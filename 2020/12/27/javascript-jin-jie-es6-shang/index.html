@@ -496,7 +496,7 @@
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>num<span class="token punctuation">)</span><span class="token punctuation">;</span>        <span class="token comment" spellcheck="true">//报错，变量声明在后面</span>
     <span class="token keyword">let</span> num <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
-<p>利用let解决异步问题：（因为let仅在当前块级有效，每个迭代蓄奴含声明一个新的迭代变量，每个setTimeout引用的都是不同的实例）</p>
+<p>利用let解决异步问题：（因为let仅在当前块级有效，每个迭代蓄奴含声明一个新的迭代变量，然后使用上一个迭代结束时的值来初始化这个变量。）</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> lis<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     lis<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>onclick <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
         console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -510,6 +510,18 @@
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> ary <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 ary<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'a'</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//可以</span>
 <span class="token comment" spellcheck="true">//ary = ['a', 200];  //不可以</span></code></pre>
+<p>ES6之前的块级作用域：</p>
+<p>原来的代码</p>
+<pre class=" language-js"><code class="language-js"><span class="token punctuation">{</span>
+    <span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>以前的代码来实现(丑的要死！！！)</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">try</span><span class="token punctuation">{</span> <span class="token keyword">throw</span> <span class="token number">2</span><span class="token punctuation">;</span> <span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span></code></pre>
 <h4 id="解构赋值"><a href="#解构赋值" class="headerlink" title="解构赋值"></a>解构赋值</h4><p>ES6允许从数组或者对象（分别使用[]、{}）中一一提取值，按照对应的位置，对变量赋值</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//数组</span>
 <span class="token keyword">let</span> ary <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
@@ -550,7 +562,10 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>如果返回的是一个对象，不能直接加大括号</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//const sum1 = a => {};  错，返回undefined</span>
 <span class="token keyword">const</span> sum1 <span class="token operator">=</span> a <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//对</span></code></pre>
-<p>箭头函数和传统函数不一样，箭头函数的this指向函数定义位置（使用了箭头函数的那个函数）的上下文this（定义函数地点最近作用域中的this），所以</p>
+<p>箭头函数和传统函数不一样，箭头函数的this指向函数定义位置（使用了箭头函数的那个函数）的上下文this（定义函数地点最近作用域中的this）</p>
+<p>也就是说，箭头函数的this使用的是词法作用域，而不是this原来的动态作用域</p>
+<p>此时我们认为箭头函数将程序员们经常犯的一个错误标准化了，也就是混淆this绑定规则（动态作用域）和词法作用域规则</p>
+<p>但是</p>
 <ol>
 <li>箭头函数不适合事件回调</li>
 </ol>
@@ -617,7 +632,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p><strong>注意：</strong></p>
 <ul>
 <li><strong>箭头函数是用不了arguments</strong>（虽然箭头函数也用不了它，但是可以使用剩余参数补足）</li>
-<li>arguments对象的值不反应参数的默认值（当函数设置了默认参数值），它始终以调用函数时传入的值为准</li>
+<li>arguments对象的值不反映参数的默认值（当函数设置了默认参数值），它始终以调用函数时传入的值为准</li>
 </ul>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>agruments<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -658,6 +673,13 @@ arr1<span class="token punctuation">.</span><span class="token function">push</s
      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>args<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <p>  利用args手写new</p>
+<p>应证了《你不知道的JavaScript》里</p>
+<ol>
+<li>创建一个全新的对象</li>
+<li>这个新对象会被执行Prototype连接</li>
+<li>新对象会绑定到函数调用的this</li>
+<li>如果函数没有其他返回值，那么new表达式中的函数调用会自动返回这个新对象</li>
+</ol>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">_new</span><span class="token punctuation">(</span>Constructor<span class="token punctuation">,</span> <span class="token operator">...</span>args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
     obj<span class="token punctuation">.</span>__proto__ <span class="token operator">=</span> Constructor<span class="token punctuation">.</span>prototype<span class="token punctuation">;</span>
@@ -696,38 +718,12 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token comment" spellcheck="true">//方法二</span>
 ary1<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token operator">...</span>ary2<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p><code>...ary</code>扩展运算符还能把伪数组转换成真正的数组，然后可以使用数组的方法</p>
-<p><code>Array.from()</code> </p>
-<p>同样的，构造函数方法<code>Array.from()</code> 也可以将类数组或可遍历对象转换成真正的数组（如果是对象必须要有length属性）</p>
-<p>（浅拷贝的数组实例）</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> arraylike <span class="token operator">=</span> <span class="token punctuation">{</span>
-    <span class="token number">0</span><span class="token punctuation">:</span> <span class="token string">'a'</span><span class="token punctuation">,</span>
-    <span class="token number">1</span><span class="token punctuation">;</span> <span class="token string">'b'</span><span class="token punctuation">,</span>
-    length<span class="token punctuation">:</span> <span class="token number">2</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span>
-<span class="token keyword">let</span> arr2 <span class="token operator">=</span> Array<span class="token punctuation">.</span><span class="token keyword">from</span><span class="token punctuation">(</span>arraylike<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//[a, b]</span></code></pre>
-<p>但是<code>Array.from</code>还可以接收一个函数，用来对每个元素进行处理，将处理后的值放入返回的数组</p>
-<p><code>Array.from(数组, 形参item =&gt; {函数体})</code></p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> arraylike <span class="token operator">=</span> <span class="token punctuation">{</span>
-    <span class="token number">0</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
-    <span class="token number">1</span><span class="token punctuation">;</span> <span class="token number">2</span><span class="token punctuation">,</span>
-    length<span class="token punctuation">:</span> <span class="token number">2</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span>
-<span class="token keyword">let</span> arr2 <span class="token operator">=</span> Array<span class="token punctuation">.</span><span class="token keyword">from</span><span class="token punctuation">(</span>arraylike<span class="token punctuation">,</span> item <span class="token operator">=</span><span class="token operator">></span> item <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//[2, 4]</span></code></pre>
-<p><code>find()</code></p>
-<p>用于找出第一个符合条件的数组成员，如果没有找到返回undefined</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> ary <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
-        id<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
-        name<span class="token punctuation">:</span> <span class="token string">'A'</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
-        id<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
-        name<span class="token punctuation">:</span> <span class="token string">'B'</span> 
-<span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">let</span> arr2 <span class="token operator">=</span> ary<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">(</span>item<span class="token punctuation">,</span> index<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> item<span class="token punctuation">.</span>id <span class="token operator">==</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p><code>findIndex()</code></p>
-<p>用于找出第一个符合条件数组成为的位置，如果没有返回-1</p>
-<p>如<code>let index = ary.findIndex((value, index) =&gt; value &gt; 9);</code></p>
-<p><code>includes()</code></p>
-<p>表示某个数组是否包含给定的值，返回布尔值（之前是使用indexof进行判断，但是表达比较晦涩，这个是新增的）</p>
+<p><strong>可计算属性名</strong></p>
+<p>ES6增加了可计算属性名，可以在文字形式中使用 <code>[]</code> 包裹一个表达式当作属性名</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> prefix <span class="token operator">=</span> <span class="token string">"foo"</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">[</span>prefix <span class="token operator">+</span> <span class="token string">"bar"</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token string">"hello"</span>
+<span class="token punctuation">}</span></code></pre>
 <h4 id="string的拓展"><a href="#string的拓展" class="headerlink" title="string的拓展"></a>string的拓展</h4><p>ES6新增的创建字符串的方式，使用反引号定义 <code>let name = allen;</code>(模板字符串)</p>
 <p>模板字符串的特点：</p>
 <p>1.可以解析变量，不用字符串拼接<code>${变量名}</code></p>
@@ -739,13 +735,6 @@ ary1<span class="token punctuation">.</span><span class="token function">push</s
 <span class="token keyword">let</span> html <span class="token operator">=</span> <span class="token template-string"><span class="token string">`&lt;div>
     &lt;span></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token function">saySomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/span>
 &lt;/div>`</span></span><span class="token punctuation">;</span></code></pre>
-<p><code>startsWith()</code> 表示参数字符串是否以原字符串开头，返回布尔值</p>
-<p><code>endsWith()</code>表示参数字符串是否以原字符串结尾，返回布尔值</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> str <span class="token operator">=</span> <span class="token string">'hello world !'</span><span class="token punctuation">;</span>
-str<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">'hello'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//true</span>
-str<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">'!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//true</span></code></pre>
-<p><code>repeat()</code></p>
-<p>repeat方法表示将原字符串重复n次，返回一个新字符串 ，如<code>&#39;x&#39;.repeat(3)</code> 返回 xxx</p>
 <h4 id="set数据结构"><a href="#set数据结构" class="headerlink" title="set数据结构"></a>set数据结构</h4><p>ES6提供了新的数据结构Set。它类似于数组，但是成员的值都是唯一的，没有重复的值（不会存储重复的值）、自动去重</p>
 <p>集合实现了 <code>iterator</code>接口，所以可以使用 <code>for of</code></p>
 <p>Set本身是一个构造函数，用来生成Set数据结构</p>
@@ -859,7 +848,8 @@ obj2 <span class="token operator">=</span> <span class="token punctuation">{</sp
     <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>  <span class="token comment" spellcheck="true">//此写法仅支持在字面量/类中</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
 <p>判断一个对象是否为空，可以使用</p>
-<pre><code>Object.key(对象名称).length === 0</code></pre><p>js <strong>判断对象的属性是否存在</strong></p>
+<pre class=" language-js"><code class="language-js">Object<span class="token punctuation">.</span><span class="token function">key</span><span class="token punctuation">(</span>对象名称<span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">===</span> <span class="token number">0</span></code></pre>
+<p>js <strong>判断对象的属性是否存在</strong></p>
 <p><strong>in运算符</strong> （属性名 in 对象）</p>
 <p> 情况1:对象自身属性</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> obj<span class="token operator">=</span><span class="token punctuation">{</span>a<span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
@@ -1796,7 +1786,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">243.1k</span>&nbsp;字
+                class="white-color">253.1k</span>&nbsp;字
             
             
             

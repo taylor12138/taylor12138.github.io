@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.9k
+                    4.2k
                 </div>
                 
 
@@ -498,14 +498,15 @@
 <p><code>window.sessionStorage.setItem(key, value)</code>  分别对应键和值，设置（添加或更改）</p>
 <p><code>window.sessionStorage.getItem(&#39;key&#39;)</code>  获取</p>
 <p><code>window.sessionStorage.removeItem(&#39;key&#39;)</code> 删除</p>
-<p><code>window.sessionStorage.clear()</code> 删除所有数据(慎用)</p>
+<p><code>window.sessionStorage.clear()</code> 删除所有数据(慎用)，不在Firefox中实现</p>
+<p>4.所有现代浏览器在实现存储写入时都使用了同步阻塞方式，因此数据会被立即提交到存储。（除了老版IE）</p>
 <h2 id="window-localStorage"><a href="#window-localStorage" class="headerlink" title="window.localStorage"></a>window.localStorage</h2><p>1.生命周期永久生效，除非手动删除，不然关闭页面仍然存在</p>
 <p>2.多窗口共享（同一浏览器才能共享）</p>
 <p>3.以键值对的形式存储使用</p>
 <p><code>window.localStorage.setItem(key, value)</code>  分别对应键和值，设置（添加或更改）（值是以字符串的形式进行存储的）</p>
 <p><code>window.localStorage.getItem(&#39;key&#39;)</code>  获取</p>
 <p><code>window.localStorage.removeItem(&#39;key&#39;)</code> 删除</p>
-<p><code>window.localStorage.clear()</code> 删除所有数据(慎用)</p>
+<p><code>window.localStorage.clear()</code> 删除所有数据(慎用)，不在Firefox中实现</p>
 <h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h2><p>Cookie是一种在客户端保持HTTP状态信息的技术：http协议是无状态的，但是在实际工作中，一些万维网网站希望能识别用户（给用户推销产品）=&gt;诞生了cookie小饼干（由服务器生成）</p>
 <p>cookie是存储在用户主机的文本文件，存储在浏览器中的纯文本，浏览器的安装目录下会专门有一个 cookie 文件夹来存放各个域下设置的<code>cookie</code>，记录一段时间内某用户的访问记录</p>
 <ul>
@@ -535,6 +536,16 @@
 <pre class=" language-js"><code class="language-js">document<span class="token punctuation">.</span>cookie <span class="token operator">=</span> <span class="token string">"name=Jonh"</span><span class="token punctuation">;</span>
 document<span class="token punctuation">.</span>cookie <span class="token operator">=</span> <span class="token string">"age=12"</span><span class="token punctuation">;</span>
 document<span class="token punctuation">.</span>cookie <span class="token operator">=</span> <span class="token string">"class=111"</span><span class="token punctuation">;</span></code></pre>
+<p>但是红宝书推荐使用 <code>encodeURIComponent</code> 对名称和值进行编码</p>
+<pre class=" language-js"><code class="language-js">document<span class="token punctuation">.</span>cookie <span class="token operator">=</span> <span class="token function">encodeURIComponent</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"="</span> <span class="token operator">+</span>  <span class="token function">encodeURIComponent</span><span class="token punctuation">(</span><span class="token string">"Jonh"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><code>encodeURIComponent()</code>函数通过将一个，两个，三个或四个表示字符的UTF-8编码的转义序列替换某些字符的每个实例来编码 <a href="https://developer.mozilla.org/zh-CN/docs/Glossary/URI" target="_blank" rel="noopener">URI</a> （对于由两个“代理”字符组成的字符而言，将仅是四个转义序列） 。</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// encodes characters such as ?,=,/,&amp;,:</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`?x=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token function">encodeURIComponent</span><span class="token punctuation">(</span><span class="token string">'test?'</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// expected output: "?x=test%3F"</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`?x=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token function">encodeURIComponent</span><span class="token punctuation">(</span><span class="token string">'шеллы'</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// expected output: "?x=%D1%88%D0%B5%D0%BB%D0%BB%D1%8B"</span></code></pre>
+<p><code>decodeURIComponent()</code> 方法用于解码由 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent" target="_blank" rel="noopener"><code>encodeURIComponent</code></a> 方法或者其它类似方法编码的部分统一资源标识符（URI）</p>
 <h2 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h2><p>cookie和session都是用来跟踪浏览器用户身份的会话方式，通常使用cookie方式存储session ID到客户端</p>
 <p>现在大多都是Session + Cookie，但是只用session不用cookie，或是只用cookie，不用session在理论上都可以保持会话状态。可是实际中因为多种原因，一般不会单独使用</p>
 <p>保持状态：cookie保存在浏览器端，session保存在服务器端</p>
@@ -1201,7 +1212,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">243.1k</span>&nbsp;字
+                class="white-color">253.1k</span>&nbsp;字
             
             
             

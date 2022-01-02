@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.8k
+                    7.9k
                 </div>
                 
 
@@ -593,7 +593,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
     <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token punctuation">}</span></code></pre>
 <h4 id="对象方法"><a href="#对象方法" class="headerlink" title="对象方法"></a>对象方法</h4><p><code>Object.defineProperty()</code> 定义对象中新属性或修改原有的属性（应用于vue响应式双向绑定，还有es5实现const的原理）</p>
-<p><code>Object.defineProperty(obj, prop,desciptor)</code> </p>
+<p><code>Object.defineProperty(obj, prop, desciptor)</code> </p>
 <p><code>obj</code>：必须，目标对象  </p>
 <p><code>prop</code>： 必需，需定义或修改的属性名</p>
 <p><code>descriptor</code>： 必须，目标属性所拥有的特性，一对象的形式{ }进行书写，</p>
@@ -605,9 +605,16 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <li><p><code>enumerable</code>：目标属性是否可以被枚举(是否可以被遍历，显示出来)，默认false；</p>
 </li>
 <li><p><code>configurable</code>目标属性是否可以被删除，或者再次修改特性（是否可以再次更改这个descriptor），默认false；</p>
+<ul>
+<li>不管是否为严格模式，尝试修改一个不可配置的属性描述符都会出错，也就是说configurable的修改为false是单向操作！！</li>
+</ul>
 </li>
 <li><p>除此外还具有以下可选键值：</p>
 <ul>
+<li><p>当定义getter、setter时，属性就会被定义为“访问描述符”，此时JavaScript会忽略他们的<code>value</code>和<code>writable</code> 特性</p>
+</li>
+<li><p>通常来说getter和 setter是成对出现的（只定义一个的话通常会产生意料之外的行为）</p>
+</li>
 <li><p><code>get</code>：当访问该属性时，会调用此函数。执行时不传入任何参数，但是会传入 <code>this</code> 对象（由于继承关系，这里的<code>this</code>并不一定是定义该属性的对象）。该函数的返回值会被用作属性的值。</p>
 </li>
 <li><p><code>set</code>：当属性值被修改时，会调用此函数。该方法接受一个参数（也就是被赋予的新值），会传入赋值时的 this 对象(修改后的值)。</p>
@@ -633,40 +640,90 @@ Object<span class="token punctuation">.</span><span class="token function">defin
 <p><code>Object.getOwnPropertySymbols(obj1)</code>返回对象实例的符号属性数组</p>
 <p>这两种方法互斥</p>
 <h2 id="2-函数定义和调用"><a href="#2-函数定义和调用" class="headerlink" title="2.函数定义和调用"></a>2.函数定义和调用</h2><p>函数定义：</p>
-<p>1.自定义函数：<code>function fn() {};</code></p>
-<p>2.匿名函数： <code>var fun = function() {};</code></p>
-<p>3.<code>new Function(&#39;参数1&#39;, &#39;参数2&#39;, &#39;函数体&#39;)</code>形式调用   像构造函数,   Function里面的参数都必须是字符串格式</p>
+<ol>
+<li><p>自定义函数：<code>function fn() {};</code></p>
+</li>
+<li><p>匿名函数： <code>var fun = function() {};</code></p>
+<ul>
+<li><p>值得注意的是</p>
+</li>
+<li><pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token keyword">function</span> b <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'woshib'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token function">b</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//b is not defined</span></code></pre>
+</li>
+</ul>
+</li>
+<li><p><code>new Function(&#39;参数1&#39;, &#39;参数2&#39;, &#39;函数体&#39;)</code>形式调用   像构造函数,   Function里面的参数都必须是字符串格式</p>
+</li>
+</ol>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> f <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Function</span><span class="token punctuation">(</span><span class="token string">'a'</span><span class="token punctuation">,</span> <span class="token string">'b'</span><span class="token punctuation">,</span> <span class="token string">'console.log(a + b)'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>实际上所有的函数都是Function的实例</p>
 <p>函数也属于对象</p>
 <p>函数调用：</p>
-<p>1.普通函数调用</p>
+<ol>
+<li>普通函数调用</li>
+</ol>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
     <span class="token comment" spellcheck="true">//something</span>
 <span class="token punctuation">}</span>
 <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>2.对象方法</p>
+<ol start="2">
+<li>对象方法</li>
+</ol>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> o <span class="token operator">=</span> <span class="token punctuation">{</span>
     say<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token comment" spellcheck="true">//something</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 o<span class="token punctuation">.</span><span class="token function">say</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>3.构造函数</p>
+<ol start="3">
+<li>构造函数</li>
+</ol>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">Star</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token keyword">new</span> <span class="token class-name">Star</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>4.绑定事件函数<code>btn.onclick = function() {}</code></p>
-<p>5.定时器函数 <code>setInterval(function() {}, 1000);</code></p>
-<p>6.立即执行函数（自动调用） <code>(function() {} )();</code></p>
-<h2 id="3-this的指向"><a href="#3-this的指向" class="headerlink" title="3.this的指向"></a>3.this的指向</h2><h4 id="函数内this的指向"><a href="#函数内this的指向" class="headerlink" title="函数内this的指向"></a>函数内this的指向</h4><p>是当我们调用函数时确定的，调用方式不同导致this指向不同</p>
+<ol start="4">
+<li><p>绑定事件函数<code>btn.onclick = function() {}</code></p>
+</li>
+<li><p>定时器函数 <code>setInterval(function() {}, 1000);</code></p>
+</li>
+<li><p>立即执行函数（自动调用） <code>(function() {} )();</code></p>
+<ul>
+<li>立即执行函数和普通函数有实际意义上非常重要的区分，此时函数会被当作函数表达式和不是一个标准的函数声明来处理。此时函数只能在它所代表的韦志中被访问，外部作用域不行，不会非必要的污染外部作用域</li>
+</ul>
+</li>
+</ol>
+<h2 id="3-this的指向"><a href="#3-this的指向" class="headerlink" title="3.this的指向"></a>3.this的指向</h2><h4 id="函数内this的指向"><a href="#函数内this的指向" class="headerlink" title="函数内this的指向"></a>函数内this的指向</h4><p>是当我们调用函数时，根据调用栈确定的（动态作用域），调用方式不同导致this指向不同</p>
 <p>1.普通函数调用：window</p>
 <p>2.构造函数调用：实例对象，原型对象也是指向实例对象（同样的，类中this也是指向实例对象）</p>
-<p>3.对象方法：该方法所属对象</p>
+<p>3.对象方法：该方法所属对象（隐式绑定）</p>
+<ul>
+<li><p>对象属性引用链只有上一层或者最后一层在调用位置中起作用</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">const</span> obj2 <span class="token operator">=</span> <span class="token punctuation">{</span>
+    a<span class="token punctuation">:</span><span class="token number">42</span><span class="token punctuation">,</span>
+    foo
+<span class="token punctuation">}</span>
+<span class="token keyword">const</span> obj1 <span class="token operator">=</span> <span class="token punctuation">{</span>
+    a<span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">,</span>
+    obj2
+<span class="token punctuation">}</span>
+obj1<span class="token punctuation">.</span>obj2<span class="token punctuation">.</span><span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//42</span></code></pre>
+</li>
+</ul>
 <p>4.事件绑定：绑定事件对象（当前情况指的是位于回调函数的内部中this指向）</p>
 <p>5.定时器函数：window</p>
 <p>6.立即执行函数：window</p>
-<p>但是立即执行函数还得看这时this是否在对象方法或者构造函数中，第二个虽然是立即执行函数，但是此时它的this和foo绑定了，所以还是输出foo的a</p>
-<p>而赋值操作，因为赋值表达式是函数本身，this值不再与任何对象绑定，所以this指向window</p>
+<p>2.但是立即执行函数还得看这时this是否在对象方法或者构造函数中，第二个虽然是立即执行函数，但是此时它的this和foo绑定了，所以还是输出foo的a</p>
+<p>3.<code>fn</code>是对<code>foo.bar</code>的一个引用，实质上，它引用的是<code>bar</code>函数本身，因此此时的 <code>fn</code>是一个不带任何修饰的函数调用， 应用默认绑定（发生了隐式丢失）</p>
+<p>4.箭头函数按照的是词法作用域，按照词法作用域找就好了</p>
+<p>5.而赋值操作 ，会创建一个函数的间接引用，此时调用函数会应用默认绑定（this指向window，严格模式为undefined）</p>
+<ul>
+<li><code>foo.bar = foo.bar</code>返回值是目标函数的引用，此时相当于直接调用 <code>bar()</code></li>
+</ul>
+<p>6.最后一个参数传递其实就是一种隐式赋值，传入一个对foo.bar的引用，不加任何修饰，因此是默认绑定（this指向window，严格模式为undefined）</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
 <span class="token keyword">var</span> foo <span class="token operator">=</span> <span class="token punctuation">{</span>
     a<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
@@ -675,12 +732,18 @@ o<span class="token punctuation">.</span><span class="token function">say</span>
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
     bad<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
         <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>a             <span class="token comment" spellcheck="true">//箭头函数导致this永远绑定了父级作用域window</span>
-    <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>foo<span class="token punctuation">.</span><span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token comment" spellcheck="true">//2</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token punctuation">(</span>foo<span class="token punctuation">.</span>bar<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>          <span class="token comment" spellcheck="true">//2</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>foo<span class="token punctuation">.</span><span class="token function">bad</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token comment" spellcheck="true">//1</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token punctuation">(</span>foo<span class="token punctuation">.</span>bar<span class="token operator">=</span>foo<span class="token punctuation">.</span>bar<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//1</span></code></pre>
+<span class="token keyword">const</span> fn <span class="token operator">=</span> foo<span class="token punctuation">.</span>bar<span class="token punctuation">;</span>
+<span class="token keyword">function</span> <span class="token function">doFoo</span><span class="token punctuation">(</span>fn<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'6.'</span><span class="token punctuation">,</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'1.'</span><span class="token punctuation">,</span> foo<span class="token punctuation">.</span><span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token comment" spellcheck="true">//1. 2</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'2.'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>foo<span class="token punctuation">.</span>bar<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>          <span class="token comment" spellcheck="true">//2. 2</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'3.'</span><span class="token punctuation">,</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                 <span class="token comment" spellcheck="true">//3. 1</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'4.'</span><span class="token punctuation">,</span> foo<span class="token punctuation">.</span><span class="token function">bad</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token comment" spellcheck="true">//4. 1</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'5.'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>foo<span class="token punctuation">.</span>bar <span class="token operator">=</span> foo<span class="token punctuation">.</span>bar<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//5. 1</span>
+<span class="token function">doFoo</span><span class="token punctuation">(</span>foo<span class="token punctuation">.</span>bar<span class="token punctuation">)</span><span class="token punctuation">;</span>                          <span class="token comment" spellcheck="true">//6. 1</span></code></pre>
 <p>“匿名函数的执行环境具有全局性”，所以最里层那个函数中this指向全局环境，全局环境没有定义foo变量所以输出undefined。在匿名函数外部将this保存到一个内部函数可以访问的变量self中，可以通过self访问这个对象，所以self.foo为bar</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">var</span> myobject <span class="token operator">=</span> <span class="token punctuation">{</span>
     foo<span class="token punctuation">:</span> <span class="token string">"bar"</span><span class="token punctuation">,</span>
@@ -788,7 +851,8 @@ fn<span class="token punctuation">.</span><span class="token function">bind</spa
   <span class="token punctuation">}</span><span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span>
 <span class="token punctuation">}</span>
 <span class="token function">fn2</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
-<h4 id="三大this指向手写模式"><a href="#三大this指向手写模式" class="headerlink" title="三大this指向手写模式"></a>三大this指向手写模式</h4><p>解释一下，在<code>Function.prototype</code>里通过属性定义方法，此时this指向函数本身（因为是函数在调用）</p>
+<h4 id="三大this指向手写模式"><a href="#三大this指向手写模式" class="headerlink" title="三大this指向手写模式"></a>三大this指向手写模式</h4><p>实质上原理也是利用隐式绑定，通过 <code>上下文.函数()</code>调用改写this，从而变成显式绑定</p>
+<p>解释一下，在<code>Function.prototype</code>里通过属性定义方法，此时this指向函数本身（因为是函数在调用）</p>
 <p>call指向</p>
 <pre class=" language-js"><code class="language-js">Function<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>myCall <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> <span class="token keyword">this</span> <span class="token operator">!==</span> <span class="token string">'function'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -817,6 +881,38 @@ fn<span class="token punctuation">.</span><span class="token function">bind</spa
     <span class="token keyword">return</span> _this<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> args<span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span><span class="token operator">...</span>arguments<span class="token punctuation">)</span><span class="token punctuation">)</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
+<h4 id="三大this指向不安全点"><a href="#三大this指向不安全点" class="headerlink" title="三大this指向不安全点"></a>三大this指向不安全点</h4><p>如果把null 或者 undefined 作为this绑定对象，传入call、bind、apply，则调用时会被忽略，可能给全局window添加副作用，将规则绑定到全局对象，可能导致不可预计的后果</p>
+<p>（指向参数传入null的应用场景是柯里化传参）</p>
+<p>此时可以传入一个“更空”的空对象（没有Object.prototype这个委托），避免这种危险</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> d <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+foo<span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span>d<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">,</span> <span class="token string">'b'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="软绑定"><a href="#软绑定" class="headerlink" title="软绑定"></a>软绑定</h4><p>硬绑定（显式绑定的一个变种，也就是<code>bind</code>）可以把this强制绑定到指定对象。但是硬绑定会大大降低函数的灵活性，使用硬绑定之后则无法使用显式绑定或者隐式绑定修改this</p>
+<p>如果可以给默认绑定指定一个除了全局对象和undefined以外的值，那就可以实现和硬绑定相同的效果，同时保留隐式绑定或者显式绑定修改this的能力</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>Function<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>softBind<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    Function<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>softBind <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">var</span> fn <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
+        <span class="token keyword">var</span> curried <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">.</span>slice<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>arguments<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">var</span> bound <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">return</span> fn<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>
+                <span class="token punctuation">(</span><span class="token operator">!</span><span class="token keyword">this</span> <span class="token operator">||</span> <span class="token keyword">this</span> <span class="token operator">===</span> <span class="token punctuation">(</span>window <span class="token operator">||</span> global<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">?</span> obj <span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">,</span>
+                curried<span class="token punctuation">.</span>concat<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>curried<span class="token punctuation">,</span> arguments<span class="token punctuation">)</span>
+            <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+        bound<span class="token punctuation">.</span>prototype <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>fn<span class="token punctuation">.</span>prototype<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> bound<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>此时实现了软绑定</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`name: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">"obj"</span> <span class="token punctuation">}</span>
+<span class="token keyword">var</span> obj2 <span class="token operator">=</span> <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">"obj2"</span> <span class="token punctuation">}</span>
+<span class="token keyword">var</span> obj3 <span class="token operator">=</span> <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">"obj3"</span> <span class="token punctuation">}</span>
+obj2<span class="token punctuation">.</span>foo <span class="token operator">=</span> foo<span class="token punctuation">.</span><span class="token function">softBind</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>
+obj2<span class="token punctuation">.</span><span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                   <span class="token comment" spellcheck="true">//name: obj2</span>
+foo<span class="token punctuation">.</span><span class="token function">softBind</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>obj3<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//name: obj3</span>
+<span class="token function">setTimeout</span><span class="token punctuation">(</span>obj2<span class="token punctuation">.</span>foo<span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//name: obj</span></code></pre>
 <h2 id="4-严格模式"><a href="#4-严格模式" class="headerlink" title="4.严格模式"></a>4.严格模式</h2><p>ie10以上版本才支持    它是让JavaScript以严格的条件下运行代码</p>
 <p>1.消除了JavaScript一些语法不严谨的地方，减少怪异行为</p>
 <p>2.消除代码一些不安全之处，保证代码运行的安全</p>
@@ -848,25 +944,7 @@ fn<span class="token punctuation">.</span><span class="token function">bind</spa
 <p>4.严格模式下，如果构造函数不配合new来使用，this就会报错</p>
 <p>5.函数不能有重名参数</p>
 <p>6.函数必须声明在顶层，因为新版本的JavaScript引入了块级作用域，所以不允许在非函数代码块内声明函数</p>
-<h2 id="5-变量的作用域"><a href="#5-变量的作用域" class="headerlink" title="5.变量的作用域"></a>5.变量的作用域</h2><p><code>Javascript</code> 语言的特殊之处，就在于函数内部可以直接读取全局变量。</p>
-<p>另一方面，在函数外部自然无法读取函数内的局部变量。</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> n<span class="token operator">=</span><span class="token number">999</span><span class="token punctuation">;</span>
-<span class="token keyword">function</span> <span class="token function">f1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-    <span class="token function">alert</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-<span class="token function">f1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 999</span></code></pre>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">f1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-    <span class="token keyword">var</span> n<span class="token operator">=</span><span class="token number">999</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-<span class="token function">alert</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// error</span></code></pre>
-<p>一定要使用var命令，如果不用的话，你实际上声明了一个全局变量</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">f1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-    n<span class="token operator">=</span><span class="token number">999</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-<span class="token function">f1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">alert</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 999</span></code></pre>
-<p>如果想要从外部读取内部的局部变量，则需要使用到：闭包！</p>
-<h2 id="6-闭包"><a href="#6-闭包" class="headerlink" title="6.闭包"></a>6.闭包</h2><p>闭包指有权访问另外一个函数作用域中变量的<strong>函数</strong>，简单理解就是一个作用域可以访问另外一个函数内部的局部变量</p>
+<h2 id="5-闭包"><a href="#5-闭包" class="headerlink" title="5.闭包"></a>5.闭包</h2><p>闭包指有权访问另外一个函数作用域中变量的<strong>函数</strong>，简单理解就是一个作用域可以访问另外一个函数内部的局部变量</p>
 <p>（被访问作用域的函数就是闭包函数）</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//在此处fun函数作用域访问了另外一个函数fn里面的局部变量num，形成了闭包，此时fun就是闭包</span>
 <span class="token comment" spellcheck="true">//fun被赋予了一个全局变量，所以fun始终保存在内存中，而fun依赖fn的num，因此num也始终在内存中</span>
@@ -906,7 +984,7 @@ fn<span class="token punctuation">.</span><span class="token function">bind</spa
         <span class="token punctuation">}</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
-<p>回调函数：获取异步操作的<strong>结果</strong></p>
+<p>回调函数：获取异步操作的<strong>结果</strong>，只要使用了回调函数，实际上就是使用闭包—《你不知道的JavaScript》</p>
 <p>一般情况下，把函数作为参数的目的就是为了获取函数内部的异步操作的结果</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//如果需要获取一个函数中异步操作的结果，则必须通过回调函数来获取</span>
 <span class="token keyword">function</span> <span class="token function">fn</span><span class="token punctuation">(</span>callback<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -941,7 +1019,12 @@ fn<span class="token punctuation">.</span><span class="token function">bind</spa
 <li>不能调用<code>Date.now()</code>或者<code>Math.random()</code>等不纯方法</li>
 </ul>
 <p>redux的reducer必须是一个纯函数</p>
-<h2 id="7-递归"><a href="#7-递归" class="headerlink" title="7.递归"></a>7.递归</h2><p>如果一个函数在内部可以调用其本身，则这个函数是递归（俄罗斯套娃）</p>
+<h4 id="闭包的模块"><a href="#闭包的模块" class="headerlink" title="闭包的模块"></a>闭包的模块</h4><p>有两个主要的特征（源自《你不知道的JavaScript》）</p>
+<ul>
+<li>为创建内部作用域而调用了一个包装函数</li>
+<li>包装函数的返回值必须至少包括一个对内部函数的引用，这样就会创建涵盖整个包函数内部作用域的闭包</li>
+</ul>
+<h2 id="6-递归"><a href="#6-递归" class="headerlink" title="6.递归"></a>6.递归</h2><p>如果一个函数在内部可以调用其本身，则这个函数是递归（俄罗斯套娃）</p>
 <p>但是容易发生“栈溢出”错误，所以必须加退出条件“return”</p>
 <h4 id="浅拷贝和深拷贝"><a href="#浅拷贝和深拷贝" class="headerlink" title="浅拷贝和深拷贝"></a>浅拷贝和深拷贝</h4><p>（jQuery篇目有提及到（<code>$.extend([deep], target, object1, [objectN])</code>））</p>
 <p>1.浅拷贝只是拷贝一层，更深层次对象级别的只拷贝引用</p>
@@ -1108,7 +1191,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
   <span class="token punctuation">}</span>
   <span class="token keyword">return</span> cloneTarget<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
-<h2 id="8-正则表达式"><a href="#8-正则表达式" class="headerlink" title="8.正则表达式"></a>8.正则表达式</h2><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>正则表达式（regular expression）是用于匹配字符串中字符组合的模式，再JavaScript，正则表达式也是对象</p>
+<h2 id="7-正则表达式"><a href="#7-正则表达式" class="headerlink" title="7.正则表达式"></a>7.正则表达式</h2><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>正则表达式（regular expression）是用于匹配字符串中字符组合的模式，再JavaScript，正则表达式也是对象</p>
 <p>正则表达式通常用来做检索，替换那些符合某个模式（规则）的文本，例如昵称输入框里的对中文的匹配；此外，正则表达式还常用于过滤掉页面一些敏感（替换），或者从字符串获取我们想要的特定部分（提取）等</p>
 <p>特点：1.灵活性、逻辑性、功能性非常强</p>
 <p>2.可以迅速用极简的形式达到对字符串复杂的控制</p>
@@ -1189,6 +1272,32 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>可以使用: <code>/表达式/[switch]</code> swtich也成为修饰符，即按照什么样的模式来匹配</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">'red and blue and red'</span><span class="token punctuation">;</span>
 <span class="token keyword">var</span> newstr <span class="token operator">=</span> str<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token regex">/red/g</span><span class="token punctuation">,</span> <span class="token string">'yellow'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//结果为yellow and blue and yellow</span></code></pre>
+<h2 id="8-作用域"><a href="#8-作用域" class="headerlink" title="8.作用域"></a>8.作用域</h2><p>词法作用域：是一套关于引擎如何寻找变量以及会在何处找到变量的规则。词法作用域最重要的特征是他定义过程发生在代码的书写阶段（除了eval和with）</p>
+<p>动态作用域：是JavaScript另一个重要机制this的表亲，它让作用域作为一个运行时被动态确定的形式，而不是在写代码时进行静态确定的形式。</p>
+<p>区别是词法作用域是写代码时确定，动态作用域是运行时确定</p>
+<blockquote>
+<p> 事实上JavaScript并不具备动态作用域，他只有词法作用域，简单明了，但是this机制某种程度像很像动态作用域</p>
+</blockquote>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">function</span> <span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+    <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//2</span></code></pre>
+<p>如果JavaScript具有动态作用域，则会输出3！</p>
+<p>从另外一串代码看词法作用域</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+    <span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//2</span></code></pre>
 
             </div>
             <hr/>
@@ -1695,7 +1804,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">243.1k</span>&nbsp;字
+                class="white-color">253.1k</span>&nbsp;字
             
             
             

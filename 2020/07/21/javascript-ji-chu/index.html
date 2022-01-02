@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.7k
+                    5.2k
                 </div>
                 
 
@@ -486,6 +486,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="1-JS的介绍"><a href="#1-JS的介绍" class="headerlink" title="1.JS的介绍"></a>1.JS的介绍</h2><p>JS是脚本语言，不需要编译，直接由js解释器逐行进行解释并执行（编译一行，执行一行），（解释型的编程语言）现在也可以基于node.js技术（后台）进行服务器编程</p>
+<p>一般编译流程：词法分析（源程序-&gt;单词符号），语法分析（单词符号-&gt;语法单位），中间代码生成（语法单位-&gt;中间代码），代码优化和目标代码的生成（中间代码-&gt;目标代码）</p>
 <p>实现业务逻辑和页面控制功能，浏览器的JS引擎，也就是JS解释器，用来读取JS代码</p>
 <h4 id="JS执行"><a href="#JS执行" class="headerlink" title="JS执行"></a>JS执行</h4><p><strong>样式表（Style sheets）</strong></p>
 <p>样式表采用另一种不同的模式。理论上，既然样式表不改变Dom树，也就没有必要停下文档的解析等待它们，然而，存在一个问题，脚本可能在文档的解析过程中请求样式信息，如果样式还没有加载和解析，脚本将得到错误的值，显然这将会导致很多问题，这看起来是个边缘情况，但确实很常见。Firefox在存在样式表还在加载和解析时阻塞所有的脚本，而Chrome只在当脚本试图访问某些可能被未加载的样式表所影响的特定的样式属性时才阻塞这些脚本。</p>
@@ -499,29 +500,48 @@
 <p>预解析：js会把里面所有var还有function提升到当前作用域的最前面（分别为变量提升和函数提升）</p>
 <p>变量提升：把所有变量声明提升至当前作用域于最前，但是不提升赋值操作</p>
 <p>函数提升：把所有函数提升至当前作用域最前</p>
-<p><strong>原理</strong>：</p>
+<h4 id="编译器查询"><a href="#编译器查询" class="headerlink" title="编译器查询"></a>编译器查询</h4><p>LHS代表左侧查询（找到变量容器本身），询问作用域有没有该容器</p>
+<p>RHS代表右侧查询（但它并非真正意义上的赋值操作右侧，而是“非左侧”）</p>
+<p>LHS、RHS是 “赋值操作的左侧和右侧”，但是不代表是 “=赋值操作符的左侧和右侧”</p>
+<pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 一个RHS引用</span>
+a <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>         <span class="token comment" spellcheck="true">// 一个LHS引用</span></code></pre>
 <ul>
-<li><p>声明 + 赋值操作是LHS查找，LHS找不到引擎会帮你在顶层作用域声明一个具有该名称的变量（严格模式除外）</p>
-</li>
-<li><p>从变量获取空间里的数据是RHS查找，RHS找不到会抛出错误RefrenceError</p>
-</li>
-<li><pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> a          <span class="token comment" spellcheck="true">//LHS 寻找a,未找到，通知作用域声明一个新变量，命名为a</span>
-a<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">;</span>           <span class="token comment" spellcheck="true">//LHS 找到a并给其赋值2</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//RHS找到a的值2，并将其输出</span></code></pre>
-</li>
+<li>如果RHS查询在所有嵌套的作用域中找到不到该变量，则会抛出一个<code>ReferenceError</code>异常</li>
+<li>声明 + 赋值操作是LHS查找，LHS找不到引擎会帮你在顶层作用域声明一个具有该名称的变量（严格模式除外，严格模式则抛出一个<code>ReferenceError</code>）</li>
 </ul>
+<h4 id="欺骗词法作用域"><a href="#欺骗词法作用域" class="headerlink" title="欺骗词法作用域"></a>欺骗词法作用域</h4><p>如果词法作用域完全由写代码期间函数所声明的位置来定义，那如何欺骗词法作用域呢？</p>
+<p>JavaScript有两种机制</p>
+<p>eval：接受一个字符串作为参数，将其中的内容是为好像在书写时就存在于程序中这个位置的代码（《红宝书的啃读note(上)》有解释eval方法）</p>
+<p>with：witch通常被当作重复引用同一个对象中的多个属性的快捷方式，可以不需要重复引用对象本身；尽管with块可以将一个对象处理为词法作用域，但是这个块内部正常的var声明并不会被限制在这个块的作用域中，而是被添加到with所处的函数作用域中</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">with</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        a <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">var</span> o1 <span class="token operator">=</span> <span class="token punctuation">{</span> a<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> o2 <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token function">foo</span><span class="token punctuation">(</span>o1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>o1<span class="token punctuation">.</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//2</span>
+<span class="token function">foo</span><span class="token punctuation">(</span>o2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>o2<span class="token punctuation">.</span>a<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//undefined</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 2,a被泄露到全局作用域了</span></code></pre>
+<p>可以理解为把o1传递给with，with所声明的作用域是o1；而我们将o2设为作用域时，其中并没有a标识符，此时（非严格模式下）进行了LHS查询</p>
 <h4 id="JS的组成"><a href="#JS的组成" class="headerlink" title="JS的组成"></a>JS的组成</h4><p>JavaScript语法：ECMAScript</p>
 <p>页面文档对象模型：DOM</p>
 <p>浏览器对象模型：BOM</p>
-<h4 id="ECMAScript"><a href="#ECMAScript" class="headerlink" title="ECMAScript"></a>ECMAScript</h4><p>它往往被称为JavaScript或JScript，但实际上后两者是ECMAScript语言的实现和拓展</p>
-<h4 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h4><p>它是标准编程接口，通过DOM提供的接口可以对页面上各种元素进行操作（大小位置颜色）</p>
-<h4 id="BOM"><a href="#BOM" class="headerlink" title="BOM"></a>BOM</h4><p>它提供了独立于内容，可以与浏览器窗口进行互动的对象，操作浏览器窗口比如弹出窗，控制浏览器跳转，获取分辨率等</p>
+<p><strong>ECMAScript</strong></p>
+<p>它往往被称为JavaScript或JScript，但实际上后两者是ECMAScript语言的实现和拓展</p>
+<p><strong>DOM</strong></p>
+<p>它是标准编程接口，通过DOM提供的接口可以对页面上各种元素进行操作（大小位置颜色）</p>
+<p><strong>BOM</strong></p>
+<p>它提供了独立于内容，可以与浏览器窗口进行互动的对象，操作浏览器窗口比如弹出窗，控制浏览器跳转，获取分辨率等</p>
 <h4 id="JS的插入方式"><a href="#JS的插入方式" class="headerlink" title="JS的插入方式"></a>JS的插入方式</h4><p> 类似于CSS，有行内式，内嵌式<code>&lt;script&gt;xxxx&lt;/script&gt;</code></p>
 <p>还有从外部引入：(script标签中间别写代码)</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>xx.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
-<h2 id="2-JS基本功能介绍"><a href="#2-JS基本功能介绍" class="headerlink" title="2.JS基本功能介绍"></a>2.JS基本功能介绍</h2><h4 id="输入输出"><a href="#输入输出" class="headerlink" title="输入输出"></a>输入输出</h4><pre><code>alert(msg);  //弹出警示框
-console.log(msg) //打印输出信息，是控制台输出，给程序猿测试用的
-prompt(info) //弹出输入框，提供用户输入 但是都是以字符的形式输入</code></pre><p>console.log()会在浏览器控制台打印出信息</p>
+<h2 id="2-JS基本功能介绍"><a href="#2-JS基本功能介绍" class="headerlink" title="2.JS基本功能介绍"></a>2.JS基本功能介绍</h2><h4 id="输入输出"><a href="#输入输出" class="headerlink" title="输入输出"></a>输入输出</h4><pre class=" language-js"><code class="language-js"><span class="token function">alert</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//弹出警示框</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//打印输出信息，是控制台输出，给程序猿测试用的</span>
+<span class="token function">prompt</span><span class="token punctuation">(</span>info<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//弹出输入框，提供用户输入 但是都是以字符的形式输入</span></code></pre>
+<p>console.log()会在浏览器控制台打印出信息</p>
 <p>console.dir()可以显示一个对象的所有属性和方法</p>
 <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>使用var，自动确定类型（JS拥有动态类型）</p>
 <p>var</p>
@@ -548,7 +568,7 @@ str<span class="token punctuation">.</span><span class="token function">charCode
 str1<span class="token punctuation">.</span><span class="token function">charCodeAt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// 97</span></code></pre>
 <p>Ascii码转String</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//将对应的编码值转为字符</span>
-    <span class="token keyword">var</span> charValue <span class="token operator">=</span> String<span class="token punctuation">.</span><span class="token function">fromCharCode</span><span class="token punctuation">(</span>codeValue<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<span class="token keyword">var</span> charValue <span class="token operator">=</span> String<span class="token punctuation">.</span><span class="token function">fromCharCode</span><span class="token punctuation">(</span>codeValue<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h4 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h4><p>18==‘18’  成立true，默认转换数据类型   ===为全等需要完全一致， 18===‘18’为false</p>
 <p>逻辑与短路运算：123&amp;&amp;456，返回456，左式为真返回右式子，为假返回左式</p>
 <p>逻辑或短路运算：123||456，返回123，左式为真返回左式子，为假返回右式</p>
@@ -648,7 +668,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Reflect<span class="token punctuation">.</span>toString<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">// [object Boolean]</span></code></pre>
 </li>
 </ul>
-<h2 id="4-函数"><a href="#4-函数" class="headerlink" title="4..函数"></a>4..函数</h2><pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//1.利用函数关键字自定义函数</span>
+<h2 id="4-函数"><a href="#4-函数" class="headerlink" title="4.函数"></a>4.函数</h2><pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//1.利用函数关键字自定义函数</span>
 <span class="token keyword">function</span> <span class="token function">函数名</span><span class="token punctuation">(</span>参数<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     函数体
 <span class="token punctuation">}</span>
@@ -662,9 +682,11 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>函数没有return，则返回的是undefined</p>
 <p><strong>注意</strong>在函数内部没有声明直接赋值的变量，也属于全局变量</p>
-<h2 id="5-对象"><a href="#5-对象" class="headerlink" title="5..对象"></a>5..对象</h2><p>对象一定是一个具体的对象，而不是泛指的东西</p>
+<h2 id="5-对象"><a href="#5-对象" class="headerlink" title="5.对象"></a>5.对象</h2><p>对象一定是一个具体的对象，而不是泛指的东西</p>
 <p>属性：事物的特征，用对象的属性表示</p>
-<p>方法：事物的行为，在对象中方法来表示</p>
+<blockquote>
+<p>函数永远不会属于一个对象，所以把对象内部引用的函数称之为“方法”不太妥，严格意义上来说只是对该函数的引用</p>
+</blockquote>
 <h4 id="利用对象字面量创建对象"><a href="#利用对象字面量创建对象" class="headerlink" title="利用对象字面量创建对象"></a><strong>利用对象字面量创建对象</strong></h4><pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> obj <span class="token operator">=</span><span class="token punctuation">{</span>
     uname<span class="token punctuation">:</span><span class="token string">'xx'</span><span class="token punctuation">,</span>
     age<span class="token punctuation">:</span><span class="token number">18</span><span class="token punctuation">,</span>
@@ -699,7 +721,7 @@ obj<span class="token punctuation">.</span>say<span class="token operator">=</sp
    <span class="token comment" spellcheck="true">//或者使用</span>
 <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> item <span class="token keyword">of</span> 迭代对象<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//每个属性的属性值，不过仅适用于可遍历对象，比如map、set、数组之类的，</span>
-                       <span class="token comment" spellcheck="true">//普通对象不行</span>
+                       <span class="token comment" spellcheck="true">//普通对象不行，遍历普通对象推荐使用Object.keys</span>
 <span class="token punctuation">}</span></code></pre>
 <h4 id="对象删除键值对"><a href="#对象删除键值对" class="headerlink" title="对象删除键值对"></a>对象删除键值对</h4><pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> json <span class="token operator">=</span> <span class="token punctuation">{</span>
     name<span class="token punctuation">:</span><span class="token string">'张三'</span><span class="token punctuation">,</span>
@@ -729,6 +751,12 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <h5 id="1-赋值"><a href="#1-赋值" class="headerlink" title="1.赋值"></a>1.赋值</h5><p>当我们把一个对象赋值给一个新的变量时，<strong>赋的其实是该对象在栈中的地址，而不是堆中的数据</strong>，只要修改了里面的的值，原来都都会受到影响</p>
 <h5 id="2-浅拷贝"><a href="#2-浅拷贝" class="headerlink" title="2.浅拷贝"></a>2.浅拷贝</h5><p><strong>他会创建一个新对象</strong>，这个对象有着原始对象属性值的一份精确拷贝。如果属性基本类型，拷贝的基本类型的值（修改后原来的变量的值不会受到影响）；如果属性是内存地址（引用类型，比如数组、对象），拷贝的就是内存地址，即其中一个变量修改了这个地址存放的对象，则另外一个会受到影响</p>
 <p>数组的浅拷贝可以使用：<code>Array.prototype.concat()</code>、<code>Array.prototype.slice()</code>、<code>Array.from(arr)</code>，他们不会修改原数组，只是返回了一个浅拷贝的新数组</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> arraylike <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token number">0</span><span class="token punctuation">:</span> <span class="token string">'a'</span><span class="token punctuation">,</span>
+    <span class="token number">1</span><span class="token punctuation">;</span> <span class="token string">'b'</span><span class="token punctuation">,</span>
+    length<span class="token punctuation">:</span> <span class="token number">2</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> arr2 <span class="token operator">=</span> Array<span class="token punctuation">.</span><span class="token keyword">from</span><span class="token punctuation">(</span>arraylike<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//[a, b]</span></code></pre>
 <p>对象可以使用 ：<code>Object.assgin()</code>或者 <code>let obj2 = {...obj1}</code> (（ECMAScript 2018规范新增特性）)</p>
 <h5 id="3-深拷贝"><a href="#3-深拷贝" class="headerlink" title="3.深拷贝"></a>3.深拷贝</h5><p>所谓”深拷贝”，就是能够实现真正意义上的数组和对象的拷贝，使得两个对象不会相互影响</p>
 <p>具体深拷贝的手写我在 “JavaScript进阶ES5+面向对象”篇章中写过</p>
@@ -1349,7 +1377,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">243.1k</span>&nbsp;字
+                class="white-color">253.1k</span>&nbsp;字
             
             
             

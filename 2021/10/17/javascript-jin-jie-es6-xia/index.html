@@ -796,7 +796,19 @@ a<span class="token punctuation">.</span><span class="token function">next</span
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>其中是通过状态机的模拟（switch + 无限循环while）实现，退出循环的时候是通过判断当前是否到达最后一步进行break</p>
 <p>这一片文章作者自己设计代码模拟原生的generator并且讲解的很详细，值得一看<a href="https://zhuanlan.zhihu.com/p/216060145" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/216060145</a></p>
-<h2 id="7-其他"><a href="#7-其他" class="headerlink" title="7.其他"></a>7.其他</h2><h4 id="static"><a href="#static" class="headerlink" title="static"></a>static</h4><p>类（class）通过 <strong>static</strong> 关键字定义静态方法。<strong>不能在类的实例上调用静态方法</strong>，而应该通过类本身调用。这些通常是实用程序方法，例如创建或克隆对象的功能。（也可以解释为实例上加，要想用必先new , 对象上加，可以 直接用）</p>
+<h2 id="7-其他"><a href="#7-其他" class="headerlink" title="7.其他"></a>7.其他</h2><h4 id="可选链"><a href="#可选链" class="headerlink" title="可选链"></a>可选链</h4><p>可选链是ES11（2020）中增加的特性</p>
+<ul>
+<li><p>它作用是当对象属性不存在时，会短路，直接返回undefined，如果存在，那么才会继续执行</p>
+</li>
+<li><p>使用：（ 如果<code>b</code>不为<code>undefined</code>则继续进行属性查找找到<code>c</code> ）</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token punctuation">{</span>
+    b<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        c<span class="token punctuation">:</span> <span class="token string">"allen"</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span>b<span class="token operator">?</span><span class="token punctuation">.</span>c<span class="token punctuation">)</span></code></pre>
+</li>
+</ul>
 <h4 id="执行上下文-amp-作用域"><a href="#执行上下文-amp-作用域" class="headerlink" title="执行上下文 &amp; 作用域"></a>执行上下文 &amp; 作用域</h4><p>变量和函数的上下文决定了他们可以访问哪些数据，以及他们的行为，每个上下文都有一个关联的变量对象，而这个上下文中定义的所有变量和函数都存在于这个对象之上。（个人理解，上下文 = 他们的作用域）</p>
 <p><strong>全局上下文</strong>：全局上下文是最外层的上下文，根据ESMAScript的宿主环境对象可能不一样。但是在浏览器中，全局上下文就是我们常说的window对象。上下文在其所有代码都执行完毕后会被销毁，而全局上下文在应用程序退出前才会被销毁，比如关闭网页、退出浏览器。</p>
 <p><strong>函数上下文</strong>：每个函数都有自己的上下文，当函数上下文被推到一个上下文栈上，当函数执行完之后，上下文栈会弹出该函数上下文，将控制权返还给之前的上下文</p>
@@ -806,7 +818,7 @@ a<span class="token punctuation">.</span><span class="token function">next</span
 <li>除了全局上下文 和 函数上下文，还有<code>eval()</code>第三种上下文</li>
 <li>而且还有其他方式来增强作用域，比如某些语句会导致在作用域链前端临时添加一个上下文，比如 <code>try/catch</code>、<code>with</code></li>
 </ul>
-<h4 id="关于块级作用域-函数声明的诡异代码"><a href="#关于块级作用域-函数声明的诡异代码" class="headerlink" title="关于块级作用域 + 函数声明的诡异代码"></a>关于块级作用域 + 函数声明的诡异代码</h4><p>先上代码，先上代码</p>
+<h4 id="诡异行为小思考"><a href="#诡异行为小思考" class="headerlink" title="诡异行为小思考"></a>诡异行为小思考</h4><p>先上代码，先上代码</p>
 <pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// undefined</span>
 <span class="token punctuation">{</span>
 a<span class="token operator">=</span><span class="token number">1</span>
@@ -819,7 +831,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 a<span class="token operator">=</span><span class="token number">1</span>
 <span class="token punctuation">}</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// func a</span></code></pre>
-<p>我在网上搜到的解释，希望对你们有帮助（请自行脑部理解！！！）</p>
+<p>我在网上搜到的部分参考，希望对你们有帮助</p>
 <p><img src="/2021/10/17/javascript-jin-jie-es6-xia/guiyi.jpg" alt></p>
 <p><img src="/2021/10/17/javascript-jin-jie-es6-xia/guiyi2.jpg" alt></p>
 <p><img src="/2021/10/17/javascript-jin-jie-es6-xia/guiyi3.jpg" alt></p>
@@ -1327,7 +1339,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">243.1k</span>&nbsp;字
+                class="white-color">253.1k</span>&nbsp;字
             
             
             

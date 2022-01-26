@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.6k
+                    1.9k
                 </div>
                 
 
@@ -525,15 +525,44 @@
 <h4 id="生成代码片段"><a href="#生成代码片段" class="headerlink" title="生成代码片段"></a>生成代码片段</h4><p>snippet模板网站</p>
 <p><a href="https://snippet-generator.app/" target="_blank" rel="noopener">https://snippet-generator.app/</a></p>
 <p>然后再vscode中 shift+control+P输入snippet进行代码片段配置，这样我们就可以直接输入我们的前缀（prefix）拿我们的代码片段模板了！</p>
-<h4 id="使用Prettier自动格式化"><a href="#使用Prettier自动格式化" class="headerlink" title="使用Prettier自动格式化"></a>使用Prettier自动格式化</h4><p>在vscode中安装Prettier插件</p>
-<p>项目中新生成 <code>.prettierrc</code>文件</p>
+<h4 id="使用Prettier自动格式化"><a href="#使用Prettier自动格式化" class="headerlink" title="使用Prettier自动格式化"></a>使用Prettier自动格式化</h4><p>Prettier是一个强大的代码格式化工具</p>
+<p>方法一：</p>
+<p>在vscode中安装Prettier插件</p>
+<p>项目中新生成 <code>.prettierrc</code>文件 （Prettier runtime compiler）</p>
 <pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
   <span class="token property">"semi"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
   <span class="token property">"singleQuote"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
   <span class="token property">"trailingComma"</span><span class="token operator">:</span> <span class="token string">"none"</span>
 <span class="token punctuation">}</span></code></pre>
-<p>在设置中 save 中设置保存时自动化</p>
+<ul>
+<li>useTab：使用tab/空格缩进</li>
+<li>tabWidth：tab是空格的情况下，空格数</li>
+<li>printWidth：当行字符长度。推荐80</li>
+<li>singleQuote：使用单引号还是双引号</li>
+<li>trailingComma：多行输入时，尾部逗号是否添加</li>
+<li>semi尾部是否添加分号</li>
+</ul>
+<p>一般我们还会给Prettier添加忽略文件</p>
+<p>此时在根目录下新建 <code>.prettierignore</code> 文件</p>
+<pre><code>/dist/*
+.local
+.output.js
+/node_modules/**
+
+**/*.svg
+**/*.sh
+
+/public/*</code></pre><p>在设置中 save 中设置保存时自动化</p>
 <p>在编辑器中右键有自动格式化选项</p>
+<p>方法二：</p>
+<p>直接在项目中安装</p>
+<pre class=" language-shell"><code class="language-shell">npm i prettier -D</code></pre>
+<p>依旧在根目录下新建文件.prettierrc`文件 （Prettier runtime compiler），并且编辑保存</p>
+<p>此时在根目录下，对文件保存即可</p>
+<p>当然方法一、二一步一步保存嫌麻烦，也可以在 <code>package.json</code>文件下实行一步保存命令的配置</p>
+<pre class=" language-json"><code class="language-json"><span class="token property">"script"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"prettier"</span><span class="token operator">:</span> <span class="token string">"prettier --write ."</span>
+<span class="token punctuation">}</span></code></pre>
 <h2 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a><strong>RPC</strong></h2><p>RPC是指远程过程调用，也就是说两台服务器A，B，一个应用部署在A服务器上，想要调用B服务器上应用提供的函数/方法，由于不在一个内存空间，不能直接调用，需要通过网络来表达调用的语义和传达调用的数据。</p>
 <ul>
 <li>首先，要解决通讯的问题，主要是通过在客户端和服务器之间建立TCP连接</li>
@@ -1070,7 +1099,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">253.1k</span>&nbsp;字
+                class="white-color">259.4k</span>&nbsp;字
             
             
             

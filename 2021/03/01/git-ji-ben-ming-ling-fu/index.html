@@ -459,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.5k
+                    1.9k
                 </div>
                 
 
@@ -578,6 +578,38 @@ git checkout -b 命名(feat/v1.21)    #新建分支feat/v1.21</code></pre>
 <pre class=" language-shell"><code class="language-shell">git config --global http.proxy 127.0.0.1:7890 为全局的 git 项目都设置代理
 git config --local http.proxy 127.0.0.1:7890 为某个 git 项目单独设置代理</code></pre>
 <p>结果：成功</p>
+<h2 id="git代码提交规范工具husky"><a href="#git代码提交规范工具husky" class="headerlink" title="git代码提交规范工具husky"></a>git代码提交规范工具husky</h2><p>如果想要在提交之前（git commit），让eslint做一次 eslint fix，我们可以使用husky工具</p>
+<p>你一可以他把看成一个关于git 的 eslint</p>
+<p>husky是一个git hook工具，可以帮助我们触发git 提交的各个阶段，pre-commit、commit-msg、pre-push</p>
+<p>使用husky：使用自动配置命令</p>
+<pre class=" language-shell"><code class="language-shell">npx husky-init && npm install</code></pre>
+<p>windows用户（powershell）可以换成</p>
+<pre class=" language-shell"><code class="language-shell">npx husky-init -and npm install</code></pre>
+<h4 id="pre-commit"><a href="#pre-commit" class="headerlink" title="pre-commit"></a>pre-commit</h4><p>此时可以在<code>.husky</code>文件夹下的pre-commit文件下，写入eslint的fix命令（package.json中代码检查命令 <code>npm run lint</code> 之类的 ）</p>
+<p>上面那个命令会执行以下三步操作</p>
+<ol>
+<li>安装husky相关依赖（ <code>npm i husky -D</code> ）</li>
+<li>项目目录下创建 <code>.husky</code> 文件夹（ <code>npx husky install</code> ）</li>
+<li>在<code>package.json</code>中添加一个脚本</li>
+</ol>
+<h4 id="自动规范化提交格式"><a href="#自动规范化提交格式" class="headerlink" title="自动规范化提交格式"></a>自动规范化提交格式</h4><p><code>commitizen</code>，可以帮助我们自动生成规范的提交信息（上面所说到的commit规范）</p>
+<p>使用：</p>
+<pre class=" language-shell"><code class="language-shell">npm i commitizen -D</code></pre>
+<p>安装 <code>cz-conventional-changelog</code>并且进行初始化（自动帮我们在<code>package.json</code>中配置相关config）</p>
+<pre class=" language-shell"><code class="language-shell">npx commitizen init cz-conventional-changelog --save-dev --save-exact</code></pre>
+<p>首先我们还是 <code>git add .</code> </p>
+<p>然后我们提交代码的时候，不输入 <code>git commit -m &#39;xxx&#39;</code> ，而是输入以下命令即可 </p>
+<pre class=" language-shell"><code class="language-shell">npx cz</code></pre>
+<h4 id="限制提交（commit-msg）"><a href="#限制提交（commit-msg）" class="headerlink" title="限制提交（commit-msg）"></a>限制提交（commit-msg）</h4><p>既然我们按照cz的规格来提交，但是并没有说不能使用原来的方法直接提交</p>
+<p>此时我们可以是用 <code>commitlint</code> 来限制提交</p>
+<p>安装</p>
+<pre class=" language-shell"><code class="language-shell">npm i @commitlint/config-conventional @commitlint/cli -D</code></pre>
+<p>在根目录创建 <code>commitlint.config.js</code> 文件，配置<code>commitlint</code></p>
+<pre class=" language-js"><code class="language-js">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token keyword">extends</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'@commitlint/config-conventional'</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span></code></pre>
+<p>使用husky生成 <code>commit-msg</code> 文件，验证提交信息</p>
+<pre class=" language-shell"><code class="language-shell">npx husky add .husky/commit-msg "npx --no-install commitlint --edit $1"</code></pre>
 
             </div>
             <hr/>
@@ -1082,7 +1114,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">253.1k</span>&nbsp;字
+                class="white-color">259.4k</span>&nbsp;字
             
             
             

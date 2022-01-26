@@ -645,7 +645,13 @@ Object<span class="token punctuation">.</span><span class="token function">defin
 </li>
 <li><p>匿名函数： <code>var fun = function() {};</code></p>
 <ul>
-<li><p>值得注意的是</p>
+<li><p>匿名函数三大缺点：</p>
+</li>
+<li><p>1.调用栈更难追踪</p>
+</li>
+<li><p>2.自我引用更难（递归等）</p>
+</li>
+<li><p>3.代码较难理解</p>
 </li>
 <li><pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token keyword">function</span> b <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'woshib'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -716,14 +722,14 @@ obj1<span class="token punctuation">.</span>obj2<span class="token punctuation">
 <p>4.事件绑定：绑定事件对象（当前情况指的是位于回调函数的内部中this指向）</p>
 <p>5.定时器函数：window</p>
 <p>6.立即执行函数：window</p>
-<p>2.但是立即执行函数还得看这时this是否在对象方法或者构造函数中，第二个虽然是立即执行函数，但是此时它的this和foo绑定了，所以还是输出foo的a</p>
-<p>3.<code>fn</code>是对<code>foo.bar</code>的一个引用，实质上，它引用的是<code>bar</code>函数本身，因此此时的 <code>fn</code>是一个不带任何修饰的函数调用， 应用默认绑定（发生了隐式丢失）</p>
-<p>4.箭头函数按照的是词法作用域，按照词法作用域找就好了</p>
-<p>5.而赋值操作 ，会创建一个函数的间接引用，此时调用函数会应用默认绑定（this指向window，严格模式为undefined）</p>
+<p>（2）但是立即执行函数还得看这时this是否在对象方法或者构造函数中，第二个虽然是立即执行函数，但是此时它的this和foo绑定了，所以还是输出foo的a</p>
+<p>（3）<code>fn</code>是对<code>foo.bar</code>的一个引用，实质上，它引用的是<code>bar</code>函数本身，因此此时的 <code>fn</code>是一个不带任何修饰的函数调用， 应用默认绑定（发生了隐式丢失）</p>
+<p>（4）箭头函数按照的是词法作用域，按照词法作用域找就好了</p>
+<p>（5）而赋值操作 ，会创建一个函数的间接引用，此时调用函数会应用默认绑定（this指向window，严格模式为undefined）</p>
 <ul>
 <li><code>foo.bar = foo.bar</code>返回值是目标函数的引用，此时相当于直接调用 <code>bar()</code></li>
 </ul>
-<p>6.最后一个参数传递其实就是一种隐式赋值，传入一个对foo.bar的引用，不加任何修饰，因此是默认绑定（this指向window，严格模式为undefined）</p>
+<p>（6）最后一个参数传递其实就是一种隐式赋值，传入一个对foo.bar的引用，不加任何修饰，因此是默认绑定（this指向window，严格模式为undefined）</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
 <span class="token keyword">var</span> foo <span class="token operator">=</span> <span class="token punctuation">{</span>
     a<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
@@ -1297,7 +1303,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
     <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
-<span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//2</span></code></pre>
+<span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//3</span></code></pre>
 
             </div>
             <hr/>
@@ -1804,7 +1810,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">253.1k</span>&nbsp;字
+                class="white-color">259.4k</span>&nbsp;字
             
             
             

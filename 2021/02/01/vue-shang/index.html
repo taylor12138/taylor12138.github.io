@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9.9k
+                    10k
                 </div>
                 
 
@@ -594,7 +594,7 @@
 <p>使用{{值}}可以将Vue的数据插入元素内容中，但是如果想让Vue的数据动态绑定元素标签属性中的值（比如img的src，a标签的href）,可以使用<code>v-bind</code>。<code>v-bind</code>还有一个对应的语法糖 <code>:</code>（简写方式），方式如下</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name"><span class="token namespace">v-bind:</span>href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>bdurl<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>baidu<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">:href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>bdurl<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>baidu<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">></span></span></code></pre>
-<p>如果使用别人写好的组件，传入批量的props时（子组件中的props对象的每个属性都声明好了），直接写一个对象，然后 <code>v-bind=&quot;对象名&quot;</code>即可</p>
+<p>如果使用别人写好的组件，<strong>传入批量</strong>的props时（子组件中的props对象的每个属性都声明好了），直接写一个对象，然后 <code>v-bind=&quot;对象名&quot;</code>即可</p>
 <p>与此同时<code>v-bind</code>也可以动态绑定class属性值，但是它动态绑定class属性的重大意义在于可以写入对象，以键-值的形式，通过布尔值修改，来动态修改元素是否使用该类（在标签上还可以再自定义添加上自带的class，不参与动态绑定变化）</p>
 <p>其实动态绑定class还可以采用数组语法，只不过目前用的比较少了</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>app<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
@@ -853,7 +853,7 @@
 <p>绑定了父级作用域的上下文，所以this将不会按照期望指向组件实例，this将会是父级的作用域（可能是window），this.a将会是undefined</p>
 </blockquote>
 <p>这里和React是相反的，React就是要使用箭头函数来绑定组件实例；</p>
-<p>而Vue使用了箭头函数，而Vue并没有像React一样创建自己的内部作用域（类or函数），所以此时箭头函数却向上查找，绑定了父级作用域（在Vue3.x内部实质上是使用 <code>bind</code>绑定 <code>instance.proxy</code> ）！可以理解为以下的例子</p>
+<p>而Vue用普通函数，而Vue并没有像React一样创建自己的内部作用域（类or函数），所以此时箭头函数却向上查找，绑定了父级作用域（在Vue3.x内部实质上是使用 <code>bind</code>绑定 <code>instance.proxy</code> ）！可以理解为以下的例子</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
 <span class="token keyword">var</span> foo <span class="token operator">=</span> <span class="token punctuation">{</span>
     a<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
@@ -979,6 +979,7 @@ with(this) {
 <li>使用组件 必须在<code>Vue</code>的实例范围内使用组件，即使用该组件时，必须把标签放在<code>Vue</code>绑定的标签内</li>
 <li>最终内部调用 <code>$mount()</code>进行挂载</li>
 </ul>
+<p>实际上可以把组件构造器对象看成一个类，使用的过程看成创建一个实例，在哪个组件中使用了即在哪个组件中创建了一个实例</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>app<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
      <span class="token comment" spellcheck="true">&lt;!-- 3.使用组件 --></span>
     <span class="token comment" spellcheck="true">&lt;!-- 比如这里绑定了id为app的块元素，则该自定义标签可以在该块内使用 --></span>
@@ -1312,6 +1313,7 @@ methods<span class="token punctuation">:</span> <span class="token punctuation">
 <span class="token comment" spellcheck="true">&lt;!-- 替换掉name为mid的插槽--></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>cpn</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span> <span class="token attr-name"><span class="token namespace">v-slot:</span>mid</span><span class="token punctuation">></span></span>
+        <span class="token comment" spellcheck="true">&lt;!-- &lt;template #mid>--></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">></span></span>nothing<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>cpn</span><span class="token punctuation">></span></span></code></pre>
@@ -1873,7 +1875,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">253.1k</span>&nbsp;字
+                class="white-color">259.4k</span>&nbsp;字
             
             
             

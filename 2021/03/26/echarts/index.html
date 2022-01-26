@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Echart, Hexo">
+    <meta name="keywords" content="Echarts, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Echart | Hexo</title>
+    <title>Echarts | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Echart</h1>
+                    <h1 class="description center-align post-title">Echarts</h1>
                 </div>
             </div>
         </div>
@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    602
+                    1.3k
                 </div>
                 
 
@@ -485,19 +485,72 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="Echart-js"><a href="#Echart-js" class="headerlink" title="Echart.js"></a>Echart.js</h2><p>Echart.js，它是由百度公司开发的一个使用JavaScript实现的开源可视化库（同时也有D3.js，它是国外的可视化库），兼容性强，底层以来矢量图形ZRender，可高度个性化定制数据可视化图表（移动端pc端都兼容）</p>
+                <h2 id="Echarts-js"><a href="#Echarts-js" class="headerlink" title="Echarts.js"></a>Echarts.js</h2><p>Echart.js，它是由百度公司开发的一个使用JavaScript实现的开源可视化库（同时也有D3.js，它是国外的可视化库），兼容性强，底层以来矢量图形ZRender，可高度个性化定制数据可视化图表（移动端pc端都兼容）</p>
 <p>安装：</p>
 <pre class=" language-shell"><code class="language-shell">npm install echarts --save</code></pre>
 <p>官网：<a href="https://echarts.apache.org/zh/index.html" target="_blank" rel="noopener">https://echarts.apache.org/zh/index.html</a></p>
+<h4 id="前端可视化工具"><a href="#前端可视化工具" class="headerlink" title="前端可视化工具"></a>前端可视化工具</h4><p>常见工具：ECharts、g2、d3、vis、hightChart等</p>
+<p>g2框架封装：bizcharts（react）、viser（vue）</p>
+<p>地理可视化 ：g2、L7、高德的loca、菜鸟的鸟图</p>
+<p>3D可视化：three.js</p>
 <h2 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h2><ol>
-<li>引入Echart文件</li>
-<li>准备呈现图表的盒子（一定要有宽高，比如width: 600px; height: 400px）</li>
-<li>初始化echarts对象</li>
-<li>准备配置项</li>
-<li>将配置设置给echarts实例对象（配置是可以设置多次，叠加设置，这样可以分离数据的代码和初始化的代码）</li>
+<li><p>引入Echarts文件</p>
+<p>可以通过导入</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> echarts <span class="token keyword">from</span> <span class="token string">'echarts'</span></code></pre>
+<p>也可以直接放在全局，直接使用</p>
+<pre class=" language-js"><code class="language-js">Vue<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>$echarts <span class="token operator">=</span> window<span class="token punctuation">.</span>echarts</code></pre>
+</li>
+<li><p>准备呈现图表的盒子（一定要有宽高，比如width: 600px; height: 400px）</p>
+</li>
+<li><p>初始化echarts对象</p>
+<p>init方法：</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token punctuation">(</span>dom<span class="token punctuation">:</span> HTMLDivElement<span class="token operator">|</span>HTMLCanvasElement<span class="token punctuation">,</span> theme<span class="token operator">?</span><span class="token punctuation">:</span> Object<span class="token operator">|</span><span class="token keyword">string</span><span class="token punctuation">,</span> opts<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    devicePixelRatio<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">,</span>
+    renderer<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span>
+    useDirtyRect<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 从 `v5.0.0` 开始支持</span>
+    width<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token operator">|</span><span class="token keyword">string</span><span class="token punctuation">,</span>
+    height<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token operator">|</span><span class="token keyword">string</span><span class="token punctuation">,</span>
+    locale<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> ECharts</code></pre>
+<p>创建一个 ECharts 实例，返回 <a href="https://echarts.apache.org/zh/api.html#echartsInstance" target="_blank" rel="noopener">echartsInstance</a>，不能在单个容器上初始化多个 ECharts 实例。</p>
+<p><strong>参数</strong></p>
+<ul>
+<li><p><code>dom</code></p>
+<p>实例容器，一般是一个具有高宽的<code>div</code>元素。</p>
+<p><strong>注：</strong>如果<code>div</code>是隐藏的，ECharts 可能会获取不到<code>div</code>的高宽导致初始化失败，这时候可以明确指定<code>div</code>的<code>style.width</code>和<code>style.height</code>，或者在<code>div</code>显示后手动调用 <a href="https://echarts.apache.org/zh/api.html#echartsInstance.resize" target="_blank" rel="noopener">echartsInstance.resize</a> 调整尺寸。</p>
+<p>ECharts 3 中支持直接使用<code>canvas</code>元素作为容器，这样绘制完图表可以直接将 canvas 作为图片应用到其它地方，例如在 WebGL 中作为贴图，这跟使用 <a href="https://echarts.apache.org/zh/api.html#echartsInstance.getDataURL" target="_blank" rel="noopener">echartsInstance.getDataURL</a> 生成图片链接相比可以支持图表的实时刷新。</p>
+</li>
+<li><p><code>theme</code></p>
+<p>应用的主题。可以是一个主题的配置对象，也可以是使用已经通过 <a href="https://echarts.apache.org/zh/api.html#echarts.registerTheme" target="_blank" rel="noopener">echarts.registerTheme</a> 注册的主题名称。参见 <a href="https://echarts.apache.org/handbook/zh/concepts/style" target="_blank" rel="noopener">ECharts 中的样式简介</a>。</p>
+</li>
+<li><p><code>opts</code></p>
+<p>附加参数。有下面几个可选项：</p>
+<ul>
+<li><p><code>devicePixelRatio</code> 设备像素比，默认取浏览器的值<code>window.devicePixelRatio</code>。</p>
+</li>
+<li><p><code>renderer</code> 渲染器，支持 <code>&#39;canvas&#39;</code> 或者 <code>&#39;svg&#39;</code>。参见 <a href="https://echarts.apache.org/handbook/zh/best-practices/canvas-vs-svg" target="_blank" rel="noopener">使用 Canvas 或者 SVG 渲染</a>。</p>
+</li>
+<li><p><code>useDirtyRect</code> 是否开启脏矩形渲染，默认为<code>false</code>。参见 <a href="https://echarts.apache.org/handbook/zh/basics/release-note/v5-feature" target="_blank" rel="noopener">ECharts 5 新特性</a>。</p>
+</li>
+<li><p><code>width</code> 可显式指定实例宽度，单位为像素。如果传入值为 <code>null</code>/<code>undefined</code>/<code>&#39;auto&#39;</code>，则表示自动取 <code>dom</code>（实例容器）的宽度。</p>
+</li>
+<li><p><code>height</code> 可显式指定实例高度，单位为像素。如果传入值为 <code>null</code>/<code>undefined</code>/<code>&#39;auto&#39;</code>，则表示自动取 <code>dom</code>（实例容器）的高度。</p>
+</li>
+<li><p><code>locale</code> 使用的语言，内置 <code>&#39;ZH&#39;</code> 和 <code>&#39;EN&#39;</code> 两个语言，也可以使用 <a href="https://echarts.apache.org/zh/api.html#echarts.registerLocale" target="_blank" rel="noopener">echarts.registerLocale</a> 方法注册新的语言包。目前支持的语言见 <a href="https://github.com/apache/echarts/tree/release/src/i18n" target="_blank" rel="noopener">src/i18n</a>。</p>
+<p>如果不指定主题，也需在传入<code>opts</code>前先传入<code>null</code>，如：</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> chart <span class="token operator">=</span> echarts<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span>dom<span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>renderer<span class="token punctuation">:</span> <span class="token string">'svg'</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>准备配置项</p>
+</li>
+<li><p>将配置设置给echarts实例对象（配置是可以设置多次，叠加设置，这样可以分离数据的代码和初始化的代码）</p>
+</li>
 </ol>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> echarts <span class="token keyword">from</span> <span class="token string">'echarts'</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">// 基于准备好的dom，初始化echarts实例</span>
+<span class="token comment" spellcheck="true">// 基于准备好的dom，初始化echarts实例(如果是vue则用ref获取)</span>
 <span class="token keyword">var</span> myChart <span class="token operator">=</span> echarts<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span>document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'main'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">// 绘制图表</span>
 myChart<span class="token punctuation">.</span><span class="token function">setOption</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -549,10 +602,14 @@ myChart<span class="token punctuation">.</span><span class="token function">setO
 <p><strong>饼图的数据</strong>：<code>{name:&#39;allen&#39;, value:100}</code>，不需要x轴、y轴</p>
 <p><strong>map地图</strong>的tooltip：提示框组件，可在里面进行修改，得到提示的内容不同</p>
 <p>更多配置项详情查看官方文档</p>
+<p>一个很有趣的echarts图表实例<a href="https://echarts.apache.org/examples/zh/editor.html?c=bar-race-country" target="_blank" rel="noopener">https://echarts.apache.org/examples/zh/editor.html?c=bar-race-country</a></p>
+<p>还有些echats5新特性：实现图表跨系列的形变动画，更加酷炫！</p>
 <h2 id="图形原理"><a href="#图形原理" class="headerlink" title="图形原理"></a>图形原理</h2><p>Echarts使用一个名为 <strong>zrender</strong> 的渲染引擎来管理渲染元素，并以通用的方式渲染到不同的平台</p>
 <ul>
 <li><strong>ZRender</strong>：二维矢量库Zrender，用于图形元素管理、渲染器管理和事件系统。它支持多种渲染后端，包括canvas、svg和vml。</li>
+<li>Echarts最初采用canvas绘制图表，但是从Echarts4.x开始，发布了SVG渲染器，提供了另外一种渲染方式</li>
 </ul>
+<h2 id="Echarts的SVG-VS-Canvas"><a href="#Echarts的SVG-VS-Canvas" class="headerlink" title="Echarts的SVG VS Canvas"></a>Echarts的SVG VS Canvas</h2><p><img src="/2021/03/26/echarts/vs.jpg" alt></p>
 
             </div>
             <hr/>
@@ -578,7 +635,7 @@ myChart<span class="token punctuation">.</span><span class="token function">setO
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2021/03/26/echart/">https://taylor12138.github.io/2021/03/26/echart/</a>
+                    <a href="https://taylor12138.github.io/2021/03/26/echarts/">https://taylor12138.github.io/2021/03/26/echarts/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1060,7 +1117,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">253.1k</span>&nbsp;字
+                class="white-color">259.4k</span>&nbsp;字
             
             
             

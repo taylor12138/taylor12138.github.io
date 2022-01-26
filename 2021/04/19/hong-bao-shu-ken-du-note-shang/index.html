@@ -650,6 +650,13 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>只不过中括号的主要优势在于可以通过变量访问属性</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> s <span class="token operator">=</span> <span class="token string">"name"</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>person<span class="token punctuation">[</span>s<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><strong>属性替代</strong></p>
+<p>一个对象中如果有重复的属性，则以下面的属性值为准</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span>
+  a<span class="token punctuation">:</span> <span class="token string">"ab"</span><span class="token punctuation">,</span>
+  a<span class="token punctuation">:</span> <span class="token string">"cd"</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// {a:'cd'}</span></code></pre>
 <p><strong>数组</strong></p>
 <p>数组空位：</p>
 <p>使用数组字面量初始化数组时，可以使用一串逗号来创建空位。ES6之前的方法会忽略空位，ES6新增方法普遍将这些空位当成存在的元素，只不过值为undefined。</p>
@@ -763,7 +770,7 @@ yetAnotherPerson<span class="token punctuation">.</span>fridens<span class="toke
 
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>person<span class="token punctuation">.</span>friends<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//"Bruce", "Curry", "Devid", "Rob", "Ariana"</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>person<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">//"Allen"</span></code></pre>
-<p>（即引用类型存共享属性，基本类型存取实例属性，个人理解为该继承方式是运用了浅拷贝）</p>
+<p>（即引用类型存共享属性，基本类型存取实例属性）</p>
 <p>寄生式继承：</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">createAnother</span><span class="token punctuation">(</span>original<span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">let</span> clone <span class="token operator">=</span> <span class="token function">object</span><span class="token punctuation">(</span>original<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -1538,7 +1545,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">253.1k</span>&nbsp;字
+                class="white-color">259.4k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.1k
+                    7.7k
                 </div>
                 
 
@@ -583,11 +583,11 @@
 </tr>
 <tr>
 <td>Vue.config.productionTip</td>
-<td><em>移除</em> (<a href="https://v3.cn.vuejs.org/guide/migration/global-api.html#config-productiontip-移除" target="_blank" rel="noopener">见下方</a>)</td>
+<td><em>移除</em></td>
 </tr>
 <tr>
 <td>Vue.config.ignoredElements</td>
-<td>app.config.compilerOptions.isCustomElement (<a href="https://v3.cn.vuejs.org/guide/migration/global-api.html#config-ignoredelements-替换为-config-iscustomelement" target="_blank" rel="noopener">见下方</a>)</td>
+<td>app.config.compilerOptions.isCustomElement</td>
 </tr>
 <tr>
 <td>Vue.component</td>
@@ -603,15 +603,15 @@
 </tr>
 <tr>
 <td>Vue.use</td>
-<td>app.use (<a href="https://v3.cn.vuejs.org/guide/migration/global-api.html#插件开发者须知" target="_blank" rel="noopener">见下方</a>)</td>
+<td>app.use</td>
 </tr>
 <tr>
 <td>Vue.prototype</td>
-<td>app.config.globalProperties (<a href="https://v3.cn.vuejs.org/guide/migration/global-api.html#vue-prototype-替换为-config-globalproperties" target="_blank" rel="noopener">见下方</a>)</td>
+<td>app.config.globalProperties</td>
 </tr>
 <tr>
 <td>Vue.extend</td>
-<td><em>移除</em> (<a href="https://v3.cn.vuejs.org/guide/migration/global-api.html#vue-extend-移除" target="_blank" rel="noopener">见下方</a>)</td>
+<td><em>移除</em></td>
 </tr>
 </tbody></table>
 <h4 id="template"><a href="#template" class="headerlink" title="template"></a>template</h4><p>原来Vue2.x中只允许有一个根元素（一般为div）</p>
@@ -765,8 +765,128 @@ export default {
   },
 };
 </script></code></pre>
-<p><strong>自定义v-model</strong></p>
-<p>如果想要在一个子组件上绑定多个v-model，则可以使用 <code>v-model:自定义名称=&quot;xx&quot;</code>来定义其他绑定的属性名称</p>
+<blockquote>
+<p>值得注意的是，如果v-model传进去的值是一个对象，而对象里面属性值发生改变的时候，子组件的computed并不能及时emit发送消息到父组件进行更改，而是直接修改props，从而让我们“看到”父组件的对象的属性值修改以后的样子，所以这种方法面对对象类型的props时，是无用的！！！！！！</p>
+</blockquote>
+<h5 id="组件v-model注意事项"><a href="#组件v-model注意事项" class="headerlink" title="组件v-model注意事项"></a>组件v-model注意事项</h5><pre class=" language-html"><code class="language-html"><span class="token comment" spellcheck="true">&lt;!-- 父组件传入的pageObj是一个对象 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>child-component</span> <span class="token attr-name">v-model</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>pageObj<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span></code></pre>
+<pre class=" language-vue"><code class="language-vue"><template>
+  <div>
+    I am Son
+    <input type="text" v-model="value" />
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    modelValue: Object,
+  },
+  emit: ["update:modelValue"],
+  computed: {
+    value: {
+      set(newvalue) {
+        this.$emit("update:modelValue", newvalue);
+      },
+      get() {
+        return this.modelValue.value;
+      },
+    },
+  },
+};
+</script></code></pre>
+<p>实际上相当于</p>
+<pre class=" language-vue"><code class="language-vue"><template>
+  <div>
+    I am Son
+    <input type="text" v-model="modelValue.value" />
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    modelValue: Object,
+  }
+};
+</script></code></pre>
+<p>而面对复杂数据类型v-model的<strong>解决方案</strong>为</p>
+<p>方案一：子组件使用ref包裹浅拷贝 + watch监听，向父组件发送事件</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">defineComponent</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  props<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    modelValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      type<span class="token punctuation">:</span> Object<span class="token punctuation">,</span>
+      <span class="token keyword">default</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">setup</span><span class="token punctuation">(</span>props<span class="token punctuation">,</span> <span class="token punctuation">{</span> emit <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> FormField <span class="token operator">=</span> <span class="token function">ref</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token operator">...</span>props<span class="token punctuation">.</span>modelValue <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token function">watch</span><span class="token punctuation">(</span>
+      FormField<span class="token punctuation">,</span>
+      <span class="token punctuation">(</span>newValue<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token function">emit</span><span class="token punctuation">(</span><span class="token string">'update:modelValue'</span><span class="token punctuation">,</span> newValue<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        deep<span class="token punctuation">:</span> <span class="token keyword">true</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+      FormField
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p>而此时父组件修改这个props时要这样修改才有效</p>
+<pre class=" language-vue"><code class="language-vue"><template>
+    <child-component v-model="pageObj" />
+</template>
+
+<script lang="ts">
+//...
+export default defineComponent({
+  props: {
+    FormItems: {
+      type: Array as PropType<IFormItem[]>,
+      require: true
+    }
+  },
+  setup(props) {
+    const originField: any = {}
+    // 动态获取FormField属性名
+    const arr = props.FormItems || []
+    for (const item of arr) {
+      const field = item.field
+      originField[field] = ''
+    }
+    // 表单field数据, 这里用ref是因为reactive在v-model使用双向绑定的时候有可能会有些问题
+    const FormField = ref(originField)
+
+    // 重置函数（修改props）
+    const ResetHandle = () => {
+      for (const key in FormField.value) {
+        FormField.value[key] = originField[key]
+      }
+        //FormField.value = originField  打咩，无效更改，子组件无法响应
+    }
+
+    return {
+      FormField,
+      ResetHandle
+    }
+  },
+  components: {
+    ChildComponent
+  }
+})
+</script></code></pre>
+<p>方案二：子组件直接不使用v-model，直接用值来绑定就好了（更容易理解）</p>
+<p>对input使用v-bind分批绑定，然后input里面的修改使用事件监听 + 发送事件到父组件那边</p>
+<pre class=" language-html"><code class="language-html"><span class="token comment" spellcheck="true">&lt;!-- 子组件: --></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-input</span>
+  <span class="token attr-name">:modelValue</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span>
+  <span class="token attr-name"><span class="token namespace">@update:</span>modelValue</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>事件处理<span class="token punctuation">"</span></span>
+<span class="token punctuation">/></span></span></code></pre>
+<h5 id="自定义v-model"><a href="#自定义v-model" class="headerlink" title="自定义v-model"></a><strong>自定义v-model</strong></h5><p>如果想要在一个子组件上绑定多个v-model，则可以使用 <code>v-model:自定义名称=&quot;xx&quot;</code>来定义其他绑定的属性名称</p>
 <p>此时子组件通过 <code>props: {</code>  <code>自定义名称: String,</code> <code>},</code>来接收，通过 <code>this.$emit(&#39;update:自定义名称&#39;, value)</code>方法来发送监听事件参数</p>
 <p>示例：</p>
 <p>父组件</p>
@@ -895,7 +1015,9 @@ export default {
 <p>setup函数执行 -&gt; applyOptions调用（beforeCreate、Created生命周期函数调用）-&gt; 剩下的生命周期转换成setup的API（<code>onBeforeMount</code>、<code>onMounted</code>）</p>
 <p>对于beforeMount之后的生命周期函数，其中beforexxx的生命周期函数，都是立即调用，而xxx的生命周期函数，则放入队列，等到该周期完毕之后，再<code>flushPostFlushCbs</code>刷新队列，执行函数</p>
 <p>所以setup执行时机比beforeCreate生命周期还早！</p>
-<h4 id="路由使用"><a href="#路由使用" class="headerlink" title="路由使用"></a>路由使用</h4><p>原本导出路由：</p>
+<h4 id="路由使用"><a href="#路由使用" class="headerlink" title="路由使用"></a>路由使用</h4><p>若在搭建脚手架时没有安装，则需要手动安装vue路由管理</p>
+<pre class=" language-shell"><code class="language-shell">npm i vue-router@next</code></pre>
+<p>原本导出路由：</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> Router <span class="token keyword">from</span> <span class="token string">'vue-router'</span>
 <span class="token keyword">import</span> Vue <span class="token keyword">from</span> <span class="token string">'vue'</span>
 Vue<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>Router<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -983,6 +1105,24 @@ app<span class="token punctuation">.</span><span class="token function">mount</s
 <span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">createApp</span><span class="token punctuation">(</span>App<span class="token punctuation">)</span>
 app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>store<span class="token punctuation">)</span><span class="token punctuation">;</span>
 app<span class="token punctuation">.</span><span class="token function">mount</span><span class="token punctuation">(</span><span class="token string">'#app'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="vue中全局变量、函数"><a href="#vue中全局变量、函数" class="headerlink" title="vue中全局变量、函数"></a>vue中全局变量、函数</h4><p>可以使用 <code>app.config.globalProperties</code> 进行定义（<code>vue.prototype</code>废除）</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">import</span> <span class="token punctuation">{</span> createApp <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span>
+<span class="token keyword">import</span> App <span class="token keyword">from</span> <span class="token string">'./App.vue'</span>
+<span class="token keyword">import</span> router <span class="token keyword">from</span> <span class="token string">'./router'</span>
+<span class="token keyword">import</span> store <span class="token keyword">from</span> <span class="token string">'./store'</span>
+
+<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">createApp</span><span class="token punctuation">(</span>App<span class="token punctuation">)</span>
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>store<span class="token punctuation">)</span>
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>router<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// 为了区分全局变量，在函数前面加一个$</span>
+app<span class="token punctuation">.</span>config<span class="token punctuation">.</span>globalProperties<span class="token punctuation">.</span>$filter <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token function">formatTime</span><span class="token punctuation">(</span>time<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'time'</span><span class="token punctuation">,</span> time<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+app<span class="token punctuation">.</span><span class="token function">mount</span><span class="token punctuation">(</span><span class="token string">'#app'</span><span class="token punctuation">)</span></code></pre>
+<p>在组件中使用</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>strong</span><span class="token punctuation">></span></span>{{ $filter.formatTime('666') }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>strong</span><span class="token punctuation">></span></span></code></pre>
 <h2 id="4-Composition-API"><a href="#4-Composition-API" class="headerlink" title="4.Composition API"></a>4.Composition API</h2><p>option API 模式的弊端</p>
 <ul>
 <li>当我们实现一个功能时，这个功能对应的代码逻辑会被拆分到各个属性当中</li>
@@ -1044,6 +1184,9 @@ export default {
   },
 };
 </script></code></pre>
+<blockquote>
+<p>注意：reactive在v-model使用双向绑定的时候有可能会有些问题，所以即使数据是对象，此时也建议使用ref包裹</p>
+</blockquote>
 <h4 id="Ref-API"><a href="#Ref-API" class="headerlink" title="Ref API"></a>Ref API</h4><blockquote>
 <p>官方推荐（尤雨溪）能用ref就用ref，而不是reactive，后期方便抽离</p>
 </blockquote>
@@ -1156,6 +1299,22 @@ export default {
         accessCache<span class="token operator">!</span><span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> AccessTypes<span class="token punctuation">.</span>OTHER  <span class="token comment" spellcheck="true">//找不到了</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
+<h4 id="ref获取组件-元素对象"><a href="#ref获取组件-元素对象" class="headerlink" title="ref获取组件/元素对象"></a>ref获取组件/元素对象</h4><pre class=" language-vue"><code class="language-vue"><template>
+  <div ref="title"></div>
+</template>
+
+<script>
+import { ref } from "vue";
+export default {
+  setup() {
+    // 只不过title要在元素挂在完毕之后才有值
+    const title = ref(null);
+    return {
+      title
+    }
+  },
+};
+</script></code></pre>
 <h4 id="无法使用this"><a href="#无法使用this" class="headerlink" title="无法使用this"></a>无法使用this</h4><p>官方：</p>
 <p><strong>在 <code>setup()</code> 内部，<code>this</code> 不是该活跃实例的引用</strong>，因为 <code>setup()</code> 是在解析其它组件选项之前被调用的，所以 <code>setup()</code> 内部的 <code>this</code> 的行为与其它选项中的 <code>this</code> 完全不同。这使得 <code>setup()</code> 在和其它选项式 API 一起使用时可能会导致混淆。</p>
 <p>coderwhy老师：组件实例被创建 -&gt; setup被调用 -&gt; 其他option出来</p>
@@ -1287,22 +1446,6 @@ export default {
       changeAge<span class="token punctuation">,</span>
     <span class="token punctuation">}</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
-<h4 id="ref获取组件-元素对象"><a href="#ref获取组件-元素对象" class="headerlink" title="ref获取组件/元素对象"></a>ref获取组件/元素对象</h4><pre class=" language-vue"><code class="language-vue"><template>
-  <div ref="title"></div>
-</template>
-
-<script>
-import { ref } from "vue";
-export default {
-  setup() {
-    // 只不过title要在元素挂在完毕之后才有值
-    const title = ref(null);
-    return {
-      title
-    }
-  },
-};
-</script></code></pre>
 <h4 id="生命周期替代"><a href="#生命周期替代" class="headerlink" title="生命周期替代"></a>生命周期替代</h4><p>使用：可以直接导入 onX 函数，注册生命周期钩子函数</p>
 <table>
 <thead>
@@ -1411,7 +1554,7 @@ export default {
 };
 </script></code></pre>
 <h4 id="script-setup"><a href="#script-setup" class="headerlink" title="script setup"></a>script setup</h4><p><code>script setup</code> 是在单文件组件 (SFC) 中使用组合式 API 的编译时语法糖。</p>
-<p>2021.6.21为止还是实验性，但是到了2021.11.28好像已经被纳入了</p>
+<p>2021.6.21为止还是实验性，但是到了2021.11.28好像已经被纳入正式版了</p>
 <p>相比于普通的 <code>&lt;script&gt;</code> 语法，它具有更多优势：</p>
 <ul>
 <li>更少的样板内容，更简洁的代码。</li>
@@ -1512,9 +1655,21 @@ router<span class="token punctuation">.</span><span class="token function">befor
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <p>现在更多通过返回值来控制跳转（next）</p>
 <ol>
-<li>false：取消当前导航</li>
-<li>不反悔/ undefined：默认导航</li>
-<li>返回一个路由地址：可以是String，也可以是一个对象（包含path、params、query等信息），跳到该导航</li>
+<li><p>false：取消当前导航</p>
+</li>
+<li><p>不反悔/ undefined：默认导航</p>
+</li>
+<li><p>返回一个路由地址：可以是String，也可以是一个对象（包含path、params、query等信息），跳到该导航（把这个看成 <code>this.$router.push(&quot;/home&quot;);</code>  即可）</p>
+<p>比如</p>
+<pre class=" language-typescript"><code class="language-typescript">router<span class="token punctuation">.</span><span class="token function">beforeEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span>to<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>to<span class="token punctuation">.</span>path <span class="token operator">!==</span> <span class="token string">'/login'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> token <span class="token operator">=</span> LocalCache<span class="token punctuation">.</span><span class="token function">getCache</span><span class="token punctuation">(</span><span class="token string">'toekn'</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>token<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token string">'/login'</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+</li>
 </ol>
 <h4 id="Vue-extend"><a href="#Vue-extend" class="headerlink" title="Vue.extend"></a>Vue.extend</h4><p>在 Vue 2.x 中，<code>Vue.extend</code> 曾经被用于创建一个基于 Vue 构造函数的“子类”，其参数应为一个包含组件选项的对象。在 Vue 3.x 中，我们已经没有组件构造器的概念了。应该始终使用 <code>createApp</code> 这个全局 API 来挂载组件</p>
 <h4 id="v-on-native"><a href="#v-on-native" class="headerlink" title="v-on.native"></a>v-on.native</h4><p>它原来是用于组件中原生事件的触发</p>
@@ -1798,25 +1953,30 @@ emitter<span class="token punctuation">.</span><span class="token function">off<
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/11/14/vite/">
+                <a href="/2021/11/05/vue3-xia/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Vite">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Vue3(下)">
                         
-                        <span class="card-title">Vite</span>
+                        <span class="card-title">Vue3(下)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Vite概述Webpack是前端使用最多的构建工具，但是除了webpack还有一些其他的构建工具，比如rollup、parcel、gulp、vite
- Vite 是 vue 的作者尤雨溪在开发 vue3.0 的时候开发的一个基于原生 ES-
+                            6.Vue动画处理vue有个内置组件 transition
+基本使用：使用name定义过渡类名，然后常常与v-if、v-show、动态组件进行搭配
+官方：
+可以给任何元素和组件添加进入/离开过渡
+
+条件渲染 (使用 v-if)
+条件展示 (
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-11-14
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-11-05
                         </span>
                         <span class="publish-author">
                             
@@ -1840,30 +2000,37 @@ emitter<span class="token punctuation">.</span><span class="token function">off<
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/11/05/vue3-xia/">
+                <a href="/2021/11/02/wang-zhan-xing-neng-you-hua/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Vue3(下)">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="网站性能优化">
                         
-                        <span class="card-title">Vue3(下)</span>
+                        <span class="card-title">网站性能优化</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            6.Vue动画处理vue有个内置组件 transition
-基本使用：使用name定义过渡类名，然后常常与v-if、v-show、动态组件进行搭配
-官方：
-可以给任何元素和组件添加进入/离开过渡
+                            1.网站性能优化概述我们通常的标量化
 
-条件渲染 (使用 v-if)
-条件展示 (
+白屏
+首屏
+页面整体加载
+页面可交互
+功能交互响应
+
+Steve Souders在《高性能网站建设指南》总结的12条提高性能的基本规则
+
+尽量减少http请求
+使用CDN
+静态资源使用Cache
+启用
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-05
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-02
                             </span>
                         <span class="publish-author">
                             
@@ -2074,7 +2241,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">253.1k</span>&nbsp;字
+                class="white-color">259.4k</span>&nbsp;字
             
             
             

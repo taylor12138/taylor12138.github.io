@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.7k
+                    9k
                 </div>
                 
 
@@ -622,23 +622,26 @@ console<span class="token punctuation">.</span><span class="token function">log<
   name
 <span class="token punctuation">}</span>
 <span class="token comment" spellcheck="true">// 导出方式2</span>
+<span class="token comment" spellcheck="true">// 定义的时候导出，先声明再导出必须使用方式1</span>
 <span class="token keyword">export</span> <span class="token keyword">var</span> num <span class="token operator">=</span> <span class="token number">1000</span><span class="token punctuation">;</span>
 <span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
 <span class="token comment" spellcheck="true">// 导出方式3,这种方法只能导出一个,使用一次default导出一个</span>
-<span class="token keyword">export</span> <span class="token keyword">default</span> adress</code></pre>
+<span class="token keyword">export</span> <span class="token keyword">default</span> adress
+<span class="token comment" spellcheck="true">// 导出方式4，从本文件导出types文件下所导出的所有东西的东西</span>
+<span class="token keyword">export</span> <span class="token operator">*</span> <span class="token keyword">from</span> <span class="token string">'./types'</span></code></pre>
 <p>因为命名导出和默认导出不会冲突，所有ES6支持一个模块中同时定义这两种导出</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> foo <span class="token operator">=</span> <span class="token string">'foo'</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> bar <span class="token operator">=</span> <span class="token string">'bar'</span><span class="token punctuation">;</span>
 <span class="token keyword">export</span> <span class="token punctuation">{</span> bar <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token keyword">export</span> <span class="token keyword">default</span> foo<span class="token punctuation">;</span></code></pre>
 <p>四种导入方法</p>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 1.导入单个num（要使用上面的导出方式1、2）</span>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 1.导入单个num（对应导出方式1、2、4）</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> num <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"./aaa.js"</span><span class="token punctuation">;</span>
 
-<span class="token comment" spellcheck="true">// 2.导入默认的值（default），能够自己命名（要使用上面的导出方式3）</span>
+<span class="token comment" spellcheck="true">// 2.导入默认的值（default），能够自己命名（对应导出方式3）</span>
 <span class="token keyword">import</span> add <span class="token keyword">from</span> <span class="token string">"./aaa.js"</span><span class="token punctuation">;</span>
 
-<span class="token comment" spellcheck="true">// 3.统一全部导入（要使用上面的导出方式1、2）</span>
+<span class="token comment" spellcheck="true">// 3.统一全部导入（对应导出方式1、2、4）</span>
 <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> aaa <span class="token keyword">from</span> <span class="token string">"./aaa"</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>aaa<span class="token punctuation">.</span>num<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">//1.下载后module的引用比较特殊</span>
@@ -1086,6 +1089,11 @@ app<span class="token punctuation">.</span><span class="token function">use</spa
 npm install <span class="token operator">--</span>global nodemon</code></pre>
 <p>原来我们在命令行输入：<code>node xxx.js</code></p>
 <p>现在：<code>nodemon xxx.js</code>， 他会监视你的文件变化，当文件变化时，会自动帮你重启服务器        </p>
+<h4 id="JSON方法"><a href="#JSON方法" class="headerlink" title="JSON方法"></a>JSON方法</h4><p><code>JSON.stringify()</code> 方法将一个 JavaScript 对象或值转换为 JSON 字符串，如果指定了一个 replacer 函数，则可以选择性地替换值，或者指定的 replacer 是数组，则可选择性地仅包含数组指定的属性。</p>
+<p>一般用于存储数据时，对对象之类数据以字符串的形式进行保存</p>
+<p><code>JSON.parse()</code> 方法用来解析JSON字符串，构造由字符串描述的JavaScript值或对象。提供可选的 <strong>reviver</strong> 函数用以在返回之前对所得到的对象执行变换(操作)。</p>
+<p>一般用于将数据取出时，转化未真正的类型调用的方法</p>
+<p>还有手写方法可以参考一波<a href="https://juejin.cn/post/6844903992871354375" target="_blank" rel="noopener">https://juejin.cn/post/6844903992871354375</a></p>
 <h4 id="使用node-js进行爬虫"><a href="#使用node-js进行爬虫" class="headerlink" title="使用node.js进行爬虫"></a>使用node.js进行爬虫</h4><p>原理：当网页时后端渲染时，对网页源代码进行爬取，得到其html源码</p>
 <p>第一步：</p>
 <p>使用 <code>npm init --yes</code>初始化创建的文件夹</p>
@@ -1620,7 +1628,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">253.1k</span>&nbsp;字
+                class="white-color">259.4k</span>&nbsp;字
             
             
             

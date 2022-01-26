@@ -459,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    628
+                    1.4k
                 </div>
                 
 
@@ -501,6 +501,24 @@
 0000 0800-0000 FFFF | 1110xxxx 10xxxxxx 10xxxxxx
 0001 0000-0010 FFFF | 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx</code></pre><p>UTF-8和Unicode</p>
 <p><code>严</code>的 Unicode码 是<code>4E25</code>，UTF-8 编码是<code>E4B8A5</code></p>
+<h2 id="命令窗口"><a href="#命令窗口" class="headerlink" title="命令窗口"></a>命令窗口</h2><p>有时候我们执行一些命令失败，但是往上有人是成功的，可能是当前终端不支持</p>
+<p>windows用户：powershell是微软用来替代cmd的，我们可以cmd和powershell轮流试一试命令的执行，搜索引擎上也有vscode中默认终端切换的方案；除此之外，coderwhy老师还推荐windows用户使用git bash敲命令，毕竟windows的终端没有linux、macos做得好，和操作系统的连接、内核好用</p>
+<h2 id="图形"><a href="#图形" class="headerlink" title="图形"></a>图形</h2><h4 id="Base64"><a href="#Base64" class="headerlink" title="Base64"></a>Base64</h4><p><strong>Base64</strong>（基底64）是一种基于64个可打印字符来表示<a href="https://zh.wikipedia.org/wiki/二进制" target="_blank" rel="noopener">二进制数据</a>的表示方法。由于 <code>log2 64 = 6</code> 所以每6个<a href="https://zh.wikipedia.org/wiki/位元" target="_blank" rel="noopener">比特</a>为一个单元，对应某个可打印字符。3个<a href="https://zh.wikipedia.org/wiki/字节" target="_blank" rel="noopener">字节</a>相当于24个比特，对应于4个Base64单元</p>
+<p>当需要对二进制数据进行编码时，通常会使用 Base64 编码方案，尤其是当数据需要通过旨在处理文本的媒体进行存储和传输时。这种编码有助于确保数据在传输过程中保持完整而不被修改。Base64 常用于许多应用程序，包括通过 MIME 发送电子邮件，以及以 XML 或 JSON 格式存储复杂数据。</p>
+<h4 id="Base64Url"><a href="#Base64Url" class="headerlink" title="Base64Url"></a>Base64Url</h4><p>Base64编码可用于在<a href="https://zh.wikipedia.org/wiki/HTTP" target="_blank" rel="noopener">HTTP</a>环境下传递较长的标识信息。例如，在<a href="https://zh.wikipedia.org/wiki/Java" target="_blank" rel="noopener">Java</a><a href="https://zh.wikipedia.org/wiki/持久化" target="_blank" rel="noopener">持久化</a>系统<a href="https://zh.wikipedia.org/wiki/Hibernate" target="_blank" rel="noopener">Hibernate</a>中，就采用了Base64来将一个较长的唯一标识符（一般为128-bit的<a href="https://zh.wikipedia.org/wiki/UUID" target="_blank" rel="noopener">UUID</a>）编码为一个字符串，用作HTTP表单和HTTP GET <a href="https://zh.wikipedia.org/wiki/URL" target="_blank" rel="noopener">URL</a>中的参数。在其他应用程序中，也常常需要把二进制数据编码为适合放在URL（包括隐藏表单域）中的形式。此时，采用Base64编码不仅比较简短，同时也具有不可读性，即所编码的数据不会被人用肉眼所直接看到。</p>
+<p>然而，标准的Base64并不适合直接放在URL里传输，因为URL编码器会把标准Base64中的<code>/</code>和<code>+</code>字符变为形如<code>%XX</code>的形式，而这些<code>%</code>号在存入数据库时还需要再进行转换，因为<a href="https://zh.wikipedia.org/wiki/ANSI" target="_blank" rel="noopener">ANSI</a> <a href="https://zh.wikipedia.org/wiki/SQL" target="_blank" rel="noopener">SQL</a>中已将<code>%</code>号用作通配符。</p>
+<p>HTML中，img的src和css样式的background-image都可以接受base64字符串，从而在页面上渲染出对应的图片</p>
+<p>再次我们先了解下bse64的缺点</p>
+<ul>
+<li>转换之后字符串的体积一般会比原图更大，一般会多出接近3成的大小，反而“增重了”</li>
+<li>base64Url可能会被你的应用多次复用，本来浏览器可以直接从本地缓存取出的图片，换成base64Url，将造成应用中多个页面重复下载1.3倍大小的文本 约等于 流量消耗 * 13倍</li>
+<li>低版本浏览器兼容问题</li>
+<li>不利于开发者工具调试</li>
+</ul>
+<p>优点呢？</p>
+<ul>
+<li>在http2.0的加持下（二进制帧传输），保留了http1.1的长连接，请求和响应可以交错甚至可以复用，多个并行请求的开销已经大大降低，我已经不知道还有什么理由继续坚持base64Url的使用了。</li>
+</ul>
 <p>参考：<a href="https://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html《阮一峰的网络日志》" target="_blank" rel="noopener">https://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html《阮一峰的网络日志》</a></p>
 
             </div>
@@ -1007,7 +1025,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">253.1k</span>&nbsp;字
+                class="white-color">259.4k</span>&nbsp;字
             
             
             

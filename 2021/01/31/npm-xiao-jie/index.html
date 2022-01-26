@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.7k
+                    2.9k
                 </div>
                 
 
@@ -535,7 +535,7 @@
 <p><code>npm search 包名</code> 搜索包</p>
 <p><strong>安装</strong></p>
 <p><code>npm install</code> 下载当前项目所依赖的包（根据package.json配置里的依赖下载）</p>
-<p><code>npm install 包名</code> / <code>npm i 包名</code> 当前目录安装包（可以先创建一个文件夹）（尾部加<code>--save</code>，则添加到当前package.json的依赖里）</p>
+<p><code>npm install 包名</code> / <code>npm i 包名</code> 当前目录安装包（可以先创建一个文件夹）（尾部加<code>--save</code>，则为生产环境时依赖，则添加到当前<code>package.json</code>的依赖里）</p>
 <p>如果尾部加 <code>--save-dev</code>则为开发时依赖</p>
 <p><code>npm install 包名 -g</code> 全局模式安装包（一般都是计算机里的工具）</p>
 <p>如果本身电脑上有该包，则直接 <code>npm install 包名</code>则会直接下载最新版本 </p>
@@ -549,7 +549,13 @@
 
 npm i module_name  -D  =&gt; npm install module_name --save-dev   写入到 devDependencies 对象
 
-npm i module_name  -g  全局安装</code></pre><h4 id="国内使用npm-npx"><a href="#国内使用npm-npx" class="headerlink" title="国内使用npm/npx"></a>国内使用npm/npx</h4><p>连接国外的npm服务器是，遇到卡顿问题可以试一试国内淘宝的镜像npm进行配置（此时指令<code>nmp</code>-&gt;<code>cnmp</code>）(但是听说cnmp会有诡异的bug，因为cnpm安装模块路径比较奇怪，packager不能正常识别)</p>
+npm i module_name  -g  全局安装</code></pre><h4 id="npm5以后的–save"><a href="#npm5以后的–save" class="headerlink" title="npm5以后的–save"></a>npm5以后的–save</h4><p>在版本 5 之前，NPM 只是<code>node_modules</code>默认安装了一个包。当您尝试为您的应用程序/模块安装依赖项时，您需要先安装它们，然后将它们（连同适当的版本号）添加到<code>dependencies</code>您的<code>package.json</code>.</p>
+<p>该<code>--save</code>选项指示 NPM 自动将包包含在<code>dependencies</code>您的部分中<code>package.json</code>，从而为您节省了额外的步骤。</p>
+<p>此外，还有一些补充选项<code>--save-dev</code>，<code>--save-optional</code>它们分别将包保存在<code>devDependencies</code>和下<code>optionalDependencies</code>。这在安装仅开发包（如<code>grunt</code>测试库）时很有用。</p>
+<p>但是</p>
+<p><strong>5级以上更新：</strong></p>
+<p>从<a href="http://blog.npmjs.org/post/161081169345/v500" target="_blank" rel="noopener">npm 5.0.0</a>开始，已安装的模块默认添加为依赖项，因此<code>--save</code>不再需要该选项。其他保存选项仍然存在，并列<a href="https://docs.npmjs.com/cli/install" target="_blank" rel="noopener">在</a>.<code>npm install</code></p>
+<h4 id="国内使用npm-npx"><a href="#国内使用npm-npx" class="headerlink" title="国内使用npm/npx"></a>国内使用npm/npx</h4><p>连接国外的npm服务器是，遇到卡顿问题可以试一试国内淘宝的镜像npm进行配置（此时指令<code>nmp</code>-&gt;<code>cnmp</code>）(但是听说cnmp会有诡异的bug，因为cnpm安装模块路径比较奇怪，packager不能正常识别)</p>
 <p>可以使用nrm切换淘宝源</p>
 <pre class=" language-shell"><code class="language-shell"># 使用nrm工具切换淘宝源
 npx nrm use taobao
@@ -592,6 +598,7 @@ nvm list
 <span class="token comment" spellcheck="true">// 卸载指定 node 版本</span>
 nvm uninstall <span class="token number">17.0</span><span class="token punctuation">.</span><span class="token number">0</span></code></pre>
 <h2 id="NPX"><a href="#NPX" class="headerlink" title="NPX"></a>NPX</h2><p>npx是一个工具，npm v5.2.0引入的一条命令（npx），一个npm包执行器，指在提高从npm注册表使用软件包时的体验 ，npm使得它非常容易地安装和管理托管在注册表上的依赖项，npx使得使用CLI工具和其他托管在注册表。它大大简化了一些事情。</p>
+<p>实质上 npx 执行的是 <code>node_module/.bin/</code> 下面包的命令</p>
 <p>主要特点：</p>
 <ul>
 <li><p>临时安装可执行依赖包，不用全局安装，不用担心长期的污染。</p>
@@ -1163,7 +1170,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">253.1k</span>&nbsp;字
+                class="white-color">259.4k</span>&nbsp;字
             
             
             

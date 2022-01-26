@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.1k
+                    4.5k
                 </div>
                 
 
@@ -696,6 +696,8 @@ friend2<span class="token punctuation">.</span><span class="token function">sayS
 </li>
 <li>foo既存在于 <code>myobj</code>上，也存在 foo上，发生屏蔽，<code>myobj</code>中包含的foo属性会屏蔽上层原型链的所有foo属性</li>
 </ol>
+<p><strong>相互委托</strong></p>
+<p>你无法在两个或两个以上互相（双向）委托的对象之间创建循环委托，这种方法是被禁止的。尽管相互委托理论上可以正常工作，并且在某些情况下非常有用，但是之所以要禁止相互委托，是为了更加高效，也不用检查是否为无限循环引用。</p>
 <h4 id="对象原型-proto"><a href="#对象原型-proto" class="headerlink" title="对象原型: __proto__"></a>对象原型: <code>__proto__</code></h4><p>对象都会有一个属性 <code>__proto__</code> 指向构造函数的prototype原型对象，之所以我们对象可以使用构造函数prototype原型对象的属性和方法，就是因为 <code>__proto__</code> 的存在</p>
 <p><code>实例化的对象.__proto__ === 构造函数名.prototype</code> 返回true</p>
 <p>在社区里其实也因为双下划线，被称为 “笨蛋proto”</p>
@@ -787,12 +789,33 @@ Rectangle<span class="token punctuation">.</span>prototype<span class="token pun
 <p>又又又但是MDN对于  <code>Object.setPrototypeOf</code>  有个警告</p>
 <p><strong>警告:</strong> 由于现代 JavaScript 引擎优化属性访问所带来的特性的关系，更改对象的 <code>[[Prototype]]</code>在<strong><em>各个</em></strong>浏览器和 JavaScript 引擎上都是一个很慢的操作。其在更改继承的性能上的影响是微妙而又广泛的，这不仅仅限于 <code>obj.__proto__ = ...</code> 语句上的时间花费，而且可能会延伸到<strong><em>任何</em></strong>代码，那些可以访问<strong><em>任何</em></strong><code>[[Prototype]]</code>已被更改的对象的代码。如果你关心性能，你应该避免设置一个对象的 <code>[[Prototype]]</code>。相反，你应该使用 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/create" target="_blank" rel="noopener"><code>Object.create()</code></a>来创建带有你想要的<code>[[Prototype]]</code>的新对象。</p>
 <p>所以还是老老实实用 <code>Object.create()</code></p>
-<h4 id="类的本质"><a href="#类的本质" class="headerlink" title="类的本质"></a>类的本质</h4><p>class本质还是function（用 typeof 查看），所以我们可以认为类就是构造函数的另一种写法</p>
+<h4 id="对象关联来实现继承"><a href="#对象关联来实现继承" class="headerlink" title="对象关联来实现继承"></a>对象关联来实现继承</h4><p>以上为面型对象的设计模式（强调实体和实体间的关系）</p>
+<p>以下为《你不知道的JavaScript》中谈及的对象关联的继承实现方式，书中说到该思维模式更加简洁，因为这种代码只关注一件事：对象之间的关联关系。并且看上去这种对象形式让构造和初始化分开了，但是许多情况下这两步分来的话更加灵活</p>
+<p>而对比面向对象模式，有时却不得不使用显式伪多态的方法调用，比如这种代码，<code>Shape.prototype.move.call(xxx)</code>（除非用上es6新增的 <code>class</code>，使用super来调用 ），并且还要夹杂着new之类的</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> Shape <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token function">init</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>x <span class="token operator">=</span> x<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>y <span class="token operator">=</span> y<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token function">move</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//...</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">const</span> Rectangle <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>Shape<span class="token punctuation">)</span><span class="token punctuation">;</span>
+Rectangle<span class="token punctuation">.</span>ohterFunction <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//..</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// 对象关联的“实例”</span>
+<span class="token keyword">const</span> r1 <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>Rectangle<span class="token punctuation">)</span><span class="token punctuation">;</span>
+r1<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span></code></pre>
+<h4 id="类的本质（class陷阱）"><a href="#类的本质（class陷阱）" class="headerlink" title="类的本质（class陷阱）"></a>类的本质（class陷阱）</h4><p>class本质还是function（用 typeof 查看），它只是委托 [[prototype]]机制的一种语法糖</p>
 <p>但是新的class写法只是让对象原型的写法更加清晰，更像面向对象编程的语法</p>
 <p>和构造函数相同点：</p>
 <p>1.类也有原型对象prototype，而prototype里的constructor也是指回类的本身</p>
 <p>2.类也可以利用原型对象添加方法</p>
 <p>3.类创建的实例对象中的 <code>__proto__</code>    原型指向类的原型对象</p>
+<p>class陷阱：</p>
+<p>也就是说，class并不会像传统的面向类语言一般，在声明时静态复制所有行为，如果你有意无意修改了某个父类的方法，它的子类和所有实例都会受到影响</p>
 
             </div>
             <hr/>
@@ -1302,7 +1325,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">253.1k</span>&nbsp;字
+                class="white-color">259.4k</span>&nbsp;字
             
             
             

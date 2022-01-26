@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9.3k
+                    9.7k
                 </div>
                 
 
@@ -553,12 +553,48 @@ render<span class="token punctuation">:</span> <span class="token function">func
 <pre class=" language-shell"><code class="language-shell">vue ui </code></pre>
 <p>导入当前项目脚手架的文件夹，然后可以在当前页面添加需要的插件，配置甚至运行等</p>
 <p>如果真的要手动修改掉基础的配置，需要新建vue.config.js在当前项目目录下（原来build和Config文件的配置都放在node_modules里面了），在里面进行 <code>module.exports = {}</code>配置，到时会和原来的配置进行合并作为整体配置</p>
+<p>想了解更多配置可以上 <a href="https://cli.vuejs.org/zh/config/" target="_blank" rel="noopener">https://cli.vuejs.org/zh/config/</a> 查看</p>
 <pre class=" language-js"><code class="language-js">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
   devServer<span class="token punctuation">:</span> <span class="token punctuation">{</span>
     <span class="token comment" spellcheck="true">//运行后默认打开浏览器</span>
     open<span class="token punctuation">:</span> <span class="token boolean">true</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
+<h4 id="CLI-4配置"><a href="#CLI-4配置" class="headerlink" title="CLI 4配置"></a>CLI 4配置</h4><p>讲述一下cli 4 中配置新添加的选项</p>
+<ul>
+<li>(*) Choose Vue version  是否要选择vue版本</li>
+<li>(*) Babel</li>
+<li>(*) TypeScript</li>
+<li>( ) Progressive Web App (PWA) Support</li>
+<li>(*) Router</li>
+<li>(*) Vuex</li>
+<li>(*) CSS Pre-processors  是否要使用css预处理器，比如sass、less</li>
+<li>() Linter / Formatter        es代码linter检查</li>
+<li>( ) Unit Testing                  单元测试</li>
+<li>( ) E2E Testing                    端到端测试</li>
+</ul>
+<p>Use class-style component syntax? (y/N) </p>
+<ul>
+<li>是否要使用class风格的component，我们一般是不怎么实用的，可以选择no</li>
+</ul>
+<p>Use Babel alongside TypeScript (required for modern mode, auto-detected polyfills, transpiling JSX)? (Y/n) </p>
+<ul>
+<li>是否要用babel编译ts，一般tsc、babel咱们选babel，因为babel带polyfill，会打上一些补丁</li>
+</ul>
+<p>Pick a linter / formatter config: (Use arrow keys)</p>
+<ul>
+<li>ESLint with error prevention only   普通eslint</li>
+<li>ESLint + Airbnb config                        eslint+爱彼迎规范</li>
+<li>ESLint + Standard config                    eslint+标准规范</li>
+<li>ESLint + Prettier                                   eslint+prettier格式化（cms项目中我用的是这个）</li>
+<li>TSLint (deprecated)</li>
+</ul>
+<p>Where do you prefer placing config for Babel, ESLint, etc.? (Use arrow keys)</p>
+<p>配置文件要存放哪种形式</p>
+<ul>
+<li>In dedicated config files      单独文件</li>
+<li>In package.json                     放package.json</li>
+</ul>
 <h4 id="脚手架的模块化样式"><a href="#脚手架的模块化样式" class="headerlink" title="脚手架的模块化样式"></a>脚手架的模块化样式</h4><p>当style标签具有该scoped属性时，其CSS将作用域化当前组件的元素（实质上脚手架会处理加上data-v-xxxx的属性）</p>
 <p>我们通常在vue.config.js配置路径别名 </p>
 <pre class=" language-js"><code class="language-js">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
@@ -743,6 +779,7 @@ $router<span class="token punctuation">.</span><span class="token function">push
 <span class="token number">6</span> vm<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span>             <span class="token comment" spellcheck="true">//更新视图</span></code></pre>
 <p><strong>路由name属性</strong></p>
 <p>路有记录独一无二的名称</p>
+<p>它可以供给 <code>keep-alive</code> 的 <strong>Props</strong>使用，对名称进行匹配</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> routes <span class="token operator">=</span> <span class="token punctuation">[</span>
     <span class="token punctuation">{</span>
         path<span class="token punctuation">:</span> <span class="token string">'/'</span><span class="token punctuation">,</span>
@@ -751,6 +788,24 @@ $router<span class="token punctuation">.</span><span class="token function">push
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">]</span><span class="token punctuation">;</span></code></pre>
 <p>此时可以通过<code>this.$route</code>获取</p>
+<p>与此同时，当子路由进行路由嵌套 + 匹配是也需要对应这个name，一般建议name和路由路径名字保持一致比如</p>
+<pre class=" language-js"><code class="language-js"><span class="token punctuation">{</span>
+    path<span class="token punctuation">:</span> <span class="token string">'/home'</span><span class="token punctuation">,</span>
+    name<span class="token punctuation">:</span> <span class="token string">"home"</span>
+    component<span class="token punctuation">:</span> Home<span class="token punctuation">,</span>
+        children<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                path<span class="token punctuation">:</span> <span class="token string">'message'</span><span class="token punctuation">,</span>
+                name<span class="token punctuation">:</span> <span class="token string">"message"</span>
+                component<span class="token punctuation">:</span> HomeMessage
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
+<p><strong>获取路由列表</strong></p>
+<p>如果路由跳转出现问题，可以查看当前路由列表是否路由已经注册</p>
+<p>此时可以使用API <code>getRoutes</code></p>
+<pre class=" language-ts"><code class="language-ts"><span class="token function">getRoutes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> RouteRecord<span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
+<pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>router<span class="token punctuation">.</span><span class="token function">getRoutes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
 <h4 id="其他知识点"><a href="#其他知识点" class="headerlink" title="其他知识点"></a>其他知识点</h4><p><strong>动态路由</strong></p>
 <p>某些情况下，一个页面的path是不确定的，比如我希望我的路径是</p>
 <p> <code>/user/aaa</code>  或  <code>/user/bbb</code></p>
@@ -1251,7 +1306,7 @@ Vue<span class="token punctuation">.</span>config<span class="token punctuation"
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">></span></span>{{ $store.getters.add(10) }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span></code></pre>
 <h5 id="Action基本使用"><a href="#Action基本使用" class="headerlink" title="Action基本使用"></a><strong>Action基本使用</strong></h5><p>Action类似于Mutation，但是是用来替代Mutation进行异步操作的（其实也可以来替代一些功能复杂的操作）</p>
 <p>和Getter、Mutation不同，默认传入的参数不是state，而是 context：上下文，是一个和store实例均有相同方法的一个context对象</p>
-<p>（包裹在Module里Actions的context则和最外层的store不一样了）</p>
+<p>（包裹在Module里Actions的context则和最外层的store不一样，多了一个 <code>rootState</code>、<code>rootGetters</code> 属性 ）</p>
 <ul>
 <li>但是也不支持在action里直接修改state，即不支持 context.state.info.name = ‘Mikasa’</li>
 <li>详情关系图可以看Vuex状态管理图，在action使用commit进行提交 -&gt; mutation</li>
@@ -1376,11 +1431,11 @@ Vue<span class="token punctuation">.</span>config<span class="token punctuation"
         <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
-<p>  4.它的actions中 <code>context.commit(&#39;函数&#39;);</code> ，函数只能是模块中mutations里面的函数</p>
+<p>  4.它的actions中 <code>context.commit(&#39;函数&#39;);</code>的形式 ，函数只能commit模块中mutations里面的函数</p>
 <ol start="5">
 <li><p>actions中的context里，包含 <code>rootGetters</code>、 <code>rootState</code>，可以获取当前module以上的根的state、getters</p>
 </li>
-<li><p>actions中使用commit提交的时候（使用 <code>namespaced: true</code>的时候 ），可以附带第三个参数，<code>{ root: true }</code>，表示提交的是根root里面的mutations。</p>
+<li><p>actions中使用commit提交的时候（使用 <code>namespaced: true</code>的时候 ），可以附带第三个参数，<code>{ root: true }</code>，表示提交的是根root里面的mutations、actions。</p>
 <pre class=" language-js"><code class="language-js">actions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
     <span class="token function">aupdate</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> payload<span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
@@ -1980,7 +2035,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">253.1k</span>&nbsp;字
+                class="white-color">259.4k</span>&nbsp;字
             
             
             

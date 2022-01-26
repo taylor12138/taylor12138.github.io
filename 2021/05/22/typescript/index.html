@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.1k
+                    8.5k
                 </div>
                 
 
@@ -580,7 +580,6 @@ npm i tslib @types/node -g</code></pre>
 <td align="center">枚举，TS中新增类型</td>
 </tr>
 </tbody></table>
-<p>解说：</p>
 <p><strong>字面量</strong>：相当于定死一个固定的常量，<code>let a: 10</code>，此时a只能赋值为10。 在计算机科学中，字面量（literal）是用于表达源代码中一个固定值的表示法（notation）。</p>
 <p><strong>any</strong>：类似于让TS回归JS原生，可以赋值给任意变量，应用在一些类型断言上（as any），函数的参数未声明类型也是any</p>
 <p><strong>unknown</strong>：表示未知类型的值，有点类似any，只能赋值给any和unknown类型（不让你乱传人）。尽量用unknown，不要用any</p>
@@ -824,7 +823,7 @@ tsc -w #编译所有TS文件 + 监视所有TS文件的变化</code></pre>
     <span class="token property">"include"</span><span class="token operator">:</span> <span class="token punctuation">[</span>       //配置些TS文件需要被编译，这里是根目录/src/任意目录/任意文件
         <span class="token string">"./src/**/*"</span>
     <span class="token punctuation">]</span><span class="token punctuation">,</span>
-    <span class="token property">"exclude"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>     //不包含哪些文件
+    <span class="token property">"exclude"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"ndoe_modules"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>     //不包含哪些文件
     <span class="token property">"files"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>       //和include很像，只不过include列出路径，files直接一一列出文件
     <span class="token property">"compilerOptions"</span><span class="token operator">:</span><span class="token punctuation">{</span> //编译器配置选项
         <span class="token property">"target"</span><span class="token operator">:</span> <span class="token string">"es5"</span><span class="token punctuation">,</span>           //target用来指定ts被编译为ES版本，默认ES3 
@@ -842,6 +841,13 @@ tsc -w #编译所有TS文件 + 监视所有TS文件的变化</code></pre>
         <span class="token property">"noImplicitAny"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>    //不允许隐式any类型
         <span class="token property">"noImplicitThis"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>   //不允许不明确类型this
         <span class="token property">"strictNullChecks"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> //严格检查空值（或者可能成为空值的变量）
+        <span class="token property">"moduleResolution"</span><span class="token operator">:</span> <span class="token string">"node"</span><span class="token punctuation">,</span>//按照node的方式去解析模块
+        <span class="token property">"skipLibCheck"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>      //跳过一些库的类型检测（axios->类型 / lodash -> types/lodash / 其他第三方库）
+                                   //避免掉无意义的检测和性能的浪费，亦或者不同库定义同名类型导致的错误
+        <span class="token property">"paths"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token property">"@/*"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"src/*"</span><span class="token punctuation">]</span>       //路径解析
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token property">"lib"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"esnext"</span><span class="token punctuation">,</span> <span class="token string">"dom"</span><span class="token punctuation">,</span> <span class="token string">"dom.iterable"</span><span class="token punctuation">,</span> <span class="token string">"scripthost"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> //可以指定在项目中可以使用哪里库的类型
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <p>备注：</p>
@@ -1206,7 +1212,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token punctuation">}</span>
 <span class="token function">fn3</span><span class="token punctuation">(</span><span class="token string">"123"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//可以通过</span>
 <span class="token comment" spellcheck="true">// fn3(123);   //报错，因为这个参数没有length属性</span></code></pre>
-<p><strong>泛类</strong>：把类当作参数的泛型类</p>
+<h5 id="泛类"><a href="#泛类" class="headerlink" title="泛类"></a><strong>泛类</strong></h5><p>把类当作参数的泛型类</p>
 <pre class=" language-ts"><code class="language-ts"><span class="token keyword">class</span> <span class="token class-name">MysqlDB</span><span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">{</span>
   <span class="token function">add</span><span class="token punctuation">(</span>info<span class="token punctuation">:</span> T<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>info<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -1227,6 +1233,21 @@ db<span class="token punctuation">.</span><span class="token function">add</span
 <pre class=" language-ts"><code class="language-ts"><span class="token keyword">let</span> db <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MysqlDB</span><span class="token operator">&lt;</span>User<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 db<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>u<span class="token punctuation">)</span><span class="token punctuation">;</span>
 db<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token number">123</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//报错</span></code></pre>
+<h5 id="promise"><a href="#promise" class="headerlink" title="promise"></a>promise</h5><p>在<code>ts</code>中使用<code>pormise</code>必须声明它的返回值类型，而它的返回值类型通常可以使用泛型的形式来声明</p>
+<p>以<code>Promise&lt;类型&gt;</code> 的形式</p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">function</span> request<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>config<span class="token punctuation">:</span> AxiosRequestConfig<span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<span class="token operator">&lt;</span>T<span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> reject<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>instance
+            <span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">,</span> <span class="token string">'request方法'</span><span class="token punctuation">)</span>
+            <span class="token function">resolve</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            <span class="token function">reject</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
 <h2 id="4-TypeScript其他"><a href="#4-TypeScript其他" class="headerlink" title="4.TypeScript其他"></a>4.TypeScript其他</h2><p>TS支持两种方法来控制我们的作用域</p>
 <ul>
 <li>模块化开发：每个文件可以是一个独立的模块，支持ES module，也支持CommonJS</li>
@@ -1287,8 +1308,38 @@ db<span class="token punctuation">.</span><span class="token function">add</span
 </li>
 </ul>
 <p>除了<code>.ts</code>件，还有 <code>.d.ts</code> 文件（declare），这个文件是用来做类型声明的文件，他仅仅用来做类型检测，告知typescript我们有哪些类型，而不用报错</p>
-<p>除了 <code>.ts</code> 文件，还有 <code>.d.ts</code> 文件，这个文件是用来做类型声明的文件，他仅仅用来做类型检测，告知typescript我们有哪些类型，而不用报错</p>
-<h3 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h3><p>装饰器是一种特殊的类型声明，它能够被附加到类声明、方法、属性或参数上，可以修改类的行为</p>
+<h4 id="InstanceType-lt-Type-gt"><a href="#InstanceType-lt-Type-gt" class="headerlink" title="InstanceType&lt;Type&gt;"></a><code>InstanceType&lt;Type&gt;</code></h4><p>构造一个由 Type 中构造函数的实例类型组成的类型。</p>
+<p>例子</p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token comment" spellcheck="true">// @errors: 2344 2344</span>
+<span class="token comment" spellcheck="true">// @strict: false</span>
+<span class="token keyword">class</span> <span class="token class-name">C</span> <span class="token punctuation">{</span>
+  x <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+  y <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+type T0 <span class="token operator">=</span> InstanceType<span class="token operator">&lt;</span><span class="token keyword">typeof</span> C<span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//相当于 type T0 = C</span>
+type T1 <span class="token operator">=</span> InstanceType<span class="token operator">&lt;</span><span class="token keyword">any</span><span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//相当于 type T1 = any</span>
+type T2 <span class="token operator">=</span> InstanceType<span class="token operator">&lt;</span>never<span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//相当于 type T2 = never</span>
+type T3 <span class="token operator">=</span> InstanceType<span class="token operator">&lt;</span><span class="token keyword">string</span><span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//报错</span>
+<span class="token comment" spellcheck="true">//Type 'string' does not satisfy the constraint 'abstract new (...args: any) => any'.</span>
+type T4 <span class="token operator">=</span> InstanceType<span class="token operator">&lt;</span><span class="token keyword">Function</span><span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//报错</span>
+<span class="token comment" spellcheck="true">//Type 'Function' does not satisfy the constraint 'abstract new (...args: any) => any'.</span>
+<span class="token comment" spellcheck="true">//Type 'Function' provides no match for the signature 'new (...args: any): any'.</span></code></pre>
+<p>而对于在vue3 + ts组件使用中，对组件定义引用时，则要使用到 <code>InstanceType&lt;Type&gt;</code></p>
+<p>譬如</p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">const</span> accountForm <span class="token operator">=</span> ref<span class="token operator">&lt;</span>InstanceType<span class="token operator">&lt;</span><span class="token keyword">typeof</span> ElForm<span class="token operator">></span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>这是因为，vue3组件导出是是作为一个对象（组件的描述，可以说和一个类很像）</p>
+<p>而我们此时在另外一个组件中使用这个组件，我们是根据导出的对象来创建一个组件实例</p>
+<p>此时我们不可以直接</p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">const</span> accountForm <span class="token operator">=</span> ref<span class="token operator">&lt;</span>ElForm<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//x 错误</span></code></pre>
+<p>因为此时<code>ElForm</code>是一个对象，而不是一个类型 or 类 之类的 ，而 <code>InstanceType&lt;Type&gt;</code> 可以帮助我们将这个单一的 对象 转化为一个拥有构造函数的实例</p>
+<p>也可以理解为 对象类型 -&gt; 被实例化的对象类型</p>
+<h2 id="5-装饰器"><a href="#5-装饰器" class="headerlink" title="5.装饰器"></a>5.装饰器</h2><p>装饰器是一种特殊的类型声明，它能够被附加到类声明、方法、属性或参数上，可以修改类的行为</p>
 <p>通俗来讲装饰器就是一个方法，可以注入到类、方法、属性参数上来拓展类、属性、方法、参数的功能。装饰器是过去几年JS最大成就之一，已经是ES7的标准特性之一</p>
 <p>常见的装饰器有类装饰器、属性装饰器、方法装饰器、参数装饰器</p>
 <p>装饰器的写法：</p>
@@ -1308,7 +1359,7 @@ db<span class="token punctuation">.</span><span class="token function">add</span
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <p><strong>基本使用</strong></p>
-<h5 id="（1）类装饰器"><a href="#（1）类装饰器" class="headerlink" title="（1）类装饰器"></a>（1）<strong>类装饰器</strong></h5><p><code>@装饰器</code>下一行接类</p>
+<h4 id="（1）类装饰器"><a href="#（1）类装饰器" class="headerlink" title="（1）类装饰器"></a>（1）<strong>类装饰器</strong></h4><p><code>@装饰器</code>下一行接类</p>
 <pre class=" language-ts"><code class="language-ts"><span class="token comment" spellcheck="true">//它在不修改类 MyClass的情况下，对类的功能进行了拓展</span>
 <span class="token keyword">function</span> <span class="token function">logClass</span><span class="token punctuation">(</span>params<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token comment" spellcheck="true">// params就是当前类</span>
@@ -1365,7 +1416,7 @@ a<span class="token punctuation">.</span><span class="token function">getData</s
 <span class="token comment" spellcheck="true">//我在执行constructor</span>
 <span class="token comment" spellcheck="true">//Kobe</span>
 <span class="token comment" spellcheck="true">//I am another name</span></code></pre>
-<h5 id="（2）属性装饰器"><a href="#（2）属性装饰器" class="headerlink" title="（2）属性装饰器"></a>（2）<strong>属性装饰器</strong></h5><p>属性装饰器表达式会在运行时当作函数被调用，传入下列两个参数：</p>
+<h4 id="（2）属性装饰器"><a href="#（2）属性装饰器" class="headerlink" title="（2）属性装饰器"></a>（2）<strong>属性装饰器</strong></h4><p>属性装饰器表达式会在运行时当作函数被调用，传入下列两个参数：</p>
 <ul>
 <li>对于静态成员来说是类的构造函数（constructor），对实例成员来说是类的原型对象（prototype）</li>
 <li>成员名字</li>
@@ -1389,7 +1440,7 @@ a<span class="token punctuation">.</span><span class="token function">getData</s
   <span class="token keyword">constructor</span><span class="token punctuation">(</span>name<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 <span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MyClass</span><span class="token punctuation">(</span><span class="token string">'Kobe'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h5 id="（3）方法装饰器"><a href="#（3）方法装饰器" class="headerlink" title="（3）方法装饰器"></a>（3）方法装饰器</h5><p>它会被应用到方法的属性描述符上，可以用来监视、修改、替换方法定义</p>
+<h4 id="（3）方法装饰器"><a href="#（3）方法装饰器" class="headerlink" title="（3）方法装饰器"></a>（3）方法装饰器</h4><p>它会被应用到方法的属性描述符上，可以用来监视、修改、替换方法定义</p>
 <p>方法装饰会在运行时传入下列3个参数</p>
 <ul>
 <li>对于静态成员来说是类的构造函数，对于实例成员来说是类的原型对象</li>
@@ -1421,7 +1472,7 @@ a<span class="token punctuation">.</span><span class="token function">getData</s
 <span class="token punctuation">}</span>
 <span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MyClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 a<span class="token punctuation">.</span><span class="token function">fn</span><span class="token punctuation">(</span><span class="token string">'123'</span><span class="token punctuation">,</span> <span class="token number">12345</span><span class="token punctuation">)</span></code></pre>
-<h5 id="（4）方法参数装饰器"><a href="#（4）方法参数装饰器" class="headerlink" title="（4）方法参数装饰器"></a>（4）方法参数装饰器</h5><p>参数装饰器表达式会在运行时被当作函数被调用，可以使用参数装饰器为类的原型增加一些元素数据，传入下列三个参数</p>
+<h4 id="（4）方法参数装饰器"><a href="#（4）方法参数装饰器" class="headerlink" title="（4）方法参数装饰器"></a>（4）方法参数装饰器</h4><p>参数装饰器表达式会在运行时被当作函数被调用，可以使用参数装饰器为类的原型增加一些元素数据，传入下列三个参数</p>
 <ul>
 <li>对于静态成员来说是类的构造函数，对于实例成员来说是类的原型对象</li>
 <li>传入参数的方法名字</li>
@@ -1942,7 +1993,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">253.1k</span>&nbsp;字
+                class="white-color">259.4k</span>&nbsp;字
             
             
             

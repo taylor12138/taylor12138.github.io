@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.8k
+                    7.2k
                 </div>
                 
 
@@ -744,6 +744,8 @@ btn<span class="token punctuation">[</span><span class="token number">0</span><s
 <li>headers:{‘x-Requested-With’:’XMLRequest’}：自定义请求头</li>
 <li>params：URL查询对象（一般用于get请求）</li>
 </ul>
+<h4 id="测试请求网址"><a href="#测试请求网址" class="headerlink" title="测试请求网址"></a>测试请求网址</h4><p>我们可以使用以下网址进行请求测试</p>
+<p><a href="http://httpbin.org/" target="_blank" rel="noopener">http://httpbin.org/</a></p>
 <h4 id="axios的通用方式"><a href="#axios的通用方式" class="headerlink" title="axios的通用方式"></a><strong>axios的通用方式</strong></h4><p>和jQuery的方式都很像</p>
 <pre class=" language-js"><code class="language-js">btn<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token function">axios</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -854,7 +856,7 @@ axios<span class="token punctuation">.</span>defaults<span class="token punctuat
 <p>request拦截下来进行处理</p>
 <ul>
 <li>比如：config一些信息不符合服务器要求，添加headers之类的</li>
-<li>比如：每次发送网络请求，都希望在界面中显示一个请求的图标</li>
+<li>比如：每次发送网络请求，都希望在界面中显示一个请求的图标，或者说展示loading组件</li>
 <li>比如：某些网络请求（登录（token）），必须携带一些特殊的信息</li>
 </ul>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> instance <span class="token operator">=</span> axios<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -909,7 +911,69 @@ btn<span class="token punctuation">[</span><span class="token number">0</span><s
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <p>详情可进入了解fetch介绍（十分推荐）<a href="https://segmentfault.com/a/1190000003810652" target="_blank" rel="noopener">https://segmentfault.com/a/1190000003810652</a></p>
 <p>缺点：兼容性较一般</p>
-<h2 id="5-跨域"><a href="#5-跨域" class="headerlink" title="5.跨域"></a>5.跨域</h2><h4 id="同源策略"><a href="#同源策略" class="headerlink" title="同源策略"></a>同源策略</h4><p>它是<strong>浏览器</strong>最核心也最基本的安全功能</p>
+<h2 id="5-TS对axios的封装"><a href="#5-TS对axios的封装" class="headerlink" title="5.TS对axios的封装"></a>5.TS对axios的封装</h2><p>在typescript中对模块的封装又有点不同，主要在于我们需要预先对接口的定义</p>
+<p>首先为我们的网络请求定义一个类</p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">import</span> axios <span class="token keyword">from</span> <span class="token string">'axios'</span>
+<span class="token keyword">import</span> type <span class="token punctuation">{</span> AxiosInstance<span class="token punctuation">,</span> AxiosRequestConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'axios'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> IInterceptor<span class="token punctuation">,</span> IConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./type'</span>
+<span class="token comment" spellcheck="true">// 把一大堆东西封装到一块，推荐使用类进行封装</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">MYRequest</span> <span class="token punctuation">{</span>
+  instance<span class="token punctuation">:</span> AxiosInstance
+  interceptors<span class="token operator">?</span><span class="token punctuation">:</span> IInterceptor
+  <span class="token keyword">constructor</span><span class="token punctuation">(</span>config<span class="token punctuation">:</span> IConfig<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>instance <span class="token operator">=</span> axios<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>interceptors <span class="token operator">=</span> config<span class="token operator">?</span><span class="token punctuation">.</span>interceptors
+    <span class="token keyword">this</span><span class="token punctuation">.</span>instance<span class="token punctuation">.</span>interceptors<span class="token punctuation">.</span>request<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>interceptors<span class="token operator">?</span><span class="token punctuation">.</span>requesInterceptor<span class="token punctuation">,</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>interceptors<span class="token operator">?</span><span class="token punctuation">.</span>requstInterceptorCatch
+    <span class="token punctuation">)</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>instance<span class="token punctuation">.</span>interceptors<span class="token punctuation">.</span>response<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>interceptors<span class="token operator">?</span><span class="token punctuation">.</span>responseInterceptor<span class="token punctuation">,</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>interceptors<span class="token operator">?</span><span class="token punctuation">.</span>responseInterceptorCatch
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">request</span><span class="token punctuation">(</span>config<span class="token punctuation">:</span> AxiosRequestConfig<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>instance<span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">,</span> <span class="token string">'request方法'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>类中使用的接口（type）再给他封装成一个模块</p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> AxiosRequestConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'axios'</span>
+<span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">IInterceptor</span> <span class="token punctuation">{</span>
+  requesInterceptor<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token punctuation">(</span>config<span class="token punctuation">:</span> AxiosRequestConfig<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> AxiosRequestConfig
+  requstInterceptorCatch<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token punctuation">(</span>err<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">any</span>
+  responseInterceptor<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token punctuation">(</span>config<span class="token punctuation">:</span> AxiosRequestConfig<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> AxiosRequestConfig
+  responseInterceptorCatch<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token punctuation">(</span>err<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">any</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">IConfig</span> <span class="token keyword">extends</span> <span class="token class-name">AxiosRequestConfig</span> <span class="token punctuation">{</span>
+  interceptors<span class="token operator">?</span><span class="token punctuation">:</span> IInterceptor
+<span class="token punctuation">}</span></code></pre>
+<p>然后实例化这个类，每个实例都可以单独作为网络请求的封装函数，到时候通过 <code>实例.方法</code> 的形式进行调用</p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">import</span> MYRequest <span class="token keyword">from</span> <span class="token string">'./request'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> BASE_URL <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./request/config'</span>
+<span class="token keyword">const</span> myRequest <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MYRequest</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  baseURL<span class="token punctuation">:</span> BASE_URL<span class="token punctuation">,</span>
+  interceptors<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    requesInterceptor<span class="token punctuation">:</span> <span class="token punctuation">(</span>config<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> token <span class="token operator">=</span> <span class="token string">'123'</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>token <span class="token operator">&amp;&amp;</span> config<span class="token punctuation">.</span>headers<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        config<span class="token punctuation">.</span>headers<span class="token punctuation">.</span>Authorization <span class="token operator">=</span> <span class="token template-string"><span class="token string">`Bearer </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>token<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span>
+      <span class="token punctuation">}</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'请求成功拦截'</span><span class="token punctuation">,</span> config<span class="token punctuation">)</span>
+      <span class="token keyword">return</span> config
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    requstInterceptorCatch<span class="token punctuation">:</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'请求失败拦截'</span><span class="token punctuation">,</span> err<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    responseInterceptor<span class="token punctuation">:</span> <span class="token punctuation">(</span>config<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'响应成功拦截'</span><span class="token punctuation">,</span> config<span class="token punctuation">)</span>
+      <span class="token keyword">return</span> config
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> myRequest</code></pre>
+<h2 id="6-跨域"><a href="#6-跨域" class="headerlink" title="6.跨域"></a>6.跨域</h2><h4 id="同源策略"><a href="#同源策略" class="headerlink" title="同源策略"></a>同源策略</h4><p>它是<strong>浏览器</strong>最核心也最基本的安全功能</p>
 <p>同源，即（当前网页的url和ajax请求的目标资源的url之间）协议、域名、端口号必须完全相同，<strong>而ajax是默认遵从同源策略</strong>，</p>
 <p><strong>而违背同源策略就是跨域</strong>，假如当前网页时a.com，而你向b.com发送了请求，则此时是跨域请求</p>
 <p>单台服务器的性能是有上限的，需要外加更多的计算机、服务器提升服务水平</p>
@@ -1070,7 +1134,9 @@ application/x-www-form-urlencoded</code></pre><p>4、请求中的任意XMLHttpRe
 <p><code>window.postMessage()</code> 方法提供了一种受控机制来规避此限制，只要正确的使用，这种方法就很安全，原理是将<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/postMessage#The_dispatched_event" target="_blank" rel="noopener">通过消息事件对象暴露给接收消息的窗口</a>。</p>
 <h4 id="nginx代理跨域"><a href="#nginx代理跨域" class="headerlink" title="nginx代理跨域"></a>nginx代理跨域</h4><p><strong>跨域原理：</strong> 同源策略是浏览器的安全策略，不是HTTP协议的一部分。服务器端调用HTTP接口只是使用HTTP协议，不会执行JS脚本（没有使用ajax，ajax遵守同源策略），不需要同源策略，也就不存在跨越问题。</p>
 <p><strong>实现思路：</strong> 通过nginx配置一个代理服务器（域名与domain1相同，端口不同）做跳板机，反向代理访问domain2接口，并且可以顺便修改cookie中domain信息，方便当前域cookie写入，实现跨域登录。</p>
-<h4 id="json文件实现代理"><a href="#json文件实现代理" class="headerlink" title="json文件实现代理"></a>json文件实现代理</h4><p>代理未使用ajax，所以不需要遵守同源策略，但代理的域名、端口号、协议均和客户端同源，所以可以进行信息交互</p>
+<h4 id="webpack配置代理"><a href="#webpack配置代理" class="headerlink" title="webpack配置代理"></a>webpack配置代理</h4><p><strong>React脚手架项目</strong></p>
+<p>json文件实现代理</p>
+<p>代理未使用ajax，所以不需要遵守同源策略，但代理的域名、端口号、协议均和客户端同源，所以可以进行信息交互</p>
 <p>比如在React中的package.json进行配置</p>
 <pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
     <span class="token property">"proxy"</span><span class="token operator">:</span><span class="token string">"http://localhost:5000"</span>
@@ -1079,7 +1145,23 @@ application/x-www-form-urlencoded</code></pre><p>4、请求中的任意XMLHttpRe
 <pre class=" language-js"><code class="language-js">axios<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'http:localhost:3000/students'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>res <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token punctuation">)</span>
 <span class="token comment" spellcheck="true">//此时先去本地3000找该资源，找不到就去到5000找</span></code></pre>
 <p>优点：配置简单</p>
-<p>缺点：但是注意这个方法只能代理一个网址，这是个取巧的方式，当我同时需要对 “http//localhost:5000”、”http//localhost:5001”发送请求，就不可以使用了，此时React可以新建一个setupProxy.js 进行正向代理</p>
+<p>缺点：但是注意这个方法只能代理一个网址，这是个取巧的方式，当我同时需要对 “http//localhost:5000”、”http//localhost:5001”发送请求，就不可以使用了，此时React可以新建一个setupProxy.js 进行正向代理（请跳转至《React(上》篇章）</p>
+<p><strong>vue3脚手架项目</strong></p>
+<p>在vue.config.js文件中实现代理（对我们本地npm run serve 的服务器进行配置）</p>
+<pre class=" language-js"><code class="language-js">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  outputDir<span class="token punctuation">:</span> <span class="token string">'./build'</span><span class="token punctuation">,</span>
+  devServer<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    proxy<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token string">'^/api'</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        target<span class="token punctuation">:</span> <span class="token string">'目标地址'</span><span class="token punctuation">,</span>
+        pathRewrite<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          <span class="token string">'^/api'</span><span class="token punctuation">:</span> <span class="token string">''</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        changeOrigin<span class="token punctuation">:</span> <span class="token boolean">true</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 
             </div>
             <hr/>
@@ -1586,7 +1668,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">253.1k</span>&nbsp;字
+                class="white-color">259.4k</span>&nbsp;字
             
             
             

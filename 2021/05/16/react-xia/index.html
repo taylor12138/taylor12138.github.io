@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.5k
+                    8.1k
                 </div>
                 
 
@@ -604,9 +604,9 @@ React<span class="token punctuation">.</span><span class="token function">useEff
 <p><strong>useEffect和生命周期函数的区别</strong></p>
 <ul>
 <li>Placement -&gt; （mutation阶段）新增DOM节点，使用<code>appendChild</code>方法，然后再layout阶段调用componentDidmount（同步）</li>
-<li>Passive -&gt; 在以上三个子阶段都执行完毕后，异步调用我们的useEffect回调</li>
+<li>Passive -&gt; 在以上三个子阶段都执行完毕后，<strong>异步</strong>调用我们的useEffect回调</li>
 </ul>
-<p>此时我们可以是用<code>useLayoutEffect(fn, [])</code>，那效果就和生命周期函数一样了，都在layout阶段调用</p>
+<p>此时我们可以是用<code>useLayoutEffect(fn, [])</code>，那效果就和生命周期函数一样了，都在layout阶段调用（<code>useLayoutEffect</code> 内部的更新计划将被<strong>同步</strong>刷新。）</p>
 <p>摘录自<code>React</code>文档<a href="https://zh-hans.reactjs.org/docs/hooks-reference.html#timing-of-effects" target="_blank" rel="noopener">effect 的执行时机 (opens new window)</a>：</p>
 <blockquote>
 <p>与 componentDidMount、componentDidUpdate 不同的是，在浏览器完成布局与绘制之后，传给 useEffect 的函数会延迟调用。这使得它适用于许多常见的副作用场景，比如设置订阅和事件处理等情况，因此不应在函数中执行阻塞浏览器更新屏幕的操作。</p>
@@ -659,7 +659,7 @@ React<span class="token punctuation">.</span><span class="token function">useEff
 </li>
 <li><p>出现无限重复请求的问题：</p>
 <ul>
-<li>没有设置effect依赖参数（你至少也设置一个空数组呀 [] ，如果没有的话个人感觉有点像进入到类式组件的redner中）</li>
+<li>没有设置effect依赖参数（你至少也设置一个空数组[] ，如果没有的话个人感觉有点像进入到类式组件的redner中）</li>
 <li>无限循环的发生也可能是因为你设置的依赖总是会改变</li>
 </ul>
 </li>
@@ -759,7 +759,7 @@ React<span class="token punctuation">.</span><span class="token function">useEff
 <p>从此中我们可以看到，是有点类似于redux的模式</p>
 <p>为什么用dispatch替换依赖项会更好？<strong>React会保证<code>dispatch</code>在组件的声明周期内保持不变。</strong></p>
 <p>这就是<code>dispatch</code>的好处之一， <code>dispatch</code> 不会随着 re-render 而重新分配记忆位置（他会暂时记忆），在作为 props 传入到 child component 的时候也可以不用担心没有 <code>useMemo</code> 而造成 re-render 的问题。</p>
-<p>在下面的例子中我们不再重新订阅定时器</p>
+<p><strong>在下面的例子中我们不再重新订阅定时器（id）</strong></p>
 <p>（正常情况下使用useEffect订阅定时器，当step依赖项发生改变时，定时器将会被重新订阅；反观使用dispatch，在定时器开启后，如果step发生改变，定时器不会被重新渲染，而是采用之前的step）</p>
 <pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span> useReducer<span class="token punctuation">,</span> useEffect <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"react"</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> ReactDOM <span class="token keyword">from</span> <span class="token string">"react-dom"</span><span class="token punctuation">;</span>
@@ -957,6 +957,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">cre
         <span class="token function">setStr</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>补充：在react18以后，不再有这三种模式，而是以“是否使用并发特性”作为“是否开启并发更新”的依据</p>
 <h4 id="追溯异步回调中批处理问题"><a href="#追溯异步回调中批处理问题" class="headerlink" title="追溯异步回调中批处理问题"></a>追溯异步回调中批处理问题</h4><p><strong>为什么之前异步回调中的setState不能批处理？</strong></p>
 <p>React 的更新是基于 <a href="https://zhuanlan.zhihu.com/p/28532725" target="_blank" rel="noopener">Transaction</a>（事务）的，Transacation 就是给目标执行的函数包裹一下，加上前置和后置的 hook （有点类似 koa 的 middleware），在开始执行之前先执行 initialize hook，结束之后再执行 close hook，这样搭配上 isBatchingUpdates 这样的布尔标志位就可以实现一整个函数调用栈内的多次 setState 全部入 pending 队列，结束后统一 apply 了。</p>
 <p>但是 setTimeout 这样的方法执行是脱离了事务的，react 管控不到，所以就没法 batch 了。</p>
@@ -1188,7 +1189,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">cre
 <p>1.接口返回，会额外多出冗余的组件结构</p>
 <p>2.服务器成本问题，在目前行业大势观看，服务器的成本还是比较昂贵的，很多为了节约服务器成本，将逻辑计算下移至客户端处理</p>
 <p>3.心智负担，ServerComponent无法使用useState、useEffect等hooks</p>
-<h2 id="11-React优化"><a href="#11-React优化" class="headerlink" title="11.React优化"></a>11.React优化</h2><h4 id="PureComponent"><a href="#PureComponent" class="headerlink" title="PureComponent"></a>PureComponent</h4><p>问题一：执行<code>setState</code>的时候，即使state未发生改变，也会重新render（不过redux的更新也由此得益）</p>
+<h2 id="11-React优化"><a href="#11-React优化" class="headerlink" title="11.React优化"></a>11.React优化</h2><h4 id="PureComponent-amp-memo"><a href="#PureComponent-amp-memo" class="headerlink" title="PureComponent &amp; memo"></a>PureComponent &amp; memo</h4><p>问题一：执行<code>setState</code>的时候，即使state未发生改变，也会重新render（不过redux的更新也由此得益）</p>
 <p>问题二：React中使用父子组件嵌套时，父组件使用props传入state的状态，发生 setState 时state改变，setState触发 <code>render()</code>，而传入的props也随之改变，子组件也发生 <code>render()</code>；但是如果没有传入props，父组件发生 <code>render()</code>更新时，因为子组件也放在 <code>render()</code>里面，所以子组件即使没什么要改的地方，也不得不随着父组件一起 <code>render()</code>更新</p>
 <p>造成原因：</p>
 <ul>
@@ -1207,7 +1208,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">cre
 <pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">PureComponent</span> <span class="token punctuation">{</span>
     <span class="token comment" spellcheck="true">//xxx</span>
 <span class="token punctuation">}</span></code></pre>
-<p>但实际上 <code>PureComponent</code> 有些许小瑕疵（类似于redux小bug）,它在底层也是做一个浅比较（<code>Object.js()</code>），如果只是数据对象内部数据变了，<code>shouldComponentUpdate()</code>返回false</p>
+<p>但实际上 <code>PureComponent</code> 有些许小瑕疵（类似于redux小bug）,它在底层也是做一个浅比较（<code>Object.is()</code>），如果只是数据对象内部数据变了，<code>shouldComponentUpdate()</code>返回false</p>
 <pre class=" language-jsx"><code class="language-jsx">changeSomething <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
     <span class="token keyword">let</span> obj <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">;</span>
     obj<span class="token punctuation">.</span>username <span class="token operator">=</span> <span class="token string">'Bruce'</span><span class="token punctuation">;</span>
@@ -1223,6 +1224,33 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">cre
     username<span class="token punctuation">:</span><span class="token string">'Bruce'</span><span class="token punctuation">,</span>
     student<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'Olivia'</span><span class="token punctuation">,</span> <span class="token operator">...</span>student<span class="token punctuation">]</span> 
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>亦或是需要深层比较的时候，自行实现 <code>shouldComponentUpdate</code></p>
+<p>碰到函数式组件，我们此时无法使用到PureComponent，我们可以使用 React.memo</p>
+<p>他接收一个组件作为参数返回一个新组件，新组件仅检查props变更，会将当前props和上一次props进行浅层比较，相同则阻止渲染</p>
+<p>所以对于函数式组件来说，<code>React.memo</code> 仅检查 props 变更。如果函数组件被 <code>React.memo</code> 包裹，且其实现中拥有 <a href="https://zh-hans.reactjs.org/docs/hooks-state.html" target="_blank" rel="noopener"><code>useState</code></a>，<a href="https://zh-hans.reactjs.org/docs/hooks-reference.html#usereducer" target="_blank" rel="noopener"><code>useReducer</code></a> 或 <a href="https://zh-hans.reactjs.org/docs/hooks-reference.html#usecontext" target="_blank" rel="noopener"><code>useContext</code></a> 的 Hook，当 state 或 context 发生变化时，它仍会重新渲染。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> MyComponent <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">memo</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token function">MyComponent</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">/* 使用 props 渲染 */</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><code>React.memo</code> 为<a href="https://zh-hans.reactjs.org/docs/higher-order-components.html" target="_blank" rel="noopener">高阶组件</a>。</p>
+<p>如果你的组件在相同 props 的情况下渲染相同的结果，那么你可以通过将其包装在 <code>React.memo</code> 中调用，以此通过记忆组件渲染结果的方式来提高组件的性能表现。这意味着在这种情况下，React 将跳过渲染组件的操作并直接复用最近一次渲染的结果。</p>
+<p>默认情况下其只会对复杂对象做浅层对比，如果你想要控制对比过程，那么请将自定义的比较函数通过第二个参数传入来实现。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">MyComponent</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">/* 使用 props 渲染 */</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">function</span> <span class="token function">areEqual</span><span class="token punctuation">(</span>prevProps<span class="token punctuation">,</span> nextProps<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">/*
+  如果把 nextProps 传入 render 方法的返回结果与
+  将 prevProps 传入 render 方法的返回结果一致则返回 true，
+  否则返回 false
+  */</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> React<span class="token punctuation">.</span><span class="token function">memo</span><span class="token punctuation">(</span>MyComponent<span class="token punctuation">,</span> areEqual<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>此方法仅作为<strong><a href="https://zh-hans.reactjs.org/docs/optimizing-performance.html" target="_blank" rel="noopener">性能优化</a></strong>的方式而存在。但请不要依赖它来“阻止”渲染，因为这会产生 bug。</p>
+<blockquote>
+<p>注意</p>
+<p>与 class 组件中 <a href="https://zh-hans.reactjs.org/docs/react-component.html#shouldcomponentupdate" target="_blank" rel="noopener"><code>shouldComponentUpdate()</code></a> 方法不同的是，如果 props 相等，<code>areEqual</code> 会返回 <code>true</code>；如果 props 不相等，则返回 <code>false</code>。这与 <code>shouldComponentUpdate</code> 方法的返回值相反。</p>
+</blockquote>
+<p><strong>高阶组件是参数为组件，返回值为新组件的函数。</strong></p>
 <h4 id="useCallback"><a href="#useCallback" class="headerlink" title="useCallback"></a><strong>useCallback</strong></h4><p>官方：</p>
 <p>把内联回调函数及依赖项数组作为参数传入 useCallback，它将返回该回调函数的 memoized 版本，该回调函数仅在某个依赖项改变时才会更新。当你把回调函数传递给经过优化的并使用引用相等性去避免非必要渲染（例如 shouldComponentUpdate）的子组件时，它将非常有用。</p>
 <p>这里引入一个例子</p>
@@ -1855,7 +1883,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">259.4k</span>&nbsp;字
+                class="white-color">265.1k</span>&nbsp;字
             
             
             

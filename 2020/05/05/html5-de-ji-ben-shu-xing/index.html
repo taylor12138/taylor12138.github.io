@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.7k
+                    4.5k
                 </div>
                 
 
@@ -698,26 +698,7 @@ mutiple=&quot;multiple&quot;    选择多个文件上传
 <h4 id="2-description"><a href="#2-description" class="headerlink" title="2.description"></a>2.description</h4><p>简要概述网站内容</p>
 <h4 id="3-keywords"><a href="#3-keywords" class="headerlink" title="3.keywords"></a>3.keywords</h4><p>页面关键字，搜索引擎的关注点</p>
 <h4 id="logo的SEO优化"><a href="#logo的SEO优化" class="headerlink" title="logo的SEO优化"></a>logo的SEO优化</h4><p>logo里首先放一个h1标签来提权，h1里再放一个链接，用于返回至首页，为了让搜索引擎收录我们，我们要在链接里放文字（网站名称），但是文字不要显示出来（文字大小设置为0，font-size: 0），最后给链接一个title属性</p>
-<h2 id="14-HTML5中的跨文档消息传递"><a href="#14-HTML5中的跨文档消息传递" class="headerlink" title="14.HTML5中的跨文档消息传递"></a>14.HTML5中的跨文档消息传递</h2><p>跨文档消息传送（cross-document messaging），有时候也简称为XDM，指的是来自不同域的页面间传递消息。</p>
-<p>着是一个<code>bom</code>的<code>api</code>， MDN：<code>window.postMessage</code>。</p>
-<p>XDM的核心是<code>postMessage()</code>方法，实际上我们可以使用<code>postMessage()</code>方法进行跨域</p>
-<p><code>postMessage</code>两个参数：</p>
-<ul>
-<li>data:作为<code>postMessage()</code>第一个参数传入的字符串数据。</li>
-<li>origin:发送消息的文档所在的域，例如“<code>https://www.w3cmm.com</code>”。</li>
-</ul>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 跨域发送数据到目标源</span>
-window<span class="token punctuation">.</span>onload <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    document<span class="token punctuation">.</span><span class="token function">getElementsByTagName</span><span class="token punctuation">(</span><span class="token string">"iframe"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>contentWindow<span class="token punctuation">.</span><span class="token function">postMessage</span><span class="token punctuation">(</span><span class="token punctuation">{</span>name<span class="token punctuation">:</span> <span class="token string">'wujiang'</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token string">"http://localhost:8090"</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span>
-<span class="token comment" spellcheck="true">// 监听目标源发送过来的数据</span>
-window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'message'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>origin<span class="token operator">==</span><span class="token string">"http://localhost:8080"</span><span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token comment" spellcheck="true">//注意origin是发送消息的文档所在的域。</span>
-        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'http://localhost:8090/a.ftl ===> http://localhost:8080/index.jsp'</span><span class="token punctuation">)</span>
-        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
-<h2 id="15-iframe标签"><a href="#15-iframe标签" class="headerlink" title="15.iframe标签"></a>15.iframe标签</h2><p><code>iframe</code> 元素会创建包含另外一个文档的内联框架</p>
+<h2 id="14-iframe标签"><a href="#14-iframe标签" class="headerlink" title="14.iframe标签"></a>14.iframe标签</h2><p><code>iframe</code> 元素会创建包含另外一个文档的内联框架</p>
 <p>听说<code>iframe</code>标签能耗高？安全性差？还很low？我看面试有问到，（我还没用过）所以以下是选取网上我个人觉得比较有用的关于 <code>iframe</code>的知识点（不过我主要看的是局限 0.0 ，，毕竟还是少用为妙）</p>
 <p>听说你长这样？</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>iframe</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>demo.html<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>500<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>demo<span class="token punctuation">"</span></span> <span class="token attr-name">scrolling</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>auto<span class="token punctuation">"</span></span> <span class="token attr-name">sandbox</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>allow-same-origin<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>iframe</span><span class="token punctuation">></span></span></code></pre>
@@ -1238,7 +1219,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">259.4k</span>&nbsp;字
+                class="white-color">265.1k</span>&nbsp;字
             
             
             

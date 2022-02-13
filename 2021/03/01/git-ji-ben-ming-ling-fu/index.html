@@ -459,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.9k
+                    2k
                 </div>
                 
 
@@ -581,11 +581,12 @@ git config --local http.proxy 127.0.0.1:7890 为某个 git 项目单独设置代
 <h2 id="git代码提交规范工具husky"><a href="#git代码提交规范工具husky" class="headerlink" title="git代码提交规范工具husky"></a>git代码提交规范工具husky</h2><p>如果想要在提交之前（git commit），让eslint做一次 eslint fix，我们可以使用husky工具</p>
 <p>你一可以他把看成一个关于git 的 eslint</p>
 <p>husky是一个git hook工具，可以帮助我们触发git 提交的各个阶段，pre-commit、commit-msg、pre-push</p>
+<p>我们自己也可以在 <code>./git/hooks</code> 新建文件，给予可执行权限，然后在pre-commit阶段执行某种操作</p>
 <p>使用husky：使用自动配置命令</p>
 <pre class=" language-shell"><code class="language-shell">npx husky-init && npm install</code></pre>
 <p>windows用户（powershell）可以换成</p>
 <pre class=" language-shell"><code class="language-shell">npx husky-init -and npm install</code></pre>
-<h4 id="pre-commit"><a href="#pre-commit" class="headerlink" title="pre-commit"></a>pre-commit</h4><p>此时可以在<code>.husky</code>文件夹下的pre-commit文件下，写入eslint的fix命令（package.json中代码检查命令 <code>npm run lint</code> 之类的 ）</p>
+<h4 id="pre-commit"><a href="#pre-commit" class="headerlink" title="pre-commit"></a>pre-commit</h4><p>此时可以在<code>.husky</code>文件夹下的pre-commit文件下，写入<code>eslint</code>的fix命令（<code>package.json</code>中代码检查命令 <code>npm run lint</code> 之类的 ）</p>
 <p>上面那个命令会执行以下三步操作</p>
 <ol>
 <li>安装husky相关依赖（ <code>npm i husky -D</code> ）</li>
@@ -884,21 +885,24 @@ git config --local http.proxy 127.0.0.1:7890 为某个 git 项目单独设置代
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/02/07/webpack/">
+                <a href="/2021/02/07/webpack-xia/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="webpack">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="webpack(下)">
                         
-                        <span class="card-title">webpack</span>
+                        <span class="card-title">webpack(下)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.Webpack概述webpack是一个现代的JavaScript应用的静态模块打包工具（依赖于node环境）
-它可以帮你把AMD、CMD、CommonJS、ES6的一些模块化编写方式，转化为— &gt; 浏览器可以识别的模块化方案
-而且
+                            5.关于webpackWebpack缩小体积原理将多个模块依赖，转变成单个静态资源（js、css、jpg、png）
+
+打包，是指处理某些文件并将其输出为其他文件的能力。
+
+entry: 编译入口
+module: 模块，在 webpack 中
                         
                     </div>
                     <div class="publish-info">
@@ -1114,7 +1118,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">259.4k</span>&nbsp;字
+                class="white-color">265.1k</span>&nbsp;字
             
             
             

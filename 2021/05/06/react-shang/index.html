@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.1k
+                    8.3k
                 </div>
                 
 
@@ -1147,11 +1147,17 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
 <p>在脚手架里，引入文件时，如果文件是js / jsx，可以不写后缀名</p>
 <p>jsx<strong>模板生成的快捷键</strong>（类式组件）： <code>rcc</code> </p>
 <p>jsx<strong>模板生成的快捷键</strong>（函数式组件）： <code>rfc</code> </p>
-<h4 id="脚手架中css模块化"><a href="#脚手架中css模块化" class="headerlink" title="脚手架中css模块化"></a>脚手架中css模块化</h4><p>正常在jsx文件里引入css： <code>import &#39;./index.css&#39;</code></p>
+<h4 id="脚手架中CSS模块化"><a href="#脚手架中CSS模块化" class="headerlink" title="脚手架中CSS模块化"></a>脚手架中CSS模块化</h4><p>正常在jsx文件里引入css： <code>import &#39;./index.css&#39;</code></p>
 <p>实现css模块化：方法一</p>
 <p>1.<code>index.css</code> -&gt; <code>index.module.css</code></p>
 <p>2.引入样式：<code>import xx from &#39;./index.module.css&#39;</code> </p>
 <p>3.使用样式 :<code>&lt;h2 className={xx.title}&gt; Hello, React &lt;/h2&gt;</code></p>
+<p>但是注意：如果在css模块中只是单纯使用标签选择器，则无法模块化，有全局影响性</p>
+<pre class=" language-css"><code class="language-css"><span class="token selector">ul li </span><span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
+<p>推荐加上</p>
+<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.home</span> ul li </span><span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
+<p>在css module中仍要让样式全局化</p>
+<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token pseudo-class">:global(.home)</span></span><span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
 <p>方法二：使用less进行嵌套</p>
 <p>（React中less使用教程 <a href="https://www.cnblogs.com/liangziaha/p/13632623.html" target="_blank" rel="noopener">https://www.cnblogs.com/liangziaha/p/13632623.html</a> ）</p>
 <p>（还是Vue的scope舒服呀）</p>
@@ -1165,6 +1171,14 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
         <span class="token string">'@'</span><span class="token punctuation">:</span> paths<span class="token punctuation">.</span>appSrc<span class="token punctuation">,</span>
       <span class="token punctuation">}</span>
     <span class="token punctuation">}</span></code></pre>
+<h4 id="react脚手架prettier和eslint"><a href="#react脚手架prettier和eslint" class="headerlink" title="react脚手架prettier和eslint"></a>react脚手架prettier和eslint</h4><p><code>create react app</code>自带<code>eslint</code>，我们需要安装prettier</p>
+<pre class=" language-shell"><code class="language-shell">npm i prettier -D</code></pre>
+<p>然后我们需要让eslint和prettier兼容</p>
+<pre class=" language-shell"><code class="language-shell">npm install eslint-config-prettier eslint-plugin-prettier --save-dev</code></pre>
+<p>在根目录下新建文件 <code>.eslintrc.json</code></p>
+<pre class=" language-js"><code class="language-js"><span class="token punctuation">{</span>
+  <span class="token string">"extends"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"react-app"</span><span class="token punctuation">,</span> <span class="token string">"plugin:prettier/recommended"</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span></code></pre>
 <h2 id="5-React开发中应用"><a href="#5-React开发中应用" class="headerlink" title="5.React开发中应用"></a>5.React开发中应用</h2><h4 id="组件数据传递（子传父）"><a href="#组件数据传递（子传父）" class="headerlink" title="组件数据传递（子传父）"></a>组件数据传递（子传父）</h4><p>利用的是回调函数闭包的特性，和Vue的子组件传递给父组件的 <code>$emit()</code> 有异曲同工之妙</p>
 <p>父组件：设置函数，并在子组件上使用props传递该函数</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
@@ -1200,14 +1214,20 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
 <p>nanoid是一个函数，每次调用都会帮你生成一个字符串，保证全球唯一</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span>nanoid<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'nanoid'</span>
 <span class="token keyword">const</span> str <span class="token operator">=</span> <span class="token function">nanoid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h4 id="React内部配置代理跨域"><a href="#React内部配置代理跨域" class="headerlink" title="React内部配置代理跨域"></a>React内部配置代理跨域</h4><p><strong>(正向代理)</strong></p>
-<p><strong>新建一个setupProxy.js文件</strong> 在此文件中必须使用cjs的方式撰写（CommonJS），因为这个文件是要加到webpack配置里面的，而webpack用的是node语法</p>
-<p>React脚手架内部已经下载好 <code>http-proxy-middleware</code> 库了</p>
+<h4 id="React内部配置代理跨域"><a href="#React内部配置代理跨域" class="headerlink" title="React内部配置代理跨域"></a>React内部配置代理跨域</h4><p><strong>(反向代理)</strong></p>
+<p>在src目录下<strong>新建一个setupProxy.js文件</strong> 在此文件中必须使用cjs的方式撰写（CommonJS），因为这个文件是要加到webpack配置里面的，而webpack用的是node语法</p>
+<pre class=" language-shell"><code class="language-shell">npm i http-proxy-middleware</code></pre>
 <p>proxy内部选项介绍：</p>
 <ul>
-<li><p>第一个参数设置前缀名，比如设置了前缀名为<code>/api1</code>，遇到这个前缀的请求就会触发该代理配置，</p>
-<p>原本请求地址 ： <a href="http://localhost:3000/student" target="_blank" rel="noopener">http://localhost:3000/student</a> -&gt; 此时我们需要改成  <a href="http://localhost:3000/api1/student，就会触发代理" target="_blank" rel="noopener">http://localhost:3000/api1/student，就会触发代理</a></p>
+<li><p>第一个参数设置前缀名，比如设置了前缀名为<code>/api1</code>，遇到这个前缀的请求就会触发该代理配置，比如猫眼电影的请求示例</p>
+<p>原本请求地址 ：<a href="https://i.maoyan.com/ajax/comingList?ci=91&amp;limit=10" target="_blank" rel="noopener">https://i.maoyan.com/ajax/comingList?ci=91&amp;limit=10</a>…. -&gt; 此时我们需要改成  <a href="/ajax/comingList?ci=91&limit=10">/ajax/comingList?ci=91&amp;limit=10</a>….，就会触发代理</p>
+<pre class=" language-js"><code class="language-js">axios<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'ajax/mostExpected?limit=10&amp;offset=0&amp;token=&amp;optimus.........'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span> 
+    <span class="token comment" spellcheck="true">//自动找本地域名 + /ajax</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 </li>
+</ul>
+<ul>
 <li><p>第二个参数是配置</p>
 <ul>
 <li>target：我们发送的目标跨域url</li>
@@ -1219,18 +1239,23 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> proxy <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'http-proxy-middleware'</span><span class="token punctuation">)</span>
 <span class="token comment" spellcheck="true">///使用proxy中间件</span>
 module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>app<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>
-    <span class="token function">proxy</span><span class="token punctuation">(</span><span class="token string">'/api1'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> 
-      target<span class="token punctuation">:</span> <span class="token string">'http://localhost:5000'</span><span class="token punctuation">,</span> 
-      changOrigin<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
-      pathRewrite<span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token string">'api1'</span><span class="token punctuation">:</span> <span class="token string">''</span> <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-    <span class="token function">proxy</span><span class="token punctuation">(</span><span class="token string">'/api2'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
-      target<span class="token punctuation">:</span> <span class="token string">'http://localhost:5001'</span><span class="token punctuation">,</span>
-      changOrigin<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
-      pathRewrite<span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token string">'/api2'</span><span class="token punctuation">:</span> <span class="token string">''</span> <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
-  <span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">//中间件既视感</span>
+    app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>
+        <span class="token function">proxy</span><span class="token punctuation">(</span><span class="token string">'/ajax'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> 
+            target<span class="token punctuation">:</span> <span class="token string">'https://i.maoyan.com'</span><span class="token punctuation">,</span>  <span class="token comment" spellcheck="true">//目标请求地址</span>
+            changOrigin<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token function">proxy</span><span class="token punctuation">(</span><span class="token string">'/api1'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> 
+            target<span class="token punctuation">:</span> <span class="token string">'http://localhost:5000'</span><span class="token punctuation">,</span> 
+            changOrigin<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+            pathRewrite<span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token string">'^/api1'</span><span class="token punctuation">:</span> <span class="token string">''</span> <span class="token punctuation">}</span>     <span class="token comment" spellcheck="true">//自动帮我们把api1给去掉</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token function">proxy</span><span class="token punctuation">(</span><span class="token string">'/api2'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+            target<span class="token punctuation">:</span> <span class="token string">'http://localhost:5001'</span><span class="token punctuation">,</span>
+            changOrigin<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+            pathRewrite<span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token string">'^/api2'</span><span class="token punctuation">:</span> <span class="token string">''</span> <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
 <span class="token punctuation">}</span></code></pre>
 <h4 id="消息订阅与发布机制"><a href="#消息订阅与发布机制" class="headerlink" title="消息订阅与发布机制"></a>消息订阅与发布机制</h4><p>工具库 ： PubSubJS</p>
 <p>可以在github上下载，也可以直接npm </p>
@@ -1513,8 +1538,7 @@ PubSub<span class="token punctuation">.</span><span class="token function">publi
                     <div class="summary block-with-text">
                         
                             6.React路由React和Vue一样，都是采取单页面富应用的方式配置网页（SPA），即单个页面通过路由的切换，展示不同的数据信息，
-而且改变url，依然是页面不发生整体刷新（只做页面的局部刷新）
-React-router有三种实现方式，
+而且改变url，依然是页面不发生整体刷新（只做页面的局部刷新），对于if else、switch不同的地
                         
                     </div>
                     <div class="publish-info">
@@ -1775,7 +1799,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">265.1k</span>&nbsp;字
+                class="white-color">271.1k</span>&nbsp;字
             
             
             

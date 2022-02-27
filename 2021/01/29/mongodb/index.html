@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.4k
+                    5.1k
                 </div>
                 
 
@@ -517,6 +517,8 @@
 </tr>
 </tbody></table>
 <ul>
+<li><p>非关系型数据库没有行列的概念，用json来存储数据</p>
+</li>
 <li><p>而MongoDB是长得最像关系型数据库的非关系型数据库</p>
 <ul>
 <li><p>数据库 =&gt; 数据库</p>
@@ -536,7 +538,15 @@
 </ul>
 </li>
 </ul>
-<h2 id="2-使用"><a href="#2-使用" class="headerlink" title="2.使用"></a>2.使用</h2><h4 id="打开"><a href="#打开" class="headerlink" title="打开"></a>打开</h4><p>方式一：根据菜鸟教程提供的window MongoDB操作教程，就可以注册成window的一个服务，然后可以通过鼠标右键开启和停止这个服务了</p>
+<p><a href="https://docs.mongodb.com/manual/core/document/#documents" target="_blank" rel="noopener">MongoDB 将数据存储为 BSON 文档</a>。BSON 是 JSON（JavaScript Object Notation）的二进制表示。</p>
+<p>tip：</p>
+<p>数据库之间的关系：</p>
+<ul>
+<li>一对一（身份证号）</li>
+<li>一对多（一个班级多名学生）</li>
+<li>多对多（一个学生多门课程，一门课可以被多名学生选），一般再建立一个中间表，来保存两个表之间的关系信息</li>
+</ul>
+<h2 id="2-使用（windows版）"><a href="#2-使用（windows版）" class="headerlink" title="2.使用（windows版）"></a>2.使用（windows版）</h2><h4 id="开启服务（服务端）"><a href="#开启服务（服务端）" class="headerlink" title="开启服务（服务端）"></a>开启服务（服务端）</h4><p>方式一：根据菜鸟教程提供的window MongoDB操作教程，就可以注册成window的一个服务，然后可以通过鼠标右键开启和停止这个服务了</p>
 <p>方式二：</p>
 <pre class=" language-shell"><code class="language-shell">#mongodb 默认使用执行 mongod 命令所处盘根目录下的/data/db作为自己的数据存储目录
 #所以在第一次执行该命令之前，先手动新建一个 E(MongoDB所属盘):/data/db
@@ -545,33 +555,149 @@ mongod</code></pre>
 <p>停止服务：ctrl + C或者直接关闭cmd窗口</p>
 <p>如果想要修改默认的数据存储目录路径，可以（但是比较麻烦，不推荐）</p>
 <pre class=" language-shell"><code class="language-shell">mongod --dbpath=数据存储目录路径</code></pre>
-<h4 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h4><p>用一个命令窗口来打开MongoDB数据库</p>
-<p>此时再打开一个窗口，输入以下命令进行连接</p>
+<blockquote>
+<p>注意，在mongoDB4.x以后，不需要开启服务这个步骤，因为在客户端执行连接命令的时候，计算机会自动帮我们开启服务</p>
+</blockquote>
+<h4 id="连接（客户端）"><a href="#连接（客户端）" class="headerlink" title="连接（客户端）"></a>连接（客户端）</h4><p>用一个命令窗口来打开MongoDB数据库</p>
+<p>此时再打开一个窗口，输入以下命令进行连接（这个命令执行成功的前提是要把<code>e:mongo/bin</code>，也就是自己安装的mongoDB的bin路径加入到当前系统的环境变量中）</p>
 <pre class=" language-shell"><code class="language-shell">#该命令默认连接本机的MongoDB服务
 mongo</code></pre>
 <p>断开连接</p>
-<pre><code>exit</code></pre><h4 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h4><p><code>show dbs</code> 查看显示所有数据库</p>
-<p><code>db</code> 查看当前操作的数据库，默认为test，供测试</p>
-<p><code>show collections</code> 查看当前数据库的集合</p>
-<p><code>use 数据库名称</code> 切换到指定数据库，如果没有该数据库则会新建一个</p>
-<pre class=" language-shell"><code class="language-shell">#在当前数据库的students集合中插入一个数据（对象）
+<pre><code>exit</code></pre><h4 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h4><p>查看显示所有数据库</p>
+<pre class=" language-shell"><code class="language-shell">show dbs</code></pre>
+<p>查看当前操作的数据库，默认为test，供测试</p>
+<pre class=" language-shell"><code class="language-shell">db</code></pre>
+<p> 切换到指定数据库，如果没有该数据库则会新建一个（真正创建出来还得往该数据库里插入一条数据）</p>
+<pre><code>use 数据库名称</code></pre><p>删除当前切换到的数据库</p>
+<pre class=" language-shell"><code class="language-shell">db.dropDatabase</code></pre>
+<p>查看当前数据库的集合（一个数据库有多个集合）</p>
+<pre class=" language-shell"><code class="language-shell">show collections</code></pre>
+<p>原生的查询方法对于小项目还好，对于大项目来说可能性能不是很好，推荐使用第三方库来查询</p>
+<p>你甚至可以在命令行里写for循环来插入。。</p>
+<pre class=" language-shell"><code class="language-shell">#在当前数据库的students集合中插入一个数据（对象），没有这个集合则会新建一个
 db.students.insertOne({"name": "Jack"})
+#在当前数据库的students集合中再插入一个数据（对象）
+db.students.insert({"name": "Allen"})
+
 #查看当前数据库的students集合中的数据
 db.students.find()
+#查看当前数据库的students集合中的数据数量
+db.students.find().count()
+#查找当前数据库的students集合中name为Allen的数据
+db.students.find({"name": "Allen"})
+#查找当前数据库的students集合中name以A开头的数据
+db.students.find({"name": A})
+#查询前5条数据
+db.students.find().limit(5)
+#跳过10条数据查找
+db.students.find().skip(10)
+
 #移除 title 为“MongoDB”的文档
 db.test.remove({'title': 'MongoDB'})
-WriteResult({ 'nRemoved' : 2 })    #删除了两条数据</code></pre>
-<h2 id="3-在Node中操作MongoDB数据"><a href="#3-在Node中操作MongoDB数据" class="headerlink" title="3.在Node中操作MongoDB数据"></a>3.在Node中操作MongoDB数据</h2><p>方法一：使用官方的<code>mongodb</code>包来操作（并且根据文档提供的使用方法步骤进行操作）</p>
+#一处test集合中所有数据
+db.test.remove({})
+
+#修改数据,修改name为Allen的数据，将其age改为33
+db.stundents.update({"name": "Allen"}, {$set:{"age": 33}})
+#完整替换掉数据
+db.stundents.update({"name": "Allen"}, {"name": "Bruce"})</code></pre>
+<p>删除集合</p>
+<pre><code>db.students.drop()</code></pre><h4 id="索引使用"><a href="#索引使用" class="headerlink" title="索引使用"></a>索引使用</h4><h5 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h5><p>索引是指对数据库表中一列或者多列的值进行排序的一种数据结构，可以让我们查询数据库变得更快，MongoDB的索引几乎和传统的关系型数据库一摸一样，其中也包含了一些基本的查询优化技巧</p>
+<p>如果我们对某一字段增加索引，查询时就会先去索引列表中一次定位到特定值的行数，大大减少遍历匹配的行数，所以能明显增加查询的速度。（有点目录的感觉）</p>
+<p>创建索引（里面传入要设置索引的字段（key），值为1升序序排序，-1为降序）</p>
+<pre class=" language-shell"><code class="language-shell">db.user.ensureIndex({"name": 1})</code></pre>
+<p>获取当前集合索引</p>
+<pre class=" language-shell"><code class="language-shell">db.user.getIndexes()</code></pre>
+<p>删除索引</p>
+<pre class=" language-shell"><code class="language-shell">db.user.dropIndex({"name": 1})</code></pre>
+<p>此时使用 <code>db.students.find({&quot;name&quot;: &quot;Allen&quot;})</code>会发现快了巨多（上百倍的速度）</p>
+<h5 id="复合索引"><a href="#复合索引" class="headerlink" title="复合索引"></a><strong>复合索引</strong></h5><p>如果我们使用find查询时，使用的是复合查询，也就是 <code>db.students.find({&quot;name&quot;: &quot;Allen&quot;, &quot;age&quot;: 1})</code>这种类型的，此时我们需要复合索引，此时我们</p>
+<p>1.只对查询name进行查询：会命中索引</p>
+<p>1.对查询name &amp; age 进行查询：会命中索引age</p>
+<p>1.只对查询age进行查询：<strong>不会命中索引</strong></p>
+<pre class=" language-shell"><code class="language-shell">db.user.ensureIndex({"name": 1, "age": 1})</code></pre>
+<h5 id="唯一索引"><a href="#唯一索引" class="headerlink" title="唯一索引"></a><strong>唯一索引</strong></h5><p>在缺省的情况下创建的索引均不是唯一索引，下面示例将创建唯一索引</p>
+<p>说人话就是设置完唯一索引以后，这个字段就不能重复，比如目前某个数据其中一个键值对为 <code>{&quot;uid&quot;: 1}</code>，则不能再次添加 其中有个键值对为 <code>{&quot;uid&quot;: 1}</code> 的数据</p>
+<pre class=" language-shell"><code class="language-shell">db.user.ensureIndex({"uid": 1}, {"unique": true})</code></pre>
+<pre class=" language-shell"><code class="language-shell">#再次插入uid重复的文档后，MongDB将报错
+db.user.insert({"uid": 1})
+db.user.insert({"uid": 1})</code></pre>
+<h2 id="3-MongoDB权限管理"><a href="#3-MongoDB权限管理" class="headerlink" title="3.MongoDB权限管理"></a>3.MongoDB权限管理</h2><p>1.创建超级管理员账户(root)，删除管理员为 <code>db,dropUser(用户名)</code></p>
+<pre class=" language-shell"><code class="language-shell">use admin
+#查看当前数据库的账户
+show users
+db.createUser({
+    user:"admin",
+    pwd:'123456',
+    roles:[{role:'root', db:'admin'}]
+})</code></pre>
+<p>2.修改Mongdb数据库配置文件</p>
+<p>在mongodb安装目录下的bin文件夹中，找到mongod.cfg（）记得先备份一下，用文本编辑打开（注意空格格式）</p>
+<pre><code>security:
+[两个空格]authorization:[一个空格]enable</code></pre><p>3.重启mongodb服务</p>
+<p>4.用超级管理员账户连接mongdob数据库，第二个取决于你注册的时候选择的db</p>
+<pre class=" language-shell"><code class="language-shell">#超级管理员登录
+mongo admin -u 用户名 -p 密码</code></pre>
+<p>如果是连接远程服务器，则敲入以下命令</p>
+<pre class=" language-shell"><code class="language-shell">mongo 远程服务器ip地址 -u 用户名 -p 密码</code></pre>
+<p>5.给xx数据库创建一个账户，让其只能访问xx数据库，不能访问其他数据库</p>
+<pre class=" language-shell"><code class="language-shell">use xx
+db.createUser({
+    user:"xxmin",
+    pwd:'123456',
+    roles:[{role:'dbOwner', db:'xx'}]
+})</code></pre>
+<ol>
+<li>数据库用户角色：read、readWrite;</li>
+<li>数据库管理角色：dbAdmin、dbOwner、userAdmin；</li>
+<li>集群管理角色：clusterAdmin、clusterManager、clusterMonitor、hostManager；</li>
+<li>备份恢复角色：backup、restore；</li>
+<li>所有数据库角色：readAnyDatabase、readWriteAnyDatabase、userAdminAnyDatabase、dbAdminAnyDatabase</li>
+<li>超级用户角色：root </li>
+</ol>
+<h2 id="4-在Node中操作MongoDB数据"><a href="#4-在Node中操作MongoDB数据" class="headerlink" title="4.在Node中操作MongoDB数据"></a>4.在Node中操作MongoDB数据</h2><p>方法一：使用官方的<code>mongodb</code>包来操作（并且根据文档提供的使用方法步骤进行操作）</p>
 <p><a href="https://github.com/mongodb/node-mongodb-native" target="_blank" rel="noopener">https://github.com/mongodb/node-mongodb-native</a></p>
+<p>（new）<a href="https://docs.mongodb.com/drivers/node/current/fundamentals/connection/" target="_blank" rel="noopener">https://docs.mongodb.com/drivers/node/current/fundamentals/connection/</a></p>
+<p>CRUD</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> MongoClient <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"mongodb"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// Connection URI</span>
+<span class="token keyword">const</span> uri <span class="token operator">=</span> <span class="token string">"mongodb://127.0.0.1:27017/"</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// Create a new MongoClient</span>
+<span class="token keyword">const</span> client <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MongoClient</span><span class="token punctuation">(</span>uri<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">try</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Connect the client to the server</span>
+    <span class="token keyword">await</span> client<span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">const</span> db <span class="token operator">=</span> client<span class="token punctuation">.</span><span class="token function">db</span><span class="token punctuation">(</span><span class="token string">"cartoon"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//数据库名字</span>
+    <span class="token keyword">const</span> Result <span class="token operator">=</span> <span class="token keyword">await</span> db
+      <span class="token punctuation">.</span><span class="token function">collection</span><span class="token punctuation">(</span><span class="token string">"bookss"</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//集合名词</span>
+      <span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">limit</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">toArray</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Ensures that the client will close when you finish/error</span>
+    <span class="token keyword">await</span> client<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>dir<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>方法二：使用第三方<code>mongoose</code>来操作 MongoDB数据库</p>
-<p><a href="https://mongoosejs.com/" target="_blank" rel="noopener">https://mongoosejs.com/</a></p>
-<p>而这个第三方包<code>mongoose</code> 是基于MongoDB 官方的 <code>mongodb</code> 包进行的二次封装</p>
-<p>（mongoose所有api都支持promise）</p>
-<pre class=" language-shell"><code class="language-shell">npm init -y
-npm i mongoose</code></pre>
+<h2 id="5-Mongoose"><a href="#5-Mongoose" class="headerlink" title="5.Mongoose"></a>5.Mongoose</h2><p><a href="https://mongoosejs.com/" target="_blank" rel="noopener">https://mongoosejs.com/</a></p>
+<p>Mongoose是在nodejs异步环境下对MongoDB进行便捷操作的对象模型工具，Mongoose是NodeJS的驱动，不能作为其他语言的驱动</p>
+<p>（mongoose所有api都支持promise，npm下载的时候直接下载mongoose就好了，不用下mongodb）</p>
+<pre class=" language-shell"><code class="language-shell">npm i mongoose --save</code></pre>
 <p>以下代码在mongoose官网也能查看到</p>
 <p>1.引包 <code>require(&#39;mongoose&#39;);</code>  =&gt;</p>
 <p>2.连接数据库 <code>mongoose.connect</code> (指定连接的数据库不一定需要存在，当你插入第一条数据之后就会被自动创建出来)=&gt; </p>
+<ul>
+<li>第一个参数是连接的数据库</li>
+<li>第二个参数是option，mongodb4.0之后，都需要传入 <code>useNewUrlParser</code> 参数，会识别url里用户所需的db，不传入会报警告，而 <code>useUnifiedTopology</code> 是使用一个统一的拓扑结构</li>
+<li>第三个参数可传入一个回调函数 fn ，告诉用户：连接成功</li>
+</ul>
+<blockquote>
+<p>注意：MongooseServerSelectionError: connect ECONNREFUSED ::1:27017的问题可能是由于node版本号导致的，请查看当前node版本是否小于17.0</p>
+</blockquote>
 <p>3.创建模型<code>mongoose.model(表名, 数据结构)</code>（这里模型创建十分灵活，只需要在代码中设计你的数据库就可以了） =&gt;  </p>
 <p>4.实例化模型(new)，并将每个实例化的数据保存 <code>save()</code> 在该模型集合里</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//demo.js</span>
@@ -579,8 +705,11 @@ npm i mongoose</code></pre>
 <span class="token keyword">const</span> mongoose <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'mongoose'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">//连接MongoDB数据库（这里顺便创建了一个叫test的数据库）</span>
 mongoose<span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token string">'mongodb://localhost:27017/test'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> useNewUrlParser<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> useUnifiedTopology<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//如果数据库要管理员账号密码，则需要以以下方式连接(账户名:密码@)</span>
+<span class="token comment" spellcheck="true">//mongoose.connect('mongodb://allen:123456@localhost:27017/test');</span>
+
 <span class="token comment" spellcheck="true">//创建一个模型，说白了就是在设计数据库</span>
-<span class="token comment" spellcheck="true">// 这里第一个参数是表名：Cat，第二个参数是数据结构</span>
+<span class="token comment" spellcheck="true">//这里第一个参数是表名：Cat，第二个参数是数据结构</span>
 <span class="token keyword">const</span> Cat <span class="token operator">=</span> mongoose<span class="token punctuation">.</span><span class="token function">model</span><span class="token punctuation">(</span><span class="token string">'Cat'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> name<span class="token punctuation">:</span> String <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token comment" spellcheck="true">// 实例化一个Cat（往cats集合里面插入每一个kitty数据）</span>
@@ -588,7 +717,10 @@ mongoose<span class="token punctuation">.</span><span class="token function">con
     <span class="token comment" spellcheck="true">// 持久化保存kitty实例</span>
     kitty<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'meow'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
-<h4 id="设计文档结构"><a href="#设计文档结构" class="headerlink" title="设计文档结构"></a>设计文档结构</h4><p>在第3步创建模型之前，其实还可以独立开来，使用Schema设置文档结构</p>
+<p>连接本地的时候，连接地址可以在cmd中输入mongo，然后这里会看得到</p>
+<p><img src="/2021/01/29/mongodb/address.jpg" alt></p>
+<h4 id="设计文档结构"><a href="#设计文档结构" class="headerlink" title="设计文档结构"></a>设计文档结构</h4><p>在第3步创建模型之前，其实还可以独立开来，使用Schema设置文档结构，它会映射到mongodb中的一个collection</p>
+<p>这个Schema是mongoose对比mongodb突出的一个特点</p>
 <ul>
 <li>字段名称就是表结构的属性名称</li>
 <li>约束的目的就是为了保证数据的完整性，不要有脏数据</li>
@@ -607,15 +739,26 @@ mongoose<span class="token punctuation">.</span><span class="token function">con
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
     email<span class="token punctuation">:</span> <span class="token punctuation">{</span>
         type<span class="token punctuation">:</span> String
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    other<span class="token punctuation">:</span><span class="token punctuation">{</span>
+        type<span class="token punctuation">:</span> String<span class="token punctuation">,</span>
+        <span class="token keyword">default</span><span class="token punctuation">:</span> <span class="token string">'noting'</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>然后再用<code>mongoose.model(表名, 数据结构)</code>发布模型，此时把这个例子中<code>userSchema</code>放入第二个参数即可</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> User <span class="token operator">=</span> mongoose<span class="token punctuation">.</span><span class="token function">model</span><span class="token punctuation">(</span><span class="token string">'User'</span><span class="token punctuation">,</span> userSchema<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <ul>
-<li>第一个参数：为传入一个大写名词单数字符串，用来表示你的文档名称</li>
-<li>第二个传的是对文档的约束，架构Schema</li>
-<li>之后文档再变成复数，变成集合的名称，因为这才是一个集合，例如这里的User会变成users，即集合的名称</li>
-<li>返回值是模型构造函数，我们有了模型构造函数之后，就可以对users集合数据进行操作了</li>
+<li><p>第一个参数：为传入一个大写开头的字符串，用来表示你的文档名称，这个模型会和模型名称相同的复数数据库collectrion建立连接</p>
+</li>
+<li><p>第二个传的是对文档的约束，架构Schema</p>
+</li>
+<li><p>这里我们规定的集合规范为users collection，因为的User的复数形式是users，即集合的名称</p>
+</li>
+<li><p>当然我们这里可以传入第三个参数，此时我们就可以指定集合，不用使用默认的那个第一个参数复数形式!即集合名称的规范</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> User <span class="token operator">=</span> mongoose<span class="token punctuation">.</span><span class="token function">model</span><span class="token punctuation">(</span><span class="token string">'User'</span><span class="token punctuation">,</span> userSchema<span class="token punctuation">,</span> <span class="token string">'user'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//我要定义user collection的规范!</span></code></pre>
+</li>
+<li><p>返回值是模型构造函数，我们有了模型构造函数之后，就可以对users集合数据进行操作了</p>
+</li>
 </ul>
 <h4 id="操作数据"><a href="#操作数据" class="headerlink" title="操作数据"></a>操作数据</h4><p>确保数据库MongoDB被打开，并且再另外一个窗口进行连接</p>
 <p><strong>注意</strong>：mongoose增加数据是给你自动生成id</p>
@@ -694,13 +837,157 @@ allen<span class="token punctuation">.</span><span class="token function">save</
 <pre class=" language-js"><code class="language-js">User<span class="token punctuation">.</span><span class="token function">deleteMany</span><span class="token punctuation">(</span><span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'Zildjian'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'删除失败'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>根据id删除： <code>findByIdAndDelete</code></p>
 <p><strong>更新数据</strong></p>
+<p>updateOne</p>
+<ul>
+<li>第一个参数为查找条件</li>
+<li>第二个参数为更新的数据</li>
+<li>回调函数能查看更改操作成功与否</li>
+</ul>
+<pre class=" language-js"><code class="language-js">User<span class="token punctuation">.</span><span class="token function">updateOne</span><span class="token punctuation">(</span><span class="token punctuation">{</span>name<span class="token punctuation">:</span> <span class="token string">'Allen'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>name<span class="token punctuation">:</span> <span class="token string">'hhhh'</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>err<span class="token punctuation">,</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">'Server err'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <p>根据id更改数据</p>
 <pre class=" language-js"><code class="language-js">User<span class="token punctuation">.</span><span class="token function">findByIdAndUpdate</span><span class="token punctuation">(</span><span class="token string">'60142a5acbcef341281a7d18'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> password<span class="token punctuation">:</span> <span class="token string">'789456'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>err<span class="token punctuation">,</span> ret<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'更新失败'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">else</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'更新成功！'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <p>还有其他更新数据方法可以在mongoose文档查看</p>
-<h2 id="4-About数据库基础知识"><a href="#4-About数据库基础知识" class="headerlink" title="4.About数据库基础知识"></a>4.About数据库基础知识</h2><p><strong>事务</strong>：是数据库操作的最小工作单元，是作为单个逻辑工作单元执行的一系列操作；这些操作作为一个整体一起向系统提交，要么都执行、要么都不执行；事务是一组不可再分割的操作集合（工作逻辑单元）；</p>
+<h4 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h4><pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//db.js</span>
+<span class="token keyword">var</span> mongoose <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"mongoose"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+mongoose<span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span>
+  <span class="token string">"mongodb://localhost:27017/test"</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> useNewUrlParser<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> useUnifiedTopology<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token keyword">function</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"数据库连接成功"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> mongoose<span class="token punctuation">;</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//user.js</span>
+<span class="token keyword">const</span> mongoose <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./db'</span><span class="token punctuation">)</span>
+<span class="token keyword">var</span> Schema <span class="token operator">=</span> mongoose<span class="token punctuation">.</span>Schema<span class="token punctuation">;</span>
+<span class="token keyword">const</span> userSchema <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Schema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  username<span class="token punctuation">:</span> String<span class="token punctuation">,</span>
+  password<span class="token punctuation">:</span> String
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> User <span class="token operator">=</span> mongoose<span class="token punctuation">.</span><span class="token function">model</span><span class="token punctuation">(</span><span class="token string">'User'</span><span class="token punctuation">,</span> userSchema<span class="token punctuation">,</span> <span class="token string">'user'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> User</code></pre>
+<p>此时我们就可以在主目录下的app.js中导入User，使用它的方法直接操作数据库了</p>
+<h2 id="6-Mongoose其他"><a href="#6-Mongoose其他" class="headerlink" title="6.Mongoose其他"></a>6.Mongoose其他</h2><h4 id="预处理修饰符"><a href="#预处理修饰符" class="headerlink" title="预处理修饰符"></a>预处理修饰符</h4><p>定义文档结构的一些模式修饰符</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> userSchema <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Schema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    username<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        type<span class="token punctuation">:</span> String<span class="token punctuation">,</span>
+        trim<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//自动去掉左右空格</span>
+        lowercase<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//自动去掉左右空格</span>
+        uppercase<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//自动去掉左右空格</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    password<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        type<span class="token punctuation">:</span> String<span class="token punctuation">,</span>
+        required<span class="token punctuation">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>除此之外，我们还可以自定义修饰符</p>
+<p>通过set（建议使用）修饰符在增加数据的时候进行格式化</p>
+<p>通过get（不建议使用）修饰符在实例获取数据的时候对数据进行格式化</p>
+<p>set：</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> mongoose <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"./db"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> Schema <span class="token operator">=</span> mongoose<span class="token punctuation">.</span>Schema<span class="token punctuation">;</span>
+<span class="token keyword">const</span> focusSchema <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Schema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  title<span class="token punctuation">:</span> String<span class="token punctuation">,</span>
+  pic<span class="token punctuation">:</span> String<span class="token punctuation">,</span>
+  redirect<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    type<span class="token punctuation">:</span> String<span class="token punctuation">,</span>
+    <span class="token keyword">set</span><span class="token punctuation">(</span>params<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">//增加数据的时候对redirect字段进行处理</span>
+      <span class="token comment" spellcheck="true">// 这里的params是redirect对应的值</span>
+      <span class="token comment" spellcheck="true">//返回的数据为数据库实际保存的值</span>
+      <span class="token keyword">const</span> rg <span class="token operator">=</span> <span class="token regex">/^http(s?):\/\//</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>rg<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span>params<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">return</span> params<span class="token punctuation">;</span>
+      <span class="token keyword">return</span> <span class="token string">"http://"</span> <span class="token operator">+</span> params<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> Focus <span class="token operator">=</span> mongoose<span class="token punctuation">.</span><span class="token function">model</span><span class="token punctuation">(</span><span class="token string">"Focus"</span><span class="token punctuation">,</span> focusSchema<span class="token punctuation">,</span> <span class="token string">"focus"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> Focus<span class="token punctuation">;</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> Focus <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"./model/focus"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">let</span> allen <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Focus</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  title<span class="token punctuation">:</span> <span class="token string">"title"</span><span class="token punctuation">,</span>
+  pic<span class="token punctuation">:</span> <span class="token string">"pic"</span><span class="token punctuation">,</span>
+  redirect<span class="token punctuation">:</span> <span class="token string">"netease.com"</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//ret是刚刚插入的那条数据</span>
+allen<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span><span class="token punctuation">(</span>err<span class="token punctuation">,</span> ret<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"保存失败"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"保存成功"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>ret<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//redirect: 'https://netease.com',</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>get：使用get方法之后的结果（感觉没啥用处。。）</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">/*pic: {
+    type: String,
+    get(params) {
+      return "001" + params;
+    },
+  },*/</span>
+<span class="token keyword">const</span> Focus <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"./model/focus"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">let</span> allen <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Focus</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  title<span class="token punctuation">:</span> <span class="token string">"title"</span><span class="token punctuation">,</span>
+  pic<span class="token punctuation">:</span> <span class="token string">"pic"</span><span class="token punctuation">,</span>
+  redirect<span class="token punctuation">:</span> <span class="token string">"netease.com"</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>allen<span class="token punctuation">.</span>title<span class="token punctuation">,</span> allen<span class="token punctuation">.</span>pic<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//title, 001pic</span></code></pre>
+<h4 id="mongoose索引使用"><a href="#mongoose索引使用" class="headerlink" title="mongoose索引使用"></a>mongoose索引使用</h4><p>我们可以在Schema（文档约束结构）中直接制定索引</p>
+<ul>
+<li>unique为设置唯一索引</li>
+<li>index为设置普通索引</li>
+</ul>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> userSchema <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">mongoose<span class="token punctuation">.</span>Schema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  username<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      type<span class="token punctuation">:</span> String<span class="token punctuation">,</span>
+      unique<span class="token punctuation">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  password<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      type<span class="token punctuation">:</span> String<span class="token punctuation">,</span>
+      index<span class="token punctuation">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="mongoose扩展静态-实例方法"><a href="#mongoose扩展静态-实例方法" class="headerlink" title="mongoose扩展静态 | 实例方法"></a>mongoose扩展静态 | 实例方法</h4><p>实际情况扩展静态方法用的比较多</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> userSchema <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">mongoose<span class="token punctuation">.</span>Schema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+ <span class="token comment" spellcheck="true">//...</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 静态方法</span>
+userSchema<span class="token punctuation">.</span>statics<span class="token punctuation">.</span>fn1 <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>id<span class="token punctuation">,</span> cb<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token string">"id"</span><span class="token punctuation">:</span> id<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span>err<span class="token punctuation">,</span> dos<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token function">cb</span><span class="token punctuation">(</span>err<span class="token punctuation">,</span> dos<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// 实例方法</span>
+userSchema<span class="token punctuation">.</span>mehods<span class="token punctuation">.</span>fn2 <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//...</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">const</span> User <span class="token operator">=</span> mongoose<span class="token punctuation">.</span><span class="token function">model</span><span class="token punctuation">(</span><span class="token string">'User'</span><span class="token punctuation">,</span> userSchema<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>调用方式</p>
+<pre class=" language-js"><code class="language-js">User<span class="token punctuation">.</span><span class="token function">fn1</span><span class="token punctuation">(</span><span class="token number">123</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//...</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">let</span> allen <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">User</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    username<span class="token punctuation">:</span> <span class="token string">'allen'</span><span class="token punctuation">,</span>
+    password<span class="token punctuation">:</span> <span class="token string">'123456'</span><span class="token punctuation">,</span>
+    email<span class="token punctuation">:</span> <span class="token string">'allen@qq.com'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+allen<span class="token punctuation">.</span><span class="token function">fn2</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<h2 id="7-About数据库基础知识"><a href="#7-About数据库基础知识" class="headerlink" title="7.About数据库基础知识"></a>7.About数据库基础知识</h2><p><strong>事务</strong>：是数据库操作的最小工作单元，是作为单个逻辑工作单元执行的一系列操作；这些操作作为一个整体一起向系统提交，要么都执行、要么都不执行；事务是一组不可再分割的操作集合（工作逻辑单元）；</p>
 <p>数据库的<strong>事务特性</strong>有：原子性、一致性、持久性、隔离性</p>
 <ul>
 <li>A atomicity 原子性 指的是事务包含的所有操作，要么全部成功，要么全部回滚失败（要么都做，要么都不做）</li>
@@ -715,6 +1002,29 @@ allen<span class="token punctuation">.</span><span class="token function">save</
 </ul>
 <p>不可重复读和脏读的区别是一个是读取了前一事务提交的数据，而一个是读取了另一个事务未提交的数据</p>
 <p>幻读和不可重复读不同的是，幻读针对的是数据条数的变化</p>
+<h4 id="明文和密文"><a href="#明文和密文" class="headerlink" title="明文和密文"></a>明文和密文</h4><p>明文放密码的危险</p>
+<ul>
+<li>数据库一旦被攻破，或者被黑客脱库，所有信息都被泄露</li>
+<li>数据库管理员“心怀不轨”</li>
+</ul>
+<p>密文：明文经过加密之后输出的结果</p>
+<ul>
+<li>只要加密的是同一个明文，则输出结果相同</li>
+<li>密文是不可以你想转换为明文的</li>
+<li>用法是只将输入的转成密文，然后对密文进行对比即可</li>
+</ul>
+<p>加密方式：MD5（主流），sha1（微信，不过现在估计用sha2了），而大厂可能是先交给md5加密，然后再交给sha2在加密一次，然后再依靠自己的算法，再加密一次</p>
+<pre class=" language-shell"><code class="language-shell">npm i md5</code></pre>
+<pre class=" language-shell"><code class="language-shell">const md5 = require('md5')
+const miwen = md5(password)</code></pre>
+<p>但是往上百度一下有md5在线解密功能！不过这个解密功能是靠大数据堆起来的，如果密码复杂一点可能就解密不了（惊喜哈哈哈）</p>
+<p><a href="https://www.cmd5.com/" target="_blank" rel="noopener">https://www.cmd5.com/</a></p>
+<p>本站针对md5、sha1等全球通用公开的加密算法进行反向查询，通过穷举字符组合的方式，创建了明文密文对应查询数据库，创建的记录约90万亿条，占用硬盘超过500TB，查询成功率95%以上，很多复杂密文只有本站才可查询。自2006年已稳定运行十余年，国内外享有盛誉。</p>
+<p>2004年，证实MD5算法无法防止碰撞（collision），因此不适用于安全性认证</p>
+<pre class=" language-shell"><code class="language-shell">npm i sha1</code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> sha1 <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'sha1'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> miwen <span class="token operator">=</span> <span class="token function">sha1</span><span class="token punctuation">(</span>password<span class="token punctuation">)</span></code></pre>
+<p>但是对于弱口令密码，往上还是可以查询查得出来</p>
 
             </div>
             <hr/>
@@ -1221,7 +1531,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">265.1k</span>&nbsp;字
+                class="white-color">271.1k</span>&nbsp;字
             
             
             

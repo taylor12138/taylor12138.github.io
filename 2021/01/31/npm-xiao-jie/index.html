@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.9k
+                    3k
                 </div>
                 
 
@@ -660,6 +660,32 @@ v0.12.8</code></pre>
 </ul>
 <h2 id="关于Node切换版本"><a href="#关于Node切换版本" class="headerlink" title="关于Node切换版本"></a>关于Node切换版本</h2><p>可以参考以下文章</p>
 <p><a href="https://blog.csdn.net/weixin_44582077/article/details/110237056" target="_blank" rel="noopener">https://blog.csdn.net/weixin_44582077/article/details/110237056</a></p>
+<h2 id="npm发包"><a href="#npm发包" class="headerlink" title="npm发包"></a>npm发包</h2><p>在官网注册账号</p>
+<p>然后再本地项目命令行输入</p>
+<pre class=" language-shell"><code class="language-shell">npm config get registry</code></pre>
+<p>确保是这个网址 <a href="https://registry.npmjs.org/" target="_blank" rel="noopener">https://registry.npmjs.org/</a></p>
+<p>然后</p>
+<pre class=" language-shell"><code class="language-shell">npm adduser</code></pre>
+<p>在本地和npm官网的账户连接</p>
+<p>在<code>package.json</code>确保包名全球唯一，也就是name唯一，且main的值为我们打包的文件，因为读取的时候会根据main读取对应的文件</p>
+<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"名称"</span><span class="token punctuation">,</span>
+  <span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"1.0.0"</span><span class="token punctuation">,</span>
+  <span class="token property">"description"</span><span class="token operator">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
+  <span class="token property">"main"</span><span class="token operator">:</span> <span class="token string">"./dist/bundle.js"</span><span class="token punctuation">,</span>
+  <span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"test"</span><span class="token operator">:</span> <span class="token string">"echo \"Error: no test specified\" &amp;&amp; exit 1"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"keywords"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"author"</span><span class="token operator">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
+  <span class="token property">"license"</span><span class="token operator">:</span> <span class="token string">"ISC"</span><span class="token punctuation">,</span>
+  <span class="token property">"devDependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"webpack"</span><span class="token operator">:</span> <span class="token string">"^5.68.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"webpack-cli"</span><span class="token operator">:</span> <span class="token string">"^4.9.2"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>发布</p>
+<pre class=" language-shell"><code class="language-shell">npm publish</code></pre>
 
             </div>
             <hr/>
@@ -1170,7 +1196,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">265.1k</span>&nbsp;字
+                class="white-color">271.1k</span>&nbsp;字
             
             
             

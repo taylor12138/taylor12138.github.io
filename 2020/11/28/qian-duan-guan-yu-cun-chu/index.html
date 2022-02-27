@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.8k
+                    4.2k
                 </div>
                 
 
@@ -510,15 +510,17 @@
 <h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h2><p>Cookie是一种在客户端保持HTTP状态信息的技术：http协议是无状态的，但是在实际工作中，一些万维网网站希望能识别用户（给用户推销产品）=&gt;诞生了cookie小饼干（由服务器生成）</p>
 <p>cookie是存储在用户主机的文本文件，存储在浏览器中的纯文本，浏览器的安装目录下会专门有一个 cookie 文件夹来存放各个域下设置的<code>cookie</code>，记录一段时间内某用户的访问记录</p>
 <ul>
-<li><p>一旦浏览器保存了某个Cookie，那么以后每次访问服务器时，都会在HTTP请求头中将这个Cookie回传给服务器</p>
+<li><p>一旦浏览器保存了某个Cookie，那么以后每次访问服务器时，都会在HTTP请求头中将这个Cookie回传给服务器，所以我们前端这里几乎无需什么操作，几乎都是后端那边在操作</p>
 </li>
 <li><p>cookie数据大小不能超过4k</p>
-<p>cookie设置的cookie过期时间之前一直有效，即使窗口或浏览器关闭</p>
+<p>持久化cookie设置的cookie过期时间之前一直有效，即使窗口或浏览器关闭</p>
+<p>但是如果cookie不包含到期日期（Expires/Max-Age），则可视为会话cookie，它在浏览器关闭后就消失了</p>
 </li>
 <li><p>Web服务器怎么给客户端发Cookie的呢？服务器通过在HTTP响应头中增加Set-Cookie:字段，而浏览器则通过HTTP请求头增加Cookie字段回传</p>
 </li>
 </ul>
-<p>工作中识别用户给用户推销产品，用来保存一些不太敏感的数据（但我很纳闷，其实很多用户用cookie来记住密码）</p>
+<p>工作中识别用户给用户推销产品，用来保存一些不太敏感的数据（但我很纳闷，其实很多用户用cookie来记住密码，不过我看到一个答案就是：chrome是加密的，只是在密码管理里面明文显示而已。它是使用你Windows的登录密码加密的，还是比较安全的。）</p>
+<p><img src="/2020/11/28/qian-duan-guan-yu-cun-chu/cookieSecure.jpg" alt></p>
 <p>tips：一个浏览器针对一个网站最多存 20 个Cookie，浏览器一般只允许存放 300 个Cookie<br>移动端对 cookie 的支持不是很好，而 session 需要基于 cookie 实现，所以移动端常用的是 token</p>
 <h4 id="Cookie属性"><a href="#Cookie属性" class="headerlink" title="Cookie属性"></a>Cookie属性</h4><p><code>domain</code>是域名</p>
 <p><code>path</code>是路径</p>
@@ -528,6 +530,7 @@
 <p><code>secure</code>属性</p>
 <p><code>secure</code> 选项用来设置<code>cookie</code>只在确保安全的请求中才会发送。当请求是<code>HTTPS</code>或者其他安全协议时，包含 <code>secure</code> 选项的 <code>cookie</code> 才能被发送至服务器。</p>
 <h4 id="设置cookie"><a href="#设置cookie" class="headerlink" title="设置cookie"></a>设置cookie</h4><p><strong>服务端设置cookie</strong></p>
+<p>cookie和session成对配合 + 生成</p>
 <p>传 <code>set-cookie</code>字段，当你要想设置多个 cookie，需要添加同样多的<code>set-Cookie</code>字段。</p>
 <ul>
 <li>服务端可以设置cookie 的所有选项：<code>expires</code>、<code>domain</code>、<code>path</code>、<code>secure</code>、<code>HttpOnly</code></li>
@@ -547,12 +550,12 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token comment" spellcheck="true">// expected output: "?x=%D1%88%D0%B5%D0%BB%D0%BB%D1%8B"</span></code></pre>
 <p><code>decodeURIComponent()</code> 方法用于解码由 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent" target="_blank" rel="noopener"><code>encodeURIComponent</code></a> 方法或者其它类似方法编码的部分统一资源标识符（URI）</p>
 <h2 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h2><p>cookie和session都是用来跟踪浏览器用户身份的会话方式，通常使用cookie方式存储session ID到客户端</p>
-<p>现在大多都是Session + Cookie，但是只用session不用cookie，或是只用cookie，不用session在理论上都可以保持会话状态。可是实际中因为多种原因，一般不会单独使用</p>
+<p>如果服务端直接是把用户信息放在cookie，并且每一次从客户端传过来使用的话，如果客户端偷偷更改数据，比如用户名，其实不是乱套了？所以服务端  <strong>不能</strong>  直接拿cookie来保存用户信息，然后直接来使用（也就是nodejs通过 <code>res.cookie</code>使用 ），所以存session id最稳妥</p>
+<p>现在大多都是Session + Cookie，但是只用session不用cookie，或是只用cookie，不用session在理论上都可以保持<strong>会话状态</strong>。可是实际中因为多种原因，一般不会单独使用</p>
 <p>保持状态：cookie保存在浏览器端，session保存在服务器端</p>
 <p>存储的大小：cookie：单个cookie保存的数据不能超过4kb；session大小没有限制。</p>
 <p>安全性：cookie：针对cookie所存在的攻击：Cookie欺骗，Cookie截获；session的安全性大于cookie。</p>
-<p>应用：</p>
-<ul>
+<h4 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h4><ul>
 <li><p>cookie判断用户是否登陆过网站，以便下次登录时能够实现自动登录（或者记住密码）；保存上次登录的时间等信息。</p>
 </li>
 <li><p>Session用于保存每个用户的专用信息，变量的值保存在服务器端，服务端会从请求传回来的 Cookie 中获取 SessionID，通过SessionID来区分不同的客户。</p>
@@ -565,10 +568,13 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>cookie - session认证流程</p>
 <p>1、用户向服务器发送用户名和密码。</p>
 <p>2、服务器验证通过后，在当前对话（session）里面保存相关数据，比如用户角色、登录时间等等。</p>
-<p>3、服务器向用户返回一个 session_id，写入用户的 Cookie。</p>
+<p>3、服务器向用户返回一个 session_id，写入 Cookie，（有时为了安全，分为多个cookie）传给客户端。</p>
 <p>4、用户随后的每一次请求，都会通过 Cookie，将 session_id 传回服务器。</p>
 <p>5、服务器收到 session_id，找到前期保存的数据，由此得知用户的身份。</p>
 <p>session缺点： Session保存的东西越多，就越占用服务器内存，对于用户在线人数较多的网站，服务器的内存压力会比较大。</p>
+<h4 id="session持久化"><a href="#session持久化" class="headerlink" title="session持久化"></a>session持久化</h4><p>由于session是存储在服务器的内存中，如果服务器突然崩了，或者服务器关闭，那岂不是“七天免登录”存储功能失效了？</p>
+<p>此时服务端不能单单保存在服务器内存里，还要存到数据库中</p>
+<h4 id="session弊端"><a href="#session弊端" class="headerlink" title="session弊端"></a>session弊端</h4><p>当前登陆账号成功之后，别人只要拿到你的cookie（可以通过chrome插件一键导出cookie），然后别人就可以直接伪造你的身份直接拿cookie登录，所以在公共电脑，离开之后必须记得点击退出当前帐号，此时服务器就会销毁当前session</p>
 <h2 id="Token"><a href="#Token" class="headerlink" title="Token"></a>Token</h2><p>上述展示了基于服务器验证的session（sessionID）暴露了一些弊端，当然使用session还有可能引起：跨域共享问题、CSRF攻击问题和可拓展性问题。</p>
 <p>基于 Token 的身份验证是无状态的，我们不用将用户信息存在服务器或 Session 中。这种概念解决了在服务端存储信息时的许多问题。没有 session 信息意味着你的程序可以根据需要去增减机器，而不用去担心用户是否登录和已经登录到了哪里。</p>
 <p>大多的token验证流程如下：</p>
@@ -1193,7 +1199,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">265.1k</span>&nbsp;字
+                class="white-color">271.1k</span>&nbsp;字
             
             
             

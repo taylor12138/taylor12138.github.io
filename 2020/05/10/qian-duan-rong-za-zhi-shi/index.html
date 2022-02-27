@@ -558,7 +558,7 @@
 <p>方法二：</p>
 <p>直接在项目中安装</p>
 <pre class=" language-shell"><code class="language-shell">npm i prettier -D</code></pre>
-<p>依旧在根目录下新建文件.prettierrc`文件 （Prettier runtime compiler），并且编辑保存</p>
+<p>依旧在根目录下新建文件<code>.prettierrc</code>文件 （Prettier runtime compiler），并且编辑保存</p>
 <p>此时在根目录下，对文件保存即可</p>
 <p>当然方法一、二一步一步保存嫌麻烦，也可以在 <code>package.json</code>文件下实行一步保存命令的配置</p>
 <pre class=" language-json"><code class="language-json"><span class="token property">"script"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
@@ -633,8 +633,8 @@ window<span class="token punctuation">.</span><span class="token function">addEv
         console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
-<h2 id="Service-Worker"><a href="#Service-Worker" class="headerlink" title="Service Worker"></a>Service Worker</h2><p>Service workers 本质上充当 Web 应用程序、浏览器与网络（可用时）之间的代理服务器。这个 API 旨在创建有效的离线体验，它会拦截网络请求并根据网络是否可用采取来适当的动作、更新来自服务器的的资源。它还提供入口以推送通知和访问后台同步 API。</p>
-<p>这个 API 之所以令人兴奋，是因为它可以支持离线体验，让开发者能够全面控制这一体验。</p>
+<h2 id="Service-Worker"><a href="#Service-Worker" class="headerlink" title="Service Worker"></a>Service Worker</h2><p>Service workers 本质上充当 Web 应用程序、浏览器与网络（可用时）之间的代理服务器。这个 API 旨在创建有效的离线体验，它会拦截网络请求并根据网络是否可用采取来适当的动作、更新来自服务器的的资源。它还提供入口以推送通知和访问后台同步 API。（在webpack中使用service worker需要安装<code>WorkboxPlugin</code>）</p>
+<p>这个 API 之所以令人兴奋，是因为它可以支持离线体验，让开发者能够全面控制这一体验。（实际上的缓存的效果）</p>
 <p>在 Service Worker 出现前，存在能够在网络上为用户提供离线体验的另一个 API，称为 <a href="https://www.html5rocks.com/en/tutorials/appcache/beginner/" target="_blank" rel="noopener">AppCache</a>。 AppCache API 存在的许多相关问题，在设计 Service Worker 时已予以避免。</p>
 <p>使用条件：</p>
 <p>传输协议必须为 <strong>HTTPS</strong>。因为 Service Worker 中涉及到请求拦截，所以必须使用 HTTPS 协议来保障安全。</p>
@@ -650,7 +650,7 @@ window<span class="token punctuation">.</span><span class="token function">addEv
   navigator<span class="token punctuation">.</span>serviceWorker
     <span class="token punctuation">.</span><span class="token function">register</span><span class="token punctuation">(</span><span class="token string">'sw.js'</span><span class="token punctuation">)</span>
     <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>registration<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'service worker 注册成功'</span><span class="token punctuation">)</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'service worker 注册成功'</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//服务器被停了之后仍然会打印出来</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span>
     <span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
       console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'servcie worker 注册失败'</span><span class="token punctuation">)</span>
@@ -1186,7 +1186,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">265.1k</span>&nbsp;字
+                class="white-color">271.1k</span>&nbsp;字
             
             
             

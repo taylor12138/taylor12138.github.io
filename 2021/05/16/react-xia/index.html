@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.1k
+                    8.2k
                 </div>
                 
 
@@ -1054,6 +1054,67 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">cre
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
   <span class="token punctuation">)</span>
 <span class="token punctuation">}</span></code></pre>
+<h4 id="useContext"><a href="#useContext" class="headerlink" title="useContext"></a>useContext</h4><p>函数式组件除了可以使用 Consumer 接收Context的数据，还可以使用useContext进行接收（特别是在多个context的时候，更能体现出useContext的优势）（结合上面的案例来看）</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">import</span> <span class="token punctuation">{</span> useContext <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span>
+<span class="token keyword">function</span> <span class="token function">Grand</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> value <span class="token operator">=</span> <span class="token function">useContext</span><span class="token punctuation">(</span>MyContext<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>MyContext.Consumer</span><span class="token punctuation">></span></span>
+        <span class="token punctuation">{</span><span class="token template-string"><span class="token string">`My name is </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>value<span class="token punctuation">.</span>username<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">, my age is </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>value<span class="token punctuation">.</span>age<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">}</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>MyContext.Consumer</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>一般context系列和useReducer使用起来会很爽</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span> useReducer<span class="token punctuation">,</span> useContext <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> initialState <span class="token operator">=</span> <span class="token punctuation">{</span>
+  count<span class="token punctuation">:</span> <span class="token number">0</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">function</span> <span class="token function">reducer</span><span class="token punctuation">(</span>state<span class="token punctuation">,</span> action<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> count <span class="token punctuation">}</span> <span class="token operator">=</span> state<span class="token punctuation">;</span>
+  <span class="token keyword">switch</span> <span class="token punctuation">(</span>action<span class="token punctuation">.</span>type<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> <span class="token string">'increment'</span><span class="token punctuation">:</span>
+      <span class="token keyword">return</span> <span class="token punctuation">{</span> count<span class="token punctuation">:</span> count <span class="token operator">+</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token keyword">case</span> <span class="token string">'decrement'</span><span class="token punctuation">:</span>
+      <span class="token keyword">return</span> <span class="token punctuation">{</span> count<span class="token punctuation">:</span> count <span class="token operator">-</span> <span class="token number">1</span> <span class="token punctuation">}</span>
+    <span class="token keyword">default</span><span class="token punctuation">:</span>
+      <span class="token keyword">return</span> state
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">const</span> MyContext <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">createContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">function</span> <span class="token function">App</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span>state<span class="token punctuation">,</span> dispatch<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useReducer</span><span class="token punctuation">(</span>reducer<span class="token punctuation">,</span> initialState<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span><span class="token operator">></span>
+      <span class="token operator">&lt;</span>div<span class="token operator">></span><span class="token punctuation">{</span>state<span class="token punctuation">.</span>count<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+      <span class="token operator">&lt;</span>MyContext<span class="token punctuation">.</span>Provider value<span class="token operator">=</span><span class="token punctuation">{</span>
+        <span class="token punctuation">{</span>
+          state<span class="token punctuation">,</span> 
+          dispatch
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token operator">></span>
+        <span class="token operator">&lt;</span>Child<span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>Child<span class="token operator">></span>
+        <span class="token operator">&lt;</span>Child<span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>Child<span class="token operator">></span>
+        <span class="token operator">&lt;</span>Child<span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>Child<span class="token operator">></span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>MyContext<span class="token punctuation">.</span>Provider<span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span><span class="token operator">></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">function</span> <span class="token function">Child</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span>dispatch<span class="token punctuation">,</span> state<span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">useContext</span><span class="token punctuation">(</span>MyContext<span class="token punctuation">)</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>div<span class="token operator">></span>
+      <span class="token operator">&lt;</span>div<span class="token operator">></span><span class="token punctuation">{</span>state<span class="token punctuation">.</span>count<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+      <span class="token operator">&lt;</span>button onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span>type<span class="token punctuation">:</span> <span class="token string">'increment'</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token operator">></span><span class="token operator">++</span><span class="token operator">+</span><span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">></span>
+      <span class="token operator">&lt;</span>button onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span>type<span class="token punctuation">:</span> <span class="token string">'decrement'</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token operator">></span><span class="token operator">--</span><span class="token operator">-</span><span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> App<span class="token punctuation">;</span></code></pre>
 <h4 id="React的插槽技术"><a href="#React的插槽技术" class="headerlink" title="React的插槽技术"></a>React的插槽技术</h4><p>在我们封装自定义的 <code>Link</code> 标签时（React（中）路由篇章部分），我们直接在自定义路由组件标签内写入文字，从而在子组件里面可以使用 <code>children</code>属性进行接收（<code>this.props.children</code>）</p>
 <p>插槽技术的实用性在于：预留位置，随时改变整个组件</p>
 <p>由此，我们可以看到React在处理组件插槽时的策略</p>
@@ -1155,33 +1216,6 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">cre
       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
     <span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
-<h4 id="useContext"><a href="#useContext" class="headerlink" title="useContext"></a>useContext</h4><p>函数式组件除了可以使用 Consumer 接受Context的数据，还可以使用useContext进行接收（特别是在多个context的时候，更能体现出useContext的优势）</p>
-<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">HeaderBar</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">return</span> <span class="token punctuation">(</span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>CurrentUser.Consumer</span><span class="token punctuation">></span></span>
-      <span class="token punctuation">{</span>user <span class="token operator">=</span><span class="token operator">></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Notifications.Consumer</span><span class="token punctuation">></span></span>
-          <span class="token punctuation">{</span>notifications <span class="token operator">=</span><span class="token operator">></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>header</span><span class="token punctuation">></span></span>
-              Welcome back<span class="token punctuation">,</span> <span class="token punctuation">{</span>user<span class="token punctuation">.</span>name<span class="token punctuation">}</span><span class="token operator">!</span>
-              You have <span class="token punctuation">{</span>notifications<span class="token punctuation">.</span>length<span class="token punctuation">}</span> notifications<span class="token punctuation">.</span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span><span class="token punctuation">></span></span>
-          <span class="token punctuation">}</span>
-      <span class="token punctuation">}</span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>CurrentUser.Consumer</span><span class="token punctuation">></span></span>
-  <span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
-<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">HeaderBar</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> user <span class="token operator">=</span> <span class="token function">useContext</span><span class="token punctuation">(</span>CurrentUser<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">const</span> notifications <span class="token operator">=</span> <span class="token function">useContext</span><span class="token punctuation">(</span>Notifications<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-  <span class="token keyword">return</span> <span class="token punctuation">(</span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>header</span><span class="token punctuation">></span></span>
-      Welcome back<span class="token punctuation">,</span> <span class="token punctuation">{</span>user<span class="token punctuation">.</span>name<span class="token punctuation">}</span><span class="token operator">!</span>
-      You have <span class="token punctuation">{</span>notifications<span class="token punctuation">.</span>length<span class="token punctuation">}</span> notifications<span class="token punctuation">.</span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>header</span><span class="token punctuation">></span></span>
-  <span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <h4 id="Server-Component"><a href="#Server-Component" class="headerlink" title="Server Component"></a>Server Component</h4><p>官方提出草案的目的是解决接口请求分散在各个组件中带来的自组建的数据请求，需要等待父组件请求完成渲染子组件时才能开始请求的数据请求队列问题</p>
 <p>方案大概是将React拆分为Server组件和Client的组件，然而和SSR不同的地方在于Server Component返回的是序列化的组件数据（JSX），而SSR返回的是html</p>
@@ -1666,8 +1700,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">cre
                     <div class="summary block-with-text">
                         
                             6.React路由React和Vue一样，都是采取单页面富应用的方式配置网页（SPA），即单个页面通过路由的切换，展示不同的数据信息，
-而且改变url，依然是页面不发生整体刷新（只做页面的局部刷新）
-React-router有三种实现方式，
+而且改变url，依然是页面不发生整体刷新（只做页面的局部刷新），对于if else、switch不同的地
                         
                     </div>
                     <div class="publish-info">
@@ -1883,7 +1916,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">265.1k</span>&nbsp;字
+                class="white-color">271.1k</span>&nbsp;字
             
             
             

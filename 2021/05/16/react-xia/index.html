@@ -485,7 +485,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="9-Hooks"><a href="#9-Hooks" class="headerlink" title="9.Hooks"></a>9.Hooks</h2><p>React的Hook 是 16.8版本新增的特性/语法，可以让我们在函数式组件中使用state和其他React特性</p>
+                <h2 id="10-Hooks"><a href="#10-Hooks" class="headerlink" title="10.Hooks"></a>10.Hooks</h2><p>React的Hook 是 16.8版本新增的特性/语法，可以让我们在函数式组件中使用state和其他React特性</p>
 <p>函数式组件最主要没有上述功能的原因是没有实例对象，没有this（现在函数式组件是主流了）</p>
 <p>Hook主要是践行代数效应的思想（比如不使用async处理正常的函数（因为回将该函数变成一个promise），而是自定义语法以try、catch的理念将函数内部执行的无论同步、异步操作剥离出函数本身），长此以往，可能可以形成服务即组件的结果，从不同数据库，即不同的源获取，对应不同的单独组件</p>
 <h4 id="三个常用的Hook"><a href="#三个常用的Hook" class="headerlink" title="三个常用的Hook"></a>三个常用的Hook</h4><ul>
@@ -894,7 +894,7 @@ React<span class="token punctuation">.</span><span class="token function">useEff
 <span class="token punctuation">}</span>
 
 window<span class="token punctuation">.</span>app <span class="token operator">=</span> <span class="token function">schedule</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h2 id="10-React拓展"><a href="#10-React拓展" class="headerlink" title="10.React拓展"></a>10.React拓展</h2><h4 id="setState使用方法"><a href="#setState使用方法" class="headerlink" title="setState使用方法"></a>setState使用方法</h4><p>方法一：传统的对象式setState</p>
+<h2 id="11-React拓展"><a href="#11-React拓展" class="headerlink" title="11.React拓展"></a>11.React拓展</h2><h4 id="setState使用方法"><a href="#setState使用方法" class="headerlink" title="setState使用方法"></a>setState使用方法</h4><p>方法一：传统的对象式setState</p>
 <p><code>setState(stateChange, [callback])</code></p>
 <ul>
 <li>stateChange为状态改变对象（原state的key: 新的值）</li>
@@ -1223,7 +1223,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">cre
 <p>1.接口返回，会额外多出冗余的组件结构</p>
 <p>2.服务器成本问题，在目前行业大势观看，服务器的成本还是比较昂贵的，很多为了节约服务器成本，将逻辑计算下移至客户端处理</p>
 <p>3.心智负担，ServerComponent无法使用useState、useEffect等hooks</p>
-<h2 id="11-React优化"><a href="#11-React优化" class="headerlink" title="11.React优化"></a>11.React优化</h2><h4 id="PureComponent-amp-memo"><a href="#PureComponent-amp-memo" class="headerlink" title="PureComponent &amp; memo"></a>PureComponent &amp; memo</h4><p>问题一：执行<code>setState</code>的时候，即使state未发生改变，也会重新render（不过redux的更新也由此得益）</p>
+<h2 id="12-React优化"><a href="#12-React优化" class="headerlink" title="12.React优化"></a>12.React优化</h2><h4 id="PureComponent-amp-memo"><a href="#PureComponent-amp-memo" class="headerlink" title="PureComponent &amp; memo"></a>PureComponent &amp; memo</h4><p>问题一：执行<code>setState</code>的时候，即使state未发生改变，也会重新render（不过redux的更新也由此得益）</p>
 <p>问题二：React中使用父子组件嵌套时，父组件使用props传入state的状态，发生 setState 时state改变，setState触发 <code>render()</code>，而传入的props也随之改变，子组件也发生 <code>render()</code>；但是如果没有传入props，父组件发生 <code>render()</code>更新时，因为子组件也放在 <code>render()</code>里面，所以子组件即使没什么要改的地方，也不得不随着父组件一起 <code>render()</code>更新</p>
 <p>造成原因：</p>
 <ul>
@@ -1403,7 +1403,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">cre
 <li>将方法传递给子组件的时候包一层useCallback</li>
 <li>自定义hook</li>
 </ul>
-<h2 id="12-React-17-0"><a href="#12-React-17-0" class="headerlink" title="12.React 17.0"></a>12.React 17.0</h2><p>新增特性一览（主要的，也可以说是我所关注的）</p>
+<h2 id="13-React-17-0"><a href="#13-React-17-0" class="headerlink" title="13.React 17.0"></a>13.React 17.0</h2><p>新增特性一览（主要的，也可以说是我所关注的）</p>
 <p>（1）在React 16和更早的版本中，React将对大多数事件执行<code>document.addEventListener()</code>。 React 17将在后调用<code>rootNode.addEventListener()</code>。（也就是将事件委托从 document 切换为 root）</p>
 <p>一张图明示两者的差异</p>
 <p><img src="/2021/05/16/react-xia/react17.jpg" alt>)（2) React 17支持新的JSX转换。我们还将对它支持到React 16.14.0，React 15.7.0和0.14.10。需要注意的是，这是完全选择启用的，您也不必使用它。之前的JSX转换的方式将继续存在，并且没有计划停止对其支持。</p>
@@ -1916,7 +1916,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">271.1k</span>&nbsp;字
+                class="white-color">274.9k</span>&nbsp;字
             
             
             

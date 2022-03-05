@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8k
+                    8.3k
                 </div>
                 
 
@@ -1020,12 +1020,17 @@ foo<span class="token punctuation">.</span><span class="token function">softBind
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 <span class="token function">sum</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span></code></pre>
-<h4 id="纯函数"><a href="#纯函数" class="headerlink" title="纯函数"></a>纯函数</h4><p>一类特别的函数，只要是同样的输入（实参），必定得到同样的输出（返回）</p>
+<h4 id="纯函数"><a href="#纯函数" class="headerlink" title="纯函数"></a>纯函数</h4><p>一类特别的函数</p>
 <p>必须遵守以下约束：</p>
 <ul>
-<li>不得改写参数数据（如果传入数组、对象，则不能让他们发生改动）</li>
-<li>不会产生任何副作用（例如网络请求，输入和输出设备）</li>
-<li>不能调用<code>Date.now()</code>或者<code>Math.random()</code>等不纯方法</li>
+<li><p>不得改写参数数据（如果传入数组、对象，则不能让他们发生改动）</p>
+</li>
+<li><p>只要是同样的输入（实参），必定得到同样的输出（返回）</p>
+</li>
+<li><p>不会产生任何副作用（例如网络请求，输入和输出设备）</p>
+</li>
+<li><p>不能调用<code>Date.now()</code>或者<code>Math.random()</code>等不纯方法</p>
+</li>
 </ul>
 <p>redux的reducer必须是一个纯函数</p>
 <h4 id="闭包的模块"><a href="#闭包的模块" class="headerlink" title="闭包的模块"></a>闭包的模块</h4><p>有两个主要的特征（源自《你不知道的JavaScript》）</p>
@@ -1060,6 +1065,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
         o<span class="token punctuation">[</span>k<span class="token punctuation">]</span> <span class="token operator">=</span> obj<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span></code></pre>
 <p>利用递归写深拷贝</p>
+<p>缺点在于：性能不好，占用内存很大</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span>
         id<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
         name<span class="token punctuation">:</span> <span class="token string">'andy'</span><span class="token punctuation">,</span>
@@ -1091,6 +1097,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>使用 <code>JSON.parse</code>和 <code>JSON.stringify</code>实现深拷贝</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> info <span class="token operator">=</span> <span class="token punctuation">{</span>name<span class="token punctuation">:</span> <span class="token string">"Allen"</span><span class="token punctuation">,</span> friends<span class="token punctuation">:</span> <span class="token punctuation">{</span>name<span class="token punctuation">:</span> <span class="token string">"Khan"</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> newobj <span class="token operator">=</span> JSON<span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>info<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>这个方式的缺点在于：不能有undefined值，不然就会出现不可预期的问题（有可能删除掉undefined的字段）</p>
 <h4 id="完整版深拷贝"><a href="#完整版深拷贝" class="headerlink" title="完整版深拷贝"></a>完整版深拷贝</h4><p>github上一个叫lodash的库，使用深拷贝也差不多是类似的方法</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> getType <span class="token operator">=</span> obj <span class="token operator">=</span><span class="token operator">></span> Object<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>toString<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
@@ -1200,6 +1207,25 @@ console<span class="token punctuation">.</span><span class="token function">log<
   <span class="token punctuation">}</span>
   <span class="token keyword">return</span> cloneTarget<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
+<p><code>immutable.js</code>的拷贝也值得探讨（记住是浅拷贝，如果数据类型复杂，在里面还得继续包裹immutable的Map）</p>
+<p>它的实现原理是persistent data structure（持久化数据结构），也就是使用旧数据创建新数据时，<strong>保证旧数据同时可用且不变</strong>，同时避免了deepcopy把所有的节点都复制一遍带来的性能损耗，immutable使用了structural sharing（结构共享），即如果对象树中一个节点发生变化，只修改这个节点和受他影响的父节点，则其他节点进行共享</p>
+<p>比如说</p>
+<pre class=" language-js"><code class="language-js">a <span class="token operator">=</span> <span class="token punctuation">{</span>
+    b1<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        c1<span class="token punctuation">:</span><span class="token punctuation">{</span>
+            d1<span class="token punctuation">:</span> <span class="token number">1</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        c2<span class="token punctuation">:</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    b2<span class="token punctuation">:</span><span class="token punctuation">{</span>
+        c3<span class="token punctuation">:</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>此时通过 <code>immutable</code> 拷贝得到对象 a2，将里面的c1进行更改，此时不会影响到原来的对象，而是从c1分裂新生成一个新的节点，然后b1，a跟着变，得到一个既和a共享部分数据，又有自己的新数据的对象</p>
+<p>从这张图可以看到清楚的反应<a href="https://upload-images.jianshu.io/upload_images/2165169-cebb05bca02f1772" target="_blank" rel="noopener">2165169-cebb05bca02f1772 (613×575) (jianshu.io)</a></p>
+<p>而这篇文章用于加深immutable的原理<a href="https://zhuanlan.zhihu.com/p/44571842" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/44571842</a></p>
+<p><img src="/2020/12/08/javascript-jin-jie-es5/immutable.jpg" alt></p>
+<p>但是这种为了保持状态的场景比较适用于react的redux（纯函数），如果是vue的话就没必要考虑这么麻烦</p>
 <h2 id="7-正则表达式"><a href="#7-正则表达式" class="headerlink" title="7.正则表达式"></a>7.正则表达式</h2><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>正则表达式（regular expression）是用于匹配字符串中字符组合的模式，再JavaScript，正则表达式也是对象</p>
 <p>正则表达式通常用来做检索，替换那些符合某个模式（规则）的文本，例如昵称输入框里的对中文的匹配；此外，正则表达式还常用于过滤掉页面一些敏感（替换），或者从字符串获取我们想要的特定部分（提取）等</p>
 <p>特点：1.灵活性、逻辑性、功能性非常强</p>
@@ -1813,7 +1839,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">271.1k</span>&nbsp;字
+                class="white-color">274.9k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.9k
+                    4.3k
                 </div>
                 
 
@@ -685,6 +685,22 @@ style-src cdn.example.org third-party.org; child-src https:</code></pre><ul>
 <li>使用CDN节点</li>
 <li>流量清洗设备（有点像保镖），先自己来应答，如果是正常的流量就放行</li>
 </ul>
+<h2 id="SSH"><a href="#SSH" class="headerlink" title="SSH"></a>SSH</h2><p><strong>Secure Shell</strong>（安全外壳协议，简称<strong>SSH</strong>）是一种加密的<a href="https://zh.wikipedia.org/wiki/网络传输协议" target="_blank" rel="noopener">网络传输协议</a></p>
+<p>它的整个过程：</p>
+<p>（1）远程主机收到用户的登录请求，把自己的公钥发给用户。</p>
+<p>（2）用户使用这个公钥，将登录密码加密后，发送回来。</p>
+<p>（3）远程主机用自己的私钥，解密登录密码，如果密码正确，就同意用户登录。</p>
+<p>其实也就是和https的非对称密钥一样，只不过它：不像https协议，</p>
+<p>SSH协议的公钥是没有证书中心（CA）公证的，也就是说，都是自己签发的。所以这个机制防止不了“中间人攻击”</p>
+<p>解决办法</p>
+<p>一、口令登录</p>
+<p>第一次登录对方主机的时候，通过它提供的公钥指纹，去自己一一对应远程主机在网站上自己贴出来的公钥指纹，让我们自行核对</p>
+<p>当远程主机的公钥被接受以后，它就会被保存在文件$HOME/.ssh/known_hosts之中。下次再连接这台主机，系统就会认出它的公钥已经保存在本地了，从而跳过警告部分，直接提示输入密码。</p>
+<p>每个SSH用户都有自己的known_hosts文件，此外系统也有一个这样的文件，通常是/etc/ssh/ssh_known_hosts，保存一些对所有用户都可信赖的远程主机的公钥。</p>
+<p>二、公钥登录</p>
+<p>先让用户将自己的公钥储存在远程主机上</p>
+<p>远程主机发东西过来 -&gt; 用户用私钥加密后再发过去 -&gt; 远程主机用存储好的公钥解密</p>
+<p>参考链接：阮一峰<a href="https://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html" target="_blank" rel="noopener">https://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html</a></p>
 
             </div>
             <hr/>
@@ -1202,7 +1218,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">271.1k</span>&nbsp;字
+                class="white-color">274.9k</span>&nbsp;字
             
             
             

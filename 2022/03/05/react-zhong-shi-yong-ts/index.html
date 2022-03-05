@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="文件上传, Hexo">
+    <meta name="keywords" content="React中使用TS, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>文件上传 | Hexo</title>
+    <title>React中使用TS | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">文件上传</h1>
+                    <h1 class="description center-align post-title">React中使用TS</h1>
                 </div>
             </div>
         </div>
@@ -443,6 +443,15 @@
                 </div>
                 <div class="col s5 right-align">
                     
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                前端
+                            </a>
+                        
+                    </div>
+                    
                 </div>
             </div>
 
@@ -450,7 +459,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-06-14
+                    2022-03-05
                 </div>
                 
 
@@ -459,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    679
+                    353
                 </div>
                 
 
@@ -476,117 +485,67 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="图片读取实例"><a href="#图片读取实例" class="headerlink" title="图片读取实例"></a>图片读取实例</h2><p>以下例子均以Vue框架作为实践应用文件上传功能</p>
-<p>在html里使用label + input的方式设置按钮触发文件上传的回调函数</p>
-<p>以input的<code>onchange</code>事件触发回调，这里并不需要展示input，所以设置了 <code>style=&quot;display: none&quot;</code></p>
-<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>file<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
-    <span class="token comment" spellcheck="true">&lt;!-- 这里可以使用其他icon插入方式代替 --></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>~@/assets/img/file.png<span class="token punctuation">"</span></span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span> 
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span>
-     <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>file<span class="token punctuation">"</span></span><span class="token style-attr language-css"><span class="token attr-name">
-     <span class="token attr-name">style</span></span><span class="token punctuation">="</span><span class="token attr-value"><span class="token property">display</span><span class="token punctuation">:</span> none</span><span class="token punctuation">"</span></span>
-     <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>file<span class="token punctuation">"</span></span>      
-     <span class="token attr-name">@change</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>handleFile<span class="token punctuation">"</span></span>
-<span class="token punctuation">/></span></span></code></pre>
-<p>展示文件（图片）部分</p>
-<p>这里以上传图片作为实验</p>
-<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span>
-   <span class="token attr-name">:src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item.file<span class="token punctuation">"</span></span>
-   <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span>
-   <span class="token attr-name">v-if</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item.file<span class="token punctuation">"</span></span>
-   <span class="token attr-name">preview</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span>
-<span class="token punctuation">/></span></span></code></pre>
-<p>回调method对应的事件：</p>
-<pre class=" language-js"><code class="language-js"><span class="token function">handleFile</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> file <span class="token operator">=</span> e<span class="token punctuation">.</span>target<span class="token punctuation">.</span>files<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>file<span class="token punctuation">.</span>size <span class="token operator">></span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">1024</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>$message<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"发送图片大小不能超过1M!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">const</span> reader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileReader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 创建读取文件对象</span>
-    reader<span class="token punctuation">.</span><span class="token function">readAsDataURL</span><span class="token punctuation">(</span>file<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 发起异步请求，读取文件</span>
-    reader<span class="token punctuation">.</span>onload <span class="token operator">=</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">// 文件读取完成后</span>
-        <span class="token comment" spellcheck="true">// 读取完成后，将结果赋值给img的src</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>socket<span class="token punctuation">.</span><span class="token function">emit</span><span class="token punctuation">(</span><span class="token string">"sendMessage"</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">turnFile</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>target<span class="token punctuation">.</span>result<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">,</span>
-<span class="token comment" spellcheck="true">// 把信息转换成对象(图片)</span>
-<span class="token function">turnFile</span><span class="token punctuation">(</span>file<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> id <span class="token operator">=</span> <span class="token function">nanoid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> <span class="token punctuation">{</span>
-        id<span class="token punctuation">,</span>
-        file<span class="token punctuation">,</span>
-        username<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>username<span class="token punctuation">,</span>
-        avator<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>imgAddress<span class="token punctuation">,</span>
-    <span class="token punctuation">}</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
-<p>这里我把读取后的文件转换成对象 =&gt; 发送到websocket，文件读取主要是理解通过input的change事件获取文件 +  <code>FileReader</code>读取文件部分</p>
-<h2 id="FileReader"><a href="#FileReader" class="headerlink" title="FileReader"></a>FileReader</h2><p>文件读取主要使用到<code>**FileReader**</code> 对象</p>
-<p>MDN的解释是：</p>
-<ul>
-<li><code>**FileReader**</code> 对象允许Web应用程序异步读取存储在用户计算机上的文件（或原始数据缓冲区）的内容，使用 <code>File</code>或<code>Blob</code>对象指定要读取的文件或数据。</li>
-</ul>
-<p><code>FileReader()</code> 返回一个新构造的<code>FileReader</code>。</p>
-<h4 id="事件处理"><a href="#事件处理" class="headerlink" title="事件处理"></a>事件处理</h4><ul>
-<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/onabort" target="_blank" rel="noopener"><code>FileReader.onabort</code></a></p>
-<ul>
-<li>取操作被中断时触发。</li>
-</ul>
-</li>
-<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/API/FileReader/onerror" target="_blank" rel="noopener"><code>FileReader.onerror</code> (en-US)</a></p>
-<ul>
-<li>取操作发生错误时触发。</li>
-</ul>
-</li>
-<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/onload" target="_blank" rel="noopener"><code>FileReader.onload</code></a></p>
-<ul>
-<li>读取操作完成时触发。</li>
-</ul>
-</li>
-<li><p><code>FileReader.onloadstart</code></p>
-<ul>
-<li>处理<code>loadstart (en-US)</code>事件。该事件在读取操作开始时触发。</li>
-</ul>
-</li>
-<li><p><code>FileReader.onloadend</code></p>
-<ul>
-<li>处理<code>loadend (en-US)</code>事件。该事件在读取操作结束时（要么成功，要么失败）触发。</li>
-</ul>
-</li>
-<li><p><code>FileReader.onprogress</code></p>
-<ul>
-<li>处理<code>progress (en-US)</code>事件。该事件在读取<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob" target="_blank" rel="noopener"><code>Blob</code></a>触发。</li>
-</ul>
-</li>
-</ul>
-<h4 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h4><ul>
-<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/abort" target="_blank" rel="noopener"><code>FileReader.abort()</code></a></p>
-<ul>
-<li>中止读取操作。在返回时，<code>readyState</code>属性为<code>DONE</code>。</li>
-</ul>
-</li>
-<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/readAsArrayBuffer" target="_blank" rel="noopener"><code>FileReader.readAsArrayBuffer()</code></a></p>
-<ul>
-<li>开始读取指定的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob" target="_blank" rel="noopener"><code>Blob</code></a>的内容,一旦完成, result 属性中保存的将是被读取文件的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer" target="_blank" rel="noopener"><code>ArrayBuffer</code></a></li>
-</ul>
-</li>
-<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/readAsBinaryString" target="_blank" rel="noopener"><code>FileReader.readAsBinaryString()</code></a>e</p>
-<ul>
-<li>开始读取指定的<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob" target="_blank" rel="noopener"><code>Blob</code></a>的内容。一旦完成，<code>result</code>属性中将包含所读取文件的原始二进制数据。</li>
-</ul>
-</li>
-<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/readAsDataURL" target="_blank" rel="noopener"><code>FileReader.readAsDataURL()</code></a></p>
-<ul>
-<li>开始读取指定的<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob" target="_blank" rel="noopener"><code>Blob</code></a>的内容。。一旦完成，<code>result</code>属性中将包含一个<code>data:</code> URL格式的Base64字符串以表示所读取文件的内容。</li>
-</ul>
-</li>
-<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/readAsText" target="_blank" rel="noopener"><code>FileReader.readAsText()</code></a></p>
-<ul>
-<li>开始读取指定的<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob" target="_blank" rel="noopener"><code>Blob</code></a>的内容一旦完成，<code>result</code>属性中将包含一个字符串以表示所读取的文件内容。</li>
-</ul>
-</li>
-</ul>
+                <h2 id="在React中使用typescript"><a href="#在React中使用typescript" class="headerlink" title="在React中使用typescript"></a>在React中使用typescript</h2><p>React脚手架 + typescript</p>
+<pre class=" language-shell"><code class="language-shell">npx create-react-app my-app --template typescript</code></pre>
+<p>如果是对当前React脚手架项目添加typescript支持</p>
+<pre class=" language-shell"><code class="language-shell">npm install --save typescript @types/node @types/react @types/react-dom @types/jest</code></pre>
+<h4 id="对于类式组件"><a href="#对于类式组件" class="headerlink" title="对于类式组件"></a><strong>对于类式组件</strong></h4><p>在构建React组件类的时候，还有这一种接口的写法 <code>React.Component&lt;props接口的名称, state接口的名称&gt;</code>，用来说明派生的 Component 使用的 Props 和 State 的类型</p>
+<pre class=" language-ts"><code class="language-ts">React<span class="token punctuation">.</span>Component<span class="token operator">&lt;</span>Props<span class="token punctuation">,</span> State<span class="token operator">></span></code></pre>
+<p>ref对象，我们也需要手动声明它的类型</p>
+<pre><code>myRef = React.createRef&lt;ref的元素类型&gt;()</code></pre><p>比如以下例子</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> createRef <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span><span class="token punctuation">;</span>
+<span class="token keyword">interface</span> <span class="token class-name">IState</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> string
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// 泛型第一个约定属性、第二个约定状态</span>
+<span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span><span class="token operator">&lt;</span>any<span class="token punctuation">,</span> IState<span class="token operator">></span> <span class="token punctuation">{</span>
+  state <span class="token operator">=</span> <span class="token punctuation">{</span>
+    name<span class="token punctuation">:</span> <span class="token string">"allen"</span>
+  <span class="token punctuation">}</span>
+  myRef <span class="token operator">=</span> createRef<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>HTMLInputElement</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">ref</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span> <span class="token keyword">this</span><span class="token punctuation">.</span>myRef<span class="token punctuation">}</span></span><span class="token punctuation">/></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>
+          <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>myRef<span class="token punctuation">.</span>current <span class="token keyword">as</span> HTMLInputElement<span class="token punctuation">)</span><span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+         <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Child</span> <span class="token attr-name">name</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>name<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Child</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">interface</span> <span class="token class-name">IProps</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> string
+<span class="token punctuation">}</span>
+<span class="token keyword">class</span> <span class="token class-name">Child</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span><span class="token operator">&lt;</span>IProps<span class="token punctuation">,</span> IState<span class="token operator">></span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> App<span class="token punctuation">;</span></code></pre>
+<h4 id="对于函数式组件"><a href="#对于函数式组件" class="headerlink" title="对于函数式组件"></a><strong>对于函数式组件</strong></h4><p>函数式组件十分轻松，不用做什么处理，作为状态state已经被隐式推导了</p>
+<p>而其他的规范也十分轻松</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span>useState<span class="token punctuation">,</span> useRef<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span>
+<span class="token comment" spellcheck="true">//非要自己显式也不是不行：  const [name, setName] = useState&lt;string>("allen")</span>
+<span class="token keyword">interface</span> <span class="token class-name">IProps</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token keyword">string</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">App</span><span class="token punctuation">(</span>props<span class="token punctuation">:</span>IProps<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span>name<span class="token punctuation">,</span> setName<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token string">"allen"</span><span class="token punctuation">)</span>
+  <span class="token keyword">const</span> inputRef <span class="token operator">=</span> useRef<span class="token operator">&lt;</span>HTMLInputElement<span class="token operator">></span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>div<span class="token operator">></span>
+      <span class="token operator">&lt;</span>div<span class="token operator">></span><span class="token punctuation">{</span>name<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+      <span class="token operator">&lt;</span>input type<span class="token operator">=</span><span class="token string">"text"</span> ref<span class="token operator">=</span><span class="token punctuation">{</span>inputRef<span class="token punctuation">}</span><span class="token operator">/</span><span class="token operator">></span>
+      <span class="token operator">&lt;</span>button onClick<span class="token operator">=</span><span class="token punctuation">{</span>
+        <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+          <span class="token function">setName</span><span class="token punctuation">(</span><span class="token string">"Mikasa"</span><span class="token punctuation">)</span>
+          console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token punctuation">(</span>inputRef<span class="token punctuation">.</span>current as HTMLInputElement<span class="token punctuation">)</span><span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
 
             </div>
             <hr/>
@@ -612,7 +571,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2021/06/14/wen-jian-shang-chuan/">https://taylor12138.github.io/2021/06/14/wen-jian-shang-chuan/</a>
+                    <a href="https://taylor12138.github.io/2022/03/05/react-zhong-shi-yong-ts/">https://taylor12138.github.io/2022/03/05/react-zhong-shi-yong-ts/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -815,31 +774,32 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2021/06/15/vue-aplayer/">
+                <a href="/2022/03/05/react-zhong-shi-yong-ts/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="Vue-aplayer">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="React中使用TS">
                         
-                        <span class="card-title">Vue-aplayer</span>
+                        <span class="card-title">React中使用TS</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            vue-aplayer简单介绍为 Easy-to-use music player for Vue 2.x，一款基于Vue2.0的音乐播放器，传入相关的prop参数可进行自定义修改
-因为在项目中使用到了，在这里记录相关的用法
-安装npm i
+                            在React中使用typescriptReact脚手架 + typescript
+npx create-react-app my-app --template typescript
+如果是对当前React脚手架项目添加typescript支
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-06-15
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-05
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -852,6 +812,7 @@
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -862,30 +823,27 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/05/22/typescript/">
+                <a href="/2021/12/16/hong-bao-shu-ken-du-note-xia/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="TypeScript">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="红宝书啃读note(下)">
                         
-                        <span class="card-title">TypeScript</span>
+                        <span class="card-title">红宝书啃读note(下)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.结识TypeScript传统上，JS旨在用于简短，快速运行的代码片段，作为浏览器脚本语言，主要用途是与用户互动，以及操作DOM，所以JS比较适合单线程。
-但是由此导致后期维护性比较差
-
-面向对象撰写麻烦
-没有类型规范
-
-微软于2014年
+                            第12章BOMBOM核心是window对象，window对象在浏览器有双重身份，一个是ECMAScript的Global对象，一个就是浏览器窗口的JavaScript接口。
+窗口关系
+top对象始终指向最上层窗口，即浏览器窗口本身
+pare
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-05-22
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-12-16
                             </span>
                         <span class="publish-author">
                             
@@ -1096,7 +1054,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">271.1k</span>&nbsp;字
+                class="white-color">274.9k</span>&nbsp;字
             
             
             

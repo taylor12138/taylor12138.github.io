@@ -459,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.5k
+                    1.7k
                 </div>
                 
 
@@ -485,7 +485,11 @@
 <p>网络上流传比较广的说法是：</p>
 <p>ASCII编码是1个字节，而Unicode编码通常是多个字节。</p>
 <p>用Unicode编码比ASCII编码需要多很多的的存储空间</p>
-<p>阮一峰老师：Unicode 的多种存储方式，也就是说有许多种不同的二进制格式，且Unicode的规定导致本身的表示方式会造成极大的浪费</p>
+<p>阮一峰老师：Unicode有两个问题</p>
+<ol>
+<li>第一个问题是，如何才能区别 Unicode 和 ASCII ？计算机怎么知道三个字节表示一个符号，而不是分别表示三个符号呢？</li>
+<li>第二个问题是，我们已经知道，英文字母只用一个字节表示就够了，如果 Unicode 统一规定，每个符号用三个或四个字节表示，那么每个英文字母前都必然有二到三个字节是<code>0</code>，这对于存储来说是极大的浪费，文本文件的大小会因此大出二三倍，这是无法接受的。</li>
+</ol>
 <h4 id="UTF-8"><a href="#UTF-8" class="headerlink" title="UTF-8"></a>UTF-8</h4><p>UTF-8 就是在互联网上使用最广的一种 Unicode 的实现方式</p>
 <p>其他实现方式还包括 UTF-16（字符用两个字节或四个字节表示）和 UTF-32（字符用四个字节表示），不过在互联网上<strong>基本不用</strong></p>
 <p>UTF-8 最大的一个特点，就是它是一种变长的编码方式。它可以使用1~4个字节表示一个符号，根据不同的符号而变化字节长度。</p>
@@ -527,13 +531,25 @@
 <li>key名不一定要使用双引号</li>
 <li>支持使用转义字符</li>
 </ul>
-<h2 id="Linux命令"><a href="#Linux命令" class="headerlink" title="Linux命令"></a>Linux命令</h2><p>vi编辑命令：首先 <code>vim 文件名</code> 进入</p>
+<h2 id="Linux一些常用命令"><a href="#Linux一些常用命令" class="headerlink" title="Linux一些常用命令"></a>Linux一些常用命令</h2><p>vi编辑命令：首先 <code>vim 文件名</code> 进入</p>
 <ul>
 <li>wq：表示保存退出</li>
 <li>wq!：表示强制保存退出</li>
 <li>q：表示退出</li>
 <li>q!：表示强制退出</li>
 </ul>
+<p><code>pwd</code>：查看当前目录位置</p>
+<p><code>ifconfig</code>：查看网络信息</p>
+<p><code>free -h</code>：查看服务内存状况</p>
+<p><code>df -lh</code>：查看磁盘空间</p>
+<p><code>mkdir 目录名</code>：新建目录</p>
+<p><code>which 包名</code>：假如包安装在全局，通过这个命令可以查看包具体安装在哪个目录下</p>
+<p><code>who</code>：显示当前登录系统的用户</p>
+<p><code>rm -f 文件名</code> 删除⽂件</p>
+<p> <code>rmdir dir1</code> 删除’dir1’⽬录 </p>
+<p> <code>rm -rf dir1</code> 删除’dir1’⽬录和其内容 </p>
+<p><code>cat 文件名</code> 查看file1 内容</p>
+<p><code>zip xxx.zip 文件名</code> 把压缩成xxx.zip包</p>
 
             </div>
             <hr/>
@@ -1039,7 +1055,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">271.1k</span>&nbsp;字
+                class="white-color">274.9k</span>&nbsp;字
             
             
             

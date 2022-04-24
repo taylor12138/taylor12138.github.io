@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.8k
+                    8.3k
                 </div>
                 
 
@@ -723,7 +723,7 @@ pushcheck <span class="token operator">=</span> <span class="token punctuation">
 <span class="token punctuation">}</span></code></pre>
 <p>同样的，如果想实现网页前进 + 后退功能；也可以使用</p>
 <p><code>this.props.history.goForward()</code>、<code>this.props.history.goBack()</code></p>
-<p>对于函数实组件，可以通过组件接收的props，通过 <code>props.history.push()</code>来跳转路由，还可以通过history Hook来跳转</p>
+<p>对于函数式组件，可以通过组件接收的props，通过 <code>props.history.push()</code>来跳转路由，还可以通过history Hook来跳转</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> useHistory <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-router-dom'</span>
 <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">Index</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
     <span class="token keyword">const</span> history <span class="token operator">=</span> <span class="token function">useHistory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -736,7 +736,7 @@ pushcheck <span class="token operator">=</span> <span class="token punctuation">
 <h4 id="withRouter"><a href="#withRouter" class="headerlink" title="withRouter"></a>withRouter</h4><p><strong>一般组件和路由组件</strong></p>
 <p>上方阐述的是路由组件的使用，他们有各自的不同之处</p>
 <p>1.一般组件直接使用，路由组件通过路由 <code>link</code>切换，然后依靠路由（<code>&lt;Route component=xxx&gt;</code>）匹配决定渲染哪一个</p>
-<p>2.一般组件如果父组件没传props，则收到空对象，路由组件默认会受到props：history、location、match</p>
+<p>2.一般组件如果父组件没传props，则收到空对象，路由组件默认会接收到props：history、location、match</p>
 <p>3.传参方式不一样，一般组件直接属性传值，props接收，路由组件有三种传参方式</p>
 <p>上方讲述了许多关于路由组件的api，但是这些都仅限于路由组件，如果想要在一般组件使用，可以使用到 <code>withRouter</code></p>
 <p><code>withRouter(一般组件)</code> 就会添加上路由组件身上特有的三个属性：history、location、match！</p>
@@ -776,6 +776,8 @@ pushcheck <span class="token operator">=</span> <span class="token punctuation">
 <span class="token keyword">import</span> <span class="token punctuation">{</span> Button <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'antd'</span>
 <span class="token keyword">import</span> <span class="token string">'antd/dist/antd.css'</span></code></pre>
 <p>Vue的话推荐使用element-UI库，后面反响不错，也出了react的UI</p>
+<h4 id="关于eject之后antd的主题颜色配置"><a href="#关于eject之后antd的主题颜色配置" class="headerlink" title="关于eject之后antd的主题颜色配置"></a>关于eject之后antd的主题颜色配置</h4><p>由于私自eject了，官网没有相关eject后的主题配置的代码，在网上翻来覆去，终于找到真正合适的文章</p>
+<p><a href="https://blog.csdn.net/f980815/article/details/109385835" target="_blank" rel="noopener">https://blog.csdn.net/f980815/article/details/109385835</a></p>
 <p>对于React Native的按需导入，还得再babel.config.js进行配置</p>
 <pre class=" language-shell"><code class="language-shell">npm i ant-design/react-native</code></pre>
 <pre class=" language-js"><code class="language-js">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
@@ -879,8 +881,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <p>所以可以在React、Redux里面，我们很少使用push、unshift这些数组方法，而且这样会导致函数不再是纯函数了。</p>
-<p><strong>组件中导入 + 使用</strong></p>
-<pre class=" language-jsx"><code class="language-jsx"><span class="token comment" spellcheck="true">// 引入store，用于获取redux中保存的状态</span>
+<h5 id="关于store的更新"><a href="#关于store的更新" class="headerlink" title="关于store的更新"></a>关于store的更新</h5><pre class=" language-jsx"><code class="language-jsx"><span class="token comment" spellcheck="true">// 引入store，用于获取redux中保存的状态</span>
 <span class="token keyword">import</span> store <span class="token keyword">from</span> <span class="token string">'../redux/store'</span>
 <span class="token comment" spellcheck="true">//可以直接获取store存储的数据</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>store<span class="token punctuation">.</span><span class="token function">getState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
@@ -892,7 +893,6 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token punctuation">}</span></code></pre>
 <p>但是平时我们使用setState会自动帮我们调用一次render更新页面，但是store更新没有调用render</p>
 <p>解决方法一：在组件内，在<code>componentDidMount</code>生命周期钩子后使用 redux 带的 <code>subscribe</code> API ，用于订阅状态更改，监听store数据的变化，发生变化则执行传入的回调函数（ <code>this.setState({})</code> -&gt; <code>render</code> ）</p>
-<p>如果是hook组件，则</p>
 <pre class=" language-jsx"><code class="language-jsx"><span class="token comment" spellcheck="true">// DOM挂在完毕后，监听redux中状态的变化，只要变化就调用render</span>
   <span class="token function">componentDidMount</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     store<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
@@ -901,8 +901,17 @@ console<span class="token punctuation">.</span><span class="token function">log<
       <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span>
   <span class="token punctuation">}</span></code></pre>
+<p>如果是hook组件，则</p>
+<pre class=" language-js"><code class="language-js"><span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> unSubscribe <span class="token operator">=</span> store<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token function">setState</span><span class="token punctuation">(</span>store<span class="token punctuation">.</span><span class="token function">getState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token function">unSubscribe</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span></code></pre>
 <p>但是这种订阅方式，必须让组件销毁时，将其也取消订阅，不然会重复订阅，因为<code>store.subscribe</code>不会随着组件被销毁而消失，而是默默保存在redux的内部订阅者数组中</p>
-<p><code>store.subscribe</code>会返回一个函数，该函数时取消订阅的</p>
+<p><code>store.subscribe</code>会返回一个函数，该函数时取消订阅的（在类式组件中可以在 <code>componentWillUnmount</code> 中取消订阅 ）</p>
 <pre class=" language-js"><code class="language-js"><span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
   <span class="token keyword">const</span> unSubscribe <span class="token operator">=</span> store<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
   <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
@@ -929,8 +938,7 @@ store<span class="token punctuation">.</span><span class="token function">subscr
     <span class="token comment" spellcheck="true">// dispatch为action传入参数 </span>
     store<span class="token punctuation">.</span><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token function">createIncrementAction</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span></code></pre>
-<p><strong>sync Action and async Action</strong></p>
-<p>action可以为对象（type、data属性），也可以为函数</p>
+<h4 id="async-Action"><a href="#async-Action" class="headerlink" title="async Action"></a>async Action</h4><p>action可以为对象（type、data属性），也可以为函数</p>
 <p>我们返回一个函数，把异步操作存放在这个函数里，再调用同步action（异步Action中一般都会调用一个同步action），由此形成一个异步操作，</p>
 <p>因为store只认action作为一个对象来返回，此时我们需要用到一个中间件，让store愿意接收一个函数，并且调用它：（即使我们在异步action中写明了直接return对象，但是也由于异步的原因，函数体执行完毕了，直接返回一个<code>undefined</code>）</p>
 <blockquote>
@@ -959,11 +967,92 @@ store<span class="token punctuation">.</span><span class="token function">subscr
 <span class="token keyword">import</span> <span class="token punctuation">{</span>asyncIncrement <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'../redux/count_action'</span></code></pre>
 <pre class=" language-js"><code class="language-js">store<span class="token punctuation">.</span><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token function">asyncIncrement</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> <span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p><strong>异步action</strong>：<strong>它不是一个必须的东西</strong>，实际上我们可以在自己的组件函数里定义异步操作，只是当你不想要把异步操作放在组件里是，可以使用以上异步action方法</p>
-<p>原理</p>
+<p><code>redux-thunk</code>原理</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">thunkMiddleware</span><span class="token punctuation">(</span><span class="token punctuation">{</span> dispatch<span class="token punctuation">,</span> getState <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">return</span> <span class="token punctuation">(</span>next<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span>action<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span>
     <span class="token keyword">typeof</span> action <span class="token operator">===</span> <span class="token string">"function"</span> <span class="token operator">?</span> <span class="token function">action</span><span class="token punctuation">(</span>dispatch<span class="token punctuation">,</span> getState<span class="token punctuation">)</span> <span class="token punctuation">:</span> <span class="token function">next</span><span class="token punctuation">(</span>action<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
+<h4 id="redux-saga"><a href="#redux-saga" class="headerlink" title="redux-saga"></a>redux-saga</h4><p><strong>redux-saga解决异步actions问题</strong></p>
+<p>maybe看不惯了把原来作为对象的action变成了其他形式，于是后面出了一个redux-saga，其原理是使用了生成器（generator）</p>
+<p>在saga中，全局监听和接收器使用Generator函数和saga自身一些辅助函数实现对整个流程的管控</p>
+<pre class=" language-shell"><code class="language-shell">npm i redux-saga</code></pre>
+<p>在redux下新建一个saga.js文件</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> take<span class="token punctuation">,</span> fork<span class="token punctuation">,</span> call<span class="token punctuation">,</span> put <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"redux-saga/effects"</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">/*
+function* watchaSaga() {
+  while (true) {
+    //take监听组件
+    yield take("getList");
+    //fork同步执行异步处理函数(非阻塞式)
+    yield fork(GetList);
+  }
+}
+*/</span>
+<span class="token comment" spellcheck="true">//watchSaga另外一种写法</span>
+<span class="token keyword">function</span><span class="token operator">*</span> <span class="token function">watchaSaga</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">yield</span> <span class="token function">takeEvery</span><span class="token punctuation">(</span><span class="token string">"getList"</span><span class="token punctuation">,</span> GetList<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">function</span><span class="token operator">*</span> <span class="token function">GetList</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// 异步处理</span>
+  <span class="token comment" spellcheck="true">//call函数发异步请求,传入一个返回值为promise对象的函数，阻塞式调用</span>
+  <span class="token keyword">let</span> res <span class="token operator">=</span> <span class="token keyword">yield</span> <span class="token function">call</span><span class="token punctuation">(</span>asyncGetList<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// put函数发出新的action</span>
+  <span class="token keyword">yield</span> <span class="token function">put</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    type<span class="token punctuation">:</span> <span class="token string">"changeList"</span><span class="token punctuation">,</span>
+    payload<span class="token punctuation">:</span> res<span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">function</span> <span class="token function">asyncGetList</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span>res<span class="token punctuation">,</span> rej<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token function">res</span><span class="token punctuation">(</span><span class="token string">"返回结果"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> watchaSaga<span class="token punctuation">;</span></code></pre>
+<p>此时在store.js中，嵌入中间件，并且在导出store之前调用watchSaga进行实时监听</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">import</span> <span class="token punctuation">{</span> createStore<span class="token punctuation">,</span> applyMiddleware <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"redux"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> createSagaMiddleWare <span class="token keyword">from</span> <span class="token string">"redux-saga"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> countReducer <span class="token keyword">from</span> <span class="token string">"./reducer"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> watchSaga <span class="token keyword">from</span> <span class="token string">"./saga"</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 和redux-thunk一样，都要套入中间件</span>
+<span class="token keyword">const</span> SagaMiddleWare <span class="token operator">=</span> <span class="token function">createSagaMiddleWare</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> store <span class="token operator">=</span> <span class="token function">createStore</span><span class="token punctuation">(</span>countReducer<span class="token punctuation">,</span> <span class="token function">applyMiddleware</span><span class="token punctuation">(</span>SagaMiddleWare<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+SagaMiddleWare<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span>watchSaga<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> store<span class="token punctuation">;</span></code></pre>
+<p>然后再reducer中照常监听dispatch传过来的type和payload</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">interface</span> <span class="token class-name">IAction</span> <span class="token punctuation">{</span>
+  type<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+  payload<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">interface</span> <span class="token class-name">IPreState</span> <span class="token punctuation">{</span>
+  isShow<span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+  list<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">countReducer</span><span class="token punctuation">(</span>
+  preState<span class="token punctuation">:</span> IPreState <span class="token operator">=</span> <span class="token punctuation">{</span>
+    isShow<span class="token punctuation">:</span> <span class="token keyword">true</span><span class="token punctuation">,</span>
+    list<span class="token punctuation">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  action<span class="token punctuation">:</span> IAction
+<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> type<span class="token punctuation">,</span> payload <span class="token punctuation">}</span> <span class="token operator">=</span> action<span class="token punctuation">;</span>
+  <span class="token keyword">let</span> newState <span class="token operator">=</span> preState<span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">//...</span>
+  <span class="token keyword">switch</span> <span class="token punctuation">(</span>type<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> <span class="token string">"changeList"</span><span class="token punctuation">:</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"enter changelist"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      newState<span class="token punctuation">.</span>list <span class="token operator">=</span> payload<span class="token punctuation">;</span>
+      <span class="token keyword">return</span> newState<span class="token punctuation">;</span>
+    <span class="token keyword">default</span><span class="token punctuation">:</span>
+      <span class="token keyword">return</span> preState<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>最后在组件中使用时，直接dispatch在saga.js中监听的type</p>
+<pre class=" language-tsx"><code class="language-tsx">store.dispatch({type: 'getList', payload: 'nothing'})</code></pre>
+<p>（大火看到redux-thunk的好了吧？。。）</p>
 <h4 id="小redux"><a href="#小redux" class="headerlink" title="小redux"></a>小redux</h4><p>个人小小小版redux赏析</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">createStore</span><span class="token punctuation">(</span>reducer<span class="token punctuation">,</span> initialState <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token comment" spellcheck="true">//用于存放订阅者</span>
@@ -1112,14 +1201,13 @@ increment <span class="token operator">=</span> <span class="token punctuation">
     <span class="token punctuation">}</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
-<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>这里顺便推荐一下redux的相关开发者工具：Redux DevTools（这个工具很顶阿！）（React的开发者工具React Developer Tools也推荐安装），在谷歌商店添加拓展插件即可</p>
+<h2 id="10-其他"><a href="#10-其他" class="headerlink" title="10.其他"></a>10.其他</h2><h4 id="Redux-DevTools"><a href="#Redux-DevTools" class="headerlink" title="Redux DevTools"></a>Redux DevTools</h4><p>这里顺便推荐一下redux的相关开发者工具：Redux DevTools（这个工具很顶阿！）（React的开发者工具React Developer Tools也推荐安装），在谷歌商店添加拓展插件即可</p>
 <p>但是使用这个工具还得安装拓展库</p>
 <pre class=" language-shell"><code class="language-shell">npm i redux-devtools-extension</code></pre>
 <p>别忘了还要再store.js文件中导入 + 使用</p>
 <p>可以在官网查看<a href="https://github.com/zalmoxisus/redux-devtools-extension" target="_blank" rel="noopener">https://github.com/zalmoxisus/redux-devtools-extension</a></p>
 <p>关于react-redux数据持久化，可以使用redux-persist<a href="https://github.com/rt2zz/redux-persist" target="_blank" rel="noopener">https://github.com/rt2zz/redux-persist</a></p>
-<p><strong>immutable</strong></p>
-<p>除此之外，我在《JavaScript进阶ES5》中还提及到关于很适用于reducer纯函数系列的js库 <code>immutable.js</code>，它的实现原理是persistent data structure（持久化数据结构），也就是使用旧数据创建新数据时，<strong>保证旧数据同时可用且不变</strong>，同时避免了deepcopy把所有的节点都复制一遍带来的性能损耗，immutable使用了structural sharing（结构共享），即如果对象树中一个节点发生变化，只修改这个节点和受他影响的父节点，则其他节点进行共享</p>
+<h4 id="immutable"><a href="#immutable" class="headerlink" title="immutable"></a><strong>immutable</strong></h4><p>除此之外，我在《JavaScript进阶ES5》中还提及到关于很适用于reducer纯函数系列的js库 <code>immutable.js</code>，它的实现原理是persistent data structure（持久化数据结构），也就是使用旧数据创建新数据时，<strong>保证旧数据同时可用且不变</strong>，同时避免了deepcopy把所有的节点都复制一遍带来的性能损耗，immutable使用了structural sharing（结构共享），即如果对象树中一个节点发生变化，只修改这个节点和受他影响的父节点，则其他节点进行共享</p>
 <p>具体使用</p>
 <pre class=" language-shell"><code class="language-shell">npm i immutable</code></pre>
 <p>immutable对数组偏爱，可以直接让List当数组来使用，一般都可以调用数组上的所有方法，包括map、filter、shift之类的</p>
@@ -1431,7 +1519,7 @@ increment <span class="token operator">=</span> <span class="token punctuation">
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            10.HooksReact的Hook 是 16.8版本新增的特性/语法，可以让我们在函数式组件中使用state和其他React特性
+                            11.HooksReact的Hook 是 16.8版本新增的特性/语法，可以让我们在函数式组件中使用state和其他React特性
 函数式组件最主要没有上述功能的原因是没有实例对象，没有this（现在函数式组件是主流了）
 Hook主要是践行
                         
@@ -1694,7 +1782,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">274.9k</span>&nbsp;字
+                class="white-color">287.2k</span>&nbsp;字
             
             
             

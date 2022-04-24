@@ -705,10 +705,12 @@ module<span class="token punctuation">.</span>exports <span class="token operato
         compress<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//是否开启gzip压缩资源,默认true</span>
         port<span class="token punctuation">:</span> <span class="token number">9000</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//端口号设置</span>
         open<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//自动打开浏览器</span>
-        proxy<span class="token punctuation">:</span> <span class="token punctuation">{</span>    <span class="token comment" spellcheck="true">//类似React配置代理,仅限测试环境下跨域解决方案</span>
-            proxy<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-              <span class="token string">'/api'</span><span class="token punctuation">:</span> <span class="token string">'http://localhost:3000'</span><span class="token punctuation">,</span>
-            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        proxy<span class="token punctuation">:</span> <span class="token punctuation">{</span>    <span class="token comment" spellcheck="true">//React配置代理的原理,仅限测试环境下跨域解决方案</span>
+            <span class="token string">'/api'</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                target<span class="token punctuation">:</span> <span class="token string">'http://localhost:3000'</span><span class="token punctuation">,</span>
+                pathRewrite<span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token string">'^/api'</span><span class="token punctuation">:</span> <span class="token string">''</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+             <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token string">'/api2'</span><span class="token punctuation">:</span> <span class="token string">'http://localhost:3000'</span><span class="token punctuation">,</span>
         <span class="token punctuation">}</span><span class="token punctuation">,</span>
         headers<span class="token punctuation">:</span> <span class="token punctuation">{</span>
             <span class="token string">'X-Access-Token'</span><span class="token punctuation">:</span> <span class="token string">'abc123'</span> <span class="token comment" spellcheck="true">//设置</span>
@@ -1327,7 +1329,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">274.9k</span>&nbsp;字
+                class="white-color">287.2k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9.4k
+                    9.5k
                 </div>
                 
 
@@ -1179,7 +1179,10 @@ npm install <span class="token operator">--</span>global nodemon</code></pre>
 <p>下载依赖包  <code>npm i superagent cheerio</code></p>
 <ul>
 <li>superagent: 是一个轻量的Ajax API，和axios差不多，只不过他不支持浏览器</li>
-<li>cheerio：为服务器特别定制的快速灵活jQuery，它并<em>不会</em>产生视觉呈现，应用CSS，加载外部资源，或者执行JavaScript，可以用来从网页css selector取数据，使用方法和jQuery一样</li>
+<li>cheerio：为服务器特别定制的快速灵活jQuery，它并<em>不会</em>产生视觉呈现，应用CSS，加载外部资源，或者执行JavaScript，可以用来从网页css selector取数据，使用方法和jQuery一样<ul>
+<li>如果你不想用cheerio，就自己一个一个正则匹配去吧！（= = ）</li>
+</ul>
+</li>
 </ul>
 <p>第二步：</p>
 <p>通过 superagent &amp; cheerio获取网页数据（后端渲染）</p>
@@ -1201,6 +1204,15 @@ npm install <span class="token operator">--</span>global nodemon</code></pre>
   <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span>err <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
   <span class="token keyword">throw</span> err<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p>如果是爬取到原网页后，对网页标签里的数据进行获取，可以使用</p>
+<p>里面的使用和jQuery使用一样，可以使用<code>each</code>方法遍历</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> $ <span class="token operator">=</span> cheerio<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>text<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> inner <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#home .col a'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//在外层是id为home，里面类名为col标签内里的a标签</span>
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#home .col a'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">each</span><span class="token punctuation">(</span><span class="token punctuation">(</span>index<span class="token punctuation">,</span> ele<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">$</span><span class="token punctuation">(</span>ele<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">$</span><span class="token punctuation">(</span>ele<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">attr</span><span class="token punctuation">(</span><span class="token string">"属性名"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">$</span><span class="token punctuation">(</span>ele<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 
             </div>
@@ -1707,7 +1719,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">274.9k</span>&nbsp;字
+                class="white-color">287.2k</span>&nbsp;字
             
             
             

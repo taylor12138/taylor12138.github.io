@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4k
+                    4.5k
                 </div>
                 
 
@@ -623,8 +623,10 @@
 <h4 id="CSS3滤镜filter"><a href="#CSS3滤镜filter" class="headerlink" title="CSS3滤镜filter"></a>CSS3滤镜filter</h4><p>用于模糊图形效果，<code>filter: 函数();</code></p>
 <p>如：<code>filter:blur(5px);</code>        //模糊处理，数值越大越模糊</p>
 <p>……</p>
+<p>如果是只是单纯模糊背景图片，可以使用 <code>backdrop-filter</code></p>
+<pre class=" language-css"><code class="language-css"><span class="token property">backdrop-filter</span><span class="token punctuation">:</span> <span class="token function">blur</span><span class="token punctuation">(</span><span class="token number">8</span>px<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h4 id="CSS3calc函数-计算函数"><a href="#CSS3calc函数-计算函数" class="headerlink" title="CSS3calc函数(计算函数)"></a>CSS3calc函数(计算函数)</h4><p><code>width: calc(100% - 80px);</code>    //宽度永远比父盒子宽度小30px</p>
-<h4 id="CSS过渡（重点）"><a href="#CSS过渡（重点）" class="headerlink" title="CSS过渡（重点）"></a>CSS过渡（重点）</h4><p>一些变化的动画效果（时间缓滞），经常和 :hover 一起搭配</p>
+<h4 id="CSS过渡（重点）"><a href="#CSS过渡（重点）" class="headerlink" title="CSS过渡（重点）"></a>CSS过渡（重点）</h4><p>一些变化的动画效果（时间缓滞），经常和 :hover、transform等 一起搭配</p>
 <p>在官网中查看到兼容性比较差，反而@keyframe的兼容性很不错？！！</p>
 <pre class=" language-css"><code class="language-css"><span class="token property">transition</span><span class="token punctuation">:</span> 要过渡的属性 花费的时间（单位为s） 运动曲线（默认ease，可以省略） 何时开始（默认<span class="token number">0</span>s，可省略）<span class="token punctuation">;</span>
 <span class="token property">transition</span><span class="token punctuation">:</span> width <span class="token number">0.5</span>s,heigh <span class="token number">0.5</span>s<span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">/*多个属性","分割，想要更多属性，直接属性值写all*/</span>
@@ -700,7 +702,7 @@ transform:translate(-50%,-50%);</code></pre><p>但是它对行内标签没有效
 <span class="token punctuation">}</span></code></pre>
 <p>使用多个动画用“，”分隔</p>
 <p>如animation: bear 0.7s steps(8) infinite, move 0.7s ……</p>
-<p>（<code>animation: name duration timing-function delay iteration-count direction fill-mode play-state;</code>）</p>
+<pre class=" language-css"><code class="language-css"><span class="token property">animation</span><span class="token punctuation">:</span> name duration timing-function delay iteration-count direction fill-mode play-state<span class="token punctuation">;</span></code></pre>
 <h3 id="3D转换"><a href="#3D转换" class="headerlink" title="3D转换"></a>3D转换</h3><p>x轴向右，y轴向下，z轴向外，最常用的是3d位移和3d旋转,以下许多功能与2d十分相似</p>
 <p>设置为3d模式(变形效果)</p>
 <pre class=" language-css"><code class="language-css"><span class="token property">transform-style</span><span class="token punctuation">:</span> preserve-<span class="token number">3</span>d</code></pre>
@@ -709,7 +711,7 @@ transform:translate(-50%,-50%);</code></pre><p>但是它对行内标签没有效
 <h4 id="透视"><a href="#透视" class="headerlink" title="透视"></a>透视</h4><p>透视我们也成为视距，即眼睛到屏幕的距离，透视的单位是像素，透视越小，盒子越大</p>
 <p>透视写在被观察元素的父盒子上</p>
 <pre><code>perspective: xxpx;</code></pre><h4 id="3d旋转"><a href="#3d旋转" class="headerlink" title="3d旋转"></a>3d旋转</h4><p>一般加上透视效果会比较明显，3d<strong>旋转方向</strong>遵循左手定则：</p>
-<p>左手大拇指指向x轴正方向，手指弯曲的方向则为旋转的方向</p>
+<p>左手大拇指指向旋转轴的方向，手指弯曲的方向则为旋转的方向</p>
 <pre class=" language-css"><code class="language-css"><span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>度数<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/*沿着X轴旋转*/</span>
 <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>度数<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">rotateZ</span><span class="token punctuation">(</span>度数<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/*z轴旋转和2d普通rotate有点像*/</span>
@@ -718,6 +720,67 @@ transform:translate(-50%,-50%);</code></pre><p>但是它对行内标签没有效
 <p>transform要看情况选择：先写旋转rotate再写移动translate或者相反情况</p>
 <h4 id="3d呈现transform-style"><a href="#3d呈现transform-style" class="headerlink" title="3d呈现transform-style"></a>3d呈现transform-style</h4><p>控制子元素是否开启三维立体环境，代码要写给父级（一定是父级，不能爷爷级别，亲测过），此属性很重要</p>
 <pre class=" language-css"><code class="language-css"><span class="token property">transform-style</span><span class="token punctuation">:</span> preserve-<span class="token number">3</span>d <span class="token comment" spellcheck="true">/*此为开启立体空间，但是默认值为flat，不开启立体空间*/</span></code></pre>
+<h2 id="11-styled-components"><a href="#11-styled-components" class="headerlink" title="11.styled-components"></a>11.styled-components</h2><p>秉承着万物皆是组件的思想，让css样式变成组件，来加入</p>
+<pre class=" language-shell"><code class="language-shell">npm i styled-components</code></pre>
+<p>如果是配合上ts，还需要下载它的声明文件</p>
+<pre class=" language-shell"><code class="language-shell">npm i --save-dev @types/styled-components</code></pre>
+<p>styled-components配合react使用</p>
+<p>它内部还支持sass、less语法，先声明一个对象 <code>styled.标签名+css模板字符串</code></p>
+<pre class=" language-tsx"><code class="language-tsx">import React from "react";
+import styled from 'styled-components'
+
+export default function index() {
+  const StyleFooter = styled.footer`
+    background: yellow
+    ul{
+      display: flex;
+      li{
+        flex:1
+      }
+    }
+  `
+  return <div>
+    <StyleFooter>
+      <ul>
+        <li>商店</li>
+        <li>商店</li>
+      </ul>
+    </StyleFooter>
+  </div>;
+}</code></pre>
+<p>对子组件使用styled-components的方式：</p>
+<p> <code>styled(子组件)+css模板字符串</code></p>
+<p>同时子组件还需要通过<code>props.className</code>接收该样式</p>
+<pre class=" language-tsx"><code class="language-tsx">import React from "react";
+import styled from 'styled-components'
+
+export default function Index() {
+  const StyleChild = styled(Child)`
+    background: yellow
+  `
+  return <div>
+    father
+    <StyleChild></StyleChild>
+  </div>;
+}
+function Child(props: any) {
+  return (
+    <div className={props.className}>child</div>
+  )
+}</code></pre>
+<p>但是唯一的缺点就是没有代码提示。。</p>
+<h2 id="12-clip-path"><a href="#12-clip-path" class="headerlink" title="12.clip-path"></a>12.clip-path</h2><p>一个用来设置蒙版的css属性，用它来绘制区域，只有在区域内的部分才能被看到，它支持</p>
+<ul>
+<li>circle（圆形）</li>
+<li>ellipse（椭圆）</li>
+<li>polygon（多边形区域）</li>
+</ul>
+<p>使用该蒙版后不能搭配box-shadow，因为此时蒙版被蒙住的部分，会展示不出box-shadow</p>
+<p>但是可以使用伪元素 before 代替阴影，设置为阴影的颜色</p>
+<p>各种形状的示例：<a href="https://blog.csdn.net/weixin_44116302/article/details/98882841" target="_blank" rel="noopener">https://blog.csdn.net/weixin_44116302/article/details/98882841</a></p>
+<p>一个小的教学视频在b站：<a href="https://www.bilibili.com/video/BV18y4y1i7oP?zw" target="_blank" rel="noopener">https://www.bilibili.com/video/BV18y4y1i7oP?zw</a></p>
+<p>该教学的文档<a href="https://zxuqian.cn/videos/effects/effects-glitch/" target="_blank" rel="noopener">https://zxuqian.cn/videos/effects/effects-glitch/</a></p>
+<h2 id="13-CSS3中-moz-或-webkit-是什么意思"><a href="#13-CSS3中-moz-或-webkit-是什么意思" class="headerlink" title="13 CSS3中-moz-或-webkit-是什么意思"></a>13 CSS3中-moz-或-webkit-是什么意思</h2><p>CSS3中新增了一些属性，例如box-reduis、box-orient、text-overflow等等，而这些属性在以往的版本中是不存在的，或者不被支持的，因此，针对不同的浏览器，规定其内核名称让它们可以对这些新增属性进行解析。这看上去是一个合理的解释，即<code>-moz-</code>是针对firefox的，<code>-webkit-</code>是针对safari和chrome的。</p>
 
             </div>
             <hr/>
@@ -1222,7 +1285,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">274.9k</span>&nbsp;字
+                class="white-color">287.2k</span>&nbsp;字
             
             
             

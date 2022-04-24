@@ -1,0 +1,1926 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Threejs, Hexo">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>Threejs | Hexo</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Hexo</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-grin-stars" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Hexo</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-grin-stars"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Threejs</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    .toc-fixed .toc-link::before{
+        position: fixed!important;/*当toc的位置改为fixed时，.toc-link::before也要改为fixed*/
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                前端
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-03-20
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    7.8k
+                </div>
+                
+
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="1-threejs简介"><a href="#1-threejs简介" class="headerlink" title="1.threejs简介"></a>1.threejs简介</h2><p>随着WebGL在2011年推出之后，3d技术正式向高级编程语言js敞开大门</p>
+<p>threejs是基于原生webGL封装运行的三维引擎，在所有webGL引擎中，threejs是国内资料最多，使用最广泛的三维引擎</p>
+<p>官网：<a href="https://threejs.org/" target="_blank" rel="noopener">https://threejs.org/</a></p>
+<p>GitHub：<a href="https://github.com/mrdoob/three.js" target="_blank" rel="noopener">https://github.com/mrdoob/three.js</a></p>
+<p>threejs程序结构</p>
+<ul>
+<li>场景<ul>
+<li>网络模型</li>
+<li>光照</li>
+</ul>
+</li>
+<li>相机<ul>
+<li>位置</li>
+<li>视线方向</li>
+<li>投影方式</li>
+</ul>
+</li>
+<li>渲染器<ul>
+<li>渲染器创建</li>
+<li>渲染器渲染</li>
+<li>domElement属性</li>
+</ul>
+</li>
+</ul>
+<h4 id="图片要求"><a href="#图片要求" class="headerlink" title="图片要求"></a>图片要求</h4><p>threejs用到的图，需要图片本身要调节光亮（使用HDR的图片）</p>
+<p>HDR图：高动态范围图像(High-Dynamic Range，简称HDR)，相比普通的图像，可以提供更多的动态范围和图像细节，根据不同的曝光时间的LDR(Low-Dynamic Range)图像，利用每个曝光时间相对应最佳细节的LDR图像来合成最终HDR图像，能够更好的反映出真实环境中的视觉效果。</p>
+<p>这里有个HDR图推荐网址：<a href="https://polyhaven.com/" target="_blank" rel="noopener">https://polyhaven.com/</a></p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>项目中安装</p>
+<pre class=" language-shell"><code class="language-shell">npm i three</code></pre>
+<h4 id="推荐工具"><a href="#推荐工具" class="headerlink" title="推荐工具"></a>推荐工具</h4><p>threejs参数众多吗，但与图形学能力不好的同学建议配合上 <code>Dat.gui</code> 工具 拼命调整参数，达到自己想要的效果</p>
+<h2 id="2-初始start"><a href="#2-初始start" class="headerlink" title="2.初始start"></a>2.初始start</h2><p>为了真正能够让你的场景借助three.js来进行显示，我们需要以下几个对象：场景、相机和渲染器，这样我们就能透过摄像机渲染出场景。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> scene <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Scene</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> camera <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>PerspectiveCamera</span><span class="token punctuation">(</span> <span class="token number">75</span><span class="token punctuation">,</span> window<span class="token punctuation">.</span>innerWidth <span class="token operator">/</span> window<span class="token punctuation">.</span>innerHeight<span class="token punctuation">,</span> <span class="token number">0.1</span><span class="token punctuation">,</span> <span class="token number">1000</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//一般可以设置为75°、45°的角度等</span>
+<span class="token keyword">const</span> renderer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>WebGLRenderer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+renderer<span class="token punctuation">.</span><span class="token function">setSize</span><span class="token punctuation">(</span> window<span class="token punctuation">.</span>innerWidth<span class="token punctuation">,</span> window<span class="token punctuation">.</span>innerHeight <span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//显示三维坐标系</span>
+<span class="token keyword">const</span> axes <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TREEE<span class="token punctuation">.</span>AxisHelper</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">//添加到场景中</span>
+scene<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>axes<span class="token punctuation">)</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//最后再添加到文档中</span>
+document<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span> renderer<span class="token punctuation">.</span>domElement <span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="相机"><a href="#相机" class="headerlink" title="相机"></a>相机</h4><p>three.js里有几种不同的相机，在这里，我们使用的是<strong>PerspectiveCamera</strong>（透视摄像机）。</p>
+<p>这个相机的特点是能将场景中的物体进行进大远小的渲染</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> camera <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>PerspectiveCamera</span><span class="token punctuation">(</span><span class="token number">75</span><span class="token punctuation">,</span> window<span class="token punctuation">.</span>innerWidth <span class="token operator">/</span> window<span class="token punctuation">.</span>innerHeight<span class="token punctuation">,</span> <span class="token number">0.1</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>第一个参数是<strong>视野角度（FOV）</strong>。视野角度就是无论在什么时候，你所能在显示器上看到的场景的范围，它的单位是角度(与弧度区分开)，一般45、75比较多。</p>
+<p>第二个参数是<strong>长宽比（aspect ratio）</strong>。 也就是你用一个物体的宽除以它的高的值。比如说，当你在一个宽屏电视上播放老电影时，可以看到图像仿佛是被压扁的。</p>
+<p>接下来的两个参数是<strong>近截面</strong>（near）和<strong>远截面</strong>（far）。通俗来讲就是相机能看到的最近的距离和最远的距离。 </p>
+<p>设置完还得设置相机的位置，参数分别是x、y、z坐标</p>
+<pre class=" language-js"><code class="language-js">camera<span class="token punctuation">.</span>position<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1.8</span><span class="token punctuation">,</span> <span class="token number">0.6</span><span class="token punctuation">,</span> <span class="token number">2.7</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<ul>
+<li><p><code>.aspect : Float</code></p>
+<p>摄像机视锥体的长宽比，通常是使用画布的宽/画布的高。默认值是<strong>1</strong>（正方形画布）。</p>
+</li>
+<li><p><code>camera.lookAt(scene.position)</code></p>
+<p>让当前相机指向场景中心，这里的参数必须传入一个position</p>
+</li>
+</ul>
+<p>除此之外，还有另外一个摄像机</p>
+<p>正交相机（<code>OrthographicCamera</code>）</p>
+<p><code>OrthographicCamera( left : Number, right : Number, top : Number, bottom : Number, near : Number, far : Number )</code></p>
+<p>left — 摄像机视左边界。<br>right — 摄像机视右边界。<br>top — 摄像机视上边界。<br>bottom — 摄像机视下边界。<br>near — 摄像机近端距离。<br>far — 摄像机远端距离。</p>
+<p>这一摄像机使用<a href="https://en.wikipedia.org/wiki/Orthographic_projection" target="_blank" rel="noopener">orthographic projection</a>（正交投影）来进行投影。</p>
+<p>在这种投影模式下，无论物体距离相机距离远或者近，在最终渲染的图片中物体的大小都保持不变。</p>
+<p>这对于渲染2D场景或者UI元素是非常有用的。</p>
+<h4 id="渲染器"><a href="#渲染器" class="headerlink" title="渲染器"></a>渲染器</h4><pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//可以设置抗锯齿 antialias</span>
+<span class="token keyword">const</span> renderer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>WebGLRenderer</span><span class="token punctuation">(</span><span class="token punctuation">{</span> antialias<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//设置像素比,window.devicePixelRatio为当前浏览器的像素比</span>
+renderer<span class="token punctuation">.</span><span class="token function">setPixelRatio</span><span class="token punctuation">(</span>window<span class="token punctuation">.</span>devicePixelRatio<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">//渲染尺寸大小</span>
+renderer<span class="token punctuation">.</span><span class="token function">setSize</span><span class="token punctuation">(</span>window<span class="token punctuation">.</span>innerWidth<span class="token punctuation">,</span> window<span class="token punctuation">.</span>innerHeight<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>使用渲染器后，还得让其在浏览器中进行渲染</p>
+<pre class=" language-js"><code class="language-js">renderer<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>scene<span class="token punctuation">,</span> camera<span class="token punctuation">)</span></code></pre>
+<ul>
+<li><p><code>.setAnimationLoop ( callback : Function ) : undefined</code></p>
+<p>callback — 每个可用帧都会调用的函数。 如果传入‘null’,所有正在进行的动画都会停止。</p>
+<p>可用来代替<a href="https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame" target="_blank" rel="noopener">requestAnimationFrame</a>的内置函数. 对于WebXR项目，必须使用此函数。</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 动画函数</span>
+<span class="token function">animate</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>renderer<span class="token punctuation">.</span><span class="token function">setAnimationLoop</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>render<span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+</li>
+</ul>
+<p><strong>色调映射</strong></p>
+<p>在设置hdr图之后，可以设置色调映射属性，这些常量定义了WebGLRenderer中toneMapping的属性。 这个属性用于在普通计算机显示器或者移动设备屏幕等低动态范围介质上，模拟、逼近高动态范围（HDR）效果。</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//色调映射（常量），设置为电影级别</span>
+renderer<span class="token punctuation">.</span>toneMapping <span class="token operator">=</span> THREE<span class="token punctuation">.</span>ACESFilmicToneMapping<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//调节曝光程度</span>
+renderer<span class="token punctuation">.</span>toneMappingExposure <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span></code></pre>
+<h2 id="3-场景"><a href="#3-场景" class="headerlink" title="3.场景"></a>3.场景</h2><pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> scene <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Scene</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<h4 id="场景内部方法"><a href="#场景内部方法" class="headerlink" title="场景内部方法"></a>场景内部方法</h4><ul>
+<li><p><code>.background(Object)</code></p>
+<p>若不为空，在渲染场景的时候将设置背景，且背景总是首先被渲染的。 可以设置一个用于的“clear”的Color（颜色）、一个覆盖canvas的Texture（纹理）， 或是 a cubemap as a CubeTexture or an equirectangular as a Texture。默认值为null。</p>
+<p>当然也可以使用threejs的<code>Color</code></p>
+<pre class=" language-js"><code class="language-js">scene<span class="token punctuation">.</span>background <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Color</span><span class="token punctuation">(</span>BACKGROUND_COLOR <span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+</li>
+<li><p><code>.environment(texture)</code></p>
+<p>若该值不为null，则该纹理贴图将会被设为场景中所有物理材质的环境贴图。 然而，该属性不能够覆盖已存在的、已分配给 MeshStandardMaterial.envMap 的贴图。默认为null。</p>
+</li>
+<li><p><code>.fog( color : Integer, near : Float, far : Float )</code></p>
+<p>一个fog实例定义了影响场景中的每个物体的雾的类型</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 设置迷雾</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>scene<span class="token punctuation">.</span>fog <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Fog</span><span class="token punctuation">(</span><span class="token number">0xf1f1f1</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><code>.near : Float</code></p>
+<p>开始应用雾的最小距离。距离小于活动摄像机“near”个单位的物体将不会被雾所影响。</p>
+<p>默认值是1。</p>
+<p><code>.far : Float</code></p>
+<p>结束计算、应用雾的最大距离，距离大于活动摄像机“far”个单位的物体将不会被雾所影响。</p>
+</li>
+<li><p><code>.getObjectByName(name:string)</code></p>
+<p>用于查找scene中都某个物件，比如</p>
+<pre class=" language-js"><code class="language-js">cube<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">'nameCube'</span>
+scene<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>cube<span class="token punctuation">)</span>
+<span class="token keyword">const</span> findRes <span class="token operator">=</span> scene<span class="token punctuation">.</span><span class="token function">getObjectByName</span><span class="token punctuation">(</span><span class="token string">'nameCube'</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>findRes<span class="token punctuation">.</span>position<span class="token punctuation">)</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">removeCube</span><span class="token punctuation">(</span>findRes<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>findRes <span class="token keyword">instanceof</span> <span class="token class-name">Mesh</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        scene<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>findRes<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+</li>
+<li><p><code>traverse</code></p>
+<p>同样的，和模型一样，scene也有traverse方法，用于遍历后代，被调用者和每个后代对象都会调用该函数</p>
+<pre class=" language-js"><code class="language-js">scene<span class="token punctuation">.</span><span class="token function">traverse</span><span class="token punctuation">(</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>obj <span class="token keyword">instanceof</span> <span class="token class-name">Mesh</span> <span class="token operator">&amp;&amp;</span> obj <span class="token operator">!=</span> plane<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        obj<span class="token punctuation">.</span>rotation<span class="token punctuation">.</span>x <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">0.01</span><span class="token punctuation">;</span>
+        obj<span class="token punctuation">.</span>rotation<span class="token punctuation">.</span>y <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">0.01</span><span class="token punctuation">;</span>
+        obj<span class="token punctuation">.</span>rotation<span class="token punctuation">.</span>z <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">0.01</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+</li>
+<li><p><code>.overrideMaterial : Material</code></p>
+<p>如果不为空，它将强制场景中的<strong>每个物体</strong>使用这里的材质来渲染。默认值为null。</p>
+</li>
+</ul>
+<h4 id="纹理图加载"><a href="#纹理图加载" class="headerlink" title="纹理图加载"></a><strong>纹理图加载</strong></h4><p><code>TextureLoader</code>：加载texture的一个类。 内部使用ImageLoader来加载文件。</p>
+<p><code>.load ( url : String, onLoad : Function, onProgress : Function, onError : Function ) : Texture</code></p>
+<p>url — 文件的URL或者路径，也可以为 <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs" target="_blank" rel="noopener">Data URI</a>.<br>onLoad — 加载完成时将调用。回调参数为将要加载的texture.<br>onProgress — 将在加载过程中进行调用。参数为XMLHttpRequest实例，实例包含total和loaded字节。<br>onError — 在加载错误时被调用。</p>
+<p>从给定的URL开始加载并将完全加载的texture传递给onLoad。该方法还返回一个新的纹理对象，该纹理对象可以直接用于材质创建。 如果采用此方法，一旦相应的加载过程完成，纹理可能会在场景中出现。</p>
+<h4 id="纹理背景"><a href="#纹理背景" class="headerlink" title="纹理背景"></a><strong>纹理背景</strong></h4><p>jpg贴图纹理（材质）</p>
+<ul>
+<li><p><code>.map : Texture</code></p>
+<p>颜色贴图。默认为null。</p>
+</li>
+</ul>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> planeMaterial <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>MeshBasicMaterial</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    color<span class="token punctuation">:</span> <span class="token number">0xcccc</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token function">setEnvMap</span><span class="token punctuation">(</span>hdr<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> textureLoader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>TextureLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> bricks <span class="token operator">=</span> textureLoader<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span><span class="token string">"./images/brick.jpg"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    planeMaterial<span class="token punctuation">.</span>map <span class="token operator">=</span> bricks<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<ul>
+<li><p><code>.envMap : Texture</code></p>
+<p>环境贴图。默认值为null。</p>
+</li>
+</ul>
+<p>当然也可以通过hdr图设置纹理背景</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> RGBELoader <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"three/examples/jsm/loaders/RGBELoader"</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//...</span>
+<span class="token comment" spellcheck="true">// 设置场景（环境背景）</span>
+<span class="token function">setEnvMap</span><span class="token punctuation">(</span>hdr<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 回调得到的参数是纹理对象</span>
+    <span class="token comment" spellcheck="true">// 怎么感觉这里的路径是直接把hdr文件夹放在public下</span>
+    <span class="token keyword">new</span> <span class="token class-name">RGBELoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setPath</span><span class="token punctuation">(</span><span class="token string">"./hdr/"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>hdr <span class="token operator">+</span> <span class="token string">".hdr"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>texture<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//告诉他该纹理背景是圆柱体映射</span>
+        texture<span class="token punctuation">.</span>mapping <span class="token operator">=</span> THREE<span class="token punctuation">.</span>EquirectangularReflectionMapping
+        <span class="token keyword">this</span><span class="token punctuation">.</span>scene<span class="token punctuation">.</span>background <span class="token operator">=</span> texture<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>scene<span class="token punctuation">.</span>environment <span class="token operator">=</span> texture<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="4-实践"><a href="#4-实践" class="headerlink" title="4.实践"></a>4.实践</h2><h4 id="小实践"><a href="#小实践" class="headerlink" title="小实践"></a>小实践</h4><p>（场景+阴影+小立方体）</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> scene <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Scene</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> camera <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>PerspectiveCamera</span><span class="token punctuation">(</span><span class="token number">75</span><span class="token punctuation">,</span> window<span class="token punctuation">.</span>innerWidth <span class="token operator">/</span> window<span class="token punctuation">.</span>innerHeight<span class="token punctuation">,</span> <span class="token number">0.1</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//一般可以设置为75°、45°的角度等</span>
+<span class="token keyword">const</span> renderer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>WebGLRenderer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//设置渲染器初始颜色</span>
+renderer<span class="token punctuation">.</span><span class="token function">setClearColor</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Color</span><span class="token punctuation">(</span><span class="token number">0xFFFFFF</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+renderer<span class="token punctuation">.</span><span class="token function">setSize</span><span class="token punctuation">(</span>window<span class="token punctuation">.</span>innerWidth<span class="token punctuation">,</span> window<span class="token punctuation">.</span>innerHeight<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 显示渲染物体的阴影</span>
+renderer<span class="token punctuation">.</span>shadowMapEnabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//显示三维坐标系</span>
+<span class="token comment" spellcheck="true">//新版本是 const axesHelper = new THREE.AxesHelper(20);，传入的参数为坐标轴长度</span>
+<span class="token comment" spellcheck="true">// 红色为x轴、绿色为y轴、蓝色为z轴</span>
+<span class="token keyword">const</span> axes <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>AxisHelper</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">//添加到场景中</span>
+scene<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>axes<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">/*************************地面*************************/</span>
+<span class="token comment" spellcheck="true">//设置一个地面几何体</span>
+<span class="token keyword">const</span> planeGeometry <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>PlaneGeometry</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">//给地面上色</span>
+<span class="token keyword">const</span> planeMaterial <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>MeshBasicMaterial</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    color<span class="token punctuation">:</span> <span class="token number">0xcccc</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">//结合材质</span>
+<span class="token keyword">const</span> plane <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Mesh</span><span class="token punctuation">(</span>planeGeometry<span class="token punctuation">,</span> planeMaterial<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">//物品移动位置          </span>
+plane<span class="token punctuation">.</span>rotation<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">0.5</span> <span class="token operator">*</span> Math<span class="token punctuation">.</span>PI
+<span class="token comment" spellcheck="true">// 设置地面阴影+接受其他阴影</span>
+plane<span class="token punctuation">.</span>castShadow <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+plane<span class="token punctuation">.</span>receiveShadow <span class="token operator">=</span> <span class="token boolean">true</span>
+scene<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>plane<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">/***********************添加立方体*****************/</span>
+<span class="token comment" spellcheck="true">//设置一个立方体，传入长宽高</span>
+<span class="token keyword">const</span> cubeGeometry <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>BoxGeometry</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">//MeshBasicMaterial材质不受光照的影响，所以这里用MeshLambertMaterial</span>
+<span class="token keyword">const</span> cubeMaterial <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>MeshLambertMaterial</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    color<span class="token punctuation">:</span> <span class="token number">0x00ff</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> cube <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Mesh</span><span class="token punctuation">(</span>cubeGeometry<span class="token punctuation">,</span> cubeMaterial<span class="token punctuation">)</span>
+cube<span class="token punctuation">.</span>position<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">5</span>
+<span class="token comment" spellcheck="true">//对象是否渲染到阴影贴图当中</span>
+cube<span class="token punctuation">.</span>castShadow <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+scene<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>cube<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">/***********创建一个聚光灯（才会有阴影效果）***********/</span>
+<span class="token comment" spellcheck="true">// 传入一个参数，为灯光颜色</span>
+<span class="token keyword">const</span> spotLight <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>SpotLight</span><span class="token punctuation">(</span><span class="token number">0xFFFFFF</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+spotLight<span class="token punctuation">.</span>position<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token number">130</span><span class="token punctuation">,</span> <span class="token number">130</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">130</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+spotLight<span class="token punctuation">.</span>castShadow <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 添加聚光灯</span>
+scene<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>spotLight<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">/***************定位相机，并且指向场景中心***********/</span>
+camera<span class="token punctuation">.</span>position<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token number">30</span><span class="token punctuation">;</span>
+camera<span class="token punctuation">.</span>position<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">30</span><span class="token punctuation">;</span>
+camera<span class="token punctuation">.</span>position<span class="token punctuation">.</span>z <span class="token operator">=</span> <span class="token number">30</span><span class="token punctuation">;</span>
+camera<span class="token punctuation">.</span><span class="token function">lookAt</span><span class="token punctuation">(</span>scene<span class="token punctuation">.</span>position<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">//最后再添加到文档中</span>
+document<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>renderer<span class="token punctuation">.</span>domElement<span class="token punctuation">)</span><span class="token punctuation">;</span>
+renderer<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>scene<span class="token punctuation">,</span> camera<span class="token punctuation">)</span></code></pre>
+<h4 id="小实践推荐网站"><a href="#小实践推荐网站" class="headerlink" title="小实践推荐网站"></a>小实践推荐网站</h4><p><a href="https://github.com/JChehe/blog/issues/44" target="_blank" rel="noopener">https://github.com/JChehe/blog/issues/44</a>  一个换肤小椅子作为实践</p>
+<p><a href="https://github.com/JChehe/blog/issues/45" target="_blank" rel="noopener">https://github.com/JChehe/blog/issues/45</a> 3d任务交互（进阶版）</p>
+<h4 id="材质"><a href="#材质" class="headerlink" title="材质"></a>材质</h4><ul>
+<li><p>MeshBasicMaterial：一个以简单着色（平面或线框）方式来绘制几何体的材质。这种材质不受光照的影响。（最佳性能）</p>
+</li>
+<li><p>深度网格材质(MeshDepthMaterial)：一种按深度绘制几何体的材质。深度基于相机远近平面。白色最近，黑色最远。</p>
+</li>
+<li><p>法线网格材质(MeshNormalMaterial)：一种把法向量映射到RGB颜色的材质。（有点赛博朋克、宇宙色彩系列的风格）</p>
+</li>
+<li><p>Lambert网格材质(MeshLambertMaterial)：一种非光泽表面的材质，没有镜面高光。该材质使用基于非物理的<a href="https://en.wikipedia.org/wiki/Lambertian_reflectance" target="_blank" rel="noopener">Lambertian</a>模型来计算反射率。 这可以很好地模拟一些表面（例如未经处理的木材或石材），但不能模拟具有镜面高光的光泽表面（例如涂漆木材）。</p>
+</li>
+<li><p>Phong网格材质(MeshPhongMaterial)：一种用于具有镜面高光的光泽表面的材质。该材质使用非物理的<a href="https://en.wikipedia.org/wiki/Blinn-Phong_shading_model" target="_blank" rel="noopener">Blinn-Phong</a>模型来计算反射率。 与MeshLambertMaterial中使用的Lambertian模型不同，该材质可以模拟具有镜面高光的光泽表面（例如涂漆木材）。（观感更佳）</p>
+</li>
+<li><p>标准网格材质(MeshStandardMaterial)：一种基于物理的标准材质，使用Metallic-Roughness工作流程。</p>
+<p>基于物理的渲染（PBR）最近已成为许多3D应用程序的<strong>标准</strong>，例如<a href="https://blogs.unity3d.com/2014/10/29/physically-based-shading-in-unity-5-a-primer/" target="_blank" rel="noopener">Unity</a>， <a href="https://docs.unrealengine.com/latest/INT/Engine/Rendering/Materials/PhysicallyBased/" target="_blank" rel="noopener">Unreal</a>和 <a href="http://area.autodesk.com/blogs/the-3ds-max-blog/what039s-new-for-rendering-in-3ds-max-2017" target="_blank" rel="noopener">3D Studio Max</a>。</p>
+<p>在实践中，该材质提供了比MeshLambertMaterial 或MeshPhongMaterial <strong>更精确和逼真的结果</strong>，代价是计算成本更高。</p>
+</li>
+<li><p>物理网格材质(MeshPhysicalMaterial)：（最耗费性能）</p>
+<p>MeshStandardMaterial的扩展，提供了更高级的基于物理的渲染属性：</p>
+<ul>
+<li><strong>Clearcoat:</strong> 有些类似于车漆，碳纤，被水打湿的表面的材质需要在面上再增加一个透明的，具有一定反光特性的面。而且这个面说不定有一定的起伏与粗糙度。Clearcoat可以在不需要重新创建一个透明的面的情况下做到类似的效果。</li>
+<li><strong>基于物理的透明度</strong>:.opacity属性有一些限制:在透明度比较高的时候，反射也随之减少。使用基于物理的透光性.transmission属性可以让一些很薄的透明表面，例如玻璃，变得更真实一些。</li>
+<li><strong>高级光线反射:</strong> 为非金属材质提供了更多更灵活的光线反射。</li>
+</ul>
+<p>物理网格材质使用了更复杂的着色器功能，所以在每个像素的渲染都要比three.js中的其他材质更费性能，大部分的特性是默认关闭的，需要手动开启，每开启一项功能在开启的时候才会更耗性能。请注意，为获得最佳效果，您在使用此材质时应始终指定environment map。</p>
+</li>
+</ul>
+<h2 id="5-控制器"><a href="#5-控制器" class="headerlink" title="5.控制器"></a>5.控制器</h2><p>我们可以通过设置控制器，控制镜头，或者其他物体进行变换</p>
+<p>具体控制器分类可以在官网查找</p>
+<p>这里示范一个轨道控制器</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//导入控制器，轨道控制器（围绕物体查看）</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> OrbitControls <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"three/examples/jsm/controls/OrbitControls"</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//镜头控制器</span>
+<span class="token function">initControls</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 这里我在dom中控制镜头,进行轨道移动</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>controls <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">OrbitControls</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>camera<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>renderer<span class="token punctuation">.</span>domElement<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>此时我们就可以转动摄像头进行360°旋转了！</p>
+<h4 id="控制器部分属性"><a href="#控制器部分属性" class="headerlink" title="控制器部分属性"></a>控制器部分属性</h4><p>当然也可以自己添加些控制器的属性</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">this</span><span class="token punctuation">.</span>controls<span class="token punctuation">.</span>maxPolarAngle <span class="token operator">=</span> Math<span class="token punctuation">.</span>PI <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>controls<span class="token punctuation">.</span>minPolarAngle <span class="token operator">=</span> Math<span class="token punctuation">.</span>PI <span class="token operator">/</span> <span class="token number">3</span><span class="token punctuation">;</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>controls<span class="token punctuation">.</span>enableDamping <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>controls<span class="token punctuation">.</span>enablePan <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>controls<span class="token punctuation">.</span>dampingFactor <span class="token operator">=</span> <span class="token number">0.1</span><span class="token punctuation">;</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>controls<span class="token punctuation">.</span>autoRotate <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>controls<span class="token punctuation">.</span>autoRotateSpeed <span class="token operator">=</span> <span class="token number">0.2</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 30</span></code></pre>
+<ul>
+<li><p><code>.maxPolarAngle : Float</code></p>
+<p>你能够垂直旋转的角度的上限，范围是0到Math.PI，其默认值为Math.PI。</p>
+</li>
+<li><p><code>.enableDamping : Boolean</code></p>
+<p>将其设置为true以启用阻尼（惯性），这将给控制器带来重量感。默认值为false。<br>请注意，如果该值被启用，你将必须在你的动画循环里调用.update()。</p>
+</li>
+<li><p><code>.enablePan : Boolean</code></p>
+<p>启用或禁用摄像机平移，默认为true。</p>
+</li>
+<li><p><code>.dampingFactor : Float</code></p>
+<p>当.enableDamping设置为true的时候，阻尼惯性有多大。<br>请注意，要使得这一值生效，你必须在你的动画循环里调用.update()。</p>
+</li>
+<li><p><code>.autoRotate : Boolean</code></p>
+<p>将其设为true，以自动围绕目标旋转。<br>请注意，如果它被启用，你必须在你的动画循环里调用.update()。</p>
+</li>
+<li><p><code>.autoRotateSpeed : Float</code></p>
+<p>当.autoRotate为true时，围绕目标旋转的速度将有多快，默认值为2.0，相当于在60fps时每旋转一周需要30秒。<br>请注意，如果.autoRotate被启用，你必须在你的动画循环里调用.update()。</p>
+</li>
+</ul>
+<p>因为启用了以上部分属性，所以需要在animate中调用update</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 动画函数</span>
+<span class="token function">animate</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>controls<span class="token punctuation">.</span><span class="token function">update</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>renderer<span class="token punctuation">.</span><span class="token function">setAnimationLoop</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>render<span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="6-添加模型"><a href="#6-添加模型" class="headerlink" title="6.添加模型"></a>6.添加模型</h2><p>除了自己手动创建集合体，来给当前场景添加模型，当然也可以导入模型（glb文件）</p>
+<p>glb文件：GLB文件是以图形语言传输格式（GLTF）保存的3D模型，它以二进制格式存储有关3D模型的信息，包括节点层级、摄像机、材质、动画和网格。GLB文件是<a href="https://www.wenjianbaike.com/gltf.html" target="_blank" rel="noopener">.GLTF</a>文件的二进制版本。</p>
+<h4 id="文件格式（File-Format）"><a href="#文件格式（File-Format）" class="headerlink" title="文件格式（File Format）"></a>文件格式（File Format）</h4><p>显然 Three.js 支持很多 3D 对象文件格式，但它推荐的格式之一是 glTF(.glb)。同时 Blender 也支持导出该格式，所以毫无疑虑。</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 导入模型解析器</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GLTFLoader <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"three/examples/jsm/loaders/GLTFLoader"</span><span class="token punctuation">;</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token function">setModel</span><span class="token punctuation">(</span>modelName<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 由于添加模型是异步操作，所以可以封装一个promise给它</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span>res<span class="token punctuation">,</span> rej<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//public/gltf/模型文件</span>
+        <span class="token keyword">const</span> loader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GLTFLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setPath</span><span class="token punctuation">(</span><span class="token string">"gltf/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        loader<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>modelName<span class="token punctuation">,</span> <span class="token punctuation">(</span>gltf<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>model <span class="token operator">=</span> gltf<span class="token punctuation">.</span>scene<span class="token punctuation">.</span>children<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// 调整模型大小,或者不设置也行</span>
+              <span class="token keyword">this</span><span class="token punctuation">.</span>model<span class="token punctuation">.</span>scale<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>scene<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>model<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">res</span><span class="token punctuation">(</span>modelName <span class="token operator">+</span> <span class="token string">"添加成功"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<ul>
+<li><code>model.scale.set(x, y, z)</code>：设置模型大小</li>
+<li><code>model.position.set(x, y, z)</code>：设置模型位置</li>
+<li><code>model.rotation.set(x, y, z)</code>：设置模型旋转角度</li>
+</ul>
+<p>删除模型：</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">this</span><span class="token punctuation">.</span>model <span class="token operator">&amp;&amp;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>model<span class="token punctuation">.</span><span class="token function">removeFromParent</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>模型加载进度</p>
+<pre class=" language-js"><code class="language-js"><span class="token function">setModel</span><span class="token punctuation">(</span>modelName<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 由于添加模型是异步操作，所以可以封装一个promise给它</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span>res<span class="token punctuation">,</span> rej<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//public/gltf/模型文件</span>
+        <span class="token keyword">const</span> loader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GLTFLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setPath</span><span class="token punctuation">(</span><span class="token string">"gltf/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        loader<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>modelName<span class="token punctuation">,</span> <span class="token punctuation">(</span>gltf<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">//...</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'模型加载进度'</span><span class="token punctuation">,</span> <span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="添加模型阴影"><a href="#添加模型阴影" class="headerlink" title="添加模型阴影"></a>添加模型阴影</h4><p>在初始化renderer的时候先设置</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">this</span><span class="token punctuation">.</span>renderer<span class="token punctuation">.</span>shadowMap<span class="token punctuation">.</span>enabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span></code></pre>
+<ul>
+<li><p><code>.shadowMap : WebGLShadowMap</code></p>
+<p>如果使用，它包含阴影贴图的引用。<br>- enabled: 如果设置开启，允许在场景中使用阴影贴图。默认是 <strong>false</strong>。</p>
+</li>
+</ul>
+<p>然后添加灯光：</p>
+<ul>
+<li><code>xxx.castShadow = true</code></li>
+<li><code>xxx.shadow.mapSize = new THREE.Vector2(1024, 1024);</code></li>
+</ul>
+<p>添加地板时需要：</p>
+<pre class=" language-js"><code class="language-js">floor<span class="token punctuation">.</span>receiveShadow <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span></code></pre>
+<p>在 loader 函数内，我们能遍历 3D 模型（的组成元素）。因此，跳到 loader 函数，在 <code>theModel = gltf.scene;</code> 下添加这个操作。为 3D 模型的每一个元素（椅腿、坐垫等）启用投射和接收阴影的选项。该遍历方法在后续会被再次使用。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> loader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GLTFLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+loader<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>
+    modelName<span class="token punctuation">,</span>
+    <span class="token punctuation">(</span>gltf<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>model <span class="token operator">=</span> gltf<span class="token punctuation">.</span>scene<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 添加阴影</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>model<span class="token punctuation">.</span><span class="token function">traverse</span><span class="token punctuation">(</span><span class="token punctuation">(</span>o<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>o<span class="token punctuation">.</span>isMesh<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                o<span class="token punctuation">.</span>castShadow <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+                o<span class="token punctuation">.</span>receiveShadow <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>scene<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>model<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    undefined<span class="token punctuation">,</span>
+    <span class="token keyword">function</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="模型traverse方法"><a href="#模型traverse方法" class="headerlink" title="模型traverse方法"></a>模型traverse方法</h4><p>一般blender的glb模型，通过gltf.scene得到的模型（model），都会有 <code>traverse</code> 方法，方法遍历所有网格（mesh）以启用投射和接收阴影的能力。该操作需要在 <code>scene.add(model)</code> 前完成。</p>
+<p>因此我们可以通过 ``traverse<code></code>遍历 修改模型中的某个部位的材质、颜色、阴影</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//添加阴影，调整模型材质</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>model<span class="token punctuation">.</span><span class="token function">traverse</span><span class="token punctuation">(</span><span class="token punctuation">(</span>o<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>o<span class="token punctuation">.</span>isBone<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>o<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//输出model里面包含的骨头</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>o<span class="token punctuation">.</span>isMesh<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        o<span class="token punctuation">.</span>castShadow <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        o<span class="token punctuation">.</span>receiveShadow <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        o<span class="token punctuation">.</span>material <span class="token operator">=</span> stacy_mtl<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Add this line</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="添加模型地板"><a href="#添加模型地板" class="headerlink" title="添加模型地板"></a>添加模型地板</h4><pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 添加地板</span>
+<span class="token function">setFloor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Floor</span>
+    <span class="token keyword">var</span> floorGeometry <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>PlaneGeometry</span><span class="token punctuation">(</span><span class="token number">5000</span><span class="token punctuation">,</span> <span class="token number">5000</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">var</span> floorMaterial <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>MeshPhongMaterial</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        color<span class="token punctuation">:</span> <span class="token number">0xeeeeee</span><span class="token punctuation">,</span>
+        shininess<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">var</span> floor <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Mesh</span><span class="token punctuation">(</span>floorGeometry<span class="token punctuation">,</span> floorMaterial<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    floor<span class="token punctuation">.</span>rotation<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">0.5</span> <span class="token operator">*</span> Math<span class="token punctuation">.</span>PI<span class="token punctuation">;</span>
+    floor<span class="token punctuation">.</span>receiveShadow <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    floor<span class="token punctuation">.</span>position<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">11</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>scene<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>floor<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<ul>
+<li><p><code>PlaneGeometry</code></p>
+<p>一个用于生成平面几何体的类。</p>
+<ul>
+<li>width — 平面沿着X轴的宽度。默认值是1。</li>
+<li>height — 平面沿着Y轴的高度。默认值是1。</li>
+<li>widthSegments — （可选）平面的宽度分段数，默认值是1。</li>
+<li>heightSegments — （可选）平面的高度分段数，默认值是1。</li>
+</ul>
+</li>
+</ul>
+<p>当然也可以设置网格</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> gridHelper <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>GridHelper</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">25</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+gridHelper<span class="token punctuation">.</span>position<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">11</span><span class="token punctuation">;</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>scene<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>gridHelper<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="模型素材"><a href="#模型素材" class="headerlink" title="模型素材"></a>模型素材</h4><p>一般前端人员很难自己去造素材，以下是一些3d模型得素材网站</p>
+<p><a href="https://www.mixamo.com/" target="_blank" rel="noopener">https://www.mixamo.com/</a></p>
+<p><a href="https://sketchfab.com/" target="_blank" rel="noopener">https://sketchfab.com/</a>   （部分付费）</p>
+<p>而网站上一些素材下载以后是 <code>.fbx</code> 文件格式，这时候我们使用的加载器可以为FBXLoader</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> FBXLoader <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"three/examples/jsm/loaders/FBXLoader"</span><span class="token punctuation">;</span></code></pre>
+<p>而它的使用方式仍然是和 <code>GLTFLoader</code> 差不多，通过 <code>setPath</code> 和 <code>.load</code>方法去使用</p>
+<h2 id="7-灯光"><a href="#7-灯光" class="headerlink" title="7.灯光"></a>7.灯光</h2><h4 id="半球光和定向光"><a href="#半球光和定向光" class="headerlink" title="半球光和定向光"></a>半球光和定向光</h4><p>缺少光，摄像机就不能看到任何东西</p>
+<p> <code>HemisphereLight</code>： 环境光添加（这个其实属于半球光，光源直接放置于场景之上，光照颜色从天空光线颜色渐变到地面光线颜色。）</p>
+<p>为室外场景创造更加自然的光照</p>
+<ul>
+<li>skyColor - (可选参数) 天空中发出光线的颜色。 缺省值 0xffffff。</li>
+<li>groundColor - (可选参数) 地面发出光线的颜色。 缺省值 0xffffff。</li>
+<li>intensity - (可选参数) 光照强度。 缺省值 1。</li>
+</ul>
+<p>光源直接放置于场景之上，光照颜色从天空光线颜色渐变到地面光线颜色。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> hemiLight <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>HemisphereLight</span><span class="token punctuation">(</span><span class="token number">0xffffff</span><span class="token punctuation">,</span> <span class="token number">0xffffff</span><span class="token punctuation">,</span> <span class="token number">0.61</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+hemiLight<span class="token punctuation">.</span>position<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// Add hemisphere light to scene</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>scene<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>hemiLight<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><code>DirectionalLight</code>：定向光添加，距离很远的光，他的所有光都是平行的（模拟太阳光）</p>
+<ul>
+<li>color - (可选参数) 16进制表示光的颜色。 缺省值为 0xffffff (白色)。</li>
+<li>intensity - (可选参数) 光照的强度。缺省值为1。</li>
+</ul>
+<p>平行光是沿着特定方向发射的光。这种光的表现像是无限远,从它发出的光线都是平行的。常常用平行光来模拟太阳光 的效果; 太阳足够远，因此我们可以认为太阳的位置是无限远，所以我们认为从太阳发出的光线也都是平行的。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> dirLight <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>DirectionalLight</span><span class="token punctuation">(</span><span class="token number">0xffffff</span><span class="token punctuation">,</span> <span class="token number">0.54</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+dirLight<span class="token punctuation">.</span>position<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+dirLight<span class="token punctuation">.</span>castShadow <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+dirLight<span class="token punctuation">.</span>shadow<span class="token punctuation">.</span>mapSize <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Vector2</span><span class="token punctuation">(</span><span class="token number">1024</span><span class="token punctuation">,</span> <span class="token number">1024</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// Add directional Light to this.scene</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>scene<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>dirLight<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>但是即使是模拟太阳光，但是他也有光照范围（可以使用  <code>CameraHelper</code> 查看 ）</p>
+<p>此时我们可以通过以下方法来指定光照目标</p>
+<pre class=" language-js"><code class="language-js">dirLight<span class="token punctuation">.</span>target <span class="token operator">=</span> cube</code></pre>
+<p><code>DirectionalLight</code>小实践</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> d <span class="token operator">=</span> <span class="token number">8.25</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> dirLight <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>DirectionalLight</span><span class="token punctuation">(</span><span class="token number">0xffffff</span><span class="token punctuation">,</span> <span class="token number">0.54</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+dirLight<span class="token punctuation">.</span>position<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+dirLight<span class="token punctuation">.</span>castShadow <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//二维向量（Vector2）</span>
+<span class="token comment" spellcheck="true">//表示2D vector（二维向量）的类。 一个二维向量是一对有顺序的数字（标记为x和y），可用来表示很多事物，例如：</span>
+dirLight<span class="token punctuation">.</span>shadow<span class="token punctuation">.</span>mapSize <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Vector2</span><span class="token punctuation">(</span><span class="token number">1024</span><span class="token punctuation">,</span> <span class="token number">1024</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+dirLight<span class="token punctuation">.</span>shadow<span class="token punctuation">.</span>camera<span class="token punctuation">.</span>near <span class="token operator">=</span> <span class="token number">0.1</span><span class="token punctuation">;</span>
+dirLight<span class="token punctuation">.</span>shadow<span class="token punctuation">.</span>camera<span class="token punctuation">.</span>far <span class="token operator">=</span> <span class="token number">1500</span><span class="token punctuation">;</span>
+dirLight<span class="token punctuation">.</span>shadow<span class="token punctuation">.</span>camera<span class="token punctuation">.</span>left <span class="token operator">=</span> d <span class="token operator">*</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+dirLight<span class="token punctuation">.</span>shadow<span class="token punctuation">.</span>camera<span class="token punctuation">.</span>right <span class="token operator">=</span> d<span class="token punctuation">;</span>
+dirLight<span class="token punctuation">.</span>shadow<span class="token punctuation">.</span>camera<span class="token punctuation">.</span>top <span class="token operator">=</span> d<span class="token punctuation">;</span>
+dirLight<span class="token punctuation">.</span>shadow<span class="token punctuation">.</span>camera<span class="token punctuation">.</span>bottom <span class="token operator">=</span> d <span class="token operator">*</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span></code></pre>
+<p>这里根据作者的解释：我凭借个人感觉将定向光放置在一个适当的位置。随后，启用其投射阴影的能力并设置了阴影的分辨率。阴影的其余设置则与光的视场相关（译者注：定向光是使用正交摄像机计算阴影，参考 <a href="https://threejs.org/docs/index.html#api/en/lights/shadows/DirectionalLightShadow" target="_blank" rel="noopener">DirectionalLightShadow</a>），这概念对我来说也有些模糊，但只要清晰知道：可通过调整变量 <code>d</code> 以确保阴影<strong>不被裁剪。</strong></p>
+<h4 id="其他光源"><a href="#其他光源" class="headerlink" title="其他光源"></a>其他光源</h4><p>当然还有 </p>
+<ul>
+<li><p>聚光灯（<code>SpotLight</code>）</p>
+<p>光线从一个点沿一个方向射出，随着光线照射的变远，光线圆锥体的尺寸也逐渐增大，和手电筒类似（产生阴影）</p>
+</li>
+<li><p><code>AmbientLight</code></p>
+<p>环境光会<strong>均匀</strong>的照亮场景中的所有物体。特点也就是均匀照亮，让我们看的见物体，实际上我们可以将其视为“亮度”</p>
+<p>环境光不能用来投射阴影，因为它没有方向。</p>
+</li>
+<li><p><code>点光源（PointLight）</code></p>
+<p>从一个点向各个方向发射的光源。一个常见的例子是<strong>模拟一个灯泡</strong>发出的光。</p>
+</li>
+<li><p><code>平面光光源（RectAreaLight）</code></p>
+<p>平面光光源从一个矩形平面上均匀地发射光线。这种光源可以用来模拟像<strong>明亮的窗户</strong>或者条状灯光光源。常应用于家具建模</p>
+<blockquote>
+<p>注意：不支持阴影，只支持 MeshStandardMaterial 和 MeshPhysicalMaterial 两种材质，你必须在你的场景中加入 <a href="https://threejs.org/examples/jsm/lights/RectAreaLightUniformsLib.js" target="_blank" rel="noopener">RectAreaLightUniformsLib</a> ，并调用<strong>init()</strong>。</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="光源辅助线"><a href="#光源辅助线" class="headerlink" title="光源辅助线"></a>光源辅助线</h4><pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//辅助函数</span>
+<span class="token keyword">const</span> lightHelper <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>DirectionalLightHelper</span><span class="token punctuation">(</span>dirLight<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> shadowCameraHelper <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>CameraHelper</span><span class="token punctuation">(</span>dirLight<span class="token punctuation">.</span>shadow<span class="token punctuation">.</span>camera<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//可以看到平行光范围</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>scene<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>lightHelper<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>scene<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>shadowCameraHelper<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>根据以上方法，我们也可以在使用不同的光线时，从库中引用不同的辅助线 <code>xxxLightHelper</code></p>
+<h4 id="镜头光晕（Lensflare）"><a href="#镜头光晕（Lensflare）" class="headerlink" title="镜头光晕（Lensflare）"></a>镜头光晕（Lensflare）</h4><p>创建一个模拟追踪着灯光的镜头光晕。</p>
+<p><code>LensflareElement( texture : Texture, size : Float, distance : Float, color : Color )</code></p>
+<ul>
+<li>texture - 用于光晕的THREE.Texture（贴图）</li>
+<li>size - （可选）光晕尺寸（单位为像素）</li>
+<li>distance - （可选）和光源的距离值在0到1之间（值为0时在光源的位置）</li>
+<li>color - （可选）光晕的（Color）颜色</li>
+</ul>
+<p>代码示例</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> light <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>PointLight</span><span class="token punctuation">(</span> <span class="token number">0xffffff</span><span class="token punctuation">,</span> <span class="token number">1.5</span><span class="token punctuation">,</span> <span class="token number">2000</span> <span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token keyword">const</span> textureLoader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>TextureLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token keyword">const</span> textureFlare0 <span class="token operator">=</span> textureLoader<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span> <span class="token string">"textures/lensflare/lensflare0.png"</span> <span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//阳光贴图</span>
+<span class="token keyword">const</span> textureFlare1 <span class="token operator">=</span> textureLoader<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span> <span class="token string">"textures/lensflare/lensflare2.png"</span> <span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//阳光贴图</span>
+<span class="token keyword">const</span> textureFlare2 <span class="token operator">=</span> textureLoader<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span> <span class="token string">"textures/lensflare/lensflare3.png"</span> <span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//阳光贴图</span>
+<span class="token keyword">const</span> lensflare <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Lensflare</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+lensflare<span class="token punctuation">.</span><span class="token function">addElement</span><span class="token punctuation">(</span> <span class="token keyword">new</span> <span class="token class-name">LensflareElement</span><span class="token punctuation">(</span> textureFlare0<span class="token punctuation">,</span> <span class="token number">512</span><span class="token punctuation">,</span> <span class="token number">0</span> <span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">;</span> 
+lensflare<span class="token punctuation">.</span><span class="token function">addElement</span><span class="token punctuation">(</span> <span class="token keyword">new</span> <span class="token class-name">LensflareElement</span><span class="token punctuation">(</span> textureFlare1<span class="token punctuation">,</span> <span class="token number">512</span><span class="token punctuation">,</span> <span class="token number">0</span> <span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">;</span> 
+lensflare<span class="token punctuation">.</span><span class="token function">addElement</span><span class="token punctuation">(</span> <span class="token keyword">new</span> <span class="token class-name">LensflareElement</span><span class="token punctuation">(</span> textureFlare2<span class="token punctuation">,</span> <span class="token number">60</span><span class="token punctuation">,</span> <span class="token number">0.6</span> <span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">;</span> 
+light<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span> lensflare <span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h2 id="8-动画"><a href="#8-动画" class="headerlink" title="8.动画"></a>8.动画</h2><p>动画方面的制作可以参考threejs官网的AnimationAction系列，不过一般都要传入由blender制作的模型动画会比较方便</p>
+<p>以下实例使用的是AnimationMixer，一个动画混合器，它是用于场景中特定对象的动画的播放器。当场景中的多个对象独立动画时，每个对象都可以使用同一个动画混合器。（传入blender制作好的动画）</p>
+<pre class=" language-js"><code class="language-js"> <span class="token function">setModel</span><span class="token punctuation">(</span>modelName<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 由于添加模型是异步操作，所以可以封装一个promise给它</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span>res<span class="token punctuation">,</span> rej<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> loader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GLTFLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setPath</span><span class="token punctuation">(</span><span class="token string">"gltf/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      loader<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>modelName<span class="token punctuation">,</span> <span class="token punctuation">(</span>gltf<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>gltf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>model <span class="token operator">=</span> gltf<span class="token punctuation">.</span>scene<span class="token punctuation">.</span>children<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 把里面的scene都传进去</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>scene<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>gltf<span class="token punctuation">.</span>scene<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//摄像头都改为模型应用的摄像头</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>camera <span class="token operator">=</span> gltf<span class="token punctuation">.</span>cameras<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//调用动画,我们可以把AnimationMixer当作一个设置好关键帧的播放器</span>
+        <span class="token comment" spellcheck="true">//这里主要还是摄像头在动,children[1]里面放一个摄像机camera</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>mixer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>AnimationMixer</span><span class="token punctuation">(</span>gltf<span class="token punctuation">.</span>scene<span class="token punctuation">.</span>children<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>animateAction <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>mixer<span class="token punctuation">.</span><span class="token function">clipAction</span><span class="token punctuation">(</span>gltf<span class="token punctuation">.</span>animations<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 设置动画播放时长</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>animateAction<span class="token punctuation">.</span><span class="token function">setDuration</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setLoop</span><span class="token punctuation">(</span>THREE<span class="token punctuation">.</span>LoopOnce<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 播放完毕停止</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>animateAction<span class="token punctuation">.</span>clampWhenFinished <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>animateAction<span class="token punctuation">.</span><span class="token function">play</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//设置模型内部灯光</span>
+        <span class="token keyword">const</span> spotlight1 <span class="token operator">=</span> gltf<span class="token punctuation">.</span>scene<span class="token punctuation">.</span>children<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">.</span>children<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        spotlight1<span class="token punctuation">.</span>intensity <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">const</span> spotlight2 <span class="token operator">=</span> gltf<span class="token punctuation">.</span>scene<span class="token punctuation">.</span>children<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">.</span>children<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        spotlight2<span class="token punctuation">.</span>intensity <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">const</span> spotlight3 <span class="token operator">=</span> gltf<span class="token punctuation">.</span>scene<span class="token punctuation">.</span>children<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">.</span>children<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        spotlight3<span class="token punctuation">.</span>intensity <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>gltf<span class="token punctuation">,</span> <span class="token string">"again"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">res</span><span class="token punctuation">(</span>modelName <span class="token operator">+</span> <span class="token string">"添加成功"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<ul>
+<li><code>AnimationClip</code>：动画剪辑（AnimationClip）是一个可重用的关键帧轨道集，它代表动画。它一般是从gltf（加载出来的GLTF模型）中获取的，案例中为 <code>gltf.animations[0]</code></li>
+<li><code>AnimationActions</code> 用来调度存储在AnimationClips中的动画。案例中为 <code>this.animateAction</code></li>
+<li><code>clipAction</code>：一个方法，返回所传入的剪辑参数的AnimationAction（传入剪辑动画）, 根对象参数可选，默认值为混合器的默认根对象。第一个参数可以是动画剪辑(AnimationClip)对象或者动画剪辑的名称。</li>
+</ul>
+<h4 id="AnimationActions"><a href="#AnimationActions" class="headerlink" title="AnimationActions"></a>AnimationActions</h4><p>对于存储动画的AnimationActions对象，有以下几个常用的方法</p>
+<ul>
+<li><p><code>.play () : this</code></p>
+<p>让混合器激活动作。此方法可链式调用。</p>
+</li>
+<li><p><code>.enabled : Boolean</code></p>
+<p><strong>enabled</strong> 值设为<strong>false</strong>会禁用动作, 也就是无效.默认值是<strong>true</strong></p>
+</li>
+<li><p><code>.setLoop ( loopMode : Number, repetitions : Number ) : this</code></p>
+<p>设置循环（loop mode）及循环重复次数（repetitions）。改方法可被链式调用。</p>
+<p>我们通常用来设置动画播放次数</p>
+</li>
+<li><p><code>.reset () : this</code></p>
+<p>重置动作。此方法可链式调用。</p>
+</li>
+<li><p><code>.crossFadeTo ( fadeInAction : AnimationAction, durationInSeconds : Number, warpBoolean : Boolean ) : this</code></p>
+<p>在传入的时间段内, 让此动作淡出（fade out），同时让另一个动作淡入。此方法可链式调用。</p>
+<p>常用于动画中切换动作</p>
+<p>如果warpBoolean值是true, 额外的 warping (时间比例的渐变)将会被应用。</p>
+</li>
+</ul>
+<h4 id="添加动态效果"><a href="#添加动态效果" class="headerlink" title="添加动态效果"></a>添加动态效果</h4><p>然后再添加threejs提供的计时器</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">this</span><span class="token punctuation">.</span>clock <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Clock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//three提供的计时器</span></code></pre>
+<p>该对象用于跟踪时间。如果<a href="https://developer.mozilla.org/en-US/docs/Web/API/Performance/now" target="_blank" rel="noopener">performance.now</a>可用，则 Clock 对象通过该方法实现，否则回落到使用略欠精准的<a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Date/now" target="_blank" rel="noopener">Date.now</a>来实现。</p>
+<p>在每一次render获取每一帧的时间差</p>
+<pre class=" language-js"><code class="language-js"><span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> delta <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>clock<span class="token punctuation">.</span><span class="token function">getDelta</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>mixer <span class="token operator">&amp;&amp;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>mixer<span class="token punctuation">.</span><span class="token function">update</span><span class="token punctuation">(</span>delta<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>renderer<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>scene<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>camera<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>当然也可以把mixer作为数组存储，把每一次动画存储到mixer中</p>
+<pre class=" language-js"><code class="language-js">loader<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span><span class="token string">"dancing.fbx"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>anim<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>anim<span class="token punctuation">,</span> <span class="token string">"anim"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> m <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>AnimationMixer</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>model<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>mixer<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>m<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>animateAction <span class="token operator">=</span> m<span class="token punctuation">.</span><span class="token function">clipAction</span><span class="token punctuation">(</span>anim<span class="token punctuation">.</span>animations<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>animateAction<span class="token punctuation">.</span><span class="token function">play</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>然后再渲染函数中逐个调用</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 渲染函数</span>
+<span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> delta <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>clock<span class="token punctuation">.</span><span class="token function">getDelta</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>mixer<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>mixer<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>m<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> m<span class="token punctuation">.</span><span class="token function">update</span><span class="token punctuation">(</span>delta<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>renderer<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>scene<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>camera<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p>注意：这种方式可能导致得到的animation仍遗留上一个动作的某个肢体动作，导致动画动作“不规范”</p>
+</blockquote>
+<h2 id="9-对于动画中的事件监听"><a href="#9-对于动画中的事件监听" class="headerlink" title="9.对于动画中的事件监听"></a>9.对于动画中的事件监听</h2><ul>
+<li><p>窗口大小调整：<code>resize</code></p>
+<p>对于窗口大小调整，可以使用</p>
+<pre class=" language-js"><code class="language-js">window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"resize"</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>windowResize<span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token function">windowResize</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>camera<span class="token punctuation">.</span>aspect <span class="token operator">=</span> window<span class="token punctuation">.</span>innerWidth <span class="token operator">/</span> window<span class="token punctuation">.</span>innerHeight<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 更新一下摄像机转换3d投影的矩阵</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>camera<span class="token punctuation">.</span><span class="token function">updateProjectionMatrix</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>renderer<span class="token punctuation">.</span><span class="token function">setSize</span><span class="token punctuation">(</span>window<span class="token punctuation">.</span>innerWidth<span class="token punctuation">,</span> window<span class="token punctuation">.</span>innerHeight<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+</li>
+<li><p>鼠标移动：<code>mousemove</code></p>
+<p>对于鼠标移动可以使用</p>
+<pre class=" language-js"><code class="language-js">window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"mousemove"</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>windowMouseMove<span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+</li>
+<li><p>鼠标点击、桌面触屏：<code>click</code>、<code>touchend</code></p>
+<p>对于鼠标点击，我们并不能单纯为标签添加点击事件，毕竟不是dom的一部分，这里采用射线实现</p>
+<p>即向一定方向发射激光束，然后返回被击中的对象集合。在该案例中，激光线是从摄像机射向光标。</p>
+<ul>
+<li><p><code>Raycaster()</code></p>
+<p>这个类用于进行<a href="https://en.wikipedia.org/wiki/Ray_casting" target="_blank" rel="noopener">raycasting</a>（光线投射）。 光线投射用于进行鼠标拾取（在三维空间中计算出鼠标移过了什么物体）。</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 通过摄像机和鼠标位置更新射线</span>
+raycaster<span class="token punctuation">.</span><span class="token function">setFromCamera</span><span class="token punctuation">(</span> pointer<span class="token punctuation">,</span> camera <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 计算物体和射线的焦点</span>
+<span class="token keyword">const</span> intersects <span class="token operator">=</span> raycaster<span class="token punctuation">.</span><span class="token function">intersectObjects</span><span class="token punctuation">(</span> scene<span class="token punctuation">.</span>children <span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<pre class=" language-js"><code class="language-js">  <span class="token keyword">const</span> raycaster <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Raycaster</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> currentlyAnimating <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+  window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> e <span class="token operator">=</span><span class="token operator">></span> <span class="token function">raycast</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'touchend'</span><span class="token punctuation">,</span> e <span class="token operator">=</span><span class="token operator">></span> <span class="token function">raycast</span><span class="token punctuation">(</span>e<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">function</span> <span class="token function">raycast</span><span class="token punctuation">(</span>e<span class="token punctuation">,</span> touch <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">var</span> mouse <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>touch<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          mouse<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token number">2</span> <span class="token operator">*</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span>changedTouches<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>clientX <span class="token operator">/</span> window<span class="token punctuation">.</span>innerWidth<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+          mouse<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">-</span> <span class="token number">2</span> <span class="token operator">*</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span>changedTouches<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>clientY <span class="token operator">/</span> window<span class="token punctuation">.</span>innerHeight<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+          mouse<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token number">2</span> <span class="token operator">*</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span>clientX <span class="token operator">/</span> window<span class="token punctuation">.</span>innerWidth<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+          mouse<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">-</span> <span class="token number">2</span> <span class="token operator">*</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span>clientY <span class="token operator">/</span> window<span class="token punctuation">.</span>innerHeight<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token comment" spellcheck="true">// update the picking ray with the camera and mouse position</span>
+      raycaster<span class="token punctuation">.</span><span class="token function">setFromCamera</span><span class="token punctuation">(</span>mouse<span class="token punctuation">,</span> camera<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      <span class="token comment" spellcheck="true">// calculate objects intersecting the picking ray</span>
+      <span class="token keyword">var</span> intersects <span class="token operator">=</span> raycaster<span class="token punctuation">.</span><span class="token function">intersectObjects</span><span class="token punctuation">(</span>scene<span class="token punctuation">.</span>children<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>intersects<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">var</span> object <span class="token operator">=</span> intersects<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>object<span class="token punctuation">;</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>object<span class="token punctuation">.</span>name <span class="token operator">===</span> <span class="token string">'stacy'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+              <span class="token comment" spellcheck="true">//判断 currentlyAnimating 是否为 false，即当有动画正在执行，那么就不会执行新动画。</span>
+              <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>currentlyAnimating<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                  currentlyAnimating <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+                  <span class="token function">playOnClick</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+              <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span></code></pre>
+<h2 id="10-精灵和粒子点云"><a href="#10-精灵和粒子点云" class="headerlink" title="10.精灵和粒子点云"></a>10.精灵和粒子点云</h2><h4 id="精灵材质"><a href="#精灵材质" class="headerlink" title="精灵材质"></a>精灵材质</h4><p>平时我们见到的很多下雨、下雪、烟雾效果，都是采用粒子系统功能</p>
+<p>使用的材料：</p>
+<p>点精灵材质(<code>SpriteMaterial</code>)，一种使用Sprite的材质。</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//创建精灵材质</span>
+<span class="token function">createSprites</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> x <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">30</span><span class="token punctuation">;</span> x <span class="token operator">&lt;</span> <span class="token number">30</span><span class="token punctuation">;</span> x<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> y <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">20</span><span class="token punctuation">;</span> y <span class="token operator">&lt;</span> <span class="token number">20</span><span class="token punctuation">;</span> y<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> z <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> z <span class="token operator">&lt;</span> <span class="token number">5</span><span class="token punctuation">;</span> z<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">const</span> material <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>SpriteMaterial</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+                    opacity<span class="token punctuation">:</span> <span class="token number">1.0</span><span class="token punctuation">,</span>
+                    color<span class="token punctuation">:</span> Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">0xffffff</span><span class="token punctuation">,</span>
+                <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">const</span> sprite <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Sprite</span><span class="token punctuation">(</span>material<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                sprite<span class="token punctuation">.</span>position<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span>x <span class="token operator">*</span> <span class="token number">4</span><span class="token punctuation">,</span> y <span class="token operator">*</span> <span class="token number">4</span><span class="token punctuation">,</span> z <span class="token operator">*</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">this</span><span class="token punctuation">.</span>scene<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>sprite<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="点云效果"><a href="#点云效果" class="headerlink" title="点云效果"></a>点云效果</h4><p>在我们创建的精灵数量不多的情况下，精灵对象也可以实现复杂的点云效果，但是会卡到爆炸，这时候的渲染效率是我们所不能接受的</p>
+<p>threejs给我们提供了更好的点云方案</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 创建点云</span>
+  <span class="token function">createPoints</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//创建一个缓冲几何体</span>
+    <span class="token keyword">const</span> geom <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>BufferGeometry</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> material <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>PointsMaterial</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      size<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//粒子大小</span>
+      vertexColors<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//设置顶点颜色开关是否采用缓冲几何体</span>
+      color<span class="token punctuation">:</span> <span class="token number">0xffff</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> positions <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> colors <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> x <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">30</span><span class="token punctuation">;</span> x <span class="token operator">&lt;</span> <span class="token number">30</span><span class="token punctuation">;</span> x<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> y <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">20</span><span class="token punctuation">;</span> y <span class="token operator">&lt;</span> <span class="token number">20</span><span class="token punctuation">;</span> y<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> z <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">30</span><span class="token punctuation">;</span> z <span class="token operator">&lt;</span> <span class="token number">30</span><span class="token punctuation">;</span> z<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          positions<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>x <span class="token operator">*</span> <span class="token number">4</span><span class="token punctuation">,</span> y <span class="token operator">*</span> <span class="token number">4</span><span class="token punctuation">,</span> z <span class="token operator">*</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token keyword">const</span> clr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Color</span><span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">0xffffff</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          colors<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>clr<span class="token punctuation">.</span>r<span class="token punctuation">,</span> clr<span class="token punctuation">.</span>g<span class="token punctuation">,</span> clr<span class="token punctuation">.</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    geom<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span>
+      <span class="token string">"position"</span><span class="token punctuation">,</span>
+      <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Float32BufferAttribute</span><span class="token punctuation">(</span>positions<span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    geom<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">"color"</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Float32BufferAttribute</span><span class="token punctuation">(</span>colors<span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> cloud <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Points</span><span class="token punctuation">(</span>geom<span class="token punctuation">,</span> material<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>scene<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>cloud<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span></code></pre>
+<p>不过感觉主要还是缓冲几何体解决了卡顿问题</p>
+<ul>
+<li><p><code>BufferGeometry</code>：是面片、线或点几何体的有效表述。包括顶点位置，面片索引、法相量、颜色值、UV 坐标和自定义缓存属性值。使用 BufferGeometry 可以有效减少向 GPU 传输上述数据所需的开销。</p>
+<p>读取或编辑 BufferGeometry 中的数据，见 BufferAttribute 文档。</p>
+</li>
+<li><p>点材质(<code>PointsMaterial</code>)</p>
+<p>Points使用的默认材质。</p>
+</li>
+</ul>
+<h4 id="下雨效果小实践"><a href="#下雨效果小实践" class="headerlink" title="下雨效果小实践"></a>下雨效果小实践</h4><pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 创建雨滴</span>
+<span class="token function">createRain</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//创建一个缓冲几何体</span>
+    <span class="token keyword">const</span> geom <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>BufferGeometry</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> material <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>PointsMaterial</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        size<span class="token punctuation">:</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//粒子大小</span>
+        vertexColors<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//采用每个粒子的颜色</span>
+        transparent<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+        depthWrite<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//让黑色背景透明显示</span>
+        opacity<span class="token punctuation">:</span> <span class="token number">0.6</span><span class="token punctuation">,</span>
+        map<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getTexture</span><span class="token punctuation">(</span><span class="token string">"img/rain2.png"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        blending<span class="token punctuation">:</span> THREE<span class="token punctuation">.</span>AdditiveBlending<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//选择附加的混合模式，模式含义为在画新像素时颜色会被添加到新像素上</span>
+        sizeAttenuation<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//雨滴粒子远小近大</span>
+        color<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Color</span><span class="token punctuation">(</span><span class="token number">0xffffff</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> positions <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> colors <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> velocities <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//每个粒子偏移量</span>
+    <span class="token keyword">const</span> range <span class="token operator">=</span> <span class="token number">500</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">15000</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        positions<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>
+            Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> range <span class="token operator">-</span> range <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span>
+            Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> range <span class="token operator">-</span> range <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span>
+            Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> range <span class="token operator">-</span> range <span class="token operator">/</span> <span class="token number">2</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        velocities<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">0.5</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">0.1</span> <span class="token operator">+</span> Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">const</span> color <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Color</span><span class="token punctuation">(</span><span class="token number">0x00eeff</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">const</span> asHSL <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+        color<span class="token punctuation">.</span><span class="token function">getHSL</span><span class="token punctuation">(</span>asHSL<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 颜色采用HSL色彩模式，我们对亮度采用随机值的设置</span>
+        color<span class="token punctuation">.</span><span class="token function">setHSL</span><span class="token punctuation">(</span>asHSL<span class="token punctuation">.</span>h<span class="token punctuation">,</span> asHSL<span class="token punctuation">.</span>s<span class="token punctuation">,</span> asHSL<span class="token punctuation">.</span>l <span class="token operator">*</span> Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        colors<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>color<span class="token punctuation">.</span>r<span class="token punctuation">,</span> color<span class="token punctuation">.</span>g<span class="token punctuation">,</span> color<span class="token punctuation">.</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    geom<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span>
+        <span class="token string">"position"</span><span class="token punctuation">,</span>
+        <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Float32BufferAttribute</span><span class="token punctuation">(</span>positions<span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    geom<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">"color"</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Float32BufferAttribute</span><span class="token punctuation">(</span>colors<span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 自定义属性，制造动画下雨效果</span>
+    geom<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span>
+        <span class="token string">"velocity"</span><span class="token punctuation">,</span>
+        <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Float32BufferAttribute</span><span class="token punctuation">(</span>velocities<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>cloud <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Points</span><span class="token punctuation">(</span>geom<span class="token punctuation">,</span> material<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>cloud<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>scene<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>cloud<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//下雨效果动画</span>
+<span class="token function">raining</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> pos_BufferAttr <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>cloud<span class="token punctuation">.</span>geometry<span class="token punctuation">.</span><span class="token function">getAttribute</span><span class="token punctuation">(</span><span class="token string">"position"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> vel_BufferAttr <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>cloud<span class="token punctuation">.</span>geometry<span class="token punctuation">.</span><span class="token function">getAttribute</span><span class="token punctuation">(</span><span class="token string">"velocity"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> pos_BufferAttr<span class="token punctuation">.</span>count<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> pos_x <span class="token operator">=</span> pos_BufferAttr<span class="token punctuation">.</span><span class="token function">getX</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">let</span> pos_y <span class="token operator">=</span> pos_BufferAttr<span class="token punctuation">.</span><span class="token function">getY</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">let</span> vel_x <span class="token operator">=</span> vel_BufferAttr<span class="token punctuation">.</span><span class="token function">getX</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">let</span> vel_y <span class="token operator">=</span> vel_BufferAttr<span class="token punctuation">.</span><span class="token function">getY</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        pos_x <span class="token operator">=</span> pos_x <span class="token operator">-</span> vel_x<span class="token punctuation">;</span>
+        pos_y <span class="token operator">=</span> pos_y <span class="token operator">-</span> vel_y<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 边界判断</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>pos_x <span class="token operator">&lt;=</span> <span class="token operator">-</span><span class="token number">20</span> <span class="token operator">||</span> pos_x <span class="token operator">>=</span> <span class="token number">20</span><span class="token punctuation">)</span> vel_x <span class="token operator">=</span> vel_x <span class="token operator">*</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>pos_y <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">)</span> pos_y <span class="token operator">=</span> <span class="token number">60</span><span class="token punctuation">;</span>
+        pos_BufferAttr<span class="token punctuation">.</span><span class="token function">setX</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> pos_x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        pos_BufferAttr<span class="token punctuation">.</span><span class="token function">setY</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> pos_y<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        vel_BufferAttr<span class="token punctuation">.</span><span class="token function">setX</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> vel_x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">//关键代码:把两个缓冲属性的needUpdate属性设置为真,驱使threejs对刚才修改的数值进行更新</span>
+    pos_BufferAttr<span class="token punctuation">.</span>needsUpdate <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    vel_BufferAttr<span class="token punctuation">.</span>needsUpdate <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>然后再每一次render中调用下雨函数即可</p>
+<pre class=" language-js"><code class="language-js"><span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>cloud <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">raining</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>renderer<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>scene<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>camera<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://taylor12138.github.io" rel="external nofollow noreferrer">Hello</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://taylor12138.github.io/2022/03/20/threejs/">https://taylor12138.github.io/2022/03/20/threejs/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://taylor12138.github.io" target="_blank">Hello</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.jpg" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2022/03/31/react-tuo-zhan/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="React拓展">
+                        
+                        <span class="card-title">React拓展</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            拓展GraphQLGraphQL是Facebook开发的一种查询语言，并于2015年发布，它是REST API的替代品
+它既是一种用于API的查询语言，也是一个满足你数据查询运行时，GraphQL对你的API的数据提供了一套易于理解的完整描
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-03-31
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/03/05/react-zhong-shi-yong-ts/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="React中使用TS">
+                        
+                        <span class="card-title">React中使用TS</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            在React中使用typescriptReact脚手架 + typescript
+npx create-react-app my-app --template typescript
+如果是对当前React脚手架项目添加typescript支
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-05
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="2163433034"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="https://taylor12138.github.io" target="_blank">Hello</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">287.2k</span>&nbsp;字
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/taylor12138" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:277421392@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=277421392" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 277421392" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/search.xml", 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+</html>

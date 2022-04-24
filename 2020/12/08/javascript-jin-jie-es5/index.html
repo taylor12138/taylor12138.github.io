@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.3k
+                    8.4k
                 </div>
                 
 
@@ -894,7 +894,10 @@ fn<span class="token punctuation">.</span><span class="token function">bind</spa
 <p>此时可以传入一个“更空”的空对象（没有Object.prototype这个委托），避免这种危险</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> d <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 foo<span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span>d<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">,</span> <span class="token string">'b'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h4 id="软绑定"><a href="#软绑定" class="headerlink" title="软绑定"></a>软绑定</h4><p>硬绑定可以把this强制绑定到指定对象。但是硬绑定会大大降低函数的灵活性，使用硬绑定之后则无法使用显式绑定或者隐式绑定修改this</p>
+<h4 id="软绑定"><a href="#软绑定" class="headerlink" title="软绑定"></a>软绑定</h4><p>隐式绑定：对象绑定</p>
+<p>显式绑定：apply、call</p>
+<p>硬绑定：bind</p>
+<p>硬绑定可以把this强制绑定到指定对象。但是硬绑定会大大降低函数的灵活性，使用硬绑定之后则无法使用显式绑定或者隐式绑定修改this</p>
 <p>如果可以给默认绑定指定一个除了全局对象和undefined以外的值，那就可以实现和硬绑定相同的效果，同时保留隐式绑定或者显式绑定修改this的能力</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>Function<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>softBind<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     Function<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>softBind <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -1252,11 +1255,8 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token keyword">let</span> reg <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RegExp</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> <span class="token string">"g"</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//在正则中使用变量</span>
 rg<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"字符串"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>             <span class="token comment" spellcheck="true">//是否包含该字符串，返回布尔值</span>
 <span class="token function">eval</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`/a</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>a<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/`</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"字符串"</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//在正则中使用变量 + 其他字符</span>
-a<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span>rg<span class="token punctuation">)</span><span class="token punctuation">;</span>                  <span class="token comment" spellcheck="true">//返回匹配的字符串 + 具体信息，若正则启用全局模式，</span>
-                              <span class="token comment" spellcheck="true">//则返回一个数组，包含所有匹配的字符串</span>
-rg<span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>                   <span class="token comment" spellcheck="true">//和match差不多，只不过不受全局模式的影响，如果开全局模式，</span>
-                              <span class="token comment" spellcheck="true">//下次再匹配一次，则从lastIndex</span>
-                              开始匹配，在这里也就是从 下标为<span class="token number">1</span>的d 开始匹配</code></pre>
+a<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span>rg<span class="token punctuation">)</span><span class="token punctuation">;</span>                  <span class="token comment" spellcheck="true">//返回匹配的字符串 + 具体信息，若正则启用全局模式，则返回一个数组，包                               含所有匹配的字符串</span>
+rg<span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>                   <span class="token comment" spellcheck="true">//和match差不多，不过不会因为全局模式改变返回值，如果开全局模式，下次                               再匹配一次，则从lastIndex开始匹配，在这里也就是从 下标为1的d 开始匹配</span></code></pre>
 <h4 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h4><p>一个正则表达式可以由简单的字符构成，比如/abc/， 也可以是简单和特殊字符串的组合，比如/ab*c/。其中特殊字符也被称为元字符，在正则表达式中具有特殊意义的专用符号，如^ 、$ 、+  等</p>
 <p>（匹配特殊字符前面增加 <code>\</code>就可以了）</p>
 <p>正则表达式速查表：<a href="https://www.runoob.com/regexp/regexp-metachar.html" target="_blank" rel="noopener">https://www.runoob.com/regexp/regexp-metachar.html</a></p>
@@ -1266,7 +1266,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>rg<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'babc'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//false</span>
 <span class="token comment" spellcheck="true">//必须是abc,类似全等</span>
 <span class="token keyword">var</span> rg2 <span class="token operator">=</span> <span class="token regex">/^abc$/</span><span class="token punctuation">;</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>rg<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'abcd'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//false</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>rg<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'abcd'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//false</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>rg<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'abcabc'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//false</span></code></pre>
 <p>字符类：<code>[]</code>表示有一系列字符可供选择，只要匹配到其中一个就可以了</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> rg <span class="token operator">=</span> <span class="token regex">/[abc]/</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//只要包含有a或者b或者c就返回true</span>
@@ -1278,7 +1278,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token keyword">var</span> rg2 <span class="token operator">=</span> <span class="token regex">/^[a-z0-9_-]$/</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//任何单个26小写字母，0-9数字，_, -,都返回true</span></code></pre>
 <p><code>[]</code>里使用^：如果中括号里有<code>^</code>表示取反的意思，千万别和边界符<code>^</code>混淆，要区分开来</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> rg <span class="token operator">=</span> <span class="token regex">/^[^a-z]$/</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//26个英文小写字母任何一个字母都返回false</span></code></pre>
-<p>量词符：用来设定某个模式出现的次数，有<code>*</code>、 <code>+</code>、 <code>？</code>、 <code>{}</code>，<code>{}</code>的量词间不要有空格，可以用test来检测下方正则表达式</p>
+<p>量词符：用来设定某个模式出现的次数，有<code>*</code>、 <code>+</code>、 <code>?</code>、 <code>{}</code>，<code>{}</code>的量词间不要有空格，可以用test来检测下方正则表达式</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> rg <span class="token operator">=</span> <span class="token regex">/^a*$/</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//a可以出现0-n次，n>=0 </span>
 <span class="token keyword">var</span> rg1 <span class="token operator">=</span> <span class="token regex">/^a+$/</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//a可以出现1-n次，n>=1</span>
 <span class="token keyword">var</span> rg2 <span class="token operator">=</span> <span class="token regex">/^a?$/</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//a可以出现1或0次 (?也可以表示禁止贪婪，往最少的匹配方式去选择)</span>
@@ -1839,7 +1839,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">274.9k</span>&nbsp;字
+                class="white-color">287.2k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    353
+                    604
                 </div>
                 
 
@@ -497,7 +497,7 @@
 <span class="token keyword">interface</span> <span class="token class-name">IState</span> <span class="token punctuation">{</span>
   name<span class="token punctuation">:</span> string
 <span class="token punctuation">}</span>
-<span class="token comment" spellcheck="true">// 泛型第一个约定属性、第二个约定状态</span>
+<span class="token comment" spellcheck="true">// 泛型第一个约定props属性、第二个约定状态</span>
 <span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span><span class="token operator">&lt;</span>any<span class="token punctuation">,</span> IState<span class="token operator">></span> <span class="token punctuation">{</span>
   state <span class="token operator">=</span> <span class="token punctuation">{</span>
     name<span class="token punctuation">:</span> <span class="token string">"allen"</span>
@@ -545,6 +545,50 @@
     <span class="token punctuation">}</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">></span>
     <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
   <span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="react路由-TS"><a href="#react路由-TS" class="headerlink" title="react路由+TS"></a>react路由+TS</h4><p>对于react-router-dom，无法直接使用，需要声明文件（declare）（或者你自己写声明文件，手动狗头）</p>
+<pre class=" language-shell"><code class="language-shell">npm i --save-dev @types/react-router-dom</code></pre>
+<p>注意事项：作为路由组件，应该带有三个属性：history、location、match</p>
+<pre class=" language-tsx"><code class="language-tsx"><Route path="/home/:id" component={Home} />
+<Route path="/about" component={About}></Route></code></pre>
+<p>首先引入 <code>RouteComponentProps</code> props的声明，得到路由组件的类型推断</p>
+<p>其次可以在该声明中传入泛型，这个泛型是指定路由参数（params）类型的泛型</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span> useState<span class="token punctuation">,</span> useRef <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>RouteComponentProps<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-router-dom'</span><span class="token punctuation">;</span>
+<span class="token keyword">interface</span> <span class="token class-name">IParams</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token keyword">string</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">App</span><span class="token punctuation">(</span>props<span class="token punctuation">:</span>RouteComponentProps<span class="token operator">&lt;</span>IParams<span class="token operator">></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>div<span class="token operator">></span>
+      <span class="token punctuation">{</span>props<span class="token punctuation">.</span>match<span class="token punctuation">.</span>params<span class="token punctuation">.</span>name<span class="token punctuation">}</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4 id="redux-TS"><a href="#redux-TS" class="headerlink" title="redux+TS"></a>redux+TS</h4><p>redux已经有声明文件了，这里不用下载</p>
+<p>三个文件</p>
+<ul>
+<li>新建 store.js</li>
+<li>新建一个处理xxx组件的 xxx-reducer.js</li>
+<li>可选，新建一个处理xx组建的xxx-action.js</li>
+</ul>
+<p>store几乎照常写就行了，而reducer和action传参的时候小小修改一下</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">interface</span> <span class="token class-name">IAction</span> <span class="token punctuation">{</span>
+  type<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+  payload<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">interface</span> <span class="token class-name">IPreState</span> <span class="token punctuation">{</span>
+  isShow<span class="token punctuation">:</span> <span class="token keyword">boolean</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">countReducer</span><span class="token punctuation">(</span>preState<span class="token punctuation">:</span> IPreState <span class="token operator">=</span> <span class="token punctuation">{</span>
+  isShow<span class="token punctuation">:</span> <span class="token keyword">true</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> action<span class="token punctuation">:</span> IAction<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> type<span class="token punctuation">,</span> payload <span class="token punctuation">}</span> <span class="token operator">=</span> action<span class="token punctuation">;</span>
+  <span class="token keyword">let</span> newState <span class="token operator">=</span> preState<span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">//...</span>
+  <span class="token keyword">return</span> newState<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 
             </div>
@@ -774,32 +818,31 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/03/05/react-zhong-shi-yong-ts/">
+                <a href="/2022/03/20/threejs/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="React中使用TS">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="Threejs">
                         
-                        <span class="card-title">React中使用TS</span>
+                        <span class="card-title">Threejs</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            在React中使用typescriptReact脚手架 + typescript
-npx create-react-app my-app --template typescript
-如果是对当前React脚手架项目添加typescript支
+                            1.threejs简介随着WebGL在2011年推出之后，3d技术正式向高级编程语言js敞开大门
+threejs是基于原生webGL封装运行的三维引擎，在所有webGL引擎中，threejs是国内资料最多，使用最广泛的三维引擎
+官网：htt
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-05
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-03-20
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -812,7 +855,6 @@ npx create-react-app my-app --template typescript
                         </span>
                     </div>
                 </div>
-
                 
             </div>
         </div>
@@ -1054,7 +1096,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">274.9k</span>&nbsp;字
+                class="white-color">287.2k</span>&nbsp;字
             
             
             

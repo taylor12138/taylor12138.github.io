@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.7k
+                    8.5k
                 </div>
                 
 
@@ -898,69 +898,6 @@ module<span class="token punctuation">.</span>exports <span class="token operato
     extensions<span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token string">'.ts'</span><span class="token punctuation">,</span> <span class="token string">'.js'</span><span class="token punctuation">]</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
-<h4 id="在React中使用typescript"><a href="#在React中使用typescript" class="headerlink" title="在React中使用typescript"></a>在React中使用typescript</h4><p>React脚手架 + typescript</p>
-<pre class=" language-shell"><code class="language-shell">npx create-react-app my-app --template typescript</code></pre>
-<p>如果是对当前React脚手架项目添加typescript支持</p>
-<pre class=" language-shell"><code class="language-shell">npm install --save typescript @types/node @types/react @types/react-dom @types/jest</code></pre>
-<p><strong>对于类式组件</strong></p>
-<p>在构建React组件类的时候，还有这一种接口的写法 <code>React.Component&lt;props接口的名称, state接口的名称&gt;</code>，用来说明派生的 Component 使用的 Props 和 State 的类型</p>
-<pre class=" language-ts"><code class="language-ts">React<span class="token punctuation">.</span>Component<span class="token operator">&lt;</span>Props<span class="token punctuation">,</span> State<span class="token operator">></span></code></pre>
-<p>ref对象，我们也需要手动声明它的类型</p>
-<pre><code>myRef = React.createRef&lt;ref的元素类型&gt;()</code></pre><p>比如以下例子</p>
-<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> createRef <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span><span class="token punctuation">;</span>
-<span class="token keyword">interface</span> <span class="token class-name">IState</span> <span class="token punctuation">{</span>
-  name<span class="token punctuation">:</span> string
-<span class="token punctuation">}</span>
-<span class="token comment" spellcheck="true">// 泛型第一个约定属性、第二个约定状态</span>
-<span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span><span class="token operator">&lt;</span>any<span class="token punctuation">,</span> IState<span class="token operator">></span> <span class="token punctuation">{</span>
-  state <span class="token operator">=</span> <span class="token punctuation">{</span>
-    name<span class="token punctuation">:</span> <span class="token string">"allen"</span>
-  <span class="token punctuation">}</span>
-  myRef <span class="token operator">=</span> createRef<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>HTMLInputElement</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> <span class="token punctuation">(</span>
-      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">ref</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span> <span class="token keyword">this</span><span class="token punctuation">.</span>myRef<span class="token punctuation">}</span></span><span class="token punctuation">/></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>
-          <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>myRef<span class="token punctuation">.</span>current <span class="token keyword">as</span> HTMLInputElement<span class="token punctuation">)</span><span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
-         <span class="token punctuation">}</span>
-        <span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Child</span> <span class="token attr-name">name</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>name<span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Child</span><span class="token punctuation">></span></span>
-      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
-    <span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-<span class="token keyword">interface</span> <span class="token class-name">IProps</span> <span class="token punctuation">{</span>
-  name<span class="token punctuation">:</span> string
-<span class="token punctuation">}</span>
-<span class="token keyword">class</span> <span class="token class-name">Child</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span><span class="token operator">&lt;</span>IProps<span class="token punctuation">,</span> IState<span class="token operator">></span> <span class="token punctuation">{</span>
-<span class="token punctuation">}</span>
-<span class="token keyword">export</span> <span class="token keyword">default</span> App<span class="token punctuation">;</span></code></pre>
-<p><strong>对于函数式组件</strong></p>
-<p>函数式组件十分轻松，不用做什么处理，作为状态state已经被隐式推导了</p>
-<p>而其他的规范也十分轻松</p>
-<pre class=" language-ts"><code class="language-ts"><span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span>useState<span class="token punctuation">,</span> useRef<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span>
-<span class="token comment" spellcheck="true">//非要自己显式也不是不行：  const [name, setName] = useState&lt;string>("allen")</span>
-<span class="token keyword">interface</span> <span class="token class-name">IProps</span> <span class="token punctuation">{</span>
-  name<span class="token punctuation">:</span> <span class="token keyword">string</span>
-<span class="token punctuation">}</span>
-<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">App</span><span class="token punctuation">(</span>props<span class="token punctuation">:</span>IProps<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> <span class="token punctuation">[</span>name<span class="token punctuation">,</span> setName<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token string">"allen"</span><span class="token punctuation">)</span>
-  <span class="token keyword">const</span> inputRef <span class="token operator">=</span> useRef<span class="token operator">&lt;</span>HTMLInputElement<span class="token operator">></span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span>
-  <span class="token keyword">return</span> <span class="token punctuation">(</span>
-    <span class="token operator">&lt;</span>div<span class="token operator">></span>
-      <span class="token operator">&lt;</span>div<span class="token operator">></span><span class="token punctuation">{</span>name<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
-      <span class="token operator">&lt;</span>input type<span class="token operator">=</span><span class="token string">"text"</span> ref<span class="token operator">=</span><span class="token punctuation">{</span>inputRef<span class="token punctuation">}</span><span class="token operator">/</span><span class="token operator">></span>
-      <span class="token operator">&lt;</span>button onClick<span class="token operator">=</span><span class="token punctuation">{</span>
-        <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-          <span class="token function">setName</span><span class="token punctuation">(</span><span class="token string">"Mikasa"</span><span class="token punctuation">)</span>
-          console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token punctuation">(</span>inputRef<span class="token punctuation">.</span>current as HTMLInputElement<span class="token punctuation">)</span><span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">></span>
-    <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
-  <span class="token punctuation">)</span>
-<span class="token punctuation">}</span></code></pre>
 <h2 id="3-TypeScript对面向对象的延伸"><a href="#3-TypeScript对面向对象的延伸" class="headerlink" title="3.TypeScript对面向对象的延伸"></a>3.TypeScript对面向对象的延伸</h2><h4 id="属性封装"><a href="#属性封装" class="headerlink" title="属性封装"></a>属性封装</h4><p><strong>属性修饰符</strong></p>
 <p> 如果属性是在对象中设置，则属性可以随意被修改，导致数据不安全</p>
 <pre class=" language-ts"><code class="language-ts"> <span class="token keyword">class</span> <span class="token class-name">Person</span> <span class="token punctuation">{</span>
@@ -1302,6 +1239,31 @@ db<span class="token punctuation">.</span><span class="token function">add</span
             <span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
             <span class="token function">reject</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
         <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>通过泛型+泛型嵌套，实现真正约束返回值</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">interface</span> <span class="token class-name">IUser</span> <span class="token punctuation">{</span>
+  account<span class="token punctuation">:</span> <span class="token keyword">string</span>
+  password<span class="token punctuation">:</span> <span class="token keyword">string</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">interface</span> <span class="token class-name">ILoginType</span> <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token keyword">number</span>
+    name<span class="token punctuation">:</span> <span class="token keyword">string</span>
+    token<span class="token punctuation">:</span> <span class="token keyword">string</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">interface</span> <span class="token class-name">IDataType</span><span class="token operator">&lt;</span>T <span class="token operator">=</span> <span class="token keyword">any</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    code<span class="token punctuation">:</span> <span class="token keyword">number</span>
+    data<span class="token punctuation">:</span> T
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">accountRequest</span><span class="token punctuation">(</span>user<span class="token punctuation">:</span> IUser<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> myRequest<span class="token punctuation">.</span>request<span class="token operator">&lt;</span>IDataType<span class="token operator">&lt;</span>ILoginType<span class="token operator">></span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        method<span class="token punctuation">:</span> <span class="token string">'POST'</span> <span class="token punctuation">,</span>
+        url<span class="token punctuation">:</span> loginAPI<span class="token punctuation">.</span>accountAPI<span class="token punctuation">,</span>
+        data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">//...</span>
+        <span class="token punctuation">}</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token punctuation">}</span></code></pre>
 <h2 id="4-TypeScript其他"><a href="#4-TypeScript其他" class="headerlink" title="4.TypeScript其他"></a>4.TypeScript其他</h2><p>TS支持两种方法来控制我们的作用域</p>
@@ -1836,7 +1798,7 @@ a<span class="token punctuation">.</span><span class="token function">fn</span><
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            10.HooksReact的Hook 是 16.8版本新增的特性/语法，可以让我们在函数式组件中使用state和其他React特性
+                            11.HooksReact的Hook 是 16.8版本新增的特性/语法，可以让我们在函数式组件中使用state和其他React特性
 函数式组件最主要没有上述功能的原因是没有实例对象，没有this（现在函数式组件是主流了）
 Hook主要是践行
                         
@@ -2054,7 +2016,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">274.9k</span>&nbsp;字
+                class="white-color">287.2k</span>&nbsp;字
             
             
             

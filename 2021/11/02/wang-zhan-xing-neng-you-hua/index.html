@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.6k
+                    2k
                 </div>
                 
 
@@ -536,6 +536,22 @@
 <li>优化CSS文件和结构</li>
 <li>合理放置JS代码</li>
 </ul>
+<h4 id="网上关于CSR首屏优化的方案"><a href="#网上关于CSR首屏优化的方案" class="headerlink" title="网上关于CSR首屏优化的方案"></a>网上关于CSR首屏优化的方案</h4><p>链接<a href="https://github.com/BetaSu/fe-hunter/issues/4#issuecomment-1075856575" target="_blank" rel="noopener">https://github.com/BetaSu/fe-hunter/issues/4#issuecomment-1075856575</a></p>
+<p>一、如何分析首屏加载CSR的性能？<br>有三种方式进行分析：</p>
+<ol>
+<li>network（浏览器-&gt;DevTools）</li>
+<li>performance （浏览器-&gt;DevTools）</li>
+<li>lighthouse（浏览器-&gt;DevTools）</li>
+<li>sentry（第三方平台）</li>
+<li><a href="https://webpagetest.org/" target="_blank" rel="noopener"><strong>webPageTest</strong></a> 更全面，更详细，更强大的页面分析<br>具体怎么操作我就不赘述了，各位自行去看。</li>
+</ol>
+<p>二、分析后如何找出CSR性能瓶颈？<br>按照上面的5种方式来看吧</p>
+<p>三、如何解决CSR性能瓶颈？<br>从CSR方向来讲的话，基本就两个方向了</p>
+<ol>
+<li><strong>网络层面</strong>：<br>从网络方面来讲，就是减少HTTP请求的次数，以及减小请求体积，这里就简单聊几点<br>a). 将多次请求合并到一次请求（ajax、精灵图，文件合并等）<br>b). 页面懒加载应该也可以算在这个方面。<br>c). 缓存住一些不经常改动的文件或内容将请求拦截（service worker）<br>b). 文件内容压缩<br>e). 静态资源CDN也是方式之一<br>f). 升级到 http2</li>
+<li><strong>渲染层面</strong><br>a). 骨架屏，起码能让用户有打开了网页的感觉<br>b). 图片懒加载<br>c). 防抖节流<br>d). 代码层面的改善吧，很有可能是某些坏代码产生的</li>
+</ol>
+<p>四、有没有其他渲染方案可以解决CSR当前问题，他的原理是什么？<br>SSR。就是将框架代码提前在服务端跑一遍，不过一般除非对SEO要求比较高或者你们公司比较有钱，否则不太会去使用，因为比较占用服务器的资源。</p>
 <h2 id="3-页面整体加载完成"><a href="#3-页面整体加载完成" class="headerlink" title="3.页面整体加载完成"></a>3.页面整体加载完成</h2><p>又被称为PageLoad，顾名思义所有页面相关资源全部加载完成的时间，而其中这个时间点为我们熟知的“8s”原则</p>
 <p>随后在2006年，一个来自Akamai的新研究，发表了新的观点：通常4s左右的平均加载时间，是用户可能会等待页面加载的最长时间。</p>
 <h2 id="4-加快首次渲染"><a href="#4-加快首次渲染" class="headerlink" title="4.加快首次渲染"></a>4.加快首次渲染</h2><h4 id="方案一"><a href="#方案一" class="headerlink" title="方案一"></a>方案一</h4><p>首屏渲染时render树的合成时长之一，DOM树与DOM节点数量息息相关，而如果使用 TextArea存放HTML代码，而浏览器解析的时候不会识别，不被当做DOM去解析，会让首屏渲染DOM树包含的节点大幅减少，从而提高首次渲染速度</p>
@@ -548,6 +564,15 @@
 <li>EventCount：从网页打开到现在，执行的事件数量</li>
 <li>memory：堆内存占用大小</li>
 <li>timing：执行各阶段所处的时间戳</li>
+</ul>
+<ul>
+<li>DNS查询耗时= domainLookupEnd - domainLookupStart</li>
+<li>TCP链接耗时= connectEnd - connectStart</li>
+<li>request请求耗时= responseEnd - responseStart</li>
+<li>解析dom树耗时= domComplete - domInteractive</li>
+<li>白屏时间= domloadng - fetchStart</li>
+<li>domready时间= domContentLoadedEventEnd - fetchStart</li>
+<li>onload时间= loadEventEnd - fetchStart</li>
 </ul>
 <h2 id="6-红宝书最佳实践"><a href="#6-红宝书最佳实践" class="headerlink" title="6.红宝书最佳实践"></a>6.红宝书最佳实践</h2><p>避免全局查找</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">updateUI</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -825,25 +850,25 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/11/05/vue3-xia/">
+                <a href="/2021/11/05/vue3-shang/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Vue3(下)">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Vue3(上)">
                         
-                        <span class="card-title">Vue3(下)</span>
+                        <span class="card-title">Vue3(上)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            6.Vue动画处理vue有个内置组件 transition
-基本使用：使用name定义过渡类名，然后常常与v-if、v-show、动态组件进行搭配
-官方：
-可以给任何元素和组件添加进入/离开过渡
+                            1.Vue3 Start他在介绍中表明的是：
 
-条件渲染 (使用 v-if)
-条件展示 (
+更小、更快、更易维护，一些命令的变化。
+3.0 新加入了 TypeScript 以及 PWA 的支持
+支持了 composiiton API
+vdom的对比算法更新，只更新绑定了动态数据部分
+
                         
                     </div>
                     <div class="publish-info">
@@ -1101,7 +1126,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">274.9k</span>&nbsp;字
+                class="white-color">287.2k</span>&nbsp;字
             
             
             

@@ -750,7 +750,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'4.'</span><span class="token punctuation">,</span> foo<span class="token punctuation">.</span><span class="token function">bad</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token comment" spellcheck="true">//4. 1</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'5.'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>foo<span class="token punctuation">.</span>bar <span class="token operator">=</span> foo<span class="token punctuation">.</span>bar<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//5. 1</span>
 <span class="token function">doFoo</span><span class="token punctuation">(</span>foo<span class="token punctuation">.</span>bar<span class="token punctuation">)</span><span class="token punctuation">;</span>                          <span class="token comment" spellcheck="true">//6. 1</span></code></pre>
-<p>“匿名函数的执行环境具有全局性”，所以最里层那个函数中this指向全局环境，全局环境没有定义foo变量所以输出undefined。在匿名函数外部将this保存到一个内部函数可以访问的变量self中，可以通过self访问这个对象，所以self.foo为bar</p>
+<p>“匿名函数的执行环境具有全局性”，所以最里层那个函数中this指向全局环境（走了默认绑定），全局环境没有定义foo变量所以输出undefined。在匿名函数外部将this保存到一个内部函数可以访问的变量self中，可以通过self访问这个对象，所以self.foo为bar</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">var</span> myobject <span class="token operator">=</span> <span class="token punctuation">{</span>
     foo<span class="token punctuation">:</span> <span class="token string">"bar"</span><span class="token punctuation">,</span>
     func<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -1839,7 +1839,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">287.2k</span>&nbsp;字
+                class="white-color">288.3k</span>&nbsp;字
             
             
             

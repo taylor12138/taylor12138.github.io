@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.9k
+                    3.4k
                 </div>
                 
 
@@ -541,6 +541,7 @@
 <li>singleQuote：使用单引号还是双引号</li>
 <li>trailingComma：多行输入时，尾部逗号是否添加</li>
 <li>semi尾部是否添加分号</li>
+<li>endOfLine：结束行形式</li>
 </ul>
 <p>prettier格式化参考表格<a href="https://juejin.cn/post/6938687606687432740" target="_blank" rel="noopener">https://juejin.cn/post/6938687606687432740</a></p>
 <p>一般我们还会给Prettier添加忽略文件</p>
@@ -563,6 +564,17 @@
 <p>当然方法一、二一步一步保存嫌麻烦，也可以在 <code>package.json</code>文件下实行一步保存命令的配置</p>
 <pre class=" language-json"><code class="language-json"><span class="token property">"script"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
     <span class="token property">"prettier"</span><span class="token operator">:</span> <span class="token string">"prettier --write ."</span>
+<span class="token punctuation">}</span></code></pre>
+<p><strong>jsx and tsx</strong></p>
+<p>对于tsx、jsx文件，在vscode中<code>Prettier</code>默认不启用</p>
+<p>需要在vscode中的setting.json中配置（通过Ctrl+Shift+P 打开 setting.json）</p>
+<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"[typescriptreact]"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"editor.defaultFormatter"</span><span class="token operator">:</span> <span class="token string">"esbenp.prettier-vscode"</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"[javascriptreact]"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"editor.defaultFormatter"</span><span class="token operator">:</span> <span class="token string">"esbenp.prettier-vscode"</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span></code></pre>
 <h2 id="3-RPC"><a href="#3-RPC" class="headerlink" title="3.RPC"></a>3.<strong>RPC</strong></h2><p>RPC是指远程过程调用，也就是说两台服务器A，B，一个应用部署在A服务器上，想要调用B服务器上应用提供的函数/方法，由于不在一个内存空间，不能直接调用，需要通过网络来表达调用的语义和传达调用的数据。</p>
 <ul>
@@ -690,6 +702,70 @@ self<span class="token punctuation">.</span><span class="token function">addEven
 <li>相比png/jpg，gif体积最小，最小的bmp文件需要74B，png需要67B，而合法的gif只需要43B</li>
 </ul>
 <p>用gif报埋点大多数采用1*1透明GIF上报</p>
+<h2 id="7-jsonserver"><a href="#7-jsonserver" class="headerlink" title="7.jsonserver"></a>7.jsonserver</h2><p>可以用于临时模拟后端接口数据，只需要一个json文件即可（jsonserver内置帮你解决了跨域问题，设置了）</p>
+<h4 id="使用流程"><a href="#使用流程" class="headerlink" title="使用流程"></a>使用流程</h4><p>Install JSON Server</p>
+<pre><code>npm install -g json-server</code></pre><p>Create a <code>db.json</code> file with some data</p>
+<pre><code>{
+  &quot;posts&quot;: [
+    { &quot;id&quot;: 1, &quot;title&quot;: &quot;json-server&quot;, &quot;author&quot;: &quot;typicode&quot; }
+  ],
+  &quot;comments&quot;: [
+    { &quot;id&quot;: 1, &quot;body&quot;: &quot;some comment&quot;, &quot;postId&quot;: 1 }
+  ],
+  &quot;profile&quot;: { &quot;name&quot;: &quot;typicode&quot; }
+}</code></pre><p>Start JSON Server</p>
+<pre class=" language-shell"><code class="language-shell">json-server --watch db.json</code></pre>
+<p>或者指定好端口号</p>
+<pre class=" language-shell"><code class="language-shell">json-server --watch db.json --port 8000</code></pre>
+<p>Now if you go to <a href="http://localhost:3000/posts/1" target="_blank" rel="noopener">http://localhost:3000/posts/1</a>, you’ll get</p>
+<pre><code>{ &quot;id&quot;: 1, &quot;title&quot;: &quot;json-server&quot;, &quot;author&quot;: &quot;typicode&quot; }</code></pre><h4 id="增删改查"><a href="#增删改查" class="headerlink" title="增删改查"></a>增删改查</h4><p>此时你还可以通过设置请求的method，来<strong>增删改查</strong></p>
+<p><strong>查</strong> get：</p>
+<pre><code>http://localhost:8000/posts/1</code></pre><pre><code>http://localhost:8000/posts?id=1</code></pre><p>直接查询到id为1的接口数据（自动检索 ）</p>
+<p><strong>增加数据</strong> post</p>
+<pre class=" language-js"><code class="language-js">axios<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">"http://localhost:8000/posts"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">{</span> <span class="token string">"id"</span><span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">"title"</span><span class="token punctuation">:</span> <span class="token string">"json-server"</span><span class="token punctuation">,</span> <span class="token string">"author"</span><span class="token punctuation">:</span> <span class="token string">"typicode"</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p><strong>修改数据</strong> put、patch</p>
+<pre class=" language-js"><code class="language-js">axios<span class="token punctuation">.</span><span class="token function">patch</span><span class="token punctuation">(</span><span class="token string">"http://localhost:8000/posts/1"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">{</span> <span class="token string">"title"</span><span class="token punctuation">:</span> <span class="token string">"json-server"</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p><strong>删除数据</strong> delete</p>
+<p>在删除数据的时候，若对于不同的数据表，有关联的数据也会一并删除</p>
+<p>比如</p>
+<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"posts"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+      <span class="token property">"title"</span><span class="token operator">:</span> <span class="token string">"json-server"</span><span class="token punctuation">,</span>
+      <span class="token property">"author"</span><span class="token operator">:</span> <span class="token string">"typicode"</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+      <span class="token property">"title"</span><span class="token operator">:</span> <span class="token string">"other"</span><span class="token punctuation">,</span>
+      <span class="token property">"author"</span><span class="token operator">:</span> <span class="token string">"othercode"</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"comments"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+      <span class="token property">"body"</span><span class="token operator">:</span> <span class="token string">"some comment"</span><span class="token punctuation">,</span>
+      <span class="token property">"postId"</span><span class="token operator">:</span> <span class="token number">1</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span></code></pre>
+<p>此时 comments 第一个数据有一个字段是 postId，会和 posts中id为1的数据进行关联，此时删除掉posts的第一条数据，则连带comments的数据也会被删除掉</p>
+<h4 id="关联数据"><a href="#关联数据" class="headerlink" title="关联数据"></a>关联数据</h4><p>上面再2删除数据中我们可以看到有部分的数据是关联的</p>
+<p>如果我们想要在get的时候，带上关联的数据，我们要用 <code>_embed</code> 或者 <code>_expand</code> 字段</p>
+<p><code>_embed</code> ：获取向下关联的数据</p>
+<p><code>_expand</code> ：获取向上关联的数据</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//关联的表是comments</span>
+axios<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">"http://localhost:8000/posts?_embed=comments"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>res <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">//字段是postId，所以要用post，而不是posts</span>
+axios<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">"http://localhost:8000/comments?_expand=post"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>res <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 
             </div>
             <hr/>
@@ -1193,7 +1269,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">287.2k</span>&nbsp;字
+                class="white-color">288.3k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    604
+                    840
                 </div>
                 
 
@@ -489,6 +489,10 @@
 <pre class=" language-shell"><code class="language-shell">npx create-react-app my-app --template typescript</code></pre>
 <p>如果是对当前React脚手架项目添加typescript支持</p>
 <pre class=" language-shell"><code class="language-shell">npm install --save typescript @types/node @types/react @types/react-dom @types/jest</code></pre>
+<p>但是有个问题就是：将 TypeScript 添加到现有项目不会添加 tsconfig </p>
+<p><a href="https://github.com/facebook/create-react-app/issues/10951" target="_blank" rel="noopener">https://github.com/facebook/create-react-app/issues/10951</a></p>
+<p>作为一种较为无语的解决方法：</p>
+<p>作为一种解决方法，我通过运行创建了一个新的 react 应用程序：<br><code>npx create-react-app ts-example --template typescript</code><br>然后将生成的 tsconfig.json 的内容复制粘贴到我现有的应用程序中。</p>
 <h4 id="对于类式组件"><a href="#对于类式组件" class="headerlink" title="对于类式组件"></a><strong>对于类式组件</strong></h4><p>在构建React组件类的时候，还有这一种接口的写法 <code>React.Component&lt;props接口的名称, state接口的名称&gt;</code>，用来说明派生的 Component 使用的 Props 和 State 的类型</p>
 <pre class=" language-ts"><code class="language-ts">React<span class="token punctuation">.</span>Component<span class="token operator">&lt;</span>Props<span class="token punctuation">,</span> State<span class="token operator">></span></code></pre>
 <p>ref对象，我们也需要手动声明它的类型</p>
@@ -590,6 +594,31 @@
   <span class="token comment" spellcheck="true">//...</span>
   <span class="token keyword">return</span> newState<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
+<h2 id="小坑"><a href="#小坑" class="headerlink" title="小坑"></a>小坑</h2><h4 id="alias"><a href="#alias" class="headerlink" title="alias"></a>alias</h4><p>关于TS在create react app应用的小坑</p>
+<p>webpack配置</p>
+<pre class=" language-js"><code class="language-js">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">//...</span>
+  resolve<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    alias<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token string">'@'</span><span class="token punctuation">:</span> path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'../src'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<p>但是在项目中使用alias转换的全局路径，ts不买账</p>
+<p>为了解决这个问题，需要借助tsconfig，尽管webpack已经配置好了alias， 可是ts并不认账。</p>
+<p>tsconfig.json配置如下</p>
+<p>需要在compilerOptions 增加2个字段， baseUrl 指定当前工程的路径， paths 用于对别名的映射。</p>
+<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"compilerOptions"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    // ...
+    <span class="token property">"baseUrl"</span><span class="token operator">:</span> <span class="token string">"."</span><span class="token punctuation">,</span>
+    <span class="token property">"paths"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token property">"@/*"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"./src/*"</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+    // ...
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>在此就能解决上述问题了，如果不行可能需要重启vscode。</p>
 
             </div>
             <hr/>
@@ -1096,7 +1125,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">287.2k</span>&nbsp;字
+                class="white-color">288.3k</span>&nbsp;字
             
             
             

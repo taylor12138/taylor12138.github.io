@@ -907,6 +907,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <h4 id="非受控组件-amp-受控组件"><a href="#非受控组件-amp-受控组件" class="headerlink" title="非受控组件 &amp; 受控组件"></a><strong>非受控组件</strong> &amp; <strong>受控组件</strong></h4><p><strong>非受控组件</strong></p>
+<p>外部无法影响到组件内部</p>
 <p>说由输入类的DOM，比如 <code>input</code>，如果是现用现取，则为非受控组件，比如下方就是一个非受控组件</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">class</span> <span class="token class-name">Login</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
       handle <span class="token operator">=</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
@@ -1154,7 +1155,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
 <p>1.<code>index.css</code> -&gt; <code>index.module.css</code></p>
 <p>2.引入样式：<code>import xx from &#39;./index.module.css&#39;</code> </p>
 <p>3.使用样式 :<code>&lt;h2 className={xx.title}&gt; Hello, React &lt;/h2&gt;</code></p>
-<p>但是注意：如果在css模块中只是单纯使用标签选择器，则无法模块化，有全局影响性</p>
+<p>但是注意：如果在css模块中只是单纯使用标签选择器，则<strong>无法模块化</strong>，有全局影响性</p>
 <pre class=" language-css"><code class="language-css"><span class="token selector">ul li </span><span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
 <p>推荐加上</p>
 <pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.home</span> ul li </span><span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
@@ -1164,6 +1165,16 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
 <p>（React中less使用教程 <a href="https://www.cnblogs.com/liangziaha/p/13632623.html" target="_blank" rel="noopener">https://www.cnblogs.com/liangziaha/p/13632623.html</a> ）</p>
 <p>亦或者使用vscode自带的less转化css</p>
 <p>（还是Vue的scope舒服呀）</p>
+<p>方法三：使用sass</p>
+<pre class=" language-shell"><code class="language-shell">npm i sass</code></pre>
+<pre class=" language-scss"><code class="language-scss"><span class="token selector"><span class="token variable">$width</span>:300px
+ul </span><span class="token punctuation">{</span>
+    <span class="token selector">.item</span><span class="token punctuation">{</span>
+        <span class="token property">width</span><span class="token punctuation">:</span><span class="token variable">$width</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> style <span class="token keyword">from</span> <span class="token string">'./child.module.scss'</span></code></pre>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span>{style.item}</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span></code></pre>
 <h4 id="react中设置全局路径"><a href="#react中设置全局路径" class="headerlink" title="react中设置全局路径"></a>react中设置全局路径</h4><pre class=" language-shell"><code class="language-shell">npm run eject</code></pre>
 <p>暴露出webpack的配置文件webpack.config.js</p>
 <pre class=" language-js"><code class="language-js">resolve<span class="token punctuation">:</span> <span class="token punctuation">{</span>
@@ -1224,7 +1235,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
 <ul>
 <li><p>第一个参数设置前缀名，比如设置了前缀名为<code>/api1</code>，遇到这个前缀的请求就会触发该代理配置，比如猫眼电影的请求示例</p>
 <p>原本请求地址 ：<a href="https://i.maoyan.com/ajax/comingList?ci=91&amp;limit=10" target="_blank" rel="noopener">https://i.maoyan.com/ajax/comingList?ci=91&amp;limit=10</a>…. -&gt; 此时我们需要改成  <a href="/ajax/comingList?ci=91&limit=10">/ajax/comingList?ci=91&amp;limit=10</a>….，就会触发代理</p>
-<pre class=" language-js"><code class="language-js">axios<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'ajax/mostExpected?limit=10&amp;offset=0&amp;token=&amp;optimus.........'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span> 
+<pre class=" language-js"><code class="language-js">axios<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'/ajax/mostExpected?limit=10&amp;offset=0&amp;token=&amp;optimus.........'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span> 
     <span class="token comment" spellcheck="true">//自动找本地域名 + /ajax</span>
   console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
@@ -1802,7 +1813,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">287.2k</span>&nbsp;字
+                class="white-color">288.3k</span>&nbsp;字
             
             
             

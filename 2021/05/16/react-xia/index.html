@@ -970,7 +970,8 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">cre
 <p>但是 setTimeout 这样的方法执行是脱离了事务的，react 管控不到，所以就没法 batch 了。</p>
 <p><strong>为什么Vue没有这个限制？</strong></p>
 <p>是因为 vue 采用了 nexttick 的方式，利用 EventLoop，将一个同步事件循环过程中所有修改合并，它本质上属于延迟的批量更新</p>
-<h4 id="LazyLoad-React的懒加载"><a href="#LazyLoad-React的懒加载" class="headerlink" title="LazyLoad-React的懒加载"></a>LazyLoad-React的懒加载</h4><p>如果有多个所有路由组件，所有的路由组件都会在第一次就全部给你加载完毕。我们可以借助react里面的 <code>Lazy</code> 函数</p>
+<h4 id="LazyLoad-React的懒加载"><a href="#LazyLoad-React的懒加载" class="headerlink" title="LazyLoad-React的懒加载"></a>LazyLoad-React的懒加载</h4><p><strong>懒加载组件</strong></p>
+<p>如果有多个所有路由组件，所有的路由组件都会在第一次就全部给你加载完毕。我们可以借助react里面的 <code>Lazy</code> 函数</p>
 <pre class=" language-jsx"><code class="language-jsx"><span class="token comment" spellcheck="true">// lazy为路由懒加载函数，Suspence为如果当前路由组件没能即使请求出来，给用户展示的页面信息</span>
 <span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> lazy<span class="token punctuation">,</span> Suspense <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span></code></pre>
 <p>引入路由组件是写的方式有所变化</p>
@@ -1000,6 +1001,7 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">cre
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Suspense</span><span class="token punctuation">></span></span></code></pre>
 <p><strong>实现原理</strong></p>
 <p>当Webpack解析该语法时，他会自动开始进行代码分割，分割成一个文件（Code Spliting），当使用到这个文件时这段代码会被异步加载</p>
+<p>当然除了异步懒加载组件，还可以异步懒加载方法，详情可以看《PC&amp;移动端网页特效(JS)》篇章</p>
 <h4 id="Fragment"><a href="#Fragment" class="headerlink" title="Fragment"></a>Fragment</h4><p>正常情况下，我们使用jsx语法们都需要在外层包裹一层div，但其实有另外一个选择，就是在外层包一层<code>Fragment</code>（隶属于源码干净强迫症患者）</p>
 <pre class=" language-jsx"><code class="language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Fragment</span><span class="token punctuation">></span></span>
     <span class="token operator">...</span><span class="token punctuation">.</span>
@@ -1935,54 +1937,6 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
     <footer class="page-footer bg-color">
     
-        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="">
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="netease"
-                   type="playlist"
-                   id="2163433034"
-                   fixed='true'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.7'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="/libs/aplayer/APlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-
-    
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
@@ -1993,7 +1947,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">288.3k</span>&nbsp;字
+                class="white-color">291.7k</span>&nbsp;字
             
             
             

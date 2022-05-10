@@ -673,12 +673,14 @@ flex-basis：<span class="token number">0%</span>。</code></pre>
 <span class="token punctuation">}</span></code></pre>
 <p>在一个less中可以引入另外一个less（套娃）</p>
 <pre class=" language-less"><code class="language-less"><span class="token variable">@import</span> <span class="token string">"common"</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">/*导入conmon.less*/</span></code></pre>
-<p>在Vue脚手架里使用less时，只需要用npm安装 less 和 less-loader即可</p>
-<pre class=" language-shell"><code class="language-shell">npm i less --save
-npm i less-loader --save</code></pre>
-<p>但在实践过程中报错了，原因竟然是是less-loader安装的版本太高，卸载重新安装7.0版本即可</p>
-<pre class=" language-shell"><code class="language-shell">npm uninstall --save less-loader
-npm install -D less-loader@7.x</code></pre>
+<h4 id="less和sass"><a href="#less和sass" class="headerlink" title="less和sass"></a>less和sass</h4><p>Sass与Scss是什么关系?</p>
+<p>Sass的缩排语法，对于写惯css前端的web开发者来说很不直观，也不能将css代码加入到Sass里面，因此sass语法进行了改良，Sass 3就变成了Scss(sassy css)。与原来的语法兼容，只是用{}取代了原来的s缩进。</p>
+<p>（SASS版本3.0之前的后缀名为.<code>sass</code>，而版本3.0之后的后缀名<code>.scss</code>。）</p>
+<p><strong>less和sass的区别</strong></p>
+<p>Less和Sass的主要不同就是他们的实现方式。</p>
+<p>Less是基于JavaScript，是在客户端处理的。</p>
+<p>Sass是基于Ruby的，是在服务器端处理的。</p>
+<p>关于变量在Less和Sass中的唯一区别就是Less用@，Sass用$。</p>
 <h3 id="rem的实际适配"><a href="#rem的实际适配" class="headerlink" title="rem的实际适配"></a>rem的实际适配</h3><p>1.按照设计稿与设备宽度比例，动态计算并设置html根标签font-size大小（屏幕宽度/划分的份数=font-size的大小）（划分份数有15、20、10都有可能，苏宁移动端网页是15）</p>
 <p>2.CSS中，设计稿元素宽、高、相对位置等取值，按照同等比例换算为rem</p>
 <p>rem适配方案一：less   媒体查询  rem</p>
@@ -1260,54 +1262,6 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
     <footer class="page-footer bg-color">
     
-        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="">
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="netease"
-                   type="playlist"
-                   id="2163433034"
-                   fixed='true'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.7'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="/libs/aplayer/APlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-
-    
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
@@ -1318,7 +1272,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">288.3k</span>&nbsp;字
+                class="white-color">291.7k</span>&nbsp;字
             
             
             

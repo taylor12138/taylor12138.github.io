@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3k
+                    3.4k
                 </div>
                 
 
@@ -686,6 +686,27 @@ v0.12.8</code></pre>
 <span class="token punctuation">}</span></code></pre>
 <p>发布</p>
 <pre class=" language-shell"><code class="language-shell">npm publish</code></pre>
+<h2 id="npm-link"><a href="#npm-link" class="headerlink" title="npm link"></a>npm link</h2><p><code>npm install</code>可以把发布在npmjs平台上的模块包下载到本地</p>
+<p>但是对于未发布的包，我们无法测试使用（你可以在本地改源码，但是别人测试的时候下载你的仓库文件，然后 <code>npm i</code>，就不知道要不要改源码了 ），此时我们可以使用<code>npm link</code></p>
+<p><code>npm link</code>可以帮助我们模拟包安装后的状态，它会在系统中做一个快捷方式映射，让本地的包就好像install过一样，可以直接使用。在MAC中，我们在终端可以直接敲命令，其实是在执行<code>/xxx</code>目录下的脚本</p>
+<p>当前：我们的<code>test-project</code>项目依赖 <code>xx-module</code> npm 包</p>
+<p>首先，进入我们要开发的npm模块 <code>xx-module</code>，执行npm link</p>
+<pre class=" language-shell"><code class="language-shell">cd xx-module
+npm link</code></pre>
+<p>执行命令后，<code>xx-module</code>项目会根据<code>package.json</code>上的配置，被链接到全局，路径是<code>{prefix}/lib/node_modules/&lt;package&gt;</code>，这是官方文档上的描述，我们可以使用<code>npm config get prefix</code>命令获取到prefix的值</p>
+<p>然后，进入<code>test-project</code>项目，执行命令</p>
+<pre class=" language-ruby"><code class="language-ruby">cd test<span class="token operator">-</span>project
+npm link xx<span class="token operator">-</span><span class="token keyword">module</span></code></pre>
+<blockquote>
+<p>请注意，<code>package-name</code>取自<code>package.json</code>，<em>而不是</em>取自目录名称。</p>
+</blockquote>
+<p>解除链接<br>1）解除项目和模块的链接</p>
+<pre class=" language-shell"><code class="language-shell">cd xxx/xxx/test-project
+npm unlink xx-module</code></pre>
+<p>2）解除模块的全局链接</p>
+<pre class=" language-shell"><code class="language-shell">cd xxx/xxx/xx-module
+npm unlink xx-module</code></pre>
+<p>参考：<a href="https://www.jianshu.com/p/aaa7db89a5b2" target="_blank" rel="noopener">https://www.jianshu.com/p/aaa7db89a5b2</a></p>
 
             </div>
             <hr/>
@@ -1138,54 +1159,6 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
     <footer class="page-footer bg-color">
     
-        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="">
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="netease"
-                   type="playlist"
-                   id="2163433034"
-                   fixed='true'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.7'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="/libs/aplayer/APlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-
-    
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
@@ -1196,7 +1169,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">288.3k</span>&nbsp;字
+                class="white-color">291.7k</span>&nbsp;字
             
             
             

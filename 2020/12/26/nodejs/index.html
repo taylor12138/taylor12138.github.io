@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9.5k
+                    9.8k
                 </div>
                 
 
@@ -522,9 +522,8 @@
 <p>模块内部使用exports 对象进行成员导出，使用require方法导入其他模块（注意ES6不使用require而是使用import）</p>
 <ul>
 <li><p><code>CommonJS</code> 规范是在代码运行时同步阻塞性地加载模块，在执行代码过程中遇到 <code>require(X)</code> 时会停下来等待，直到新的模块加载完成之后再继续执行接下去的代码。</p>
-<ul>
-<li>虽说是同步阻塞性，但这一步实际上非常快，和浏览器上阻塞性下载、解析、执行 <code>js</code> 文件不是一个级别，硬盘上读文件比网络请求快得多。</li>
-</ul>
+</li>
+<li><p>虽说是同步阻塞性，但这一步实际上非常快，和浏览器上阻塞性下载、解析、执行 <code>js</code> 文件不是一个级别，硬盘上读文件比网络请求快得多。</p>
 </li>
 <li><p>在模块代码被运行前就已经写入了 <code>cache</code>，同一个模块被多次 <code>require</code> 时只会执行一次，重复的 <code>require</code> 得到的是相同的 <code>exports</code> 引用。</p>
 <ul>
@@ -1135,9 +1134,13 @@ event<span class="token punctuation">.</span><span class="token function">emit</
 <li>前端服务器通过请求后端服务器获取数据并组装HTML返回给浏览器，浏览器直接解析HTML后渲染页面（首屏渲染）</li>
 <li>浏览器完成事件绑定，在交互过程中，请求新的数据并动态更新渲染页面（交互渲染）</li>
 </ul>
+<h4 id="SSG"><a href="#SSG" class="headerlink" title="SSG"></a>SSG</h4><p>4.但是一般来说，首屏一般不会对内容产生什么修改，但是数以万计的访客打开网站时候，都要进行数据库查询吗？这无疑会导致数据库后端的重复开销，而解决问题的方法是：</p>
+<p>（SSG）将后端渲染的HTML缓存，这份缓存作为静态内容，也更容易被推送至CDN，实现全国甚至全球加速；即使需要修改内容，也可以重新生成静态内容，再更新cdn内容的方式轻松应对</p>
+<p>缺点：所有用户看到的都是同一个页面，无法生成用户相关内容，并且对于百万级、千万级、亿级页面的大型网站而言，一旦有数据改动，要进行一次全部页面的渲染，需要的时间可能是按小时甚至按天计的，这是不可接受的。</p>
 <p>参考</p>
 <p><a href="https://www.zhihu.com/question/59578433/answer/332545815" target="_blank" rel="noopener">https://www.zhihu.com/question/59578433/answer/332545815</a> </p>
 <p><a href="https://github.com/yacan8/blog/issues/30" target="_blank" rel="noopener">https://github.com/yacan8/blog/issues/30</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/341229054" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/341229054</a></p>
 <h2 id="9-Path"><a href="#9-Path" class="headerlink" title="9.Path"></a>9.Path</h2><p>Path是一个核心模块 <code>var path = require(&#39;path&#39;)</code></p>
 <p><code>path.basename(path[,ext])</code> 获取给定路径当中文件名部分，第二个参数可以用来去除指定的后缀名</p>
 <pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">basename</span><span class="token punctuation">(</span><span class="token string">'c:/a/b/c/index.js'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>          <span class="token comment" spellcheck="true">//index.js</span>
@@ -1661,54 +1664,6 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
     <footer class="page-footer bg-color">
     
-        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="">
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="netease"
-                   type="playlist"
-                   id="2163433034"
-                   fixed='true'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.7'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="/libs/aplayer/APlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-
-    
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
@@ -1719,7 +1674,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">288.3k</span>&nbsp;字
+                class="white-color">291.7k</span>&nbsp;字
             
             
             

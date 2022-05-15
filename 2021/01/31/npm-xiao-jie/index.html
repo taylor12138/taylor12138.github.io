@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.4k
+                    4.6k
                 </div>
                 
 
@@ -485,7 +485,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="Nodejs的包"><a href="#Nodejs的包" class="headerlink" title="Nodejs的包"></a>Nodejs的包</h2><p>通俗来说，单个<code>js</code>文件算一个模块，放在一个文件夹里就是一个包了</p>
+                <h2 id="1-Nodejs的包"><a href="#1-Nodejs的包" class="headerlink" title="1.Nodejs的包"></a>1.Nodejs的包</h2><p>通俗来说，单个<code>js</code>文件算一个模块，放在一个文件夹里就是一个包了</p>
 <p><code>CommonJS</code>    的包规范由包结构和包描述两个部分组成  </p>
 <p><strong>包结构</strong>：用于组织包中的各种文件  </p>
 <p>​    -package.json 描述文件    （important）</p>
@@ -496,7 +496,7 @@
 <p>包描述文件（上面的那个-package.json 描述文件）：描述包的相关信息，以供外部读取分析。它用于表达非代码相关信息，是一个json格式的文件，实际上加载包时使用的原则是：node_modules/express/package.json  main, 而且它其中保存着十分重要的第三方包依赖项信息（dependencies）</p>
 <p>并且建议每个项目里带一个（有且只有一个）package.json文件<code>npm init</code> </p>
 <p><code>npm init -y</code>  里面的-y就是yes的意思，在init的时候省去了敲回车的步骤，生成的默认的package.json</p>
-<h2 id="package-jon解析（杂碎）"><a href="#package-jon解析（杂碎）" class="headerlink" title="package.jon解析（杂碎）"></a>package.jon解析（杂碎）</h2><p>npm包命名：</p>
+<h2 id="2-package-jon解析（杂碎）"><a href="#2-package-jon解析（杂碎）" class="headerlink" title="2.package.jon解析（杂碎）"></a>2.package.jon解析（杂碎）</h2><p>npm包命名：</p>
 <ul>
 <li>若包名称中存在一些符号，将符号去除后不得与现有包名重复</li>
 </ul>
@@ -526,6 +526,10 @@
 <li>lock是用来锁定版本的，如果当前项目依赖了1.1版本，但是重新<code>npm install</code> 其实会给你下载最新版本，而不是1.1</li>
 <li>而<code>package-lock.json</code>的另一个作用就是锁定版本号，防止自动升级最新版</li>
 </ul>
+<h4 id="lock的-lockfileVersion"><a href="#lock的-lockfileVersion" class="headerlink" title="lock的 lockfileVersion"></a>lock的 <code>lockfileVersion</code></h4><p> <code>lockfileVersion</code> 字段来指定的 lock 格式的版本</p>
+<p>npm5之后设置为1，</p>
+<p>以前的 lock 格式仍然支持并被识别为版本 <code>0</code> 。</p>
+<p>而后来从 NPM 7 发布以来，一个新的 <code>package-lock.json</code> 文件被重新生成为不同的结构。从 <code>lockfileVersion</code> 1 到 2，从而兼容npm 6用户，并且不再忽略 <code>yarn.lock</code></p>
 <h3 id="NPM命令"><a href="#NPM命令" class="headerlink" title="NPM命令"></a>NPM命令</h3><p>（Node Package Manager）</p>
 <p>CommonJS包规范时理论，NPM是其中一种实践，是Node包管理器</p>
 <p>对于Node而言，NPM帮助其完成第三方模块的发布，安装和依赖（A-&gt;B-&gt;C，下载C直接A, B也下），借助NPM，Node与第三方模块之间形成良好的一个生态系统（安装了node以后，自带安装npm）</p>
@@ -555,19 +559,13 @@ npm i module_name  -g  全局安装</code></pre><h4 id="npm5以后的–save"><a
 <p>但是</p>
 <p><strong>5级以上更新：</strong></p>
 <p>从<a href="http://blog.npmjs.org/post/161081169345/v500" target="_blank" rel="noopener">npm 5.0.0</a>开始，已安装的模块默认添加为依赖项，因此<code>--save</code>不再需要该选项。其他保存选项仍然存在，并列<a href="https://docs.npmjs.com/cli/install" target="_blank" rel="noopener">在</a>.<code>npm install</code></p>
-<h4 id="国内使用npm-npx"><a href="#国内使用npm-npx" class="headerlink" title="国内使用npm/npx"></a>国内使用npm/npx</h4><p>连接国外的npm服务器是，遇到卡顿问题可以试一试国内淘宝的镜像npm进行配置（此时指令<code>nmp</code>-&gt;<code>cnmp</code>）(但是听说cnmp会有诡异的bug，因为cnpm安装模块路径比较奇怪，packager不能正常识别)</p>
-<p>可以使用nrm切换淘宝源</p>
-<pre class=" language-shell"><code class="language-shell"># 使用nrm工具切换淘宝源
-npx nrm use taobao
-# 如果之后需要切换回官方源
-npx nrm use npm</code></pre>
-<h4 id="npm-install"><a href="#npm-install" class="headerlink" title="npm install"></a>npm install</h4><p><strong>早期</strong>：<code>npm</code> 处理依赖的方式简单粗暴，以递归的形式，严格按照 <code>package.json</code> 结构以及子依赖包的 <code>package.json</code> 结构将依赖安装到他们各自的 <code>node_modules</code> 中。直到有子依赖包不在依赖其他模块。</p>
+<h4 id="npm-5以后的install"><a href="#npm-5以后的install" class="headerlink" title="npm 5以后的install"></a>npm 5以后的install</h4><p><strong>早期</strong>：<code>npm</code> 处理依赖的方式简单粗暴，以递归的形式，严格按照 <code>package.json</code> 结构以及子依赖包的 <code>package.json</code> 结构将依赖安装到他们各自的 <code>node_modules</code> 中。直到有子依赖包不在依赖其他模块。</p>
 <p>这样子层级结构会比较明显，</p>
 <ul>
 <li>但是！如果不同模块引用的是同一个模块，则会产生大量冗杂</li>
 <li>在 <code>Windows</code> 系统中，文件路径最大长度为260个字符，嵌套层级过深可能导致不可预知的问题。</li>
 </ul>
-<p><strong>中期</strong>：选择扁平化的结构，无论是直接依赖还是子孙依赖，都放在<code>node_modules</code>当中，而此时模块的搜索模式为：</p>
+<p><strong>中期</strong>（npm3）：选择扁平化的结构，无论是直接依赖还是子孙依赖，都放在<code>node_modules</code>当中，而此时模块的搜索模式为：</p>
 <ul>
 <li>在当前模块路径下搜索</li>
 <li>在当前模块 <code>node_modules</code> 路径下搜素</li>
@@ -583,8 +581,97 @@ npx nrm use npm</code></pre>
 <p>也就是说，如果依赖不同版本，有可能导致依赖结构的不确定性，而这种不确定性可能会给程序带来不可预知的问题。</p>
 <p><strong>后期</strong>：为了解决 <code>npm install</code> 的不确定性问题，在 <code>npm 5.x</code> 版本新增了 <code>package-lock.json</code> 文件，而安装方式还沿用了 <code>npm 3.x</code> 的扁平化的方式。</p>
 <p><code>package-lock.json</code> 的作用是锁定依赖结构，即只要你目录下有 <code>package-lock.json</code> 文件，那么你每次执行 <code>npm install</code> 后生成的 <code>node_modules</code> 目录结构一定是完全相同、一一对应的。</p>
+<p>并且， <code>package-lock.json</code> 中已经缓存了每个包的具体版本和下载链接，不需要再去远程仓库进行查询，然后直接进入文件完整性校验环节，减少了大量网络请求。</p>
+<p>所以总结起来 npm i 的流程是：</p>
+<ol>
+<li><p>检查<code>.npmrc</code> 文件（<code>npm running cnfiguration</code>, 即npm运行时配置文件），从项目级的 <code>.npmrc</code>  -&gt; 用户级的<code>.npmrc</code>  -&gt;  全局的 <code>.npmrc</code> （有点DNS查询的感觉</p>
+</li>
+<li><p>检查有没有lock文件，</p>
+<ul>
+<li><p>有lock文件，检查 <code>package.json</code> 中的依赖版本是否和 <code>package-lock.json</code> 中的依赖有冲突</p>
+<ul>
+<li><p>有冲突的话在merge conflicts的阶段，只需要从主分支中checkout去package-lock.json，再以此为基础，重新安装新分支中需要的依赖。</p>
+<pre class=" language-shell"><code class="language-shell">git checkout dev -- package-lock.json;</code></pre>
+<p>这样让npm自动的去维护<code>package-lock.json</code>。</p>
+<p>或者团队合作中，做merge操作的人可以通过查看package.json的变更知道新安装了哪些依赖包，来重新安装，</p>
+</li>
+<li><p>没冲突直接走缓存流程</p>
+</li>
+</ul>
+</li>
+<li><p>没有lock文件，则：</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>从 <code>npm</code> 远程仓库获取包信息</p>
+<p>根据 <code>package.json</code>构建依赖树，构建过程：</p>
+<ul>
+<li><p>构建依赖树时，不管其是直接依赖还是子依赖的依赖，优先将其放置在 <code>node_modules</code> 根目录。</p>
+</li>
+<li><p>当遇到相同模块时，判断已放置在依赖树的模块版本是否符合新模块的版本范围，如果符合则跳过，不符合则在当前模块的 <code>node_modules</code> 下放置该模块。</p>
+</li>
+<li><p>注意这一步只是确定逻辑上的依赖树，并非真正的安装，后面会根据这个依赖结构去下载或拿到缓存中的依赖包</p>
+</li>
+<li><p>进入缓存流程</p>
+</li>
+<li><p>将包解压到 <code>node_modules</code></p>
+</li>
+<li><p>生成 <code>lock</code> 文件</p>
+</li>
+</ul>
 <h4 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a><strong>缓存</strong></h4><p>在执行 <code>npm install</code> 或 <code>npm update</code>命令下载依赖后，除了将依赖包安装在<code>node_modules</code> 目录下外，还会在本地的缓存目录缓存一份。</p>
-<h2 id="管理Node版本"><a href="#管理Node版本" class="headerlink" title="管理Node版本"></a>管理Node版本</h2><p>可以使用nvm进行包管理，随时切换node版本（来源<a href="https://juejin.cn/post/7025207757242531847）" target="_blank" rel="noopener">https://juejin.cn/post/7025207757242531847）</a></p>
+<p><strong>缓存流程</strong>：</p>
+<p>在缓存中依次查找依赖树中的每个包</p>
+<ul>
+<li>不存在缓存：<ul>
+<li>从 <code>npm</code> 远程仓库下载包</li>
+<li>校验包的完整性</li>
+<li>校验不通过：<ul>
+<li>重新下载</li>
+</ul>
+</li>
+<li>校验通过：<ul>
+<li>将下载的包复制到 <code>npm</code> 缓存目录</li>
+<li>将下载的包按照依赖结构解压到 <code>node_modules</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>存在缓存：将缓存按照依赖结构解压到 <code>node_modules</code></li>
+</ul>
+<p>参考：<a href="http://www.conardli.top/blog/article/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96-%E5%89%96%E6%9E%90npm%E7%9A%84%E5%8C%85%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6%EF%BC%88%E5%AE%8C%E6%95%B4%E7%89%88%EF%BC%89.html#%E4%B8%80%E3%80%81%E5%89%96%E6%9E%90-package-json" target="_blank" rel="noopener">http://www.conardli.top/blog/article/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96-%E5%89%96%E6%9E%90npm%E7%9A%84%E5%8C%85%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6%EF%BC%88%E5%AE%8C%E6%95%B4%E7%89%88%EF%BC%89.html#%E4%B8%80%E3%80%81%E5%89%96%E6%9E%90-package-json</a></p>
+<h4 id="被讨厌了的npm"><a href="#被讨厌了的npm" class="headerlink" title="被讨厌了的npm"></a>被讨厌了的npm</h4><p>2020 年 10 月 30 日： <a href="https://blog.bitsrc.io/npm-clients-that-are-better-than-the-original-cd54ed0f5fe7" target="_blank" rel="noopener">https://blog.bitsrc.io/npm-clients-that-are-better-than-the-original-cd54ed0f5fe7</a></p>
+<h4 id="npm7"><a href="#npm7" class="headerlink" title="npm7"></a>npm7</h4><p>2020年10月13日是npm CLI团队的快乐星期二，经过几个月的努力，npm CLI团队正式发布了 <code>npm@7.0.0</code>。</p>
+<ul>
+<li><p>工作区：它支持在一个顶级的根包中管理多个包（Yarn和Pnpm以相同的名称实现类似的功能）。它是什么？你可以将它视为在预定义和通用上下文内的项目之间共享软件包的一种方式。，但是并不是说软件包是完全通用的，或者所有内容都要放进同一个下载位置。这个方案确实可以解决一遍又一遍地复制模块的麻烦，还能让你控制我们的模块要共享给哪些项目。</p>
+<p>有了工作区以后，你就可以明确地告诉 NPM，你的程序包将存放在何处。并且由于新版客户端可以感知工作区，因此它会正确安装依赖项，而不会复制那些通用的依赖。</p>
+</li>
+<li><p>同级项依赖：在之前的版本(<code>npm v6</code>)中，npm默认不安装同级项依赖，这使得开发人员不得不自己安装和管理同级项依赖关系（比如React15和React16）。而现在，NPM 现在将完成开发人员的工作并帮助后者决定是否应该安装该对等依赖项</p>
+<ul>
+<li><p>同级依赖：</p>
+<p>这里就简单介绍一下：对等依赖项和普通的依赖项几乎没什么区别，它们并没有定义一个严格的要求，而是声明：</p>
+<ul>
+<li>你的软件包与另一个模块的特定版本兼容。</li>
+<li>如果该模块已经安装并且是正确的版本，则不要执行任何操作。</li>
+<li>如果找不到该模块或版本存在冲突，则向开发人员显示一条消息，警告他们这一事实，此外什么也不做。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Package-lock v2和对yarn.lock的支持</p>
+</li>
+<li><p>其他：</p>
+<ul>
+<li>npm现在使用了 <code>package.export</code>，而不再使用 <code>require()</code></li>
+<li><code>npx</code> 的重写，下载已经可以使用 <code>npm exec</code> 了</li>
+<li><code>npm audit</code> 的输出在人可读和 <code>--json</code> 输出方式上都有所改变。它不再使用表格来显示漏洞，vuln count也不再是将树上的每一个节点相乘。</li>
+<li>现在默认情况下，<code>npm ls</code> 仅显示顶级软件包</li>
+</ul>
+</li>
+</ul>
+<p>参考链接：<a href="https://blog.bitsrc.io/npm-7-this-is-what-i-call-an-update-de17a34ab787" target="_blank" rel="noopener">https://blog.bitsrc.io/npm-7-this-is-what-i-call-an-update-de17a34ab787</a></p>
+<h2 id="3-管理Node版本"><a href="#3-管理Node版本" class="headerlink" title="3.管理Node版本"></a>3.管理Node版本</h2><p>可以使用nvm进行包管理，随时切换node版本（来源<a href="https://juejin.cn/post/7025207757242531847）" target="_blank" rel="noopener">https://juejin.cn/post/7025207757242531847）</a></p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 设置 node 安装源</span>
 nvm node_mirror https<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>npm<span class="token punctuation">.</span>taobao<span class="token punctuation">.</span>org<span class="token operator">/</span>mirrors<span class="token regex">/node/</span>
 nvm npm_mirror https<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>npm<span class="token punctuation">.</span>taobao<span class="token punctuation">.</span>org<span class="token operator">/</span>mirrors<span class="token regex">/npm/</span>
@@ -597,7 +684,9 @@ nvm use v17<span class="token number">.0</span><span class="token punctuation">.
 nvm list
 <span class="token comment" spellcheck="true">// 卸载指定 node 版本</span>
 nvm uninstall <span class="token number">17.0</span><span class="token punctuation">.</span><span class="token number">0</span></code></pre>
-<h2 id="NPX"><a href="#NPX" class="headerlink" title="NPX"></a>NPX</h2><p>npx是一个工具，npm v5.2.0引入的一条命令（npx），一个npm包执行器，指在提高从npm注册表使用软件包时的体验 ，npm使得它非常容易地安装和管理托管在注册表上的依赖项，npx使得使用CLI工具和其他托管在注册表。它大大简化了一些事情。</p>
+<p>可以参考以下文章</p>
+<p><a href="https://blog.csdn.net/weixin_44582077/article/details/110237056" target="_blank" rel="noopener">https://blog.csdn.net/weixin_44582077/article/details/110237056</a></p>
+<h2 id="4-NPX"><a href="#4-NPX" class="headerlink" title="4.NPX"></a>4.NPX</h2><p>npx是一个工具，npm v5.2.0引入的一条命令（npx），一个npm包执行器，指在提高从npm注册表使用软件包时的体验 ，npm使得它非常容易地安装和管理托管在注册表上的依赖项，npx使得使用CLI工具和其他托管在注册表。它大大简化了一些事情。</p>
 <p>实质上 npx 执行的是 <code>node_module/.bin/</code> 下面包的命令</p>
 <p>主要特点：</p>
 <ul>
@@ -631,7 +720,7 @@ v0.12.8</code></pre>
 </blockquote>
 <p>  上面命令会使用 0.12.8 版本的 Node 执行脚本。原理是从 npm 下载这个版本的 node，使用后再删掉。</p>
 <p>  某些场景下，这个方法用来切换 Node 版本，要比 nvm 那样的版本管理器方便一些。</p>
-<h2 id="PNMP"><a href="#PNMP" class="headerlink" title="PNMP"></a>PNMP</h2><p>截至2021/11/5, GitHub的Star数量为13.4k，目前Vue、微软、字节都有在使用</p>
+<h2 id="5-PNMP"><a href="#5-PNMP" class="headerlink" title="5.PNMP"></a>5.PNMP</h2><p>截至2021/11/5, GitHub的Star数量为13.4k，目前Vue、微软、字节都有在使用</p>
 <p>下载同yarn：</p>
 <pre class=" language-shell"><code class="language-shell">npm install -g pnpm</code></pre>
 <p>从结果上来看，它具有以下优势：</p>
@@ -658,9 +747,7 @@ v0.12.8</code></pre>
 <p>不论是硬连结或软链结都不会将原本的档案复制一份，只会占用非常少量的磁碟空间。</p>
 </li>
 </ul>
-<h2 id="关于Node切换版本"><a href="#关于Node切换版本" class="headerlink" title="关于Node切换版本"></a>关于Node切换版本</h2><p>可以参考以下文章</p>
-<p><a href="https://blog.csdn.net/weixin_44582077/article/details/110237056" target="_blank" rel="noopener">https://blog.csdn.net/weixin_44582077/article/details/110237056</a></p>
-<h2 id="npm发包"><a href="#npm发包" class="headerlink" title="npm发包"></a>npm发包</h2><p>在官网注册账号</p>
+<h2 id="6-npm发包"><a href="#6-npm发包" class="headerlink" title="6.npm发包"></a>6.npm发包</h2><p>在官网注册账号</p>
 <p>然后再本地项目命令行输入</p>
 <pre class=" language-shell"><code class="language-shell">npm config get registry</code></pre>
 <p>确保是这个网址 <a href="https://registry.npmjs.org/" target="_blank" rel="noopener">https://registry.npmjs.org/</a></p>
@@ -686,7 +773,7 @@ v0.12.8</code></pre>
 <span class="token punctuation">}</span></code></pre>
 <p>发布</p>
 <pre class=" language-shell"><code class="language-shell">npm publish</code></pre>
-<h2 id="npm-link"><a href="#npm-link" class="headerlink" title="npm link"></a>npm link</h2><p><code>npm install</code>可以把发布在npmjs平台上的模块包下载到本地</p>
+<h2 id="7-npm-link"><a href="#7-npm-link" class="headerlink" title="7.npm link"></a>7.npm link</h2><p><code>npm install</code>可以把发布在npmjs平台上的模块包下载到本地</p>
 <p>但是对于未发布的包，我们无法测试使用（你可以在本地改源码，但是别人测试的时候下载你的仓库文件，然后 <code>npm i</code>，就不知道要不要改源码了 ），此时我们可以使用<code>npm link</code></p>
 <p><code>npm link</code>可以帮助我们模拟包安装后的状态，它会在系统中做一个快捷方式映射，让本地的包就好像install过一样，可以直接使用。在MAC中，我们在终端可以直接敲命令，其实是在执行<code>/xxx</code>目录下的脚本</p>
 <p>当前：我们的<code>test-project</code>项目依赖 <code>xx-module</code> npm 包</p>
@@ -1169,7 +1256,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">291.7k</span>&nbsp;字
+                class="white-color">295.9k</span>&nbsp;字
             
             
             

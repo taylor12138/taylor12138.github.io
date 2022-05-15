@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9.1k
+                    9.2k
                 </div>
                 
 
@@ -893,7 +893,7 @@ React<span class="token punctuation">.</span><span class="token function">useEff
 <span class="token punctuation">}</span>
 
 window<span class="token punctuation">.</span>app <span class="token operator">=</span> <span class="token function">schedule</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h2 id="12-React拓展"><a href="#12-React拓展" class="headerlink" title="12.React拓展"></a>12.React拓展</h2><h4 id="setState使用方法"><a href="#setState使用方法" class="headerlink" title="setState使用方法"></a>setState使用方法</h4><p>方法一：传统的对象式setState</p>
+<h2 id="12-React拓展"><a href="#12-React拓展" class="headerlink" title="12.React拓展"></a>12.React拓展</h2><h4 id="setState使用方法"><a href="#setState使用方法" class="headerlink" title="setState使用方法"></a>setState使用方法</h4><p>方法一：传统的对象式setState（class）</p>
 <p><code>setState(stateChange, [callback])</code></p>
 <ul>
 <li>stateChange为状态改变对象（原state的key: 新的值）</li>
@@ -907,7 +907,7 @@ window<span class="token punctuation">.</span>app <span class="token operator">=
     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>       <span class="token comment" spellcheck="true">//1</span>
 <span class="token punctuation">}</span></code></pre>
-<p>方法二：函数式的setState</p>
+<p>方法二：函数式的setState（class）</p>
 <p><code>setState(updater, [callback])</code></p>
 <ul>
 <li>updater是一个返回stateChange对象（（原state的key: 新的值）的一个对象）的函数。</li>
@@ -925,6 +925,9 @@ something2 <span class="token operator">=</span> <span class="token punctuation"
     <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span>state <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>a<span class="token punctuation">:</span>state<span class="token punctuation">.</span>a<span class="token number">-1</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//不再需要 const {a} = this.state;  这个语句，一行解决</span>
 <span class="token punctuation">}</span></code></pre>
 <p>对象式的setState是函数式setState的语法糖</p>
+<p>方法三：hook的setState</p>
+<pre class=" language-js"><code class="language-js"><span class="token function">setCount</span><span class="token punctuation">(</span>c <span class="token operator">=</span><span class="token operator">></span> c <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>如果您将 State Hook 更新为与当前状态相同的值，React 将退出而不渲染子级或触发效果。（React 使用<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is#Description" target="_blank" rel="noopener"><code>Object.is</code>比较算法</a>。）</p>
 <h4 id="setState同步、异步问题"><a href="#setState同步、异步问题" class="headerlink" title="setState同步、异步问题"></a>setState同步、异步问题</h4><p>React的三个模式：</p>
 <pre class=" language-jsx"><code class="language-jsx"><span class="token comment" spellcheck="true">//- legancy模式： </span>
 ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>App</span> <span class="token punctuation">/></span></span><span class="token punctuation">,</span> rootNode<span class="token punctuation">)</span>
@@ -964,10 +967,13 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">cre
         <span class="token function">setStr</span><span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>补充：在react18以后，不再有这三种模式，而是以“是否使用并发特性”作为“是否开启并发更新”的依据</p>
+<p>补充：</p>
+<p>在react18以后，不再有这三种模式，而是以“是否使用并发特性”作为“是否开启并发更新”的依据</p>
+<p>并且从 React 18 开始<code>createRoot</code>，所有更新都将自动批处理，无论它们来自何处。这意味着超时、承诺、本机事件处理程序或任何其他事件内部的更新将以与 React 事件内部的更新相同的方式进行批处理：</p>
 <h4 id="追溯异步回调中批处理问题"><a href="#追溯异步回调中批处理问题" class="headerlink" title="追溯异步回调中批处理问题"></a>追溯异步回调中批处理问题</h4><p><strong>为什么之前异步回调中的setState不能批处理？</strong></p>
 <p>React 的更新是基于 <a href="https://zhuanlan.zhihu.com/p/28532725" target="_blank" rel="noopener">Transaction</a>（事务）的，Transacation 就是给目标执行的函数包裹一下，加上前置和后置的 hook （有点类似 koa 的 middleware），在开始执行之前先执行 initialize hook，结束之后再执行 close hook，这样搭配上 isBatchingUpdates 这样的布尔标志位就可以实现一整个函数调用栈内的多次 setState 全部入 pending 队列，结束后统一 apply 了。</p>
 <p>但是 setTimeout 这样的方法执行是脱离了事务的，react 管控不到，所以就没法 batch 了。</p>
+<p>（但是18.x以后都可以batch了）</p>
 <p><strong>为什么Vue没有这个限制？</strong></p>
 <p>是因为 vue 采用了 nexttick 的方式，利用 EventLoop，将一个同步事件循环过程中所有修改合并，它本质上属于延迟的批量更新</p>
 <h4 id="LazyLoad-React的懒加载"><a href="#LazyLoad-React的懒加载" class="headerlink" title="LazyLoad-React的懒加载"></a>LazyLoad-React的懒加载</h4><p><strong>懒加载组件</strong></p>
@@ -1473,7 +1479,7 @@ export default function Index() {
 <p>对于之前用于异步批处理的 <code>unstable_batchedUpdates</code>：</p>
 <p>这个 API 在 18 中仍然存在，但不再需要它了，因为批处理是自动发生的。我们不会在 18 中删除它，尽管在流行的库不再依赖于它的存在之后，它可能会在未来的主要版本中被删除。</p>
 <p><a href="https://juejin.cn/post/6998763055685304356" target="_blank" rel="noopener">https://juejin.cn/post/6998763055685304356</a></p>
-<h2 id="15-React其他"><a href="#15-React其他" class="headerlink" title="15.React其他"></a>15.React其他</h2><h4 id="Portal"><a href="#Portal" class="headerlink" title="Portal"></a>Portal</h4><p>Portal提供了一个最好的在父组件包含DOM结构层次外的DOM节点渲染组件的方法（说人话就是，把组件渲染到root之外）</p>
+<h2 id="15-React其他"><a href="#15-React其他" class="headerlink" title="15.React其他"></a>15.React其他</h2><h4 id="Portal"><a href="#Portal" class="headerlink" title="Portal"></a>Portal</h4><p>Portal提供了一个最好的在父组件包含DOM结构层次外的DOM节点渲染组件的方法（说人话就是，把组件渲染到root之外），这里的container是指挂载的位置</p>
 <pre class=" language-js"><code class="language-js">ReactDOM<span class="token punctuation">.</span><span class="token function">createPortal</span><span class="token punctuation">(</span>child<span class="token punctuation">,</span> container<span class="token punctuation">)</span></code></pre>
 <p>应用场景：组件想要作为提示窗口覆盖整个窗口（fixed），但是可能因为父盒子使用了定位+z-index，导致了组件本身定位的z-index再大，也无法覆盖到全局</p>
 <p>此时在写组件时，我们将其写为Portal组件</p>
@@ -1947,7 +1953,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">291.7k</span>&nbsp;字
+                class="white-color">295.9k</span>&nbsp;字
             
             
             

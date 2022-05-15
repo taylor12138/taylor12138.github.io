@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.3k
+                    8.5k
                 </div>
                 
 
@@ -757,6 +757,25 @@ pushcheck <span class="token operator">=</span> <span class="token punctuation">
         是否授权 <span class="token operator">?</span> <span class="token operator">&lt;</span>Home <span class="token punctuation">{</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>props<span class="token punctuation">}</span></span><span class="token punctuation">/></span></span> <span class="token punctuation">:</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Redirect</span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/login<span class="token punctuation">"</span>/</span><span class="token punctuation">></span></span>
     <span class="token punctuation">}</span><span class="token operator">></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Route</span><span class="token punctuation">></span></span></code></pre>
 <p>在vue中，他有自己一套严格的路由拦截体系，但是在react只是这种简单的，实质上压根没有拦截这个概念</p>
+<h4 id="keep-alive"><a href="#keep-alive" class="headerlink" title="keep-alive"></a>keep-alive</h4><p>react中没有类似于vue router 的 keep alive功能，keep alive用于缓存之前页面打开的组件数据和内容</p>
+<p>曾经有人在官方提过功能 issues ，但官方认为这个功能容易造成内存泄露</p>
+<p>keep-alive的库推荐：</p>
+<p>早期的react-keep-alive</p>
+<p>原理：</p>
+<p>使用<code>React.createPortal API</code>实现了这个效果。</p>
+<p>缺点：</p>
+<ul>
+<li>这个库存在断层现象，虽然可以缓存最后一次状态渲染结果，但是后面数据变化无法再进行数据驱动。而且是借助React.createPortal 借助实现</li>
+<li>总体来说，<code>react-keep-alive</code>这个库比较重，实现原理也不难，就是笨重，断层，源码跳来跳去，真的理清楚了就好</li>
+</ul>
+<p>现在：react-activation</p>
+<p>原理</p>
+<ul>
+<li>抽取children属性，再封装一次HOC高阶组件即可。</li>
+</ul>
+<p>建议关注 <code>React 18.x</code> 中的官方实现 <code>&lt;Offscreen /&gt;</code></p>
+<p>参考：<a href="https://segmentfault.com/a/1190000023263395" target="_blank" rel="noopener">https://segmentfault.com/a/1190000023263395</a></p>
+<p>参考：<a href="https://github.com/CJY0208" target="_blank" rel="noopener">https://github.com/CJY0208</a></p>
 <h2 id="7-React-UI库"><a href="#7-React-UI库" class="headerlink" title="7.React UI库"></a>7.React UI库</h2><p>material-ui（国外）</p>
 <ul>
 <li>官网：<a href="https://material-ui.com/zh/" target="_blank" rel="noopener">https://material-ui.com/zh/</a> </li>
@@ -1737,7 +1756,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">291.7k</span>&nbsp;字
+                class="white-color">295.9k</span>&nbsp;字
             
             
             

@@ -1377,12 +1377,13 @@ type T4 <span class="token operator">=</span> InstanceType<span class="token ope
         <span class="token string">"experimentalDecorators"</span><span class="token punctuation">:</span> <span class="token boolean">true</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
+<p>不过装饰器也类似于充当中间层，<code>@withScope</code>.其实最终export default 的是<code>withScope(KeepAlive)</code></p>
 <p><strong>基本使用</strong></p>
 <h4 id="（1）类装饰器"><a href="#（1）类装饰器" class="headerlink" title="（1）类装饰器"></a>（1）<strong>类装饰器</strong></h4><p><code>@装饰器</code>下一行接类</p>
 <pre class=" language-ts"><code class="language-ts"><span class="token comment" spellcheck="true">//它在不修改类 MyClass的情况下，对类的功能进行了拓展</span>
-<span class="token keyword">function</span> <span class="token function">logClass</span><span class="token punctuation">(</span>params<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token keyword">function</span> <span class="token function">logClass</span><span class="token punctuation">(</span>target<span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token comment" spellcheck="true">// params就是当前类</span>
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>params<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token comment" spellcheck="true">// 现在我们可以通过params来操作类了</span>
   <span class="token comment" spellcheck="true">//拓展一个属性</span>
   params<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>apiURL <span class="token operator">=</span> <span class="token string">'xxx'</span><span class="token punctuation">;</span>  
@@ -1968,7 +1969,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">291.7k</span>&nbsp;字
+                class="white-color">295.9k</span>&nbsp;字
             
             
             

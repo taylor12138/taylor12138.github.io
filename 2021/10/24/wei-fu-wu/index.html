@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="主题与2d人物, Hexo">
+    <meta name="keywords" content="微服务, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>主题与2d人物 | Hexo</title>
+    <title>微服务 | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">主题与2d人物</h1>
+                    <h1 class="description center-align post-title">微服务</h1>
                 </div>
             </div>
         </div>
@@ -443,6 +443,15 @@
                 </div>
                 <div class="col s5 right-align">
                     
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                前端
+                            </a>
+                        
+                    </div>
+                    
                 </div>
             </div>
 
@@ -450,7 +459,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-05-04
+                    2021-10-24
                 </div>
                 
 
@@ -459,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    173
+                    2.2k
                 </div>
                 
 
@@ -476,8 +485,112 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="Start"><a href="#Start" class="headerlink" title="Start"></a>Start</h2><h3 id="人物"><a href="#人物" class="headerlink" title="人物"></a>人物</h3><p>使用命令安装npm：npm uninstall hexo-helper-live2d<br>              npm install –save hexo-helper-live2d<br>此时在blog/node_modeles下多出了一个“live2d-widget”<br>下载动画model：这里是套用别人（大佬）的仓库<a href="https://github.com/xiazeyu/live2d-widget-models.git" target="_blank" rel="noopener">https://github.com/xiazeyu/live2d-widget-models.git</a><br>下载好后将packages里的所有文件拷贝到blog/node_modeles<br>最后在win使用padnote _config.yml，把以下：<br>live2d:<br>  enable: true<br>  pluginModelPath: assets/<br>  model:<br>    use: live2d-widget-model-epsilon2_1  #模板目录，在node_modules里<br>  display:<br>    position: right<br>    width: 150<br>    height: 300<br>  mobile:<br>    show: false  #是否在手机进行显示<br> 复制进去<br> 再使用hexo clean g d进行部署</p>
-<h3 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h3><p>下载好了之后放入blog/themes里面（整个文件）<br>再在win使用padnote _config.yml<br>把theme: xx改成theme: (你要的主题名)<br>最后部署</p>
+                <h2 id="微服务概念"><a href="#微服务概念" class="headerlink" title="微服务概念"></a>微服务概念</h2><p>微服务：微服务架构（通常简称为微服务）是指开发应用所用的一种架构形式。通过微服务，可将大型应用分解成多个独立的组件，其中每个组件都有各自的责任领域。在处理一个用户请求时，基于微服务的应用可能会调用许多内部微服务来共同生成其响应。</p>
+<p>通常跟微服务相对的是单体应用，即将所有功能都打包成在一个独立单元的应用程序。从单体应用到微服务并不是一蹴而就的，这是一个逐渐演变的过程</p>
+<p>知乎上一个小案例加深印象：<a href="https://www.zhihu.com/question/65502802" target="_blank" rel="noopener">https://www.zhihu.com/question/65502802</a></p>
+<p>个人的理解是将拆分的思想贯彻到底（模块也是拆！数据库也是拆！），分工明确，将每个功能细致化分配任务。再加上兼容一下老应用的逻辑，和新框架开发的代码的一套架构理念</p>
+<p>但是缺点就是：<strong>在微服务架构中，一个服务故障可能会产生雪崩效用，导致整个系统故障</strong></p>
+<ul>
+<li>微服务架构整个应用分散成多个服务，定位故障点非常困难。</li>
+<li>稳定性下降。服务数量变多导致其中一个服务出现故障的概率增大，并且一个服务故障可能导致整个系统挂掉。事实上，在大<a href="https://www.zhihu.com/search?q=访问量&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra={" target="_blank" rel="noopener" sourcetype"%3a"answer"%2c"sourceid"%3a802678798}">访问量</a>的生产场景下，故障总是会出现的。</li>
+<li>服务数量非常多，部署、管理的工作量很大。</li>
+<li>开发方面：如何保证各个服务在持续开发的情况下仍然保持协同合作。</li>
+<li>测试方面：服务拆分后，几乎所有功能都会涉及多个服务。原本单个程序的测试变为服务间调用的测试。测试变得更加复杂。</li>
+</ul>
+<p>所以使用微服务的架构要有要有强大的监控体系</p>
+<h2 id="微前端"><a href="#微前端" class="headerlink" title="微前端"></a>微前端</h2><p>微前端（Micro-Frontends）同样是一套体系架构，是一种类似于微服务的架构，它将微服务的理念应用于浏览器端，即将 Web 应用由单一的单体应用转变为多个小型前端应用聚合为一的应用。各个前端应用还可以无关技术栈地独立运行、独立开发、独立部署。</p>
+<p>在如今越来越注重拆分和细化的时代，微前端的到来并没有在意料之外，而微前端的意义就：</p>
+<ul>
+<li>将这些庞大应用进行拆分，并随之解耦，每个部分可以单独进行维护和部署，提升效率。</li>
+<li>整合历史系统，将老架构框架项目兼容性放在新的架构体系中</li>
+</ul>
+<p>微前端解决的问题：</p>
+<p><img src="/2021/10/24/wei-fu-wu/image-20220515182302822.png" alt="image-20220515182302822"></p>
+<p><strong>微前端方案的核心</strong>是“主从”思想，即包括一个<strong>基座</strong>（<code>MainApp</code>）应用和若干个<strong>微（<code>MicroApp</code>）应用</strong>，基座应用大多数是一个前端<code>SPA</code>项目，主要负责应用注册，路由映射，消息下发等，而微应用是独立前端项目，这些项目不限于采用<code>React，Vue，Angular</code>或者<code>JQuery</code>开发，每个微应用注册到基座应用中，由基座进行管理，但是如果脱离基座也是可以单独访问</p>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>NPM式</strong></td>
+<td>子工程以NPM包的形式发布源码；打包构建发布还是由基座工程管理，打包时集成。</td>
+</tr>
+<tr>
+<td><strong>iframe式</strong></td>
+<td>子工程可以使用不同技术栈；子工程之间完全独立，无任何依赖；基座工程和子工程需要建立通信机制；无单页应用体验；路由地址管理困难。</td>
+</tr>
+<tr>
+<td><strong>通用中心路由基座式</strong></td>
+<td>子工程可以使用不同技术栈；子工程之间完全独立，无任何依赖；统一由基座工程进行管理，按照DOM节点的注册、挂载、卸载来完成。</td>
+</tr>
+<tr>
+<td><strong>特定中心路由基座式</strong></td>
+<td>子业务线之间使用相同技术栈；基座工程和子工程可以单独开发单独部署；子工程有能力复用基座工程的公共基建。</td>
+</tr>
+</tbody></table>
+<p>（图片源自美团技术团队的文章，而美团用的是<strong>基于React的中心路由基座式微前端</strong>）<img src="/2021/10/24/wei-fu-wu/image-20220515183129271.png" alt="image-20220515183129271"></p>
+<p><img src="/2021/10/24/wei-fu-wu/fw1.png" alt></p>
+<p>但是微前端仍需解决：</p>
+<ol>
+<li>路由切换的分发问题。</li>
+<li>主微应用的隔离问题。</li>
+<li>通信问题。</li>
+</ol>
+<p>路由转发：</p>
+<ul>
+<li><p>通过http请求获取所需的微应用html、css、js，然后可以采用eval的形式运行代码，而分发过程使用router对url进行监听，然后采用一些路由方法（hash方法或者<code>pushState</code>方法等）发送路由信息给微应用，让微应用通过它自己的路由进行接收</p>
+</li>
+<li><p><code>Single-Spa</code>虽然实现了自己的一套路由来监听子工程的切换，但是还需要特定的模块管理系统，比如 <code>systemjs</code>来辅助，这导致了改造成本和添加一些额外的库，所以美团直接用的是  <code>React-Router</code> (<code>react-router-dom</code>)</p>
+<p><img src="/2021/10/24/wei-fu-wu/image-20220515190230968.png" alt="image-20220515190230968"></p>
+</li>
+</ul>
+<p>隔离问题：</p>
+<ul>
+<li><p>对于css污染，可以采用CSS Module或者webpack的postcss插件，在打包时添加特定的前缀</p>
+</li>
+<li><p>对于Js代码，我们害怕一些全局对象在不同微应用的不同表现，我们可以采用沙箱隔离机制，消除冲突和影响</p>
+</li>
+</ul>
+<p>通信问题：</p>
+<ul>
+<li>我们可以用发布订阅通信机制，事件由实践中心统一分发</li>
+</ul>
+<p>一些微前端的框架</p>
+<p><a href="https://link.juejin.cn?target=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fmooa">Mooa</a>：基于Angular的微前端服务框架</p>
+<p><a href="https://link.juejin.cn?target=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fsingle-spa">Single-Spa</a>：最早的微前端框架，兼容多种前端技术栈。</p>
+<p><a href="https://link.juejin.cn?target=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fqiankun">Qiankun</a>：基于Single-Spa，阿里系开源微前端框架。</p>
+<p><a href="https://link.juejin.cn?target=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Ficestark">Icestark</a>：阿里飞冰微前端框架，兼容多种前端技术栈。</p>
+<p><a href="https://link.juejin.cn?target=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fhttps%3A%2F%2Fara-framework.github.io%2Fwebsite%2Fdocs%2Fquick-start">Ara Framework</a>：由服务端渲染延伸出的微前端框架。</p>
+<h4 id="single-spa"><a href="#single-spa" class="headerlink" title="single-spa"></a>single-spa</h4><p>Single SPA 将自己定义为一种“前端微服务 Javascript 框架”，它将生命周期应用于每个应用程序。每个应用程序都可以响应 url 路由事件，并且知道如何从 DOM 引导，加载和卸载自身，<strong>传统 SPA 和 Single SPA 应用程序之间的主要区别</strong>在于它们能够与其他应用程序共存，并且它们各自没有自己的 HTML 页面。</p>
+<p>在single-spa的角度，微前端就是“微模块加载器”，它主要解决的是：如何实现前端的“微服务化”，从而让应用、组件、逻辑都成为可共享的微服务，这从single-spa关于微前端的概述中可以看出：</p>
+<p><img src="/2021/10/24/wei-fu-wu/image-20220515174707011.png" alt="image-20220515174707011"></p>
+<p>翻译过来反别是微应用、微组件、微模块，而<code>single-spa</code>要求它们都以<code>SystemJS</code>的形式打包，所以本质上都是<strong>微模块</strong></p>
+<p>科普：<code>SystemJS</code>是一个运行时加载模块的工具（动态导入和导入映射），是现阶段下(浏览器尚未正式支持<code>importMap</code>)原生<code>ES Module</code>的完全替代品。<code>SystemJS</code>动态加载的模块必须是<code>SystemJS</code>模块或者<code>UMD</code>模块。</p>
+<h4 id="Qiankun"><a href="#Qiankun" class="headerlink" title="Qiankun"></a>Qiankun</h4><p><code>qiankun</code>是基于<code>single-spa</code>开发的</p>
+<p><code>qiankun</code>基于<code>single-spa</code>，加强了微应用集成能力，却抛弃了微模块的能力。所以，它们的区别就是<strong>微服务的粒度</strong>，乾坤的所能服务的粒度是应用级别，而<code>single-spa</code>则是模块级别。它们都能将前端进行拆分，只是拆分的粒度不同罢了。</p>
+<ol>
+<li>微应用加载器：“微”的粒度是应用，也就是<code>HTML</code>，它只能做到应用级别的分享</li>
+<li>微模块加载器：“微”的粒度是模块，也就是<code>JS</code>模块，它能做到模块级别的分享</li>
+</ol>
+<p><img src="/2021/10/24/wei-fu-wu/qiankun.png" alt></p>
+<p><strong>两个框架出现的背景：</strong></p>
+<p><strong>qiankun：</strong>阿里内部有大量年久失修的项目，业务侧急需工具去把他们快速、安全的集成到一起。在这个角度，乾坤根本没有做模块联邦的需求，它的需求仅仅是如何快速、安全的把项目集成起来。所以乾坤是想做一个微前端工具。</p>
+<p><strong>single-spa：</strong>学习后端的微服务，实现前端的微服务化，让应用、组件以及逻辑都成为可共享的微服务，实现真正意义上的微前端。所以<code>single-spa</code>是想做一个<code>game-changer</code>。</p>
+<p>参考于：</p>
+<p><a href="https://juejin.cn/post/6844904162509979662" target="_blank" rel="noopener">https://juejin.cn/post/6844904162509979662</a></p>
+<p><a href="https://segmentfault.com/a/1190000040275586" target="_blank" rel="noopener">https://segmentfault.com/a/1190000040275586</a></p>
+<p><a href="https://tech.meituan.com/2020/02/27/meituan-waimai-micro-frontends-practice.html" target="_blank" rel="noopener">https://tech.meituan.com/2020/02/27/meituan-waimai-micro-frontends-practice.html</a></p>
+<p>更多关于微前端的相关介绍，推荐大家可以去看这几篇文章：（qiankun官网的推荐）</p>
+<ul>
+<li><a href="https://micro-frontends.org/" target="_blank" rel="noopener">Micro Frontends</a></li>
+<li><a href="https://martinfowler.com/articles/micro-frontends.html" target="_blank" rel="noopener">Micro Frontends from martinfowler.com</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/78362028" target="_blank" rel="noopener">可能是你见过最完善的微前端解决方案</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/95085796" target="_blank" rel="noopener">微前端的核心价值</a></li>
+</ul>
+<p>为什么不适用iframe：<a href="https://www.yuque.com/kuitos/gky7yw/gesexv" target="_blank" rel="noopener">https://www.yuque.com/kuitos/gky7yw/gesexv</a></p>
 
             </div>
             <hr/>
@@ -503,7 +616,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2020/05/04/zhu-ti-yu-2d-ren-wu/">https://taylor12138.github.io/2020/05/04/zhu-ti-yu-2d-ren-wu/</a>
+                    <a href="https://taylor12138.github.io/2021/10/24/wei-fu-wu/">https://taylor12138.github.io/2021/10/24/wei-fu-wu/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -710,27 +823,37 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/05/05/html5-de-ji-ben-shu-xing/">
+                <a href="/2021/11/02/wang-zhan-xing-neng-you-hua/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="HTML5的基本属性">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="网站性能优化">
                         
-                        <span class="card-title">HTML5的基本属性</span>
+                        <span class="card-title">网站性能优化</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.基本标签介绍&lt;html&gt;&lt;/html&gt;根标签
-&lt;head&gt; &lt;/head&gt;   文档头部  
- &lt;title&gt; &lt;/title&gt;  文档标题   
-&lt;body
+                            1.网站性能优化概述我们通常的标量化
+
+白屏
+首屏
+页面整体加载
+页面可交互
+功能交互响应
+
+Steve Souders在《高性能网站建设指南》总结的12条提高性能的基本规则
+
+尽量减少http请求
+使用CDN
+静态资源使用Cache
+启用
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-05
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-11-02
                         </span>
                         <span class="publish-author">
                             
@@ -754,30 +877,34 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/03/hexo-de-bu-fen-wen-ti/">
+                <a href="/2021/10/24/serverless/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="Hexo的部分问题">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Serverless">
                         
-                        <span class="card-title">Hexo的部分问题</span>
+                        <span class="card-title">Serverless</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Quick Start打开win+R进入cmd，然后在正确目录下进入：cd source_post(指定blog下)
-基本操作用typora修改完毕后，1.使用“hexo clean”进行清理（1.5.若是发生主题等修改后，要接上hexo 
+                            erverlessServerless（无服务计算）是指构建和运行不需要服务器管理的应用程序和概念
+无服务器计算是一种按需提供后端服务的方法。无服务器提供程序允许用户编写和部署代码，而不必担心底层基础结构。从无服务器供应商处获得后端服务的公
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-03
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-10-24
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            Hello
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
+                                </a>
+                            
                             
                         </span>
                     </div>

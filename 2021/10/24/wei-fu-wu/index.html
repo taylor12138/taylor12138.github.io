@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.2k
+                    2.7k
                 </div>
                 
 
@@ -498,6 +498,20 @@
 <li>测试方面：服务拆分后，几乎所有功能都会涉及多个服务。原本单个程序的测试变为服务间调用的测试。测试变得更加复杂。</li>
 </ul>
 <p>所以使用微服务的架构要有要有强大的监控体系</p>
+<h2 id="沙箱-sand-box"><a href="#沙箱-sand-box" class="headerlink" title="沙箱(sand box)"></a>沙箱(sand box)</h2><p>传统意义上：Sandbox（沙箱）是指一种技术，在这种技术中，软件运行在操作系统受限制的环境中。由于该软件在受限制的环境中运行，即使一个闯入该软件的入侵者也不能无限制访问操作系统提供设施；获得该软件控制权的黑客造成的损失也是有限的</p>
+<p>然而，在计算机安全中，<strong>沙箱（Sandbox）是一种用于隔离正在运行程序的安全机制</strong>，通常用于执行未经测试或不受信任的程序或代码，它会<strong>为待执行的程序创建一个独立的执行环境，内部程序的执行不会影响到外部程序的运行</strong></p>
+<p>抽象化：对于操作系统来说，浏览器就是一个沙箱，对于浏览器来说，每个页面就是一个独立的沙箱</p>
+<p>实际运用：</p>
+<ul>
+<li>Vue 模板表达式的计算是运行在一个沙盒之中的，在模板字符串中的表达式只能获取部分全局对象，这一点官方文档有提到，详情可参阅<a href="https://link.zhihu.com/?target=https%3A//github.com/vuejs/vue/blob/v2.6.10/src/core/instance/proxy.js">源码</a>。</li>
+<li><a href="https://link.zhihu.com/?target=https%3A//codesandbox.io/">CodeSanbox</a> ，在线编辑器</li>
+<li>许多应用程序带的插件，有很多的限制条件，这些应用程序在运行插件时需要遵循宿主程序制定的运行规则，插件的运行环境和规则就是一个沙箱</li>
+<li>….</li>
+</ul>
+<p>从知乎这篇文章可以看到沙箱的基本介绍<a href="https://zhuanlan.zhihu.com/p/428039764" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/428039764</a></p>
+<p>里面的《简陋沙箱》、《非常简陋的沙箱（With）》、《没那么简陋的沙箱（With+Proxy）》循序渐进，都可以帮助读者加深印象</p>
+<p>里面主要通过<code>new Function</code>、<code>eval</code>、<code>with</code>修改上下文作用域</p>
+<p>然后就是天然沙箱：<code>iframe</code>、和 <code>ifame+with+proxy</code>的结合，但是现在简单的沙箱都有可能被使用者使用某种代码漏洞，进行 “沙箱逃逸”，从而获取沙箱之外环境的内容进行读取、修改等，这时候就要去找开源库了</p>
 <h2 id="微前端"><a href="#微前端" class="headerlink" title="微前端"></a>微前端</h2><p>微前端（Micro-Frontends）同样是一套体系架构，是一种类似于微服务的架构，它将微服务的理念应用于浏览器端，即将 Web 应用由单一的单体应用转变为多个小型前端应用聚合为一的应用。各个前端应用还可以无关技术栈地独立运行、独立开发、独立部署。</p>
 <p>在如今越来越注重拆分和细化的时代，微前端的到来并没有在意料之外，而微前端的意义就：</p>
 <ul>
@@ -823,37 +837,25 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/11/02/wang-zhan-xing-neng-you-hua/">
+                <a href="/2021/10/24/serverless/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="网站性能优化">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Serverless">
                         
-                        <span class="card-title">网站性能优化</span>
+                        <span class="card-title">Serverless</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.网站性能优化概述我们通常的标量化
-
-白屏
-首屏
-页面整体加载
-页面可交互
-功能交互响应
-
-Steve Souders在《高性能网站建设指南》总结的12条提高性能的基本规则
-
-尽量减少http请求
-使用CDN
-静态资源使用Cache
-启用
+                            erverlessServerless（无服务计算）是指构建和运行不需要服务器管理的应用程序和概念
+无服务器计算是一种按需提供后端服务的方法。无服务器提供程序允许用户编写和部署代码，而不必担心底层基础结构。从无服务器供应商处获得后端服务的公
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-11-02
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-10-24
                         </span>
                         <span class="publish-author">
                             
@@ -877,32 +879,32 @@ Steve Souders在《高性能网站建设指南》总结的12条提高性能的�
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/10/24/serverless/">
+                <a href="/2021/10/19/websocket/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Serverless">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="websocket">
                         
-                        <span class="card-title">Serverless</span>
+                        <span class="card-title">websocket</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            erverlessServerless（无服务计算）是指构建和运行不需要服务器管理的应用程序和概念
-无服务器计算是一种按需提供后端服务的方法。无服务器提供程序允许用户编写和部署代码，而不必担心底层基础结构。从无服务器供应商处获得后端服务的公
+                            1.WebSocket概括WebSocket 是 HTML5 开始提供的一种在单个 TCP 连接上进行全双工通讯的协议，是一个持久化的协议。
+WebSocket 使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推送数据。
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-10-24
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-10-19
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                    前端
+                            <a href="/categories/%E7%BD%91%E7%BB%9C/" class="post-category">
+                                    网络
                                 </a>
                             
                             
@@ -1058,7 +1060,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">295.9k</span>&nbsp;字
+                class="white-color">296.4k</span>&nbsp;字
             
             
             

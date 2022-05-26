@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    802
+                    1k
                 </div>
                 
 
@@ -542,7 +542,19 @@ export default function(props:any) {
         </div>
     );
 }</code></pre>
-<h2 id="Recoil"><a href="#Recoil" class="headerlink" title="Recoil"></a>Recoil</h2><p>Recoil 是 React 的状态管理库</p>
+<h2 id="Recoil"><a href="#Recoil" class="headerlink" title="Recoil"></a>Recoil</h2><p>目前redux存在的问题：</p>
+<ul>
+<li>陡峭的学习曲线</li>
+<li>太多的样板代码</li>
+<li>重新组织你的项目</li>
+<li>缺乏并发模式支持</li>
+<li>非反应性方法</li>
+<li>难以实现代码拆分</li>
+<li>没有内置的异步支持</li>
+</ul>
+<p>此时我们需要一个更加轻巧方便的状态库解决它：Recoil 是 React 的状态管理库</p>
+<p>它的底层逻辑还是一个 context 加上各种状态更新</p>
+<p>优点就是十分方便，我们可以像使用useState一样使用它，适应现在的简洁式编码风气，而且没有redux那种可能会影响其他相关组件重新渲染问题；缺点是SSR场景的状态共享好像有点问题</p>
 <pre class=" language-shell"><code class="language-shell">npm install recoil</code></pre>
 <pre class=" language-shell"><code class="language-shell">yarn add recoil</code></pre>
 <p>导包：</p>
@@ -585,6 +597,8 @@ export default function(props:any) {
     <span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token function">setInputValue</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<p><strong>selector</strong></p>
+<p>在文档中还有一个selector，有点类似于计算属性，它还有依赖项，使用方法可以在官网查看</p>
 
             </div>
             <hr/>
@@ -1045,7 +1059,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">296.7k</span>&nbsp;字
+                class="white-color">297.1k</span>&nbsp;字
             
             
             

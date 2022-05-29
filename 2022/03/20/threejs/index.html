@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8k
+                    8.2k
                 </div>
                 
 
@@ -510,13 +510,16 @@
 </ul>
 </li>
 </ul>
-<h4 id="图片要求"><a href="#图片要求" class="headerlink" title="图片要求"></a>图片要求</h4><p>threejs用到的图，需要图片本身要调节光亮（使用HDR的图片）</p>
+<h4 id="图片要求"><a href="#图片要求" class="headerlink" title="图片要求"></a>图片要求</h4><p>threejs用到的一些图，需要图片本身要调节光亮（使用HDR的图片）</p>
 <p>HDR图：高动态范围图像(High-Dynamic Range，简称HDR)，相比普通的图像，可以提供更多的动态范围和图像细节，根据不同的曝光时间的LDR(Low-Dynamic Range)图像，利用每个曝光时间相对应最佳细节的LDR图像来合成最终HDR图像，能够更好的反映出真实环境中的视觉效果。</p>
 <p>这里有个HDR图推荐网址：<a href="https://polyhaven.com/" target="_blank" rel="noopener">https://polyhaven.com/</a></p>
 <h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>项目中安装</p>
 <pre class=" language-shell"><code class="language-shell">npm i three</code></pre>
 <h4 id="推荐工具"><a href="#推荐工具" class="headerlink" title="推荐工具"></a>推荐工具</h4><p>threejs参数众多吗，但与图形学能力不好的同学建议配合上 <code>Dat.gui</code> 工具 拼命调整参数，达到自己想要的效果</p>
-<h2 id="2-初始start"><a href="#2-初始start" class="headerlink" title="2.初始start"></a>2.初始start</h2><p>为了真正能够让你的场景借助three.js来进行显示，我们需要以下几个对象：场景、相机和渲染器，这样我们就能透过摄像机渲染出场景。</p>
+<h4 id="WebGL兼容性检查"><a href="#WebGL兼容性检查" class="headerlink" title="WebGL兼容性检查"></a>WebGL兼容性检查</h4><p><strong>（WebGL compatibility check）</strong></p>
+<p>虽然这个问题现在已经变得越来不明显，但不可否定的是，某些设备以及浏览器直到现在仍然不支持WebGL。<br>以下的方法可以帮助你检测当前用户所使用的环境是否支持WebGL，如果不支持，将会向用户提示一条信息。</p>
+<p>请将<a href="https://github.com/mrdoob/three.js/blob/master/examples/jsm/capabilities/WebGL.js引入到你的文件，并在尝试开始渲染之前先运行该文件。" target="_blank" rel="noopener">https://github.com/mrdoob/three.js/blob/master/examples/jsm/capabilities/WebGL.js引入到你的文件，并在尝试开始渲染之前先运行该文件。</a></p>
+<pre><code>if (WebGL.isWebGLAvailable()) {    // Initiate function or other initializations here    animate(); } else {    const warning = WebGL.getWebGLErrorMessage();    document.getElementById(&#39;container&#39;).appendChild(warning); }</code></pre><h2 id="2-初始start"><a href="#2-初始start" class="headerlink" title="2.初始start"></a>2.初始start</h2><p>为了真正能够让你的场景借助three.js来进行显示，我们需要以下几个对象：场景、相机和渲染器，这样我们就能透过摄像机渲染出场景。</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> scene <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Scene</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> camera <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>PerspectiveCamera</span><span class="token punctuation">(</span> <span class="token number">75</span><span class="token punctuation">,</span> window<span class="token punctuation">.</span>innerWidth <span class="token operator">/</span> window<span class="token punctuation">.</span>innerHeight<span class="token punctuation">,</span> <span class="token number">0.1</span><span class="token punctuation">,</span> <span class="token number">1000</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">//一般可以设置为75°、45°的角度等</span>
@@ -1779,7 +1782,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">297.1k</span>&nbsp;字
+                class="white-color">302.8k</span>&nbsp;字
             
             
             

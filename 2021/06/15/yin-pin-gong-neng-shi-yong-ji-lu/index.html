@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Vue-aplayer, Hexo">
+    <meta name="keywords" content="音频功能使用记录, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Vue-aplayer | Hexo</title>
+    <title>音频功能使用记录 | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Vue-aplayer</h1>
+                    <h1 class="description center-align post-title">音频功能使用记录</h1>
                 </div>
             </div>
         </div>
@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    975
+                    1.4k
                 </div>
                 
 
@@ -485,7 +485,18 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="vue-aplayer"><a href="#vue-aplayer" class="headerlink" title="vue-aplayer"></a>vue-aplayer</h2><p>简单介绍为 Easy-to-use music player for Vue 2.x，一款基于Vue2.0的音乐播放器，传入相关的prop参数可进行自定义修改</p>
+                <h2 id="1-音频录制"><a href="#1-音频录制" class="headerlink" title="1.音频录制"></a>1.音频录制</h2><p>利用插件进行网页内的音视频录制其实非常简单，只需要 <code>chrome.tabCapture</code> API 即可实现网页本身的音频录制，获取到的流数据我们需要针对音频数据进行采样，保证计算 HASH 的规则和数据库数据保持一致。</p>
+<p>针对获取的 stream 流可以进行音频的转录采样，一般有三种处理方式：</p>
+<ul>
+<li><a href="https://link.zhihu.com/?target=https%3A//developer.mozilla.org/zh-CN/docs/Web/API/BaseAudioContext/createScriptProcessor">createScriptProcessor</a>：此方法用于音频处理最为简单，但是此方法已经在 W3C 标准里标记为废弃。不建议使用</li>
+<li><a href="https://link.zhihu.com/?target=https%3A//developer.mozilla.org/zh-CN/docs/Web/API/MediaRecorder">MediaRecorder</a>：借助媒体 API 也可以完成音频的转录，但是没有办法做到精细处理。</li>
+<li><a href="https://link.zhihu.com/?target=https%3A//www.w3.org/TR/webaudio/%23audioworkletnode">AudioWorkletNode</a>：用于替代 createScriptProcessor 进行音频处理，可以解决同步线程处理导致导致的对主线程的压力，同时可以按 bit 进行音频信号处理，这里也选择此种方式进行音频采样。</li>
+</ul>
+<p>使用 WebAssembly 的时候需要遵循严格的 CSP 定义，对于 Chrome MV2 可以通过追加 <code>&quot;content_security_policy&quot;:&quot;script-src &#39;self&#39; &#39;unsafe-eval&#39;;&quot;</code> 进行声明解决。而在 MV3 中，由于更加严格的隐私及安全限制，但是可以使用沙盒环境下解决</p>
+<p>CSP modifications for sandbox have no such new restrictions. —— <a href="https://link.zhihu.com/?target=https%3A//developer.chrome.com/docs/extensions/mv3/intro/mv3-migration/%23content-security-policy">Chrome插件开发文档</a></p>
+<p>插件本身可以定义 <a href="https://link.zhihu.com/?target=https%3A//developer.chrome.com/docs/apps/manifest/sandbox/">sandbox</a> 页面，这种页面虽然无法访问 web/chrome API，但是它可以运行一些所谓“不安全”的方法，例如 <code>eval、new Function、WebAssembly.instantiate</code> 等。<br>所以可以借助沙盒页面进行 WASM 模块的加载及运行，将计算的结果（听歌识曲的）返回给主页面</p>
+<p><a href="https://zhuanlan.zhihu.com/p/509496365" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/509496365</a></p>
+<h2 id="2-vue-aplayer"><a href="#2-vue-aplayer" class="headerlink" title="2.vue-aplayer"></a>2.vue-aplayer</h2><p>简单介绍为 Easy-to-use music player for Vue 2.x，一款基于Vue2.0的音乐播放器，传入相关的prop参数可进行自定义修改</p>
 <p>因为在项目中使用到了，在这里记录相关的用法</p>
 <h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><pre class=" language-shell"><code class="language-shell">npm install vue-aplayer --save</code></pre>
 <h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>aplayer</span> <span class="token attr-name">autoplay</span>
@@ -497,7 +508,7 @@
   }<span class="token punctuation">"</span></span>
 <span class="token punctuation">/></span></span></code></pre>
 <h4 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h4><pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>aplayer</span> <span class="token attr-name">:music</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>audio[0]<span class="token punctuation">"</span></span> <span class="token attr-name">:list</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>audio<span class="token punctuation">"</span></span>  <span class="token attr-name">:showlrc</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>true<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>aplayer</span><span class="token punctuation">></span></span></code></pre>
-<h2 id="Props（参数）"><a href="#Props（参数）" class="headerlink" title="Props（参数）"></a>Props（参数）</h2><table>
+<h3 id="Props（参数）"><a href="#Props（参数）" class="headerlink" title="Props（参数）"></a>Props（参数）</h3><table>
 <thead>
 <tr>
 <th>名称</th>
@@ -702,7 +713,7 @@
 <span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
 <h4 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h4><p>从 <code>v1.4.0</code> 开始, Vue-APlayer 会抛出它内部的 <code>&lt;audio&gt;</code> 元素上触发的所有媒体事件. 你可以<a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/Events/Media_events" target="_blank" rel="noopener">查阅 MDN 上的这张完整列表</a>.</p>
 <p>在 <code>v1.4.0</code> 以前, 我们有一些自定义事件，如 <code>play</code> <code>pause</code> <code>canplay</code> <code>playing</code> <code>ended</code> <code>error</code>, 它们现在已全部被废弃。</p>
-<h2 id="自适应主题色"><a href="#自适应主题色" class="headerlink" title="自适应主题色"></a>自适应主题色</h2><p>从 <code>v1.3.0</code> 开始, 如果你将一首歌的 <code>theme</code> 值设为 <code>&#39;pic&#39;</code>, Vue-APlayer 会从它的封面图片中提取颜色作为主题色. 你也可以直接将 Vue-APlayer 的 <code>theme</code> prop 设为 <code>&#39;pic&#39;</code>, 这样所有的歌曲都会使用自适应主题色</p>
+<h3 id="自适应主题色"><a href="#自适应主题色" class="headerlink" title="自适应主题色"></a>自适应主题色</h3><p>从 <code>v1.3.0</code> 开始, 如果你将一首歌的 <code>theme</code> 值设为 <code>&#39;pic&#39;</code>, Vue-APlayer 会从它的封面图片中提取颜色作为主题色. 你也可以直接将 Vue-APlayer 的 <code>theme</code> prop 设为 <code>&#39;pic&#39;</code>, 这样所有的歌曲都会使用自适应主题色</p>
 <p>你只需将 <a href="https://github.com/lokesh/color-thief" target="_blank" rel="noopener">color-thief</a> 库加入页面中.</p>
 <blockquote>
 <p>注意 color-thief <strong>无法正常使用 npm 安装</strong></p>
@@ -736,7 +747,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2021/06/15/vue-aplayer/">https://taylor12138.github.io/2021/06/15/vue-aplayer/</a>
+                    <a href="https://taylor12138.github.io/2021/06/15/yin-pin-gong-neng-shi-yong-ji-lu/">https://taylor12138.github.io/2021/06/15/yin-pin-gong-neng-shi-yong-ji-lu/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1174,7 +1185,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">297.1k</span>&nbsp;字
+                class="white-color">302.8k</span>&nbsp;字
             
             
             

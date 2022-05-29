@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.2k
+                    4.3k
                 </div>
                 
 
@@ -587,14 +587,22 @@ console<span class="token punctuation">.</span><span class="token function">log<
 </ol>
 <p><img src="/2020/11/28/qian-duan-guan-yu-cun-chu/token.jpg" alt></p>
 <h4 id="token优势"><a href="#token优势" class="headerlink" title="token优势"></a>token优势</h4><ul>
-<li>无状态（实际上是来自于<code>JWT</code>），无需存储session信息，负载均衡服务器，能够将用户请求传递到任何一台服务器上</li>
-<li>可拓展，token保存在客户端本地，使用token可以和其他应用共享权限，比如将博客账号和qq账号进行关联，当通过第三方平台登录qq时，我们可以把博客发到qq平台中</li>
-<li>安全性，防止CSRF攻击，请求中发送的是token而不是cookie，浏览器会将接收到的token值存储在Local Storage、sessionStorage或者cookie中<ul>
-<li>在信任网站的HTML或js中，会向服务器传递参数token，不是通过Cookie传递的，若恶意网站要伪造用户的请求，也必须伪造这个token，否则用户身份验证不通过。</li>
-<li>但是，同源策略限制了恶意网站不能拿到信任网站的Cookie内容（token的生成需要提取Cookie里面的内容进行生成），只能使用（只能携带，不能拿出来看！！），所以就算是token是存放在Cookie中的，恶意网站也无法提取出Cookie中的token数据进行伪造。也就无法传递正确的token给服务器，进而无法成功伪装成用户了。</li>
+<li><p>无状态（实际上是来自于<code>JWT</code>），无需存储session信息，负载均衡服务器，能够将用户请求传递到任何一台服务器上</p>
+</li>
+<li><p>可拓展，token保存在客户端本地，使用token可以和其他应用共享权限，比如将博客账号和qq账号进行关联，当通过第三方平台登录qq时，我们可以把博客发到qq平台中</p>
+</li>
+<li><p>安全性，防止CSRF攻击，请求中发送的是token而不是cookie，浏览器会将接收到的token值存储在Local Storage、sessionStorage或者cookie中</p>
+<ul>
+<li><p>根据浏览器策略，通过domain和path传递cookie是浏览器行为（非人为控制），而token的获取需要通过js脚本控制，然后根据同源策略，b网站也只能拿到b网站的Local Storage、sessionStorage或者cookie中</p>
+</li>
+<li><p>在信任网站的HTML或js中，会向服务器传递参数token，不是通过Cookie传递的，若恶意网站要伪造用户的请求，也必须伪造这个token，否则用户身份验证不通过。</p>
+</li>
+<li><p>即使token存储再cookie中，同源策略限制了恶意网站不能拿到信任网站的Cookie内容（token的生成需要提取Cookie里面的内容进行生成），只能使用（只能携带，不能拿出来看！！），所以就算是token是存放在Cookie中的，恶意网站也无法提取出Cookie中的token数据进行伪造。也就无法传递正确的token给服务器，进而无法成功伪装成用户了。</p>
+</li>
 </ul>
 </li>
-<li>移动端上不支持 cookie，而 token 只要客户端能够进行存储就能够使用，因此 token 在移动端上也具有优势。</li>
+<li><p>移动端上不支持 cookie，而 token 只要客户端能够进行存储就能够使用，因此 token 在移动端上也具有优势。</p>
+</li>
 </ul>
 <p>不过，token有过期时间，超过事件后要重新获取token</p>
 <p> Token 的种类<br>一般来说 token 主要三种：</p>
@@ -1151,7 +1159,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">297.1k</span>&nbsp;字
+                class="white-color">302.8k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.3k
+                    5.7k
                 </div>
                 
 
@@ -486,6 +486,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="1-XSS"><a href="#1-XSS" class="headerlink" title="1.XSS"></a>1.XSS</h2><h4 id="什么是XSS"><a href="#什么是XSS" class="headerlink" title="什么是XSS"></a>什么是XSS</h4><p>Cross-Site Scripting（跨站脚本攻击）简称 XSS，是一种代码注入攻击，通过注入恶意脚本，，使之在用户浏览器上运行，然后利用这些恶意脚本，攻击者可以获取用户的敏感信息Cookie、SessionID等</p>
+<p>web安全模型是基于同源策略的，但是XSS攻击通过诱使站点与预期内容一起提供恶意代码来绕过同源策略。这是一个巨大的问题，因为浏览器相信页面上显示的所有代码都是该页面安全来源的合法部分。</p>
 <p>XSS 常见的注入方法：</p>
 <ul>
 <li>在 HTML 中内嵌的文本中，恶意内容以 script 标签形成注入。</li>
@@ -548,11 +549,11 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>浏览器端使用</p>
 <pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">filterXSS</span><span class="token punctuation">(</span><span class="token string">'&lt;a href="#" onclick="alert(/xss/)">click me&lt;/a>'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>当然除了XSS过滤工具，还有<strong>Sanitizer</strong>这个API，可以配置白名单，黑名单，但兼容性很差</p>
-<h4 id="CSP"><a href="#CSP" class="headerlink" title="CSP"></a>CSP</h4><p>内容安全策略( CSP )</p>
+<h3 id="1-5-CSP"><a href="#1-5-CSP" class="headerlink" title="1.5 CSP"></a>1.5 CSP</h3><p>内容安全策略( CSP )</p>
 <p>内容安全策略  (<a href="https://developer.mozilla.org/zh-CN/docs/Glossary/CSP" target="_blank" rel="noopener">CSP</a>) 是一个额外的安全层，用于检测并削弱某些特定类型的攻击，包括跨站脚本 (<a href="https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting" target="_blank" rel="noopener">XSS (en-US)</a>) 和数据注入攻击等</p>
+<p>通过第三方注入代码，浏览器无法识别哪个网站ok哪个网站不ok，而csp就是来定义HTTP 标头，它允许您创建受信任内容来源的允许列表，并指示浏览器仅执行或呈现来自这些来源的资源。即使攻击者可以找到注入脚本的漏洞，该脚本也不会匹配白名单，因此不会被执行。</p>
 <p>CSP 本质上就是建立白名单，开发者明确告诉浏览器哪些外部资源可以加载和执行。我们只需要配置规则，如何拦截是<strong>由浏览器自己实现</strong>的。我们可以通过这种方式来尽量减少 XSS 攻击。</p>
-<p><strong>使用</strong>（开启 CSP）</p>
-<ol>
+<h4 id="使用（开启-CSP）"><a href="#使用（开启-CSP）" class="headerlink" title="使用（开启 CSP）"></a><strong>使用</strong>（开启 CSP）</h4><ol>
 <li><p>设置 HTTP Header 中的 <code>Content-Security-Policy</code>（有时你会看到一些关于<code>X-Content-Security-Policy</code>头部的提法, 那是旧版本，你无须再如此指定它）</p>
 <ul>
 <li><pre><code>Content-Security-Policy: policy</code></pre></li>
@@ -590,9 +591,60 @@ style-src cdn.example.org third-party.org; child-src https:</code></pre><ul>
 </li>
 <li><p>在HTML的放到<code>head</code>区域设置 <code>meta</code> 标签的方式 <code>&lt;meta http-equiv=&quot;Content-Security-Policy&quot;&gt;</code></p>
 </li>
+<li><p>或者直接 </p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">http-equiv</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Content-Security-Policy<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>default-src https://cdn.example.net; child-src <span class="token punctuation">'</span>none<span class="token punctuation">'</span>; object-src <span class="token punctuation">'</span>none<span class="token punctuation">'</span><span class="token punctuation">"</span></span><span class="token punctuation">></span></span></code></pre>
+<ul>
+<li>这不能用于<code>frame-ancestors</code>、<code>report-uri</code>或<code>sandbox</code>。</li>
+</ul>
+</li>
 </ol>
-<p><strong>作用效果</strong></p>
-<p>CSP 的主要目标是减少和报告 XSS 攻击 ，XSS 攻击利用了浏览器对于从服务器所获取的内容的信任</p>
+<h4 id="各项政策"><a href="#各项政策" class="headerlink" title="各项政策"></a><strong>各项政策</strong></h4><p>示例：</p>
+<p><code>script-src</code>它是一个指令，用于控制特定页面的一组与脚本相关的权限</p>
+<pre><code>Content-Security-Policy: script-src &#39;self&#39; https://apis.google.com</code></pre><p>虽然脚本资源是最明显的安全风险，但 CSP 提供了一组丰富的策略指令，可以对允许加载页面的资源进行相当精细的控制。</p>
+<p>让我们快速浏览其余的资源指令。下面的列表代表了 2<a href="https://www.w3.org/TR/CSP3/" target="_blank" rel="noopener">级指令的状态。 3 级规范</a>已经发布，但在主要浏览器中<a href="https://www.chromestatus.com/features#csp3" target="_blank" rel="noopener">基本上没有实现。</a></p>
+<ul>
+<li><strong><code>base-uri</code></strong>限制可以出现在页面<code>&lt;base&gt;</code>元素中的 URL。</li>
+<li><strong><code>child-src</code></strong>列出工作人员和嵌入框架内容的 URL。例如：<code>child-src https://youtube.com</code>将启用嵌入来自 YouTube 但不来自其他来源的视频。</li>
+<li><strong><code>connect-src</code></strong>限制您可以连接的来源（通过 XHR、WebSockets 和 EventSource）。</li>
+<li><strong><code>font-src</code></strong>指定可以提供网络字体的来源。谷歌的网络字体可以通过<code>font-src https://themes.googleusercontent.com</code>.</li>
+<li><strong><code>form-action</code></strong><code>&lt;form&gt;</code>列出从标签提交的有效端点。</li>
+<li><strong><code>frame-ancestors</code></strong>指定可以嵌入当前页面的来源。该指令适用于<code>&lt;frame&gt;</code>、<code>&lt;iframe&gt;</code>、<code>&lt;embed&gt;</code>和<code>&lt;applet&gt;</code>标签。该指令不能在<code>&lt;meta&gt;</code>标签中使用，仅适用于非 HTML 资源。</li>
+<li><strong><code>frame-src</code></strong>在级别 2 中已弃用，但在级别 3 中恢复。如果不存在，它仍会<code>child-src</code>像以前一样回退。</li>
+<li><strong><code>img-src</code></strong>定义可以加载图像的来源。</li>
+<li><strong><code>media-src</code></strong>限制允许传送视频和音频的来源。</li>
+<li><strong><code>object-src</code></strong>允许控制 Flash 和其他插件。</li>
+<li>…..</li>
+</ul>
+<p>默认情况下，指令是完全开放的。如果您没有为指令设置特定策略，比如说<code>font-src</code>，那么默认情况下，该指令的行为就像您指定<code>*</code>为有效源一样（例如，您可以从任何地方加载字体，没有限制）。</p>
+<p>您可以通过指定<strong><code>default-src</code></strong>指令来覆盖此默认行为。该指令定义了您未指定的大多数指令的默认值。通常，这适用于任何以 . 结尾的指令<code>-src</code>。如果<code>default-src</code>设置为<code>https://example.com</code>，并且您未能指定<code>font-src</code>指令，那么您可以从 加载字体<code>https://example.com</code>，而其他任何地方都无法加载。我们仅<code>script-src</code>在前面的示例中指定，这意味着可以从任何来源加载图像、字体等。</p>
+<p>更多可以看 <a href="https://web.dev/csp/（可惜要翻墙）" target="_blank" rel="noopener">https://web.dev/csp/（可惜要翻墙）</a></p>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a><strong>其他</strong></h4><ol>
+<li><p>您将在网络上的各种教程中看到<code>X-WebKit-CSP</code>和<code>X-Content-Security-Policy</code>标题。展望未来，您应该忽略这些带前缀的标头。现代浏览器（IE 除外）支持无前缀<code>Content-Security-Policy</code>标头。那是您应该使用的标题。</p>
+</li>
+<li><p>CSP对于内联代码有所限制，一般来说内联代码被认为是有害的：CSP 是基于允许列表来源的，因为这是一种指示浏览器将特定资源集视为可接受并拒绝其余资源的明确方式。然而，基于来源的白名单并不能解决 XSS 攻击带来的最大威胁：内联脚本注入。如果攻击者可以注入直接包含某些恶意负载 ( <code>&lt;script&gt;sendMyDataToEvilDotCom()&lt;/script&gt;</code>) 的脚本标记，则浏览器没有将其与合法的内联脚本标记区分开来的机制。CSP 通过完全禁止内联脚本解决了这个问题：这是唯一可以确定的方法。</p>
+<ul>
+<li><p>比如以下代码 no！no！no！</p>
+</li>
+<li><pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script language-javascript">
+    <span class="token keyword">function</span> <span class="token function">doAmazingThings</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'YOU AM AMAZING!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">onclick</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>doAmazingThings();<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>Am I amazing?<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span></code></pre>
+</li>
+<li><p>如果不得不使用内联代码，CSP 级别 2 允许您使用加密随机数（使用一次的数字）或哈希将特定的内联脚本添加到允许列表，从而为内联脚本提供向后兼容性。虽然这可能很麻烦，但它在紧要关头很有用。（<a href="https://web.dev/csp/）" target="_blank" rel="noopener">https://web.dev/csp/）</a></p>
+</li>
+</ul>
+</li>
+<li><p>假设您运行一个银行网站，并希望确保只有您自己编写的那些资源可以被加载。在这种情况下，从绝对阻止所有内容的默认策略开始 ( <code>default-src &#39;none&#39;</code>)，然后从那里开始构建。</p>
+<ul>
+<li><p>假设银行从位于的 CDN 加载所有图像、样式和脚本<code>https://cdn.mybank.net</code>，并通过 XHR 连接到<code>https://api.mybank.com/</code>以提取各种数据位。使用框架，但仅用于站点本地的页面（无第三方来源）。网站上没有 Flash，没有字体，没有额外内容。我们可以发送的最严格的 CSP 标头是这样的：</p>
+</li>
+<li><pre><code>Content-Security-Policy: default-src &#39;none&#39;; script-src https://cdn.mybank.net; style-src https://cdn.mybank.net; img-src https://cdn.mybank.net; connect-src https://api.mybank.com; child-src &#39;self&#39;</code></pre></li>
+</ul>
+</li>
+</ol>
+<h4 id="作用效果"><a href="#作用效果" class="headerlink" title="作用效果"></a><strong>作用效果</strong></h4><p>CSP 的主要目标是减少和报告 XSS 攻击 ，XSS 攻击利用了浏览器对于从服务器所获取的内容的信任</p>
 <p>CSP通过指定有效域——即浏览器认可的可执行脚本的有效来源——使服务器管理者有能力减少或消除XSS攻击所依赖的载体。一个CSP兼容的浏览器将会<strong>仅执行从白名单域获取到的脚本文件</strong>，忽略所有的其他脚本</p>
 <h2 id="2-CSRF"><a href="#2-CSRF" class="headerlink" title="2.CSRF"></a>2.CSRF</h2><h4 id="什么是CSRF"><a href="#什么是CSRF" class="headerlink" title="什么是CSRF"></a>什么是CSRF</h4><p>CSRF是一种跨站请求伪造，也被称为 one-click-attack 或者 session riding</p>
 <p>下面的图源自这个大佬 ： <a href="https://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html" target="_blank" rel="noopener">https://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html</a> （随便点开，放心绝对不是XSS或者CSRF ，手动狗头）</p>
@@ -1170,7 +1222,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">297.1k</span>&nbsp;字
+                class="white-color">302.8k</span>&nbsp;字
             
             
             

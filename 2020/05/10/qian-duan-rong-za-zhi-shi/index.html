@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.4k
+                    4.7k
                 </div>
                 
 
@@ -609,7 +609,7 @@
 <span class="token keyword">const</span> <span class="token punctuation">{</span>
     source <span class="token operator">=</span> <span class="token string">''</span>
 <span class="token punctuation">}</span> <span class="token operator">=</span> NERCTAppContextModule<span class="token punctuation">;</span></code></pre>
-<h2 id="4-Worker"><a href="#4-Worker" class="headerlink" title="4.Worker"></a>4.Worker</h2><h4 id="Web-Works"><a href="#Web-Works" class="headerlink" title="Web Works"></a>Web Works</h4><p>有时候我们需要在客户端进行大量的运算，但又不希望来阻塞我们js主线程</p>
+<h2 id="4-Worker"><a href="#4-Worker" class="headerlink" title="4.Worker"></a>4.Worker</h2><h3 id="4-1-Web-Works"><a href="#4-1-Web-Works" class="headerlink" title="4.1 Web Works"></a>4.1 Web Works</h3><p>有时候我们需要在客户端进行大量的运算，但又不希望来阻塞我们js主线程</p>
 <p>我们可能第一时间考虑的是异步，但是实际上运算量大、运算时间长的任务同样会阻塞我们异步的事件循环，甚至会导致浏览器的假死状态</p>
 <p>此时html5的新特性：Web Works就派上用场，它允许我们把如此复杂的逻辑放在浏览器的后台线程中进行处理，让js不阻塞ui线程的渲染</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//index.js</span>
@@ -626,7 +626,7 @@ self<span class="token punctuation">.</span><span class="token function">onmessa
     answer<span class="token punctuation">:</span> <span class="token number">111</span>
   <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
-<h4 id="HTML5中的跨文档消息传递"><a href="#HTML5中的跨文档消息传递" class="headerlink" title="HTML5中的跨文档消息传递"></a>HTML5中的跨文档消息传递</h4><p>跨文档消息传送（cross-document messaging），有时候也简称为XDM，指的是来自不同域的页面间传递消息。</p>
+<h3 id="4-2-HTML5中跨文档消息传递"><a href="#4-2-HTML5中跨文档消息传递" class="headerlink" title="4.2 HTML5中跨文档消息传递"></a>4.2 HTML5中跨文档消息传递</h3><p>跨文档消息传送（cross-document messaging），有时候也简称为XDM，指的是来自不同域的页面间传递消息。</p>
 <p>着是一个<code>bom</code>的<code>api</code>， MDN：<code>window.postMessage</code>。</p>
 <p>XDM的核心是<code>postMessage()</code>方法，实际上我们可以使用<code>postMessage()</code>方法进行跨域</p>
 <p><code>postMessage</code>两个参数：</p>
@@ -645,13 +645,25 @@ window<span class="token punctuation">.</span><span class="token function">addEv
         console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
-<h4 id="Service-Worker"><a href="#Service-Worker" class="headerlink" title="Service Worker"></a>Service Worker</h4><p>Service workers 本质上充当 Web 应用程序、浏览器与网络（可用时）之间的代理服务器。这个 API 旨在创建有效的离线体验，它会拦截网络请求并根据网络是否可用采取来适当的动作、更新来自服务器的的资源。它还提供入口以推送通知和访问后台同步 API。（在webpack中使用service worker需要安装<code>WorkboxPlugin</code>）</p>
-<p>这个 API 之所以令人兴奋，是因为它可以支持离线体验，让开发者能够全面控制这一体验。（实际上的缓存的效果）</p>
+<h3 id="4-3-Service-Worker"><a href="#4-3-Service-Worker" class="headerlink" title="4.3 Service Worker"></a>4.3 Service Worker</h3><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>Service workers 本质上充当 Web 应用程序、浏览器与网络（可用时）之间的代理服务器。这个 API 旨在创建有效的离线体验，它会拦截网络请求并根据网络是否可用采取来适当的动作、更新来自服务器的的资源。它还提供入口以推送通知和访问后台同步 API。（在webpack中使用service worker需要安装<code>WorkboxPlugin</code>）</p>
+<p>相当于一个服务器与浏览器之间的中间人角色，一个超级拦截器</p>
+<h4 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h4><ul>
+<li>基于web worker</li>
+<li>在web worker的基础上增加了离线缓存的能力</li>
+<li>可以拦截全站的请求，并作出相应的动作-&gt;由开发者指定的动作</li>
+<li>由事件驱动的,具有生命周期</li>
+<li>可以访问cache和indexDB</li>
+<li>支持推送</li>
+<li>并且可以让开发者自己控制管理缓存的内容以及版本</li>
+<li>可以通过 postMessage 接口把数据传递给<a href="https://www.lmcc.top/tag/other/" target="_blank" rel="noopener">其他</a> JS 文件</li>
+</ul>
+<h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><p>这个 API 之所以令人兴奋，是因为它可以支持离线体验，让开发者能够全面控制这一体验。（实际上的缓存的效果）</p>
 <p>在 Service Worker 出现前，存在能够在网络上为用户提供离线体验的另一个 API，称为 <a href="https://www.html5rocks.com/en/tutorials/appcache/beginner/" target="_blank" rel="noopener">AppCache</a>。 AppCache API 存在的许多相关问题，在设计 Service Worker 时已予以避免。</p>
-<p>使用条件：</p>
+<p>比如：我们可以以网易新闻的wap页为例,其针对不怎么变化的静态资源开启了sw缓存（例子在里面的第六节部分） <a href="https://mp.weixin.qq.com/s/3Ep5pJULvP7WHJvVJNDV-g" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/3Ep5pJULvP7WHJvVJNDV-g</a></p>
+<h4 id="使用Service-Worker"><a href="#使用Service-Worker" class="headerlink" title="使用Service Worker"></a>使用Service Worker</h4><p>使用条件：</p>
 <p>传输协议必须为 <strong>HTTPS</strong>。因为 Service Worker 中涉及到请求拦截，所以必须使用 HTTPS 协议来保障安全。</p>
 <p>在Firefox浏览器的<a href="https://support.mozilla.org/zh-CN/kb/隐私浏览" target="_blank" rel="noopener">用户隐私模式</a>，Service Worker不可用。</p>
-<h4 id="使用Service-Worker"><a href="#使用Service-Worker" class="headerlink" title="使用Service Worker"></a>使用Service Worker</h4><ol>
+<ol>
 <li>注册Service Worker（通过 <code>.register</code>方法进行注册，通过 <code>.then</code>方法进行回调）</li>
 <li>监听install事件，缓存需要的文件</li>
 <li>拦截请求查看是否已经有需要的数据</li>
@@ -667,32 +679,121 @@ window<span class="token punctuation">.</span><span class="token function">addEv
     <span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
       console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'servcie worker 注册失败'</span><span class="token punctuation">)</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span>
-
-<span class="token comment" spellcheck="true">//sw.js</span>
-<span class="token comment" spellcheck="true">// 监听 `install` 事件，回调中缓存所需文件</span>
-self<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'install'</span><span class="token punctuation">,</span> e <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p>sw内可以使用<strong>self</strong>也可以使用this,每个sw仅会安装一次,除非发生更新</p>
+</blockquote>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//sw.js</span>
+<span class="token comment" spellcheck="true">//监听 `install` 事件，回调中缓存所需文件</span>
+<span class="token comment" spellcheck="true">//event.waitUntil 你可以理解为 new Promise，</span>
+<span class="token comment" spellcheck="true">//它接受的实际参数只能是一个 promise，因为,caches 和 cache.addAll 返回的都是 Promise，</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'install'</span><span class="token punctuation">,</span> e <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
   e<span class="token punctuation">.</span><span class="token function">waitUntil</span><span class="token punctuation">(</span>
     caches<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">'my-cache'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>cache<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">return</span> cache<span class="token punctuation">.</span><span class="token function">addAll</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'./index.html'</span><span class="token punctuation">,</span> <span class="token string">'./index.js'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+      <span class="token keyword">return</span> cache<span class="token punctuation">.</span><span class="token function">addAll</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'./index.html'</span><span class="token punctuation">,</span> <span class="token string">'./index.js'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//资源列表</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span>
   <span class="token punctuation">)</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 
 <span class="token comment" spellcheck="true">// 拦截所有请求事件</span>
 <span class="token comment" spellcheck="true">// 如果缓存中已经有请求的数据就直接用缓存，否则去请求数据</span>
-self<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'fetch'</span><span class="token punctuation">,</span> e <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'fetch'</span><span class="token punctuation">,</span> e <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
   e<span class="token punctuation">.</span><span class="token function">respondWith</span><span class="token punctuation">(</span>
-    caches<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>request<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">if</span> <span class="token punctuation">(</span>response<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> response
-      <span class="token punctuation">}</span>
-      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'fetch source'</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
-  <span class="token punctuation">)</span>
-</code></pre>
+      caches<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">'my-cache'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span>cache<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+          <span class="token keyword">return</span> cache<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>request<span class="token punctuation">.</span>url<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">)</span></code></pre>
 <p>此时，我们可以在chrome的F12开发者模式中查看 <code>Application</code> 看到 Service Worker 已经启动了</p>
 <p>在 Cache 中也可以发现我们所需的文件已被缓存</p>
+<p>该示例部署到服务器上之后，用户第一次打开index页面，仍然会从服务器上拉取，之后便去安装Service Worker，执行Service Worker中的install事件，浏览器会再次拉取需要缓存的资源，这一次的缓存是否从网络拉取取决于资源设置的过期时间。当install事件中的资源均拉取成功，Service Worker算是安装成功。如果有一个资源拉取失败，此次Service Worker安装失败，若用户下次再打开该页面，浏览器仍然会重复之前的安装流程尝试安装。</p>
+<p>如果index页面的Service Worker安装成功，用户再次打开index页面发起的资源请求便会先经过Service Woker脚本的fetch事件，在该事件中前端开发可以通过编写逻辑控制请求从网络拉取还是从cache中读取或者自己构造一个response丢给前端。</p>
+<p>推送消息</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token string">'serviceWorker'</span> <span class="token keyword">in</span> window<span class="token punctuation">.</span>navigator<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  navigator<span class="token punctuation">.</span>serviceWorker<span class="token punctuation">.</span><span class="token function">register</span><span class="token punctuation">(</span><span class="token string">'sw.js'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> scope<span class="token punctuation">:</span> <span class="token string">'./'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>reg<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'success'</span><span class="token punctuation">,</span> reg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      navigator<span class="token punctuation">.</span>serviceWorker<span class="token punctuation">.</span>controller <span class="token operator">&amp;&amp;</span> 
+        navigator<span class="token punctuation">.</span>serviceWorker<span class="token punctuation">.</span>controller<span class="token punctuation">.</span><span class="token function">postMessage</span><span class="token punctuation">(</span><span class="token string">"hello im page"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//sw.js</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'message'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>event<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p>接收信息</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//sw.js</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'message'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>event<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  event<span class="token punctuation">.</span>source<span class="token punctuation">.</span><span class="token function">postMessage</span><span class="token punctuation">(</span><span class="token string">'我是 sw 将发送信息到 page'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token string">'serviceWorker'</span> <span class="token keyword">in</span> window<span class="token punctuation">.</span>navigator<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  navigator<span class="token punctuation">.</span>serviceWorker<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'message'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>更多通讯方式可以查看<a href="https://www.lmcc.top/articles/73.html（包含跨端通讯、两个sw服务通讯）" target="_blank" rel="noopener">https://www.lmcc.top/articles/73.html（包含跨端通讯、两个sw服务通讯）</a></p>
+<p>激活service worker</p>
+<p>但是由于<strong>Service Worker</strong> 的激活是异步的,因此首次注册 <strong>Service Worker</strong> 的时候可能<strong>Service Worker</strong> 不会被立刻激活, <strong>reg.active</strong> 为 <strong>Null</strong>，系统就会报错。<br>这个时候我们可以采用<strong>Promise</strong>内部轮询逻辑进行处理如果 <strong>Service Worker</strong> 已经被激活那就<strong>resolve</strong></p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token string">'serviceWorker'</span> <span class="token keyword">in</span> window<span class="token punctuation">.</span>navigator<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    navigator<span class="token punctuation">.</span>serviceWorker<span class="token punctuation">.</span><span class="token function">register</span><span class="token punctuation">(</span><span class="token string">'sw.js'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>reg<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> reject<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> interval <span class="token operator">=</span> <span class="token function">setInterval</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>reg<span class="token punctuation">.</span>active<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">clearInterval</span><span class="token punctuation">(</span>interval<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">resolve</span><span class="token punctuation">(</span>reg<span class="token punctuation">.</span>active<span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>sw <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      sw<span class="token punctuation">.</span><span class="token function">postMessage</span><span class="token punctuation">(</span><span class="token string">"im sw"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+  navigator<span class="token punctuation">.</span>serviceWorker<span class="token punctuation">.</span><span class="token function">register</span><span class="token punctuation">(</span><span class="token string">'sw2.js'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>reg<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> reject<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> interval <span class="token operator">=</span> <span class="token function">setInterval</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>reg<span class="token punctuation">.</span>active<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">clearInterval</span><span class="token punctuation">(</span>interval<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">resolve</span><span class="token punctuation">(</span>reg<span class="token punctuation">.</span>active<span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>sw <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      sw<span class="token punctuation">.</span><span class="token function">postMessage</span><span class="token punctuation">(</span><span class="token string">"im sw2"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h4><p>首次加载</p>
+<ol>
+<li>注册(register)</li>
+<li>安装(installing)</li>
+<li>活动(activated)或者异常(error)<ul>
+<li>可以更新存储在Cache中的key和value</li>
+</ul>
+</li>
+<li>空闲(idle)</li>
+<li>拦截(fetch)或终止(terminated)<ul>
+<li>fetch是最重要的一个阶段，拦截代理所有指定的请求，并进行对应的操作</li>
+</ul>
+</li>
+</ol>
+<p>更新加载</p>
+<ol>
+<li>更新(update)</li>
+<li>安装(installing)</li>
+<li>等待活动(waiting)或者异常(error)</li>
+</ol>
+<p>生命周期流程图（生命周期章节）（十分推荐！条理清晰）<a href="https://xie.infoq.cn/article/d6db2099c0064563a403c51ec" target="_blank" rel="noopener">https://xie.infoq.cn/article/d6db2099c0064563a403c51ec</a></p>
+<h4 id="注意的点"><a href="#注意的点" class="headerlink" title="注意的点"></a>注意的点</h4><p>1、Service Worker线程运行的是js，有着独立的js环境，不能直接操作DOM树，但可以通过postMessage与其服务的前端页面通信。</p>
+<p>2、Service Worker服务的不是单个页面，它服务的是当前网络path下所有的页面，只要当前path 的Service Worker被安装，用户访问当前path下的任意页面均会启动该Service Worker。当一段时间没有事件过来，浏览器会自动停止Service Worker来节约资源，所以Service Worker线程中不能保存需要持久化的信息。</p>
+<p>3、Service Worker安装是在后台悄悄执行，更新也是如此。每次新唤起Service Worker线程，它都会去检查Service Worker脚本是否有更新，如有一个字节的变化，它都会新起一个Service Worker线程类似于安装一样去安装新的Service Worker脚本，当旧的Service Worker所服务的页面都关闭后，新的Service Worker便会生效。</p>
+<h4 id="更多"><a href="#更多" class="headerlink" title="更多"></a>更多</h4><p><strong>service worker 框架库</strong>由于google推出直接编写原生sw比较繁琐和复杂所以一些工具<a href="https://www.lmcc.top/tag/framework/" target="_blank" rel="noopener">框架</a>就出现了,而<a href="https://www.lmcc.top/go/aHR0cHM6Ly9qc3Byb3h5LjUyZi53b3JrZXJzLmRldi8tLS0tLWh0dHBzOi8vZ2l0aHViLmNvbS9Hb29nbGVDaHJvbWUvd29ya2JveA" target="_blank" rel="noopener">Workbox</a>相对来说较为优秀</p>
+<p>在 <a href="https://www.lmcc.top/go/aHR0cHM6Ly9qc3Byb3h5LjUyZi53b3JrZXJzLmRldi8tLS0tLWh0dHBzOi8vZGV2ZWxvcGVycy5nb29nbGUuY29tL3dlYi90b29scy93b3JrYm94Lw" target="_blank" rel="noopener">Workbox</a> 之前，<a href="https://www.lmcc.top/tag/go/" target="_blank" rel="noopener">Go</a>ogleChrome 团队较早时间推出过 sw-precache 和 sw-toolbox 库，但是在 GoogleChrome 工程师们看来，workbox 才是真正能方便统一的处理离线能力的更完美的方案，所以停止了对 sw-precache 和 sw-toolbox 的维护。</p>
+<p>参考：</p>
+<p><a href="https://zhuanlan.zhihu.com/p/115243059" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/115243059</a></p>
+<p><a href="https://x5.tencent.com/product/service-worker.html" target="_blank" rel="noopener">https://x5.tencent.com/product/service-worker.html</a></p>
+<p><a href="https://mp.weixin.qq.com/s/3Ep5pJULvP7WHJvVJNDV-g" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/3Ep5pJULvP7WHJvVJNDV-g</a></p>
+<p><a href="https://www.lmcc.top/articles/73.html" target="_blank" rel="noopener">https://www.lmcc.top/articles/73.html</a></p>
+<p><a href="https://xie.infoq.cn/article/d6db2099c0064563a403c51ec" target="_blank" rel="noopener">https://xie.infoq.cn/article/d6db2099c0064563a403c51ec</a></p>
 <h2 id="5-Tree-Shaking"><a href="#5-Tree-Shaking" class="headerlink" title="5.Tree Shaking"></a>5.Tree Shaking</h2><p>通常用于描述移除掉我们JavaScript上下文中未引用的代码，也就是移除死代码，</p>
 <p>在webpack中的配置详情可以看 《webpack(下)》篇章</p>
 <h2 id="6-GIF上报埋点"><a href="#6-GIF上报埋点" class="headerlink" title="6.GIF上报埋点"></a>6.GIF上报埋点</h2><p>使用GIF上报的原因：</p>
@@ -1221,7 +1322,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">302.8k</span>&nbsp;字
+                class="white-color">305k</span>&nbsp;字
             
             
             

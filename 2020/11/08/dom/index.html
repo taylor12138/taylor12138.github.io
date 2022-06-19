@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.4k
+                    5.5k
                 </div>
                 
 
@@ -752,11 +752,21 @@ xx<span class="token punctuation">.</span>innerHTML <span class="token operator"
 <h2 id="事件部分"><a href="#事件部分" class="headerlink" title="事件部分"></a>事件部分</h2><h3 id="1-注册事件"><a href="#1-注册事件" class="headerlink" title="1.注册事件"></a>1.注册事件</h3><p>传统方式：</p>
 <p><code>btn.onclick = function() {}</code>  注册事件唯一性，最后注册处理的函数会覆盖掉前面注册处理的函数，即一个元素只能设置一个处理函数</p>
 <p>w3c标准的推荐方式：（ie9以前不支持此方法，即ie8等不支持）</p>
-<p><code>eventTarget.addEventListener(type, listerner[, useCapture])</code></p>
+<pre class=" language-js"><code class="language-js">target<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span>type<span class="token punctuation">,</span> listener<span class="token punctuation">,</span> options<span class="token punctuation">)</span><span class="token punctuation">;</span>
+target<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span>type<span class="token punctuation">,</span> listener<span class="token punctuation">,</span> useCapture<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>（ie9以前使用的是<code>eventTarget.attachEvent(type, listener[, useCapture]);</code>）</p>
-<p>type：事件类型，如click，mouseover，不带on</p>
-<p>listener：事件处理，事件发生时会调用其监听函数</p>
-<p>useCapture：可选参数，默认false</p>
+<ul>
+<li>type：事件类型，如click，mouseover，不带on</li>
+<li>listener：事件处理，事件发生时会调用其监听函数</li>
+<li>useCapture：可选参数，默认false</li>
+<li>option：一个指定有关 <code>listener</code>属性的可选参数<strong>对象</strong>。<ul>
+<li><code>capture</code>:  <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Boolean" target="_blank" rel="noopener"><code>Boolean</code></a>，表示 <code>listener</code> 会在该类型的事件捕获阶段传播到该 <code>EventTarget</code> 时触发。</li>
+<li><code>once</code>:  <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Boolean" target="_blank" rel="noopener"><code>Boolean</code></a>，表示 <code>listener 在添加之后最多只调用一次。如果是</code> <code>true，</code> <code>listener</code> 会在其被调用之后自动移除。</li>
+<li><code>passive</code>: <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Boolean" target="_blank" rel="noopener"><code>Boolean</code></a>，设置为 true 时，表示 <code>listener</code> 永远不会调用 <code>preventDefault()</code>。如果 listener 仍然调用了这个函数，客户端将会忽略它并抛出一个控制台警告。查看 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget/addEventListener#使用_passive_改善的滚屏性能" target="_blank" rel="noopener">使用 passive 改善的滚屏性能</a> 了解更多。</li>
+<li><code>signal</code>：<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/AbortSignal" target="_blank" rel="noopener"><code>AbortSignal</code></a>，该 <code>AbortSignal</code> 的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/AbortController/abort" target="_blank" rel="noopener"><code>abort()</code></a> 方法被调用时，监听器会被移除。</li>
+</ul>
+</li>
+</ul>
 <pre class=" language-js"><code class="language-js">btn<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  <span class="token comment" spellcheck="true">//必须要字符串</span>
     <span class="token function">alert</span><span class="token punctuation">(</span>xxx<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
@@ -1358,7 +1368,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">305k</span>&nbsp;字
+                class="white-color">307.7k</span>&nbsp;字
             
             
             

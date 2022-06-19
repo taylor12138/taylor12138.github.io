@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.3k
+                    4.4k
                 </div>
                 
 
@@ -549,7 +549,48 @@
 <h2 id="关于特殊CSS属性的优化"><a href="#关于特殊CSS属性的优化" class="headerlink" title="关于特殊CSS属性的优化"></a>关于特殊CSS属性的优化</h2><p>如果你修改一个非样式且非绘制的CSS属性，那么浏览器会在完成样式计算之后，跳过布局和绘制的过程，直接做渲染层合并。这种方式在性能上是最理想的。</p>
 <p>不是所有属性动画消耗的性能都一样，其中消耗最低的是<code>transform</code>和<code>opacity</code>两个属性（当然还有会触发Composite的其他CSS属性），其次是Paint相关属性。所以在制作动画时，建议<strong>使用<code>transform</code>的<code>translate</code>替代<code>margin</code>或<code>position</code>中的<code>top</code>、<code>right</code>、<code>bottom</code>和<code>left</code>，同时使用<code>transform</code>中的<code>scaleX</code>或者<code>scaleY</code>来替代<code>width</code>和<code>height</code></strong>。</p>
 <p><code>transform</code>在没有重绘的情况下，变换究竟是如何渲染动画的呢？基本答案是 CSS 转换直接发生在利用硬件加速的GPU内存中，从而避免了软件渲染。</p>
-<h4 id="渲染优化"><a href="#渲染优化" class="headerlink" title="渲染优化"></a>渲染优化</h4><p>与此同时，我们通过CSS的属性来触发      <strong>GPU加速</strong>    浏览器会为此元素单独创建一个“层”,是一个新的复合层。有了这一层，就有点React的PureComponent、usecallback内味了，进行局部更新，不影响他人。</p>
+<h4 id="渲染层（PaintLayer）"><a href="#渲染层（PaintLayer）" class="headerlink" title="渲染层（PaintLayer）"></a>渲染层（PaintLayer）</h4><p>PaintLayer 最初是用来实现 <a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Understanding_z_index/The_stacking_context" target="_blank" rel="noopener">stacking contest（层叠上下文）</a>，以此来保证页面元素以正确的顺序合成（composite），这样才能正确的展示元素的重叠以及半透明元素等等。</p>
+<p>将其分为常见的 3 类：</p>
+<ul>
+<li><p>NormalPaintLayer</p>
+<ul>
+<li><p>根元素（HTML）</p>
+</li>
+<li><p>有明确的定位属性（relative、fixed、sticky、absolute）</p>
+</li>
+<li><p>透明的（opacity 小于 1）</p>
+</li>
+<li><p>有 CSS 滤镜（fliter）</p>
+</li>
+<li><p>有 CSS mask 属性</p>
+</li>
+<li><p>有 CSS mix-blend-mode 属性（不为 normal）</p>
+</li>
+<li><p>有 CSS transform 属性（不为 none）</p>
+</li>
+<li><p>backface-visibility 属性为 hidden</p>
+</li>
+<li><p>有 CSS reflection 属性</p>
+</li>
+<li><p>有 CSS column-count 属性（不为 auto）或者 有 CSS column-width 属性（不为 auto）</p>
+</li>
+<li><p>当前有对于 opacity、transform、fliter、backdrop-filter 应用动画</p>
+</li>
+</ul>
+</li>
+<li><p>OverflowClipPaintLayer</p>
+<ul>
+<li>overflow 不为 visible</li>
+</ul>
+</li>
+<li><p>NoPaintLayer</p>
+<ul>
+<li>不需要 paint 的 PaintLayer，比如一个没有视觉属性（背景、颜色、阴影等）的空 div。</li>
+</ul>
+</li>
+</ul>
+<h4 id="合成层（Compositing-Layers）"><a href="#合成层（Compositing-Layers）" class="headerlink" title="合成层（Compositing Layers）"></a>合成层（Compositing Layers）</h4><p>合成层（Compositing Layers），合成层拥有单独的 GraphicsLayer，而其他不是合成层的渲染层，则和其第一个拥有 GraphicsLayer 父层公用一个。</p>
+<h4 id="渲染优化"><a href="#渲染优化" class="headerlink" title="渲染优化"></a>渲染优化</h4><p>与此同时，我们通过CSS的属性来触发  <strong>GPU加速</strong>    浏览器会为此元素单独合成层，一个新的复合层。有了这一层，就有点React的PureComponent、usecallback内味了，进行局部更新，不影响他人。</p>
 <p>为什么开启硬件加速动画就会变得流畅，那是因为每个页面元素都有一个独立的Render进程。</p>
 <p>首先理解三个概念：</p>
 <ul>
@@ -576,18 +617,18 @@
 </ul>
 <p>我们可以得到一个大概的浏览器线程模型：</p>
 <p><img src="/2020/07/31/css-xuan-ran-shen-jiu/css_optimize.png" alt></p>
-<p>而在什么情况下我们可以单独创建出这样一个复合层？</p>
+<p>而在什么情况下我们可以单独创建出这样一个复合层(合成层)？</p>
 <p>它在以下情况下这样做：</p>
 <ul>
-<li>对于 3D 或透视 CSS 转换（在我们的示例中）</li>
+<li>对于 3D 或透视（opacity） CSS 转换（在我们的示例中），比如<code>transform: translateZ(0)</code>，注意它必须是 <code>translateZ</code></li>
 <li>对于<code>&lt;video&gt;</code>或<code>&lt;canvas&gt;</code>元素</li>
-<li>使用 CSS 过滤器时</li>
+<li>使用 CSS 过滤器（filter）时</li>
 <li>对于与提取到复合层的另一个元素重叠的元素（例如，使用<code>z-index</code>）</li>
 </ul>
-<p>所以这时我们会想到：<code>transfrom: translate(x, y)</code>这种2D岂不是也不可以实现？</p>
-<p>雀食，所以我们可以看到两个额外的重绘操作在动画时间轴的开始和结束</p>
+<p>所以这时我们会想到：<code>transfrom: translate(x, y)</code>这种可以实现复合层吗？？？为什么2D没有会出现在上面的条件中？</p>
+<p>雀食可以，但是我们可以看到两个额外的重绘操作在动画时间轴的开始和结束</p>
 <p><img src="/2020/07/31/css-xuan-ran-shen-jiu/cssoptimize2.png" alt></p>
-<p>3D 和 2D 变换之间的区别在于 3D 变换使浏览器预先创建一个单独的复合层，而 2D 变换则是即时完成的。在动画开始时，会创建一个新的复合层并将纹理加载到 GPU，从而启动重绘。然后动画由 GPU 中的合成器执行。当动画完成时，附加的复合层将被移除，这将导致另一个重绘操作。</p>
+<p>3D 和 2D 变换之间的区别在于 3D 变换使浏览器预先创建一个单独的复合层，而 <strong>2D 变换则是即时完成</strong>的。在动画开始时，会创建一个新的复合层并将纹理加载到 GPU，从而启动重绘。然后动画由 GPU 中的合成器执行。当动画完成时，附加的复合层将被移除，这将导致另一个重绘操作。</p>
 <h4 id="如何开启GPU加速？"><a href="#如何开启GPU加速？" class="headerlink" title="如何开启GPU加速？"></a>如何开启GPU加速？</h4><p>并非元素上的所有 CSS 属性更改都可以直接在 GPU 中处理。仅支持以下属性：</p>
 <ul>
 <li><code>transform</code></li>
@@ -611,7 +652,10 @@
 <li><p>字体渲染：GPU 中的渲染会影响字体抗锯齿。这是因为 GPU 和 CPU 具有不同的渲染机制</p>
 </li>
 </ul>
-<h4 id="will-change"><a href="#will-change" class="headerlink" title="will-change"></a>will-change</h4><p>使用“transform hack”来创建单独的复合层的必要性很麻烦。浏览器绝对应该提供一种直接的方法来做到这一点。这就是为什么引入了<a href="https://drafts.csswg.org/css-will-change/" target="_blank" rel="noopener">will-change 属性</a>。这个功能可以让你通知浏览器哪个属性会发生变化，以便浏览器提前做相应的优化。这是一个通知浏览器<code>transform</code>属性将被更改的示例：</p>
+<h4 id="will-change"><a href="#will-change" class="headerlink" title="will-change"></a>will-change</h4><p>我们可能听听说过，3D transform会启用GPU加速①，例如<code>translate3D</code>, <code>scaleZ</code>之类，但是呢，这些属性业界往往称之为<code>hack</code>加速法。我们实际上不需要<code>z</code>轴的变化，但是还是假模假样地声明了，欺骗浏览器，这其实是一种不人道的做法。</p>
+<p>使用“transform hack”来创建单独的复合层的必要性很麻烦。浏览器绝对应该提供一种直接的方法来做到这一点。这就是为什么引入了<a href="https://drafts.csswg.org/css-will-change/" target="_blank" rel="noopener">will-change 属性</a>。这个功能可以让你通知浏览器哪个属性会发生变化，以便浏览器提前做相应的优化。</p>
+<p>will-change 设置为 opacity、transform、top、left、bottom、right 可以将元素提升为合成层。</p>
+<p>这是一个通知浏览器<code>transform</code>属性将被更改的示例：</p>
 <pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.element</span> </span><span class="token punctuation">{</span>
     <span class="token property">transition</span><span class="token punctuation">:</span> opacity <span class="token number">.3</span>s linear<span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
@@ -623,26 +667,55 @@
 <span class="token selector"><span class="token class">.element</span><span class="token pseudo-class">:hover</span> </span><span class="token punctuation">{</span>
     <span class="token property">opacity</span><span class="token punctuation">:</span> <span class="token number">.5</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
-<p>是不是有点缓存内味了？</p>
-<p>可惜并非所有浏览器都支持will-change</p>
+<p>是不是有点缓存内味儿了？</p>
+<p>可惜并非所有浏览器都支持will-change，但是它出现已经有些时日了，<a href="http://caniuse.com/will-change/embed" target="_blank" rel="noopener">兼容性</a>这块Chrome/FireFox/Opera都是支持的。</p>
+<p><strong>使用</strong></p>
+<p>如果使用JS添加<code>will-change</code>, 事件或动画完毕，一定要及时<code>remove</code>. 比方说点击某个按钮，其他某个元素进行动画。点击按钮(click)，要先按下(mousedown)再抬起才出发。因此，可以<code>mousedown</code>时候打声招呼, 动画结束自带回调，于是（示意，不要在意细节）：</p>
+<pre class=" language-javascript"><code class="language-javascript">dom<span class="token punctuation">.</span>onmousedown <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    target<span class="token punctuation">.</span>style<span class="token punctuation">.</span>willChange <span class="token operator">=</span> <span class="token string">'transform'</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+dom<span class="token punctuation">.</span>onclick <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// target动画哔哩哔哩...</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+target<span class="token punctuation">.</span>onanimationend <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 动画结束回调，移除will-change</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>style<span class="token punctuation">.</span>willChange <span class="token operator">=</span> <span class="token string">'auto'</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<p><strong>注意</strong>：</p>
 <p>不能过度使用 + 要节制使用 + 不能过早使用will-change（因为会消耗内存）</p>
-<h2 id="性能监控"><a href="#性能监控" class="headerlink" title="性能监控"></a>性能监控</h2><p>对于性能监控来说，我们可以直接使用浏览器自带的 <a href="https://link.juejin.im/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FPerformance">Performance API</a> 来实现这个功能。</p>
+<p>而且任何带有 <code>position: fixed</code> 或者 <code>position: absolute</code> 的子元素将会相对于设置了 <code>will-change: transform</code> 的元素进行相对定位。所以在你使用的时候需要确保这种意料之外 <code>containing block</code>不会对你造成影响（类似于你要对子元素使用绝对定位，父元素不设置相对定位，但是父元素如果使用transform和will-change都会导致子元素按照父元素的位置来定位）</p>
+<h2 id="性能监控-合成层数量查看"><a href="#性能监控-合成层数量查看" class="headerlink" title="性能监控+合成层数量查看"></a>性能监控+合成层数量查看</h2><p>对于性能监控来说，我们可以直接使用浏览器自带的 <a href="https://link.juejin.im/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FPerformance">Performance API</a> 来实现这个功能。</p>
 <p>我们只需要调用 <code>performance.getEntriesByType(&#39;navigation&#39;)</code></p>
 <p>亦或者再开发者模式下（F12）查看performance栏</p>
+<p>使用 Chrome 的 <code>DevTools</code> 可以方便地查看页面的合成层数量<br>选择 “More tools -&gt; Layers”</p>
+<p>但是实际上针对不同移动端（ios和安卓）使用不同的浏览器，可能与本地电脑上调试时产生的合成层数量不同，这是手机浏览器的自带的层压缩策略不同而导致的</p>
 <h2 id="层爆炸"><a href="#层爆炸" class="headerlink" title="层爆炸"></a>层爆炸</h2><p>由于某些原因可能导致产生大量不在预期内的合成层（也就是上方所谈及的复合层），虽然有浏览器的层压缩机制，但是也有很多无法进行压缩的情况，这就可能出现层爆炸的现象（简单理解就是，很多不需要提升为合成层的元素因为某些不当操作成为了合成层）。</p>
 <p>首先回顾一下层的创建标准</p>
-<p>从目前来说，满足以下任意情况便会创建层：<br>1、3D 或透视变换(perspective transform) CSS 属性<br>2、使用加速视频解码的 元素<br>3、拥有 3D (WebGL) 上下文或加速的 2D 上下文的 元素<br>4、混合插件(如 Flash)<br>5、对自己的 opacity 做 CSS 动画或使用一个动画 webkit 变换的元素<br>6、拥有加速 CSS 过滤器的元素<br>7、元素有一个包含复合层的后代节点(换句话说，就是一个元素拥有一个子元素，该子元素在自己的层里)<br>8、元素有一个 z-index 较低且包含一个复合层的兄弟元素(换句话说就是该元素在复合层的上层渲染)</p>
+<p>从目前来说，满足以下任意情况便会创建层：<br>1、3D 或透视变换(perspective transform) CSS 属性<br>2、使用加速视频解码的 元素<br>3、拥有 3D (WebGL) 上下文或加速的 2D 上下文的 元素<br>4、混合插件(如 Flash)<br>5、对自己的 opacity 做 CSS 动画或使用一个动画 webkit 变换的元素<br>6、拥有加速 CSS 过滤器的元素<br>7、元素有一个包含复合层的后代节点(换句话说，就是一个元素拥有一个子元素，该子元素在自己的层里)<br>8、有一个 Z 坐标比自己小的<strong>兄弟节点</strong>，且该节点是一个合成层(换句话说就是该元素在复合层的上层渲染)</p>
 <p>而最容易不经意间产生层爆炸的是最后一条：</p>
 <p>如果有一个元素，它的兄弟元素在复合层中渲染，而这个兄弟元素的z-index比较小，那么这个元素（不管是不是应用了硬件加速样式）也会被放到复合层中。</p>
 <p>最可怕的是，<strong>浏览器有可能给复合层之后的所有相对或绝对定位的元素都创建一个复合层来渲染</strong></p>
 <p>例子演示<a href="http://fouber.github.io/test/layer/" target="_blank" rel="noopener">http://fouber.github.io/test/layer/</a></p>
+<p>另外一个例子演示：(B被隐式提升为合成层)<img src="/2020/07/31/css-xuan-ran-shen-jiu/image-20220619211249005.png" alt></p>
+<p><img src="/2020/07/31/css-xuan-ran-shen-jiu/image-20220619212419238.png" alt></p>
+<p>但是如果调整一下b的位置</p>
+<p><img src="/2020/07/31/css-xuan-ran-shen-jiu/image-20220619212458805.png" alt></p>
 <p>解决：人为提升动画元素（复合层标签）的z-index，让浏览器知道这个元素的层排序，就不会很傻地把其他z-index比它高的元素也弄到复合层中了</p>
 <h4 id="解决层爆炸"><a href="#解决层爆炸" class="headerlink" title="解决层爆炸"></a>解决层爆炸</h4><p>最佳方案是打破 overlap 的条件，也就是说让其他元素不要和合成层元素重叠。简单直接的方式：使用3D硬件加速提升动画性能时，最好给元素<strong>增加一个z-index属性</strong>，人为干扰合成的排序，可以有效减少chrome创建不必要的合成层，也就是让他们回归普通的渲染层，提升渲染性能，移动端优化效果尤为明显。</p>
+<p>或者把合成层的产生原因消除掉（在遍历元素中注意会引起层爆的样式）</p>
+<h2 id="层压缩"><a href="#层压缩" class="headerlink" title="层压缩"></a>层压缩</h2><p>因为合成层有很多种情况下都可以产生，甚至不经意间产生 （overlap），这严重影响到cpu性能和内存资源，浏览器也考虑到这一点，所以浏览器有它自己的层压缩策略（所以可能产生层爆炸的时候，可能并没有产生，因为浏览器对其进行了层压缩）</p>
+<p>比如上面的层爆炸例子<a href="http://fouber.github.io/test/layer/，它在Chrome" target="_blank" rel="noopener">http://fouber.github.io/test/layer/，它在Chrome</a> 94 Releases 版本被优化了。（我目前时Chrome 96）所以层压缩给得看浏览器版本    </p>
+<p><img src="/2020/07/31/css-xuan-ran-shen-jiu/image-20220619202803517.png" alt></p>
+<p><img src="/2020/07/31/css-xuan-ran-shen-jiu/image-20220619203500002.png" alt></p>
+<p>当然，浏览器也不是万能的，也有无法进行层压缩的情况，无法进行层压缩的情况：<a href="https://fed.taobao.org/blog/taofed/do71ct/performance-composite/" target="_blank" rel="noopener">https://fed.taobao.org/blog/taofed/do71ct/performance-composite/</a></p>
+<p>在上面链接中淘宝前端团队也提及到</p>
 <p>渲染优化的文章参考链接</p>
 <p>参考链接<a href="https://github.com/amfe/article/issues/47" target="_blank" rel="noopener">https://github.com/amfe/article/issues/47</a></p>
 <p>参考链接:<a href="https://www.w3cplus.com/css3/introduction-css-will-change-property.html" target="_blank" rel="noopener">https://www.w3cplus.com/css3/introduction-css-will-change-property.html</a></p>
 <p>参考链接<a href="https://www.sitepoint.com/introduction-to-hardware-acceleration-css-animations/" target="_blank" rel="noopener">https://www.sitepoint.com/introduction-to-hardware-acceleration-css-animations/</a></p>
 <p>参考链接<a href="https://www.cnblogs.com/qiqi715/p/10207568.html" target="_blank" rel="noopener">https://www.cnblogs.com/qiqi715/p/10207568.html</a></p>
+<p>参考链接（淘宝技术团队）<a href="https://fed.taobao.org/blog/taofed/do71ct/performance-composite/" target="_blank" rel="noopener">https://fed.taobao.org/blog/taofed/do71ct/performance-composite/</a></p>
+<p>参考链接（云音乐技术团队）<a href="https://segmentfault.com/a/1190000041197292" target="_blank" rel="noopener">https://segmentfault.com/a/1190000041197292</a></p>
 
             </div>
             <hr/>
@@ -875,21 +948,24 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/08/06/mo-ni-tui-huo-suan-fa/">
+                <a href="/2020/08/06/shu-xue-jian-mo-guo-sai-matlab-zhi-shi-dian/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="模拟退火算法">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="数学建模国赛matlab知识点">
                         
-                        <span class="card-title">模拟退火算法</span>
+                        <span class="card-title">数学建模国赛matlab知识点</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.模拟退火算法可能的情况很多，数据量太大，用模拟退火搜索出需要的解（求最值）（最大值问题可以添加负号转换成求最小值问题）
-启发式搜索：利用搜索过程中获取的信息改进搜索策略。启发式搜索有利于找到问题最优解，且有助于加速求解过程。
-模拟退火可
+                            1.基础命令行太长，可加上三个小数点：“…”   进行分割（续行符），如
+s=1-1/2+1/3-1/4...
++1/5-1/6+1/7数值数据默认双精度double
+clear命令，清除工作区的所有变量
+class(变量)得到变量类型
+复
                         
                     </div>
                     <div class="publish-info">
@@ -1103,7 +1179,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">305k</span>&nbsp;字
+                class="white-color">307.7k</span>&nbsp;字
             
             
             

@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.6k
+                    3.8k
                 </div>
                 
 
@@ -662,6 +662,19 @@ pm2 restart all               # 重启所有应用</code></pre>
 <li>尽量对图片只新增不修改，有利于提高CDN命中率</li>
 <li>CDN的性能问题一般和大量回源相关，可以通过细分监控来确定是由哪个域名引起的，通过监控的衰变时间点，确定项目发布是否会引起大量的回源，一般成熟的CDN是能够保障稳定性的</li>
 </ol>
+<h4 id="上线走查清单"><a href="#上线走查清单" class="headerlink" title="上线走查清单"></a>上线走查清单</h4><ul>
+<li>页面和资源( js 和 css )，是否gzip；</li>
+<li>cdn，开启缓存，缓存时间一般大于一个月；</li>
+<li>资源文件类型（js 为 application/javascript，css 为 text/css）；</li>
+<li>连接（html、js、css、图片）是否开启 http2；</li>
+<li>页面显示正常；</li>
+<li>接口请求正常（没有重复或多余的请求）；</li>
+<li>首屏图片请求数量，是否使用懒加载；</li>
+<li>图片大小，是否裁剪；</li>
+<li>关注 wapm 性能指标(实验室)，如大图，大资源文件；</li>
+<li>第三方依赖；</li>
+<li>体验检查，如接口请求是否有过渡 loading，兜底的错误展示，隐藏的模块是否要提前请求数据；</li>
+</ul>
 <p>参考文章<a href="https://zhuanlan.zhihu.com/p/28940451" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/28940451</a></p>
 <p>参考书籍《大型网站性能优化实战》—周涛明、张荣华、张新兵</p>
 
@@ -1120,7 +1133,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">305k</span>&nbsp;字
+                class="white-color">307.7k</span>&nbsp;字
             
             
             

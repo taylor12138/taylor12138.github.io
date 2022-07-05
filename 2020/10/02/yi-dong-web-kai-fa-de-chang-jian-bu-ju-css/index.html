@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.2k
+                    4.7k
                 </div>
                 
 
@@ -485,8 +485,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>兼容移动端主流浏览器，处理Webkit内核浏览器即可</p>
-<h2 id="1-视口"><a href="#1-视口" class="headerlink" title="1.视口"></a>1.视口</h2><h4 id="视口分类"><a href="#视口分类" class="headerlink" title="视口分类"></a>视口分类</h4><p>视口可以分为布局视口，视觉视口和理想视口</p>
+                <h2 id="1-视口"><a href="#1-视口" class="headerlink" title="1.视口"></a>1.视口</h2><h4 id="视口分类"><a href="#视口分类" class="headerlink" title="视口分类"></a>视口分类</h4><p>视口可以分为布局视口，视觉视口和理想视口</p>
 <p>布局视口：一般移动设备浏览器都默认设置一个布局视口（980px），用于早期PC端页面在手机上显示的问题</p>
 <p>缺点：使得元素看上去很小，字体小</p>
 <p>视觉视口：用户正在看的<strong>网站区域</strong>，我们可以通过缩放操作视觉视口，但是不影响布局视口</p>
@@ -656,42 +655,6 @@ flex-basis：<span class="token number">0%</span>。</code></pre>
 <p>当样式改变比较多的时候（如三星官网首页根据页面不同大小的变化样式的改变），可以针对不同的媒体使用不同的stylesheets（样式表）原理，直接在link中判断设备的尺寸，引用不同的CSS文件</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>style320.css<span class="token punctuation">"</span></span> <span class="token attr-name">media</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>screen and (min-width: 320px)<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></code></pre>
 <p>媒体查询最好的方法是从小到大</p>
-<h3 id="less基础"><a href="#less基础" class="headerlink" title="less基础"></a>less基础</h3><p>CSS的冗余度比较高，需要书写大量看似没有逻辑的代码，不方便维护，且无计算能力</p>
-<p>而Less是CSS的拓展语言，也成为CSS预处理器（常见的CSS预处理器：Less、Sass、Stylus），可以计算（<strong>运算符的左右两侧必须加一个空格</strong>，</p>
-<p>两个数参与运算，如果只有一个数有单位，最后结果以这个单位为准</p>
-<p>两个数参与运算，如果两个数都有单位，以前面那个数字单位为准）</p>
-<p>Less的文件后缀名：.less</p>
-<h4 id="（1）less变量"><a href="#（1）less变量" class="headerlink" title="（1）less变量"></a>（1）less变量</h4><pre class=" language-less"><code class="language-less"><span class="token variable">@color<span class="token punctuation">:</span></span> pink<span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">/*@变量名:值;*/</span>  
-<span class="token variable">@font<span class="token punctuation">:</span></span> <span class="token number">14</span>px<span class="token punctuation">;</span></code></pre>
-<p>使用： background-color: @color ;</p>
-<h4 id="（2）less的编译"><a href="#（2）less的编译" class="headerlink" title="（2）less的编译"></a>（2）less的编译</h4><p>需要把less编译成CSS才能放入H5使用</p>
-<p>在VScode中安装easy-less插件，less文件保存后一键生成CSS文件</p>
-<h4 id="（3）less镶套"><a href="#（3）less镶套" class="headerlink" title="（3）less镶套"></a>（3）less镶套</h4><p>在less不需要再 .header a {}  去选择后代选择器(再见)     可以直接：</p>
-<pre class=" language-less"><code class="language-less"><span class="token selector">.header</span> <span class="token punctuation">{</span>
-    <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">100</span>px<span class="token punctuation">;</span>
-    <span class="token selector">a</span> <span class="token punctuation">{</span>
-        <span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
-<p>伪类选择器：</p>
-<pre class=" language-less"><code class="language-less"><span class="token selector">.nav</span> <span class="token punctuation">{</span>
-    <span class="token selector">&amp;:hover</span> <span class="token punctuation">{</span>
-        <span class="token property">color</span><span class="token punctuation">:</span> blue<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token selector">&amp;::before</span> <span class="token punctuation">{</span>
-        <span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">""</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
-<p>在一个less中可以引入另外一个less（套娃）</p>
-<pre class=" language-less"><code class="language-less"><span class="token variable">@import</span> <span class="token string">"common"</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">/*导入conmon.less*/</span></code></pre>
-<h4 id="less和sass"><a href="#less和sass" class="headerlink" title="less和sass"></a>less和sass</h4><p>Sass与Scss是什么关系?</p>
-<p>Sass的缩排语法，对于写惯css前端的web开发者来说很不直观，也不能将css代码加入到Sass里面，因此sass语法进行了改良，Sass 3就变成了Scss(sassy css)。与原来的语法兼容，只是用{}取代了原来的s缩进。</p>
-<p>（SASS版本3.0之前的后缀名为.<code>sass</code>，而版本3.0之后的后缀名<code>.scss</code>。）</p>
-<p><strong>less和sass的区别</strong></p>
-<p>Less和Sass的主要不同就是他们的实现方式。</p>
-<p>Less是基于JavaScript，是在客户端处理的。</p>
-<p>Sass是基于Ruby的，是在服务器端处理的。</p>
-<p>关于变量在Less和Sass中的唯一区别就是Less用@，Sass用$。</p>
 <h3 id="rem的实际适配"><a href="#rem的实际适配" class="headerlink" title="rem的实际适配"></a>rem的实际适配</h3><p>1.按照设计稿与设备宽度比例，动态计算并设置html根标签font-size大小（屏幕宽度/划分的份数=font-size的大小）（划分份数有15、20、10都有可能，苏宁移动端网页是15）</p>
 <p>2.CSS中，设计稿元素宽、高、相对位置等取值，按照同等比例换算为rem</p>
 <p>rem适配方案一：less   媒体查询  rem</p>
@@ -1057,28 +1020,25 @@ flex-basis：<span class="token number">0%</span>。</code></pre>
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/11/08/dom/">
+                <a href="/2020/10/02/less-yang-shi/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="DOM">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="less样式">
                         
-                        <span class="card-title">DOM</span>
+                        <span class="card-title">less样式</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            DOM基础DOM：文档对象模型，是一个应用编程接口API
-W3C已经定义了一系列的dom接口，可以改变网页内容、结构、样式
-文档：一个页面就是一个文档，用document表示
-元素：页面内的所有标签都是元素，用element表示
-节点：网页
+                            less基础CSS的冗余度比较高，需要书写大量看似没有逻辑的代码，不方便维护，且无计算能力
+而Less是CSS的拓展语言，也成为CSS预处理器（常见的CSS预处理器：Less、Sass、Stylus），可以计算（运算符的左右两侧必须加一个空
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-11-08
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-10-02
                         </span>
                         <span class="publish-author">
                             
@@ -1283,7 +1243,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">307.7k</span>&nbsp;字
+                class="white-color">311.3k</span>&nbsp;字
             
             
             

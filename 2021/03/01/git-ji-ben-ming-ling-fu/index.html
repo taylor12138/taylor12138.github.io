@@ -459,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2k
+                    2.2k
                 </div>
                 
 
@@ -548,6 +548,16 @@ $ git push origin master</code></pre>
 <p>使用reset命令，Git会把要回退版本之后提交的修改都删除掉。要从第四次修改回退到第一次修改，那么会删除第二、三、四次的修改。（并不是真正的物理删除）</p>
 <p>使用revert命令，Git会保留回退版本之后提交的修改</p>
 <p>并不是真正的物理删除：实际上Git会把分支的每次修改记录都会保留下来，还是可以查看历史记录来调整姿态的</p>
+<h4 id="git-stash暂存内容"><a href="#git-stash暂存内容" class="headerlink" title="git stash暂存内容"></a><strong>git stash</strong>暂存内容</h4><p>当git pull时，出现以下提示：</p>
+<pre class=" language-bash"><code class="language-bash">更新 07153c9<span class="token punctuation">..</span>820f46d
+error: 您对下列文件的本地修改将被合并操作覆盖：</code></pre>
+<p>别人修改了文件并且提交PUSH,你也修改了此文件并且没有add和<a href="https://so.csdn.net/so/search?q=commit&spm=1001.2101.3001.7020" target="_blank" rel="noopener">commit</a>.然后你在pull时就会出现此提示。</p>
+<p>如果不想舍弃对本地的修改：</p>
+<p>就按照提示的操作一样：请在合并前提交或贮藏您的修改。</p>
+<p>贮藏修改，就要用到<strong>git stash</strong></p>
+<p>先git stash，本地工作区备分，放入git栈中。然后，工作区内容恢复到仓库head最后一次提交的内容。</p>
+<p>然后git pull.</p>
+<p>最后，git stash pop,这个过程自动合并。如果成功，则自动此备分从git stash中删除。如果有冲突，则你需要手动解决冲突。然后git stash drop</p>
 <h2 id="Git分支"><a href="#Git分支" class="headerlink" title="Git分支"></a>Git分支</h2><pre class=" language-shell"><code class="language-shell">git branch          #查看所有分支
 git branch -r       #查看远程分支
 git branch dev      #新建dev分支，但是现在仍停留在原分支
@@ -1067,7 +1077,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">307.7k</span>&nbsp;字
+                class="white-color">311.3k</span>&nbsp;字
             
             
             

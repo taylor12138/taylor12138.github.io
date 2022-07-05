@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="matlab期末知识点汇总, Hexo">
+    <meta name="keywords" content="less样式, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>matlab期末知识点汇总 | Hexo</title>
+    <title>less样式 | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">matlab期末知识点汇总</h1>
+                    <h1 class="description center-align post-title">less样式</h1>
                 </div>
             </div>
         </div>
@@ -446,8 +446,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/matlab/" class="post-category">
-                                matlab
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                前端
                             </a>
                         
                     </div>
@@ -459,7 +459,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-08-06
+                    2020-10-02
                 </div>
                 
 
@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.5k
+                    610
                 </div>
                 
 
@@ -485,52 +485,104 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="regress命令"><a href="#regress命令" class="headerlink" title="regress命令"></a>regress命令</h1><p>  用于一元及多元线性回归</p>
-<p>B = regress(Y,X)<br>[B,BINT] = regress(Y,X)<br>[B,BINT,R] = regress(Y,X)<br>[B,BINT,R,RINT] = regress(Y,X)<br>B,BINT,R,RINT,STATS] = regress(Y,X)<br>[…] = regress(Y,X,ALPHA)</p>
-<p>B：回归系数，类似于斜率，是个向量（“the vector B of regression coefficients in the  linear model Y = X*B”）。<br>BINT：回归系数的区间估计（“a matrix BINT of 95% confidence intervals for B”）。<br>R：残差（ “a vector R of residuals”）。<br>RINT：置信区间（“a matrix RINT of intervals that can be used to diagnose outliers”）。<br>STATS：用于检验回归模型的统计量。有4个数值：判定系数R^2，接近1，回归方程越显著，F统计量观测值，F越大，回归方程越显著，检验的p的值，误差方差的估计。<br>ALPHA：显著性水平（缺少时为默认值0.05）。</p>
-<pre><code>
-%导入数据
-y=[7613.51  7850.91  8381.86  9142.81 10813.6 8631.43 8124.94 9429.79 10230.81 
-... 10163.61 9737.56 8561.06 7781.82 7110.97]&#39;;
-x1=[7666 7704 8148 8571 8679 7704 6471 5870 5289 3815 3335 2927 2758 2591]&#39;;
-x2=[16.22 16.85 17.93 17.28 17.23 17 19 18.22 16.3 13.37 11.62 10.36 9.83 9.25]&#39;;
-X=[ones(size(y)) x1.^2 x2.^2 x1 x2 x1.*x2];
-%  size（）：获取矩阵的行数和列数
-%  s=size(A),
-当只有一个输出参数时，返回一个行向量，该行向量的第一个元素时矩阵的行数，第二个元素是矩阵的列数。
-%  ones(M,N)产生一个M*N的矩阵
-
-%开始分析
-[b,bint,r,rint,stats] = regress(y,X);</code></pre><h4 id="创建残差的置信区间图"><a href="#创建残差的置信区间图" class="headerlink" title="创建残差的置信区间图"></a>创建残差的置信区间图</h4><p>用regress返回的值r，rint：<code>rcoplot（r，rint）</code></p>
-<h4 id="线性回归模型类"><a href="#线性回归模型类" class="headerlink" title="线性回归模型类"></a>线性回归模型类</h4><pre><code>线性回归模型类
-wlb=LinearModel; %创建线性回归类对象，对象名wlb
-wlb=LinearModel.fit(x,y); %创建线性回归类对象，并对观测
-数据做多元线性回归
-wlb.plot %绘制wlb的效果图
-wlb.anova %给出方差分析表
-[y,ly]=wlb.predict(x) %给出x预测和置信区间
-wlb.plotResiduals %绘制残差图
-wlb. plotDiagnoisetics(method) %绘制不同统计量的残差图分
-析
-properties(wlb) %显示所有统计量属性</code></pre><h2 id="t值和显著性水平有什么样的对应关系"><a href="#t值和显著性水平有什么样的对应关系" class="headerlink" title="t值和显著性水平有什么样的对应关系"></a>t值和显著性水平有什么样的对应关系</h2><p><strong>t-检验：可以用于比较两组数据是否来自同一分布。（可以用于比较两组数据的区分度）</strong></p>
-<p>在统计检验中，统计量t值和显著性水平具有什么样的对应关系？一般来说，大样本和正态分布情况下的数据，当1.65&lt;|t|&lt;1.96时,p&lt;0.10;当1.96&lt;|t|&lt;2.58时，p&lt;0.05；|t|大于2.58时，p&lt;0.01。</p>
-<p> 但是要注意的是，当样本量很小（小于30），数据分布形态不明或明显不服从正态分布（一座山一样的分布）时，t值和显著性水平不一定完全对应，例如t值绝对值大于2时，p值有可能大于0.05，也就是不显著。这种情况一般要采用非参数检验的方法，而不是t检验。</p>
-<p>1、t值，指的是T检验，主要用于样本含量较小（例如n&lt;30），总体标准差σ未知的正态分布资料。T检验是用t分布理论来推论差异发生的概率，从而比较两个平均数的差异是否显著。</p>
-<p>2、P值，就是当原假设为真时，所得到的样本观察结果或更极端结果出现的概率。如果P值很小，说明原假设情况的发生的概率很小，而如果出现了，根据小概率原理，我们就有理由拒绝原假设，P值越小，我们拒绝原假设的理由越充分。</p>
-<p>p值代表的是不接受原假设的最小的显著性水平，可以与选定的显著性水平直接比较。例如取5%的显著性水平，如果P值大于5%，就接受原假设，否则不接受原假设。这样不用计算t值，不用查表。</p>
-<p>3、P值能直接跟显著性水平比较；而t值想要跟显著性水平比较，就得换算成P值，或者将显著性水平换算成t值。在相同自由度下，查t表所得t统计量值越大，其尾端概率P越小，两者是此消彼长的关系，但不是直线型负相关</p>
-<h4 id="怎么得到检验回归系数显著性的T值"><a href="#怎么得到检验回归系数显著性的T值" class="headerlink" title="怎么得到检验回归系数显著性的T值"></a>怎么得到检验回归系数显著性的T值</h4><p>对于X、Y两个正态总体的样本，其<a href="https://www.baidu.com/s?wd=t检验&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao" target="_blank" rel="noopener">t检验</a>应使用ttest2()函数来检验假设。<br>[H,P,CI]=ttest2(X,Y)</p>
-<p>ttest2（）函数是用来检验具有相同方差的两个正态总体均值差的假设检验（即两正态总体的检验法）。</p>
-<p>基本调用格式：</p>
-<pre><code>h=ttest2（x，y）判断来自不同正态总体的样本数据x与y是否有相同的均值。当h=0表示接受原假设，当h=1表示拒绝原假设。
-
-h=ttest2（x，y，alpha）调用格式表示执行显著性水平为（100*alpha）%的假设检验。没有给出alpha值，默认alpha=0.05。
-
-h=ttest2（x，y，alpha，tail）调用格式表示执行以tail指定的备择假设作假设检验，原假设为均值等于m，当tail=‘both’时表明备择假设为“x与y均值不相等”，当tail=‘right’时表明备择假设为“x的均值大于y的均值”，当tail=‘left’时表明备择假设为“x的均值小于y的均值”。</code></pre><h2 id="regstats函数（回归系数显著性检测？）"><a href="#regstats函数（回归系数显著性检测？）" class="headerlink" title="regstats函数（回归系数显著性检测？）"></a>regstats函数（回归系数显著性检测？）</h2><p>MATLAB统计工具箱中提供了regstats函数，也可用来作多重线性或广义线性回归分析，它的调用方式如下：<br>regstats(y,X,model)<br>stats = regstats(…)<br>stats = regstats(y,X,model,whichstats)</p>
-<h2 id="非线性"><a href="#非线性" class="headerlink" title="非线性"></a>非线性</h2><p>用nlinfit函数或者开启cftool工具箱</p>
-<h2 id="eye函数"><a href="#eye函数" class="headerlink" title="eye函数"></a>eye函数</h2><p>该函数返回单位矩阵。</p>
-<p>Y = eye(n)：返回n*n单位矩阵；</p>
-<p>Y = eye(m,n)：返回m*n单位矩阵；</p>
+                <h2 id="less基础"><a href="#less基础" class="headerlink" title="less基础"></a>less基础</h2><p>CSS的冗余度比较高，需要书写大量看似没有逻辑的代码，不方便维护，且无计算能力</p>
+<p>而Less是CSS的拓展语言，也成为CSS预处理器（常见的CSS预处理器：Less、Sass、Stylus），可以计算（<strong>运算符的左右两侧必须加一个空格</strong>，</p>
+<p>两个数参与运算，如果只有一个数有单位，最后结果以这个单位为准</p>
+<p>两个数参与运算，如果两个数都有单位，以前面那个数字单位为准）</p>
+<p>Less的文件后缀名：.less</p>
+<h4 id="（1）less变量"><a href="#（1）less变量" class="headerlink" title="（1）less变量"></a>（1）less变量</h4><pre class=" language-less"><code class="language-less"><span class="token variable">@color<span class="token punctuation">:</span></span> pink<span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">/*@变量名:值;*/</span>  
+<span class="token variable">@font<span class="token punctuation">:</span></span> <span class="token number">14</span>px<span class="token punctuation">;</span></code></pre>
+<p>使用： background-color: @color ;</p>
+<h4 id="（2）less的编译"><a href="#（2）less的编译" class="headerlink" title="（2）less的编译"></a>（2）less的编译</h4><p>需要把less编译成CSS才能放入H5使用</p>
+<p>在VScode中安装easy-less插件，less文件保存后一键生成CSS文件</p>
+<h4 id="（3）less镶套"><a href="#（3）less镶套" class="headerlink" title="（3）less镶套"></a>（3）less镶套</h4><p>在less不需要再 .header a {}  去选择后代选择器(再见)     可以直接：</p>
+<pre class=" language-less"><code class="language-less"><span class="token selector">.header</span> <span class="token punctuation">{</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">100</span>px<span class="token punctuation">;</span>
+    <span class="token selector">a</span> <span class="token punctuation">{</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>伪类选择器：</p>
+<pre class=" language-less"><code class="language-less"><span class="token selector">.nav</span> <span class="token punctuation">{</span>
+    <span class="token selector">&amp;:hover</span> <span class="token punctuation">{</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> blue<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token selector">&amp;::before</span> <span class="token punctuation">{</span>
+        <span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">""</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>在一个less中可以引入另外一个less（套娃）</p>
+<pre class=" language-less"><code class="language-less"><span class="token variable">@import</span> <span class="token string">"common"</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">/*导入conmon.less*/</span></code></pre>
+<h2 id="Less函数"><a href="#Less函数" class="headerlink" title="Less函数"></a>Less函数</h2><p><strong>each</strong></p>
+<p>类似于循环函数</p>
+<p>先定义一个数组变量</p>
+<pre class=" language-less"><code class="language-less"><span class="token variable">@selectors<span class="token punctuation">:</span></span> blue<span class="token punctuation">,</span> green<span class="token punctuation">,</span> red<span class="token punctuation">;</span></code></pre>
+<p>通过<code>each(数组名, {  .sel-@{value} {} });</code>的方式获取数组中每一个值（ <code>@{value}</code> ）</p>
+<pre class=" language-less"><code class="language-less"><span class="token function">each</span><span class="token punctuation">(</span><span class="token atrule">@selectors,</span> <span class="token punctuation">{</span>
+  <span class="token selector">.sel-@{value}</span> <span class="token punctuation">{</span>
+    <span class="token property">a</span><span class="token punctuation">:</span> b<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Outputs:</p>
+<pre class=" language-less"><code class="language-less"><span class="token selector">.sel-blue</span> <span class="token punctuation">{</span>
+  <span class="token property">a</span><span class="token punctuation">:</span> b<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token selector">.sel-green</span> <span class="token punctuation">{</span>
+  <span class="token property">a</span><span class="token punctuation">:</span> b<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token selector">.sel-red</span> <span class="token punctuation">{</span>
+  <span class="token property">a</span><span class="token punctuation">:</span> b<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>当然也可以通过定义对象变量，通过each函数分别得到每个对象的key、index、value</p>
+<pre class=" language-less"><code class="language-less"><span class="token atrule">@set<span class="token punctuation">:</span></span> <span class="token punctuation">{</span>
+  <span class="token property">one</span><span class="token punctuation">:</span> blue<span class="token punctuation">;</span>
+  <span class="token property">two</span><span class="token punctuation">:</span> green<span class="token punctuation">;</span>
+  <span class="token property">three</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token selector">.set</span> <span class="token punctuation">{</span>
+  <span class="token function">each</span><span class="token punctuation">(</span><span class="token atrule">@set,</span> <span class="token punctuation">{</span>
+    <span class="token property">@{key}-@{index}</span><span class="token punctuation">:</span> <span class="token variable">@value</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>This will output:</p>
+<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.set</span> </span><span class="token punctuation">{</span>
+  <span class="token property">one-1</span><span class="token punctuation">:</span> blue<span class="token punctuation">;</span>
+  <span class="token property">two-2</span><span class="token punctuation">:</span> green<span class="token punctuation">;</span>
+  <span class="token property">three-3</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p><strong>range</strong></p>
+<p>传入一个数字，创建一个顺序数组列表</p>
+<p>Examples:</p>
+<pre class=" language-less"><code class="language-less"><span class="token property">value</span><span class="token punctuation">:</span> <span class="token function">range</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Outputs:</p>
+<pre class=" language-css"><code class="language-css"><span class="token property">value</span><span class="token punctuation">:</span> <span class="token number">1</span> <span class="token number">2</span> <span class="token number">3</span> <span class="token number">4</span><span class="token punctuation">;</span></code></pre>
+<p>搭配each来使用：</p>
+<pre class=" language-less"><code class="language-less"><span class="token selector">each(range(4),</span> <span class="token punctuation">{</span>
+  <span class="token selector">.col-@{value}</span> <span class="token punctuation">{</span>
+    <span class="token property">height</span><span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token variable">@value</span> <span class="token operator">*</span> <span class="token number">50</span>px<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Outputs:</p>
+<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.col-1</span> </span><span class="token punctuation">{</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">50</span>px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token selector"><span class="token class">.col-2</span> </span><span class="token punctuation">{</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">100</span>px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token selector"><span class="token class">.col-3</span> </span><span class="token punctuation">{</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">150</span>px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token selector"><span class="token class">.col-4</span> </span><span class="token punctuation">{</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">200</span>px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="less和sass"><a href="#less和sass" class="headerlink" title="less和sass"></a>less和sass</h2><p>Sass与Scss是什么关系?</p>
+<p>Sass的缩排语法，对于写惯css前端的web开发者来说很不直观，也不能将css代码加入到Sass里面，因此sass语法进行了改良，Sass 3就变成了Scss(sassy css)。与原来的语法兼容，只是用{}取代了原来的s缩进。</p>
+<p>（SASS版本3.0之前的后缀名为.<code>sass</code>，而版本3.0之后的后缀名<code>.scss</code>。）</p>
+<p><strong>less和sass的区别</strong></p>
+<p>Less和Sass的主要不同就是他们的实现方式。</p>
+<p>Less是基于JavaScript，是在客户端处理的。</p>
+<p>Sass是基于Ruby的，是在服务器端处理的。</p>
+<p>关于变量在Less和Sass中的唯一区别就是Less用@，Sass用$。</p>
 
             </div>
             <hr/>
@@ -556,7 +608,7 @@ h=ttest2（x，y，alpha，tail）调用格式表示执行以tail指定的备择
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2020/08/06/matlab-qi-mo-zhi-shi-dian-hui-zong/">https://taylor12138.github.io/2020/08/06/matlab-qi-mo-zhi-shi-dian-hui-zong/</a>
+                    <a href="https://taylor12138.github.io/2020/10/02/less-yang-shi/">https://taylor12138.github.io/2020/10/02/less-yang-shi/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -763,27 +815,28 @@ h=ttest2（x，y，alpha，tail）调用格式表示执行以tail指定的备择
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/10/02/yi-dong-web-kai-fa-de-chang-jian-bu-ju-css/">
+                <a href="/2020/11/08/dom/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="移动&amp;Web开发的常见布局(CSS)">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="DOM">
                         
-                        <span class="card-title">移动&amp;Web开发的常见布局(CSS)</span>
+                        <span class="card-title">DOM</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.视口视口分类视口可以分为布局视口，视觉视口和理想视口
-布局视口：一般移动设备浏览器都默认设置一个布局视口（980px），用于早期PC端页面在手机上显示的问题
-缺点：使得元素看上去很小，字体小
-视觉视口：用户正在看的网站区域，我们可以通过
+                            DOM基础DOM：文档对象模型，是一个应用编程接口API
+W3C已经定义了一系列的dom接口，可以改变网页内容、结构、样式
+文档：一个页面就是一个文档，用document表示
+元素：页面内的所有标签都是元素，用element表示
+节点：网页
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-10-02
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-11-08
                         </span>
                         <span class="publish-author">
                             
@@ -807,36 +860,34 @@ h=ttest2（x，y，alpha，tail）调用格式表示执行以tail指定的备择
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/08/06/shu-xue-jian-mo-guo-sai-matlab-zhi-shi-dian/">
+                <a href="/2020/10/02/yi-dong-web-kai-fa-de-chang-jian-bu-ju-css/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="数学建模国赛matlab知识点">
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="移动&amp;Web开发的常见布局(CSS)">
                         
-                        <span class="card-title">数学建模国赛matlab知识点</span>
+                        <span class="card-title">移动&amp;Web开发的常见布局(CSS)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.基础命令行太长，可加上三个小数点：“…”   进行分割（续行符），如
-s=1-1/2+1/3-1/4...
-+1/5-1/6+1/7数值数据默认双精度double
-clear命令，清除工作区的所有变量
-class(变量)得到变量类型
-复
+                            1.视口视口分类视口可以分为布局视口，视觉视口和理想视口
+布局视口：一般移动设备浏览器都默认设置一个布局视口（980px），用于早期PC端页面在手机上显示的问题
+缺点：使得元素看上去很小，字体小
+视觉视口：用户正在看的网站区域，我们可以通过
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-06
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-02
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/matlab/" class="post-category">
-                                    matlab
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
                                 </a>
                             
                             

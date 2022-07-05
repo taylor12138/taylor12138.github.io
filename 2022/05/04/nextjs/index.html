@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.4k
+                    2.6k
                 </div>
                 
 
@@ -556,6 +556,16 @@
 <p>（二级路由）：直接写路由名 + js文件</p>
 <p>（嵌套多级路由）：新建文件夹，文件夹名为路由名，再新建<code>index.js</code>文件</p>
 <p><img src="/2022/05/04/nextjs/router-more.jpg" alt></p>
+<ul>
+<li><code>pages/blog/first-post.js</code>→<code>/blog/first-post</code></li>
+<li><code>pages/dashboard/settings/username.js</code>→<code>/dashboard/settings/username</code></li>
+</ul>
+<h4 id="动态路由"><a href="#动态路由" class="headerlink" title="动态路由"></a>动态路由</h4><p>要匹配动态段，您可以使用括号语法。这允许您匹配命名参数。</p>
+<ul>
+<li><code>pages/blog/[slug].js</code> → <code>/blog/:slug</code> (<code>/blog/hello-world</code>)</li>
+<li><code>pages/[username]/settings.js</code> → <code>/:username/settings</code> (<code>/foo/settings</code>)</li>
+<li><code>pages/post/[...all].js</code> → <code>/post/*</code> (<code>/post/2020/id/title</code>)</li>
+</ul>
 <h4 id="路由传参"><a href="#路由传参" class="headerlink" title="路由传参"></a>路由传参</h4><p>nextjs传参方式一共两种：</p>
 <p><strong>动态路由传参</strong></p>
 <p>对于params传参方式，新建文件 <code>[自定义参数名].js</code>（可见上图），此时通过url路由地址导向，就可以获取对应的params参数（依然是通过useRouter的hook）</p>
@@ -592,7 +602,7 @@ router<span class="token punctuation">.</span><span class="token function">push<
 <span class="token keyword">const</span> <span class="token punctuation">{</span> name<span class="token punctuation">,</span> age<span class="token punctuation">,</span> work <span class="token punctuation">}</span><span class="token punctuation">:</span> any <span class="token operator">=</span> router<span class="token punctuation">.</span>query<span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> age<span class="token punctuation">,</span> work<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h4 id="接收后端服务"><a href="#接收后端服务" class="headerlink" title="接收后端服务"></a>接收后端服务</h4><p>对于后端数据接收，要在<code>pages/api</code>文件夹下进行对后端接口的数据获取（作为node中间件）</p>
-<p>此时最好设定与page页面一一对应的文件命名格式进行获取，比如对于 <code>detail/[id].js</code>页面对应的就是 api文件夹下 <code>detail/[id].js</code>的api</p>
+<p>此时最好设定与pages页面一一对应的文件命名格式进行获取，比如对于 <code>detail/[id].js</code>页面对应的就是 api文件夹下 <code>detail/[id].js</code>的api</p>
 <p><img src="/2022/05/04/nextjs/api.jpg" alt></p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//api/detail/[id].js</span>
 <span class="token keyword">const</span> fn <span class="token operator">=</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
@@ -662,9 +672,17 @@ Page<span class="token punctuation">.</span>getInitialProps <span class="token o
 <span class="token punctuation">}</span>
 
 <span class="token keyword">export</span> <span class="token keyword">default</span> Page</code></pre>
-<h4 id="SSG"><a href="#SSG" class="headerlink" title="SSG"></a>SSG</h4><p>对于每个用户基本一致的静态页面，可以使用SSG（构建build时渲染页面）</p>
+<h4 id="SSG（getStaticProps）"><a href="#SSG（getStaticProps）" class="headerlink" title="SSG（getStaticProps）"></a>SSG（getStaticProps）</h4><p>对于每个用户基本一致的静态页面，可以使用SSG（构建build时渲染页面）</p>
 <p>优点：这种方式可以解决白屏问题、SEO 问题</p>
 <p>缺点：所有用户看到的都是同一个页面，无法生成用户相关内容</p>
+<p>效果：如果动态内容与用户无关，那么可以提前静态化，通过 getStaticProps 可以获取数据<strong>静态内容+数据(本地获取)</strong> 就得到了完整的页面，代替了之前的 <strong>静态内容+动态内容(AJAX 获取)</strong></p>
+<p>实际用例：</p>
+<ul>
+<li>营销页面</li>
+<li>博客文章和个人简历</li>
+<li>电商产品列表</li>
+<li>帮助和文档</li>
+</ul>
 <p>实现：通过<code>getStaticProps</code> 获取 数据</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span>getPosts<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'../../lib/posts'</span><span class="token punctuation">;</span>
 <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">Home</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -674,21 +692,27 @@ Page<span class="token punctuation">.</span>getInitialProps <span class="token o
   <span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 
-<span class="token keyword">export</span> <span class="token keyword">const</span> getStaticProps <span class="token operator">=</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> getStaticProps <span class="token operator">=</span> <span class="token keyword">async</span> <span class="token punctuation">(</span>context<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
   <span class="token keyword">const</span> posts <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">getPosts</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token keyword">return</span> <span class="token punctuation">{</span>
     props<span class="token punctuation">:</span> <span class="token punctuation">{</span>
       posts<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">"allen"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">"mikasa"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">"armin"</span> <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
   <span class="token punctuation">}</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">/*typescript
+export const getStaticProps: GetStaticProps = async (context) => {
+  // ...
+}
+*/</span></code></pre>
 <p>静态化的时机</p>
 <p>环境</p>
 <ol>
 <li>在 <strong>开发环境</strong> ，每次请求都会运行一次 getStaticProps 这是为了方便你修改代码重新运行</li>
-<li>在 <strong>生成环境</strong>，getStaticProps 只在 build 是运行一次，这样可以提供一份 HTML 给所有的用户下载</li>
+<li>在 <strong>生产环境</strong>，getStaticProps 只在 build 是运行一次，这样可以提供一份 HTML 给所有的用户下载</li>
 </ol>
-<p>效果：如果动态内容与用户无关，那么可以提前静态化，通过 getStaticProps 可以获取数据<strong>静态内容+数据(本地获取)</strong> 就得到了完整的页面，代替了之前的 <strong>静态内容+动态内容(AJAX 获取)</strong></p>
+<p><strong>注意</strong>：您不应该使用<a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API" target="_blank" rel="noopener"><code>fetch()</code></a>在<code>getStaticProps</code>. 相反，直接导入 API 路由中使用的逻辑。您可能需要针对这种方法稍微重构您的代码。</p>
+<p>从外部 API 获取很好！</p>
 <h4 id="getStaticPaths"><a href="#getStaticPaths" class="headerlink" title="getStaticPaths"></a>getStaticPaths</h4><p>该方法适用于：每个<strong>页面路径</strong>都依赖于外部数据的情况</p>
 <p>而且如果页面具有动态路由（比如 <code>[id].js</code>）（<a href="https://www.nextjs.cn/docs/routing/dynamic-routes" target="_blank" rel="noopener">文档</a>）并使用<code>getStaticProps</code>它，则需要定义必须在构建时呈现为 HTML 的路径列表。</p>
 <p>如果您导出从使用动态路由的页面<code>async</code>调用的函数<code>getStaticPaths</code>，Next.js 将静态预渲染所有由<code>getStaticPaths</code>.</p>
@@ -711,9 +735,9 @@ Page<span class="token punctuation">.</span>getInitialProps <span class="token o
   <span class="token comment" spellcheck="true">// Fetch necessary data for the blog post using params.id</span>
 <span class="token punctuation">}</span></code></pre>
 <p>然后getStaticPaths的返回值将作为参数传递给getStaticProps</p>
-<p>详情可以看官网对path、fallback属性的介绍<a href="https://www.nextjs.cn/docs/basic-features/data-fetching#getstaticpaths-static-generation" target="_blank" rel="noopener">https://www.nextjs.cn/docs/basic-features/data-fetching#getstaticpaths-static-generation</a></p>
+<p>详情可以看官网对path、fallback属性（为加载完成时展示fallback pages）的介绍<a href="https://www.nextjs.cn/docs/basic-features/data-fetching#getstaticpaths-static-generation" target="_blank" rel="noopener">https://www.nextjs.cn/docs/basic-features/data-fetching#getstaticpaths-static-generation</a></p>
 <p>注意：不要在<code>getStaticProps</code> 或者 <a href="https://www.nextjs.cn/docs/basic-features/data-fetching#getstaticpaths-static-generation" target="_blank" rel="noopener"><code>getStaticPaths</code></a>对后端路由服务的api（也就是上方提及到的接收后端服务）发请求，你应该把服务端定死的代码直接写到<code>getStaticProps</code> 或者 <code>getStaticPaths</code>中，毕竟它们俩只能在服务端跑，这意味着我们可以编写诸如直接数据库查询之类的代码</p>
-<h4 id="SSR"><a href="#SSR" class="headerlink" title="SSR"></a>SSR</h4><p>首屏渲染快，但是拿数据的话还是等到用户发送请求后再去后端拿去数据（请求时渲染页面），生成相应html在返回给客户端</p>
+<h4 id="SSR（getServerSideProps）"><a href="#SSR（getServerSideProps）" class="headerlink" title="SSR（getServerSideProps）"></a>SSR（getServerSideProps）</h4><p>首屏渲染快，但是拿数据的话还是等到用户发送请求后再去后端拿去数据（请求时渲染页面），生成相应html在返回给客户端</p>
 <p>实现：通过<code>getSeverSideProps</code> 获取 数据</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//服务器响应请求后获取浏览器信息，返回给前端展示</span>
 <span class="token keyword">export</span> <span class="token keyword">const</span> getServerSideProps<span class="token punctuation">:</span> GetServerSideProps <span class="token operator">=</span> <span class="token keyword">async</span> <span class="token punctuation">(</span>context<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
@@ -1221,7 +1245,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">307.7k</span>&nbsp;字
+                class="white-color">311.3k</span>&nbsp;字
             
             
             

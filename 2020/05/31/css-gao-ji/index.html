@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.6k
+                    5k
                 </div>
                 
 
@@ -491,15 +491,27 @@
 <pre><code>background: url()no-repeat    -182px 0;        //分别对应x轴，y轴,基本都是负值</code></pre><p>缺点：文件大，放大缩小会失真，更换复杂</p>
 <p>图片压缩优化网站：</p>
 <ul>
-<li>自动生成雪碧图样式的网站：<a href="http://www.spritecow.com/" target="_blank" rel="noopener">http://www.spritecow.com/</a>    </li>
-<li>熊猫压缩较少图片体积 在线压缩网站：<a href="https://tinypng.com/" target="_blank" rel="noopener">https://tinypng.com/</a></li>
-<li><code>image</code> 转 <code>DataUrI</code>的网址：<a href="http://tool.c7sky.com/datauri/" target="_blank" rel="noopener">http://tool.c7sky.com/datauri/</a><ul>
-<li>浏览器不会缓存内联图片资源；</li>
-<li>兼容性较差，只支持<code>ie8</code>以上浏览器；</li>
-<li>超过<code>1000kb</code>的图片，<code>base64</code>编码会使图片大小增大，导致网页整体下载速度减慢</li>
+<li><p>自动生成雪碧图样式的网站：<a href="http://www.spritecow.com/" target="_blank" rel="noopener">http://www.spritecow.com/</a>    </p>
+</li>
+<li><p>熊猫压缩较少图片体积 在线压缩网站：<a href="https://tinypng.com/" target="_blank" rel="noopener">https://tinypng.com/</a></p>
+</li>
+<li><p><code>image</code> 转 <code>DataUrI</code>的网址：<a href="http://tool.c7sky.com/datauri/" target="_blank" rel="noopener">http://tool.c7sky.com/datauri/</a></p>
+<ul>
+<li><p><strong>传统的url在浏览器地址栏中输入，可以直接导航到目标地址；而data URL则是一个data的url表现，可以理解为用url代表数据</strong></p>
+</li>
+<li><p>浏览器不会缓存内联图片资源；</p>
+</li>
+<li><p>兼容性较差，只支持<code>ie8</code>以上浏览器；</p>
+</li>
+<li><p>超过<code>1000kb</code>的图片，<code>base64</code>编码会使图片大小增大，导致网页整体下载速度减慢</p>
+</li>
+<li><p>mobify最新的测试数据：DataURI要比简单的外链资源要慢6倍。</p>
+<p><img src="/2020/05/31/css-gao-ji/image-20220619235353118.png" alt></p>
+</li>
 </ul>
 </li>
-<li>压缩图片可以使用统一的压缩工具 — <code>imagemin</code>，里面提供图片压缩、渐进式图片转换<ul>
+<li><p>压缩图片可以使用统一的压缩工具 — <code>imagemin</code>，里面提供图片压缩、渐进式图片转换</p>
+<ul>
 <li>渐进式图片一开始就决定了大小，而不像Baseline图片一样，不断地从上往下加载，从而造成多次回流，但渐进式图片需要消耗CPU去多次计算渲染，这是其主要缺点</li>
 </ul>
 </li>
@@ -669,7 +681,7 @@ transform:translate(-50%,-50%);</code></pre><p>但是它对行内标签没有效
 <span class="token property">transform-origin</span><span class="token punctuation">:</span>x y<span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">/*设置元素旋转依靠的中心点*/</span></code></pre>
 <p>若只有一个参数，则同比放大</p>
 <p>使用scale的优点：变大时不会影响其他盒子的位置，且放大是以中心向外扩张的放大，直接修改width和heigh放大是直接往下放大</p>
-<h3 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h3><p>用keyframes定义动画</p>
+<h2 id="11-动画"><a href="#11-动画" class="headerlink" title="11.动画"></a>11.动画</h2><p>用keyframes定义动画</p>
 <pre class=" language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@keyframes</span> 动画名称</span> <span class="token punctuation">{</span>
     <span class="token selector">0%</span><span class="token punctuation">{</span>
         <span class="token property">width</span><span class="token punctuation">:</span><span class="token number">100</span>px<span class="token number">....</span>
@@ -703,9 +715,11 @@ transform:translate(-50%,-50%);</code></pre><p>但是它对行内标签没有效
     <span class="token property">animation-play-state</span><span class="token punctuation">:</span>xx<span class="token punctuation">;</span> //running/paused  是动画运行或者暂停
     <span class="token property">animation-timing-fuction</span><span class="token punctuation">:</span> ease<span class="token punctuation">;</span> //默认ease加速度，linear匀速，step分步。。。
 <span class="token punctuation">}</span></code></pre>
+<p>当然 <code>animation-timing-fuction</code> 可以使用 <code>cubic-bezier</code> 控制动画速度  <a href="https://cubic-bezier.com/#.51,0,.47,.99" target="_blank" rel="noopener">https://cubic-bezier.com/#.51,0,.47,.99</a></p>
 <p>使用多个动画用“，”分隔</p>
 <p>如animation: bear 0.7s steps(8) infinite, move 0.7s ……</p>
 <pre class=" language-css"><code class="language-css"><span class="token property">animation</span><span class="token punctuation">:</span> name duration timing-function delay iteration-count direction fill-mode play-state<span class="token punctuation">;</span></code></pre>
+<p>animation一个推荐网址：<a href="https://xsgames.co/animatiss/" target="_blank" rel="noopener">https://xsgames.co/animatiss/</a></p>
 <h3 id="3D转换"><a href="#3D转换" class="headerlink" title="3D转换"></a>3D转换</h3><p>x轴向右，y轴向下，z轴向外，最常用的是3d位移和3d旋转,以下许多功能与2d十分相似</p>
 <p>设置为3d模式(变形效果)</p>
 <p>如果选择平面，元素的子元素将不会有 3D 的遮挡关系。</p>
@@ -713,6 +727,17 @@ transform:translate(-50%,-50%);</code></pre><p>但是它对行内标签没有效
 <pre class=" language-css"><code class="language-css"><span class="token property">transform-style</span><span class="token punctuation">:</span> preserve-<span class="token number">3</span>d</code></pre>
 <h4 id="3d移动"><a href="#3d移动" class="headerlink" title="3d移动"></a>3d移动</h4><pre class=" language-css"><code class="language-css"><span class="token property">transform</span><span class="token punctuation">:</span> translate<span class="token number">3</span><span class="token function">d</span><span class="token punctuation">(</span>x,y,z<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token property">transform</span><span class="token punctuation">:</span><span class="token function">translateZ</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">/*translateZ一般采用px，3d的z轴显现出来需要透视功能*/</span></code></pre>
+<h4 id="translateZ踩的坑"><a href="#translateZ踩的坑" class="headerlink" title="translateZ踩的坑"></a>translateZ踩的坑</h4><p>1.在android上，如果对元素同时设置zindex和transform translateZ的值时，在显示上zindex的优先级要高于translateZ</p>
+<p>2.在ios上，则相反，translateZ的优先级要高于zindex</p>
+<p>3.所以最好在设置一系列元素时，zindex的值和translateZ的值应该一起逐级增长或逐级减少</p>
+<p><a href="https://blog.csdn.net/qappleh/article/details/95636682" target="_blank" rel="noopener">https://blog.csdn.net/qappleh/article/details/95636682</a></p>
+<p>我的解决方案：</p>
+<pre class=" language-js"><code class="language-js">overflow<span class="token punctuation">:</span>hidden <span class="token comment" spellcheck="true">//用于消除3d环境下ios层级问题</span></code></pre>
+<p>如果放在父级别不行，那就放在爷爷级别</p>
+<p>网上的解决方案：</p>
+<p><strong>方法1：</strong><br>父级，任意父级，非body级别，设置<code>overflow:hidden</code>可恢复和其他浏览器一样的渲染。</p>
+<p><strong>方法2：</strong><br>以毒攻毒。有时候，页面复杂，我们不能给父级设置<code>overflow:hidden</code>，怎么办呢？</p>
+<p>杨过的情花剧毒怎么解的？断肠草啊，另一种剧毒。这里也是类似。既然“穿越”的渲染问题是由3D transform变换产生的，那么，要解决此问题，我们也可以使用3D transform变换。</p>
 <h4 id="透视"><a href="#透视" class="headerlink" title="透视"></a>透视</h4><p>透视我们也成为视距，即眼睛到屏幕的距离，透视的单位是像素，透视越小，盒子越大</p>
 <p>透视写在被观察元素的父盒子上</p>
 <pre><code>perspective: xxpx;</code></pre><h4 id="3d旋转"><a href="#3d旋转" class="headerlink" title="3d旋转"></a>3d旋转</h4><p>一般加上透视效果会比较明显，3d<strong>旋转方向</strong>遵循左手定则：</p>
@@ -725,7 +750,7 @@ transform:translate(-50%,-50%);</code></pre><p>但是它对行内标签没有效
 <p>transform要看情况选择：先写旋转rotate再写移动translate或者相反情况</p>
 <h4 id="3d呈现transform-style"><a href="#3d呈现transform-style" class="headerlink" title="3d呈现transform-style"></a>3d呈现transform-style</h4><p>控制子元素是否开启三维立体环境，代码要写给父级（一定是父级，不能爷爷级别，亲测过），此属性很重要</p>
 <pre class=" language-css"><code class="language-css"><span class="token property">transform-style</span><span class="token punctuation">:</span> preserve-<span class="token number">3</span>d <span class="token comment" spellcheck="true">/*此为开启立体空间，但是默认值为flat，不开启立体空间*/</span></code></pre>
-<h2 id="11-styled-components"><a href="#11-styled-components" class="headerlink" title="11.styled-components"></a>11.styled-components</h2><p>秉承着万物皆是组件的思想，让css样式变成组件，来加入</p>
+<h2 id="12-styled-components"><a href="#12-styled-components" class="headerlink" title="12.styled-components"></a>12.styled-components</h2><p>秉承着万物皆是组件的思想，让css样式变成组件，来加入</p>
 <pre class=" language-shell"><code class="language-shell">npm i styled-components</code></pre>
 <p>如果是配合上ts，还需要下载它的声明文件</p>
 <pre class=" language-shell"><code class="language-shell">npm i --save-dev @types/styled-components</code></pre>
@@ -756,29 +781,29 @@ export default function index() {
 <p>对子组件使用styled-components的方式：</p>
 <p> <code>styled(子组件)+css模板字符串</code></p>
 <p>同时子组件还需要通过<code>props.className</code>接收该样式</p>
-<pre class=" language-tsx"><code class="language-tsx">import React from "react";
-import styled from 'styled-components'
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">"react"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> styled <span class="token keyword">from</span> <span class="token string">'styled-components'</span>
 
-export default function Index() {
-  const StyleChild = styled(Child)`
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">Index</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> StyleChild <span class="token operator">=</span> <span class="token function">styled</span><span class="token punctuation">(</span>Child<span class="token punctuation">)</span><span class="token template-string"><span class="token string">`
     background: yellow
-  `
-  return <div>
+  `</span></span>
+  <span class="token keyword">return</span> <span class="token operator">&lt;</span>div<span class="token operator">></span>
     father
-    <StyleChild></StyleChild>
-  </div>;
-}
-function Child(props: any) {
-  return (
-    <div className={props.className}>child</div>
-  )
-}</code></pre>
+    <span class="token operator">&lt;</span>StyleChild<span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>StyleChild<span class="token operator">></span>
+  <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">function</span> <span class="token function">Child</span><span class="token punctuation">(</span>props<span class="token punctuation">:</span> any<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token punctuation">{</span>props<span class="token punctuation">.</span>className<span class="token punctuation">}</span><span class="token operator">></span>child<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
 <h4 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h4><p><strong>常规css性能 vs cssinjs</strong></p>
 <p>css in js 更小（包的大小）</p>
 <p>常规css渲染时间更短</p>
 <p>并且：为了更好地比较用户交互，而不仅仅是页面加载。测量了进行项目分组的拖放活动性能。结果总结如下：即使在这种情况下，Linaria在几个类别中也击败了CSS-in-JS。</p>
 <p>参考：<a href="https://zhuanlan.zhihu.com/p/513843865" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/513843865</a></p>
-<h2 id="12-clip-path"><a href="#12-clip-path" class="headerlink" title="12.clip-path"></a>12.clip-path</h2><p>一个用来设置蒙版的css属性，用它来绘制区域，只有在区域内的部分才能被看到，它支持</p>
+<h2 id="13-clip-path"><a href="#13-clip-path" class="headerlink" title="13.clip-path"></a>13.clip-path</h2><p>一个用来设置蒙版的css属性，用它来绘制区域，只有在区域内的部分才能被看到，它支持</p>
 <ul>
 <li>circle（圆形）</li>
 <li>ellipse（椭圆）</li>
@@ -789,7 +814,7 @@ function Child(props: any) {
 <p>各种形状的示例：<a href="https://blog.csdn.net/weixin_44116302/article/details/98882841" target="_blank" rel="noopener">https://blog.csdn.net/weixin_44116302/article/details/98882841</a></p>
 <p>一个小的教学视频在b站：<a href="https://www.bilibili.com/video/BV18y4y1i7oP?zw" target="_blank" rel="noopener">https://www.bilibili.com/video/BV18y4y1i7oP?zw</a></p>
 <p>该教学的文档<a href="https://zxuqian.cn/videos/effects/effects-glitch/" target="_blank" rel="noopener">https://zxuqian.cn/videos/effects/effects-glitch/</a></p>
-<h2 id="13-CSS3中-moz-或-webkit-是什么意思"><a href="#13-CSS3中-moz-或-webkit-是什么意思" class="headerlink" title="13 CSS3中-moz-或-webkit-是什么意思"></a>13 CSS3中-moz-或-webkit-是什么意思</h2><p>CSS3中新增了一些属性，例如box-reduis、box-orient、text-overflow等等，而这些属性在以往的版本中是不存在的，或者不被支持的，因此，针对不同的浏览器，规定其内核名称让它们可以对这些新增属性进行解析。这看上去是一个合理的解释，即<code>-moz-</code>是针对firefox的，<code>-webkit-</code>是针对safari和chrome的。</p>
+<h2 id="14-CSS3中-moz-或-webkit-是什么意思"><a href="#14-CSS3中-moz-或-webkit-是什么意思" class="headerlink" title="14 CSS3中-moz-或-webkit-是什么意思"></a>14 CSS3中-moz-或-webkit-是什么意思</h2><p>CSS3中新增了一些属性，例如box-reduis、box-orient、text-overflow等等，而这些属性在以往的版本中是不存在的，或者不被支持的，因此，针对不同的浏览器，规定其内核名称让它们可以对这些新增属性进行解析。这看上去是一个合理的解释，即<code>-moz-</code>是针对firefox的，<code>-webkit-</code>是针对safari和chrome的。</p>
 
             </div>
             <hr/>
@@ -1246,7 +1271,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">307.7k</span>&nbsp;字
+                class="white-color">311.3k</span>&nbsp;字
             
             
             

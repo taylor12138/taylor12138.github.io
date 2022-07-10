@@ -1258,7 +1258,7 @@ const Child = forwardRef((props, ref) => {
   return (
     <div>
       <h1>child</h1>
-      <input type="text" ref={ref as React.LegacyRef<HTMLInputElement>}/>
+      <input type="text" ref="{ref" as react.legacyref<htmlinputelement>}/>
     </div>
   )
 })
@@ -1267,12 +1267,12 @@ export default function Index() {
   return (
     <div>
       <h1>father</h1>
-      <Child ref={text}></Child><button onClick={() => {
+      <Child ref="{text}"></Child><button onclick="{()" => {
         console.log(text);
       }}>click</button>
     </div>
   )
-}</code></pre>
+}</HTMLInputElement></code></pre>
 <h2 id="13-React优化"><a href="#13-React优化" class="headerlink" title="13.React优化"></a>13.React优化</h2><h4 id="PureComponent-amp-memo"><a href="#PureComponent-amp-memo" class="headerlink" title="PureComponent &amp; memo"></a>PureComponent &amp; memo</h4><p>问题一：执行<code>setState</code>的时候，即使state未发生改变，也会重新render（不过类式组件中redux的更新也由此得益）</p>
 <p>问题二：React中使用父子组件嵌套时，父组件使用props传入state的状态，发生 setState 时state改变，setState触发 <code>render()</code>，而传入的props也随之改变，子组件也发生 <code>render()</code>；但是如果没有传入props，父组件发生 <code>render()</code>更新时，因为子组件也放在 <code>render()</code>里面，所以子组件即使没什么要改的地方，也不得不随着父组件一起 <code>render()</code>更新</p>
 <p>造成原因：</p>
@@ -1956,7 +1956,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">312.1k</span>&nbsp;字
+                class="white-color">312.2k</span>&nbsp;字
             
             
             

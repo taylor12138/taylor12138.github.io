@@ -29,7 +29,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.7k
+                    4.2k
                 </div>
                 
 
@@ -608,6 +608,40 @@
 <p><code>var dpr = window.devicePixelRatio || 1</code></p>
 </li>
 </ul>
+<h4 id="vh"><a href="#vh" class="headerlink" title="vh"></a>vh</h4><p>视窗单位给移动端开发的适配是带来了极大的优势，但我想你在使用视窗单位的时候，应该也碰到了iOS上 Safari 的兼容性问题。因为，在iOS上的 Safari 有一个长期存在的，极其恼人的Bug，它不能与 <code>vh</code> 单位很好的配合。如果你将一个容器的高度设置为 <code>100vh</code> 时，会导致这个元素有点太高（会出现滚动条）。造成这种现象的主要原因是移动端上的 Safari 在计算 <code>100vh</code> 时忽略了它的部分用户界面。</p>
+<p><strong>这是由于 Safari 和 Chrome 使用的计算方法造成的</strong></p>
+<p>作者<a href="https://lukechannings.com/" target="_blank" rel="noopener">Luke Channings</a>于2021 年 6 月 11 日</p>
+<p>Safari 的新浮动地址栏显示在我们的测试按钮上方，这或多或少与 iOS 14 的行为完全相同。</p>
+<p>仍然说Safari 15 不会改变<code>100vh</code>😢 的行为。</p>
+<p><strong>解决方案</strong>：</p>
+<p>方案1</p>
+<p>Let’s get started first with the JS file:</p>
+<p>您始终可以通过使用全局变量来获取当前视口的值<code>window.innerHeight</code>。该值将浏览器的界面考虑在内，并在其可见性更改时更新</p>
+<pre><code>const appHeight = () =&gt; {
+ const doc = document.documentElement
+ doc.style.setProperty(‘ — app-height’, `${window.innerHeight}px`)
+}
+window.addEventListener(‘resize’, appHeight)
+appHeight()</code></pre><p><strong>appHeigh</strong>t function has sets new style property <em>var(<code>— app-height</code>)</em> including current window height, <em>— app-height</em> it is necessary for next steps.</p>
+<pre><code>:root {
+ — app-height: 100%;
+}html,
+body {
+ padding: 0;
+ margin: 0;
+ overflow: hidden;
+ width: 100vw;
+ height: 100vh;
+ height: var( — app-height);
+}</code></pre><p>In the previous step I’ve created the reference <em>— app-height</em>, wrapping in the <em>var()</em> I’ve received CSS variable <em>var( — app-height)</em>. This variable is allowed to read values created by JS.</p>
+<p>方案2</p>
+<p>CSS solution (not recommend)<br>The last, but not the least solution is <code>— webkit-fill-available</code>, this solution works only on Apple devices, it won’t solve the problem on Android devices. I don’t recommend this solution, but it’s worth showing.</p>
+<p>诀窍在于<code>min-height: -webkit-fill-available;</code>body 作为对 的渐进增强<code>100vh</code>，它应该适用于 iOS 设备。</p>
+<pre><code>height: 100%;
+height: -webkit-fill-available;</code></pre><p>但是方法二在时可能出现的其他问题（例如，对旋转设备的影响、Chrome 没有完全忽略该属性等）。</p>
+<p>参考：</p>
+<p><a href="https://medium.com/quick-code/100vh-problem-with-ios-safari-92ab23c852a8" target="_blank" rel="noopener">100vh problem with iOS Safari</a></p>
+<p><a href="https://allthingssmitty.com/2020/05/11/css-fix-for-100vh-in-mobile-webkit/" target="_blank" rel="noopener">移动 WebKit 中 100vh 的 CSS 修复</a></p>
 <h2 id="2-伪类选择器"><a href="#2-伪类选择器" class="headerlink" title="2.伪类选择器"></a>2.伪类选择器</h2><pre class=" language-css"><code class="language-css"><span class="token comment" spellcheck="true">/*a超链接类   或者写成   a的类名:XXX{}*/</span>
 <span class="token property">a</span><span class="token punctuation">:</span>link            选择所有未访问的链接
 <span class="token property">a</span><span class="token punctuation">:</span>visited         选择所有已被访问的链接
@@ -1036,32 +1070,36 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/05/14/niu-ke-personal-note/">
+                <a href="/2020/05/17/css-fu-dong-ding-wei/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="牛客personal note">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="CSS浮动+定位">
                         
-                        <span class="card-title">牛客personal note</span>
+                        <span class="card-title">CSS浮动+定位</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            小基础floor(x) 小于等于x的最大值整数（向下取整）   ceil(x) 大于等于x的最小整数（向上取整）( #include&lt;math.h&gt; )
-int 32位二进制  第一个是符号位正数为0，负数为1，后面是数值位 -
+                            1.浮动CSS三种传统布局：普通流  浮动   定位
+标准流：标签按照默认排序
+多个块级元素纵向排列用标准流，横向排列用浮动
+选择器{
+    float: 属性值;   //none不浮动   left向左浮动    right向右浮动
+
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-14
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-17
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/personal/" class="post-category">
-                                    personal
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
                                 </a>
                             
                             
@@ -1259,7 +1297,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">311.3k</span>&nbsp;字
+                class="white-color">312.1k</span>&nbsp;字
             
             
             

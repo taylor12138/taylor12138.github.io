@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.1k
+                    6.7k
                 </div>
                 
 
@@ -639,68 +639,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <li>响应首部字段（响应专用）Accept-Ranges、Location（令客户端重定向至指定 URI）、Server（HTTP 服务器应用程序的信息）等</li>
 <li>实体首部字段（通用，针对报文的实体部分）Allow、Content-Encoding等</li>
 </ol>
-<h2 id="4-http和https"><a href="#4-http和https" class="headerlink" title="4.http和https"></a>4.http和https</h2><p><strong>http</strong>：超文本传输协议，它是以一种明文的方式（传输是明文的），没有任何加密，如果我们在该网站输入登录密码等信息，发送请求到服务器时，如果有人在中途截取我们的信息，那我们的信息可能就暴露了，默认80</p>
-<p><strong>https</strong>：超文本传输安全协议，利用SSL/TLS来加密数据包。默认443，需要到 CA 申请证书，一般免费证书很少，需要交费，握手阶段比较费时，会使页面的加载时间延长近50%，增加10%到20%的耗电；</p>
-<p><strong>对称密钥</strong>：直接发密钥，之后的通信都用过这个密钥打开。它的弊端就是，可能被中间人拦截，这样中间人就可以获取到了密钥，就可以对传输的信息就行窥视和篡改。</p>
-<p><strong>非对称密钥（RSA）</strong>：双方必须协商一对密钥，一个私钥一个公钥。用私钥加密的数据，只有对应的公钥才能解密，用公钥加密的数据， 只有对应的私钥才能解密</p>
-<p>但它的弊端就是，算法很慢</p>
-<p>我们使用结合的方式！</p>
-<p>使用 非对称密钥（RSA） 发送 对称密钥，然后双方使用 对称密钥 进行通信</p>
-<p><strong>SSL协议</strong>：这个协议简单来说就是提供数据安全和完整性的<strong>协议</strong>，简而言之，它是一项标准技术。比如我们访问了一个https网站，客户端和服务端会（握手阶段）如果某个网站受 SSL 证书保护，其相应的 URL 中会显示 HTTPS</p>
-<ul>
-<li>先建立安全的连接通道，客户端先给出协议版本号 + 支持的加密方法 + 随机数等</li>
-<li>确认信息后，服务器会生成一个加锁的箱子，但是这把锁有两把不一样的钥匙，一把留给服务器自己（私钥），一把提供给客户端（公钥）</li>
-<li>服务器发送 — &gt; 未上锁的箱子 + （里面放着一份网站的证书（证书包括公钥和数字签）到 – &gt; 客户端（你访问的服务器没问题））</li>
-<li>客户端生成两把对称密钥，一把留给自己，然后把信息 + 另一把对称密钥放到箱子中，用钥匙锁上（只能用私钥开）发送 —&gt;服务器</li>
-<li>然后服务器用另外一把钥匙（私钥）打开箱子，然后双方可以通过对称密钥通信了</li>
-</ul>
-<p>在这个过程中，即使箱子被拦截了，也很难打开箱子</p>
-<h4 id="中间人攻击"><a href="#中间人攻击" class="headerlink" title="中间人攻击"></a>中间人攻击</h4><p>因为传输非对称密钥的时候，服务端发送的是公钥，，有可能被中间人拦截后进行篡改</p>
-<p>这时我们就需要数字证书，确定服务端的身份，一定是服务端发送的，而数字证书类似于我们的公证处</p>
-<p>这篇文章可以生动形象地了解到 https 的原理 <a href="https://juejin.cn/post/6844903504046211079" target="_blank" rel="noopener">https://juejin.cn/post/6844903504046211079</a></p>
-<p>（而我们熟知的自动打卡，有些就是利用中间人攻击的原理（fiddler抓包），模拟客户端和服务端通信，当然，它也通过不了数字证书的校验，fiddler伪造的数字证书，是建立在我们手动信任的基础上）</p>
-<p>（所以连接陌生wifi、下载乱七八糟的软件，有可能会被装上乱七八糟的私发证书，从而出现中间人攻击）</p>
-<h4 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h4><ul>
-<li>数字证书是什么东西?其实它就是一个 .crt 文件</li>
-<li>数字证书是谁颁发的?由权威证书认证机构颁发，一般我们简称为 CA 机构</li>
-<li>数字证书如何申请的：<ul>
-<li>服务器上生成一对公钥和私钥。然后将域名、申请者、公钥(注意不是私钥，私钥是无论如何也不能泄露的)等其他信息整合在一起，生成<code>.csr</code> 文件。</li>
-<li><code>.csr</code>文件发送给CA机构，收到申请后会验证申请者的组织和个人信息，然后 CA 就会使用散列算法对<code>.csr</code>里的明文信息先做一个HASH，得到一个信息摘要，再用 CA 自己的私钥对这个信息摘要进行加密，生成一串密文，密文即是所说的 签名</li>
-</ul>
-</li>
-</ul>
-<p><img src="/2021/03/15/chao-wen-ben-chuan-shu-xie-yi-new/CA.jpg" alt></p>
-<ul>
-<li>客户端(浏览器)向服务端发出请求，服务端返回证书给客户端。</li>
-<li>客户端拿到证书后，把证书里的签名与及明文信息分别取出来，然后会<strong>用自身携带的CA机构的公钥</strong>去解密签名，然后信息摘要1，然后再对明文信息进行HASH，得到一个信息摘要2，对比信息摘要1 和信息摘要2，如果一样，说明证书是合法的，也就是证书里的公钥是正确的。</li>
-<li>使用到的算法：摘要算法（Digest Algorithm），也就是常说的散列函数、哈希函数（Hash Function）。<ul>
-<li>目前 TLS 推荐使用的是 SHA-1 的后继者：SHA-2。</li>
-<li>SHA-1架构类似于MD5得散列函数，接受任意大小的输入，生成160位消息散列，容易受到碰撞攻击，这个算法已经不再安全</li>
-<li>SHA-2 实际上是一系列摘要算法的统称，总共有 6 种，常用的有 SHA224、SHA256、SHA384，分别能够生成 28 字节、32 字节、48 字节的摘要。这个算法目前被认为是安全的，还被应用于广泛领域比如PGP、比特币</li>
-</ul>
-</li>
-</ul>
-<p>参考：<a href="https://network.51cto.com/art/202010/628890.htm" target="_blank" rel="noopener">https://network.51cto.com/art/202010/628890.htm</a></p>
-<h4 id="TLS协议"><a href="#TLS协议" class="headerlink" title="TLS协议"></a>TLS协议</h4><p>它建立在SSL 3.0协议规范之上，是SSL 3.0的后续版本</p>
-<p>对比SSL的增强内容：</p>
-<ul>
-<li>更安全的MAC算法</li>
-<li>更严密的警报</li>
-<li>“灰色区域”规范更加明确定义</li>
-</ul>
-<h4 id="session恢复"><a href="#session恢复" class="headerlink" title="session恢复"></a>session恢复</h4><p>握手阶段通过SSL/TLS进行连接，如果出于某种原因，对话中断，就需要重新握手</p>
-<p>此时有两种方法可以恢复原来的session</p>
-<ul>
-<li>session ID</li>
-<li>session ticket</li>
-</ul>
-<p>Session用于保存每个用户的专用信息，变量的值保存在服务器端，通过Session ID来区分不同的客户，通过这个Session ID，双方还可以重新使用已有的”对话密钥“，无需重新生成</p>
-<p>session ID的优点是高兼容性</p>
-<p>缺点是只能保留在一个服务器上</p>
-<p>session ticket优点可在其他服务器上使用，它原理上就是让xx的的请求一直粘连在机器A上，下次重连的时候，就把这个 Ticket 进行解密，验证它过没过期，如果没过期那就直接恢复之前的会话状态。</p>
-<p>缺点：目前只有火狐和谷歌支持</p>
-<p>session ticket是加密的，只有服务器才能解密，其中包括对话的主要信息，比如对话密钥和加密方法。当服务器收到session ticket以后，解密后就不必重新生成对话密钥了。</p>
-<h2 id="5-响应状态码"><a href="#5-响应状态码" class="headerlink" title="5.响应状态码"></a>5.响应状态码</h2><p>100：信息型状态响应码表示目前为止一切正常, 客户端应该继续请求, 如果已完成请求则忽略.</p>
+<h2 id="4-响应状态码"><a href="#4-响应状态码" class="headerlink" title="4.响应状态码"></a>4.响应状态码</h2><p>100：信息型状态响应码表示目前为止一切正常, 客户端应该继续请求, 如果已完成请求则忽略.</p>
 <p>101：HTTP <code>**101 Switching Protocol**</code>（协议切换）状态码表示<strong>服务器</strong>应<strong>客户端**</strong>升级协议**的请求对协议进行切换。</p>
 <p>200：ok</p>
 <p>201：代表成功的应答状态码，表示请求已经被成功处理，并且创建了新的资源，常规使用场景是作为 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Methods/POST" target="_blank" rel="noopener"><code>POST</code></a> 、PUT请求的返回值</p>
@@ -721,7 +660,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>503：服务器目前无法使用（由于超载或停机维护）通常，这只是暂时状态。（服务不可用）</p>
 <p>504：网关超时</p>
 <p><img src="/2021/03/15/chao-wen-ben-chuan-shu-xie-yi-new/ajax.jpg" alt></p>
-<h2 id="6-http缓存"><a href="#6-http缓存" class="headerlink" title="6.http缓存"></a>6.http缓存</h2><p>常见的http缓存只能缓存get请求响应的资源，对于其他类型的响应则无能为力。对于开发者来说，长久缓存复用重复不变的资源是性能优化的重要组成部分！！！</p>
+<h2 id="5-http缓存"><a href="#5-http缓存" class="headerlink" title="5.http缓存"></a>5.http缓存</h2><p>常见的http缓存只能缓存get请求响应的资源，对于其他类型的响应则无能为力。对于开发者来说，长久缓存复用重复不变的资源是性能优化的重要组成部分！！！</p>
 <p>浏览器第一次向一个web服务器发起<code>http</code>请求后，服务器会返回请求的资源，并且在响应头中添加一些有关<strong>缓存的字段</strong>（添加后浏览器才知道是否应该缓存资源）如：</p>
 <ul>
 <li><p><code>Cache-Control</code>（控制浏览器是否可以缓存资源、强制缓存校验、缓存时间）（通用头部）</p>
@@ -762,7 +701,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <h4 id="缓存过期策略"><a href="#缓存过期策略" class="headerlink" title="缓存过期策略"></a>缓存过期策略</h4><p>1、设置 Cache-Control: max-age=1000 。响应头中的 Date 经过 1000s 过期（比起首部字段<code>Expires</code>，会优先处理<code>s-maxage</code>或<code>max-age</code>。）（<code>Cache-Control</code>HTTP / 1.1通用头字段被用于为请求和响应缓存机制指定指令l）<br>2、设置 Expires 。此时间与本地时间(响应头中的 Date )对比，小于本地时间表示过期，由于本地时钟与服务器时钟无法保持一致，导致比较不精确，也就是说如果修改了本地时间，可能会造成缓存失效。（http1.0时代，Pragma也是1.0时代的产物）<br>3、如果以上均未设置，却设置了 Last-Modified ，浏览器隐式的设置资源过期时间为 (Date - Last-Modified) * 10% 缓存过期时间。</p>
 <p><strong>前端缓存图</strong>：</p>
 <p><img src="/2021/03/15/chao-wen-ben-chuan-shu-xie-yi-new/huancun.jpg" alt></p>
-<h2 id="7-其他"><a href="#7-其他" class="headerlink" title="7.其他"></a>7.其他</h2><h4 id="范围请求"><a href="#范围请求" class="headerlink" title="范围请求"></a>范围请求</h4><p>假设你正在下载一个很大的文件，已经下了四分之三，忽然网络中断了，那下载就必须重头再来一遍。为了解决这个问题，需要一种可恢复的机制，即能从之前下载中断处恢复下载，要实现该功能，这就要用到范围请求。（前提是上一次请求到这一次请求时间段内，下载对象没有发生改变）</p>
+<h2 id="6-其他"><a href="#6-其他" class="headerlink" title="6.其他"></a>6.其他</h2><h4 id="范围请求"><a href="#范围请求" class="headerlink" title="范围请求"></a>范围请求</h4><p>假设你正在下载一个很大的文件，已经下了四分之三，忽然网络中断了，那下载就必须重头再来一遍。为了解决这个问题，需要一种可恢复的机制，即能从之前下载中断处恢复下载，要实现该功能，这就要用到范围请求。（前提是上一次请求到这一次请求时间段内，下载对象没有发生改变）</p>
 <p>当然，前提是服务器要支持<strong>范围请求</strong>，要支持这个功能，就必须加上这样一个响应头:</p>
 <pre class=" language-http"><code class="language-http"><span class="token header-name keyword">Accept-Ranges:</span> none</code></pre>
 <p>单一范围：我们可以请求资源的某一部分</p>
@@ -786,7 +725,7 @@ GET / HTTP/1.1
 ...
 复制代码</code></pre><p>这样就可以解决<code>X-Forwarded-For</code>带来的问题了。</p>
 <p>X-Real-IP首部字段：始终记录最初的客户端的IP</p>
-<h2 id="8-QUIC"><a href="#8-QUIC" class="headerlink" title="8.QUIC"></a>8.QUIC</h2><p>Quic 全称 quick udp internet connection ，“快速 UDP 互联网连接”，也可以理解为http3.0</p>
+<h2 id="7-QUIC"><a href="#7-QUIC" class="headerlink" title="7.QUIC"></a>7.QUIC</h2><p>Quic 全称 quick udp internet connection ，“快速 UDP 互联网连接”，也可以理解为http3.0</p>
 <p>应用：速度更快、网络切换（wifi -&gt; nG）无感知等、弱网络环境better</p>
 <p>对比http2.0：</p>
 <ol>
@@ -798,6 +737,7 @@ GET / HTTP/1.1
 <p>为啥你用UDP也能可靠啊？</p>
 <p>TCP 使用ACK（确认），还有基于字节序号的 <code>Sequence Number</code>为了保证可靠性，而QUIC也有使用ACK（确认）并且以 <code>Packet Number</code> 代替了 TCP 的 <code>sequence number</code>；</p>
 <p>传统TCP：超时事件 RTO 发生后，客户端发起重传，然后接收到了 Ack 数据。但是因为序列号一样，所以我们分不清这个 Ack 数据到底是原始请求的响应，还是重传请求的响应</p>
+<p>QUIC 同样是一个可靠的协议，它使用 Packet Number 代替了 TCP 的 sequence number，并且每个 Packet Number 都严格递增，也就是说就算 Packet N 丢失了，重传的 Packet N 的 Packet Number 已经不是 N，而是一个比 N 大的值。而 TCP 呢，重传 segment 的 sequence number 和原始的 segment 的 Sequence Number 保持不变，也正是由于这个特性，引入了 Tcp 重传的歧义问题。</p>
 <p>QUIC：</p>
 <ul>
 <li><p>当<code>Packet Number</code> 发生了丢失，<code>Packet Number</code> 传递的数值（也就是那个Number）会不一样，因为他是按照严格递增的，此时就可以发现传送的失误了。（在RTO 发生后，可以精确判断Ack 数据是原始请求的响应，还是重传请求的响应）</p>
@@ -815,21 +755,22 @@ GET / HTTP/1.1
 <li><p><strong>避免队头阻塞的多路复用。</strong></p>
 <p><strong>TCP队头阻塞</strong>：</p>
 <p>TCP数据包是有序传输，中间一个数据包丢失，会等待该数据包重传，造成后面的数据包的阻塞。</p>
+<p>QUIC的多路复用，也可以实现在一条 QUIC 连接上可以并发发送多个 HTTP 请求 （stream），但是stream之间没有相互依赖，这导致了彼此不会相互影响，极大程度消除了对头阻塞的影响；</p>
+<p>并且QUIC 最基本的传输单元是 Packet，整个加密和认证过程都是基于 Packet 的，不会跨越多个 Packet。这样就能避免 TLS 协议存在的队头阻塞。</p>
+<p>而对比QUIC，http2.0的多路复用会队头阻塞，本身强制使用的TLS协议也存在一个队头阻塞</p>
+<p><img src="/2021/03/15/chao-wen-ben-chuan-shu-xie-yi-new/quic2.jpg" alt></p>
+<p><img src="/2021/03/15/chao-wen-ben-chuan-shu-xie-yi-new/quic3.jpg" alt></p>
 </li>
-</ol>
-<p>   QUIC的多路复用，也可以实现在一条 QUIC 连接上可以并发发送多个 HTTP 请求 （stream），但是stream之间没有相互依赖，这导致了彼此不会相互影响，极大程度消除了对头阻塞的影响；</p>
-<p>   并且QUIC 最基本的传输单元是 Packet，整个加密和认证过程都是基于 Packet 的，不会跨越多个 Packet。这样就能避免 TLS 协议存在的队头阻塞。</p>
-<p>   而对比QUIC，http2.0的多路复用会队头阻塞，本身强制使用的TLS协议也存在一个队头阻塞</p>
-<p>   <img src="/2021/03/15/chao-wen-ben-chuan-shu-xie-yi-new/quic2.jpg" alt></p>
-<p>   <img src="/2021/03/15/chao-wen-ben-chuan-shu-xie-yi-new/quic3.jpg" alt></p>
-<ol start="4">
 <li><p><strong>连接迁移。</strong></p>
 <p>WIFI 和 4G 移动网络切换时， ip发生变化 -&gt; 重新建立TCP连接；而任何一条 QUIC 连接不再以 IP 及端口四元组标识，而是以一个 64 位的随机数作为 ID 来标识，继而上层业务逻辑感知不到变化</p>
 </li>
 <li><p><strong>前向冗余纠错</strong></p>
 </li>
 </ol>
-<p>QUIC参考链接<a href="https://zhuanlan.zhihu.com/p/32553477" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/32553477</a></p>
+<h4 id="QUIC的UDP优化"><a href="#QUIC的UDP优化" class="headerlink" title="QUIC的UDP优化"></a>QUIC的UDP优化</h4><p>相信已经在尝试应用QUIC/HTTP3的服务端开发者，或多或少都会经历UDP在内核方面的性能瓶颈问题，考虑到UDP是在近几年才随着QUIC和流媒体传输的场景的逐渐流行，才被逐渐广泛地应用起来，因此内核UDP在性能方面很难与优化了三十年的TCP相抗衡，同时内核的复杂性和通用性要求，也导致一些新的高性能修改难以被迅速接收。因此，在UDP性能优化方面，我们和龙蜥社区的Anolis内核团队联合做了一版bypass内核的用户态高性能udp收发方案。</p>
+<p>QUIC参考链接</p>
+<p><a href="https://zhuanlan.zhihu.com/p/32553477" target="_blank" rel="noopener">科普：QUIC协议原理分析</a></p>
+<p><a href="https://www.zhihu.com/question/302412059/answer/2530154943" target="_blank" rel="noopener">如何看待 HTTP/3 ？</a></p>
 
             </div>
             <hr/>
@@ -1103,35 +1044,32 @@ GET / HTTP/1.1
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/03/08/fu-wu-qi-yu-bu-shu/">
+                <a href="/2021/03/15/chao-wen-ben-an-quan-chuan-shu-xie-yi/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="服务器与部署">
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="超文本安全传输协议">
                         
-                        <span class="card-title">服务器与部署</span>
+                        <span class="card-title">超文本安全传输协议</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.部署方式利用脚手架打包后得到dist文件
-将自己电脑作为服务器，部署本地 ：window -&gt; 使用nginx或者tomcat
-远程主机，进行部署：linux centos -&gt; nginx
-如
-注意 ：使用nginx时，关
+                            1.http和httpshttp：超文本传输协议，它是以一种明文的方式（传输是明文的），没有任何加密，如果我们在该网站输入登录密码等信息，发送请求到服务器时，如果有人在中途截取我们的信息，那我们的信息可能就暴露了，默认80
+https：超文
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-03-08
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-03-15
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                    前端
+                            <a href="/categories/%E7%BD%91%E7%BB%9C/" class="post-category">
+                                    网络
                                 </a>
                             
                             
@@ -1287,7 +1225,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">312.2k</span>&nbsp;字
+                class="white-color">324k</span>&nbsp;字
             
             
             

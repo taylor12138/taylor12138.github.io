@@ -640,8 +640,8 @@
 <p>和 prop 类似，现在可以通过 <code>emits</code> 选项来定义组件可触发的事件：</p>
 <pre class=" language-vue"><code class="language-vue"><template>
   <div>
-    <子组件 @accepted="listener">OK
-  </子组件></div>
+    <子组件 @accepted="listener">OK</button>
+  </div>
 </template></code></pre>
 <pre class=" language-vue"><code class="language-vue"><template>
   <div>
@@ -723,7 +723,7 @@
 <pre class=" language-vue"><code class="language-vue"><template>
   <div>
     I am Son
-    <input type="text" :value="modelValue" @input="changeInput">
+    <input type="text" :value="modelValue" @input="changeInput" />
   </div>
 </template>
 <script>
@@ -743,7 +743,7 @@ export default {
 <pre class=" language-vue"><code class="language-vue"><template>
   <div>
     I am Son
-    <input type="text" v-model="value">
+    <input type="text" v-model="value" />
   </div>
 </template>
 
@@ -773,7 +773,7 @@ export default {
 <pre class=" language-vue"><code class="language-vue"><template>
   <div>
     I am Son
-    <input type="text" v-model="value">
+    <input type="text" v-model="value" />
   </div>
 </template>
 
@@ -799,7 +799,7 @@ export default {
 <pre class=" language-vue"><code class="language-vue"><template>
   <div>
     I am Son
-    <input type="text" v-model="modelValue.value">
+    <input type="text" v-model="modelValue.value" />
   </div>
 </template>
 
@@ -837,8 +837,8 @@ export default {
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <p>而此时父组件修改这个props时要这样修改才有效</p>
 <pre class=" language-vue"><code class="language-vue"><template>
-    <child-component v-model="pageObj">
-</child-component></template>
+    <child-component v-model="pageObj" />
+</template>
 
 <script lang="ts">
 //...
@@ -895,8 +895,8 @@ export default defineComponent({
 <pre class=" language-vue"><code class="language-vue"><template>
   <div>
     I am Son
-    <input type="text" v-model="value">
-    <input type="text" v-model="value2">
+    <input type="text" v-model="value" />
+    <input type="text" v-model="value2" />
   </div>
 </template>
 
@@ -1569,9 +1569,9 @@ export default {
 </script>
 
 <template>
-    <MyComponent>
+    <MyComponent />
     <button @click="count++">{{ count }}</button>
-</MyComponent></template></code></pre>
+</template></code></pre>
 <p>在 <code>&lt;script setup&gt;</code> 中必须使用 <code>defineProps</code> 和 <code>defineEmits</code> API 来声明 <code>props</code> 和 <code>emits</code></p>
 <h4 id="获取路由对象"><a href="#获取路由对象" class="headerlink" title="获取路由对象"></a>获取路由对象</h4><p>依旧是因为setup中获取不到this，此时导入路由的hook</p>
 <p>此时这里的 useRoute返回的<code>route = this.$route</code></p>
@@ -1674,7 +1674,10 @@ router<span class="token punctuation">.</span><span class="token function">befor
 <h4 id="Vue-extend"><a href="#Vue-extend" class="headerlink" title="Vue.extend"></a>Vue.extend</h4><p>在 Vue 2.x 中，<code>Vue.extend</code> 曾经被用于创建一个基于 Vue 构造函数的“子类”，其参数应为一个包含组件选项的对象。在 Vue 3.x 中，我们已经没有组件构造器的概念了。应该始终使用 <code>createApp</code> 这个全局 API 来挂载组件</p>
 <h4 id="v-on-native"><a href="#v-on-native" class="headerlink" title="v-on.native"></a>v-on.native</h4><p>它原来是用于组件中原生事件的触发</p>
 <p>原来的样子</p>
-<pre class=" language-vue"><code class="language-vue"><my-component v-on:close="handleComponentEvent" v-on:click.native="handleNativeClickEvent"></my-component></code></pre>
+<pre class=" language-vue"><code class="language-vue"><my-component
+  v-on:close="handleComponentEvent"
+  v-on:click.native="handleNativeClickEvent"
+/></code></pre>
 <p>而现在<code>v-on</code> 的 <code>.native</code> 修饰符已被移除。同时，<a href="https://v3.cn.vuejs.org/guide/migration/emits-option.html" target="_blank" rel="noopener">新增的 <code>emits</code> 选项</a>允许子组件定义真正会被触发的事件。</p>
 <p>因此，对于子组件中<em>未</em>被定义为组件触发的所有事件监听器，Vue 现在将把它们作为原生事件监听器添加到子组件的根元素中 (除非在子组件的选项中设置了 <code>inheritAttrs: false</code>)。</p>
 <p>（可以理解为直接用就好了，不用加<code>native</code>）</p>
@@ -1950,25 +1953,30 @@ emitter<span class="token punctuation">.</span><span class="token function">off<
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/11/14/vite/">
+                <a href="/2021/11/05/vue3-xia/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Vite">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Vue3(下)">
                         
-                        <span class="card-title">Vite</span>
+                        <span class="card-title">Vue3(下)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Vite概述Webpack是前端使用最多的构建工具，但是除了webpack还有一些其他的构建工具，比如rollup、parcel、gulp、vite
- Vite 是 vue 的作者尤雨溪在开发 vue3.0 的时候开发的一个基于原生 ES-
+                            6.Vue动画处理vue有个内置组件 transition
+基本使用：使用name定义过渡类名，然后常常与v-if、v-show、动态组件进行搭配
+官方：
+可以给任何元素和组件添加进入/离开过渡
+
+条件渲染 (使用 v-if)
+条件展示 (
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-11-14
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-11-05
                         </span>
                         <span class="publish-author">
                             
@@ -1992,30 +2000,37 @@ emitter<span class="token punctuation">.</span><span class="token function">off<
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/11/05/vue3-xia/">
+                <a href="/2021/11/02/wang-zhan-xing-neng-you-hua/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Vue3(下)">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="网站性能优化">
                         
-                        <span class="card-title">Vue3(下)</span>
+                        <span class="card-title">网站性能优化</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            6.Vue动画处理vue有个内置组件 transition
-基本使用：使用name定义过渡类名，然后常常与v-if、v-show、动态组件进行搭配
-官方：
-可以给任何元素和组件添加进入/离开过渡
+                            1.网站性能优化概述我们通常的标量化
 
-条件渲染 (使用 v-if)
-条件展示 (
+白屏
+首屏
+页面整体加载
+页面可交互
+功能交互响应
+
+Steve Souders在《高性能网站建设指南》总结的12条提高性能的基本规则
+
+尽量减少http请求
+使用CDN
+静态资源使用Cache
+启用
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-05
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-02
                             </span>
                         <span class="publish-author">
                             
@@ -2178,7 +2193,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">312.2k</span>&nbsp;字
+                class="white-color">324k</span>&nbsp;字
             
             
             

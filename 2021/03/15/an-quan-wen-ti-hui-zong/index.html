@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.7k
+                    7.8k
                 </div>
                 
 
@@ -737,7 +737,15 @@ style-src cdn.example.org third-party.org; child-src https:</code></pre><ul>
 <li>使用CDN节点</li>
 <li>流量清洗设备（有点像保镖），先自己来应答，如果是正常的流量就放行</li>
 </ul>
-<h2 id="SSH"><a href="#SSH" class="headerlink" title="SSH"></a>SSH</h2><p><strong>Secure Shell</strong>（安全外壳协议，简称<strong>SSH</strong>）是一种加密的<a href="https://zh.wikipedia.org/wiki/网络传输协议" target="_blank" rel="noopener">网络传输协议</a></p>
+<h2 id="7-重放攻击"><a href="#7-重放攻击" class="headerlink" title="7.重放攻击"></a>7.重放攻击</h2><p>API重放攻击（Replay Attacks）又称重播攻击、回放攻击，这种攻击会不断恶意或欺诈性地重复一个有效的API请求。攻击者利用网络监听或者其他方式盗取API请求，进行一定的处理后，再把它重新发给认证服务器，是黑客常用的攻击方式之一。</p>
+<p>百科：</p>
+<p>重放攻击的基本原理就是把以前<a href="https://baike.baidu.com/item/窃听/1624599" target="_blank" rel="noopener">窃听</a>到的数据原封不动地重新发送给接收方。很多时候，网络上传输的数据是<a href="https://baike.baidu.com/item/加密/752748" target="_blank" rel="noopener">加密</a>过的，此时窃听者无法得到数据的准确意义。但如果他知道这些数据的作用，就可以在不知道数据内容的情况下通过再次发送这些数据达到愚弄接收端的目的。例如，有的系统会将鉴别信息进行简单加密后进行传输，这时攻击者虽然无法窃听<a href="https://baike.baidu.com/item/密码/65553" target="_blank" rel="noopener">密码</a>，但他们却可以首先截取加密后的口令然后将其重放，从而利用这种方式进行有效的攻击。</p>
+<p>小情景1.0：假设网上存款系统中，一条消息表示用户支取了一笔存款，攻击者完全可以多次发送这条消息而偷窃存款。</p>
+<p>小情景2.0：A给B写了一封信，说：“老友，请给我转账100块吧！A敬上。” B照做了，然后有人（不一定是A)复制了一样的信和签名发给B，骗B再转账100块，这是重放攻击（replay attack）。</p>
+<p>小情景3.0：一个电子商务<a href="https://baike.baidu.com/item/网站/155722" target="_blank" rel="noopener">网站</a>，要求客户对电子订单签名以防止非授权用户下订单。攻击者如要冒充某位客户下订单，最好可以获得他的<a href="https://baike.baidu.com/item/私钥/8973452" target="_blank" rel="noopener">私钥</a>，如果不成功，攻击者可以<a href="https://baike.baidu.com/item/监听/17293" target="_blank" rel="noopener">监听</a>这位顾客的通信，将顾客以前发送的订单记录下来，然后他就可以直接将这些订单发给网站了。因为这些订单的确是合法客户签名过的，如果网站没有一种识别重放订单的机制，它就会不加犹豫地接收这些订单。</p>
+<p>防御：</p>
+<p>(1)加随机数。该方法优点是认证双方不需要时间同步，双方记住使用过的随机数，如发现报文中有以前使用过的随机数，就认为是重放攻击。缺点是需要额外保存使用过的随机数，若记录的时间段较长，则保存和查询的开销较大。<br> (2)加时间戳 该方法优点是不用额外保存其他信息。缺点是认证双方需要准确的时间同步，同步越好，受攻击的可能性就越小<br> (3)加流水号，也就是双方在报文中添加一个逐步递增的整数，只要接收到一个不连续的流水号报文(太大或太小)，就认定有重放威胁。</p>
+<h2 id="8-SSH"><a href="#8-SSH" class="headerlink" title="8.SSH"></a>8.SSH</h2><p><strong>Secure Shell</strong>（安全外壳协议，简称<strong>SSH</strong>）是一种加密的<a href="https://zh.wikipedia.org/wiki/网络传输协议" target="_blank" rel="noopener">网络传输协议</a></p>
 <p>它的整个过程：</p>
 <p>（1）远程主机收到用户的登录请求，把自己的公钥发给用户。</p>
 <p>（2）用户使用这个公钥，将登录密码加密后，发送回来。</p>
@@ -753,6 +761,26 @@ style-src cdn.example.org third-party.org; child-src https:</code></pre><ul>
 <p>先让用户将自己的公钥储存在远程主机上</p>
 <p>远程主机发东西过来 -&gt; 用户用私钥加密后再发过去 -&gt; 远程主机用存储好的公钥解密</p>
 <p>参考链接：阮一峰<a href="https://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html" target="_blank" rel="noopener">https://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html</a></p>
+<h2 id="9-心脏出血漏洞"><a href="#9-心脏出血漏洞" class="headerlink" title="9.心脏出血漏洞"></a>9.心脏出血漏洞</h2><h4 id="wiki定义"><a href="#wiki定义" class="headerlink" title="wiki定义"></a>wiki定义</h4><p><strong>Heartbleed是</strong><a href="https://en.wikipedia.org/wiki/OpenSSL" target="_blank" rel="noopener">OpenSSL</a><a href="https://en.wikipedia.org/wiki/Cryptography" target="_blank" rel="noopener">加密</a>库中的一个<a href="https://en.wikipedia.org/wiki/Security_bug" target="_blank" rel="noopener">安全漏洞</a>，它是<a href="https://en.wikipedia.org/wiki/Transport_Layer_Security" target="_blank" rel="noopener">传输层安全</a>(TLS) 协议的广泛使用的实现，无论易受攻击的 OpenSSL 实例是作为 TLS 服务器还是客户端运行，都可以利用 Heartbleed。这是由于在 TLS<a href="https://en.wikipedia.org/wiki/Heartbeat_(computing)" target="_blank" rel="noopener">心跳</a>扩展的实现中输入验证不正确（由于缺少<a href="https://en.wikipedia.org/wiki/Bounds_check" target="_blank" rel="noopener">边界检查）造成的。</a><a href="https://en.wikipedia.org/wiki/Heartbleed#cite_note-3" target="_blank" rel="noopener">[3]</a>因此，该错误的名称源自<em>heartbeat</em>。<a href="https://en.wikipedia.org/wiki/Heartbleed#cite_note-4" target="_blank" rel="noopener">[4]</a>该漏洞被归类为<a href="https://en.wikipedia.org/wiki/Buffer_over-read" target="_blank" rel="noopener">缓冲区过度读取</a> , <a href="https://en.wikipedia.org/wiki/Heartbleed#cite_note-cve-5" target="_blank" rel="noopener">[5]</a>可以读取的数据多于应允许的数据的情况。<a href="https://en.wikipedia.org/wiki/Heartbleed#cite_note-6" target="_blank" rel="noopener">[6]</a></p>
+<p>系统管理员经常很慢地修补他们的系统。截至 2014 年 5 月 20 日，在 800,000 个最受欢迎的启用 TLS 的网站中，仍有 1.5% 的网站容易受到 Heartbleed 的攻击。<a href="https://en.wikipedia.org/wiki/Heartbleed#cite_note-9" target="_blank" rel="noopener">[9]</a>截至 2014 年 6 月 21 日，309,197 台公共网络服务器仍然易受攻击。<a href="https://en.wikipedia.org/wiki/Heartbleed#cite_note-Graham-2014-06-21-10" target="_blank" rel="noopener">[10]</a>截至 2017 年 1 月 23 日，根据<a href="https://en.wikipedia.org/wiki/Shodan_(website)" target="_blank" rel="noopener">Shodan的一份报告</a><a href="https://en.wikipedia.org/wiki/Heartbleed#cite_note-Shodan-report-DCPO7BkV-11" target="_blank" rel="noopener">[11]</a>，仍有近 180,000 台联网设备易受攻击。<a href="https://en.wikipedia.org/wiki/Heartbleed#cite_note-Schwartz-2017-01-30-12" target="_blank" rel="noopener">[12] </a><a href="https://en.wikipedia.org/wiki/Heartbleed#cite_note-MacVittie-2017-02-02-13" target="_blank" rel="noopener">[13]</a>根据 shodan.io 对“vuln:cve-2014-0160”的搜索，截至 2017 年 7 月 6 日，该数字已降至 144,000 人。<a href="https://en.wikipedia.org/wiki/Heartbleed#cite_note-Carey-2017-07-10-14" target="_blank" rel="noopener">[14]</a>截至 2019 年 7 月 11 日，Shodan 报告<a href="https://en.wikipedia.org/wiki/Heartbleed#cite_note-Shodan-report-2019-15" target="_blank" rel="noopener">[15]</a>91,063 台设备易受攻击。美国以 21,258 (23%) 位居第一，前 10 位国家有 56,537 (62%)，其余国家有 34,526 (38%)。该报告还按其他 10 个类别对设备进行了细分，例如组织（前 3 名是无线公司）、产品（<a href="https://en.wikipedia.org/wiki/Apache_HTTP_Server" target="_blank" rel="noopener">Apache httpd</a>、<a href="https://en.wikipedia.org/wiki/Nginx" target="_blank" rel="noopener">Nginx</a>）或服务（<a href="https://en.wikipedia.org/wiki/HTTPS" target="_blank" rel="noopener">HTTPS</a>，81%）。</p>
+<p>除 OpenSSL 之外的 TLS 实现，例如<a href="https://en.wikipedia.org/wiki/GnuTLS" target="_blank" rel="noopener">GnuTLS</a>、<a href="https://en.wikipedia.org/wiki/Mozilla_Foundation" target="_blank" rel="noopener">Mozilla</a>的<a href="https://en.wikipedia.org/wiki/Network_Security_Services" target="_blank" rel="noopener">网络安全服务</a>和<a href="https://en.wikipedia.org/wiki/Security_Support_Provider_Interface" target="_blank" rel="noopener">TLS 的 Windows 平台实现</a>，都没有受到影响，因为缺陷存在于 <strong>OpenSSL 的 TLS 实现中</strong>，而不是协议本身。<a href="https://en.wikipedia.org/wiki/Heartbleed#cite_note-16" target="_blank" rel="noopener">[16]</a></p>
+<h4 id="传播历史"><a href="#传播历史" class="headerlink" title="传播历史"></a>传播历史</h4><p><strong>2012年</strong>3月14日，OpenSSL 1.0.1版发布，漏洞开始传播。心跳支持默认是启用的，这使受影响的版本易受攻击</p>
+<p>实例：早在2014年，互联网安全协议OpenSSL被曝存在一个十分严重的安全漏洞。在黑客社区，它被命名为“心脏出血”，表明网络上出现了“致命内伤”。利用该漏洞，黑客可以获取约30%的https开头网址的用户登录账号密码，其中包括购物、网银、社交、门户等类型的知名网站。今天就为大家带来平台事件规则解读系列第四篇——震惊全球的“心脏出血”漏洞。</p>
+<h4 id="具体内容"><a href="#具体内容" class="headerlink" title="具体内容"></a>具体内容</h4><p>所谓心跳检测，就是建立一个 Client Hello 问询来检测对方服务器是不是正常在线 ，服务器发回 Server hello，表明正常树立SSL通讯。就像我们打电话时会问对方 “喂听得到吗？”一样。</p>
+<p>每次问询都会附加一个问询的字符长度 pad length，bug 来了，如果这个 pad length 大于实际的长度，<strong>服务器仍是会回来相同规模的字符信息</strong>，于是形成了内存里信息的越界访问。</p>
+<p>这是因为<strong>OpenSSL的心跳功能缺少了一个至关重要的安全维护手段：受影响的OpenSSL版本根据请求消息中的长度字段分配<a href="https://zh.m.wikipedia.org/wiki/緩衝器" target="_blank" rel="noopener">内存缓冲区</a>，用于存储要返回的消息，而不考虑消息中有效载荷的实际长度。所以计算机接受心跳请求时从不检查该请求和它声称的内容是否一致。</strong></p>
+<p>就这样，每发起一个心跳，服务器就能泄露一点点数据（<strong>理论上最多泄露 64K</strong>），例如，正常的心跳请求可能会要求一方“返回4个字符的单词‘bird’”，那一方就返回“bird”；“心脏出血请求”（恶意的心跳请求）如“返回500个字符的单词‘bird’”会导致受害者返回“bird”，紧接着是恰储存在受害者活跃内存中的496个字符。这样，攻击者便可能会收到敏感数据，从而危及受害者其它安全通信的保密性。虽然攻击者能对返回的内存块大小有所控制，但却无法决定它的位置，因而不能指定要显示内容。</p>
+<p>这些数据里可能包括用户的登录账号密码、电子邮件甚至是加密秘钥等信息，也可能并没有包含这些信息，但攻击者可以不断利用 “心跳”来获取更多的信息。就这样，服务器一点一点泄露越来越多的信息，就像是心脏慢慢在出血，心脏出血漏洞的名字由此而来。</p>
+<h4 id="漏洞出现的版本"><a href="#漏洞出现的版本" class="headerlink" title="漏洞出现的版本"></a>漏洞出现的版本</h4><ul>
+<li>heartbleed漏洞主要存在于有心跳机制的OpenSSL协议中。</li>
+<li>IANA组织把开启心跳扩展机制的SSL数据包type类型定义为24（0x18）。</li>
+<li>heartbleed漏洞主要存在于TLS和DTLS两种协议中，在含有heartbleed漏洞的OpenSSL协议中需要开启心跳扩展机制（beartbeat），而含有心跳扩展机制的TLS版本主要包含在0（0x0301），TLSv1.1（0x0302），TLSv1.2（0x0303）三种版本中。</li>
+<li>heartbleed漏洞攻击主要由于攻击者构造异常的心跳数据包，即心跳包中的长度字段与后续的数据字段不相符合，来获取心跳数据所在的内存区域的后续数据。</li>
+</ul>
+<p>参考：</p>
+<p><a href="https://zh.m.wikipedia.org/zh-hans/%E5%BF%83%E8%84%8F%E5%87%BA%E8%A1%80%E6%BC%8F%E6%B4%9E" target="_blank" rel="noopener">心脏出血漏洞wiki</a></p>
+<p><a href="http://blog.nsfocus.net/openssl-bleed/" target="_blank" rel="noopener">事件分析OPENSSL“心脏出血”漏洞</a></p>
+<p><a href="https://www.aqniu.com/news-views/28453.html" target="_blank" rel="noopener"><strong>小错误引发大危机——心脏出血到底是什么？</strong></a></p>
 
             </div>
             <hr/>
@@ -1222,7 +1250,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">312.2k</span>&nbsp;字
+                class="white-color">324k</span>&nbsp;字
             
             
             

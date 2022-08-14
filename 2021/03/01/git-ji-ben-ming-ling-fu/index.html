@@ -459,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.2k
+                    2.3k
                 </div>
                 
 
@@ -545,9 +545,15 @@ doc/*.txt     #忽略doc/notes.txt但不包括doc/server/arch.txt</code></pre>
 <pre class=" language-shell"><code class="language-shell">$ git revert HEAD
 $ git push origin master</code></pre>
 <p>reset和revert都可以用来回滚代码。但他们是有区别的。</p>
-<p>使用reset命令，Git会把要回退版本之后提交的修改都删除掉。要从第四次修改回退到第一次修改，那么会删除第二、三、四次的修改。（并不是真正的物理删除）</p>
-<p>使用revert命令，Git会保留回退版本之后提交的修改</p>
-<p>并不是真正的物理删除：实际上Git会把分支的每次修改记录都会保留下来，还是可以查看历史记录来调整姿态的</p>
+<p>1、reset是彻底回退到指定的commit版本，该commit后的所有commit都将被清除；而revert仅是撤销指定commit的修改，并不影响后续的commit。</p>
+<p>2、reset执行后不会产生记录，revert执行后会产生记录。</p>
+<p>当然也可以不用revert，而是当前代码切到新的分支，比如feat/xxx，然后回到原来的分支，</p>
+<p>使用 <code>git reset</code>我们需要找到回滚的commit，输入git reset –hard {commitId}，将本地文件回滚： </p>
+<pre class=" language-shell"><code class="language-shell">git reset --hard d580ea7dab097d8ea6d658adbc7e9d57ef22669a</code></pre>
+<p>然后可以强行push上去</p>
+<pre class=" language-shell"><code class="language-shell">git push -f</code></pre>
+<p>此时我们拿到的时候会滚的旧代码，然后我们可以使用vscode自带的工具，拿到我们修改的部分，进行对比修改</p>
+<p><img src="/2021/03/01/git-ji-ben-ming-ling-fu/git3.png" alt="vscode"></p>
 <h4 id="git-stash暂存内容"><a href="#git-stash暂存内容" class="headerlink" title="git stash暂存内容"></a><strong>git stash</strong>暂存内容</h4><p>当git pull时，出现以下提示：</p>
 <pre class=" language-bash"><code class="language-bash">更新 07153c9<span class="token punctuation">..</span>820f46d
 error: 您对下列文件的本地修改将被合并操作覆盖：</code></pre>
@@ -1079,7 +1085,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">324k</span>&nbsp;字
+                class="white-color">328.7k</span>&nbsp;字
             
             
             

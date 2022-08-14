@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.5k
+                    6k
                 </div>
                 
 
@@ -911,6 +911,61 @@ document<span class="token punctuation">.</span><span class="token function">add
         localStorage<span class="token punctuation">.</span><span class="token function">removeItem</span><span class="token punctuation">(</span><span class="token string">'username'</span><span class="token punctuation">)</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<h2 id="9-拖拽事件"><a href="#9-拖拽事件" class="headerlink" title="9.拖拽事件"></a>9.拖拽事件</h2><p>HTML 的 drag &amp; drop 使用了 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Event" target="_blank" rel="noopener"><code>DOM event model</code></a> 以及从 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent" target="_blank" rel="noopener"><code>mouse events</code></a> 继承而来的 <em><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/DragEvent" target="_blank" rel="noopener"><code>drag events</code></a></em> 。一个典型的拖拽操作是这样的：用户选中一个<em>可拖拽的（draggable）</em>元素，并将其拖拽（鼠标不放开）到一个<em>可放置的（droppable）</em>元素，然后释放鼠标。</p>
+<p>在操作期间，会触发一些事件类型，有一些事件类型可能会被多次触发（比如<code>drag (en-US)</code> 和 <code>dragover (en-US)</code> 事件类型）。</p>
+<p>所有的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/DragEvent#event_types" target="_blank" rel="noopener">拖拽事件类型</a> 有一个对应的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/DragEvent#globaleventhandlers" target="_blank" rel="noopener">拖拽全局属性</a>。每个拖拽事件类型和拖拽全局属性都有对应的描述文档。下面的表格提供了一个简短的事件类型描述，以及一个相关文档的链接。</p>
+<table>
+<thead>
+<tr>
+<th align="left">事件</th>
+<th align="left">On 型事件处理程序</th>
+<th align="left">触发时刻</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>drag (en-US)</code></td>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLElement/drag_event" target="_blank" rel="noopener"><code>ondrag</code></a></td>
+<td align="left">当拖拽元素或选中的文本时触发。</td>
+</tr>
+<tr>
+<td align="left"><code>dragend (en-US)</code></td>
+<td align="left"><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dragend_event" target="_blank" rel="noopener"><code>ondragend</code> (en-US)</a></td>
+<td align="left">当拖拽操作结束时触发 (比如松开鼠标按键或敲“Esc”键). (见<a href="https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/Drag_operations#dragend" target="_blank" rel="noopener">结束拖拽 (en-US)</a>)</td>
+</tr>
+<tr>
+<td align="left"><code>dragenter (en-US)</code></td>
+<td align="left"><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dragenter_event" target="_blank" rel="noopener"><code>ondragenter</code> (en-US)</a></td>
+<td align="left">当拖拽元素或选中的文本到一个可释放目标时触发（见 <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/Drag_operations#droptargets" target="_blank" rel="noopener">指定释放目标 (en-US)</a>）。</td>
+</tr>
+<tr>
+<td align="left"><code>dragexit</code></td>
+<td align="left"><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dragleave_event" target="_blank" rel="noopener"><code>ondragexit</code> (en-US)</a></td>
+<td align="left">当元素变得不再是拖拽操作的选中目标时触发。</td>
+</tr>
+<tr>
+<td align="left"><code>dragleave (en-US)</code></td>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLElement/dragleave_event" target="_blank" rel="noopener"><code>ondragleave</code></a></td>
+<td align="left">当拖拽元素或选中的文本离开一个可释放目标时触发。</td>
+</tr>
+<tr>
+<td align="left"><code>dragover (en-US)</code></td>
+<td align="left"><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dragover_event" target="_blank" rel="noopener"><code>ondragover</code> (en-US)</a></td>
+<td align="left">当元素或选中的文本被拖到一个可释放目标上时触发（每 100 毫秒触发一次）。</td>
+</tr>
+<tr>
+<td align="left"><code>dragstart (en-US)</code></td>
+<td align="left"><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dragstart_event" target="_blank" rel="noopener"><code>ondragstart</code> (en-US)</a></td>
+<td align="left">当用户开始拖拽一个元素或选中的文本时触发（见<a href="https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/Drag_operations#dragstart" target="_blank" rel="noopener">开始拖拽操作 (en-US)</a>）。</td>
+</tr>
+<tr>
+<td align="left"><code>drop (en-US)</code></td>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLElement/drop_event" target="_blank" rel="noopener"><code>ondrop</code></a></td>
+<td align="left">当元素或选中的文本在可释放目标上被释放时触发（见<a href="https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/Drag_operations#drop" target="_blank" rel="noopener">执行释放 (en-US)</a>）。</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>注意：</strong>当从操作系统向浏览器中拖拽文件时，不会触发 <code>dragstart</code> 和<code>dragend</code> 事件。</p>
+</blockquote>
 
             </div>
             <hr/>
@@ -1370,7 +1425,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">324k</span>&nbsp;字
+                class="white-color">328.7k</span>&nbsp;字
             
             
             

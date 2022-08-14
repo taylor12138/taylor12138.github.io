@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.4k
+                    3.8k
                 </div>
                 
 
@@ -1169,41 +1169,6 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 <ul>
 <li>但是Dart是AOT编译的，Dart语言受众小，且Flutter的第三方库相对较少</li>
 </ul>
-<h2 id="7-RN的跨端通信"><a href="#7-RN的跨端通信" class="headerlink" title="7.RN的跨端通信"></a>7.RN的跨端通信</h2><h4 id="webview"><a href="#webview" class="headerlink" title="webview"></a>webview</h4><p>webview是H5跨端常用方式</p>
-<p>H5 中的<code>跨端通信</code>称为 <code>JSBridge</code>，在进行一次 JSBridge 调用的时候会携带调用参数</p>
-<pre><code>ModuleId: 模块 ID
-MethodId: 方法 ID
-params: 参数
-CallbackId: JS 回调名</code></pre><p> <code>ModuleId</code> 和 <code>MethodId</code> 能定位到具体调用的原生方法，<code>params</code> 参数作为原生方法调用的参数，最后通过 <code>CallbackId</code> 回调 JS 的回调函数（我们可以自行脑补react中父子组件通过回调通信的方式）</p>
-<p><img src="/2021/06/25/react-native-other/image-20220611220825018.png" alt="image-20220611220825018"></p>
-<p>在使用 H5 的情况下，Webview 是 JS 的执行引擎，同时 Webview 还是页面的渲染引擎。</p>
-<h4 id="RN跨端"><a href="#RN跨端" class="headerlink" title="RN跨端"></a>RN跨端</h4><p>在使用RN情况下，JSCore（C++，C++ 在 iOS 和安卓系统上也有良好的跨端运行的功能）作为执行引擎，用来跑react代码（JS代码加载和解析），自带的java层作为渲染引擎</p>
-<p>Native 模块（客户端原生模块）在 Android 系统下是 Java 模块，JS 通过模块 ID（<code>moduleID</code>） 和方法 ID（<code>methodID</code>） 来进行调用</p>
-<p>JavaScript 模块是由 JS 实现</p>
-<p>JS 环境中会维护一份所有 Native 模块的 moduleID 和 methodID 的映射 <code>NativeModules</code>，用来调用 Native 模块的时候查找对应 ID；Java 环境中也会维护一份 JavaScript 模块的映射 <code>JSModuleRegistry</code>，用来调用 JS 代码。而在实际的代码中，Native 模块和 JS 模块的通信需要通过中间层也就是 C++ 层的过渡，也就是说 Native 模块和 JS 模块实际上都只是在和 C++ 模块进行通信。</p>
-<p>RN环境中会塞入4个api作为调用js的入口：</p>
-<pre class=" language-js"><code class="language-js">callFunctionReturnFlushedQueue <span class="token comment" spellcheck="true">// 让 C++ 调用 JS 模块</span>
-invokeCallbackAndReturnFlushedQueue <span class="token comment" spellcheck="true">// 让 C++ 调用 JS 回调</span>
-flushedQueue <span class="token comment" spellcheck="true">// 清空 JS 任务队列</span>
-callFunctionReturnResultAndFlushedQueue <span class="token comment" spellcheck="true">// 让 C++ 调用 JS 模块并返回结果</span></code></pre>
-<p>C++ 在调用__fbGenNativeModule方法之后，会生成 Java 模块的映射对象，也就是 <code>NativeModules</code> 模块</p>
-<p>数据结构类似于（跟实际的数据结构有偏差）：</p>
-<pre class=" language-js"><code class="language-js"><span class="token punctuation">{</span>
-    <span class="token string">"Timing"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
-        <span class="token string">"moduleID"</span><span class="token punctuation">:</span> <span class="token string">"1001"</span><span class="token punctuation">,</span>
-        <span class="token string">"method"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
-            <span class="token string">"createTimer"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
-                <span class="token string">"methodID"</span><span class="token punctuation">:</span> <span class="token string">"10001"</span>
-            <span class="token punctuation">}</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
-<p>其中moduleID<code>和</code>methodID 会映射 native方法</p>
-<p>同样的，C++ 通过 JSCore 的 <code>JSObjectSetProperty</code> 方法在 global 对象中塞入了几个 Native API，让 JS 能通过它们来调用 C++ 模块</p>
-<pre><code>nativeFlushQueueImmediate // 立即清空 JS 任务队列
-nativeCallSyncHook // 同步调用 Native 方法
-nativeRequire  // 加载 Native 模块</code></pre><p>Java 跟 C++ 的互相调用通过 JNI，通过 JNI，C++ 层会暴露出来一些 API 来给 Java 层调用</p>
-<p>参考：<a href="https://zhuanlan.zhihu.com/p/473710695" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/473710695</a></p>
 
             </div>
             <hr/>
@@ -1664,7 +1629,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">324k</span>&nbsp;字
+                class="white-color">328.7k</span>&nbsp;字
             
             
             

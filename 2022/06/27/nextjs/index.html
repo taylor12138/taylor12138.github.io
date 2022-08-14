@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.6k
+                    2.9k
                 </div>
                 
 
@@ -602,6 +602,7 @@ router<span class="token punctuation">.</span><span class="token function">push<
 <span class="token keyword">const</span> <span class="token punctuation">{</span> name<span class="token punctuation">,</span> age<span class="token punctuation">,</span> work <span class="token punctuation">}</span><span class="token punctuation">:</span> any <span class="token operator">=</span> router<span class="token punctuation">.</span>query<span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> age<span class="token punctuation">,</span> work<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h4 id="接收后端服务"><a href="#接收后端服务" class="headerlink" title="接收后端服务"></a>接收后端服务</h4><p>对于后端数据接收，要在<code>pages/api</code>文件夹下进行对后端接口的数据获取（作为node中间件）</p>
+<p>官方：<code>pages/api</code> 目录下的任何文件都将作为 API 端点映射到 <code>/api/*</code>，而不是 <code>page</code>。这些文件只会增加服务端文件包的体积，而不会增加客户端文件包的大小。</p>
 <p>此时最好设定与pages页面一一对应的文件命名格式进行获取，比如对于 <code>detail/[id].js</code>页面对应的就是 api文件夹下 <code>detail/[id].js</code>的api</p>
 <p><img src="/2022/06/27/nextjs/api.jpg" alt></p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//api/detail/[id].js</span>
@@ -631,6 +632,21 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <ul>
 <li><code>req</code>是<a href="https://nodejs.org/api/http.html#http_class_http_incomingmessage" target="_blank" rel="noopener">http.IncomingMessage的一个实例，以及一些您可以</a><a href="https://www.nextjs.cn/docs/api-routes/api-middlewares" target="_blank" rel="noopener">在此处</a>看到的预构建中间件。</li>
 <li><code>res</code>是<a href="https://nodejs.org/api/http.html#http_class_http_serverresponse" target="_blank" rel="noopener">http.ServerResponse</a>的一个实例，以及一些您可以<a href="https://www.nextjs.cn/docs/api-routes/response-helpers" target="_blank" rel="noopener">在此处</a>看到的帮助函数。</li>
+</ul>
+<h4 id="捕获所有后端服务API-的路由"><a href="#捕获所有后端服务API-的路由" class="headerlink" title="捕获所有后端服务API 的路由"></a><a href="https://www.nextjs.cn/docs/api-routes/dynamic-api-routes#捕获所有-api-的路由" target="_blank" rel="noopener">捕获所有后端服务API 的路由</a></h4><p>通过在方括号内添加三个英文句点 (<code>...</code>) 即可将 API 路由扩展为能够捕获所有路径的路由。例如：</p>
+<ul>
+<li><code>pages/api/post/[...slug].js</code> 匹配 <code>/api/post/a</code>，也匹配 <code>/api/post/a/b</code>、<code>/api/post/a/b/c</code> 等。</li>
+</ul>
+<blockquote>
+<p><strong>注意</strong>：<code>slug</code> 并不是必须使用的，你也可以使用 <code>[...param]</code></p>
+</blockquote>
+<h4 id="路由捕获顺序和规则"><a href="#路由捕获顺序和规则" class="headerlink" title="路由捕获顺序和规则"></a>路由捕获顺序和规则</h4><ul>
+<li>预定义的 API 路由优先于动态 API 路由，而动态 API 路由优先于捕获所有 API 的路由。看下面的例子：<ul>
+<li><code>pages/api/post/create.js</code> - 将匹配 <code>/api/post/create</code></li>
+<li><code>pages/api/post/[pid].js</code> - 将匹配 <code>/api/post/1</code>, <code>/api/post/abc</code> 等，但不匹配 <code>/api/post/create</code></li>
+<li><code>pages/api/post/[...slug].js</code> - 将匹配 <code>/api/post/1/2</code>, <code>/api/post/a/b/c</code> 等，但不匹配 <code>/api/post/create</code>、<code>/api/post/abc</code></li>
+</ul>
+</li>
 </ul>
 <h4 id="浅路由"><a href="#浅路由" class="headerlink" title="浅路由"></a>浅路由</h4><p>浅路由允许您更改 URL 而无需再次运行数据获取方法，包括<a href="https://www.nextjs.cn/docs/basic-features/data-fetching#getserversideprops-server-side-rendering" target="_blank" rel="noopener"><code>getServerSideProps</code></a>、<a href="https://www.nextjs.cn/docs/basic-features/data-fetching#getstaticprops-static-generation" target="_blank" rel="noopener"><code>getStaticProps</code></a>和<a href="https://www.nextjs.cn/docs/api-reference/data-fetching/getInitialProps" target="_blank" rel="noopener"><code>getInitialProps</code></a>.</p>
 <p>您将收到更新<code>pathname</code>的和<code>query</code>通过<a href="https://www.nextjs.cn/docs/api-reference/next/router#router-object" target="_blank" rel="noopener"><code>router</code>对象</a>（由<a href="https://www.nextjs.cn/docs/api-reference/next/router#userouter" target="_blank" rel="noopener"><code>useRouter</code></a>or添加<a href="https://www.nextjs.cn/docs/api-reference/next/router#withrouter" target="_blank" rel="noopener"><code>withRouter</code></a>），而不会丢失状态。</p>
@@ -1248,7 +1264,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">324k</span>&nbsp;字
+                class="white-color">328.7k</span>&nbsp;字
             
             
             

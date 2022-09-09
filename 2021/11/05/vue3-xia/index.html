@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.3k
+                    5.5k
                 </div>
                 
 
@@ -892,6 +892,7 @@ app<span class="token punctuation">.</span><span class="token function">mount</s
 <p>当一个复杂对象的多份副本须存在时，代理模式可以结合享元模式以减少内存用量。典型作法是创建一个复杂对象及多个代理者，每个代理者会引用到原本的复杂对象。而作用在代理者的运算会转送到原本对象。一旦所有的代理者都不存在时，复杂对象会被移除。</p>
 <h4 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h4><p>Proxy代理Object   <strong>控制和修改Object的基本行为</strong>（覆盖对象的基本操作），比如属性调用、属性赋值、删除属性、方法调用等</p>
 <p><code>target</code>是被代理的对象，<code>handler</code>是一个对象，属性是各种控制或修改target基本行为的方法</p>
+<p>你可以想象成proxy就是一个壳</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> p <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Proxy</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span> handler<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p><code>handler</code>里面的<code>get()</code>、<code>set()</code>和<code>Object.defineProperty()</code>的<code>get</code>方法、<code>set</code>方法有点像，重新定义了属性的读取、设置行为</p>
 <p><code>get()</code>拦截某个属性的读取操作。可以接受三个参数，依次为目标对象、属性名和 proxy 实例本身（严格地说，是操作行为所针对的对象），其中最后一个参数可选。</p>
@@ -934,8 +935,26 @@ handler<span class="token punctuation">.</span><span class="token function">cons
     <span class="token keyword">return</span> Reflect<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token operator">...</span>arguments<span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>元编程：指某种计算机程序的编写，操纵其他（或自身）程序作为他们的资料，或在运行时完成部分本应在编译时完成的工作，让程序员获得更高的工作效率，或给予程序更大灵活度而无需重新编译</p>
-<p>编写元程序的语言为元语言，一门编程语言同时也为自身的元语言称为反射</p>
+<p>甚至你可以用proxy做缓存</p>
+<p>服务端和客户端同步一个状态可能会出现问题，这很常见，在整个操作周期内，数据都有可能被改变，并且很难去掌握需要重新同步的时机。<br>proxy提供了一种新的办法，可以让属性在必要的时候失效，所有的访问操作，都会被检查判断，是否返回缓存还是进行其他行为的响应。</p>
+<pre class=" language-javascript"><code class="language-javascript">Copyconst timeExpired <span class="token operator">=</span> <span class="token punctuation">(</span>target<span class="token punctuation">,</span> ttl <span class="token operator">=</span> <span class="token number">60</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> created_at <span class="token operator">=</span> Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> isExpired <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span>Date<span class="token punctuation">.</span>now <span class="token operator">-</span> created_at<span class="token punctuation">)</span> <span class="token operator">></span> ttl <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Proxy</span><span class="token punctuation">(</span>tarvet<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    <span class="token keyword">get</span><span class="token punctuation">:</span> <span class="token punctuation">(</span>target<span class="token punctuation">,</span> k<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token function">isExpired</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">?</span> undefined <span class="token punctuation">:</span> Reflect<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>上面的功能很简单，他在一定时间内正常返回访问的属性，当超出ttl时间后，会返回undefined。</p>
+<pre class=" language-javascript"><code class="language-javascript">Copylet timeExpired <span class="token operator">=</span> <span class="token function">ephemeral</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  balance<span class="token punctuation">:</span> <span class="token number">14.93</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>bankAccount<span class="token punctuation">.</span>balance<span class="token punctuation">)</span>    <span class="token comment" spellcheck="true">// 14.93</span>
+
+<span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>bankAccount<span class="token punctuation">.</span>balance<span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">// undefined</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">10</span> <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">)</span></code></pre>
+<p>上面的例子会输出undefined在十秒后，更多的骚操作还请自行斟酌。</p>
 <h4 id="Reflect"><a href="#Reflect" class="headerlink" title="Reflect"></a>Reflect</h4><p>通过Proxy的捕获器（handler），我们可以完成基于自己的参数<strong>重建原始操作</strong>，但是并非所有捕获器都像 get 一样那么简单，直接返回就行了，所以通过手动写码如法炮制的想法是不现实的，所以我们使用到了Reflect完成轻松重建，<strong>确保完成原有的行为</strong>，然后再部署额外的功能。</p>
 <ul>
 <li><p><code>Reflect</code> 将<code>Object</code>对象的一些明显属于语言内部的方法（比如<code>Object.defineProperty</code>），放到<code>Reflect</code>对象上，也就是说，从<code>Reflect</code>对象上可以拿到语言内部的方法。</p>
@@ -1349,25 +1368,30 @@ VUE_APP_BASE_NAME = &#39;allen&#39;</code></pre><p>方案二此时<strong>在客
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/11/14/vite/">
+                <a href="/2021/11/05/vue3-shang/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Vite">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Vue3(上)">
                         
-                        <span class="card-title">Vite</span>
+                        <span class="card-title">Vue3(上)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Vite概述Webpack是前端使用最多的构建工具，但是除了webpack还有一些其他的构建工具，比如rollup、parcel、gulp、vite
- Vite 是 vue 的作者尤雨溪在开发 vue3.0 的时候开发的一个基于原生 ES-
+                            1.Vue3 Start他在介绍中表明的是：
+
+更小、更快、更易维护，一些命令的变化。
+3.0 新加入了 TypeScript 以及 PWA 的支持
+支持了 composiiton API
+vdom的对比算法更新，只更新绑定了动态数据部分
+
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-11-14
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-11-05
                         </span>
                         <span class="publish-author">
                             
@@ -1391,30 +1415,37 @@ VUE_APP_BASE_NAME = &#39;allen&#39;</code></pre><p>方案二此时<strong>在客
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/11/05/vue3-shang/">
+                <a href="/2021/11/02/wang-zhan-xing-neng-you-hua/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Vue3(上)">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="网站性能优化">
                         
-                        <span class="card-title">Vue3(上)</span>
+                        <span class="card-title">网站性能优化</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.Vue3 Start他在介绍中表明的是：
+                            1.网站性能优化概述我们通常的标量化
 
-更小、更快、更易维护，一些命令的变化。
-3.0 新加入了 TypeScript 以及 PWA 的支持
-支持了 composiiton API
-vdom的对比算法更新，只更新绑定了动态数据部分
+白屏
+首屏
+页面整体加载
+页面可交互
+功能交互响应
 
+Steve Souders在《高性能网站建设指南》总结的12条提高性能的基本规则
+
+尽量减少http请求
+使用CDN
+静态资源使用Cache
+启用
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-05
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-02
                             </span>
                         <span class="publish-author">
                             
@@ -1577,7 +1608,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">328.7k</span>&nbsp;字
+                class="white-color">336k</span>&nbsp;字
             
             
             

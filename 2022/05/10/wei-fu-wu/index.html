@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.9k
+                    7k
                 </div>
                 
 
@@ -485,7 +485,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="微服务概念"><a href="#微服务概念" class="headerlink" title="微服务概念"></a>微服务概念</h2><p>微服务：微服务架构（通常简称为微服务）是指开发应用所用的一种架构形式。通过微服务，可将大型应用分解成多个独立的组件，其中每个组件都有各自的责任领域。在处理一个用户请求时，基于微服务的应用可能会调用许多内部微服务来共同生成其响应。</p>
+                <h2 id="1-微服务概念"><a href="#1-微服务概念" class="headerlink" title="1.微服务概念"></a>1.微服务概念</h2><p>微服务：微服务架构（通常简称为微服务）是指开发应用所用的一种架构形式。通过微服务，可将大型应用分解成多个独立的组件，其中每个组件都有各自的责任领域。在处理一个用户请求时，基于微服务的应用可能会调用许多内部微服务来共同生成其响应。</p>
 <p>通常跟微服务相对的是单体应用，即将所有功能都打包成在一个独立单元的应用程序。从单体应用到微服务并不是一蹴而就的，这是一个逐渐演变的过程</p>
 <p>知乎上一个小案例加深印象：<a href="https://www.zhihu.com/question/65502802" target="_blank" rel="noopener">https://www.zhihu.com/question/65502802</a></p>
 <p>个人的理解是将拆分的思想贯彻到底（模块也是拆！数据库也是拆！），分工明确，将每个功能细致化分配任务。再加上兼容一下老应用的逻辑，和新框架开发的代码的一套架构理念</p>
@@ -498,7 +498,7 @@
 <li>测试方面：服务拆分后，几乎所有功能都会涉及多个服务。原本单个程序的测试变为服务间调用的测试。测试变得更加复杂。</li>
 </ul>
 <p>所以使用微服务的架构要有要有强大的监控体系</p>
-<h2 id="沙箱-sand-box"><a href="#沙箱-sand-box" class="headerlink" title="沙箱(sand box)"></a>沙箱(sand box)</h2><p>传统意义上：Sandbox（沙箱）是指一种技术，在这种技术中，软件运行在操作系统受限制的环境中。由于该软件在受限制的环境中运行，即使一个闯入该软件的入侵者也不能无限制访问操作系统提供设施；获得该软件控制权的黑客造成的损失也是有限的</p>
+<h2 id="2-沙箱-sand-box"><a href="#2-沙箱-sand-box" class="headerlink" title="2.沙箱(sand box)"></a>2.沙箱(sand box)</h2><p>传统意义上：Sandbox（沙箱）是指一种技术，在这种技术中，软件运行在操作系统受限制的环境中。由于该软件在受限制的环境中运行，即使一个闯入该软件的入侵者也不能无限制访问操作系统提供设施；获得该软件控制权的黑客造成的损失也是有限的</p>
 <p>然而，在计算机安全中，<strong>沙箱（Sandbox）是一种用于隔离正在运行程序的安全机制</strong>，通常用于执行未经测试或不受信任的程序或代码，它会<strong>为待执行的程序创建一个独立的执行环境，内部程序的执行不会影响到外部程序的运行</strong></p>
 <p>抽象化：对于操作系统来说，浏览器就是一个沙箱，对于浏览器来说，每个页面就是一个独立的沙箱</p>
 <p>实际运用：</p>
@@ -524,14 +524,17 @@
 <li><code>SnapshotSandbox</code>（不依赖Proxy）</li>
 </ol>
 <p>参考字节跳动的技术文章：<a href="https://juejin.cn/post/7099339595233361934#heading-24" target="_blank" rel="noopener">https://juejin.cn/post/7099339595233361934#heading-24</a></p>
-<h2 id="微前端"><a href="#微前端" class="headerlink" title="微前端"></a>微前端</h2><p>微前端（Micro-Frontends）同样是一套体系架构，是一种类似于微服务的架构，它将微服务的理念应用于浏览器端，即将 Web 应用由单一的单体应用转变为多个小型前端应用聚合为一的应用。各个前端应用还可以无关技术栈地独立运行、独立开发、独立部署。</p>
+<h2 id="3-微前端"><a href="#3-微前端" class="headerlink" title="3.微前端"></a>3.微前端</h2><p>微前端（Micro-Frontends）同样是一套体系架构，是一种类似于微服务的架构，它将微服务的理念应用于浏览器端，即将 Web 应用由单一的单体应用转变为多个小型前端应用聚合为一的应用。各个前端应用还可以无关技术栈地独立运行、独立开发、独立部署。</p>
 <p>在如今越来越注重拆分和细化的时代，微前端的到来并没有在意料之外，而微前端的意义就：</p>
 <ul>
 <li>将这些庞大应用进行拆分，并随之解耦，每个部分可以单独进行维护和部署，提升效率。</li>
 <li>整合历史系统，将老架构框架项目兼容性放在新的架构体系中</li>
 </ul>
+<p>当然，没有免费的午餐——一切都是有代价的，一些微前端实现可能会导致依赖项重复，但是我们相信这些风险是可以控制的，而且微前端的好处往往超过成本。    ——–<a href="https://camjackson.net/" target="_blank" rel="noopener">Cam Jackson</a></p>
 <p>微前端解决的问题：</p>
 <p><img src="/2022/05/10/wei-fu-wu/image-20220515182302822.png" alt="image-20220515182302822"></p>
+<p>实际上，一个典型的基于vue-router的Vue应用与这种架构存在着很大的相似性</p>
+<p><img src="https://img-blog.csdnimg.cn/20210222144320456.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxNjk0Mjkx,size_16,color_FFFFFF,t_70" alt></p>
 <p><strong>微前端方案的核心</strong>是“主从”思想，即包括一个<strong>基座</strong>（<code>MainApp</code>）应用和若干个<strong>微（<code>MicroApp</code>）应用</strong>，基座应用大多数是一个前端<code>SPA</code>项目，主要负责应用注册，路由映射，消息下发等，而微应用是独立前端项目，这些项目不限于采用<code>React，Vue，Angular</code>或者<code>JQuery</code>开发，每个微应用注册到基座应用中，由基座进行管理，但是如果脱离基座也是可以单独访问</p>
 <table>
 <thead>
@@ -550,11 +553,11 @@
 </tr>
 <tr>
 <td><strong>通用中心路由基座式</strong></td>
-<td>子工程可以使用不同技术栈；子工程之间完全独立，无任何依赖；统一由基座工程进行管理，按照DOM节点的注册、挂载、卸载来完成。</td>
+<td>子工程可以使用不同技术栈；子工程之间完全独立，无任何依赖；统一由基座工程进行管理，按照DOM节点的注册、挂载、卸载来完成。比如qiankun之类的，<code>qiankun</code>甚至能加载jQuery编写的页面</td>
 </tr>
 <tr>
 <td><strong>特定中心路由基座式</strong></td>
-<td>子业务线之间使用相同技术栈；基座工程和子工程可以单独开发单独部署；子工程有能力复用基座工程的公共基建。</td>
+<td>子业务线之间使用相同技术栈；基座工程和子工程可以单独开发单独部署；子工程有能力复用基座工程的公共基建。比如React-router、Vue-router</td>
 </tr>
 </tbody></table>
 <p>（图片源自美团技术团队的文章，而美团用的是<strong>基于React的中心路由基座式微前端</strong>）<img src="/2022/05/10/wei-fu-wu/image-20220515183129271.png" alt="image-20220515183129271"></p>
@@ -584,19 +587,147 @@
 <ul>
 <li>我们可以用发布订阅通信机制，事件由实践中心统一分发</li>
 </ul>
+<h4 id="子应用打包的方式"><a href="#子应用打包的方式" class="headerlink" title="子应用打包的方式"></a>子应用打包的方式</h4><p>微前端架构模式下，子应用打包的方式，基本分为两种：</p>
+<p><img src="https://pic2.zhimg.com/80/v2-aa016d5969d2cabd2de02dada37ae195_1440w.jpg" alt="img"></p>
+<p>两者的优缺点也很明显：</p>
+<p><img src="https://pic2.zhimg.com/80/v2-b16657fad054d4816c62f2bea1437951_1440w.jpg" alt="img"></p>
+<p>很显然，要实现真正的技术栈无关跟独立部署两个核心目标，大部分场景下我们需要使用运行时加载子应用这种方案。</p>
+<h4 id="JS-Entry-vs-HTML-Entry"><a href="#JS-Entry-vs-HTML-Entry" class="headerlink" title="JS Entry vs HTML Entry"></a>JS Entry vs HTML Entry</h4><ol>
+<li><p>如果是 JS Entry 方案，主框架需要在子应用加载之前构建好相应的容器节点(比如这里的 “#root” 节点)，不然子应用加载时会因为找不到 container 报错</p>
+<pre class=" language-html"><code class="language-html"><span class="token comment" spellcheck="true">&lt;!-- 子应用 index.html --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>//unpkg/antd.min.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>main</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>root<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>main</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+// 子应用入口
+ReactDOM.render(<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>App</span><span class="token punctuation">/></span></span>, document.getElementById('root'))</code></pre>
+</li>
+<li><p>JS entry打包问题（可以看 why SystemJS 部分）</p>
+</li>
+<li><p>HTML entry无法抽取公共依赖（很麻烦）</p>
+</li>
+</ol>
+<p>其他：</p>
+<p><img src="https://pic1.zhimg.com/80/v2-dde4d233b0b55039ad309dfb2db0a5d4_1440w.jpg" alt="img"></p>
+<p>（webpack5有一个联邦模块功能（mf），对于微前端的公共依赖加载是比较好的解决方案。）</p>
 <p>一些微前端的框架</p>
 <p><a href="https://link.juejin.cn?target=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fmooa">Mooa</a>：基于Angular的微前端服务框架</p>
 <p><a href="https://link.juejin.cn?target=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fsingle-spa">Single-Spa</a>：最早的微前端框架，兼容多种前端技术栈。</p>
 <p><a href="https://link.juejin.cn?target=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fqiankun">Qiankun</a>：基于Single-Spa，阿里系开源微前端框架。</p>
 <p><a href="https://link.juejin.cn?target=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Ficestark">Icestark</a>：阿里飞冰微前端框架，兼容多种前端技术栈。</p>
 <p><a href="https://link.juejin.cn?target=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fhttps%3A%2F%2Fara-framework.github.io%2Fwebsite%2Fdocs%2Fquick-start">Ara Framework</a>：由服务端渲染延伸出的微前端框架。</p>
-<h4 id="single-spa"><a href="#single-spa" class="headerlink" title="single-spa"></a>single-spa</h4><p>Single SPA 将自己定义为一种“前端微服务 Javascript 框架”，它将生命周期应用于每个应用程序。每个应用程序都可以响应 url 路由事件，并且知道如何从 DOM 引导，加载和卸载自身，<strong>传统 SPA 和 Single SPA 应用程序之间的主要区别</strong>在于它们能够与其他应用程序共存，并且它们各自没有自己的 HTML 页面。</p>
+<h4 id="你可能就不需要微前端"><a href="#你可能就不需要微前端" class="headerlink" title="你可能就不需要微前端"></a>你可能就不需要微前端</h4><p>存在以下场景时，你可能就不需要微前端：</p>
+<ol>
+<li>你/你的团队 具备系统内所有架构组件的话语权<br>简单来说就是，系统里的所有组件都是由一个小的团队开发的。</li>
+<li>你/你的团队 有足够动力去治理、改造这个系统中的所有组件<br>直接改造存量系统的收益大于新老系统混杂带来的问题。</li>
+<li>系统及组织架构上，各部件之间本身就是强耦合、自洽、不可分离的<br>系统本身就是一个最小单元的「架构量子」，拆分的成本高于治理的成本。</li>
+<li>极高的产品体验要求，对任何产品交互上的不一致零容忍<br>不允许交互上不一致的情况出现，这基本上从产品上否决了渐进式升级的技术策略</li>
+</ol>
+<p><strong>满足以下几点，你才确实可能需要微前端</strong></p>
+<ol>
+<li><p>系统本身是需要集成和被集成的 一般有两种情况： </p>
+</li>
+<li><ol>
+<li>旧的系统不能下，新的需求还在来。<br>没有一家商业公司会同意工程师以单纯的技术升级的理由，直接下线一个有着一定用户的存量系统的。而你大概又不能简单通过 iframe 这种「靠谱的」手段完成新功能的接入，因为产品说需要「弹个框弹到中间」</li>
+<li>你的系统需要有一套支持动态插拔的机制。<br>这个机制可以是一套精心设计的插件体系，但一旦出现接入应用或被接入应用年代够久远、改造成本过高的场景，可能后面还是会过渡到各种微前端的玩法。</li>
+</ol>
+</li>
+<li><p>系统中的部件具备足够清晰的服务边界<br>通过微前端手段划分服务边界，将复杂度隔离在不同的系统单元中，从而避免因熵增速度不一致带来的代码腐化的传染，以及研发节奏差异带来的工程协同上的问题。 </p>
+</li>
+</ol>
+<h2 id="4-iframe"><a href="#4-iframe" class="headerlink" title="4.iframe"></a>4.iframe</h2><p>iframe是一个天然的沙箱</p>
+<p>但是它有很多弊端：</p>
+<ul>
+<li>url 不同步，每次进来都要加载，url状态不能保留</li>
+<li>DOM 结构不共享。比如子应用里有一个 Modal，显示的时候只能在那一小块地方展示，不能全屏展示</li>
+<li>无法跟随浏览器前进后退</li>
+<li>天生的硬隔离，无法与主应用进行资源共享，内存变量不共享，交流也很困难</li>
+<li>慢。每次子应用进入都是一次浏览器上下文重建、资源重新加载的过程。</li>
+</ul>
+<h2 id="5-single-spa"><a href="#5-single-spa" class="headerlink" title="5.single-spa"></a>5.single-spa</h2><p>Single SPA 将自己定义为一种“前端微服务 Javascript 框架”，它将生命周期应用于每个应用程序。每个应用程序都可以响应 url 路由事件，并且知道如何从 DOM 引导，加载和卸载自身</p>
+<p><strong>single-spa 仅仅是一个子应用生命周期的调度者。</strong>single-spa 为应用定义了 boostrap, load, mount, unmount 四个生命周期回调：</p>
+<p><img src="/2022/05/10/wei-fu-wu/single-spa.png" alt></p>
+<p>值得注意的是</p>
+<ul>
+<li>Register 不是生命周期，指的是调用 <code>registerApplication</code> 函数这一步</li>
+<li>Load 是开始加载子应用，怎么加载由开发者自己实现（等会会说到）</li>
+<li>Unload 钩子只能通过调用 <code>unloadApplication</code> 函数才会被调用</li>
+</ul>
+<p>当触发到 <code>window.location.href</code> 匹配到 url 时，开始走对应子 App 的这一套生命周期嘛。所以，single-spa 还要监听 url 的变化，然后执行子 app 的生命周期流程。</p>
+<p>到此，我们就有了 single-spa 的大致框架了，无非就两件事：</p>
+<ul>
+<li><p>实现一套生命周期，在 load 时加载子 app，由开发者自己玩，别的生命周期里要干嘛的，还是由开发者造的子应用自己玩</p>
+</li>
+<li><p>监听 url 的变化，url 变化时，会使得某个子 app 变成 active 状态，然后走整套生命周期</p>
+</li>
+<li><p>根据传入的参数<code>activeWhen</code>判断哪个应用需要加载，哪个应用需要卸载或清除，并将其push到对应的数组</p>
+<ul>
+<li><p>如果应用已经启动，则进行应用加载或切换。针对应用的不同状态，直接执行应用自身暴露出的生命周期钩子函数即可。</p>
+</li>
+<li><p>如果应用未启动，则只去下载<code>appsToLoad</code>中的应用。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2022/05/10/wei-fu-wu/single-spa2.png" alt></p>
+<p>该图作者的评价：</p>
+<p><img src="/2022/05/10/wei-fu-wu/single-spa3.png" alt></p>
+<p><strong>传统 SPA 和 Single SPA 应用程序之间的主要区别</strong>在于它们能够与其他应用程序共存，并且它们各自没有自己的 HTML 页面。</p>
+<p>single-spa 的理念是希望主应用可以做到非常非常简单的和轻量，简单到只要一个 index.html + 一个 main.js 就可以完成微前端工程，连 Webpack 都不需要，直接在浏览器里执行</p>
 <p>在single-spa的角度，微前端就是“微模块加载器”，它主要解决的是：如何实现前端的“微服务化”，从而让应用、组件、逻辑都成为可共享的微服务，这从single-spa关于微前端的概述中可以看出：</p>
 <p><img src="/2022/05/10/wei-fu-wu/image-20220515174707011.png" alt="image-20220515174707011"></p>
 <p>翻译过来反别是微应用、微组件、微模块，而<code>single-spa</code>要求它们都以<code>SystemJS</code>的形式打包，所以本质上都是<strong>微模块</strong></p>
-<p>科普：<code>SystemJS</code>是一个运行时加载模块的工具（动态导入和导入映射），是现阶段下(浏览器尚未正式支持<code>importMap</code>)原生<code>ES Module</code>的完全替代品。<code>SystemJS</code>动态加载的模块必须是<code>SystemJS</code>模块或者<code>UMD</code>模块。</p>
-<h4 id="Qiankun"><a href="#Qiankun" class="headerlink" title="Qiankun"></a>Qiankun</h4><p><code>qiankun</code>是基于<code>single-spa</code>开发的</p>
-<p><code>qiankun</code>基于<code>single-spa</code>，加强了微应用集成能力，却抛弃了微模块的能力。所以，它们的区别就是<strong>微服务的粒度</strong>，乾坤的所能服务的粒度是应用级别，而<code>single-spa</code>则是模块级别。它们都能将前端进行拆分，只是拆分的粒度不同罢了。</p>
+<p>关于single-spa一部分实践可以看<a href="https://mp.weixin.qq.com/s?__biz=MzA3NTk4NjQ1OQ==&mid=2247484245&idx=1&sn=9ee91018578e6189f3b11a4d688228c5&chksm=9f696021a81ee937847c962e3135017fff9ba8fd0b61f782d7245df98582a1410aa000dc5fdc&token=1002082546&lang=zh_CN#rd" target="_blank" rel="noopener">这个</a>，但是由于这里的代码的很多包都比较久远，最好下载和它一致的包再进行实践 <a href="https://github.com/liyongning/micro-frontend/blob/master/app3/package.json" target="_blank" rel="noopener">github</a></p>
+<h4 id="SystemJS"><a href="#SystemJS" class="headerlink" title="SystemJS"></a>SystemJS</h4><h4 id="1-浏览器里用import-export。"><a href="#1-浏览器里用import-export。" class="headerlink" title="1.浏览器里用import/export。"></a>1.浏览器里用import/export。</h4><p><strong>SystemJS 的好处和优势有且仅有一点：那就是在浏览器里使用 ES6 的 import/export。</strong></p>
+<p>Single SPA 中使用到了SystemJS，<code>SystemJS</code>是一个运行时加载模块的工具（动态导入和导入映射），是现阶段下(浏览器尚未正式支持<code>importMap</code>)原生<code>ES Module</code>的完全替代品，对比Webpack 之类的，</p>
+<p>其实你也可以理解为SystemJS是为了解决轻量级，不用打包，即可做到 <code>import Vue from &#39;vue&#39;</code> 形式去导包</p>
+<p>importmap的形式，兼容性差</p>
+<pre class=" language-js"><code class="language-js"><span class="token operator">&lt;</span>script type<span class="token operator">=</span><span class="token string">"importmap"</span><span class="token operator">></span>
+<span class="token punctuation">{</span>
+  <span class="token string">"imports"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">"dayjs"</span><span class="token punctuation">:</span> <span class="token string">"https://cdn.skypack.dev/dayjs@1.10.7"</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span></code></pre>
+<p>systemjs形式</p>
+<pre class=" language-js"><code class="language-js"><span class="token operator">&lt;</span>script type<span class="token operator">=</span><span class="token string">"systemjs-importmap"</span><span class="token operator">></span>
+    <span class="token punctuation">{</span>
+      <span class="token string">"imports"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">"@react-mf/root-config"</span><span class="token punctuation">:</span> <span class="token string">"//localhost:9000/react-mf-root-config.js"</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span></code></pre>
+<p><code>SystemJS</code>动态加载的模块必须是<code>SystemJS</code>模块或者<code>UMD</code>模块。</p>
+<h4 id="2-引入公共依赖"><a href="#2-引入公共依赖" class="headerlink" title="2.引入公共依赖"></a>2.引入公共依赖</h4><p><strong>SystemJS 另一个好处就是可以通过 importmap 引入公共依赖。</strong></p>
+<p>假如，我们有三个子应用，它们都有公共依赖项 antd，那每个子应用打包出来都会有一份 antd 的代码，就显示很冗余。（qiankun就有这种冗余）</p>
+<p>一个解决方法就是在主应用里，通过 importmap 直接把 antd 代码引入进来，子应用在 Webpack 设置 external 把 antd 打包时排除掉。子应用打包就不会把 antd 打包进去了，体积也变小了。</p>
+<p><img src="https://pic1.zhimg.com/v2-8123070a3051337569dbb3376f8f517c_r.jpg" alt></p>
+<p>对于公共样式的处理；</p>
+<ol>
+<li>将公共的 CSS 放到 importmap 里，也可以理解为在 index.html 里直接加个 link 获取 antd 的 CSS 完事</li>
+<li>将所有的公共的 UI 库都 import 到 utility 里，将 antd 所有内容都 export，再把 utility 包放到 importmap 里，然后 <code>import { Button } from &#39;@your-org-name/utility&#39;;</code> 去引入里面的组件</li>
+</ol>
+<p>其实上面两个方法都大同小异，思路都是在主应用一波引入，只是一个统一引入CSS，另一个统一引入 UI 库。</p>
+<h4 id="JS隔离-1"><a href="#JS隔离-1" class="headerlink" title="JS隔离"></a>JS隔离</h4><p>在single-spa使用</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> singleSpaLeakedGlobals <span class="token keyword">from</span> <span class="token string">'single-spa-leaked-globals'</span><span class="token punctuation">;</span></code></pre>
+<p>在 mount A 子应用时，正常添加全局变量，比如 jQuery 的 <code>$</code>, lodash 的 <code>_</code>。在 unmount A 子应用时，用一个对象记录之前给 window 添加的全局变量，并把 A 应用里添加 window 的变量都删掉。下一次再 mount A 应用时，把记录的全局变量重新加回来就好了。</p>
+<p>但是，这个库的局限性在于：每个 url 只能加一个子 app，如果多个子 app 之间还是会访问同一个 window 对象，也因此会互相干扰，并不能做到完美的 JS 沙箱。</p>
+<p>而关于css的样式隔离，官方的建议是</p>
+<ul>
+<li>使用 Scoped CSS</li>
+<li>要是嫌麻烦，可以在子应用 Webpack 使用 PostCSS Prefix Selector 给样式自动加前缀</li>
+</ul>
+<h4 id="why-SystemJS"><a href="#why-SystemJS" class="headerlink" title="why SystemJS"></a>why SystemJS</h4><p>都2022年了，怎么还要在浏览器环境写 JS 呢？不上个 Webpack 都不好意思说自己是前端开发了…</p>
+<p>那为什么 single-spa 还要推荐 SystemJS 呢？但是根据知乎上优质答主<a href="https://www.zhihu.com/people/haixiangyan" target="_blank" rel="noopener">写代码的海怪</a>猜测是因为 single-spa 希望主应用应该就一个空壳子，只需要管内容要放在哪个地方，所有的功能、交互都应该交由 index.html 来统一管理。（直接在html里写满script想想就可怕）</p>
+<p><img src="/2022/05/10/wei-fu-wu/single-spa4.png" alt></p>
+<p>这也表明了：</p>
+<p>在systemjs中，我们必须手动实现应用加载逻辑，挨个罗列子应用需要加载的资源，这在大型项目里是十分困难的（特别是使用了文件名hash时）；另外它只能以js文件为入口，无法直接以html为入口，这使得嵌入子应用变得很困难，也正因此，single-spa不能直接加载jQuery应用。</p>
+<p>甚至，将整个微应用打包成一个 JS 文件，常见的打包优化基本上都没了，比如：按需加载、首屏资源加载优化、css 独立打包等优化措施。<br>项目发布以后出现了 bug ，修复之后需要更新上线，为了清除浏览器缓存带来的影响，一般文件名会带上 chunkcontent，微应用发布之后文件名都会发生变化，这时候还需要更新主应用中微应用配置，然后重新编译主应用然后发布，这是不能容忍的。</p>
+<p>所以，为了填平 single-spa 遗留下来的坑，阿里基于 single-spa 造出了 <a href="https://link.zhihu.com/?target=https%3A//qiankun.umijs.org/zh">qiankun</a> 微前端框架，真正实现了微前端的所有特性.</p>
+<h2 id="6-Qiankun"><a href="#6-Qiankun" class="headerlink" title="6.Qiankun"></a>6.Qiankun</h2><p><code>qiankun</code>是基于<code>single-spa</code>开发的</p>
+<p>Single-spa控制路由和应用入口 + qiankun JS、CSS隔离和应用通信 + import-html-entry控制应用加载(single-spa用的是system.js)</p>
+<p><img src="/2022/05/10/wei-fu-wu/qiankun1.png" alt></p>
+<p><code>qiankun</code>基于<code>single-spa</code>，加强了微应用集成能力，却抛弃了微模块的能力。所以，它们的区别就是<strong>微服务的粒度</strong>，qiankun的所能服务的粒度是应用级别，而<code>single-spa</code>则是模块级别。它们都能将前端进行拆分，只是拆分的粒度不同罢了。</p>
 <ol>
 <li>微应用加载器：“微”的粒度是应用，也就是<code>HTML</code>，它只能做到应用级别的分享</li>
 <li>微模块加载器：“微”的粒度是模块，也就是<code>JS</code>模块，它能做到模块级别的分享</li>
@@ -605,10 +736,106 @@
 <p><strong>两个框架出现的背景：</strong></p>
 <p><strong>qiankun：</strong>阿里内部有大量年久失修的项目，业务侧急需工具去把他们快速、安全的集成到一起。在这个角度，乾坤根本没有做模块联邦的需求，它的需求仅仅是如何快速、安全的把项目集成起来。所以乾坤是想做一个微前端工具。</p>
 <p><strong>single-spa：</strong>学习后端的微服务，实现前端的微服务化，让应用、组件以及逻辑都成为可共享的微服务，实现真正意义上的微前端。所以<code>single-spa</code>是想做一个<code>game-changer</code>。</p>
+<h4 id="import-html-entry"><a href="#import-html-entry" class="headerlink" title="import-html-entry"></a>import-html-entry</h4><p>import-html-entry 是 qiankun 中一个举足轻重的依赖，用于获取子应用的 HTML 和 JS，它允许以html文件为应用入口，然后通过一个html解析器从文件中提取js和css依赖，并通过fetch下载依赖，同时对 HTML 和 JS 进行了各自的处理，以便于子应用在父应用中加载</p>
+<p>该方案的主要思路是允许以html文件为应用入口，然后通过一个html解析器从文件中提取js和css依赖，并通过fetch下载依赖</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">importHTML</span><span class="token punctuation">(</span>url<span class="token punctuation">,</span> opts <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 1. 通过 fetch 获取到 url 对应的 html</span>
+    <span class="token keyword">return</span> embedHTMLCache<span class="token punctuation">[</span>url<span class="token punctuation">]</span> <span class="token operator">||</span> <span class="token punctuation">(</span>embedHTMLCache<span class="token punctuation">[</span>url<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">fetch</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>html <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// 2. 从返回的结果中解析出以下内容a.经过初步处理后的 html, b.由所有 "script" 组成的数组, c.由所有 "style" 组成的数组</span>
+            <span class="token keyword">const</span> <span class="token punctuation">{</span> template<span class="token punctuation">,</span> scripts<span class="token punctuation">,</span> entry<span class="token punctuation">,</span> styles <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">processTpl</span><span class="token punctuation">(</span><span class="token function">getTemplate</span><span class="token punctuation">(</span>html<span class="token punctuation">)</span><span class="token punctuation">,</span> assetPublicPath<span class="token punctuation">,</span> postProcessTemplate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 3. 将所有的 css 嵌入到上述经过初步处理后的 html 中</span>
+            <span class="token keyword">return</span> <span class="token function">getEmbedHTML</span><span class="token punctuation">(</span>template<span class="token punctuation">,</span> styles<span class="token punctuation">,</span> <span class="token punctuation">{</span> fetch <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>embedHTML <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>于是在qiankun中你可以这样配置入口：</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> MicroApps <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'app1'</span><span class="token punctuation">,</span>
+  entry<span class="token punctuation">:</span> <span class="token string">'http://localhost:8080'</span><span class="token punctuation">,</span>
+  container<span class="token punctuation">:</span> <span class="token string">'#app'</span><span class="token punctuation">,</span>
+  activeRule<span class="token punctuation">:</span> <span class="token string">'/app1'</span>
+<span class="token punctuation">}</span><span class="token punctuation">]</span></code></pre>
+<p>qiankun会通过import-html-entry请求<a href="http://localhost:8080，得到对应的html文件，解析内部的所有script和style标签，依次下载和执行它们，这使得应用加载变得更易用。">http://localhost:8080，得到对应的html文件，解析内部的所有script和style标签，依次下载和执行它们，这使得应用加载变得更易用。</a></p>
+<p><code>import-html-entry</code>暴露出的核心接口是<code>importHTML</code>，而 <code>importHTML</code> 的具体流程：</p>
+<ol>
+<li><p>检查是否有缓存，如果有，直接从缓存中返回</p>
+</li>
+<li><p>如果没有，则通过fetch下载，并字符串化</p>
+</li>
+<li><p>基于正则表达式对模板字符串基于正则表达式对模板字符串 进行一次模板解析，主要任务是扫描出外联脚本和外联样式，保存在scripts和styles中</p>
+</li>
+<li><p>调用getEmbedHTML，将外联样式下载下来，并替换到模板内，使其变成内部样式</p>
+</li>
+<li><p>返回一个对象，该对象包含处理后的模板，以及getExternalScripts、getExternalStyleSheets、execScripts等几个核心方法。<br><code>getExternalStyleSheets</code>：遍历styles数组，如果是内联样式，则直接返回；否则判断缓存中是否存在，如果没有，则通过fetch去下载，并进行缓存。</p>
+<pre class=" language-js"><code class="language-js"><span class="token function">getExternalStyleSheets</span><span class="token punctuation">(</span>styles<span class="token punctuation">,</span> fetch<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>styleSheets <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            embedHTML <span class="token operator">=</span> styles<span class="token punctuation">.</span><span class="token function">reduce</span><span class="token punctuation">(</span><span class="token punctuation">(</span>html<span class="token punctuation">,</span> styleSrc<span class="token punctuation">,</span> i<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// 2.  将拉取到的每一个 href 对应的 css 通过 `&lt;style> &lt;/style>` 包裹起来且嵌入到 html 中</span>
+                html <span class="token operator">=</span> html<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token function">genLinkReplaceSymbol</span><span class="token punctuation">(</span>styleSrc<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token template-string"><span class="token string">`&lt;style>/* </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>styleSrc<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> */</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>styleSheets<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/style>`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">return</span> html<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span> embedHTML<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><code>getExternalScripts</code>：遍历scripts数组，逐个判断缓存中是否存在，如果没有，则通过fetch去下载，并进行缓存。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">getExternalScripts</span><span class="token punctuation">(</span>scripts<span class="token punctuation">,</span> fetch<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// 根据 script src 的 url fetch js </span>
+    <span class="token keyword">const</span> fetchScript <span class="token operator">=</span> scriptUrl <span class="token operator">=</span><span class="token operator">></span> <span class="token function">fetch</span><span class="token punctuation">(</span>scriptUrl<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>response <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> Promise<span class="token punctuation">.</span><span class="token function">all</span><span class="token punctuation">(</span>scripts<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>script <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// 如果是页级 script ，直接返回</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isInlineCode</span><span class="token punctuation">(</span>script<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> <span class="token function">getInlineCode</span><span class="token punctuation">(</span>script<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// 如果不是，那么通过 fetch 获取</span>
+                <span class="token keyword">return</span> <span class="token function">fetchScript</span><span class="token punctuation">(</span>script<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p><code>execScripts</code>：执行脚本</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">getExecutableScript</span><span class="token punctuation">(</span>scriptSrc<span class="token punctuation">,</span> scriptText<span class="token punctuation">,</span> proxy<span class="token punctuation">,</span> strictGlobal<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> sourceUrl <span class="token operator">=</span> <span class="token function">isInlineCode</span><span class="token punctuation">(</span>scriptSrc<span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token string">''</span> <span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`//# sourceURL=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>scriptSrc<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">\n`</span></span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 通过这种方式获取全局 window，具体原因可参考源码在这里的注释</span>
+    <span class="token keyword">const</span> globalWindow <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> eval<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token string">'window'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// 如果这里的 proxy 为 window 沙箱，那么就可以实现应用隔离</span>
+    globalWindow<span class="token punctuation">.</span>proxy <span class="token operator">=</span> proxy<span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// 利用 IIFE 将 code 里会使用到的 window, self, globalThis 传递进去，为后续的应用与应用之间隔离做处理</span>
+    <span class="token keyword">return</span> strictGlobal
+        <span class="token operator">?</span> <span class="token template-string"><span class="token string">`;(function(window, self, globalThis){with(window){;</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>scriptText<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">\n</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>sourceUrl<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">}}).bind(window.proxy)(window.proxy, window.proxy, window.proxy);`</span></span>
+        <span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`;(function(window, self, globalThis){;</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>scriptText<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">\n</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>sourceUrl<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">}).bind(window.proxy)(window.proxy, window.proxy, window.proxy);`</span></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>……</p>
+</li>
+</ol>
+<h4 id="js隔离"><a href="#js隔离" class="headerlink" title="js隔离"></a>js隔离</h4><p>qiankun通过<code>import-html-entry</code>，可以对html入口进行解析，并获得一个可以执行脚本的方法<code>execScripts</code>（上面提及到的 <code>execScript</code> ）。</p>
+<p>在上面的代码中，我们可以看到他将代码作为字符串插入，并且使用 <code>function(){}(with(window){fn.bind(window.proxy)(window.proxy, window.proxy, window.proxy)})</code></p>
+<p>qiankun引入该接口后，首先为该应用生成一个<strong>window的代理对象</strong>，然后将代理对象作为参数传入接口，以保证应用内的js不会对全局window造成影响。</p>
+<ul>
+<li>针对IE11不支持proxy，所以qiankun通过快照策略来隔离js，缺点是无法支持多实例场景。(可以理解为使用single-spa的js隔离方法，不过现在ie已经烟消云散了，放心使用)</li>
+</ul>
+<p>把解析出的scriptText（即脚本字符串）用<code>with(window){}</code>包裹起来，然后把window.proxy作为函数的第一个参数传进来，所以with语法内的window实际上是window.proxy。</p>
+<h4 id="css隔离"><a href="#css隔离" class="headerlink" title="css隔离"></a>css隔离</h4><p>目前qiankun主要提供了两种样式隔离方案</p>
+<ul>
+<li>一种是基于shadowDom的；<ul>
+<li>在配置的时候当启用<code>strictStyleIsolation</code>时，qiankun将采用shadowDom的方式进行样式隔离，即为子应用的根节点创建一个shadow root，整个应用的所有DOM将形成一棵shadow tree，它内部所有节点的样式对树外面的节点无效，所有就实现了样式隔离。</li>
+<li>但是这种方案是存在缺陷的。因为某些UI框架可能会生成一些弹出框直接挂载到document.body下，此时由于脱离了shadow tree，所以它的样式仍然会对全局造成污染。</li>
+</ul>
+</li>
+<li>另一种则是实验性的，思路类似于Vue中的scoped属性，给每个子应用的根节点添加一个特殊属性，用作对所有css选择器的约束。<ul>
+<li>在配置的时候当启用<code>experimentalStyleIsolation</code>。这种方案的策略是为子应用的根节点添加一个特定的随机属性</li>
+<li>但是它不支持@ keyframes，@ font-face，@ import，@ page</li>
+</ul>
+</li>
+</ul>
+<h4 id="应用通信"><a href="#应用通信" class="headerlink" title="应用通信"></a>应用通信</h4><p>一般来说，微前端中各个应用之前的通信都是比较少的。当然部分呢少量的通信是在所难免的，qiankun官方提供了一个简要的方案，思路是基于一个全局的globalState对象。这个对象由基座应用负责创建，内部包含一组用于通信的变量，以及两个分别用于修改变量值和监听变量变化的方法：setGlobalState和onGlobalStateChange。</p>
 <p>参考于：</p>
-<p><a href="https://juejin.cn/post/6844904162509979662" target="_blank" rel="noopener">https://juejin.cn/post/6844904162509979662</a></p>
-<p><a href="https://segmentfault.com/a/1190000040275586" target="_blank" rel="noopener">https://segmentfault.com/a/1190000040275586</a></p>
-<p><a href="https://tech.meituan.com/2020/02/27/meituan-waimai-micro-frontends-practice.html" target="_blank" rel="noopener">https://tech.meituan.com/2020/02/27/meituan-waimai-micro-frontends-practice.html</a></p>
+<p><a href="https://juejin.cn/post/6844904162509979662" target="_blank" rel="noopener">最容易看懂的微前端知识</a></p>
+<p><a href="https://segmentfault.com/a/1190000040275586" target="_blank" rel="noopener">微前端解决方案</a></p>
+<p><a href="https://tech.meituan.com/2020/02/27/meituan-waimai-micro-frontends-practice.html" target="_blank" rel="noopener">微前端在美团外卖的实践</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/378346507" target="_blank" rel="noopener">【微前端】single-spa 到底是个什么鬼</a></p>
+<p><a href="https://blog.csdn.net/qq_39670012/article/details/125294317" target="_blank" rel="noopener">微前端（Micro-Frontends）qiankun框架原理与实现</a></p>
+<p><a href="https://blog.csdn.net/qq_41694291/article/details/113842872" target="_blank" rel="noopener">微前端框架qiankun之原理与实战</a></p>
+<p><a href="https://blog.csdn.net/qq_41800366/article/details/122093720" target="_blank" rel="noopener">揭开 import-html-entry 面纱</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/463905990" target="_blank" rel="noopener">微前端框架 之 qiankun 从入门到源码分析</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/78362028" target="_blank" rel="noopener">可能是你见过最完善的微前端解决方案</a></p>
 <p>更多关于微前端的相关介绍，推荐大家可以去看这几篇文章：（qiankun官网的推荐）</p>
 <ul>
 <li><a href="https://micro-frontends.org/" target="_blank" rel="noopener">Micro Frontends</a></li>
@@ -1073,7 +1300,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">328.7k</span>&nbsp;字
+                class="white-color">336k</span>&nbsp;字
             
             
             

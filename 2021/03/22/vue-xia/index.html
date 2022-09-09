@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.2k
+                    5.3k
                 </div>
                 
 
@@ -863,6 +863,42 @@ vm<span class="token punctuation">.</span>b <span class="token operator">=</span
       <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
   <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>或者</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">class</span> <span class="token class-name">EventBusClass</span> <span class="token punctuation">{</span>
+    <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>eventMap <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token function">on</span><span class="token punctuation">(</span>eventName<span class="token punctuation">,</span> callback<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> cbs <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>eventMap<span class="token punctuation">[</span>eventName<span class="token punctuation">]</span> <span class="token operator">||</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>cbs<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span>callback<span class="token punctuation">)</span> <span class="token operator">===</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            cbs<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>callback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>eventMap<span class="token punctuation">[</span>eventName<span class="token punctuation">]</span> <span class="token operator">=</span> cbs<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token function">off</span><span class="token punctuation">(</span>eventName<span class="token punctuation">,</span> callback <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> cbs <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>eventMap<span class="token punctuation">[</span>eventName<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>cbs<span class="token punctuation">)</span> <span class="token keyword">return</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>callback<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">const</span> idx <span class="token operator">=</span> cbs<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span>callback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>idx <span class="token operator">!==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                cbs<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span>idx<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>eventMap<span class="token punctuation">[</span>eventName<span class="token punctuation">]</span> <span class="token operator">=</span> cbs<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>eventMap<span class="token punctuation">[</span>eventName<span class="token punctuation">]</span> <span class="token operator">=</span> undefined<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token function">emit</span><span class="token punctuation">(</span>eventName<span class="token punctuation">,</span> <span class="token operator">...</span>args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> cbs <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>eventMap<span class="token punctuation">[</span>eventName<span class="token punctuation">]</span> <span class="token operator">||</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>cbs<span class="token punctuation">)</span> <span class="token keyword">return</span><span class="token punctuation">;</span>
+
+        cbs<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span>cb<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> cb<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> eventBus <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">EventBus</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 
@@ -1412,7 +1448,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">328.7k</span>&nbsp;字
+                class="white-color">336k</span>&nbsp;字
             
             
             

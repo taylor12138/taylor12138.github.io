@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.1k
+                    3k
                 </div>
                 
 
@@ -574,9 +574,48 @@
 <li>domready时间= domContentLoadedEventEnd - fetchStart</li>
 <li>onload时间= loadEventEnd - fetchStart</li>
 </ul>
-<h4 id="性能指标之LCP-and-FCP"><a href="#性能指标之LCP-and-FCP" class="headerlink" title="性能指标之LCP and FCP"></a>性能指标之LCP and FCP</h4><p>最大内容绘制 (LCP)：<a href="https://web.dev/lcp/#what-elements-are-considered" target="_blank" rel="noopener">https://web.dev/lcp/#what-elements-are-considered</a></p>
+<h2 id="6-性能指标"><a href="#6-性能指标" class="headerlink" title="6.性能指标"></a>6.性能指标</h2><h4 id="性能指标之LCP-and-FCP"><a href="#性能指标之LCP-and-FCP" class="headerlink" title="性能指标之LCP and FCP"></a>性能指标之LCP and FCP</h4><p>最大内容绘制 (LCP)：<a href="https://web.dev/lcp/#what-elements-are-considered" target="_blank" rel="noopener">https://web.dev/lcp/#what-elements-are-considered</a></p>
 <p>首次内容绘制 (FCP)：<a href="https://web.dev/fcp/" target="_blank" rel="noopener">https://web.dev/fcp/</a></p>
-<h2 id="6-红宝书最佳实践"><a href="#6-红宝书最佳实践" class="headerlink" title="6.红宝书最佳实践"></a>6.红宝书最佳实践</h2><p>避免全局查找</p>
+<h4 id="First-Input-Delay-FID"><a href="#First-Input-Delay-FID" class="headerlink" title="First Input Delay(FID)"></a>First Input Delay(FID)</h4><p>可以理解为用户第一次与网页交互，（例如點擊連結、按鈕等等），瀏覽器實際上能夠回應此次互動的時間點</p>
+<p>通常，输入延迟（或输入延迟）发生是因为浏览器的主线程忙于执行其他操作，因此它无法（尚未）响应用户。 可能发生这种情况的一个常见原因是浏览器正忙于解析并执行应用程序加载的大型JavaScript文件 / CSS文件。 虽然它正在这样做，它不能运行任何事件监听器，因为它加载的JavaScript可能会告诉它做其他事情。</p>
+<p>较长的首次输入延迟通常发生在<a href="https://web.dev/fcp/" target="_blank" rel="noopener">首次内容绘制 (FCP)</a>和<a href="https://web.dev/tti/" target="_blank" rel="noopener">Time to Interactive 可交互时间 (TTI)</a>之间，因为在此期间，页面已经渲染出部分内容，但交互性还尚不可靠。为了说明这种情况的发生缘由，我们在时间轴中加入了 FCP 和 TTI</p>
+<p><img src="/2021/11/02/wang-zhan-xing-neng-you-hua/fid.png" alt></p>
+<p>您可能已经注意到 FCP 和 TTI 之间有相当长的一段时间（包括三段<a href="https://web.dev/custom-metrics/#long-tasks-api" target="_blank" rel="noopener">长任务</a>），如果用户在这段时间内尝试与页面进行交互（例如单击一个链接），那么从浏览器接收到单击直至主线程能够响应之前就会有一段延迟。</p>
+<p>因为浏览器正在运行任务的过程中，所以浏览器必须等到任务完成后才能对输入作出响应。浏览器必须等待的这段时间就是这位用户在该页面上体验到的 FID 值</p>
+<p><strong>FID重要性</strong>：首次输入延迟将会是用户对您网站响应度的第一印象，而第一印象对于塑造我们对网站质量和可靠性的整体印象至关重要。</p>
+<p>除了<a href="https://hrefgo.com/blog/core-web-vitals-lcp" target="_blank" rel="noopener">最大的内容绘制</a>(LCP) 和<a href="https://hrefgo.com/blog/what-is-cls" target="_blank" rel="noopener">累积布局偏移(CLS)</a>，<a href="https://hrefgo.com/blog/core-web-vitals-and-speed" target="_blank" rel="noopener">首次输入延迟</a>是谷歌在 2021 年夏季推出的<a href="https://hrefgo.com/blog/google-rank-core-web-vitals" target="_blank" rel="noopener">页面体验更新</a>中强调的三个核心 Web 要素之一。 </p>
+<p>由于 FID 是仅通过真实用户交互测量的统计数据，因此无法在实验室环境中复制。</p>
+<p>然而，总阻塞时间 (<strong>TBT</strong>) 是一个衡量浏览器被阻塞时间的指标，因此可以近似地估计 FID。这就是为什么您会在 Semrush 的 Core Web Vitals 报告中看到 TBT 而不是 FID 的原因。</p>
+<p><strong>改善FID</strong></p>
+<ul>
+<li><p>減少JavaScript等網頁程式碼的運作時間</p>
+<ul>
+<li><p>編排良好的主線程，能有效決定哪些元素率先載入，而避免過大而慢的代碼阻礙其他元素載入。</p>
+</li>
+<li><p>JavaScript任务会消耗大量的资源，会影响你的<a href="https://link.juejin.cn?target=https%3A%2F%2Fwww.hostinger.com%2Ftutorials%2Fwebsite-speed-test%2F">网站速度性能</a>。为了解决这个问题，请删除它们或将长的任务分成小的、异步的任务。至少，一个任务应该在<strong>50毫秒</strong>以下。（长任务是主线程被阻塞超过 50 毫秒的任何任务。 ）</p>
+<p>你可以使用<strong>setTimeout</strong>函数将长任务分成小任务，因为这将使主线程对用户输入的响应没有延迟。</p>
+</li>
+<li><p>檢查一下有沒有已經失效或不再用的編碼並刪除</p>
+</li>
+</ul>
+</li>
+<li><p>減低網頁的請求數和檔案大小</p>
+<ul>
+<li>適度壓縮圖像</li>
+</ul>
+</li>
+<li><p>減少主執行緒的工作</p>
+</li>
+<li><p>減低第三方程式碼的影響</p>
+</li>
+</ul>
+<p><strong>检查长任务</strong></p>
+<p>我们可以通过chrome的Lighthouse 启动性能审计</p>
+<p><img src="/2021/11/02/wang-zhan-xing-neng-you-hua/fid2.png" alt></p>
+<p>生成报告后，您可以向下滚动以深入了解 Lighthouse 的建议，这些建议将标记为机会和诊断。</p>
+<p><img src="/2021/11/02/wang-zhan-xing-neng-you-hua/fid3.png" alt></p>
+<p>通过诊断出来的 ‘’Avoid long main-thread tasks “ 找到长任务的发生点</p>
+<h2 id="7-红宝书最佳实践"><a href="#7-红宝书最佳实践" class="headerlink" title="7.红宝书最佳实践"></a>7.红宝书最佳实践</h2><p>避免全局查找</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">updateUI</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">let</span> imgs <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementsBtTagName</span><span class="token punctuation">(</span><span class="token string">"img"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> imgs<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -852,25 +891,25 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/11/05/vue3-shang/">
+                <a href="/2021/11/05/vue3-xia/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Vue3(上)">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Vue3(下)">
                         
-                        <span class="card-title">Vue3(上)</span>
+                        <span class="card-title">Vue3(下)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.Vue3 Start他在介绍中表明的是：
+                            6.Vue动画处理vue有个内置组件 transition
+基本使用：使用name定义过渡类名，然后常常与v-if、v-show、动态组件进行搭配
+官方：
+可以给任何元素和组件添加进入/离开过渡
 
-更小、更快、更易维护，一些命令的变化。
-3.0 新加入了 TypeScript 以及 PWA 的支持
-支持了 composiiton API
-vdom的对比算法更新，只更新绑定了动态数据部分
-
+条件渲染 (使用 v-if)
+条件展示 (
                         
                     </div>
                     <div class="publish-info">
@@ -1080,7 +1119,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">328.7k</span>&nbsp;字
+                class="white-color">336k</span>&nbsp;字
             
             
             

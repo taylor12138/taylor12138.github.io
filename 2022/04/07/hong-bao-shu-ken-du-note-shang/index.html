@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.2k
+                    7.5k
                 </div>
                 
 
@@ -643,6 +643,45 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p><code>eval()</code> 通常比其他替代方法更慢，因为它必须调用 JS 解释器，而许多其他结构则可被现代 JS 引擎进行优化。</p>
 <p>此外，现代JavaScript解释器将javascript转换为机器代码。 这意味着任何变量命名的概念都会被删除。 因此，任意一个eval的使用都会强制浏览器进行冗长的变量名称查找，以确定变量在机器代码中的位置并设置其值。 另外，新内容将会通过 <code>eval()</code> 引进给变量， 比如更改该变量的类型，因此会强制浏览器重新执行所有已经生成的机器代码以进行补偿。 但是，（谢天谢地）存在一个非常好的eval替代方法：只需使用 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_blank" rel="noopener">window.Function</a>。 这有个例子方便你了解如何将<code>eval()</code>的使用转变为<code>Function()</code>。</p>
 <p>关于eval更多介绍 <a href="https://zhuanlan.zhihu.com/p/232078517" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/232078517</a></p>
+<p><code>Eval</code>直接调用和间接调用</p>
+<ul>
+<li><p>间接eval调用：</p>
+<pre class=" language-js"><code class="language-js"><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> eval<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token string">'...'</span><span class="token punctuation">)</span>
+<span class="token punctuation">(</span>eval<span class="token punctuation">,</span> eval<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token string">'...'</span><span class="token punctuation">)</span>
+<span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">?</span> eval <span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token string">'...'</span><span class="token punctuation">)</span>
+<span class="token punctuation">(</span>__ <span class="token operator">=</span> eval<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token string">'...'</span><span class="token punctuation">)</span>
+<span class="token keyword">var</span> e <span class="token operator">=</span> eval<span class="token punctuation">;</span> <span class="token function">e</span><span class="token punctuation">(</span><span class="token string">'...'</span><span class="token punctuation">)</span>
+<span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token function">e</span><span class="token punctuation">(</span><span class="token string">'...'</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span>eval<span class="token punctuation">)</span>
+<span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> e <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span>eval<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token string">'...'</span><span class="token punctuation">)</span>
+<span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> arguments<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token string">'...'</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span>eval<span class="token punctuation">)</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">eval</span><span class="token punctuation">(</span><span class="token string">'...'</span><span class="token punctuation">)</span>
+<span class="token keyword">this</span><span class="token punctuation">[</span><span class="token string">'eval'</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token string">'...'</span><span class="token punctuation">)</span>
+<span class="token punctuation">[</span>eval<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token string">'...'</span><span class="token punctuation">)</span>
+eval<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> <span class="token string">'...'</span><span class="token punctuation">)</span>
+<span class="token function">eval</span><span class="token punctuation">(</span><span class="token string">'eval'</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token string">'...'</span><span class="token punctuation">)</span></code></pre>
+</li>
+<li><p>直接eval调用：</p>
+<pre class=" language-js"><code class="language-js"><span class="token function">eval</span><span class="token punctuation">(</span><span class="token string">'...'</span><span class="token punctuation">)</span>
+<span class="token punctuation">(</span>eval<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token string">'...'</span><span class="token punctuation">)</span>
+<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span>eval<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token string">'...'</span><span class="token punctuation">)</span>
+<span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token function">eval</span><span class="token punctuation">(</span><span class="token string">'...'</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token function">eval</span><span class="token punctuation">(</span><span class="token string">'eval("...")'</span><span class="token punctuation">)</span>
+<span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>eval<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token function">eval</span><span class="token punctuation">(</span><span class="token string">'...'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span>eval<span class="token punctuation">)</span>
+<span class="token keyword">with</span><span class="token punctuation">(</span><span class="token punctuation">{</span> eval<span class="token punctuation">:</span> eval <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token function">eval</span><span class="token punctuation">(</span><span class="token string">'...'</span><span class="token punctuation">)</span>
+<span class="token keyword">with</span><span class="token punctuation">(</span>window<span class="token punctuation">)</span> <span class="token function">eval</span><span class="token punctuation">(</span><span class="token string">'...'</span><span class="token punctuation">)</span></code></pre>
+</li>
+</ul>
+<p>Ecma 规范将引用<em>视为</em><code>eval</code>“直接 eval 调用”，但仅产生<code>eval</code>为间接的表达式 - 并且间接 eval 调用保证在全局范围内执行。</p>
+<p>你是否注意到ES5定义说明调用表达式的eval<strong>应当执行标准的、内置的函数</strong>？这意味着根据上下文内容eval(‘1+1’)<strong>必定不是直接调用</strong>。仅仅当eval真正地（不是重写或者隐含地）引用了标准的、内置的函数的时候，调用才被认为是直接调用。</p>
+<pre class=" language-js"><code class="language-js">eval <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>eval<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">function</span><span class="token punctuation">(</span>expr<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token function">eval</span><span class="token punctuation">(</span>expr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span>eval<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token function">eval</span><span class="token punctuation">(</span><span class="token string">'1+1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 它看前来像直接调用，不过实际上是间接调用。</span>
+               <span class="token comment" spellcheck="true">// 这是因为`eval`解析为定制的函数，而不是标准的、内置的函数。</span></code></pre>
+<p><a href="http://perfectionkills.com/global-eval-what-are-the-options/" target="_blank" rel="noopener">http://perfectionkills.com/global-eval-what-are-the-options/</a></p>
 <p><strong>new Function</strong></p>
 <p>除了eval之外另外一种动态执行js代码的的方式</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> sum <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Function</span><span class="token punctuation">(</span><span class="token string">'a'</span><span class="token punctuation">,</span> <span class="token string">'b'</span><span class="token punctuation">,</span> <span class="token string">'return a + b'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -1499,7 +1538,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">328.7k</span>&nbsp;字
+                class="white-color">336k</span>&nbsp;字
             
             
             

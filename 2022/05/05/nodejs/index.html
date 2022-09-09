@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9.8k
+                    10.2k
                 </div>
                 
 
@@ -651,6 +651,28 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token keyword">const</span> img <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"img"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 img<span class="token punctuation">.</span>src <span class="token operator">=</span> imgSrc<span class="token punctuation">;</span>
 document<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>img<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="不构建直接引用NPM包"><a href="#不构建直接引用NPM包" class="headerlink" title="不构建直接引用NPM包"></a>不构建直接引用NPM包</h4><p>当 <code>ES Module</code> 最开始作为一种新的 <code>JS</code> 模块化方案被引入的候，<code>import</code> 语句中需要指定相对路径或绝对路径。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> dayjs <span class="token keyword">from</span> <span class="token string">"https://cdn.skypack.dev/dayjs@1.10.7"</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// ES modules</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">dayjs</span><span class="token punctuation">(</span><span class="token string">"2022-08-12"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"YYYY-MM-DD"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>而我们现在所熟悉的直接引用包名实际上是通过打包工具的构建完成的</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> dayjs <span class="token keyword">from</span> <span class="token string">"dayjs"</span></code></pre>
+<p>而我们如何不需要通过打包工具的构建直接使用这种方式呢？</p>
+<p>我们可以通过 <code>HTML</code> 中的 <code>&lt;script type=&quot;importmap&quot;&gt;</code> 标签来指定一个 <code>Import maps</code>（我们可以把它当成一个映射表）</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>importmap<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript">
+<span class="token punctuation">{</span>
+  <span class="token string">"imports"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">"dayjs"</span><span class="token punctuation">:</span> <span class="token string">"https://cdn.skypack.dev/dayjs@1.10.7"</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
+<p>我们将写好的importmap放在文档中第一个 <code>&lt;script type=&quot;module&quot;&gt;</code> 标签之前</p>
+<p>另外，<code>importmap</code> 中声明的包并不一定意味着它一定会被浏览器加载。页面上的脚本没有使用到的任何模块都不会被浏览器加载，即便你在 <code>importmap</code> 中声明了它。</p>
+<p>我们甚至可以写一个映射表，在里面的importmap中指定我们的映射表(不过据说性能比较差)</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>importmap<span class="token punctuation">"</span></span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>importmap.json<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
+<p>这项技术目前在 <code>Chrome</code> 和 <code>Edge</code> 浏览器 <code>89</code> 及更高版本提供了全面支持，但 <code>Firefox、Safari</code> 和一些移动浏览器还没有支持。我们可以通过下面的代码来判断浏览器的支持情况：</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">if</span> <span class="token punctuation">(</span>HTMLScriptElement<span class="token punctuation">.</span>supports <span class="token operator">&amp;&amp;</span> HTMLScriptElement<span class="token punctuation">.</span><span class="token function">supports</span><span class="token punctuation">(</span><span class="token string">'importmap'</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// import maps is supported</span>
+<span class="token punctuation">}</span></code></pre>
 <h4 id="ES6引入的特点"><a href="#ES6引入的特点" class="headerlink" title="ES6引入的特点"></a>ES6引入的特点</h4><p>1.首先下载、查找 + 构建关系图</p>
 <p>ES6 模块会在程序开始前先根据模块关系查找到所有模块，生成一个无环关系图，并将所有模块实例都创建好，这种方式天然地避免了循环引用的问题，当然也有模块加载缓存，重复 import 同一个模块，只会执行一次代码。</p>
 <p>2.内存腾出空间，然后使 import 和 export 指向内存中的这些空间，这个过程也叫连接。</p>
@@ -690,7 +712,9 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>3.<code>CommonJS</code> 可以在运行时使用变量进行 require</p>
 <p>4.<code>require</code> 会将完整的 <code>exports</code> 对象引入，<code>import</code> 可以只 <code>import</code> 部分必要的内容，这也是为什么使用 <code>Tree Shaking</code> 时必须使用 ES6 模块 的写法。</p>
 <p>5.模块加载方式不同</p>
-<p>参考链接<a href="https://juejin.cn/post/6844904080955932680#heading-3" target="_blank" rel="noopener">https://juejin.cn/post/6844904080955932680#heading-3</a></p>
+<p>参考链接</p>
+<p><a href="https://juejin.cn/post/6844904080955932680#heading-3" target="_blank" rel="noopener">https://juejin.cn/post/6844904080955932680#heading-3</a></p>
+<p><a href="https://mp.weixin.qq.com/s/jyWJX_g-txIm0LIxPAuTDw" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/jyWJX_g-txIm0LIxPAuTDw</a></p>
 <h2 id="3-Buffer缓冲区"><a href="#3-Buffer缓冲区" class="headerlink" title="3.Buffer缓冲区"></a>3.Buffer缓冲区</h2><p>数组不能存储二进制文件，而buffer就是专门来存储二进制数据</p>
 <p>从结构上buffer非常像一个数组，他的元素为16进制的两位数</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">"hello, 艾伦"</span><span class="token punctuation">;</span>
@@ -1672,7 +1696,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">328.7k</span>&nbsp;字
+                class="white-color">336k</span>&nbsp;字
             
             
             

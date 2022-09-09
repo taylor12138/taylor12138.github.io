@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.7k
+                    6.8k
                 </div>
                 
 
@@ -727,6 +727,13 @@ GET / HTTP/1.1
 ...
 复制代码</code></pre><p>这样就可以解决<code>X-Forwarded-For</code>带来的问题了。</p>
 <p>X-Real-IP首部字段：始终记录最初的客户端的IP</p>
+<h4 id="判断是否弱网环境"><a href="#判断是否弱网环境" class="headerlink" title="判断是否弱网环境"></a>判断是否弱网环境</h4><pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 判断是否为弱网环境</span>
+<span class="token keyword">const</span> isSlowNetwork <span class="token operator">=</span> navigator<span class="token punctuation">.</span>connection
+  <span class="token operator">?</span> navigator<span class="token punctuation">.</span>connection<span class="token punctuation">.</span>saveData <span class="token operator">||</span>
+    <span class="token punctuation">(</span>navigator<span class="token punctuation">.</span>connection<span class="token punctuation">.</span>type <span class="token operator">!==</span> <span class="token string">'wifi'</span> <span class="token operator">&amp;&amp;</span>
+      navigator<span class="token punctuation">.</span>connection<span class="token punctuation">.</span>type <span class="token operator">!==</span> <span class="token string">'ethernet'</span> <span class="token operator">&amp;&amp;</span>
+      <span class="token regex">/(2|3)g/</span><span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span>navigator<span class="token punctuation">.</span>connection<span class="token punctuation">.</span>effectiveType<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">;</span></code></pre>
 <h2 id="7-QUIC"><a href="#7-QUIC" class="headerlink" title="7.QUIC"></a>7.QUIC</h2><p>Quic 全称 quick udp internet connection ，“快速 UDP 互联网连接”，也可以理解为http3.0</p>
 <p>应用：速度更快、网络切换（wifi -&gt; nG）无感知等、弱网络环境better</p>
 <p>对比http2.0：</p>
@@ -1227,7 +1234,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">328.7k</span>&nbsp;字
+                class="white-color">336k</span>&nbsp;字
             
             
             

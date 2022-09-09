@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.4k
+                    3k
                 </div>
                 
 
@@ -508,8 +508,7 @@ CallbackId: JS 回调名</code></pre><p> <code>ModuleId</code> 和 <code>MethodI
 <li>Android 4.4之前只能用<strong>loadUrl</strong>来实现，并且无法执行回调</li>
 </ul>
 <pre class=" language-java"><code class="language-java">val jsCode <span class="token operator">=</span> String<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"window.showWebDialog('%s')"</span><span class="token punctuation">,</span> text<span class="token punctuation">)</span>
-webView<span class="token punctuation">.</span><span class="token function">loadUrl</span><span class="token punctuation">(</span><span class="token string">"javascript: "</span> <span class="token operator">+</span> jsCode<span class="token punctuation">)</span>
-复制代码</code></pre>
+webView<span class="token punctuation">.</span><span class="token function">loadUrl</span><span class="token punctuation">(</span><span class="token string">"javascript: "</span> <span class="token operator">+</span> jsCode<span class="token punctuation">)</span></code></pre>
 <ul>
 <li>Android 4.4之后提供了<strong>evaluateJavascript</strong>来执行JS代码，并且可以获取返回值执行回调；</li>
 </ul>
@@ -519,8 +518,7 @@ webView<span class="token punctuation">.</span><span class="token function">eval
   <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onReceiveValue</span><span class="token punctuation">(</span>String value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
      <span class="token comment" spellcheck="true">//拿到返回值后进行处理   </span>
   <span class="token punctuation">}</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-复制代码</code></pre>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <table>
 <thead>
 <tr>
@@ -544,15 +542,13 @@ webView<span class="token punctuation">.</span><span class="token function">eval
 <li>iOS的UIWebView使用<strong>stringByEvaluatingJavaScriptFromString；</strong></li>
 </ul>
 <pre class=" language-java"><code class="language-java">NSString <span class="token operator">*</span>jsStr <span class="token operator">=</span> @<span class="token string">"执行的JS代码"</span><span class="token punctuation">;</span>
-<span class="token punctuation">[</span>webView stringByEvaluatingJavaScriptFromString<span class="token operator">:</span>jsStr<span class="token punctuation">]</span><span class="token punctuation">;</span>
-复制代码</code></pre>
+<span class="token punctuation">[</span>webView stringByEvaluatingJavaScriptFromString<span class="token operator">:</span>jsStr<span class="token punctuation">]</span><span class="token punctuation">;</span></code></pre>
 <ul>
 <li>iOS的WKWebView使用<strong>evaluateJavaScript；</strong></li>
 </ul>
 <pre class=" language-java"><code class="language-java"><span class="token punctuation">[</span>webView evaluateJavaScript<span class="token operator">:</span>@<span class="token string">"执行的JS代码"</span> completionHandler<span class="token operator">:</span><span class="token operator">^</span><span class="token punctuation">(</span>id _Nullable response<span class="token punctuation">,</span> NSError <span class="token operator">*</span> _Nullable error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
 
-<span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-复制代码</code></pre>
+<span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span></code></pre>
 <table>
 <thead>
 <tr>
@@ -607,31 +603,27 @@ webView<span class="token punctuation">.</span><span class="token function">eval
 <td>scheme://dddd</td>
 </tr>
 </tbody></table>
-<h4 id="（1）全局注入API"><a href="#（1）全局注入API" class="headerlink" title="（1）全局注入API"></a>（1）全局注入API</h4><p>也可以解释为在window注入native封装好的方法，前端通过 ``window.xxx`调用，</p>
+<h4 id="（1）全局注入API"><a href="#（1）全局注入API" class="headerlink" title="（1）全局注入API"></a>（1）全局注入API</h4><p>也可以解释为在window注入native封装好的方法，前端通过 <code>window.xxx</code>调用，</p>
 <p>将Native的相关接口注入到JS的Context（window）的对象中，一般来说这个对象内的方法名与Native相关方法名是相同的，Web端就可以直接在全局<strong>window</strong>下使用这个暴露的全局JS对象，进而调用原生端的方法。</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ed8b77b70bb143658f0459697f2bd718~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.awebp?" alt="image.png"></p>
 <p><strong>1、 客户端定义js映射对象</strong></p>
+<p>具体有安卓 webview 的 addJavascriptInterface，iOS UIWebview 的 JSContext，iOS WKWebview 的 scriptMessageHandler。</p>
 <pre class=" language-java"><code class="language-java"> <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AndroidToJS</span> <span class="token punctuation">{</span>
-
     <span class="token comment" spellcheck="true">// 定义JS需要调用的方法</span>
     <span class="token comment" spellcheck="true">// 被JS调用的方法必须加入@JavascriptInterface注解</span>
     <span class="token annotation punctuation">@JavascriptInterface</span>
     <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">callAndroid</span><span class="token punctuation">(</span>String msg<span class="token punctuation">)</span><span class="token punctuation">{</span>
         Log<span class="token punctuation">.</span><span class="token function">e</span><span class="token punctuation">(</span><span class="token string">"zw"</span><span class="token punctuation">,</span><span class="token string">"JS调用了Android的callAndroid()，msg : "</span> <span class="token operator">+</span> msg<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">}</span>
-复制代码</code></pre>
+    <span class="token punctuation">}</span><span class="token punctuation">}</span></code></pre>
 <p><strong>2、注入js方法</strong></p>
-<pre class=" language-java"><code class="language-java">webView<span class="token punctuation">.</span><span class="token function">addJavascriptInterface</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">AndroidToJS</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token string">"android"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-复制代码</code></pre>
+<pre class=" language-java"><code class="language-java">webView<span class="token punctuation">.</span><span class="token function">addJavascriptInterface</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">AndroidToJS</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token string">"android"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p><strong>3、前端调用</strong></p>
-<pre class=" language-javascript"><code class="language-javascript">window<span class="token punctuation">.</span>NativeBridge<span class="token punctuation">.</span><span class="token function">callAndroid</span><span class="token punctuation">(</span><span class="token string">'hello'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-复制代码</code></pre>
+<pre class=" language-javascript"><code class="language-javascript">window<span class="token punctuation">.</span>NativeBridge<span class="token punctuation">.</span><span class="token function">callAndroid</span><span class="token punctuation">(</span><span class="token string">'hello'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p><strong>4、优缺点</strong></p>
 <p><strong>优点</strong>：通信时间短，调用方便。</p>
-<p><strong>缺点</strong>：使用 <code>webView.addJavascriptInterface</code> 方法进行注入。此方法存在漏洞，在 Android4.2 以上提供 @javascriptInterface 注解来规避该漏洞，但对于4.2以下版本则没有任何方法。所以使用该方法有一定的风险和兼容性问题。</p>
+<p><strong>缺点</strong>：使用 <code>webView.addJavascriptInterface</code> 方法进行注入。此方法存在漏洞(安全隐患)，在 Android4.2 以上提供 @javascriptInterface 注解来规避该漏洞，但对于4.2以下版本则没有任何方法。所以使用该方法有一定的风险和兼容性问题。</p>
 <h4 id="（2）scheme拦截"><a href="#（2）scheme拦截" class="headerlink" title="（2）scheme拦截"></a>（2）scheme拦截</h4><p>可以解释为，发请求，然后客户端拦截请求，调用方法</p>
 <p>客户端和前端定义scheme规范，前端加载scheme，客户端会拦截scheme，如果scheme格式符合规范，客户端会解析scheme中的参数，获取对应的方法和参数名，然后调起客户端原生方法。</p>
-<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bce6444972a54c778a80e7f5bce6517c~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.awebp?" alt="image.png"></p>
+<p><img src="/2021/03/08/kua-duan-xiang-guan/jsb2.png" alt></p>
 <p><strong>1、前端加载scheme</strong></p>
 <p>通过iframe.src发起一个请求，客户端webview能拦截这个请求，做相应的处理。</p>
 <p>Web 端发出请求的方式非常多样，例如 <code>&lt;a/&gt;</code> 、<code>iframe.src</code>、<code>location.href</code>、<code>ajax</code> 等，但 <code>&lt;a/&gt;</code> 需要用户手动触发，<code>location.href</code> 可能会导致页面跳转，安卓端拦截 <code>ajax</code> 的能力有所欠缺，因此<strong>绝大多数拦截式实现方案均采用</strong><code>iframe</code> <strong>来发送请求</strong>。</p>
@@ -644,9 +636,10 @@ document<span class="token punctuation">.</span>body<span class="token punctuati
 <span class="token comment" spellcheck="true">// 100毫秒后移除</span>
 <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
     iframe<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-复制代码</code></pre>
-<p>一个标准的 URL 由 <code>&lt;scheme&gt;://&lt;host&gt;:&lt;port&gt;&lt;path&gt;</code> 组成，相信大家都有过从微信或手机浏览器点击某个链接意外跳转到其他 App 的经历，如果有仔细留意过这些链接的 URL 你会发现目前主流 App 都有其专属的一个 scheme 来作为该应用的标识，例如微信的 URL scheme 就是 <code>weixin://</code>。<strong>JSB</strong> <strong>的实现借鉴这一思路，定制业务自身专属的一个 URL scheme 来作为 JSB 请求的标识</strong>，例如字节内部实现拦截式 JSB 的 SDK 中就定义了 <code>bytedance://</code> 这样一个 scheme。</p>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span>l</code></pre>
+<p>一个标准的 URL 由 <code>&lt;scheme&gt;://&lt;host&gt;:&lt;port&gt;&lt;path&gt;</code> 组成，相信大家都有过从微信或手机浏览器点击某个链接意外跳转到其他 App 的经历，如果有仔细留意过这些链接的 URL 你会发现目前主流 App 都有其专属的一个 scheme 来作为该应用的标识，例如微信的 URL scheme 就是 <code>weixin://</code>。</p>
+<p><strong>JSB</strong> <strong>的实现借鉴这一思路，定制业务自身专属的一个 URL scheme 来作为 JSB 请求的标识</strong>，例如字节内部实现拦截式 JSB 的 SDK 中就定义了 <code>bytedance://</code> 这样一个 scheme。</p>
+<p>实际上这个跳转地址只是一个非法的不存在的url</p>
 <p><strong>2、android 重写shouldOverrideUrlLoading</strong></p>
 <p><strong>Native 拦截请求的钩子方法：</strong></p>
 <table>
@@ -681,10 +674,27 @@ document<span class="token punctuation">.</span>body<span class="token punctuati
 <p><strong>3、优缺点</strong></p>
 <p><strong>优点</strong>：兼容性好，安卓和 IOS 的各个版本都能支持此功能。</p>
 <p><strong>缺点</strong>：调用时延比较高 200 - 400ms，在安卓上表现明显；URL scheme 长度有限，内容过多可能会丢失字符；不支持同步返回结果，所有信息传送都需要调用 iframe 请求，使用 callback 得到返回的数据。</p>
+<p><strong>一部分问题（缺点）的解决</strong></p>
+<ul>
+<li>连续发送时消息丢失</li>
+</ul>
+<p>以下代码：</p>
+<pre class=" language-js"><code class="language-js">window<span class="token punctuation">.</span>location<span class="token punctuation">.</span>href <span class="token operator">=</span> <span class="token string">"jsbridge://callNativeNslog?{"</span>data<span class="token string">": "</span><span class="token number">111</span><span class="token string">", "</span>cbName<span class="token string">": "</span><span class="token string">"}"</span><span class="token punctuation">;</span>
+window<span class="token punctuation">.</span>location<span class="token punctuation">.</span>href <span class="token operator">=</span> <span class="token string">"jsbridge://callNativeNslog?{"</span>data<span class="token string">": "</span><span class="token number">222</span><span class="token string">", "</span>cbName<span class="token string">": "</span><span class="token string">"}"</span><span class="token punctuation">;</span></code></pre>
+<p>js 此时的诉求是在同一个运行逻辑内，快速的连续发送出 2 个通讯请求，用客户端自己 IDE 的 log，按顺序打印 111，222，那么实际结果是 222 的通讯消息根本收不到，直接会被系统抛弃丢掉。</p>
+<p>缘由：由于 h5 的请求归根结底是一种模拟跳转，跳转这件事情上 webview 会有限制，当 h5 连续发送多条跳转的时候，webview 会直接过滤掉后发的跳转请求，所以第二个消息根本收不到，想要收到怎么办？js 里将第二条消息延时一下。</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//发第一条消息</span>
+location<span class="token punctuation">.</span>href <span class="token operator">=</span> <span class="token string">"jsbridge://callNativeNslog?{"</span>data<span class="token string">": "</span><span class="token number">111</span><span class="token string">", "</span>cbName<span class="token string">": "</span><span class="token string">"}"</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">//延时发送第二条消息</span>
+<span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">,</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    location<span class="token punctuation">.</span>href <span class="token operator">=</span> <span class="token string">"jsbridge://callNativeNslog?{"</span>data<span class="token string">": "</span><span class="token number">222</span><span class="token string">", "</span>cbName<span class="token string">": "</span><span class="token string">"}"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>但这并不能保证此时是否有其余地方经过这种方式进行请求，为系统解决此问题，js 端能够封装一层队列，全部 js 代码调用消息都先进入队列并不马上发送，而后 h5 会周期性好比 500 毫秒，清空一次队列，保证在很快的时间内绝对不会连续发 2 次请求通讯。</p>
 <h4 id="（3）JS回调时机"><a href="#（3）JS回调时机" class="headerlink" title="（3）JS回调时机"></a>（3）JS回调时机</h4><p>基本没用….因为以下方法ios都不支持，作了解就可以了</p>
-<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0ff513d098b24d12b9e7fde30bfcdec3~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.awebp?" alt="image.png"></p>
+<p><img src="/2021/03/08/kua-duan-xiang-guan/jsb.png" alt></p>
 <p><strong>1、Confirm</strong></p>
-<p>客户端可以拦截confirm。iOS的UIWebview不支持。使用场景相对较多，不适合用来做jsb。</p>
+<p>客户端可以拦截confirm。iOS的UIWebview不支持（不过好像WKWebView 支持）。使用场景相对较多，不适合用来做jsb。</p>
 <p>前端调用</p>
 <pre class=" language-java"><code class="language-java">window<span class="token punctuation">.</span><span class="token function">confirm</span><span class="token punctuation">(</span><span class="token string">'dance://app.toast?title=hello'</span><span class="token punctuation">)</span></code></pre>
 <p><strong>2、alert</strong></p>
@@ -694,7 +704,8 @@ document<span class="token punctuation">.</span>body<span class="token punctuati
 <p><strong>3、Prompt</strong></p>
 <p>客户端可以拦截prompt，参数同上。iOS的UIWebview不支持。可自定义返回值，多用于安卓jsb方案。</p>
 <p>前端调用</p>
-<pre class=" language-java"><code class="language-java">window<span class="token punctuation">.</span><span class="token function">prompt</span><span class="token punctuation">(</span><span class="token string">'dance://app.toast?title=hello'</span><span class="token punctuation">)</span></code></pre>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">const</span> url <span class="token operator">=</span> <span class="token string">'jsbridge://'</span> <span class="token operator">+</span> method <span class="token operator">+</span> <span class="token string">'?'</span> <span class="token operator">+</span> JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+window<span class="token punctuation">.</span><span class="token function">prompt</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span></code></pre>
 <p>Android端拦截</p>
 <pre class=" language-java"><code class="language-java"><span class="token operator">/</span> Java<span class="token operator">:</span> 重载 onJsPrompt 方法，提取 prompt 内容判断是否需要拦截
     <span class="token keyword">class</span> <span class="token class-name">MyWebViewClient</span> <span class="token keyword">extends</span> <span class="token class-name">WebChromeClient</span> <span class="token punctuation">{</span>
@@ -718,6 +729,9 @@ document<span class="token punctuation">.</span>body<span class="token punctuati
     <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h3 id="调用与回调"><a href="#调用与回调" class="headerlink" title="调用与回调"></a>调用与回调</h3><p>跨端方法一般都不是单向的，一般调用完毕我们都需要执行回调啊、什么返回一个参数之类的，而执行 js 回调函数方式本质是 native 调用 h5 的 js 方法</p>
+<p>但是由于调用方调用被调用方和调用方回调被调用方在代码层面都是同一个接口（你也可以了理解为同一个命名的方法），为了区分本次调用是 API 调用还是回调调用，sn 需要做区分，比如请求方带过去的 key 名叫 <strong>req_sn(</strong>callbackId<strong>)</strong>，回调带过去的叫 <strong>res_sn(</strong>responseId<strong>)</strong>。</p>
+<p>以拦截式调用为例，发起带 <strong>req_sn</strong> 的请求前，如果有回调函数，会以 <strong>req_sn</strong> 的值为 key，把回调函数存到对应的回调函数列表。当接收到带有 <strong>res_sn</strong> 的调用后，会以 <strong>res_sn</strong> 的值为 key，从对应的回调函数列表取出回调函数，并以接收到的数据为参数，执行回调函数</p>
 <h3 id="分享一个JSBridge"><a href="#分享一个JSBridge" class="headerlink" title="分享一个JSBridge"></a>分享一个JSBridge</h3><p>An iOS/OSX bridge for sending messages between Obj-C and JavaScript in UIWebViews/WebViews：</p>
 <ul>
 <li><a href="https://www.facebook.com/mobile/messenger" target="_blank" rel="noopener">Facebook Messenger</a></li>
@@ -726,16 +740,16 @@ document<span class="token punctuation">.</span>body<span class="token punctuati
 </ul>
 <p>它把 JSB封装的就像是一个跨越两端的 EventEmitter</p>
 <p><a href="https://github.com/marcuswestin/WebViewJavascriptBridge" target="_blank" rel="noopener">https://github.com/marcuswestin/WebViewJavascriptBridge</a></p>
-<h2 id="3-RN跨端"><a href="#3-RN跨端" class="headerlink" title="3.RN跨端"></a>3.RN跨端</h2><p>在使用RN情况下，JSCore（C++，C++ 在 iOS 和安卓系统上也有良好的跨端运行的功能）作为执行引擎，用来跑react代码（JS代码加载和解析），自带的java层作为渲染引擎</p>
+<h2 id="3-RN跨端"><a href="#3-RN跨端" class="headerlink" title="3.RN跨端"></a>3.RN跨端</h2><p>传统的jsb方案下，使用Webview 作为是 JS 的执行引擎，而在使用RN情况下，RN 团队选择了JSCore（<code>JSCore</code> 的对外接口是用 C 和 C++ 编写的，C++ 在 iOS 和安卓系统上也有良好的跨端运行的功能）作为执行引擎，用来跑react代码（JS代码加载和解析），自带的java层作为渲染引擎</p>
 <p>Native 模块（客户端原生模块）在 Android 系统下是 Java 模块，JS 通过模块 ID（<code>moduleID</code>） 和方法 ID（<code>methodID</code>） 来进行调用</p>
 <p>JavaScript 模块是由 JS 实现</p>
-<p>JS 环境中会维护一份所有 Native 模块的 moduleID 和 methodID 的映射 <code>NativeModules</code>，用来调用 Native 模块的时候查找对应 ID；Java 环境中也会维护一份 JavaScript 模块的映射 <code>JSModuleRegistry</code>，用来调用 JS 代码。而在实际的代码中，Native 模块和 JS 模块的通信需要通过中间层也就是 C++ 层的过渡，也就是说 Native 模块和 JS 模块实际上都只是在和 C++ 模块进行通信。</p>
+<p>以安卓为例，JS 环境中会维护一份所有 Native 模块的 moduleID 和 methodID 的映射 <code>NativeModules</code>，用来调用 Native 模块的时候查找对应 ID；Java 环境中也会维护一份 JavaScript 模块的映射 <code>JSModuleRegistry</code>，用来调用 JS 代码。而在实际的代码中，Native 模块和 JS 模块的通信需要通过中间层也就是 C++ 层的过渡，也就是说 Native 模块和 JS 模块实际上都只是在和 C++ 模块进行通信。</p>
 <p>RN环境中会塞入4个api作为调用js的入口：</p>
 <pre class=" language-js"><code class="language-js">callFunctionReturnFlushedQueue <span class="token comment" spellcheck="true">// 让 C++ 调用 JS 模块</span>
 invokeCallbackAndReturnFlushedQueue <span class="token comment" spellcheck="true">// 让 C++ 调用 JS 回调</span>
 flushedQueue <span class="token comment" spellcheck="true">// 清空 JS 任务队列</span>
 callFunctionReturnResultAndFlushedQueue <span class="token comment" spellcheck="true">// 让 C++ 调用 JS 模块并返回结果</span></code></pre>
-<p>C++ 在调用__fbGenNativeModule方法之后，会生成 Java 模块的映射对象，也就是 <code>NativeModules</code> 模块</p>
+<p>JS 还在 global 中还设置了 <code>__fbGenNativeModule</code> 方法，用来给 C++ 调用后在 JS 环境生成 Java 模块的映射对象，也就是 <code>NativeModules</code> 模块。</p>
 <p>数据结构类似于（跟实际的数据结构有偏差）：</p>
 <pre class=" language-js"><code class="language-js"><span class="token punctuation">{</span>
     <span class="token string">"Timing"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
@@ -1213,7 +1227,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">328.7k</span>&nbsp;字
+                class="white-color">336k</span>&nbsp;字
             
             
             

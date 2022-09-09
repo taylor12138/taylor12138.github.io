@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6k
+                    6.1k
                 </div>
                 
 
@@ -911,7 +911,7 @@ document<span class="token punctuation">.</span><span class="token function">add
         localStorage<span class="token punctuation">.</span><span class="token function">removeItem</span><span class="token punctuation">(</span><span class="token string">'username'</span><span class="token punctuation">)</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
-<h2 id="9-拖拽事件"><a href="#9-拖拽事件" class="headerlink" title="9.拖拽事件"></a>9.拖拽事件</h2><p>HTML 的 drag &amp; drop 使用了 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Event" target="_blank" rel="noopener"><code>DOM event model</code></a> 以及从 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent" target="_blank" rel="noopener"><code>mouse events</code></a> 继承而来的 <em><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/DragEvent" target="_blank" rel="noopener"><code>drag events</code></a></em> 。一个典型的拖拽操作是这样的：用户选中一个<em>可拖拽的（draggable）</em>元素，并将其拖拽（鼠标不放开）到一个<em>可放置的（droppable）</em>元素，然后释放鼠标。</p>
+<h3 id="9-拖拽事件"><a href="#9-拖拽事件" class="headerlink" title="9.拖拽事件"></a>9.拖拽事件</h3><p>HTML 的 drag &amp; drop 使用了 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Event" target="_blank" rel="noopener"><code>DOM event model</code></a> 以及从 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent" target="_blank" rel="noopener"><code>mouse events</code></a> 继承而来的 <em><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/DragEvent" target="_blank" rel="noopener"><code>drag events</code></a></em> 。一个典型的拖拽操作是这样的：用户选中一个<em>可拖拽的（draggable）</em>元素，并将其拖拽（鼠标不放开）到一个<em>可放置的（droppable）</em>元素，然后释放鼠标。</p>
 <p>在操作期间，会触发一些事件类型，有一些事件类型可能会被多次触发（比如<code>drag (en-US)</code> 和 <code>dragover (en-US)</code> 事件类型）。</p>
 <p>所有的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/DragEvent#event_types" target="_blank" rel="noopener">拖拽事件类型</a> 有一个对应的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/DragEvent#globaleventhandlers" target="_blank" rel="noopener">拖拽全局属性</a>。每个拖拽事件类型和拖拽全局属性都有对应的描述文档。下面的表格提供了一个简短的事件类型描述，以及一个相关文档的链接。</p>
 <table>
@@ -966,6 +966,15 @@ document<span class="token punctuation">.</span><span class="token function">add
 <blockquote>
 <p><strong>注意：</strong>当从操作系统向浏览器中拖拽文件时，不会触发 <code>dragstart</code> 和<code>dragend</code> 事件。</p>
 </blockquote>
+<p>在浏览器才有这个事件，移动端好像没有（至少我试了好像不太行）</p>
+<pre class=" language-html"><code class="language-html">&lt;div    
+     key={component.type}    
+     draggable   
+     onDragStart={() => handleDragStart(component)}   
+  className="editor-left-item">   
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">></span></span>{component.label}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>   
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>{component.preview()}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span> 
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
 
             </div>
             <hr/>
@@ -1425,7 +1434,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">328.7k</span>&nbsp;字
+                class="white-color">336k</span>&nbsp;字
             
             
             

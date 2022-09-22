@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.9k
+                    7.3k
                 </div>
                 
 
@@ -1280,6 +1280,49 @@ MyPromise<span class="token punctuation">.</span>prototype<span class="token pun
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>value <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<h2 id="5-Error"><a href="#5-Error" class="headerlink" title="5.Error"></a>5.Error</h2><p>当运行时错误产生时，<code>Error</code> 对象会被抛出。<code>Error</code> 对象也可用于用户自定义的异常的基础对象。下面列出了各种内建的标准错误类型。</p>
+<p>我们通常在异步请求后使用try catch捕获，在发生请求错误的时候可以throw 一个 <code>Error</code></p>
+<pre class=" language-js"><code class="language-js"><span class="token function">fetchAPI</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>res<span class="token punctuation">)</span> <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span><span class="token string">'当前没有返回值？？： no response'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="其他error"><a href="#其他error" class="headerlink" title="其他error"></a>其他error</h4><p>除了通用的 <code>Error</code> 构造函数外，JavaScript 还有其它类型的错误构造函数。对于客户端异常，详见<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Control_flow_and_error_handling#异常处理语句" target="_blank" rel="noopener">异常处理语句</a>。</p>
+<ul>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/EvalError" target="_blank" rel="noopener"><code>EvalError</code></a></p>
+<p>创建一个 error 实例，表示错误的原因：与 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/eval" target="_blank" rel="noopener"><code>eval()</code></a> 有关。</p>
+</li>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RangeError" target="_blank" rel="noopener"><code>RangeError</code></a></p>
+<p>创建一个 error 实例，表示错误的原因：数值变量或参数超出其有效范围。</p>
+</li>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError" target="_blank" rel="noopener"><code>ReferenceError</code></a></p>
+<p>创建一个 error 实例，表示错误的原因：无效引用。</p>
+</li>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError" target="_blank" rel="noopener"><code>SyntaxError</code></a></p>
+<p>创建一个 error 实例，表示错误的原因：语法错误。</p>
+</li>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/TypeError" target="_blank" rel="noopener"><code>TypeError</code></a></p>
+<p>创建一个 error 实例，表示错误的原因：变量或参数不属于有效类型。</p>
+</li>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/URIError" target="_blank" rel="noopener"><code>URIError</code></a></p>
+<p>创建一个 error 实例，表示错误的原因：给 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/encodeURI" target="_blank" rel="noopener"><code>encodeURI()</code></a> 或 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/decodeURI" target="_blank" rel="noopener"><code>decodeURI()</code></a> 传递的参数无效。</p>
+</li>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/AggregateError" target="_blank" rel="noopener"><code>AggregateError</code></a></p>
+<p>创建一个 error 实例，其中包裹了由一个操作产生且需要报告的多个错误。如：<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise/any" target="_blank" rel="noopener"><code>Promise.any()</code></a> 产生的错误。</p>
+</li>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/InternalError" target="_blank" rel="noopener"><code>InternalError</code></a> 非标准</p>
+<p>创建一个代表 Javascript 引擎内部错误的异常抛出的实例。如：递归太多。</p>
+</li>
+</ul>
+<p>当然也可以自定义Error</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">class</span> <span class="token class-name">PayError</span> <span class="token keyword">extends</span> <span class="token class-name">Error</span> <span class="token punctuation">{</span>
+  <span class="token function">constructor</span><span class="token punctuation">(</span>code<span class="token punctuation">,</span> message<span class="token punctuation">,</span> other <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">super</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>code <span class="token operator">=</span> code<span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>other <span class="token operator">=</span> other<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 
             </div>
             <hr/>
@@ -1738,7 +1781,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">336k</span>&nbsp;字
+                class="white-color">339.2k</span>&nbsp;字
             
             
             

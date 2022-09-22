@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7k
+                    7.2k
                 </div>
                 
 
@@ -723,6 +723,9 @@ ReactDOM.render(<span class="token tag"><span class="token tag"><span class="tok
 <p>这也表明了：</p>
 <p>在systemjs中，我们必须手动实现应用加载逻辑，挨个罗列子应用需要加载的资源，这在大型项目里是十分困难的（特别是使用了文件名hash时）；另外它只能以js文件为入口，无法直接以html为入口，这使得嵌入子应用变得很困难，也正因此，single-spa不能直接加载jQuery应用。</p>
 <p>甚至，将整个微应用打包成一个 JS 文件，常见的打包优化基本上都没了，比如：按需加载、首屏资源加载优化、css 独立打包等优化措施。<br>项目发布以后出现了 bug ，修复之后需要更新上线，为了清除浏览器缓存带来的影响，一般文件名会带上 chunkcontent，微应用发布之后文件名都会发生变化，这时候还需要更新主应用中微应用配置，然后重新编译主应用然后发布，这是不能容忍的。</p>
+<ul>
+<li>你可以理解为每次文件名一变化：<code>jlkasjfdlkj.jalkjdsflk.js</code>，这样一来，每次子应用一发布，入口 JS 文件名肯定又要改了，导致主应用引入的 JS url 又得改了</li>
+</ul>
 <p>所以，为了填平 single-spa 遗留下来的坑，阿里基于 single-spa 造出了 <a href="https://link.zhihu.com/?target=https%3A//qiankun.umijs.org/zh">qiankun</a> 微前端框架，真正实现了微前端的所有特性.</p>
 <h2 id="6-Qiankun"><a href="#6-Qiankun" class="headerlink" title="6.Qiankun"></a>6.Qiankun</h2><p><code>qiankun</code>是基于<code>single-spa</code>开发的</p>
 <p>Single-spa控制路由和应用入口 + qiankun JS、CSS隔离和应用通信 + import-html-entry控制应用加载(single-spa用的是system.js)</p>
@@ -809,17 +812,77 @@ ReactDOM.render(<span class="token tag"><span class="token tag"><span class="tok
 <p>在上面的代码中，我们可以看到他将代码作为字符串插入，并且使用 <code>function(){}(with(window){fn.bind(window.proxy)(window.proxy, window.proxy, window.proxy)})</code></p>
 <p>qiankun引入该接口后，首先为该应用生成一个<strong>window的代理对象</strong>，然后将代理对象作为参数传入接口，以保证应用内的js不会对全局window造成影响。</p>
 <ul>
-<li>针对IE11不支持proxy，所以qiankun通过快照策略来隔离js，缺点是无法支持多实例场景。(可以理解为使用single-spa的js隔离方法，不过现在ie已经烟消云散了，放心使用)</li>
+<li><p>针对IE11不支持proxy，所以qiankun通过快照策略来隔离js，缺点是无法支持多实例场景。(可以理解为使用single-spa的js隔离方法，不过现在ie已经烟消云散了，放心使用)</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">class</span> <span class="token class-name">SnapshotSandbox</span> <span class="token punctuation">{</span>
+  <span class="token operator">...</span>
+
+  <span class="token function">active</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 记录当前快照</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>windowSnapshot <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token keyword">as</span> Window<span class="token punctuation">;</span>
+    <span class="token function">getKeys</span><span class="token punctuation">(</span>window<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>key <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>windowSnapshot<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> window<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true">// 恢复之前的变更</span>
+    <span class="token function">getKeys</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>modifyPropsMap<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      window<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>modifyPropsMap<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>sandboxRunning <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">inactive</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>modifyPropsMap <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 记录变更，恢复环境</span>
+    <span class="token function">getKeys</span><span class="token punctuation">(</span>window<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>window<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">!==</span> <span class="token keyword">this</span><span class="token punctuation">.</span>windowSnapshot<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>modifyPropsMap<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> window<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        window<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>windowSnapshot<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span>sandboxRunning <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+</li>
 </ul>
 <p>把解析出的scriptText（即脚本字符串）用<code>with(window){}</code>包裹起来，然后把window.proxy作为函数的第一个参数传进来，所以with语法内的window实际上是window.proxy。</p>
 <h4 id="css隔离"><a href="#css隔离" class="headerlink" title="css隔离"></a>css隔离</h4><p>目前qiankun主要提供了两种样式隔离方案</p>
 <ul>
-<li>一种是基于shadowDom的；<ul>
-<li>在配置的时候当启用<code>strictStyleIsolation</code>时，qiankun将采用shadowDom的方式进行样式隔离，即为子应用的根节点创建一个shadow root，整个应用的所有DOM将形成一棵shadow tree，它内部所有节点的样式对树外面的节点无效，所有就实现了样式隔离。</li>
-<li>但是这种方案是存在缺陷的。因为某些UI框架可能会生成一些弹出框直接挂载到document.body下，此时由于脱离了shadow tree，所以它的样式仍然会对全局造成污染。</li>
+<li><p>一种是基于shadowDom的；</p>
+<ul>
+<li><p>在配置的时候当启用<code>strictStyleIsolation</code>时，qiankun将采用shadowDom的方式进行样式隔离，即为子应用的根节点创建一个shadow root，整个应用的所有DOM将形成一棵shadow tree，它内部所有节点的样式对树外面的节点无效，所有就实现了样式隔离。</p>
+</li>
+<li><pre class=" language-js"><code class="language-js"><span class="token keyword">if</span> <span class="token punctuation">(</span>strictStyleIsolation<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>supportShadowDOM<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// 报错</span>
+      <span class="token comment" spellcheck="true">// ...</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// 清除原有的内容</span>
+      <span class="token keyword">const</span> <span class="token punctuation">{</span> innerHTML <span class="token punctuation">}</span> <span class="token operator">=</span> appElement<span class="token punctuation">;</span>
+      appElement<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">;</span>
+
+      <span class="token keyword">let</span> shadow<span class="token punctuation">:</span> ShadowRoot<span class="token punctuation">;</span>
+
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>appElement<span class="token punctuation">.</span>attachShadow<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 添加 shadow DOM 节点</span>
+        shadow <span class="token operator">=</span> appElement<span class="token punctuation">.</span><span class="token function">attachShadow</span><span class="token punctuation">(</span><span class="token punctuation">{</span> mode<span class="token punctuation">:</span> <span class="token string">'open'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// deprecated 的操作</span>
+        <span class="token comment" spellcheck="true">// ...</span>
+      <span class="token punctuation">}</span>
+      <span class="token comment" spellcheck="true">// 在 shadow DOM 节点添加内容</span>
+      shadow<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> innerHTML<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span></code></pre>
+</li>
+<li><p>但是这种方案是存在缺陷的。因为某些UI框架可能会生成一些弹出框直接挂载到document.body下，此时由于脱离了shadow tree，所以它的样式仍然会对全局造成污染。</p>
+</li>
 </ul>
 </li>
-<li>另一种则是实验性的，思路类似于Vue中的scoped属性，给每个子应用的根节点添加一个特殊属性，用作对所有css选择器的约束。<ul>
+<li><p>另一种则是实验性的，思路类似于Vue中的scoped属性，给每个子应用的根节点添加一个特殊属性，用作对所有css选择器的约束。</p>
+<ul>
 <li>在配置的时候当启用<code>experimentalStyleIsolation</code>。这种方案的策略是为子应用的根节点添加一个特定的随机属性</li>
 <li>但是它不支持@ keyframes，@ font-face，@ import，@ page</li>
 </ul>
@@ -836,6 +899,7 @@ ReactDOM.render(<span class="token tag"><span class="token tag"><span class="tok
 <p><a href="https://blog.csdn.net/qq_41800366/article/details/122093720" target="_blank" rel="noopener">揭开 import-html-entry 面纱</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/463905990" target="_blank" rel="noopener">微前端框架 之 qiankun 从入门到源码分析</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/78362028" target="_blank" rel="noopener">可能是你见过最完善的微前端解决方案</a></p>
+<p><a href="https://juejin.cn/post/6972225139068895268" target="_blank" rel="noopener">【微前端】qiankun 到底是个什么鬼</a></p>
 <p>更多关于微前端的相关介绍，推荐大家可以去看这几篇文章：（qiankun官网的推荐）</p>
 <ul>
 <li><a href="https://micro-frontends.org/" target="_blank" rel="noopener">Micro Frontends</a></li>
@@ -1300,7 +1364,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">336k</span>&nbsp;字
+                class="white-color">339.2k</span>&nbsp;字
             
             
             

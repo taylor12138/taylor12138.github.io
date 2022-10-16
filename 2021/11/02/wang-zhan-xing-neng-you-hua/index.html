@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3k
+                    4.6k
                 </div>
                 
 
@@ -554,8 +554,57 @@
 <p>四、有没有其他渲染方案可以解决CSR当前问题，他的原理是什么？<br>SSR。就是将框架代码提前在服务端跑一遍，不过一般除非对SEO要求比较高或者你们公司比较有钱，否则不太会去使用，因为比较占用服务器的资源。</p>
 <h2 id="3-页面整体加载完成"><a href="#3-页面整体加载完成" class="headerlink" title="3.页面整体加载完成"></a>3.页面整体加载完成</h2><p>又被称为PageLoad，顾名思义所有页面相关资源全部加载完成的时间，而其中这个时间点为我们熟知的“8s”原则</p>
 <p>随后在2006年，一个来自Akamai的新研究，发表了新的观点：通常4s左右的平均加载时间，是用户可能会等待页面加载的最长时间。</p>
-<h2 id="4-加快首次渲染"><a href="#4-加快首次渲染" class="headerlink" title="4.加快首次渲染"></a>4.加快首次渲染</h2><h4 id="方案一"><a href="#方案一" class="headerlink" title="方案一"></a>方案一</h4><p>首屏渲染时render树的合成时长之一，DOM树与DOM节点数量息息相关，而如果使用 TextArea存放HTML代码，而浏览器解析的时候不会识别，不被当做DOM去解析，会让首屏渲染DOM树包含的节点大幅减少，从而提高首次渲染速度</p>
+<h4 id="尽早建立第三方连接"><a href="#尽早建立第三方连接" class="headerlink" title="尽早建立第三方连接"></a>尽早建立第三方连接</h4><p>对第三方域的服务器请求也会影响 LCP，尤其是当浏览器需要这些请求来在页面上显示关键内容的情况下。使用<code>rel=&quot;preconnect&quot;</code>来告知浏览器您的页面打算尽快建立连接。</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>preconnect<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>https://example.com<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span></code></pre>
+<p>您还可以使用<code>dns-prefetch</code>来更快地完成 DNS 查找。</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>dns-prefetch<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>https://example.com<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span></code></pre>
+<p>尽管两种提示的原理不同，但对于不支持<code>preconnect</code>的浏览器，可以考虑将<code>dns-prefetch</code>做为后备。</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+  …
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>preconnect<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>https://example.com<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>dns-prefetch<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>https://example.com<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span></code></pre>
+<h4 id="预加载重要资源"><a href="#预加载重要资源" class="headerlink" title="预加载重要资源 #"></a>预加载重要资源 <a href="https://web.dev/optimize-lcp/#预加载重要资源" target="_blank" rel="noopener">#</a></h4><p>有时，在某个 CSS 或 JavaScript 文件中声明或使用的重要资源可能会比您所期望的要晚一点被获取，例如深藏在应用程序众多 CSS 文件中的某个字体。</p>
+<p>如果您知道某个特定资源应该被优先获取，请使用<code>&lt;link rel=&quot;preload&quot;&gt;</code>来更加及时地获取该资源。 <a href="https://developer.mozilla.org/docs/Web/HTML/Preloading_content#What_types_of_content_can_be_preloaded" target="_blank" rel="noopener">多种类型的资源</a>都可以进行预加载，但您应该首先侧重于<a href="https://web.dev/preload-critical-assets/" target="_blank" rel="noopener">预加载关键资产</a>，例如字体、首屏图像或视频，以及关键路径 CSS 或 JavaScript。</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>preload<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>script<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>script.js<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>preload<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>style<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>style.css<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>preload<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>image<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>img.png<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>preload<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>video<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>vid.webm<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>video/webm<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>preload<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>font.woff2<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>font<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>font/woff2<span class="token punctuation">"</span></span> <span class="token attr-name">crossorigin</span> <span class="token punctuation">/></span></span></code></pre>
+<h2 id="4-加快首次渲染"><a href="#4-加快首次渲染" class="headerlink" title="4.加快首次渲染"></a>4.加快首次渲染</h2><h4 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h4><p>首屏渲染时render树的合成时长之一，DOM树与DOM节点数量息息相关，而如果使用 TextArea存放HTML代码，而浏览器解析的时候不会识别，不被当做DOM去解析，会让首屏渲染DOM树包含的节点大幅减少，从而提高首次渲染速度</p>
 <p>在服务端：将一些特殊字符（&amp;之类的）进行HTMLEncode转义，在浏览器端，则需要在首屏区域处于可见状态时，将TextArea的HTML代码取出，将其恢复到DOM树进行渲染，这一行为在 《大型网站性能优化实战》中被称为延迟渲染</p>
+<h4 id="大规模内联关键-CSS"><a href="#大规模内联关键-CSS" class="headerlink" title="大规模内联关键 CSS"></a>大规模内联关键 CSS</h4><p>你需要一个自动化系统，而不是对每个页面都这样做。仅内联 WordPress 主题主页的 CSS 是有意义的，因为它通常与其他页面是不同的样式表。通常会有一些插件/模块/包、一个关键版本或关键 CSS。这些包(packages)可能适用于你使用的任何 taskrunner 或是如 Grunt、Gulp、Webpack 或框架如 React、Angular、Vue，你还可以找到特定关于 WordPress 或 Drupal 的教程，甚至是手工编码的页面。他们将向页面发送一个无头(headless)浏览器，以确定哪些 CSS 对于不同大小的页面加载上是关键，并为你提供代码或将代码拆分为关键和非关键元素，以便可以适当地加载它们，举几个例子：</p>
+<p><strong>Grunt:</strong></p>
+<p><a href="https://github.com/filamentgroup/grunt-criticalcss" target="_blank" rel="noopener">https://github.com/filamentgroup/grunt-criticalcss</a></p>
+<p><a href="https://www.npmjs.com/package/grunt-critical-css" target="_blank" rel="noopener">https://www.npmjs.com/package/grunt-critical-css</a></p>
+<p><a href="https://github.com/bezoerb/grunt-critical" target="_blank" rel="noopener">https://github.com/bezoerb/grunt-critical</a></p>
+<p><strong>Gulp:</strong></p>
+<p><a href="https://github.com/addyosmani/critical" target="_blank" rel="noopener">https://github.com/addyosmani/critical</a></p>
+<p><a href="https://www.npmjs.com/package/gulp-critical-css" target="_blank" rel="noopener">https://www.npmjs.com/package/gulp-critical-css</a></p>
+<p><strong>Webpack:</strong></p>
+<p><a href="https://github.com/anthonygore/html-critical-webpack-plugin" target="_blank" rel="noopener">https://github.com/anthonygore/html-critical-webpack-plugin</a></p>
+<p><a href="https://github.com/GoogleChromeLabs/critters" target="_blank" rel="noopener">https://github.com/GoogleChromeLabs/critters</a></p>
+<p><a href="https://github.com/anthonygore/html-critical-webpack-plugin" target="_blank" rel="noopener">https://github.com/anthonygore/html-critical-webpack-plugin</a></p>
+<p><a href="https://www.npmjs.com/package/critical-css-webpack-plugin" target="_blank" rel="noopener">https://www.npmjs.com/package/critical-css-webpack-plugin</a></p>
+<p><strong>React:</strong></p>
+<p><a href="https://www.npmjs.com/package/react-critical-css" target="_blank" rel="noopener">https://www.npmjs.com/package/react-critical-css</a> </p>
+<p><a href="https://github.com/addyosmani/critical-path-css-tools" target="_blank" rel="noopener">https://github.com/addyosmani/critical-path-css-tools</a> </p>
+<p><a href="https://github.com/sergei-zelinsky/react-critical-css" target="_blank" rel="noopener">https://github.com/sergei-zelinsky/react-critical-css</a> </p>
+<p><strong>Angular:</strong></p>
+<p><a href="https://github.com/addyosmani/critical-path-angular-demo" target="_blank" rel="noopener">https://github.com/addyosmani/critical-path-angular-demo</a> </p>
+<p><strong>Vue:</strong></p>
+<p><a href="https://github.com/anthonygore/vue-cli-plugin-critical" target="_blank" rel="noopener">https://github.com/anthonygore/vue-cli-plugin-critical</a> </p>
+<p><a href="https://vuejsdevelopers.com/2017/07/24/critical-css-webpack/" target="_blank" rel="noopener">https://vuejsdevelopers.com/2017/07/24/critical-css-webpack/</a> </p>
+<p><strong>Drupal:</strong></p>
+<p><a href="https://www.fourkitchens.com/blog/article/use-gulp-automate-your-critical-path-css/" target="_blank" rel="noopener">https://www.fourkitchens.com/blog/article/use-gulp-automate-your-critical-path-css/</a> </p>
+<p><strong>WordPress:</strong></p>
+<p><a href="https://joe-watkins.io/javascript/inline-critical-css-with-wordpress/" target="_blank" rel="noopener">https://joe-watkins.io/javascript/inline-critical-css-with-wordpress/</a> </p>
+<p><a href="https://wordpress.org/plugins/wp-criticalcss/" target="_blank" rel="noopener">https://wordpress.org/plugins/wp-criticalcss/</a></p>
+<p><strong>Hand-coded:</strong></p>
+<p><a href="https://www.sitelocity.com/critical-path-css-generator" target="_blank" rel="noopener">https://www.sitelocity.com/critical-path-css-generator</a> </p>
+<p><a href="https://jonassebastianohlsson.com/criticalpathcssgenerator/" target="_blank" rel="noopener">https://jonassebastianohlsson.com/criticalpathcssgenerator/</a> </p>
+<h4 id="预加载-Preload"><a href="#预加载-Preload" class="headerlink" title="预加载 Preload"></a>预加载 Preload</h4><p>如果不打算内联关键 CSS，那么下一个最佳选择可以是使用预加载 Preload。预加载在加载早期提早获取请求，比平时更快地获取显示页面所需的基本资源。Preload 将预加载资源在浏览器优先级设置为高并异步加载它们，因此它们不会阻塞渲染，也适用于跨域</p>
+<p>“新增内容：Chrome 中对于<code>&lt;link rel=&quot;preload&quot;&gt;</code>、预取(prefetch)及优先级专业提示：<a href="https://medium.com/reloading/preload-prefetch-and-priorities-in-chrome-776165961bbf”" target="_blank" rel="noopener">https://medium.com/reloading/preload-prefetch-and-priorities-in-chrome-776165961bbf”</a></p>
 <h2 id="5-测试性能工具"><a href="#5-测试性能工具" class="headerlink" title="5.测试性能工具"></a>5.测试性能工具</h2><p><code>YSlow</code>性能检测插件，以firefox插件的形式</p>
 <p><code>PageSpeed</code>和YSlow类似的，Google的优化工具<code>PageSpeed</code>除了有网站的入口，也能以插件的形式在Firefox和Google上运行，也是基于基础性能优化实践规则分析代码，提供一系列页面优化建议</p>
 <p><code>WebPagetest</code>同样也使用和它们相似的一组最佳性能实践来分析网页，它通过浏览器访问，基于输入的Website URL，以及选择的国家城市、浏览器类型、网络带宽等信息，启动对应的远程服务器上的浏览器进行性能分析测试。（据官网介绍，他们提供的不同城市的性能分析测试，是通过真实的部署在对应城市的物理服务器来实现的，而不是通过其他类似代理或者虚拟机等方式模拟实现的）</p>
@@ -574,9 +623,43 @@
 <li>domready时间= domContentLoadedEventEnd - fetchStart</li>
 <li>onload时间= loadEventEnd - fetchStart</li>
 </ul>
-<h2 id="6-性能指标"><a href="#6-性能指标" class="headerlink" title="6.性能指标"></a>6.性能指标</h2><h4 id="性能指标之LCP-and-FCP"><a href="#性能指标之LCP-and-FCP" class="headerlink" title="性能指标之LCP and FCP"></a>性能指标之LCP and FCP</h4><p>最大内容绘制 (LCP)：<a href="https://web.dev/lcp/#what-elements-are-considered" target="_blank" rel="noopener">https://web.dev/lcp/#what-elements-are-considered</a></p>
-<p>首次内容绘制 (FCP)：<a href="https://web.dev/fcp/" target="_blank" rel="noopener">https://web.dev/fcp/</a></p>
-<h4 id="First-Input-Delay-FID"><a href="#First-Input-Delay-FID" class="headerlink" title="First Input Delay(FID)"></a>First Input Delay(FID)</h4><p>可以理解为用户第一次与网页交互，（例如點擊連結、按鈕等等），瀏覽器實際上能夠回應此次互動的時間點</p>
+<h4 id="chrome-devtool"><a href="#chrome-devtool" class="headerlink" title="chrome-devtool"></a>chrome-devtool</h4><p>查看LCP：</p>
+<p>在 Chrome 开发者工具中，执行以下步骤：</p>
+<ol>
+<li>Performance &gt; 勾选 “Screenshots”</li>
+<li>点击 左上方一个“黑色圆点”</li>
+</ol>
+<p><img src="/2021/11/02/wang-zhan-xing-neng-you-hua/lcp2.png" alt></p>
+<ol>
+<li>LCP 会显示在时序图上</li>
+<li>点击节点； 这是就是 LCP 的元素</li>
+</ol>
+<p><img src="/2021/11/02/wang-zhan-xing-neng-you-hua/lcp1.png" alt></p>
+<p>查看动画帧数，每当你看到 FPS 上方的红色条，这意味着帧率下降如此之低，它可能会损害用户体验。一般来说，绿条越高，FPS 越高。</p>
+<p><img src="/2021/11/02/wang-zhan-xing-neng-you-hua/fra.png" alt></p>
+<p>查看帧数</p>
+<p>除此之外，还提供当前帧数FPS的查看 （点击右上角工具栏，找到More tools中的rendering，勾选上FPS meter）</p>
+<p><img src="/2021/11/02/wang-zhan-xing-neng-you-hua/fps.png" alt></p>
+<h2 id="6-性能指标"><a href="#6-性能指标" class="headerlink" title="6.性能指标"></a>6.性能指标</h2><p><strong>Core Web Vitals</strong> （核心页面指标）是一种速度指标，是 Google 用于衡量用户体验的页面体验信号的一部分</p>
+<p>以下是 Core Web Vitals 的三个组成部分及其衡量的内容：</p>
+<ul>
+<li>最大内容绘制 (LCP) – 视觉负载</li>
+<li>累积布局偏移 (CLS) – 视觉稳定性</li>
+<li>首次输入延迟 (FID) – 交互性</li>
+</ul>
+<h4 id="性能指标之LCP-and-FCP"><a href="#性能指标之LCP-and-FCP" class="headerlink" title="性能指标之LCP and FCP"></a>性能指标之LCP and FCP</h4><h5 id="LCP"><a href="#LCP" class="headerlink" title="LCP"></a>LCP</h5><p>最大内容绘制 (LCP)：<a href="https://web.dev/lcp/#what-elements-are-considered" target="_blank" rel="noopener">https://web.dev/lcp/#what-elements-are-considered</a></p>
+<p>查看方法可以使用chrome的performance</p>
+<p>优化LCP</p>
+<ul>
+<li><strong>越小越快</strong>，我们可以选择删除不必要的代码（对于我们自己项目后期维护也比较友好，或者交给打包工具tree shaking下），打包工具的压缩，我们对img的压缩</li>
+<li>CDN分发和缓存的使用</li>
+<li>资源加载的优先顺序考虑：图片懒加载、css预加载，SSR等</li>
+</ul>
+<h5 id="FCP"><a href="#FCP" class="headerlink" title="FCP"></a>FCP</h5><p>首次内容绘制 (FCP)：<a href="https://web.dev/fcp/" target="_blank" rel="noopener">https://web.dev/fcp/</a></p>
+<p><img src="/2021/11/02/wang-zhan-xing-neng-you-hua/fcp1.png" alt="image.png"><br>我们可以看到FCP实际上就是空白 -&gt; 骨架屏 -&gt; 第一张图/非空白的canvas/svg/文字的出现的时间点，这时候考验的就不是性能就不能怪图片了，主要考验的是js/css加载速度<br>为了提供良好的用户体验，网站应该努力将首次内容绘制控制在1.8 秒或以内，而我们wapm实验端得到绿色，也就是“令人满意的FCP”应该控制在&lt; 1000（1s)范围内</p>
+<h5 id="CLS"><a href="#CLS" class="headerlink" title="CLS"></a>CLS</h5><p>CLS 测量元素如何移动或页面布局的稳定性。 它考虑了内容的大小和移动的距离</p>
+<h4 id="FID"><a href="#FID" class="headerlink" title="FID"></a>FID</h4><p>First Input Delay</p>
+<p>可以理解为用户第一次与网页交互，（例如點擊連結、按鈕等等），瀏覽器實際上能夠回應此次互動的時間點</p>
 <p>通常，输入延迟（或输入延迟）发生是因为浏览器的主线程忙于执行其他操作，因此它无法（尚未）响应用户。 可能发生这种情况的一个常见原因是浏览器正忙于解析并执行应用程序加载的大型JavaScript文件 / CSS文件。 虽然它正在这样做，它不能运行任何事件监听器，因为它加载的JavaScript可能会告诉它做其他事情。</p>
 <p>较长的首次输入延迟通常发生在<a href="https://web.dev/fcp/" target="_blank" rel="noopener">首次内容绘制 (FCP)</a>和<a href="https://web.dev/tti/" target="_blank" rel="noopener">Time to Interactive 可交互时间 (TTI)</a>之间，因为在此期间，页面已经渲染出部分内容，但交互性还尚不可靠。为了说明这种情况的发生缘由，我们在时间轴中加入了 FCP 和 TTI</p>
 <p><img src="/2021/11/02/wang-zhan-xing-neng-you-hua/fid.png" alt></p>
@@ -610,7 +693,11 @@
 </li>
 </ul>
 <p><strong>检查长任务</strong></p>
-<p>我们可以通过chrome的Lighthouse 启动性能审计</p>
+<p>上图是主线程的样子，Chrome 开发工具中 Performance 页签中的那些红色刻度线表示可能存在问题的地方。 通常在主线程上运行太多时间的任务就会被标记，每一个地方都是超出页面负荷的工作并且无法及时响应用户输入。</p>
+<p><img src="https://ahrefs.com/blog/zh/wp-content/uploads/2021/08/Untitled-55.jpg" alt="img"></p>
+<p>来源：<a href="https://web.dev/long-tasks-devtools" target="_blank" rel="noopener">https://web.dev/long-tasks-devtools</a></p>
+<p>当任务正在运行时，页面无法响应用户输入，这是感受上的延迟。任务越长，用户经历的延迟就越长。任务与任务之间的中断是个机会，页面必须切换到用户输入的任务并响应他们想要的内容。</p>
+<p>我们还可以通过chrome的Lighthouse 启动性能审计（但是建议在每次提交代码的时候审计一次不然等到包太大了，工程项目复杂化，很难看出代码哪里性能开始变差）</p>
 <p><img src="/2021/11/02/wang-zhan-xing-neng-you-hua/fid2.png" alt></p>
 <p>生成报告后，您可以向下滚动以深入了解 Lighthouse 的建议，这些建议将标记为机会和诊断。</p>
 <p><img src="/2021/11/02/wang-zhan-xing-neng-you-hua/fid3.png" alt></p>
@@ -659,6 +746,7 @@
 <p>《大型网站性能优化实战》—周涛明、张荣华、张新兵</p>
 <p>《JavaScript高级程序设计》</p>
 <p>《你不知道的的JavaScript（上卷）》</p>
+<p><a href="https://ahrefs.com/blog/zh/advanced-pagespeed-guide/" target="_blank" rel="noopener">提高你的网站速度</a></p>
 
             </div>
             <hr/>
@@ -1119,7 +1207,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">339.2k</span>&nbsp;字
+                class="white-color">345.3k</span>&nbsp;字
             
             
             

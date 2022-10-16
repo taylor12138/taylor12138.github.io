@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    616
+                    2.9k
                 </div>
                 
 
@@ -491,33 +491,74 @@
     <span class="token comment" spellcheck="true">//...</span>
 <span class="token punctuation">}</span></code></pre>
 <h4 id="2D绘图"><a href="#2D绘图" class="headerlink" title="2D绘图"></a>2D绘图</h4><p>2D上下文的坐标原点（0，0）在canvas标签的左上角，x向右增长，y向下增长</p>
-<p><strong>矩形</strong></p>
-<p><code>fillRect</code>、<code>strokeRect</code>、<code>clearRect</code>接收4个参数，分别为x坐标、y坐标、矩形宽度、高度</p>
-<p>绘制矩形 + 填充 可以使用 <code>fillRect</code></p>
-<p>绘制非实星填充使用 <code>strokeRect</code></p>
+<h5 id="矩形"><a href="#矩形" class="headerlink" title="矩形"></a><strong>矩形</strong></h5><p><code>fillRect</code>、<code>strokeRect</code>、<code>clearRect</code>接收4个参数，分别为x坐标、y坐标、矩形宽度、高度</p>
+<p><code>fillRect</code>: 绘制矩形 + 填充</p>
+<p><code>strokeRect</code>: 绘制非实星填充</p>
+<p> <code>clearRect</code> : 清除指定的矩形区域 </p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">if</span><span class="token punctuation">(</span>drawing<span class="token punctuation">.</span>getContext<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">let</span> context <span class="token operator">=</span> drawing<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">"2d"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     context<span class="token punctuation">.</span>fillStyle <span class="token operator">=</span> <span class="token string">"#ff000"</span><span class="token punctuation">;</span>
     context<span class="token punctuation">.</span><span class="token function">fillRect</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span>
 <span class="token punctuation">}</span></code></pre>
 <p><code>clearRect</code>方法可以擦除画布中某个区域，让其变得透明</p>
-<p><strong>路径</strong></p>
-<p>在绘制路径之前，需要“创建路径”，结束之后再“描画路径”</p>
+<h5 id="路径"><a href="#路径" class="headerlink" title="路径"></a><strong>路径</strong></h5><p>在绘制路径之前，需要“创建路径”，结束之后再“描画路径”</p>
+<ul>
+<li>beginPath：创建路径（线条）</li>
+<li>stroke：画路径</li>
+</ul>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">if</span><span class="token punctuation">(</span>drawing<span class="token punctuation">.</span>getContext<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">let</span> context <span class="token operator">=</span> drawing<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">"2d"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     context<span class="token punctuation">.</span><span class="token function">beginPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//创建路径</span>
     <span class="token comment" spellcheck="true">//..</span>
     context<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//描画路径</span>
 <span class="token punctuation">}</span></code></pre>
+<p>方法一：画初始点和末尾点</p>
+<pre class=" language-js"><code class="language-js">ctx<span class="token punctuation">.</span><span class="token function">beginPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ctx<span class="token punctuation">.</span>strokeStyle <span class="token operator">=</span> <span class="token string">'blue'</span><span class="token punctuation">;</span>
+ctx<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span class="token number">80</span><span class="token punctuation">,</span><span class="token number">40</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//路径先初始点的坐标</span>
+ctx<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span><span class="token number">40</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//路径先末尾点的坐标</span>
+ctx<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>方法二：当然也可以通过画圆的方式来画</p>
 <p><code>arc(x, y, radius, startAngle, endAngle, counterclockwise)</code></p>
 <ul>
 <li>x，y坐标为圆心</li>
 <li>radius为半径，startAngle开始角度，endAngle结束角度</li>
 <li>counterclockwise是否逆时针计算</li>
 </ul>
-<p><code>moveTo(x, y)</code>不绘制线条，把当前绘制光标移动至x，y，有点类似把圆心像鼠标一项，移动到x，y罢了</p>
-<p><strong>变换</strong></p>
-<p>当然我们也可以在其中使用我们熟悉的老朋友</p>
+<pre class=" language-js"><code class="language-js">ctx<span class="token punctuation">.</span><span class="token function">arc</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span> <span class="token operator">*</span> Math<span class="token punctuation">.</span>PI<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//画一个圆</span>
+ctx<span class="token punctuation">.</span><span class="token function">arc</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> Math<span class="token punctuation">.</span>PI<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//画一个半圆</span></code></pre>
+<p>方法三：画一个弧</p>
+<p><code>arcTo(x1,y1,x2,y2,r);</code></p>
+<table>
+<thead>
+<tr>
+<th align="left">参数</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><em>x1</em></td>
+<td align="left">两切线交点的横坐标。</td>
+</tr>
+<tr>
+<td align="left"><em>y1</em></td>
+<td align="left">两切线交点的纵坐标。</td>
+</tr>
+<tr>
+<td align="left"><em>x2</em></td>
+<td align="left">第二条切线上一点的横坐标。</td>
+</tr>
+<tr>
+<td align="left"><em>y2</em></td>
+<td align="left">第二条切线上一点的纵坐标。</td>
+</tr>
+<tr>
+<td align="left"><em>r</em></td>
+<td align="left">弧的半径。</td>
+</tr>
+</tbody></table>
+<p><img src="/2020/07/31/canvas/canvas4.png" alt></p>
+<h5 id="变换"><a href="#变换" class="headerlink" title="变换"></a><strong>变换</strong></h5><p>当然我们也可以在其中使用我们熟悉的老朋友</p>
 <ul>
 <li><code>rorate（angle）</code></li>
 <li><code>scale(scaleX, scaleY)</code></li>
@@ -525,24 +566,251 @@
 </ul>
 <p>所有的变换，包括fillStyle、strokeStyle属性，都会一直保留在上下文中，直到再次修改他们。虽然没有办法明确地将所有之都重置为默认值，但是有两个方法可以帮我们跟踪变化：<code>save()</code>被调用之后，，当前时刻的所有设置会放到一个暂存栈中，之后调用 <code>restore()</code>方法可以取出并恢复之前保存的设置。</p>
 <p>记住保存的是上下文的设置和变换，并没有保存上下文的内容。</p>
-<p><strong>绘制图像</strong></p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> img <span class="token operator">=</span> document<span class="token punctuation">.</span>imges<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-context<span class="token punctuation">.</span><span class="token function">drawImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h5 id="绘制图像"><a href="#绘制图像" class="headerlink" title="绘制图像"></a><strong>绘制图像</strong></h5><pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> img <span class="token operator">=</span> document<span class="token punctuation">.</span>imges<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+context<span class="token punctuation">.</span><span class="token function">drawImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span></code></pre>
 <p><code>drawImage(图像, 绘制目标的x坐标, 绘制目标的y坐标)</code></p>
 <p><code>drawImage(图像, 绘制目标的x坐标, 绘制目标的y坐标, 目标宽度, 目标高度)</code></p>
-<h4 id="WebGL"><a href="#WebGL" class="headerlink" title="WebGL"></a>WebGL</h4><p>webGL是画布的3D上下文，它是Khronos Group的标准</p>
-<p>同样的，使用前我们提倡对于WebGL的支持检测</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> drawing <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementByTagName</span><span class="token punctuation">(</span><span class="token string">'canvas'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">if</span><span class="token punctuation">(</span>drawing<span class="token punctuation">.</span>getContext<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">let</span> context <span class="token operator">=</span> drawing<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">"webg1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">//...</span>
-<span class="token punctuation">}</span></code></pre>
-<p>在创建初期，可以为3d上下文附加一些属性</p>
+<p><code>toDataURL</code> 转换图片为dataURL，一般使用为：</p>
+<pre class=" language-js"><code class="language-js">canvas<span class="token punctuation">.</span><span class="token function">getContent</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">drawImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> widht<span class="token punctuation">,</span> height<span class="token punctuation">)</span>
+<span class="token keyword">const</span> dataUrl <span class="token operator">=</span> canvas<span class="token punctuation">.</span><span class="token function">toDataURL</span><span class="token punctuation">(</span><span class="token string">'image/png'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="小实战"><a href="#小实战" class="headerlink" title="小实战"></a>小实战</h4><p>画一个刮刮乐</p>
+<pre class=" language-html"><code class="language-html"><span class="token doctype">&lt;!DOCTYPE html></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">http-equiv</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>X-UA-Compatible<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>IE<span class="token punctuation">=</span>edge<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>viewport<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>width<span class="token punctuation">=</span>device-width, initial-scale<span class="token punctuation">=</span>1.0<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span>Document<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span><span class="token style language-css">
+      <span class="token selector"><span class="token id">#ggk</span> </span><span class="token punctuation">{</span>
+        <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">400</span>px<span class="token punctuation">;</span>
+        <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">100</span>px<span class="token punctuation">;</span>
+        <span class="token property">position</span><span class="token punctuation">:</span> relative<span class="token punctuation">;</span>
+        <span class="token property">left</span><span class="token punctuation">:</span> <span class="token number">50%</span><span class="token punctuation">;</span>
+        <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translate</span><span class="token punctuation">(</span>-<span class="token number">50%</span>, <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+
+      <span class="token selector"><span class="token class">.jp</span>,
+      canvas </span><span class="token punctuation">{</span>
+        <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
+        <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">400</span>px<span class="token punctuation">;</span>
+        <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">100</span>px<span class="token punctuation">;</span>
+        <span class="token property">left</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token property">top</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+        <span class="token property">font-size</span><span class="token punctuation">:</span> <span class="token number">25</span>px<span class="token punctuation">;</span>
+        <span class="token property">line-height</span><span class="token punctuation">:</span> <span class="token number">100</span>px<span class="token punctuation">;</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> deeppink<span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token style-attr language-css"><span class="token attr-name"> <span class="token attr-name">style</span></span><span class="token punctuation">="</span><span class="token attr-value"><span class="token property">text-align</span><span class="token punctuation">:</span> center</span><span class="token punctuation">"</span></span><span class="token punctuation">></span></span>刮刮乐<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ggk<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>jp<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>不抽大嘴巴子<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>canvas<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>400<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>100<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script language-javascript">
+        document<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"selectstart"</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          e<span class="token punctuation">.</span><span class="token function">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">let</span> canvas <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"#canvas"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">let</span> ctx <span class="token operator">=</span> canvas<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">"2d"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ctx<span class="token punctuation">.</span>fillStyle <span class="token operator">=</span> <span class="token string">"darkgray"</span><span class="token punctuation">;</span>
+        ctx<span class="token punctuation">.</span><span class="token function">fillRect</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">400</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">let</span> ggkDom <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"#ggk"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">let</span> jp <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">".jp"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">let</span> isDraw <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        canvas<span class="token punctuation">.</span>onmousedown <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          isDraw <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+        canvas<span class="token punctuation">.</span>onmousemove <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>isDraw<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">let</span> x <span class="token operator">=</span> e<span class="token punctuation">.</span>pageX <span class="token operator">-</span> ggkDom<span class="token punctuation">.</span>offsetLeft <span class="token operator">+</span> ggkDom<span class="token punctuation">.</span>offsetWidth <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>pageX<span class="token punctuation">,</span> <span class="token string">'pageX'</span><span class="token punctuation">,</span> ggkDom<span class="token punctuation">.</span>offsetLeft<span class="token punctuation">,</span> <span class="token string">'ggkDom.offsetLeft'</span><span class="token punctuation">,</span> ggkDom<span class="token punctuation">.</span>offsetWidth <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">'ggkDom.offsetWidth / 2'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">let</span> y <span class="token operator">=</span> e<span class="token punctuation">.</span>pageY <span class="token operator">-</span> ggkDom<span class="token punctuation">.</span>offsetTop<span class="token punctuation">;</span>
+            ctx<span class="token punctuation">.</span><span class="token function">beginPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            ctx<span class="token punctuation">.</span><span class="token function">arc</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span> <span class="token operator">*</span> Math<span class="token punctuation">.</span>PI<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            ctx<span class="token punctuation">.</span>globalCompositeOperation <span class="token operator">=</span> <span class="token string">"destination-out"</span><span class="token punctuation">;</span>
+            ctx<span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            ctx<span class="token punctuation">.</span><span class="token function">closePath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+        document<span class="token punctuation">.</span>onmouseup <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          isDraw <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span>
+</code></pre>
 <ul>
-<li>alpha，表示是否为上下文纹创建透明通道缓冲区</li>
-<li>depth，表示是否适用16位深缓冲区，默认为true</li>
-<li>……..</li>
+<li><p><code>globalCompositeOperation</code>：合成属性</p>
+<p>Canvas 2D API 的 <strong><code>Canvas.globalCompositeOperation</code></strong> 属性设置要在绘制新形状时应用的合成操作的类型，其中 type 是用于标识要使用的合成或混合模式操作的字符串。</p>
+<p>它的每个属性值在官网里都有图文介绍：<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation</a></p>
+<p>当然，在w3c网上面也有介绍：<a href="https://www.runoob.com/w3cnote/html5-canvas-intro.html" target="_blank" rel="noopener">https://www.runoob.com/w3cnote/html5-canvas-intro.html</a></p>
+<ul>
+<li><code>source-over</code>: 旧画布图形直接覆盖新的图形</li>
+<li><code>source-in</code>: 仅会出现旧画布图形和新的图形重叠的部分（展示新图像），有点像&amp;&amp;的感觉</li>
+<li><code>source-out</code>: 仅显示新图形部分，且仅仅新图形与老图形没有重叠的部分，其余部分全部透明</li>
+<li><code>destination-over</code>: 新图像会在老图像的下面。</li>
+<li><code>destination-in</code>: 仅会出现旧画布图形和新的图形重叠的部分（展示老图像），有点像&amp;&amp;的感觉</li>
+<li><code>destination-out</code>: 仅显示老图形部分，且仅仅老图形与新图形没有重叠的部分，其余部分全部透明</li>
 </ul>
+</li>
+<li><p><strong><code>Canvas.fill()</code></strong> 是 Canvas 2D API 根据当前的填充样式，填充当前或已存在的路径的方法。采取非零环绕或者奇偶环绕规则。</p>
+</li>
+<li><p><strong><code>Canvas.closePath()</code></strong> 是 Canvas 2D API 将笔点返回到当前子路径起始点的方法。它尝试从当前点到起始点绘制一条直线。如果图形已经是封闭的或者只有一个点，那么此方法不会做任何操作。</p>
+<p><img src="/2020/07/31/canvas/canvas1.png" alt></p>
+</li>
+</ul>
+<p><img src="/2020/07/31/canvas/canvas2.png" alt></p>
+<h4 id="其他小案例"><a href="#其他小案例" class="headerlink" title="其他小案例"></a>其他小案例</h4><p>取自菜鸟教程</p>
+<p>一个小太阳、一个是小时钟案例</p>
+<p><a href="https://www.runoob.com/w3cnote/html5-canvas-intro.html" target="_blank" rel="noopener">https://www.runoob.com/w3cnote/html5-canvas-intro.html</a></p>
+<pre class=" language-js"><code class="language-js"><span class="token operator">&lt;</span><span class="token operator">!</span>DOCTYPE html<span class="token operator">></span>
+<span class="token operator">&lt;</span>html<span class="token operator">></span>
+<span class="token operator">&lt;</span>head<span class="token operator">></span>
+<span class="token operator">&lt;</span>meta charset<span class="token operator">=</span><span class="token string">"utf-8"</span><span class="token operator">></span>
+<span class="token operator">&lt;</span>title<span class="token operator">></span><span class="token function">菜鸟教程</span><span class="token punctuation">(</span>runoob<span class="token punctuation">.</span>com<span class="token punctuation">)</span><span class="token operator">&lt;</span><span class="token operator">/</span>title<span class="token operator">></span>
+<span class="token operator">&lt;</span>style<span class="token operator">></span>
+    body <span class="token punctuation">{</span>
+        padding<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        margin<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        background<span class="token operator">-</span>color<span class="token punctuation">:</span> <span class="token function">rgba</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0.1</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    canvas <span class="token punctuation">{</span>
+        display<span class="token punctuation">:</span> block<span class="token punctuation">;</span>
+        margin<span class="token punctuation">:</span> 200px auto<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>style<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>head<span class="token operator">></span>
+<span class="token operator">&lt;</span>body<span class="token operator">></span>
+<span class="token operator">&lt;</span>canvas id<span class="token operator">=</span><span class="token string">"solar"</span> width<span class="token operator">=</span><span class="token string">"300"</span> height<span class="token operator">=</span><span class="token string">"300"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>canvas<span class="token operator">></span>
+<span class="token operator">&lt;</span>script<span class="token operator">></span>
+<span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">let</span> canvas <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"#solar"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">let</span> ctx <span class="token operator">=</span> canvas<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">"2d"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">draw</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">draw</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token function">requestAnimationFrame</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token function">step</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token function">drawDial</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//绘制表盘</span>
+        <span class="token function">drawAllHands</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//绘制时分秒针</span>
+        <span class="token function">requestAnimationFrame</span><span class="token punctuation">(</span>step<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">/*绘制时分秒针*/</span>
+<span class="token keyword">function</span> <span class="token function">drawAllHands</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">let</span> time <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">let</span> s <span class="token operator">=</span> time<span class="token punctuation">.</span><span class="token function">getSeconds</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">let</span> m <span class="token operator">=</span> time<span class="token punctuation">.</span><span class="token function">getMinutes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">let</span> h <span class="token operator">=</span> time<span class="token punctuation">.</span><span class="token function">getHours</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">let</span> pi <span class="token operator">=</span> Math<span class="token punctuation">.</span>PI<span class="token punctuation">;</span>
+    <span class="token keyword">let</span> secondAngle <span class="token operator">=</span> pi <span class="token operator">/</span> <span class="token number">180</span> <span class="token operator">*</span> <span class="token number">6</span> <span class="token operator">*</span> s<span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//计算出来s针的弧度</span>
+    <span class="token keyword">let</span> minuteAngle <span class="token operator">=</span> pi <span class="token operator">/</span> <span class="token number">180</span> <span class="token operator">*</span> <span class="token number">6</span> <span class="token operator">*</span> m <span class="token operator">+</span> secondAngle <span class="token operator">/</span> <span class="token number">60</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//计算出来分针的弧度</span>
+    <span class="token keyword">let</span> hourAngle <span class="token operator">=</span> pi <span class="token operator">/</span> <span class="token number">180</span> <span class="token operator">*</span> <span class="token number">30</span> <span class="token operator">*</span> h <span class="token operator">+</span> minuteAngle <span class="token operator">/</span> <span class="token number">12</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//计算出来时针的弧度</span>
+
+    <span class="token function">drawHand</span><span class="token punctuation">(</span>hourAngle<span class="token punctuation">,</span> <span class="token number">60</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token string">"red"</span><span class="token punctuation">,</span> ctx<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//绘制时针</span>
+    <span class="token function">drawHand</span><span class="token punctuation">(</span>minuteAngle<span class="token punctuation">,</span> <span class="token number">106</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token string">"green"</span><span class="token punctuation">,</span> ctx<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//绘制分针</span>
+    <span class="token function">drawHand</span><span class="token punctuation">(</span>secondAngle<span class="token punctuation">,</span> <span class="token number">129</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">"blue"</span><span class="token punctuation">,</span> ctx<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//绘制秒针</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">/*绘制时针、或分针、或秒针
+ * 参数1：要绘制的针的角度
+ * 参数2：要绘制的针的长度
+ * 参数3：要绘制的针的宽度
+ * 参数4：要绘制的针的颜色
+ * 参数4：ctx
+ * */</span>
+<span class="token keyword">function</span> <span class="token function">drawHand</span><span class="token punctuation">(</span>angle<span class="token punctuation">,</span> len<span class="token punctuation">,</span> width<span class="token punctuation">,</span> color<span class="token punctuation">,</span> ctx<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    ctx<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">translate</span><span class="token punctuation">(</span><span class="token number">150</span><span class="token punctuation">,</span> <span class="token number">150</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//把坐标轴的远点平移到原来的中心</span>
+    ctx<span class="token punctuation">.</span><span class="token function">rotate</span><span class="token punctuation">(</span><span class="token operator">-</span>Math<span class="token punctuation">.</span>PI <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">+</span> angle<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//旋转坐标轴。 x轴就是针的角度</span>
+    ctx<span class="token punctuation">.</span><span class="token function">beginPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span>len<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// 沿着x轴绘制针</span>
+    ctx<span class="token punctuation">.</span>lineWidth <span class="token operator">=</span> width<span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span>strokeStyle <span class="token operator">=</span> color<span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span>lineCap <span class="token operator">=</span> <span class="token string">"round"</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">closePath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">restore</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/*绘制表盘*/</span>
+<span class="token keyword">function</span> <span class="token function">drawDial</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">let</span> pi <span class="token operator">=</span> Math<span class="token punctuation">.</span>PI<span class="token punctuation">;</span>
+
+    ctx<span class="token punctuation">.</span><span class="token function">clearRect</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">300</span><span class="token punctuation">,</span> <span class="token number">300</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//清除所有内容</span>
+    ctx<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    ctx<span class="token punctuation">.</span><span class="token function">translate</span><span class="token punctuation">(</span><span class="token number">150</span><span class="token punctuation">,</span> <span class="token number">150</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//一定坐标原点到原来的中心</span>
+    ctx<span class="token punctuation">.</span><span class="token function">beginPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">arc</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">148</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span> <span class="token operator">*</span> pi<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//绘制圆周</span>
+    ctx<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">closePath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">60</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token comment" spellcheck="true">//绘制刻度。</span>
+        ctx<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ctx<span class="token punctuation">.</span><span class="token function">rotate</span><span class="token punctuation">(</span><span class="token operator">-</span>pi <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">+</span> i <span class="token operator">*</span> pi <span class="token operator">/</span> <span class="token number">30</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//旋转坐标轴。坐标轴x的正方形从 向上开始算起</span>
+        ctx<span class="token punctuation">.</span><span class="token function">beginPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ctx<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span class="token number">110</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ctx<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">140</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ctx<span class="token punctuation">.</span>lineWidth <span class="token operator">=</span> i <span class="token operator">%</span> <span class="token number">5</span> <span class="token operator">?</span> <span class="token number">2</span> <span class="token punctuation">:</span> <span class="token number">4</span><span class="token punctuation">;</span>
+        ctx<span class="token punctuation">.</span>strokeStyle <span class="token operator">=</span> i <span class="token operator">%</span> <span class="token number">5</span> <span class="token operator">?</span> <span class="token string">"blue"</span> <span class="token punctuation">:</span> <span class="token string">"red"</span><span class="token punctuation">;</span>
+        ctx<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ctx<span class="token punctuation">.</span><span class="token function">closePath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ctx<span class="token punctuation">.</span><span class="token function">restore</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    ctx<span class="token punctuation">.</span><span class="token function">restore</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>body<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>html<span class="token operator">></span></code></pre>
+<p>其中用到了save方法</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> canvas <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">"#solar"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> ctx <span class="token operator">=</span> canvas<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">"2d"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<pre class=" language-js"><code class="language-js">ctx<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Canvas 2D API 通过将当前状态放入栈中，保存 canvas 全部状态的方法；你可以理解为每一次绘制完一个针后记录下来，存到栈中，然后restore的时候返回初始状态，不影响上一个针的绘制效果</span>
+ctx<span class="token punctuation">.</span><span class="token function">restore</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//回到save之前的状态</span></code></pre>
+<p><img src="/2020/07/31/canvas/canvas3.png" alt></p>
+<p>可以看一下这里的mdn例子加深下理解：<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/save" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/save</a></p>
+<p>还有一个</p>
+<pre class=" language-js"><code class="language-js">ctx<span class="token punctuation">.</span><span class="token function">clearRect</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">300</span><span class="token punctuation">,</span> <span class="token number">300</span><span class="token punctuation">)</span></code></pre>
+<p><strong><code>CanvasRenderingContext2D.clearRect()</code></strong>是 Canvas 2D API 的方法，这个方法通过把像素设置为透明以达到擦除一个矩形区域的目的。</p>
+<p><strong>备注：</strong> 如果没有依照 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes#绘制路径" target="_blank" rel="noopener">绘制路径</a> 的步骤，使用 <code>clearRect()</code> 会导致意想之外的结果。请确保在调用 <code>clearRect()</code>之后绘制新内容前调用<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/beginPath" target="_blank" rel="noopener"><code>beginPath()</code></a> 。</p>
+<p>可以理解为一个命令行中 clear的操作</p>
+<p>参考：</p>
+<p><a href="https://juejin.cn/post/7142839691203575838" target="_blank" rel="noopener">使用Canvas制作刮刮乐，看看你能刮出什么奖品来？</a></p>
+<h2 id="pixijs"><a href="#pixijs" class="headerlink" title="pixijs"></a>pixijs</h2><h4 id="pixi基础"><a href="#pixi基础" class="headerlink" title="pixi基础"></a>pixi基础</h4><p>使用 <a href="https://link.segmentfault.com/?enc=OXNDsfmdgZ1%2Fo0XH9gicMQ%3D%3D.jSzA68fhkRkiNaP8B4%2BYeqALwPxR%2BUdj6jg%2FGMDg98VeCD82gn3dCB5uOi6z2oWL" target="_blank" rel="noopener">PixiJS</a> ，我们首先应该创建一个 Pixi 应用，并且添加到当前的节点处</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 创建一个Pixi 应用</span>
+<span class="token keyword">let</span> app <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PIXI<span class="token punctuation">.</span>Application</span><span class="token punctuation">(</span><span class="token punctuation">{</span>width<span class="token punctuation">:</span> <span class="token number">256</span><span class="token punctuation">,</span> height<span class="token punctuation">:</span> <span class="token number">256</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 把 Pixi 应用中创建出来的 canvas 添加到页面上</span>
+document<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>app<span class="token punctuation">.</span>view<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><strong>容器</strong>（container）<br>容器是用来装载多个显示对象的， 它可以用 <a href="https://link.segmentfault.com/?enc=cIVFAaLL3JI1lb5Cyyr8xQ%3D%3D.OguUl4pMbdQ8r3%2Faq0SIkAlzBxqoeJi566dSUS5lnXg6qWJmtH7pPl%2BCJAc%2BhrOHzF41fuJCAFszeotru1h5qA%3D%3D" target="_blank" rel="noopener">PIXI.Container()</a> 方法来创建，可以把它看成一个小组件，里面可以包裹多个精灵，或者其他容器等</p>
+<p><strong>精灵</strong>（spirite）<br>精灵是可以放在容器里的特殊图像对象， 它可以用 <a href="https://link.segmentfault.com/?enc=B3TMawjfAak8cn5r6BLkYA%3D%3D.LhgujzllCu5M3bgXkHK53eeqpdyfECJCjeGtJD%2FNXDo8A8KWNZKZvjvF4Fruh84%2Boo1KS7DarTpTQGm8otDheg%3D%3D" target="_blank" rel="noopener">PIXI.Sprite()</a> 方法来创建。精灵是你能用代码控制图像的基础。你能够控制他们的位置，大小，和许多其他有用的属性来产生交互和动画。</p>
+<p><strong>纹理</strong>（Texture）</p>
+<p>因为 Pixi 用 WebGL 和 GPU 去渲染图像，所以图像需要转化成 GPU 可以处理的格式。可以被 GPU 处理的图像被称作 纹理 。在你让精灵显示图片之前，需要将普通的图片转化成 WebGL 纹理。为了让所有工作执行的快速有效率，Pixi使用 纹理缓存 来存储和引用所有你的精灵需要的纹理。纹理的名称字符串就是图像的地址。这意味着如果你有从<code>&quot;images/cat.png&quot;</code> 加载的图像，你可以在纹理缓存中这样找到他：</p>
+<pre class=" language-javascript"><code class="language-javascript">PIXI<span class="token punctuation">.</span>utils<span class="token punctuation">.</span>TextureCache<span class="token punctuation">[</span><span class="token string">"images/cat.png"</span><span class="token punctuation">]</span><span class="token punctuation">;</span></code></pre>
+<h4 id="pixi的优势"><a href="#pixi的优势" class="headerlink" title="pixi的优势"></a>pixi的优势</h4><p>引用网友某熊猫桑的话：</p>
+<ol>
+<li>选择pixi的最大理由，就是它的性能表现最好。</li>
+<li>Phaser引擎有v2和v3版本的区别。中文资料(包括那个Phaser中文站)一般都是基于v2介绍，v3除了简介以外，能找到的中文资料不太多。而v3和v2最大的区别是，v2是基于Pixi封装的不假，但v3是完全独立的一个游戏引擎！——而这已经是3年前的老知识了。</li>
+<li>Pixi的第一个痛点(就我碰到的而言)是它没有适配模块，而Phaser3是有的。当然它俩定位不同，Pixi对自己的定位是“创意引擎”而Phaser3是“游戏引擎”。</li>
+<li>不过虽然定位有区别，大部分人还是会把Pixi归类为游戏引擎，比如 <a href="https://link.juejin.cn/?target=http%3A%2F%2Fhtml5gameengine.com%2F"><img src="https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/3f843e8626a3844c624fb596dddd9674.svg" alt="img">html5gameengine.com</a> 。</li>
+<li>动画的技术方案要比你说的略多一点，一般是：<br>1）资源类动画。一般是GIF、APNG、WebP允许自带动画的图片格式<br>2）CSS动画。效果简单，但是一个好处(一般很少有人说)是一般浏览器都会给一些性能优化<br>3）原生JS动画。这个我觉得普及度目前来看还比较低，不排除有纯动画引擎支持而提高<br>4）(网页)JS动画库(实现了tween,easing function和timeline的)。<br>5）基于Canvas/WebGL实现动画效果的游戏引擎或动画库<br>6）骨骼动画。国内一般龙骨用的多，国外是Spine。这个一般是以Canvas/WebGL的方式来呈现。</li>
+</ol>
+<h4 id="小实践"><a href="#小实践" class="headerlink" title="小实践"></a>小实践</h4><p>引入pixi</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.8.2/pixi.min.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
+<p>或者npm引入</p>
+<pre class=" language-shell"><code class="language-shell">npm install pixi.js</code></pre>
+<h4 id="一些pixi例子"><a href="#一些pixi例子" class="headerlink" title="一些pixi例子"></a>一些pixi例子</h4><p><a href="https://link.segmentfault.com/?enc=o5FSl%2FPTAzqrsEFUHtx3gw%3D%3D.GQVDVbEJ1n%2B6gwpoXcSkERwvqilv4Scno5dDVx0gdFTb9oodnt7gpvgM8KxQ5z%2BB" target="_blank" rel="noopener">Run Pixie Run</a></p>
+<p><a href="https://link.segmentfault.com/?enc=PoWTuwUVvw86vIQgTXDBbg%3D%3D.Ah4gjIrIMtUsHkVBx0DCULWb2EX%2Ff%2Fdy6hv4iJKUgOA%3D" target="_blank" rel="noopener">WASTE INVADERS</a></p>
+<h2 id="fabricjs"><a href="#fabricjs" class="headerlink" title="fabricjs"></a>fabricjs</h2><p><a href="https://link.juejin.cn/?target=http%3A%2F%2Ffabricjs.com%2F">Fabric.js</a> 是一个强大的H5 canvas框架，在原生canvas之上提供了交互式对象模型，通过简洁的api就可以在画布上进行丰富的操作。它也是一个<strong>SVG-to-canvas 解析器</strong>。</p>
 
             </div>
             <hr/>
@@ -1010,7 +1278,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">339.2k</span>&nbsp;字
+                class="white-color">345.3k</span>&nbsp;字
             
             
             

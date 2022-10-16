@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.9k
+                    6.3k
                 </div>
                 
 
@@ -823,64 +823,247 @@ module<span class="token punctuation">.</span>exports <span class="token operato
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
-<h2 id="小笑话"><a href="#小笑话" class="headerlink" title="小笑话"></a>小笑话</h2><p><img src="/2021/02/07/webpack-xia/webpack.jpg" alt></p>
+<h2 id="中间插播小笑话"><a href="#中间插播小笑话" class="headerlink" title="中间插播小笑话"></a>中间插播小笑话</h2><p><img src="/2021/02/07/webpack-xia/webpack.jpg" alt></p>
 <p>部分资料参考地址<a href="https://juejin.cn/post/6844903877771264013" target="_blank" rel="noopener">https://juejin.cn/post/6844903877771264013</a></p>
-<h2 id="8-webpack5模块联邦"><a href="#8-webpack5模块联邦" class="headerlink" title="8.webpack5模块联邦"></a>8.webpack5模块联邦</h2><p><a href="https://zhuanlan.zhihu.com/p/115403616" target="_blank" rel="noopener">精读《Webpack5 新特性 - 模块联邦》</a></p>
-<p>其中列举了其他共享模块的方式，注入npm、UMD、微前端的方式共享</p>
-<p>而webpack5的模块联邦，是直接将原来的应用依赖的包（模块），直接引用于另外一个项目/应用</p>
+<h2 id="8-webpack5模块联邦"><a href="#8-webpack5模块联邦" class="headerlink" title="8.webpack5模块联邦"></a>8.webpack5模块联邦</h2><p>共享模块的方式：</p>
+<ol>
+<li>NPM 方式共享模块</li>
+</ol>
+<p>对于项目 Home 与 Search，需要共享一个模块时，最常见的办法就是将其抽成通用依赖并分别安装在各自项目中。</p>
+<p>虽然 Monorepo 可以一定程度解决重复安装和修改困难的问题，但依然需要走本地编译。（需要更新npm包， <code>npm install</code>，再构建 + 发布）</p>
+<p><img src="/2021/02/07/webpack-xia/fed2.png" alt></p>
+<ol start="2">
+<li>umd共享模块</li>
+</ol>
+<p>将模块用 Webpack UMD 模式打包，并输出到其他项目中。这是非常普遍的模块共享方式，但这种技术方案问题也很明显，就是包体积无法达到本地编译时的优化效果，且库之间容易冲突。</p>
+<p><img src="/2021/02/07/webpack-xia/fed3.png" alt></p>
+<ol start="3">
+<li>微前端共享模块</li>
+</ol>
+<p>但是微前端会出现以下问题</p>
+<p>1）子应用独立打包，模块更解耦，但无法抽取公共依赖等。</p>
+<p>2）整体应用一起打包，很好解决上面的问题，但打包速度实在是太慢了，不具备水平扩展能力。</p>
+<p><img src="/2021/02/07/webpack-xia/fed4.png" alt></p>
+<ol start="4">
+<li>webpack5的模块联邦，是直接将原来的应用依赖的包（模块），直接引用于另外一个项目/应用，在模块联邦中，更注重项目与项目之间的引用（A用了B的xx模块，B用了C的xx模块），相对来说是mf 是去中心化的(其实也挺像npm包的感觉)，当然这种引用关系也可以运用到微前端这种突出主和子应用的关系中去</li>
+</ol>
 <p><img src="/2021/02/07/webpack-xia/federation.png" alt></p>
-<p>让应用具备模块化输出能力，其实开辟了一种新的应用形态，即 “中心应用”，这个中心应用用于在线动态分发 Runtime 子模块，并不直接提供给用户使用</p>
+<h4 id="底层概念"><a href="#底层概念" class="headerlink" title="底层概念"></a>底层概念</h4><p>我们区分本地模块和远程模块。本地模块即为普通模块，是当前构建的一部分。远程模块不属于当前构建，并在运行时从所谓的容器加载。</p>
+<p>加载远程模块被认为是异步操作。当使用远程模块时，这些异步操作将被放置在远程模块和入口之间的下一个 chunk 的加载操作中。如果没有 chunk 加载操作，就不能使用远程模块。</p>
+<p>容器是由容器入口创建的，该入口暴露了对特定模块的异步访问。暴露的访问分为两个步骤：</p>
+<ol>
+<li>加载模块（异步的）</li>
+<li>执行模块（同步的）</li>
+</ol>
+<p><strong>微前端</strong></p>
+<p>让应用具备模块化输出能力，其实开辟了一种新的应用形态，即 “中心应用”，（其实也就是微前端）这个中心应用用于在线动态分发 Runtime 子模块，并不直接提供给用户使用</p>
 <p>而在微前端领域，这个主应用就是应用中心，所有子应用都可以利用 Runtime 方式复用主应用的 Npm 包和模块，更好的集成到主应用中。</p>
-<p>实践：</p>
-<p>模块联邦的使用方式如下：</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> HtmlWebpackPlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"html-webpack-plugin"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> ModuleFederationPlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"webpack/lib/container/ModuleFederationPlugin"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<h4 id="评论"><a href="#评论" class="headerlink" title="评论"></a>评论</h4><p>看到网上的一条评论：</p>
+<pre><code>这不就是一个包
+构建一个全量umd
++单独声明entry的umd
++单独umd的entry/shared集合
+嘛。。。
+至于shared，和external没什么区别，只是可以构建时生成罢了。
+其中shared部分也不能做构建优化，只能全量打包。
 
-module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// other webpack configs...</span>
-  plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>
-    <span class="token keyword">new</span> <span class="token class-name">ModuleFederationPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-      name<span class="token punctuation">:</span> <span class="token string">"app_one_remote"</span><span class="token punctuation">,</span>
-      remotes<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-        app_two<span class="token punctuation">:</span> <span class="token string">"app_two_remote"</span><span class="token punctuation">,</span>
-        app_three<span class="token punctuation">:</span> <span class="token string">"app_three_remote"</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span>
-      exposes<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-        AppContainer<span class="token punctuation">:</span> <span class="token string">"./src/App"</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span>
-      shared<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"react"</span><span class="token punctuation">,</span> <span class="token string">"react-dom"</span><span class="token punctuation">,</span> <span class="token string">"react-router-dom"</span><span class="token punctuation">]</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-    <span class="token keyword">new</span> <span class="token class-name">HtmlWebpackPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-      template<span class="token punctuation">:</span> <span class="token string">"./public/index.html"</span><span class="token punctuation">,</span>
-      chunks<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"main"</span><span class="token punctuation">]</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
-  <span class="token punctuation">]</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
-<p>模块联邦本身是一个普通的 Webpack 插件 <code>ModuleFederationPlugin</code>，插件有几个重要参数：</p>
+意义就是以前一个包一个入口引入所有内容，现在可以按需打包了。
+比如antd可以在发布的时候每个组件打一个umd，再加上一个整体的runtime。
+于是就形成了
+1.umd引入
+2.umd引入runtime+单独entry动态引入
+但是要想选出来需要用的包组合成一个文件，只能重新打包。
+而且使用2引入方式，必须用import()，否则网络延迟会阻塞渲染，相当于是requirejs的机制。</code></pre><pre><code>微前端彼此间的依赖版本估计都是大相径庭的，很难直接去 share libaray 。
+Service 的 share 可能更合适一些，比如从前将通用业务抽成 npm 包的方式，可以用这种方式代替了。
+相较于整体打包，子项目单独发布叫“水平扩展”，不太合适吧。</code></pre><h4 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h4><p>模块联邦本身是一个普通的 Webpack 插件 <code>ModuleFederationPlugin</code>，插件有几个重要参数：</p>
 <ol>
 <li><code>name</code> 当前应用名称，需要全局唯一。</li>
-<li><code>remotes</code> 可以将其他项目的 <code>name</code> 映射到当前项目中。</li>
-<li><code>exposes</code> 表示导出的模块，只有在此申明的模块才可以作为远程依赖被使用。</li>
+<li><code>remotes</code> 可以将其他项目的 <code>name</code> 映射到当前项目中（remote译为远程的）</li>
+<li><code>exposes</code> 表示导出的模块，类似于export，只有在此申明的模块才可以作为远程依赖被使用，需要注意的key需要加上 <code>./</code>。</li>
 <li><code>shared</code> 是非常重要的参数，制定了这个参数，可以让远程加载的模块对应依赖改为使用本地项目的 React 或 ReactDOM。</li>
 </ol>
-<p>比如设置了 <code>remotes: { app_tw0: &quot;app_two_remote&quot; }</code>，在代码中就可以直接利用以下方式直接从对方应用调用模块：</p>
-<pre class=" language-text"><code class="language-text">import { Search } from "app_two/Search";</code></pre>
-<p>这个 <code>app_two/Search</code> 来自于 <code>app_two</code> 的配置：</p>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// app_two 的 webpack 配置</span>
-<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
-  plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>
-    <span class="token keyword">new</span> <span class="token class-name">ModuleFederationPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-      name<span class="token punctuation">:</span> <span class="token string">"app_two"</span><span class="token punctuation">,</span>
-      library<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">"var"</span><span class="token punctuation">,</span> name<span class="token punctuation">:</span> <span class="token string">"app_two"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
-      filename<span class="token punctuation">:</span> <span class="token string">"remoteEntry.js"</span><span class="token punctuation">,</span>
-      exposes<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-        Search<span class="token punctuation">:</span> <span class="token string">"./src/Search"</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span>
-      shared<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"react"</span><span class="token punctuation">,</span> <span class="token string">"react-dom"</span><span class="token punctuation">]</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
-  <span class="token punctuation">]</span>
+<p>模块联邦的使用方式如下：</p>
+<p>一共有三个微应用:<code>lib-app</code>、<code>component-app</code>、<code>main-app</code>，角色分别是：</p>
+<ul>
+<li><code>lib-app</code>as remote,暴露了两个模块<code>react</code>和<code>react-dom</code>（公共react和react-dom）</li>
+<li><code>component-app</code> as remote and host,依赖<code>lib-app</code>暴露的 <code>react</code>和<code>react-dom</code>  ，暴露了一些组件供<code>main-app</code>消费</li>
+<li><code>main-app</code> as host,依赖<code>lib-app</code>和<code>component-app</code></li>
+</ul>
+<h5 id="暴露lib-app模块"><a href="#暴露lib-app模块" class="headerlink" title="暴露lib-app模块"></a>暴露lib-app模块</h5><pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//webpack.config.js</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//...省略</span>
+    plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+        <span class="token keyword">new</span> <span class="token class-name">ModuleFederationPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+            name<span class="token punctuation">:</span> <span class="token string">"lib_app"</span><span class="token punctuation">,</span>
+            filename<span class="token punctuation">:</span> <span class="token string">"remoteEntry.js"</span><span class="token punctuation">,</span>
+            exposes<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                <span class="token string">"./react"</span><span class="token punctuation">:</span><span class="token string">"react"</span><span class="token punctuation">,</span>
+                <span class="token string">"./react-dom"</span><span class="token punctuation">:</span><span class="token string">"react-dom"</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token comment" spellcheck="true">//...省略</span>
+<span class="token punctuation">}</span></code></pre>
+<p>编译后的结果：</p>
+<p><img src="/2021/02/07/webpack-xia/fed1.png" alt></p>
+<p>除去生成的map文件，有四个文件：<code>main.js</code>、<code>remoteEntry.js</code>、<code>...react_index.js</code>、<code>...react-dom_index.js</code>；</p>
+<ul>
+<li>第一个是本项目的入口文件（该项目只是暴露接口，所以该文件为空）</li>
+<li>第二个是远程入口文件，其他webpack构建使用、访问本项目暴露的模块时，须通过它来加载</li>
+<li>第三个和第四个是暴露的模块，供其他项目消费(使用)</li>
+</ul>
+<h5 id="component-app的配置"><a href="#component-app的配置" class="headerlink" title="component-app的配置"></a>component-app的配置</h5><p>依赖<code>lib-app</code>,暴露三个模块组件<code>Button</code>、<code>Dialog</code>、<code>Logo</code></p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//webpack.config.js</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//...省略</span>
+    plugins<span class="token punctuation">:</span><span class="token punctuation">[</span>
+        <span class="token keyword">new</span> <span class="token class-name">ModuleFederationPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+            name<span class="token punctuation">:</span> <span class="token string">"component_app"</span><span class="token punctuation">,</span>
+            filename<span class="token punctuation">:</span> <span class="token string">"remoteEntry.js"</span><span class="token punctuation">,</span>
+            exposes<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+              <span class="token string">"./Button"</span><span class="token punctuation">:</span><span class="token string">"./src/Button.jsx"</span><span class="token punctuation">,</span>
+              <span class="token string">"./Dialog"</span><span class="token punctuation">:</span><span class="token string">"./src/Dialog.jsx"</span><span class="token punctuation">,</span>
+              <span class="token string">"./Logo"</span><span class="token punctuation">:</span><span class="token string">"./src/Logo.jsx"</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            remotes<span class="token punctuation">:</span><span class="token punctuation">{</span>
+                <span class="token string">"lib-app"</span><span class="token punctuation">:</span><span class="token string">"lib_app@http://localhost:3000/remoteEntry.js"</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span></code></pre>
+<p>然后在三个组件内使用引入的remote（<code>lib-app</code>）</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//Dialog.jsx</span>
+<span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">'lib-app/react'</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">Dialog</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//...</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">Button</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//...</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">Logo</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//...</span>
+<span class="token punctuation">}</span></code></pre>
+<h5 id="main-app配置"><a href="#main-app配置" class="headerlink" title="main-app配置"></a>main-app配置</h5><p>main-app依赖两个项目<code>lib-app</code>、<code>component-app</code>。</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">///webpack.config.js</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//省略...</span>
+    plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+        <span class="token keyword">new</span> <span class="token class-name">ModuleFederationPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+            name<span class="token punctuation">:</span> <span class="token string">"main_app"</span><span class="token punctuation">,</span>
+            remotes<span class="token punctuation">:</span><span class="token punctuation">{</span>
+                <span class="token string">"lib-app"</span><span class="token punctuation">:</span><span class="token string">"lib_app@http://localhost:3000/remoteEntry.js"</span><span class="token punctuation">,</span>
+                <span class="token string">"component-app"</span><span class="token punctuation">:</span><span class="token string">"component_app@http://localhost:3001/remoteEntry.js"</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token keyword">new</span> <span class="token class-name">HtmlWebpackPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+          template<span class="token punctuation">:</span> <span class="token string">"./public/index.html"</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">]</span>
+    <span class="token comment" spellcheck="true">//省略...</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
-<p>正是因为 <code>Search</code> 在 <code>exposes</code> 被导出，我们因此可以使用 <code>[name]/[exposes_name]</code> 这个模块，这个模块对于被引用应用来说是一个本地模块。</p>
+<p>由于需要等待基础模块加载完毕，所以需要配置懒加载入口bootstrap.js.</p>
+<ul>
+<li>webpack打包入口文件</li>
+</ul>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">"./bootstrap.js"</span><span class="token punctuation">)</span></code></pre>
+<ul>
+<li>bootstrap.js</li>
+</ul>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> App <span class="token keyword">from</span> <span class="token string">'./App.jsx'</span>
+<span class="token keyword">import</span> ReactDOM <span class="token keyword">from</span> <span class="token string">'lib-app/react-dom'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">'lib-app/react'</span>
+ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token operator">&lt;</span>App <span class="token operator">/</span><span class="token operator">></span><span class="token punctuation">,</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"app"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<ul>
+<li>根组件App.jsx</li>
+</ul>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">'lib-app/react'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> Button <span class="token keyword">from</span> <span class="token string">'component-app/Button'</span>
+<span class="token keyword">import</span> Dialog <span class="token keyword">from</span> <span class="token string">'component-app/Dialog'</span>
+<span class="token keyword">import</span> Logo <span class="token keyword">from</span> <span class="token string">'component-app/Logo'</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//...</span>
+<span class="token punctuation">}</span></code></pre>
+<h5 id="下载脚本"><a href="#下载脚本" class="headerlink" title="下载脚本"></a>下载脚本</h5><p>网上扒过源码，下载脚本本质也是通过jsonp的形式下载</p>
+<p>通过<code>webpack_require.l(url, errorHandler, chunkName)</code>下载脚本：</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">/* webpack/runtime/load script */</span>
+<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> inProgress <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token keyword">var</span> dataWebpackPrefix <span class="token operator">=</span> <span class="token string">'webpack5-demo:'</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// loadScript function to load a script via script tag</span>
+  __webpack_require__<span class="token punctuation">.</span>l <span class="token operator">=</span> <span class="token punctuation">(</span>url<span class="token punctuation">,</span> done<span class="token punctuation">,</span> key<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>inProgress<span class="token punctuation">[</span>url<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      inProgress<span class="token punctuation">[</span>url<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>done<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">var</span> script<span class="token punctuation">,</span> needAttach<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>key <span class="token operator">!==</span> undefined<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">var</span> scripts <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementsByTagName</span><span class="token punctuation">(</span><span class="token string">'script'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> scripts<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">var</span> s <span class="token operator">=</span> scripts<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>
+          s<span class="token punctuation">.</span><span class="token function">getAttribute</span><span class="token punctuation">(</span><span class="token string">'src'</span><span class="token punctuation">)</span> <span class="token operator">==</span> url <span class="token operator">||</span>
+          s<span class="token punctuation">.</span><span class="token function">getAttribute</span><span class="token punctuation">(</span><span class="token string">'data-webpack'</span><span class="token punctuation">)</span> <span class="token operator">==</span> dataWebpackPrefix <span class="token operator">+</span> key
+        <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          script <span class="token operator">=</span> s<span class="token punctuation">;</span>
+          <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>script<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      needAttach <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">// 创建 script 标签</span>
+      script <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'script'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      script<span class="token punctuation">.</span>charset <span class="token operator">=</span> <span class="token string">'utf-8'</span><span class="token punctuation">;</span>
+      script<span class="token punctuation">.</span>timeout <span class="token operator">=</span> <span class="token number">120</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>__webpack_require__<span class="token punctuation">.</span>nc<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        script<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">'nonce'</span><span class="token punctuation">,</span> __webpack_require__<span class="token punctuation">.</span>nc<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      script<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">'data-webpack'</span><span class="token punctuation">,</span> dataWebpackPrefix <span class="token operator">+</span> key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">// 设置 src = 'http://127.0.0.1:2001/examples_app1_say_js.bundle.js'</span>
+      script<span class="token punctuation">.</span>src <span class="token operator">=</span> url<span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">// 到这远程脚本 examples_app1_say_js.bundle.js 应该就开始下载了</span>
+    <span class="token punctuation">}</span>
+    inProgress<span class="token punctuation">[</span>url<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>done<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">var</span> onScriptComplete <span class="token operator">=</span> <span class="token punctuation">(</span>prev<span class="token punctuation">,</span> event<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// avoid mem leaks in IE.</span>
+      script<span class="token punctuation">.</span>onerror <span class="token operator">=</span> script<span class="token punctuation">.</span>onload <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+      <span class="token function">clearTimeout</span><span class="token punctuation">(</span>timeout<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">var</span> doneFns <span class="token operator">=</span> inProgress<span class="token punctuation">[</span>url<span class="token punctuation">]</span><span class="token punctuation">;</span>
+      <span class="token keyword">delete</span> inProgress<span class="token punctuation">[</span>url<span class="token punctuation">]</span><span class="token punctuation">;</span>
+      script<span class="token punctuation">.</span>parentNode <span class="token operator">&amp;&amp;</span> script<span class="token punctuation">.</span>parentNode<span class="token punctuation">.</span><span class="token function">removeChild</span><span class="token punctuation">(</span>script<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      doneFns <span class="token operator">&amp;&amp;</span> doneFns<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span>fn<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token function">fn</span><span class="token punctuation">(</span>event<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>prev<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token function">prev</span><span class="token punctuation">(</span>event<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token keyword">var</span> timeout <span class="token operator">=</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span>
+      onScriptComplete<span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> undefined<span class="token punctuation">,</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">'timeout'</span><span class="token punctuation">,</span> target<span class="token punctuation">:</span> script <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      <span class="token number">120000</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    script<span class="token punctuation">.</span>onerror <span class="token operator">=</span> onScriptComplete<span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> script<span class="token punctuation">.</span>onerror<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    script<span class="token punctuation">.</span>onload <span class="token operator">=</span> onScriptComplete<span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> script<span class="token punctuation">.</span>onload<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    needAttach <span class="token operator">&amp;&amp;</span> document<span class="token punctuation">.</span>head<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>script<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>开始感觉有点类似以前通过 cdn 引入第三方js库的感觉</p>
+<h5 id="一些其他问题"><a href="#一些其他问题" class="headerlink" title="一些其他问题"></a>一些其他问题</h5><p>shared版本问题：</p>
+<p><img src="/2021/02/07/webpack-xia/fed5.png" alt></p>
+<p>正确做法</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> dependencies <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"./package.json"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">...</span>
+shared<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+  <span class="token operator">...</span>dependencies<span class="token punctuation">,</span>
+  react<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    singleton<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    requiredVersion<span class="token punctuation">:</span> dependencies<span class="token punctuation">[</span><span class="token string">"react"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token string">"react-dom"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    singleton<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    requiredVersion<span class="token punctuation">:</span> dependencies<span class="token punctuation">[</span><span class="token string">"react-dom"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
+<p>参考：</p>
+<p><a href="https://juejin.cn/post/6963326546606030856" target="_blank" rel="noopener">微前端实践–webpack5模块联邦</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/115403616" target="_blank" rel="noopener">精读《Webpack5 新特性 - 模块联邦》</a></p>
 
             </div>
             <hr/>
@@ -1113,20 +1296,20 @@ module<span class="token punctuation">.</span>exports <span class="token operato
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/03/01/vue-zhong/">
+                <a href="/2021/03/01/git-ji-ben-ming-ling-fu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="Vue(中)">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="git基本命令符">
                         
-                        <span class="card-title">Vue(中)</span>
+                        <span class="card-title">git基本命令符</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            4.Vue CLI在开发大型项目的时候，则必须使用到Vue CLI，CLI是Command-Line Interface ，翻译为命令行界面，俗称脚手架
-使用 vue-cli 可以快速搭建Vue开发环境以及对应的webpack配置（终于不用
+                            版本控制它是一种软件开发过程中，管理我们对文件、目录、或工程等内容的修改历史、方便我们查看更改历史记录，备份以便恢复以前的版本软件工程技术。简单来说就是用于管理多人协同开发项目的技术
+SVN：集中式版本控制、所有版本存在服务器上，需要连网才
                         
                     </div>
                     <div class="publish-info">
@@ -1135,12 +1318,8 @@ module<span class="token punctuation">.</span>exports <span class="token operato
                         </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                    前端
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Hello
                             
                         </span>
                     </div>
@@ -1337,7 +1516,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">339.2k</span>&nbsp;字
+                class="white-color">345.3k</span>&nbsp;字
             
             
             

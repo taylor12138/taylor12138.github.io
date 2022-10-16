@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.3k
+                    7.5k
                 </div>
                 
 
@@ -509,21 +509,50 @@
 </li>
 <li><p>初始化，设置请求方法（请求类型）和url</p>
 <ul>
-<li><code>xhr.open(请求类型, url)</code>，请求类型为get或post</li>
+<li><pre class=" language-javascript"><code class="language-javascript">xhr<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span>method<span class="token punctuation">,</span> URL<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token keyword">async</span><span class="token punctuation">,</span> user<span class="token punctuation">,</span> password<span class="token punctuation">]</span><span class="token punctuation">)</span></code></pre>
+<p>此方法指定请求的主要参数：</p>
+<ul>
+<li><p><code>method</code> —— HTTP 方法。通常是 <code>&quot;GET&quot;</code> 或 <code>&quot;POST&quot;</code>。</p>
+</li>
+<li><p><code>URL</code> —— 要请求的 URL，通常是一个字符串，也可以是 <a href="https://zh.javascript.info/url" target="_blank" rel="noopener">URL</a> 对象。</p>
+</li>
+<li><p><code>async</code> —— 如果显式地设置为 <code>false</code>，那么请求将会以同步的方式处理，我们稍后会讲到它。</p>
+</li>
+<li><p><code>user</code>，<code>password</code> —— HTTP 基本身份验证（如果需要的话）的登录名和密码。</p>
+</li>
 </ul>
 </li>
-<li><p>发送，send方法接受一个参数，作为<strong>请求体（body）发送的数据</strong>，如果不需要发送请求体，则必须传null，因为这个参数在某些浏览器中是必须的</p>
+</ul>
+</li>
+</ol>
+<ul>
+<li><p>此外，我们还可以通过 <code>responseType</code> 来设置响应格式</p>
+<ul>
+<li><code>&quot;&quot;</code>（默认）—— 响应格式为字符串，</li>
+<li><code>&quot;text&quot;</code> —— 响应格式为字符串，</li>
+<li><code>&quot;arraybuffer&quot;</code> —— 响应格式为 <code>ArrayBuffer</code>（对于二进制数据，请参见 <a href="https://zh.javascript.info/arraybuffer-binary-arrays" target="_blank" rel="noopener">ArrayBuffer，二进制数组</a>），</li>
+<li><code>&quot;blob&quot;</code> —— 响应格式为 <code>Blob</code>（对于二进制数据，请参见 <a href="https://zh.javascript.info/blob" target="_blank" rel="noopener">Blob</a>），</li>
+<li><code>&quot;document&quot;</code> —— 响应格式为 XML document（可以使用 XPath 和其他 XML 方法）或 HTML document（基于接收数据的 MIME 类型）</li>
+<li><code>&quot;json&quot;</code> —— 响应格式为 JSON（自动解析）。</li>
+</ul>
+<pre class=" language-js"><code class="language-js">xhr<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">'GET'</span><span class="token punctuation">,</span> <span class="token string">'/article/xmlhttprequest/example/json'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+xhr<span class="token punctuation">.</span>responseType <span class="token operator">=</span> <span class="token string">'json'</span><span class="token punctuation">;</span></code></pre>
+</li>
+</ul>
+<ol start="3">
+<li><p>发送，send方法可以接收一个参数，作为<strong>请求体（body）发送的数据</strong>，如果不需要发送请求体，则必须传null，因为这个参数在某些浏览器中是必须的</p>
 <ul>
 <li><code>xhr.send(null)</code></li>
+<li><code>xhr.send([body])</code></li>
 </ul>
 </li>
 <li><p>事件绑定，处理服务端返回的结果  <code>onreadystatechange</code></p>
 <p>on 有 when的意思，即当。。。的时候<br>readystate是xhr对象当中的属性，表示状态0/1/2/3/4，分别对应以上步骤完成与否的状态</p>
-<pre><code>0：未初始化
-1：open方法已经调用完毕
-2：send方法已经调用完毕，并且头部和状态已经可获得
-3：loading, 下载中； `responseText` 属性已经包含部分数据。
-4：服务端返回了所有的结果</code></pre><p>change 改变的时候触发，这里一般会触发四次，改一次触发一次</p>
+<pre><code>UNSENT，0：未初始化
+OPENED，1：open方法已经调用完毕
+HEADERS_RECEIVED，2：send方法已经调用完毕，并且头部和状态已经可获得
+LOADING，3：loading, 下载中； `responseText` 属性已经包含部分数据。
+DONE 4：服务端返回了所有的结果</code></pre><p>change 改变的时候触发，这里一般会触发四次，改一次触发一次</p>
 </li>
 <li><p>此时<code>xhr</code>对象的属性有：</p>
 <ul>
@@ -1079,7 +1108,7 @@ app<span class="token punctuation">.</span><span class="token keyword">get</span
 <p><code>setHeader(&quot;允许跨域响应头&quot;, &quot;*&quot;);</code></p>
 <p>设置允许跨域的响应头，它们的格式分别所代表的含义是</p>
 <p>1.origin 参数的值指定了允许访问该资源的外域 URI，可以指定该字段的值为通配符（*），表示允许来自所有域的请求。</p>
-<pre class=" language-text"><code class="language-text">Access-Control-Allow-Origin: <origin> | *</code></pre>
+<pre class=" language-text"><code class="language-text">Access-Control-Allow-Origin: <origin> | *</origin></code></pre>
 <p>2.指明了实际请求所允许使用的 HTTP 方法。</p>
 <pre><code>Access-Control-Allow-Methods: &lt;method&gt;[, &lt;method&gt;]*</code></pre><p>3.指明了实际请求中允许携带的首部字段。</p>
 <pre><code>Access-Control-Allow-Headers: &lt;field-name&gt;[, &lt;field-name&gt;]*</code></pre><p>4.表示是否允许发送Cookie。<strong>默认情况下，Cookie不包括在CORS请求之中</strong>，也就是说，不能发送和接受cookie。设为<code>true</code>，即表示服务器明确许可，Cookie可以包含在请求中，一起发给服务器。这个值也只能设为<code>true</code>，如果服务器不要浏览器发送Cookie，删除该字段即可。</p>
@@ -1626,7 +1655,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">339.2k</span>&nbsp;字
+                class="white-color">345.3k</span>&nbsp;字
             
             
             

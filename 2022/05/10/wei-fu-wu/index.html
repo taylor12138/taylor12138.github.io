@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.2k
+                    7.4k
                 </div>
                 
 
@@ -759,7 +759,36 @@ ReactDOM.render(<span class="token tag"><span class="token tag"><span class="tok
   activeRule<span class="token punctuation">:</span> <span class="token string">'/app1'</span>
 <span class="token punctuation">}</span><span class="token punctuation">]</span></code></pre>
 <p>qiankun会通过import-html-entry请求<a href="http://localhost:8080，得到对应的html文件，解析内部的所有script和style标签，依次下载和执行它们，这使得应用加载变得更易用。">http://localhost:8080，得到对应的html文件，解析内部的所有script和style标签，依次下载和执行它们，这使得应用加载变得更易用。</a></p>
-<p><code>import-html-entry</code>暴露出的核心接口是<code>importHTML</code>，而 <code>importHTML</code> 的具体流程：</p>
+<p><strong>而我从源代码直接看到的流程为</strong>：<code>registerMicroApps</code> -&gt; <code>loadApp</code> -&gt; </p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> template<span class="token punctuation">,</span> execScripts<span class="token punctuation">,</span> assetPublicPath <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">importEntry</span><span class="token punctuation">(</span>entry<span class="token punctuation">,</span> importEntryOpts<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>然后初始化html模版（加上各种qiankun-head）</p>
+<pre class=" language-js"><code class="language-js"> <span class="token keyword">const</span> appContent <span class="token operator">=</span> <span class="token function">getDefaultTplWrapper</span><span class="token punctuation">(</span>appInstanceId<span class="token punctuation">)</span><span class="token punctuation">(</span>template<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> initialAppWrapperElement<span class="token punctuation">:</span> HTMLElement <span class="token operator">|</span> <span class="token keyword">null</span> <span class="token operator">=</span> <span class="token function">createElement</span><span class="token punctuation">(</span>
+  appContent<span class="token punctuation">,</span>
+  strictStyleIsolation<span class="token punctuation">,</span>
+  scopedCSS<span class="token punctuation">,</span>
+  appInstanceId<span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>其实 <code>createElement</code> 也就是在做一些</p>
+<p> <code>document.createElement(&#39;div&#39;);</code> </p>
+<p> <code>containerElement.innerHTML = appContent;</code></p>
+<p><code>shadow = appElement.attachShadow({ mode: &#39;open&#39; });</code></p>
+<p>的一些操作</p>
+<p>在加载script的时候执行子应用生命周期</p>
+<pre class=" language-js"><code class="language-js">  <span class="token keyword">const</span> scriptExports<span class="token punctuation">:</span> any <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">execScripts</span><span class="token punctuation">(</span>global<span class="token punctuation">,</span> sandbox <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>useLooseSandbox<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> bootstrap<span class="token punctuation">,</span> mount<span class="token punctuation">,</span> unmount<span class="token punctuation">,</span> update <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">getLifecyclesFromExports</span><span class="token punctuation">(</span>
+    scriptExports<span class="token punctuation">,</span>
+    appName<span class="token punctuation">,</span>
+    global<span class="token punctuation">,</span>
+    sandboxContainer<span class="token operator">?</span><span class="token punctuation">.</span>instance<span class="token operator">?</span><span class="token punctuation">.</span>latestSetProp<span class="token punctuation">,</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><code>import-html-entry</code>，有三个api，</p>
+<ol>
+<li><code>importHTML</code>：将索引 html 视为清单并加载资产（css，js），从入口脚本获取导出。</li>
+<li><code>importEntry</code>：加载资产（css，js）并嵌入到 HTML 模板中，从入口脚本获取导出。</li>
+<li><code>execScripts</code>：在自定义沙箱上通过 URL 加载脚本，从入口脚本获取导出。</li>
+</ol>
+<p>暴露出的核心接口是<code>importHTML</code>，而 <code>importHTML</code> 的具体流程：</p>
 <ol>
 <li><p>检查是否有缓存，如果有，直接从缓存中返回</p>
 </li>
@@ -1364,7 +1393,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">339.2k</span>&nbsp;字
+                class="white-color">345.3k</span>&nbsp;字
             
             
             

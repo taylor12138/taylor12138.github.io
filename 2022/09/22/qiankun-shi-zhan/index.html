@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.6k
+                    3.1k
                 </div>
                 
 
@@ -695,6 +695,211 @@ actions<span class="token punctuation">.</span><span class="token function">offG
   <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   props<span class="token punctuation">.</span><span class="token function">setGlobalState</span><span class="token punctuation">(</span>state<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>形成了一个父子应用的发布订阅模式</p>
+<h2 id="4-注册子应用"><a href="#4-注册子应用" class="headerlink" title="4.注册子应用"></a>4.注册子应用</h2><p>我从qiankun源代码直接看到的流程为：<code>registerMicroApps</code> -&gt; <code>loadApp</code> -&gt; </p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> template<span class="token punctuation">,</span> execScripts<span class="token punctuation">,</span> assetPublicPath <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">importEntry</span><span class="token punctuation">(</span>entry<span class="token punctuation">,</span> importEntryOpts<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>然后初始化html模版（加上各种qiankun-head）</p>
+<pre class=" language-js"><code class="language-js"> <span class="token keyword">const</span> appContent <span class="token operator">=</span> <span class="token function">getDefaultTplWrapper</span><span class="token punctuation">(</span>appInstanceId<span class="token punctuation">)</span><span class="token punctuation">(</span>template<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> initialAppWrapperElement<span class="token punctuation">:</span> HTMLElement <span class="token operator">|</span> <span class="token keyword">null</span> <span class="token operator">=</span> <span class="token function">createElement</span><span class="token punctuation">(</span>
+  appContent<span class="token punctuation">,</span>
+  strictStyleIsolation<span class="token punctuation">,</span>
+  scopedCSS<span class="token punctuation">,</span>
+  appInstanceId<span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>其实 <code>createElement</code> 也就是在做一些</p>
+<p> <code>document.createElement(&#39;div&#39;);</code> </p>
+<p> <code>containerElement.innerHTML = appContent;</code></p>
+<p><code>shadow = appElement.attachShadow({ mode: &#39;open&#39; });</code></p>
+<p>的一些操作</p>
+<p>在加载script的时候执行子应用生命周期</p>
+<pre class=" language-js"><code class="language-js">  <span class="token keyword">const</span> scriptExports<span class="token punctuation">:</span> any <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">execScripts</span><span class="token punctuation">(</span>global<span class="token punctuation">,</span> sandbox <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>useLooseSandbox<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> bootstrap<span class="token punctuation">,</span> mount<span class="token punctuation">,</span> unmount<span class="token punctuation">,</span> update <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">getLifecyclesFromExports</span><span class="token punctuation">(</span>
+    scriptExports<span class="token punctuation">,</span>
+    appName<span class="token punctuation">,</span>
+    global<span class="token punctuation">,</span>
+    sandboxContainer<span class="token operator">?</span><span class="token punctuation">.</span>instance<span class="token operator">?</span><span class="token punctuation">.</span>latestSetProp<span class="token punctuation">,</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h2 id="5-import-html-entry"><a href="#5-import-html-entry" class="headerlink" title="5.import-html-entry"></a>5.import-html-entry</h2><p>import-html-entry 是 qiankun 中一个举足轻重的依赖，用于获取子应用的 HTML 和 JS，它允许以html文件为应用入口，然后通过一个html解析器从文件中提取js和css依赖，并通过fetch下载依赖，同时对 HTML 和 JS 进行了各自的处理，以便于子应用在父应用中加载</p>
+<p>该方案的主要思路是允许以html文件为应用入口，然后通过一个html解析器从文件中提取js和css依赖，并通过fetch下载依赖</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">importHTML</span><span class="token punctuation">(</span>url<span class="token punctuation">,</span> opts <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 1. 通过 fetch 获取到 url 对应的 html</span>
+    <span class="token keyword">return</span> embedHTMLCache<span class="token punctuation">[</span>url<span class="token punctuation">]</span> <span class="token operator">||</span> <span class="token punctuation">(</span>embedHTMLCache<span class="token punctuation">[</span>url<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">fetch</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>html <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// 2. 从返回的结果中解析出以下内容a.经过初步处理后的 html, b.由所有 "script" 组成的数组, c.由所有 "style" 组成的数组</span>
+            <span class="token keyword">const</span> <span class="token punctuation">{</span> template<span class="token punctuation">,</span> scripts<span class="token punctuation">,</span> entry<span class="token punctuation">,</span> styles <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">processTpl</span><span class="token punctuation">(</span><span class="token function">getTemplate</span><span class="token punctuation">(</span>html<span class="token punctuation">)</span><span class="token punctuation">,</span> assetPublicPath<span class="token punctuation">,</span> postProcessTemplate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 3. 将所有的 css 嵌入到上述经过初步处理后的 html 中</span>
+            <span class="token keyword">return</span> <span class="token function">getEmbedHTML</span><span class="token punctuation">(</span>template<span class="token punctuation">,</span> styles<span class="token punctuation">,</span> <span class="token punctuation">{</span> fetch <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>embedHTML <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>于是在qiankun中你可以这样配置入口：</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> MicroApps <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'app1'</span><span class="token punctuation">,</span>
+  entry<span class="token punctuation">:</span> <span class="token string">'http://localhost:8080'</span><span class="token punctuation">,</span>
+  container<span class="token punctuation">:</span> <span class="token string">'#app'</span><span class="token punctuation">,</span>
+  activeRule<span class="token punctuation">:</span> <span class="token string">'/app1'</span>
+<span class="token punctuation">}</span><span class="token punctuation">]</span></code></pre>
+<p>qiankun会通过import-html-entry请求<a href="http://localhost:8080，得到对应的html文件，解析内部的所有script和style标签，依次下载和执行它们，这使得应用加载变得更易用。">http://localhost:8080，得到对应的html文件，解析内部的所有script和style标签，依次下载和执行它们，这使得应用加载变得更易用。</a></p>
+<h4 id="三个api"><a href="#三个api" class="headerlink" title="三个api"></a>三个api</h4><p><code>import-html-entry</code>，有</p>
+<ol>
+<li><p><code>importHTML</code>：将索引 html 视为清单并加载资产（css，js），从入口脚本获取导出。</p>
+<ul>
+<li><p>导出</p>
+</li>
+<li><pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//解析模板的核心函数_processTpl2</span>
+<span class="token keyword">var</span> _processTpl <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> _processTpl2<span class="token punctuation">[</span><span class="token string">"default"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token function">getTemplate</span><span class="token punctuation">(</span>html<span class="token punctuation">)</span><span class="token punctuation">,</span> assetPublicPath<span class="token punctuation">,</span> postProcessTemplate<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    template <span class="token operator">=</span> _processTpl<span class="token punctuation">.</span>template<span class="token punctuation">,</span>
+    scripts <span class="token operator">=</span> _processTpl<span class="token punctuation">.</span>scripts<span class="token punctuation">,</span>
+    entry <span class="token operator">=</span> _processTpl<span class="token punctuation">.</span>entry<span class="token punctuation">,</span>
+    styles <span class="token operator">=</span> _processTpl<span class="token punctuation">.</span>styles<span class="token punctuation">;</span>
+<span class="token keyword">return</span> <span class="token function">getEmbedHTML</span><span class="token punctuation">(</span>template<span class="token punctuation">,</span> styles<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  fetch<span class="token punctuation">:</span> fetch
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>embedHTML<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">{</span>
+    template<span class="token punctuation">:</span> embedHTML<span class="token punctuation">,</span>
+    assetPublicPath<span class="token punctuation">:</span> assetPublicPath<span class="token punctuation">,</span>
+    getExternalScripts<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">getExternalScripts</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token function">_getExternalScripts</span><span class="token punctuation">(</span>scripts<span class="token punctuation">,</span> fetch<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    getExternalStyleSheets<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">getExternalStyleSheets</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token function">_getExternalStyleSheets</span><span class="token punctuation">(</span>styles<span class="token punctuation">,</span> fetch<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    execScripts<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">execScripts</span><span class="token punctuation">(</span>proxy<span class="token punctuation">,</span> strictGlobal<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">var</span> opts <span class="token operator">=</span> arguments<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">2</span> <span class="token operator">&amp;&amp;</span> arguments<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">!==</span> undefined <span class="token operator">?</span> arguments<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>scripts<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> Promise<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">return</span> <span class="token function">_execScripts</span><span class="token punctuation">(</span>entry<span class="token punctuation">,</span> scripts<span class="token punctuation">,</span> proxy<span class="token punctuation">,</span> <span class="token function">_objectSpread</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        fetch<span class="token punctuation">:</span> fetch<span class="token punctuation">,</span>
+        strictGlobal<span class="token punctuation">:</span> strictGlobal
+      <span class="token punctuation">}</span><span class="token punctuation">,</span> opts<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<ol start="2">
+<li><p><code>importEntry</code>：加载资产（css，js）并嵌入到 HTML 模板中，从入口脚本获取导出。（实际上如果 <code>type of 参数 === string</code>，就会返回<code>importHTML</code>）</p>
+<p>为对象的时候，传入的是脚本和样式的资源列表。</p>
+<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+  html<span class="token operator">:</span><span class="token string">"http://xxx.com/static/tpl.html"</span><span class="token punctuation">,</span>
+  scripts<span class="token operator">:</span><span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      src<span class="token operator">:</span><span class="token string">"http://xxx.com/static/xx.js"</span><span class="token punctuation">,</span>
+      async<span class="token operator">:</span><span class="token boolean">true</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    ...
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    styles<span class="token operator">:</span><span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> 
+    href<span class="token operator">:</span><span class="token string">"http://xxx.com/static/style.css"</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+...
+<span class="token punctuation">]</span>
+<span class="token punctuation">}</span> </code></pre>
+</li>
+<li><p><code>execScripts</code>：在自定义沙箱上通过 URL 加载脚本，从入口脚本获取导出。</p>
+</li>
+</ol>
+<p>暴露出的核心接口是<code>importHTML</code>，而 <code>importHTML</code> 的具体流程：</p>
+<ol>
+<li>检查是否有缓存，如果有，直接从缓存中返回</li>
+<li>如果没有，则通过fetch下载，并字符串化</li>
+<li>基于正则表达式对模板字符串基于正则表达式对模板字符串 进行一次模板解析，主要任务是扫描出外联脚本和外联样式，保存在scripts和styles中</li>
+<li>调用getEmbedHTML，将外联样式下载下来，并替换到模板内，使其变成内部样式</li>
+<li>返回一个对象，该对象包含处理后的模板，以及getExternalScripts、getExternalStyleSheets、execScripts等几个核心方法。</li>
+</ol>
+<p><img src="/2022/09/22/qiankun-shi-zhan/qiankun3.png" alt></p>
+<ul>
+<li><p><code>getExternalStyleSheets</code>：prefetch下载styles样式表，isInlineCode判断是否为内联代码，返回css的代码</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">_getExternalStyleSheets</span><span class="token punctuation">(</span>styles<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> fetch <span class="token operator">=</span> arguments<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">1</span> <span class="token operator">&amp;&amp;</span> arguments<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">!==</span> undefined <span class="token operator">?</span> arguments<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token punctuation">:</span> defaultFetch<span class="token punctuation">;</span>
+  <span class="token keyword">return</span> Promise<span class="token punctuation">.</span><span class="token function">all</span><span class="token punctuation">(</span>styles<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>styleLink<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isInlineCode</span><span class="token punctuation">(</span>styleLink<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// if it is inline style</span>
+      <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> _utils<span class="token punctuation">.</span>getInlineCode<span class="token punctuation">)</span><span class="token punctuation">(</span>styleLink<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// external styles</span>
+      <span class="token keyword">return</span> styleCache<span class="token punctuation">[</span>styleLink<span class="token punctuation">]</span> <span class="token operator">||</span> <span class="token punctuation">(</span>styleCache<span class="token punctuation">[</span>styleLink<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">fetch</span><span class="token punctuation">(</span>styleLink<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>response<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> response<span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+</li>
+</ul>
+<ul>
+<li><p><code>getExternalScripts</code>：prefetch下载script表，isInlineCode判断是否为内联代码，是的话直接截取script里面的代码，返回js的代码</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// for prefetch</span>
+<span class="token keyword">function</span> <span class="token function">_getExternalScripts</span><span class="token punctuation">(</span>scripts<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> fetch <span class="token operator">=</span> arguments<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">1</span> <span class="token operator">&amp;&amp;</span> arguments<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">!==</span> undefined <span class="token operator">?</span> arguments<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token punctuation">:</span> defaultFetch<span class="token punctuation">;</span>
+  <span class="token keyword">var</span> errorCallback <span class="token operator">=</span> arguments<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">2</span> <span class="token operator">&amp;&amp;</span> arguments<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">!==</span> undefined <span class="token operator">?</span> arguments<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token keyword">var</span> fetchScript <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token function">fetchScript</span><span class="token punctuation">(</span>scriptUrl<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> scriptCache<span class="token punctuation">[</span>scriptUrl<span class="token punctuation">]</span> <span class="token operator">||</span> <span class="token punctuation">(</span>scriptCache<span class="token punctuation">[</span>scriptUrl<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">fetch</span><span class="token punctuation">(</span>scriptUrl<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>response<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// usually browser treats 4xx and 5xx response of script loading as an error and will fire a script error event</span>
+      <span class="token comment" spellcheck="true">// https://stackoverflow.com/questions/5625420/what-http-headers-responses-trigger-the-onerror-handler-on-a-script-tag/5625603</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>response<span class="token punctuation">.</span>status <span class="token operator">>=</span> <span class="token number">400</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">errorCallback</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>scriptUrl<span class="token punctuation">,</span> <span class="token string">" load failed with status "</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>status<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">return</span> response<span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token string">"catch"</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token function">errorCallback</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">throw</span> e<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> Promise<span class="token punctuation">.</span><span class="token function">all</span><span class="token punctuation">(</span>scripts<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>script<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> script <span class="token operator">===</span> <span class="token string">'string'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isInlineCode</span><span class="token punctuation">(</span>script<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// if it is inline script</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> _utils<span class="token punctuation">.</span>getInlineCode<span class="token punctuation">)</span><span class="token punctuation">(</span>script<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// external script</span>
+        <span class="token keyword">return</span> <span class="token function">fetchScript</span><span class="token punctuation">(</span>script<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// use idle time to load async script</span>
+      <span class="token keyword">var</span> src <span class="token operator">=</span> script<span class="token punctuation">.</span>src<span class="token punctuation">,</span>
+        <span class="token keyword">async</span> <span class="token operator">=</span> script<span class="token punctuation">.</span><span class="token keyword">async</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">async</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">{</span>
+          src<span class="token punctuation">:</span> src<span class="token punctuation">,</span>
+          <span class="token keyword">async</span><span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+          content<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> reject<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> _utils<span class="token punctuation">.</span>requestIdleCallback<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+              <span class="token keyword">return</span> <span class="token function">fetchScript</span><span class="token punctuation">(</span>src<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> reject<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">return</span> <span class="token function">fetchScript</span><span class="token punctuation">(</span>src<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+</li>
+</ul>
+<ul>
+<li><p><code>execScripts</code>：执行脚本，返回<code>_getExternalScripts.then()</code> + 获取代码（<code>getExecutableScript</code>,改变脚本执行时候的<code>window</code>/<code>self</code>/<code>this</code> 的指向。） + <code>schedule</code> 函数调度中按序执行 <code>exec</code></p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">getExecutableScript</span><span class="token punctuation">(</span>scriptSrc<span class="token punctuation">,</span> scriptText<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> opts <span class="token operator">=</span> arguments<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">2</span> <span class="token operator">&amp;&amp;</span> arguments<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">!==</span> undefined <span class="token operator">?</span> arguments<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token keyword">var</span> proxy <span class="token operator">=</span> opts<span class="token punctuation">.</span>proxy<span class="token punctuation">,</span>
+      strictGlobal <span class="token operator">=</span> opts<span class="token punctuation">.</span>strictGlobal<span class="token punctuation">,</span>
+      _opts$scopedGlobalVar <span class="token operator">=</span> opts<span class="token punctuation">.</span>scopedGlobalVariables<span class="token punctuation">,</span>
+      scopedGlobalVariables <span class="token operator">=</span> _opts$scopedGlobalVar <span class="token operator">===</span> <span class="token keyword">void</span> <span class="token number">0</span> <span class="token operator">?</span> <span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">:</span> _opts$scopedGlobalVar<span class="token punctuation">;</span>
+  <span class="token keyword">var</span> sourceUrl <span class="token operator">=</span> <span class="token function">isInlineCode</span><span class="token punctuation">(</span>scriptSrc<span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token string">''</span> <span class="token punctuation">:</span> <span class="token string">"//# sourceURL="</span><span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>scriptSrc<span class="token punctuation">,</span> <span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// 将 scopedGlobalVariables 拼接成函数声明，用于缓存全局变量，避免每次使用时都走一遍代理</span>
+  <span class="token keyword">var</span> scopedGlobalVariableFnParameters <span class="token operator">=</span> scopedGlobalVariables<span class="token punctuation">.</span>length <span class="token operator">?</span> scopedGlobalVariables<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">','</span><span class="token punctuation">)</span> <span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// 通过这种方式获取全局 window，因为 script 也是在全局作用域下运行的，所以我们通过 window.proxy 绑定时也必须确保绑定到全局 window 上</span>
+  <span class="token comment" spellcheck="true">// 否则在嵌套场景下， window.proxy 设置的是内层应用的 window，而代码其实是在全局作用域运行的，会导致闭包里的 window.proxy 取的是最外层的微应用的 proxy</span>
+  <span class="token keyword">var</span> globalWindow <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> eval<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token string">'window'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  globalWindow<span class="token punctuation">.</span>proxy <span class="token operator">=</span> proxy<span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// TODO 通过 strictGlobal 方式切换 with 闭包，待 with 方式坑趟平后再合并</span>
+  <span class="token keyword">return</span> strictGlobal <span class="token operator">?</span> scopedGlobalVariableFnParameters <span class="token operator">?</span> <span class="token string">";(function(){with(window.proxy){(function("</span><span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>scopedGlobalVariableFnParameters<span class="token punctuation">,</span> <span class="token string">"){;"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>scriptText<span class="token punctuation">,</span> <span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>sourceUrl<span class="token punctuation">,</span> <span class="token string">"}).bind(window.proxy)("</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>scopedGlobalVariableFnParameters<span class="token punctuation">,</span> <span class="token string">")}})();"</span><span class="token punctuation">)</span> <span class="token punctuation">:</span> <span class="token string">";(function(window, self, globalThis){with(window){;"</span><span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>scriptText<span class="token punctuation">,</span> <span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>sourceUrl<span class="token punctuation">,</span> <span class="token string">"}}).bind(window.proxy)(window.proxy, window.proxy, window.proxy);"</span><span class="token punctuation">)</span> <span class="token punctuation">:</span> <span class="token string">";(function(window, self, globalThis){;"</span><span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>scriptText<span class="token punctuation">,</span> <span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>sourceUrl<span class="token punctuation">,</span> <span class="token string">"}).bind(window.proxy)(window.proxy, window.proxy, window.proxy);"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+</li>
+</ul>
 <p>参考：</p>
 <p><a href="https://qiankun.umijs.org/zh/guide/tutorial" target="_blank" rel="noopener">qiankun官网项目实践</a></p>
 
@@ -974,13 +1179,13 @@ yarn add qiankun # 或者 npm i q
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/08/23/yi-xie-hao-yong-de-js-ku/">
+                <a href="/2022/08/23/yi-xie-hao-yong-de-wang-zhan/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="一些好用的js库">
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="一些好用的网站">
                         
-                        <span class="card-title">一些好用的js库</span>
+                        <span class="card-title">一些好用的网站</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1164,7 +1369,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">345.3k</span>&nbsp;字
+                class="white-color">350.6k</span>&nbsp;字
             
             
             

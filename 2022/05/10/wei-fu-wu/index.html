@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.4k
+                    7.5k
                 </div>
                 
 
@@ -636,13 +636,35 @@ ReactDOM.render(<span class="token tag"><span class="token tag"><span class="tok
 </li>
 </ol>
 <h2 id="4-iframe"><a href="#4-iframe" class="headerlink" title="4.iframe"></a>4.iframe</h2><p>iframe是一个天然的沙箱</p>
+<p><strong>优点</strong>：</p>
+<ul>
+<li><strong>非常简单</strong>，使用没有任何心智负担</li>
+<li><strong>隔离完美</strong>，无论是 js、css、dom 都完全隔离开来</li>
+<li><strong>多应用激活</strong>，页面上可以摆放多个<code>iframe</code>来组合业务</li>
+</ul>
 <p>但是它有很多弊端：</p>
 <ul>
 <li>url 不同步，每次进来都要加载，url状态不能保留</li>
-<li>DOM 结构不共享。比如子应用里有一个 Modal，显示的时候只能在那一小块地方展示，不能全屏展示</li>
+<li>DOM 结构不共享。比如子应用里有一个 Modal（弹窗），显示的时候只能在那一小块地方展示，不能全屏展示</li>
 <li>无法跟随浏览器前进后退</li>
 <li>天生的硬隔离，无法与主应用进行资源共享，内存变量不共享，交流也很困难</li>
-<li>慢。每次子应用进入都是一次浏览器上下文重建、资源重新加载的过程。</li>
+<li>慢。每次子应用进入都是一次浏览器上下文重建、资源重新加载的过程，<strong>白屏时间太长</strong>，对于<a href="https://zh.wikipedia.org/wiki/单页应用" target="_blank" rel="noopener"><strong>SPA 应用</strong></a>应用来说无法接受</li>
+</ul>
+<p>当然，腾讯提出了一个“完美”的iframe微前端方案，可以看一看<a href="https://cloud.tencent.com/developer/article/1919034" target="_blank" rel="noopener">基于 iframe 的全新微前端方案(腾讯PCG)</a></p>
+<p>主要是</p>
+<ul>
+<li><p>利用shadow dom插拔html、css来解决dom割裂问题（比如toast）</p>
+</li>
+<li><p>在iframe中执行js，然后让iframe的路由状态同步到浏览器的路由解决路由问题和通信问题（同域下通信比较简单）</p>
+</li>
+<li><p>然后内部做了一些缓存（实例化子应用），降低子应用资源加载的成本</p>
+</li>
+</ul>
+<p>而官方也谈及了wujie的不足之处：</p>
+<ul>
+<li>内存占用较高，为了降低子应用的白屏时间，将未激活子应用的<code>shadowRoot</code>和<code>iframe</code>常驻内存并且保活模式下每张页面都需要独占一个<code>wujie</code>实例，内存开销较大</li>
+<li>兼容性一般，目前用到了浏览器的<code>shadowRoot</code>和<code>proxy</code>能力，并且没有做降级方案</li>
+<li><code>iframe</code>劫持<code>document</code>到<code>shadowRoot</code>时，某些第三方库可能无法兼容导致穿透</li>
 </ul>
 <h2 id="5-single-spa"><a href="#5-single-spa" class="headerlink" title="5.single-spa"></a>5.single-spa</h2><p>Single SPA 将自己定义为一种“前端微服务 Javascript 框架”，它将生命周期应用于每个应用程序。每个应用程序都可以响应 url 路由事件，并且知道如何从 DOM 引导，加载和卸载自身</p>
 <p><strong>single-spa 仅仅是一个子应用生命周期的调度者。</strong>single-spa 为应用定义了 boostrap, load, mount, unmount 四个生命周期回调：</p>
@@ -678,7 +700,7 @@ ReactDOM.render(<span class="token tag"><span class="token tag"><span class="tok
 <p><img src="/2022/05/10/wei-fu-wu/image-20220515174707011.png" alt="image-20220515174707011"></p>
 <p>翻译过来反别是微应用、微组件、微模块，而<code>single-spa</code>要求它们都以<code>SystemJS</code>的形式打包，所以本质上都是<strong>微模块</strong></p>
 <p>关于single-spa一部分实践可以看<a href="https://mp.weixin.qq.com/s?__biz=MzA3NTk4NjQ1OQ==&mid=2247484245&idx=1&sn=9ee91018578e6189f3b11a4d688228c5&chksm=9f696021a81ee937847c962e3135017fff9ba8fd0b61f782d7245df98582a1410aa000dc5fdc&token=1002082546&lang=zh_CN#rd" target="_blank" rel="noopener">这个</a>，但是由于这里的代码的很多包都比较久远，最好下载和它一致的包再进行实践 <a href="https://github.com/liyongning/micro-frontend/blob/master/app3/package.json" target="_blank" rel="noopener">github</a></p>
-<h4 id="SystemJS"><a href="#SystemJS" class="headerlink" title="SystemJS"></a>SystemJS</h4><h4 id="1-浏览器里用import-export。"><a href="#1-浏览器里用import-export。" class="headerlink" title="1.浏览器里用import/export。"></a>1.浏览器里用import/export。</h4><p><strong>SystemJS 的好处和优势有且仅有一点：那就是在浏览器里使用 ES6 的 import/export。</strong></p>
+<h4 id="SystemJS"><a href="#SystemJS" class="headerlink" title="SystemJS"></a>SystemJS</h4><h4 id="1-浏览器里用import-export。"><a href="#1-浏览器里用import-export。" class="headerlink" title="1.浏览器里用import/export。"></a>1.浏览器里用import/export。</h4><p><strong>SystemJS 的好处和优势有且仅有一点：那就是那就是不需要打包工具，直接在浏览器里使用 ES6 的 import/export，也就是说它是一个允许ES module模块运行在旧版本ES环境的库。</strong></p>
 <p>Single SPA 中使用到了SystemJS，<code>SystemJS</code>是一个运行时加载模块的工具（动态导入和导入映射），是现阶段下(浏览器尚未正式支持<code>importMap</code>)原生<code>ES Module</code>的完全替代品，对比Webpack 之类的，</p>
 <p>其实你也可以理解为SystemJS是为了解决轻量级，不用打包，即可做到 <code>import Vue from &#39;vue&#39;</code> 形式去导包</p>
 <p>importmap的形式，兼容性差</p>
@@ -709,22 +731,32 @@ ReactDOM.render(<span class="token tag"><span class="token tag"><span class="tok
 </ol>
 <p>其实上面两个方法都大同小异，思路都是在主应用一波引入，只是一个统一引入CSS，另一个统一引入 UI 库。</p>
 <h4 id="JS隔离-1"><a href="#JS隔离-1" class="headerlink" title="JS隔离"></a>JS隔离</h4><p>在single-spa使用</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> singleSpaLeakedGlobals <span class="token keyword">from</span> <span class="token string">'single-spa-leaked-globals'</span><span class="token punctuation">;</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> singleSpaLeakedGlobals <span class="token keyword">from</span> <span class="token string">'single-spa-leaked-globals'</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> leakedGlobalsLifecycles <span class="token operator">=</span> <span class="token function">singleSpaLeakedGlobals</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  globalVariableNames<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'$'</span><span class="token punctuation">,</span> <span class="token string">'jQuery'</span><span class="token punctuation">,</span> <span class="token string">'_'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 新添加的全局变量</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <p>在 mount A 子应用时，正常添加全局变量，比如 jQuery 的 <code>$</code>, lodash 的 <code>_</code>。在 unmount A 子应用时，用一个对象记录之前给 window 添加的全局变量，并把 A 应用里添加 window 的变量都删掉。下一次再 mount A 应用时，把记录的全局变量重新加回来就好了。</p>
 <p>但是，这个库的局限性在于：每个 url 只能加一个子 app，如果多个子 app 之间还是会访问同一个 window 对象，也因此会互相干扰，并不能做到完美的 JS 沙箱。</p>
-<p>而关于css的样式隔离，官方的建议是</p>
+<h4 id="CSS隔离"><a href="#CSS隔离" class="headerlink" title="CSS隔离"></a>CSS隔离</h4><p>而关于css的样式隔离，官方的建议是</p>
 <ul>
 <li>使用 Scoped CSS</li>
 <li>要是嫌麻烦，可以在子应用 Webpack 使用 PostCSS Prefix Selector 给样式自动加前缀</li>
+<li>亦或者开发者自己用shadow-dom来处理…</li>
 </ul>
 <h4 id="why-SystemJS"><a href="#why-SystemJS" class="headerlink" title="why SystemJS"></a>why SystemJS</h4><p>都2022年了，怎么还要在浏览器环境写 JS 呢？不上个 Webpack 都不好意思说自己是前端开发了…</p>
 <p>那为什么 single-spa 还要推荐 SystemJS 呢？但是根据知乎上优质答主<a href="https://www.zhihu.com/people/haixiangyan" target="_blank" rel="noopener">写代码的海怪</a>猜测是因为 single-spa 希望主应用应该就一个空壳子，只需要管内容要放在哪个地方，所有的功能、交互都应该交由 index.html 来统一管理。（直接在html里写满script想想就可怕）</p>
 <p><img src="/2022/05/10/wei-fu-wu/single-spa4.png" alt></p>
 <p>这也表明了：</p>
-<p>在systemjs中，我们必须手动实现应用加载逻辑，挨个罗列子应用需要加载的资源，这在大型项目里是十分困难的（特别是使用了文件名hash时）；另外它只能以js文件为入口，无法直接以html为入口，这使得嵌入子应用变得很困难，也正因此，single-spa不能直接加载jQuery应用。</p>
-<p>甚至，将整个微应用打包成一个 JS 文件，常见的打包优化基本上都没了，比如：按需加载、首屏资源加载优化、css 独立打包等优化措施。<br>项目发布以后出现了 bug ，修复之后需要更新上线，为了清除浏览器缓存带来的影响，一般文件名会带上 chunkcontent，微应用发布之后文件名都会发生变化，这时候还需要更新主应用中微应用配置，然后重新编译主应用然后发布，这是不能容忍的。</p>
+<ul>
+<li><p>资源罗列：在systemjs中，我们必须手动实现应用加载逻辑，挨个罗列子应用需要加载的资源，这在大型项目里是十分困难的（特别是使用了文件名hash时）；另外它只能以js文件为入口，无法直接以html为入口，这使得嵌入子应用变得很困难，也正因此，single-spa不能直接加载jQuery应用。</p>
+</li>
+<li><p>资源加载优化：将整个微应用打包成一个 JS 文件，常见的打包优化基本上都没了，比如：按需加载、首屏资源加载优化、css 独立打包等优化措施。</p>
+</li>
+<li><p>js名称：项目发布以后出现了 bug ，修复之后需要更新上线，为了清除浏览器缓存带来的影响，一般文件名会带上 chunkcontent，微应用发布之后文件名（<code>js bundle</code> ）都会发生变化，这时候还需要更新主应用中微应用配置，然后重新编译主应用然后发布，这是不能容忍的。</p>
 <ul>
 <li>你可以理解为每次文件名一变化：<code>jlkasjfdlkj.jalkjdsflk.js</code>，这样一来，每次子应用一发布，入口 JS 文件名肯定又要改了，导致主应用引入的 JS url 又得改了</li>
+</ul>
+</li>
 </ul>
 <p>所以，为了填平 single-spa 遗留下来的坑，阿里基于 single-spa 造出了 <a href="https://link.zhihu.com/?target=https%3A//qiankun.umijs.org/zh">qiankun</a> 微前端框架，真正实现了微前端的所有特性.</p>
 <h2 id="6-Qiankun"><a href="#6-Qiankun" class="headerlink" title="6.Qiankun"></a>6.Qiankun</h2><p><code>qiankun</code>是基于<code>single-spa</code>开发的</p>
@@ -739,109 +771,92 @@ ReactDOM.render(<span class="token tag"><span class="token tag"><span class="tok
 <p><strong>两个框架出现的背景：</strong></p>
 <p><strong>qiankun：</strong>阿里内部有大量年久失修的项目，业务侧急需工具去把他们快速、安全的集成到一起。在这个角度，乾坤根本没有做模块联邦的需求，它的需求仅仅是如何快速、安全的把项目集成起来。所以乾坤是想做一个微前端工具。</p>
 <p><strong>single-spa：</strong>学习后端的微服务，实现前端的微服务化，让应用、组件以及逻辑都成为可共享的微服务，实现真正意义上的微前端。所以<code>single-spa</code>是想做一个<code>game-changer</code>。</p>
-<h4 id="import-html-entry"><a href="#import-html-entry" class="headerlink" title="import-html-entry"></a>import-html-entry</h4><p>import-html-entry 是 qiankun 中一个举足轻重的依赖，用于获取子应用的 HTML 和 JS，它允许以html文件为应用入口，然后通过一个html解析器从文件中提取js和css依赖，并通过fetch下载依赖，同时对 HTML 和 JS 进行了各自的处理，以便于子应用在父应用中加载</p>
-<p>该方案的主要思路是允许以html文件为应用入口，然后通过一个html解析器从文件中提取js和css依赖，并通过fetch下载依赖</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">importHTML</span><span class="token punctuation">(</span>url<span class="token punctuation">,</span> opts <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 1. 通过 fetch 获取到 url 对应的 html</span>
-    <span class="token keyword">return</span> embedHTMLCache<span class="token punctuation">[</span>url<span class="token punctuation">]</span> <span class="token operator">||</span> <span class="token punctuation">(</span>embedHTMLCache<span class="token punctuation">[</span>url<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">fetch</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span>
-        <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>html <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// 2. 从返回的结果中解析出以下内容a.经过初步处理后的 html, b.由所有 "script" 组成的数组, c.由所有 "style" 组成的数组</span>
-            <span class="token keyword">const</span> <span class="token punctuation">{</span> template<span class="token punctuation">,</span> scripts<span class="token punctuation">,</span> entry<span class="token punctuation">,</span> styles <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">processTpl</span><span class="token punctuation">(</span><span class="token function">getTemplate</span><span class="token punctuation">(</span>html<span class="token punctuation">)</span><span class="token punctuation">,</span> assetPublicPath<span class="token punctuation">,</span> postProcessTemplate<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">// 3. 将所有的 css 嵌入到上述经过初步处理后的 html 中</span>
-            <span class="token keyword">return</span> <span class="token function">getEmbedHTML</span><span class="token punctuation">(</span>template<span class="token punctuation">,</span> styles<span class="token punctuation">,</span> <span class="token punctuation">{</span> fetch <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>embedHTML <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
-<p>于是在qiankun中你可以这样配置入口：</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> MicroApps <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
-  name<span class="token punctuation">:</span> <span class="token string">'app1'</span><span class="token punctuation">,</span>
-  entry<span class="token punctuation">:</span> <span class="token string">'http://localhost:8080'</span><span class="token punctuation">,</span>
-  container<span class="token punctuation">:</span> <span class="token string">'#app'</span><span class="token punctuation">,</span>
-  activeRule<span class="token punctuation">:</span> <span class="token string">'/app1'</span>
-<span class="token punctuation">}</span><span class="token punctuation">]</span></code></pre>
-<p>qiankun会通过import-html-entry请求<a href="http://localhost:8080，得到对应的html文件，解析内部的所有script和style标签，依次下载和执行它们，这使得应用加载变得更易用。">http://localhost:8080，得到对应的html文件，解析内部的所有script和style标签，依次下载和执行它们，这使得应用加载变得更易用。</a></p>
-<p><strong>而我从源代码直接看到的流程为</strong>：<code>registerMicroApps</code> -&gt; <code>loadApp</code> -&gt; </p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> template<span class="token punctuation">,</span> execScripts<span class="token punctuation">,</span> assetPublicPath <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">importEntry</span><span class="token punctuation">(</span>entry<span class="token punctuation">,</span> importEntryOpts<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>然后初始化html模版（加上各种qiankun-head）</p>
-<pre class=" language-js"><code class="language-js"> <span class="token keyword">const</span> appContent <span class="token operator">=</span> <span class="token function">getDefaultTplWrapper</span><span class="token punctuation">(</span>appInstanceId<span class="token punctuation">)</span><span class="token punctuation">(</span>template<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> initialAppWrapperElement<span class="token punctuation">:</span> HTMLElement <span class="token operator">|</span> <span class="token keyword">null</span> <span class="token operator">=</span> <span class="token function">createElement</span><span class="token punctuation">(</span>
-  appContent<span class="token punctuation">,</span>
-  strictStyleIsolation<span class="token punctuation">,</span>
-  scopedCSS<span class="token punctuation">,</span>
-  appInstanceId<span class="token punctuation">,</span>
-<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>其实 <code>createElement</code> 也就是在做一些</p>
-<p> <code>document.createElement(&#39;div&#39;);</code> </p>
-<p> <code>containerElement.innerHTML = appContent;</code></p>
-<p><code>shadow = appElement.attachShadow({ mode: &#39;open&#39; });</code></p>
-<p>的一些操作</p>
-<p>在加载script的时候执行子应用生命周期</p>
-<pre class=" language-js"><code class="language-js">  <span class="token keyword">const</span> scriptExports<span class="token punctuation">:</span> any <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">execScripts</span><span class="token punctuation">(</span>global<span class="token punctuation">,</span> sandbox <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>useLooseSandbox<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">const</span> <span class="token punctuation">{</span> bootstrap<span class="token punctuation">,</span> mount<span class="token punctuation">,</span> unmount<span class="token punctuation">,</span> update <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">getLifecyclesFromExports</span><span class="token punctuation">(</span>
-    scriptExports<span class="token punctuation">,</span>
-    appName<span class="token punctuation">,</span>
-    global<span class="token punctuation">,</span>
-    sandboxContainer<span class="token operator">?</span><span class="token punctuation">.</span>instance<span class="token operator">?</span><span class="token punctuation">.</span>latestSetProp<span class="token punctuation">,</span>
-  <span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p><code>import-html-entry</code>，有三个api，</p>
-<ol>
-<li><code>importHTML</code>：将索引 html 视为清单并加载资产（css，js），从入口脚本获取导出。</li>
-<li><code>importEntry</code>：加载资产（css，js）并嵌入到 HTML 模板中，从入口脚本获取导出。</li>
-<li><code>execScripts</code>：在自定义沙箱上通过 URL 加载脚本，从入口脚本获取导出。</li>
-</ol>
-<p>暴露出的核心接口是<code>importHTML</code>，而 <code>importHTML</code> 的具体流程：</p>
-<ol>
-<li><p>检查是否有缓存，如果有，直接从缓存中返回</p>
-</li>
-<li><p>如果没有，则通过fetch下载，并字符串化</p>
-</li>
-<li><p>基于正则表达式对模板字符串基于正则表达式对模板字符串 进行一次模板解析，主要任务是扫描出外联脚本和外联样式，保存在scripts和styles中</p>
-</li>
-<li><p>调用getEmbedHTML，将外联样式下载下来，并替换到模板内，使其变成内部样式</p>
-</li>
-<li><p>返回一个对象，该对象包含处理后的模板，以及getExternalScripts、getExternalStyleSheets、execScripts等几个核心方法。<br><code>getExternalStyleSheets</code>：遍历styles数组，如果是内联样式，则直接返回；否则判断缓存中是否存在，如果没有，则通过fetch去下载，并进行缓存。</p>
-<pre class=" language-js"><code class="language-js"><span class="token function">getExternalStyleSheets</span><span class="token punctuation">(</span>styles<span class="token punctuation">,</span> fetch<span class="token punctuation">)</span>
-        <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>styleSheets <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-            embedHTML <span class="token operator">=</span> styles<span class="token punctuation">.</span><span class="token function">reduce</span><span class="token punctuation">(</span><span class="token punctuation">(</span>html<span class="token punctuation">,</span> styleSrc<span class="token punctuation">,</span> i<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// 2.  将拉取到的每一个 href 对应的 css 通过 `&lt;style> &lt;/style>` 包裹起来且嵌入到 html 中</span>
-                html <span class="token operator">=</span> html<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token function">genLinkReplaceSymbol</span><span class="token punctuation">(</span>styleSrc<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token template-string"><span class="token string">`&lt;style>/* </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>styleSrc<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> */</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>styleSheets<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/style>`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                <span class="token keyword">return</span> html<span class="token punctuation">;</span>
-            <span class="token punctuation">}</span><span class="token punctuation">,</span> embedHTML<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p><code>getExternalScripts</code>：遍历scripts数组，逐个判断缓存中是否存在，如果没有，则通过fetch去下载，并进行缓存。</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">getExternalScripts</span><span class="token punctuation">(</span>scripts<span class="token punctuation">,</span> fetch<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// 根据 script src 的 url fetch js </span>
-    <span class="token keyword">const</span> fetchScript <span class="token operator">=</span> scriptUrl <span class="token operator">=</span><span class="token operator">></span> <span class="token function">fetch</span><span class="token punctuation">(</span>scriptUrl<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>response <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">return</span> Promise<span class="token punctuation">.</span><span class="token function">all</span><span class="token punctuation">(</span>scripts<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>script <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-      <span class="token comment" spellcheck="true">// 如果是页级 script ，直接返回</span>
-            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isInlineCode</span><span class="token punctuation">(</span>script<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                <span class="token keyword">return</span> <span class="token function">getInlineCode</span><span class="token punctuation">(</span>script<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-      <span class="token comment" spellcheck="true">// 如果不是，那么通过 fetch 获取</span>
-                <span class="token keyword">return</span> <span class="token function">fetchScript</span><span class="token punctuation">(</span>script<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span>
-        <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
-<p><code>execScripts</code>：执行脚本</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">getExecutableScript</span><span class="token punctuation">(</span>scriptSrc<span class="token punctuation">,</span> scriptText<span class="token punctuation">,</span> proxy<span class="token punctuation">,</span> strictGlobal<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> sourceUrl <span class="token operator">=</span> <span class="token function">isInlineCode</span><span class="token punctuation">(</span>scriptSrc<span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token string">''</span> <span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`//# sourceURL=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>scriptSrc<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">\n`</span></span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">// 通过这种方式获取全局 window，具体原因可参考源码在这里的注释</span>
-    <span class="token keyword">const</span> globalWindow <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> eval<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token string">'window'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token comment" spellcheck="true">// 如果这里的 proxy 为 window 沙箱，那么就可以实现应用隔离</span>
-    globalWindow<span class="token punctuation">.</span>proxy <span class="token operator">=</span> proxy<span class="token punctuation">;</span>
-  <span class="token comment" spellcheck="true">// 利用 IIFE 将 code 里会使用到的 window, self, globalThis 传递进去，为后续的应用与应用之间隔离做处理</span>
-    <span class="token keyword">return</span> strictGlobal
-        <span class="token operator">?</span> <span class="token template-string"><span class="token string">`;(function(window, self, globalThis){with(window){;</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>scriptText<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">\n</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>sourceUrl<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">}}).bind(window.proxy)(window.proxy, window.proxy, window.proxy);`</span></span>
-        <span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`;(function(window, self, globalThis){;</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>scriptText<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">\n</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>sourceUrl<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">}).bind(window.proxy)(window.proxy, window.proxy, window.proxy);`</span></span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
-<p>……</p>
-</li>
-</ol>
-<h4 id="js隔离"><a href="#js隔离" class="headerlink" title="js隔离"></a>js隔离</h4><p>qiankun通过<code>import-html-entry</code>，可以对html入口进行解析，并获得一个可以执行脚本的方法<code>execScripts</code>（上面提及到的 <code>execScript</code> ）。</p>
-<p>在上面的代码中，我们可以看到他将代码作为字符串插入，并且使用 <code>function(){}(with(window){fn.bind(window.proxy)(window.proxy, window.proxy, window.proxy)})</code></p>
-<p>qiankun引入该接口后，首先为该应用生成一个<strong>window的代理对象</strong>，然后将代理对象作为参数传入接口，以保证应用内的js不会对全局window造成影响。</p>
+<h4 id="css隔离"><a href="#css隔离" class="headerlink" title="css隔离"></a>css隔离</h4><p>目前qiankun主要提供了两种样式隔离方案</p>
 <ul>
-<li><p>针对IE11不支持proxy，所以qiankun通过快照策略来隔离js，缺点是无法支持多实例场景。(可以理解为使用single-spa的js隔离方法，不过现在ie已经烟消云散了，放心使用)</p>
+<li><p>一种是基于shadowDom的；</p>
+<ul>
+<li>在配置的时候当启用<code>strictStyleIsolation</code>时，qiankun将采用shadowDom的方式进行样式隔离，即为子应用的根节点创建一个shadow root，整个应用的所有DOM将形成一棵shadow tree，它内部所有节点的样式对树外面的节点无效，所有就实现了样式隔离。</li>
+<li><pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> supportShadowDOM <span class="token operator">=</span> <span class="token operator">!</span><span class="token operator">!</span>document<span class="token punctuation">.</span>head<span class="token punctuation">.</span>attachShadow <span class="token operator">||</span> <span class="token operator">!</span><span class="token operator">!</span><span class="token punctuation">(</span>document<span class="token punctuation">.</span>head <span class="token keyword">as</span> any<span class="token punctuation">)</span><span class="token punctuation">.</span>createShadowRoot<span class="token punctuation">;</span></code></pre>
+</li>
+<li><pre class=" language-js"><code class="language-js"><span class="token keyword">if</span> <span class="token punctuation">(</span>strictStyleIsolation<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>supportShadowDOM<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// 报错</span>
+      <span class="token comment" spellcheck="true">// ...</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// 清除原有的内容</span>
+      <span class="token keyword">const</span> <span class="token punctuation">{</span> innerHTML <span class="token punctuation">}</span> <span class="token operator">=</span> appElement<span class="token punctuation">;</span>
+      appElement<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">;</span>
+      <span class="token keyword">let</span> shadow<span class="token punctuation">:</span> ShadowRoot<span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>appElement<span class="token punctuation">.</span>attachShadow<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 添加 shadow DOM 节点</span>
+        shadow <span class="token operator">=</span> appElement<span class="token punctuation">.</span><span class="token function">attachShadow</span><span class="token punctuation">(</span><span class="token punctuation">{</span> mode<span class="token punctuation">:</span> <span class="token string">'open'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// deprecated 的操作</span>
+        <span class="token comment" spellcheck="true">// ...</span>
+      <span class="token punctuation">}</span>
+      <span class="token comment" spellcheck="true">// 在 shadow DOM 节点添加内容</span>
+      shadow<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> innerHTML<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span></code></pre>
+</li>
+<li>但是这种方案是存在缺陷的。因为某些UI框架可能会生成一些弹出框直接挂载到document.body下，此时由于脱离了shadow tree，所以它的样式仍然会对全局造成污染。</li>
+<li>基于 ShadowDOM 的严格样式隔离并不是一个可以无脑使用的方案，大部分情况下都需要接入应用做一些适配后才能正常在 ShadowDOM 中运行起来（比如 react 场景下需要解决这些 <a href="https://github.com/facebook/react/issues/10422" target="_blank" rel="noopener">问题</a>，使用者需要清楚开启了 <code>strictStyleIsolation</code> 意味着什么。后续 qiankun 会提供更多官方实践文档帮助用户能快速的将应用改造成可以运行在 ShadowDOM 环境的微应用</li>
+</ul>
+</li>
+<li><p>另一种则是实验性的，思路类似于Vue中的scoped属性，给每个子应用的根节点添加一个特殊属性，用作对所有css选择器的约束。</p>
+<ul>
+<li><p>qiankun首先判断当前sandbox是否支持scope css，支持的话才添加</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">isEnableScopedCSS</span><span class="token punctuation">(</span>sandbox<span class="token punctuation">:</span> FrameworkConfiguration<span class="token punctuation">[</span><span class="token string">'sandbox'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> sandbox <span class="token operator">!==</span> <span class="token string">'object'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>sandbox<span class="token punctuation">.</span>strictStyleIsolation<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">return</span> <span class="token operator">!</span><span class="token operator">!</span>sandbox<span class="token punctuation">.</span>experimentalStyleIsolation<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+</li>
+<li><p>在配置的时候当启用<code>experimentalStyleIsolation</code>。这种方案的策略是为子应用的根节点添加一个特定的随机属性</p>
+<pre class=" language-css"><code class="language-css"><span class="token selector">// 假如子应用名字叫 child
+// 转换前
+<span class="token class">.app-main</span> </span><span class="token punctuation">{</span>
+    <span class="token property">font-size</span><span class="token punctuation">:</span> <span class="token number">14</span>px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token selector">// 转换后
+div<span class="token attribute">[data-qiankun="child"]</span> <span class="token class">.app-main</span> </span><span class="token punctuation">{</span>
+    <span class="token property">font-size</span><span class="token punctuation">:</span> <span class="token number">14</span>px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+</li>
+</ul>
+</li>
+<li><p>shadowdom的css隔离开启方式：start的时候或者手动加载子应用的时候传入option，option包含sanbox属性，sanbox的<code>strictStyleIsolation</code>为true</p>
+<p>scope开启方式：start的时候或者手动加载子应用的时候传入option，option包含sanbox属性，sanbox的<code>experimentalStyleIsolation</code>为true</p>
+<pre><code>start({
+    sandbox: { strictStyleIsolation?: boolean, experimentalStyleIsolation?: true }
+})
+loadMicroApp(app, {
+    sandbox: { strictStyleIsolation?: boolean, experimentalStyleIsolation?: true }
+})</code></pre><blockquote>
+<p>注意事项: 对于scope的css隔离方案，目前 @keyframes, @font-face, @import, @page 等规则不会支持 (i.e. 不会被改写)</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="js隔离"><a href="#js隔离" class="headerlink" title="js隔离"></a>js隔离</h4><p>qiankun通过<code>import-html-entry</code>，可以对html入口进行解析，并获得一个可以执行脚本的方法<code>execScripts</code>（上面提及到的 <code>execScript</code> ）。</p>
+<p>qiankun默认启用沙箱，也就是上面css隔离中 start里的那个sanbox选项，此时会开启js隔离严格模式 <code>strictGlobal</code></p>
+<p>第一步创建一个沙箱容器 <code>sandboxContainer</code></p>
+<p>三种沙箱：</p>
+<ol>
+<li><p>首先初始化一个沙箱ProxySandbox，里面创造一个fakeWindow，它拥有window的所有属性，并且通过new Proxy返回一个fakeWindow的代理对象</p>
+</li>
+<li><p>SnapshotSandbox：</p>
+<p>针对IE11不支持proxy，所以qiankun通过快照策略来隔离js，缺点是无法支持多实例场景。(可以理解为使用single-spa的js隔离方法)</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">if</span> <span class="token punctuation">(</span>window<span class="token punctuation">.</span>Proxy<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    sandbox <span class="token operator">=</span> useLooseSandbox <span class="token operator">?</span> <span class="token keyword">new</span> <span class="token class-name">LegacySandbox</span><span class="token punctuation">(</span>appName<span class="token punctuation">,</span> globalContext<span class="token punctuation">)</span> <span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">ProxySandbox</span><span class="token punctuation">(</span>appName<span class="token punctuation">,</span> globalContext<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    sandbox <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SnapshotSandbox</span><span class="token punctuation">(</span>appName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span></code></pre>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">class</span> <span class="token class-name">SnapshotSandbox</span> <span class="token punctuation">{</span>
   <span class="token operator">...</span>
 
@@ -875,55 +890,50 @@ ReactDOM.render(<span class="token tag"><span class="token tag"><span class="tok
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 </li>
-</ul>
-<p>把解析出的scriptText（即脚本字符串）用<code>with(window){}</code>包裹起来，然后把window.proxy作为函数的第一个参数传进来，所以with语法内的window实际上是window.proxy。</p>
-<h4 id="css隔离"><a href="#css隔离" class="headerlink" title="css隔离"></a>css隔离</h4><p>目前qiankun主要提供了两种样式隔离方案</p>
-<ul>
-<li><p>一种是基于shadowDom的；</p>
-<ul>
-<li><p>在配置的时候当启用<code>strictStyleIsolation</code>时，qiankun将采用shadowDom的方式进行样式隔离，即为子应用的根节点创建一个shadow root，整个应用的所有DOM将形成一棵shadow tree，它内部所有节点的样式对树外面的节点无效，所有就实现了样式隔离。</p>
+<li><p>LegacySandbox: 其实看到源码还有个LegacySandbox，不过后面废弃了，因为没有了sanbox配置没有了loose这个配置</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> useLooseSandbox <span class="token operator">=</span> <span class="token keyword">typeof</span> sandbox <span class="token operator">===</span> <span class="token string">'object'</span> <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span><span class="token operator">!</span>sandbox<span class="token punctuation">.</span>loose<span class="token punctuation">;</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> sandbox <span class="token operator">=</span> useLooseSandbox <span class="token operator">?</span> <span class="token keyword">new</span> <span class="token class-name">LegacySandbox</span><span class="token punctuation">(</span>appName<span class="token punctuation">,</span> globalContext<span class="token punctuation">)</span> <span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">ProxySandbox</span><span class="token punctuation">(</span>appName<span class="token punctuation">,</span> globalContext<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 </li>
-<li><pre class=" language-js"><code class="language-js"><span class="token keyword">if</span> <span class="token punctuation">(</span>strictStyleIsolation<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>supportShadowDOM<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token comment" spellcheck="true">// 报错</span>
-      <span class="token comment" spellcheck="true">// ...</span>
-    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-      <span class="token comment" spellcheck="true">// 清除原有的内容</span>
-      <span class="token keyword">const</span> <span class="token punctuation">{</span> innerHTML <span class="token punctuation">}</span> <span class="token operator">=</span> appElement<span class="token punctuation">;</span>
-      appElement<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">;</span>
+</ol>
+<p>执行js代码：</p>
+<p>通过html-import-entry得到js执行函数： <code>execScripts</code></p>
+<p>我们可以看到他通过传入proxy，执行 <code>getExecutableScript</code>得到js code，其中使用 <code>function(){}(with(window){fn.bind(window.proxy)(window.proxy, window.proxy, window.proxy)})</code></p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> code <span class="token operator">=</span> <span class="token function">getExecutableScript</span><span class="token punctuation">(</span>scriptSrc<span class="token punctuation">,</span> rawCode<span class="token punctuation">,</span> proxy<span class="token punctuation">,</span> strictGlobal<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">evalCode</span><span class="token punctuation">(</span>scriptSrc<span class="token punctuation">,</span> code<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">getExecutableScript</span><span class="token punctuation">(</span>scriptSrc<span class="token punctuation">,</span> scriptText<span class="token punctuation">,</span> proxy<span class="token punctuation">,</span> strictGlobal<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> sourceUrl <span class="token operator">=</span> <span class="token function">isInlineCode</span><span class="token punctuation">(</span>scriptSrc<span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token string">''</span> <span class="token punctuation">:</span> <span class="token string">"//# sourceURL="</span><span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>scriptSrc<span class="token punctuation">,</span> <span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token operator">/</span><span class="token operator">/</span> 通过这种方式获取全局 window，因为 script 也是在全局作用域下运行的，所以我们通过 window<span class="token punctuation">.</span>proxy 绑定时也必须确保绑定到全局 window 上
+  <span class="token comment" spellcheck="true">// 否则在嵌套场景下， window.proxy 设置的是内层应用的 window，而代码其实是在全局作用域运行的，会导致闭包里的 window.proxy 取的是最外层的微应用的 proxy</span>
 
-      <span class="token keyword">let</span> shadow<span class="token punctuation">:</span> ShadowRoot<span class="token punctuation">;</span>
+  <span class="token keyword">var</span> globalWindow <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> eval<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token string">'window'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  globalWindow<span class="token punctuation">.</span>proxy <span class="token operator">=</span> proxy<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// TODO 通过 strictGlobal 方式切换 with 闭包，待 with 方式坑趟平后再合并</span>
 
-      <span class="token keyword">if</span> <span class="token punctuation">(</span>appElement<span class="token punctuation">.</span>attachShadow<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">// 添加 shadow DOM 节点</span>
-        shadow <span class="token operator">=</span> appElement<span class="token punctuation">.</span><span class="token function">attachShadow</span><span class="token punctuation">(</span><span class="token punctuation">{</span> mode<span class="token punctuation">:</span> <span class="token string">'open'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">// deprecated 的操作</span>
-        <span class="token comment" spellcheck="true">// ...</span>
-      <span class="token punctuation">}</span>
-      <span class="token comment" spellcheck="true">// 在 shadow DOM 节点添加内容</span>
-      shadow<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> innerHTML<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span></code></pre>
-</li>
-<li><p>但是这种方案是存在缺陷的。因为某些UI框架可能会生成一些弹出框直接挂载到document.body下，此时由于脱离了shadow tree，所以它的样式仍然会对全局造成污染。</p>
-</li>
-</ul>
-</li>
-<li><p>另一种则是实验性的，思路类似于Vue中的scoped属性，给每个子应用的根节点添加一个特殊属性，用作对所有css选择器的约束。</p>
-<ul>
-<li>在配置的时候当启用<code>experimentalStyleIsolation</code>。这种方案的策略是为子应用的根节点添加一个特定的随机属性</li>
-<li>但是它不支持@ keyframes，@ font-face，@ import，@ page</li>
-</ul>
-</li>
-</ul>
+  <span class="token keyword">return</span> strictGlobal <span class="token operator">?</span> <span class="token string">";(function(window, self, globalThis){with(window){;"</span><span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>scriptText<span class="token punctuation">,</span> <span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>sourceUrl<span class="token punctuation">,</span> <span class="token string">"}}).bind(window.proxy)(window.proxy, window.proxy, window.proxy);"</span><span class="token punctuation">)</span> <span class="token punctuation">:</span> <span class="token string">";(function(window, self, globalThis){;"</span><span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>scriptText<span class="token punctuation">,</span> <span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>sourceUrl<span class="token punctuation">,</span> <span class="token string">"}).bind(window.proxy)(window.proxy, window.proxy, window.proxy);"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token comment" spellcheck="true">// for prefetch</span></code></pre>
+<p>此时with语法内的window就是proxy：把解析出的scriptText（即脚本字符串）用<code>with(window){}</code>包裹起来，然后把window.proxy作为函数的第一个参数传进来，所以with语法内的window实际上是window.proxy。此时我们的js代码执行时，全局变量都会被挂载到沙箱的proxy当中去。</p>
+<p>然后再通过 evalCode函数全局执行js代码</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">evalCode</span><span class="token punctuation">(</span>scriptSrc<span class="token punctuation">,</span> code<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> key <span class="token operator">=</span> scriptSrc<span class="token punctuation">;</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>evalCache<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> functionWrappedCode <span class="token operator">=</span> <span class="token string">"window.__TEMP_EVAL_FUNC__ = function(){"</span><span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>code<span class="token punctuation">,</span> <span class="token string">"}"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> eval<span class="token punctuation">)</span><span class="token punctuation">(</span>functionWrappedCode<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    evalCache<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> window<span class="token punctuation">.</span>__TEMP_EVAL_FUNC__<span class="token punctuation">;</span>
+    <span class="token keyword">delete</span> window<span class="token punctuation">.</span>__TEMP_EVAL_FUNC__<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">var</span> evalFunc <span class="token operator">=</span> evalCache<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">;</span>
+  evalFunc<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>window<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
 <h4 id="应用通信"><a href="#应用通信" class="headerlink" title="应用通信"></a>应用通信</h4><p>一般来说，微前端中各个应用之前的通信都是比较少的。当然部分呢少量的通信是在所难免的，qiankun官方提供了一个简要的方案，思路是基于一个全局的globalState对象。这个对象由基座应用负责创建，内部包含一组用于通信的变量，以及两个分别用于修改变量值和监听变量变化的方法：setGlobalState和onGlobalStateChange。</p>
 <p>参考于：</p>
+<p><a href="https://juejin.cn/post/7099339595233361934#heading-24" target="_blank" rel="noopener">微前端技术原理 —— 飞书团队</a></p>
 <p><a href="https://juejin.cn/post/6844904162509979662" target="_blank" rel="noopener">最容易看懂的微前端知识</a></p>
+<p><a href="https://cloud.tencent.com/developer/article/1919034" target="_blank" rel="noopener">基于 iframe 的全新微前端方案(腾讯PCG)</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/551206945" target="_blank" rel="noopener">将微前端做到极致-无界微前端方案</a></p>
+<p><a href="https://cloud.tencent.com/developer/article/2104977?from=article.detail.1919034" target="_blank" rel="noopener">vivo基于 iframe 的微前端框架 —— 擎天</a></p>
 <p><a href="https://segmentfault.com/a/1190000040275586" target="_blank" rel="noopener">微前端解决方案</a></p>
 <p><a href="https://tech.meituan.com/2020/02/27/meituan-waimai-micro-frontends-practice.html" target="_blank" rel="noopener">微前端在美团外卖的实践</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/378346507" target="_blank" rel="noopener">【微前端】single-spa 到底是个什么鬼</a></p>
-<p><a href="https://blog.csdn.net/qq_39670012/article/details/125294317" target="_blank" rel="noopener">微前端（Micro-Frontends）qiankun框架原理与实现</a></p>
 <p><a href="https://blog.csdn.net/qq_41694291/article/details/113842872" target="_blank" rel="noopener">微前端框架qiankun之原理与实战</a></p>
 <p><a href="https://blog.csdn.net/qq_41800366/article/details/122093720" target="_blank" rel="noopener">揭开 import-html-entry 面纱</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/463905990" target="_blank" rel="noopener">微前端框架 之 qiankun 从入门到源码分析</a></p>
@@ -1393,7 +1403,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">345.3k</span>&nbsp;字
+                class="white-color">350.6k</span>&nbsp;字
             
             
             

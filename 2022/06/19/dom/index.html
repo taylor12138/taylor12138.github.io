@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.1k
+                    6.5k
                 </div>
                 
 
@@ -750,6 +750,27 @@ xx<span class="token punctuation">.</span>innerHTML <span class="token operator"
 <li><p><code>element.outerHTML</code>类似于 <code>innerHTML</code>的效果，只不过是起到了replace的效果</p>
 </li>
 </ol>
+<h3 id="（7）Shadow-DOM"><a href="#（7）Shadow-DOM" class="headerlink" title="（7）Shadow DOM"></a>（7）Shadow DOM</h3><p>我们正常的dom结构就是一颗dom树</p>
+<p><em>Shadow</em> DOM 允许将隐藏的 DOM 树附加到常规的 DOM 树中——它以 shadow root 节点为起始根节点，在这个根节点的下方，可以是任意元素，和普通的 DOM 元素一样。</p>
+<p>你也可以理解为：</p>
+<p>一个 DOM 元素可以有以下两类 DOM 子树：</p>
+<ol>
+<li>Light tree（光明树） —— 一个常规 DOM 子树，由 HTML 子元素组成。我们在之前章节看到的所有子树都是「光明的」。</li>
+<li>Shadow tree（影子树） —— 一个隐藏的 DOM 子树，不在 HTML 中反映，无法被察觉。</li>
+</ol>
+<p>这里举了一个很好的例子，shadow dom 就像一个video：<a href="https://www.cnblogs.com/coco1s/p/5711795.html" target="_blank" rel="noopener">https://www.cnblogs.com/coco1s/p/5711795.html</a></p>
+<p><img src="/2022/06/19/dom/shadowdom.png" alt></p>
+<p>创建方式： <code>elem.attachShadow({mode: …})</code></p>
+<p><code>mode</code> 选项可以设定封装层级。他必须是以下两个值之一：</p>
+<ul>
+<li><p><code>「open」</code> —— shadow root 可以通过 <code>elem.shadowRoot</code> 访问。</p>
+<p>任何代码都可以访问 <code>elem</code> 的 shadow tree。</p>
+</li>
+<li><p><code>「closed」</code> —— <code>elem.shadowRoot</code> 永远是 <code>null</code>。</p>
+<p>我们只能通过 <code>attachShadow</code> 返回的指针来访问 shadow DOM（并且可能隐藏在一个 class 中）。浏览器原生的 shadow tree，比如 <code>&lt;input type=&quot;range&quot;&gt;</code>，是封闭的。没有任何方法可以访问它们。</p>
+</li>
+</ul>
+<p>你可以使用同样的方式来操作 Shadow DOM，就和操作常规 DOM 一样——例如添加子节点、设置属性，以及为节点添加自己的样式（例如通过 <code>element.style</code> 属性），或者为整个 Shadow DOM 添加样式（例如在 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/style" target="_blank" rel="noopener">``</a> 元素内添加样式）。不同的是，Shadow DOM 内部的元素始终不会影响到它外部的元素（除了 <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:focus-within" target="_blank" rel="noopener"><code>:focus-within</code></a>），这为封装提供了便利。</p>
 <h2 id="事件部分"><a href="#事件部分" class="headerlink" title="事件部分"></a>事件部分</h2><h3 id="1-注册事件"><a href="#1-注册事件" class="headerlink" title="1.注册事件"></a>1.注册事件</h3><p>传统方式：</p>
 <p><code>btn.onclick = function() {}</code>  注册事件唯一性，最后注册处理的函数会覆盖掉前面注册处理的函数，即一个元素只能设置一个处理函数</p>
 <p>w3c标准的推荐方式：（ie9以前不支持此方法，即ie8等不支持）</p>
@@ -1435,7 +1456,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">345.3k</span>&nbsp;字
+                class="white-color">350.6k</span>&nbsp;字
             
             
             

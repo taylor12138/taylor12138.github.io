@@ -684,6 +684,10 @@ eval<span class="token punctuation">.</span><span class="token function">call</s
 <p><a href="http://perfectionkills.com/global-eval-what-are-the-options/" target="_blank" rel="noopener">http://perfectionkills.com/global-eval-what-are-the-options/</a></p>
 <p><strong>new Function</strong></p>
 <p>除了eval之外另外一种动态执行js代码的的方式</p>
+<p><code>new Function( param1, param2, …, paramN,funcBody );</code><br>它创建一个包含0个或者过个参数名为 param1 等的函数，函数体为 funcBody。相当于如下方式创建函数：</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token punctuation">(</span> <span class="token punctuation">(</span>param1<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>param2<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">...</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>paramN<span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">{</span> 
+  <span class="token punctuation">(</span>funcBody<span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> sum <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Function</span><span class="token punctuation">(</span><span class="token string">'a'</span><span class="token punctuation">,</span> <span class="token string">'b'</span><span class="token punctuation">,</span> <span class="token string">'return a + b'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token function">alert</span><span class="token punctuation">(</span> <span class="token function">sum</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 3</span></code></pre>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> sayHi <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Function</span><span class="token punctuation">(</span><span class="token string">'alert("Hello")'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -691,6 +695,7 @@ eval<span class="token punctuation">.</span><span class="token function">call</s
 <pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> str <span class="token operator">=</span> <span class="token operator">...</span> 动态地接收来自服务器的代码 <span class="token operator">...</span>
 <span class="token keyword">let</span> func <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Function</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token function">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><a href="https://weblogs.asp.net/yuanjian/json-performance-comparison-of-eval-new-function-and-json" target="_blank" rel="noopener">Eval 和 new Function 对比</a></p>
 <h2 id="第6章（集合引用类型）"><a href="#第6章（集合引用类型）" class="headerlink" title="第6章（集合引用类型）"></a>第6章（集合引用类型）</h2><p><strong>对象属性</strong></p>
 <p>一般通过点语法进行获取，但也可以使用中括号</p>
 <pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>person<span class="token punctuation">[</span><span class="token string">"name"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -1538,7 +1543,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">345.3k</span>&nbsp;字
+                class="white-color">350.6k</span>&nbsp;字
             
             
             

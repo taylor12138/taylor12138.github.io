@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5k
+                    4.8k
                 </div>
                 
 
@@ -581,6 +581,9 @@
 <span class="token punctuation">}</span>
 <span class="token selector">ul </span><span class="token punctuation">{</span>
     <span class="token property">list-style-type</span><span class="token punctuation">:</span>square<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* 每一项前都是正方形 */</span>
+<span class="token punctuation">}</span>
+<span class="token selector">ul </span><span class="token punctuation">{</span>
+    <span class="token property">list-style-type</span><span class="token punctuation">:</span>none<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* 去除圆点 */</span>
 <span class="token punctuation">}</span></code></pre>
 <p>有序列表也可以用 list-style-type 来设置列表项</p>
 <pre class=" language-css"><code class="language-css"><span class="token selector">ol </span><span class="token punctuation">{</span>
@@ -730,22 +733,18 @@ mutiple=&quot;multiple&quot;    选择多个文件上传
 <p><strong>4、不利于 SEO</strong></p>
 <p>搜索引擎的检索程序无法解读 <code>iframe</code>。另外，<code>iframe</code> 本身不是动态语言，样式和脚本都需要额外导入。</p>
 <p>综上，<code>iframe</code> 应谨慎使用。</p>
-<h4 id="iframe的一些应用场景"><a href="#iframe的一些应用场景" class="headerlink" title="iframe的一些应用场景"></a><strong>iframe的一些应用场景</strong></h4><p>1.典型的网页编辑器；</p>
-<p>2.跨域通信。JavaScript跨域总结与解决办法 ，类似的还有浏览器多页面通信，比如音乐播放器，用户如果打开了多个tab页，应该只有一个在播放；</p>
-<p>3.历史记录管理，解决ajax化网站响应浏览器前进后退按钮的方案，在html5的history api不可用时作为一种替代；</p>
-<p>4.纯前端的utf8和gbk编码互转。比如在utf8页面需要生成一个gbk的encodeURIComponent字符串，可以通过页面加载一个gbk的iframe，然后主页面与子页面通信的方式实现转换；</p>
-<p>5.用iframe实现无刷新文件上传，在FormData不可用时作为替代方案；</p>
-<p>6.创建一个全新的独立的宿主环境。iframe还可以用于创建新的宿主环境，用于隔离或者访问原始接口及对象，比如有些前端安全的防范会覆盖一些原生的方法防止恶意调用，通过创建一个iframe，然后从iframe中取回原始对象和方法来破解这种防范；</p>
-<p>7.用来加载广告，例如联盟广告；</p>
-<p>8.一般邮箱使用iframe，如QQ邮箱；</p>
-<p>9.一些简单的后台页面。</p>
-<h4 id="contentWindow"><a href="#contentWindow" class="headerlink" title="contentWindow"></a>contentWindow</h4><p><strong><code>contentWindow</code></strong> 属性返回当前<a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement" target="_blank" rel="noopener">HTMLIFrameElement</a>的<a href="https://developer.mozilla.org/en-US/docs/Web/API/Window" target="_blank" rel="noopener">Window</a>对象. 你可以使用这个<code>Window</code> 对象去访问这个iframe的文档和它内部的DOM. 这个是可读属性, 但是它的属性像全局<code>Window</code> 一样是可以操作的. </p>
+<h4 id="contentWindow"><a href="#contentWindow" class="headerlink" title="contentWindow"></a>contentWindow</h4><p><strong><code>contentWindow</code></strong> 属性返回当前<a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement" target="_blank" rel="noopener">HTMLIFrameElement</a>的<a href="https://developer.mozilla.org/en-US/docs/Web/API/Window" target="_blank" rel="noopener">Window</a>对象. 你可以使用这个<code>Window</code> 对象去访问这个iframe的文档和它内部的DOM. 这个是可读属性, 但是它的属性像全局<code>Window</code> 一样是可以操作的. (注意必须同源访问)</p>
 <p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLIFrameElement/contentWindow#关于contentwindow的示例" target="_blank" rel="noopener">关于contentWindow的示例</a></p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> x <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementsByTagName</span><span class="token punctuation">(</span><span class="token string">"iframe"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>contentWindow<span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">//x = window.frames[0];</span>
 
 x<span class="token punctuation">.</span>document<span class="token punctuation">.</span><span class="token function">getElementsByTagName</span><span class="token punctuation">(</span><span class="token string">"body"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>style<span class="token punctuation">.</span>backgroundColor <span class="token operator">=</span> <span class="token string">"blue"</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">// this would turn the 1st iframe in document blue.</span></code></pre>
+<h4 id="iframe优化方案"><a href="#iframe优化方案" class="headerlink" title="iframe优化方案"></a>iframe优化方案</h4><p>iframe阻塞问题：<a href="https://www.cnblogs.com/sharpxiajun/p/4077515.html" target="_blank" rel="noopener">https://www.cnblogs.com/sharpxiajun/p/4077515.html</a></p>
+<p>加载优化阅读：<a href="https://www.open-open.com/bbs/view/1319458447249" target="_blank" rel="noopener">https://www.open-open.com/bbs/view/1319458447249</a></p>
+<p>iframe通信和一些很实用的功能：<a href="https://afantasy.ninja/2018/07/15/dive-into-iframe/" target="_blank" rel="noopener">https://afantasy.ninja/2018/07/15/dive-into-iframe/</a></p>
+<p>postMessage需要子应用配合，上面那个网址还讲述了iframe在线编辑器是怎么交互的：每次修改js代码，则发送一个post请求，POST 请求中还带有一个随机生成的 key，此时iframe的src指向对应key的一个url地址</p>
+<p>iframe的讨论：<a href="https://www.stevesouders.com/blog/2009/06/03/using-iframes-sparingly/" target="_blank" rel="noopener">https://www.stevesouders.com/blog/2009/06/03/using-iframes-sparingly/</a></p>
 
             </div>
             <hr/>
@@ -1208,7 +1207,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">350.6k</span>&nbsp;字
+                class="white-color">352.3k</span>&nbsp;字
             
             
             

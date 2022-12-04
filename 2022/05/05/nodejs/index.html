@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.3k
+                    8.1k
                 </div>
                 
 
@@ -910,16 +910,26 @@ event<span class="token punctuation">.</span><span class="token function">emit</
 <ul>
 <li>更利于SEO。</li>
 <li>更利于首屏渲染，即白屏时长更短</li>
-<li>服务端在内网进行请求，数据响应速度快</li>
+<li>服务端在内网进行请求，数据响应速度快<ul>
+<li>需要特别说明的一点是数据请求，无论是 SSR 还是 CSR，都是常规的 fetch 请求，主要的区别在于网络环境，理论上 SSR 的请求是服务器内部的（之间的），必须要优于 CSR 的公网请求，否则 SSR 的优化效果就会大大降低。另外，SSR 还需要注意控制请求的超时时间，做好降级，否则用户看到的会是一个比 CSR “更白的白屏”。</li>
+</ul>
+</li>
 </ul>
 <p><img src="/2022/05/05/nodejs/SSR1.jpg" alt></p>
 <p><img src="/2022/05/05/nodejs/SSR2.jpg" alt></p>
 <p>我们可以看见服务端渲染中间少了两个步骤</p>
 <p>SSR劣势</p>
 <ul>
-<li>服务端压力较大，页面渲染依赖接口，依赖node稳定性</li>
-<li>开发条件受限，在服务端渲染中，只会执行到componentDidMount之前的生命周期钩子，因此项目引用的第三方的库也不可用其它生命周期钩子，这对引用库的选择产生了很大的限制；</li>
-<li>学习成本相对较高。除了对webpack、React要熟悉，还需要掌握node、Koa2等相关技术。相对于客户端渲染，项目构建、部署过程更加复杂。</li>
+<li><p>相对于仅仅需要提供静态文件的服务器，SSR中使用的渲染程序自然会占用更多的CPU和内存资源。</p>
+</li>
+<li><p>一些常用的浏览器API可能无法正常使用，比如<code>window</code>、<code>docment</code>和<code>alert</code>等，如果使用的话需要对运行的环境加以判断。</p>
+</li>
+<li><p>开发调试会有一些麻烦，因为涉及了浏览器及服务器，对于SPA的一些组件的生命周期的管理会变得复杂。</p>
+</li>
+<li><p>可能会由于某些因素导致服务器端渲染的结果与浏览器端的结果不一致。</p>
+</li>
+<li><p>FID性能可能会有问题：<a href="https://keenwon.com/better-react-ssr/" target="_blank" rel="noopener">这里</a>有介绍说明</p>
+</li>
 </ul>
 <h4 id="重新认识服务端渲染"><a href="#重新认识服务端渲染" class="headerlink" title="重新认识服务端渲染"></a>重新认识服务端渲染</h4><p>现在的服务端渲染和过去的服务端渲染完全是两码事</p>
 <ol>
@@ -949,8 +959,9 @@ event<span class="token punctuation">.</span><span class="token function">emit</
 <li>前端服务器通过请求后端服务器获取数据并组装HTML返回给浏览器，浏览器直接解析HTML后渲染页面（首屏渲染）</li>
 <li>浏览器完成事件绑定，在交互过程中，请求新的数据并动态更新渲染页面（交互渲染）</li>
 </ul>
-<h4 id="SSG"><a href="#SSG" class="headerlink" title="SSG"></a>SSG</h4><p>4.但是一般来说，首屏一般不会对内容产生什么修改，但是数以万计的访客打开网站时候，都要进行数据库查询吗？这无疑会导致数据库后端的重复开销，而解决问题的方法是：</p>
+<h4 id="SSG"><a href="#SSG" class="headerlink" title="SSG"></a>SSG</h4><p>但是一般来说，首屏一般不会对内容产生什么修改，但是数以万计的访客打开网站时候，都要进行数据库查询吗？这无疑会导致数据库后端的重复开销，而解决问题的方法是：</p>
 <p>（SSG）将后端渲染的HTML缓存，这份缓存作为静态内容，也更容易被推送至CDN，实现全国甚至全球加速；即使需要修改内容，也可以重新生成静态内容，再更新cdn内容的方式轻松应对</p>
+<p>你可以理解为构建时请求数据 + 填入</p>
 <p>缺点：所有用户看到的都是同一个页面，无法生成用户相关内容，并且对于百万级、千万级、亿级页面的大型网站而言，一旦有数据改动，要进行一次全部页面的渲染，需要的时间可能是按小时甚至按天计的，这是不可接受的。</p>
 <p>参考</p>
 <p><a href="https://www.zhihu.com/question/59578433/answer/332545815" target="_blank" rel="noopener">https://www.zhihu.com/question/59578433/answer/332545815</a> </p>
@@ -1032,6 +1043,45 @@ npm install <span class="token operator">--</span>global nodemon</code></pre>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">$</span><span class="token punctuation">(</span>ele<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">attr</span><span class="token punctuation">(</span><span class="token string">"属性名"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">$</span><span class="token punctuation">(</span>ele<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<h2 id="10-Island"><a href="#10-Island" class="headerlink" title="10.Island"></a>10.Island</h2><p>SSR 的页面会第一时间呈现给用户，但是只有当 js 加载完毕，执行完毕后，功能才是真正可用的：</p>
+<ul>
+<li>功能方面：用户看到了但是不能操作</li>
+<li>性能方面：大量 js 在页面加载完成后集中的解析、执行，FID 必然受到影响</li>
+</ul>
+<p>这就是 Progressive Hydration 和 Islands Architecture 要解决的问题。但实际上，某些场景下 SSG + CSR 才是更好的选择。</p>
+<p>明白了SSR、CSR两者的优势劣势之后，Islands Architecture 框架的概念在于</p>
+<ul>
+<li>与客户端渲染（CSR）相当的交互性</li>
+<li>与服务端渲染（SSR）相媲美的 SEO 优势</li>
+</ul>
+<p>你可以理解为客户端负责交互JS（降低 后的JS 体积），服务端负责SSR静态相关的进行渲染，二者结合</p>
+<p>Island优点：</p>
+<ol>
+<li><strong>性能</strong>：降低客户端 JS 代码的体积。加载的代码，仅包含交互式组件所需的 JS，这比为整个页面重新创建 Virtual DOM，并重新 hydrate 页面上的所有元素所需的 JS 要少得多。较小的 JS 会带来更快的页面加载和交互时间 (TTI)。</li>
+</ol>
+<blockquote>
+<p>Astro 与使用 Next.js 和 Nuxt.js 创建的文档网站<a href="https://docs.astro.build/docs/en/comparing-astro-vs-other-tools" target="_blank" rel="noopener">相比</a>，JS 代码减少了 83%。<a href="https://divriots.com/blog/our-experience-with-astro/" target="_blank" rel="noopener">其他用户</a>也反馈了使用 Astro 的性能改进。</p>
+<p><img src="https://keenwon.com/assets/image/880e03d0.png" alt="img"></p>
+<p>（图片来自 <a href="https://divriots.com/blog/our-experience-with-astro/）" target="_blank" rel="noopener">https://divriots.com/blog/our-experience-with-astro/）</a></p>
+</blockquote>
+<ol>
+<li><strong>SEO</strong>：由于所有静态内容经过服务端渲染，所以页面对 SEO 场景是友好的</li>
+<li><strong>关键内容优先</strong>：用户几乎可以立即获得关键内容（尤其是博客、新闻文章和产品类的页面）。在关键内容逐渐可用后，可交互的次要功能也是必须的。</li>
+<li><strong>可访问性</strong>：使用标准静态 HTML 链接导航，有助于提高网站的可访问性（Accessibility）。</li>
+<li><strong>基于组件</strong>：该架构具有基于组件的架构的所有优点，如：可重用、可维护。</li>
+</ol>
+<p>IsLand缺点：</p>
+<p>尽管有这些优势，但该概念仍处于初期阶段。“有限的支持”导致了一些缺点：</p>
+<ol>
+<li>开发人员实现 Islands 的唯一选择，是使用少数可用的框架之一，或自己实现架构。将现有站点迁移到 Astro 或 Marko 需要额外的工作量。</li>
+<li>除了 Jason 最初的文章外，几乎没有更多的信息。</li>
+<li>有一些新框架声称支持 Islands Architecture，因此筛选出适合你的架构会更难。</li>
+<li>该架构不适合复杂交互页面，例如可能需要数千个 Islands 的社交应用。</li>
+</ol>
+<p>详情：</p>
+<p><a href="https://keenwon.com/islands-architecture-2/#%E5%8A%A8%E6%80%81%E7%BB%84%E4%BB%B6%E7%9A%84-islands" target="_blank" rel="noopener">Islands Architecture</a></p>
+<p><a href="https://keenwon.com/islands-architecture-1/" target="_blank" rel="noopener">Islands Architecture续</a></p>
+<p><a href="https://keenwon.com/better-react-ssr/" target="_blank" rel="noopener">更好的 React SSR</a></p>
 
             </div>
             <hr/>
@@ -1484,7 +1534,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">350.6k</span>&nbsp;字
+                class="white-color">352.3k</span>&nbsp;字
             
             
             

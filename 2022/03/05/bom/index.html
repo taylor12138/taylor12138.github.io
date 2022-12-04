@@ -590,10 +590,11 @@
 <h4 id="requestAnimationFrame"><a href="#requestAnimationFrame" class="headerlink" title="requestAnimationFrame"></a>requestAnimationFrame</h4><p>（IE9-浏览器不支持该方法）官方解释：若你想在浏览器下次<strong>重绘</strong>之前继续更新下一帧动画，那么回调函数自身必须再次调用<code>window.requestAnimationFrame()</code></p>
 <ul>
 <li><p>参数：callback</p>
-<p>下一次重绘之前更新动画帧所调用的函数(即上面所说的回调函数)。该回调函数<strong>会被传入<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/DOMHighResTimeStamp" target="_blank" rel="noopener"><code>DOMHighResTimeStamp</code></a>参数</strong>，该参数与<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Performance/now" target="_blank" rel="noopener"><code>performance.now()</code></a>的返回值相同，它表示<code>requestAnimationFrame()</code> 开始去执行回调函数的时刻。</p>
+<p>下一次重绘之前更新动画帧所调用的函数(即上面所说的回调函数)。</p>
+<p>注意：这个callback会自带一个参数：该回调函数<strong>会被传入<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/DOMHighResTimeStamp" target="_blank" rel="noopener"><code>DOMHighResTimeStamp</code></a>参数</strong>，该参数与<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Performance/now" target="_blank" rel="noopener"><code>performance.now()</code></a>的返回值相同，它表示<code>requestAnimationFrame()</code> 开始去执行回调函数的时刻。</p>
 </li>
 </ul>
-<p>有点像<code>setInterval</code>，但是默认每秒60帧，也就是 1000 / 60，采用系统时间间隔，保持最佳绘制效率，动画不会掉帧，自然流畅</p>
+<p>有点像停留时间为 1 / 60 秒的<code>setTimeout</code>，默认每秒60帧，也就是 1000 / 60，采用系统时间间隔，保持最佳绘制效率，动画不会掉帧，自然流畅</p>
 <p>对比起 <code>setInterval</code>和 <code>setTimeout</code>的优势</p>
 <ul>
 <li>requestAnimationFrame 会把每一帧中的所有DOM操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。</li>
@@ -1329,7 +1330,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">350.6k</span>&nbsp;字
+                class="white-color">352.3k</span>&nbsp;字
             
             
             

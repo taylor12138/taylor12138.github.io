@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.9k
+                    6.2k
                 </div>
                 
 
@@ -513,11 +513,11 @@
     context<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//描画路径</span>
 <span class="token punctuation">}</span></code></pre>
 <p>方法一：画初始点和末尾点</p>
-<pre class=" language-js"><code class="language-js">ctx<span class="token punctuation">.</span><span class="token function">beginPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<pre class=" language-js"><code class="language-js">ctx<span class="token punctuation">.</span><span class="token function">beginPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//我要开始画画了</span>
 ctx<span class="token punctuation">.</span>strokeStyle <span class="token operator">=</span> <span class="token string">'blue'</span><span class="token punctuation">;</span>
 ctx<span class="token punctuation">.</span><span class="token function">moveTo</span><span class="token punctuation">(</span><span class="token number">80</span><span class="token punctuation">,</span><span class="token number">40</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//路径先初始点的坐标</span>
 ctx<span class="token punctuation">.</span><span class="token function">lineTo</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span><span class="token number">40</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//路径先末尾点的坐标</span>
-ctx<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+ctx<span class="token punctuation">.</span><span class="token function">stroke</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//我画完了</span></code></pre>
 <p>方法二：当然也可以通过画圆的方式来画</p>
 <p><code>arc(x, y, radius, startAngle, endAngle, counterclockwise)</code></p>
 <ul>
@@ -573,6 +573,33 @@ context<span class="token punctuation">.</span><span class="token function">draw
 <p><code>toDataURL</code> 转换图片为dataURL，一般使用为：</p>
 <pre class=" language-js"><code class="language-js">canvas<span class="token punctuation">.</span><span class="token function">getContent</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">drawImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> widht<span class="token punctuation">,</span> height<span class="token punctuation">)</span>
 <span class="token keyword">const</span> dataUrl <span class="token operator">=</span> canvas<span class="token punctuation">.</span><span class="token function">toDataURL</span><span class="token punctuation">(</span><span class="token string">'image/png'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>或者将当前canvas转化成一个图像</p>
+<pre class=" language-js"><code class="language-js"><span class="token operator">&lt;</span>canvas id<span class="token operator">=</span><span class="token string">"canvas"</span> width<span class="token operator">=</span><span class="token string">"5"</span> height<span class="token operator">=</span><span class="token string">"5"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>canvas<span class="token operator">></span></code></pre>
+<p>Copy to Clipboard</p>
+<p>可以用这样的方式获取一个 data-URL</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> canvas <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"canvas"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> dataURL <span class="token operator">=</span> canvas<span class="token punctuation">.</span><span class="token function">toDataURL</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>dataURL<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNby</span>
+<span class="token comment" spellcheck="true">// blAAAADElEQVQImWNgoBMAAABpAAFEI8ARAAAAAElFTkSuQmCC"</span></code></pre>
+<h5 id="获取图像信息"><a href="#获取图像信息" class="headerlink" title="获取图像信息"></a>获取图像信息</h5><p><strong><code>CanvasRenderingContext2D.getImageData()</code></strong> 返回一个<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/ImageData" target="_blank" rel="noopener"><code>ImageData</code></a>对象，用来描述 canvas 区域隐含的像素数据，这个区域通过矩形表示，起始点为<em>(sx, sy)、<em>宽为</em>sw、<em>高为</em>sh。</em></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/getImageData#语法" target="_blank" rel="noopener">语法</a></p>
+<pre><code>ImageData ctx.getImageData(sx, sy, sw, sh);</code></pre><p>Copy to Clipboard</p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/getImageData#参数" target="_blank" rel="noopener">参数</a></p>
+<ul>
+<li><p><code>sx</code></p>
+<p>将要被提取的图像数据矩形区域的左上角 x 坐标。</p>
+</li>
+<li><p><code>sy</code></p>
+<p>将要被提取的图像数据矩形区域的左上角 y 坐标。</p>
+</li>
+<li><p><code>sw</code></p>
+<p>将要被提取的图像数据矩形区域的宽度。</p>
+</li>
+<li><p><code>sh</code></p>
+<p>将要被提取的图像数据矩形区域的高度。</p>
+</li>
+</ul>
 <h4 id="小实战"><a href="#小实战" class="headerlink" title="小实战"></a>小实战</h4><p>画一个刮刮乐</p>
 <pre class=" language-html"><code class="language-html"><span class="token doctype">&lt;!DOCTYPE html></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
@@ -786,30 +813,422 @@ ctx<span class="token punctuation">.</span><span class="token function">restore<
 <p>可以理解为一个命令行中 clear的操作</p>
 <p>参考：</p>
 <p><a href="https://juejin.cn/post/7142839691203575838" target="_blank" rel="noopener">使用Canvas制作刮刮乐，看看你能刮出什么奖品来？</a></p>
-<h2 id="pixijs"><a href="#pixijs" class="headerlink" title="pixijs"></a>pixijs</h2><h4 id="pixi基础"><a href="#pixi基础" class="headerlink" title="pixi基础"></a>pixi基础</h4><p>使用 <a href="https://link.segmentfault.com/?enc=OXNDsfmdgZ1%2Fo0XH9gicMQ%3D%3D.jSzA68fhkRkiNaP8B4%2BYeqALwPxR%2BUdj6jg%2FGMDg98VeCD82gn3dCB5uOi6z2oWL" target="_blank" rel="noopener">PixiJS</a> ，我们首先应该创建一个 Pixi 应用，并且添加到当前的节点处</p>
+<h2 id="pixijs"><a href="#pixijs" class="headerlink" title="pixijs"></a>pixijs</h2><h4 id="1-pixi基础"><a href="#1-pixi基础" class="headerlink" title="1.pixi基础"></a>1.pixi基础</h4><p>使用 <a href="https://link.segmentfault.com/?enc=OXNDsfmdgZ1%2Fo0XH9gicMQ%3D%3D.jSzA68fhkRkiNaP8B4%2BYeqALwPxR%2BUdj6jg%2FGMDg98VeCD82gn3dCB5uOi6z2oWL" target="_blank" rel="noopener">PixiJS</a> ，我们首先应该创建一个 Pixi 应用，并且添加到当前的节点处</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 创建一个Pixi 应用</span>
 <span class="token keyword">let</span> app <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PIXI<span class="token punctuation">.</span>Application</span><span class="token punctuation">(</span><span class="token punctuation">{</span>width<span class="token punctuation">:</span> <span class="token number">256</span><span class="token punctuation">,</span> height<span class="token punctuation">:</span> <span class="token number">256</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">// 把 Pixi 应用中创建出来的 canvas 添加到页面上</span>
 document<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>app<span class="token punctuation">.</span>view<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p><strong>容器</strong>（container）<br>容器是用来装载多个显示对象的， 它可以用 <a href="https://link.segmentfault.com/?enc=cIVFAaLL3JI1lb5Cyyr8xQ%3D%3D.OguUl4pMbdQ8r3%2Faq0SIkAlzBxqoeJi566dSUS5lnXg6qWJmtH7pPl%2BCJAc%2BhrOHzF41fuJCAFszeotru1h5qA%3D%3D" target="_blank" rel="noopener">PIXI.Container()</a> 方法来创建，可以把它看成一个小组件，里面可以包裹多个精灵，或者其他容器等</p>
-<p><strong>精灵</strong>（spirite）<br>精灵是可以放在容器里的特殊图像对象， 它可以用 <a href="https://link.segmentfault.com/?enc=B3TMawjfAak8cn5r6BLkYA%3D%3D.LhgujzllCu5M3bgXkHK53eeqpdyfECJCjeGtJD%2FNXDo8A8KWNZKZvjvF4Fruh84%2Boo1KS7DarTpTQGm8otDheg%3D%3D" target="_blank" rel="noopener">PIXI.Sprite()</a> 方法来创建。精灵是你能用代码控制图像的基础。你能够控制他们的位置，大小，和许多其他有用的属性来产生交互和动画。</p>
+<p><strong>容器</strong>（container）<br>容器是用来装载多个显示对象的， 它可以用 <a href="https://link.segmentfault.com/?enc=cIVFAaLL3JI1lb5Cyyr8xQ%3D%3D.OguUl4pMbdQ8r3%2Faq0SIkAlzBxqoeJi566dSUS5lnXg6qWJmtH7pPl%2BCJAc%2BhrOHzF41fuJCAFszeotru1h5qA%3D%3D" target="_blank" rel="noopener">PIXI.Container()</a> 方法来创建，可以把它看成一个<strong>小组件</strong>，里面可以包裹多个精灵，或者其他容器等</p>
+<p><strong>精灵</strong>（spirite）<br>精灵是可以放在容器里的特殊图像对象， 它可以用 <a href="https://link.segmentfault.com/?enc=B3TMawjfAak8cn5r6BLkYA%3D%3D.LhgujzllCu5M3bgXkHK53eeqpdyfECJCjeGtJD%2FNXDo8A8KWNZKZvjvF4Fruh84%2Boo1KS7DarTpTQGm8otDheg%3D%3D" target="_blank" rel="noopener">PIXI.Sprite()</a> 方法来创建。精灵是你能用代码控制图像的基础。你能够控制他们的位置，大小，和许多其他有用的属性来产生交互和动画，我自己感觉spirite对于pixi就像dom对于document一样</p>
 <p><strong>纹理</strong>（Texture）</p>
-<p>因为 Pixi 用 WebGL 和 GPU 去渲染图像，所以图像需要转化成 GPU 可以处理的格式。可以被 GPU 处理的图像被称作 纹理 。在你让精灵显示图片之前，需要将普通的图片转化成 WebGL 纹理。为了让所有工作执行的快速有效率，Pixi使用 纹理缓存 来存储和引用所有你的精灵需要的纹理。纹理的名称字符串就是图像的地址。这意味着如果你有从<code>&quot;images/cat.png&quot;</code> 加载的图像，你可以在纹理缓存中这样找到他：</p>
-<pre class=" language-javascript"><code class="language-javascript">PIXI<span class="token punctuation">.</span>utils<span class="token punctuation">.</span>TextureCache<span class="token punctuation">[</span><span class="token string">"images/cat.png"</span><span class="token punctuation">]</span><span class="token punctuation">;</span></code></pre>
-<h4 id="pixi的优势"><a href="#pixi的优势" class="headerlink" title="pixi的优势"></a>pixi的优势</h4><p>引用网友某熊猫桑的话：</p>
-<ol>
-<li>选择pixi的最大理由，就是它的性能表现最好。</li>
-<li>Phaser引擎有v2和v3版本的区别。中文资料(包括那个Phaser中文站)一般都是基于v2介绍，v3除了简介以外，能找到的中文资料不太多。而v3和v2最大的区别是，v2是基于Pixi封装的不假，但v3是完全独立的一个游戏引擎！——而这已经是3年前的老知识了。</li>
-<li>Pixi的第一个痛点(就我碰到的而言)是它没有适配模块，而Phaser3是有的。当然它俩定位不同，Pixi对自己的定位是“创意引擎”而Phaser3是“游戏引擎”。</li>
-<li>不过虽然定位有区别，大部分人还是会把Pixi归类为游戏引擎，比如 <a href="https://link.juejin.cn/?target=http%3A%2F%2Fhtml5gameengine.com%2F"><img src="https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/3f843e8626a3844c624fb596dddd9674.svg" alt="img">html5gameengine.com</a> 。</li>
-<li>动画的技术方案要比你说的略多一点，一般是：<br>1）资源类动画。一般是GIF、APNG、WebP允许自带动画的图片格式<br>2）CSS动画。效果简单，但是一个好处(一般很少有人说)是一般浏览器都会给一些性能优化<br>3）原生JS动画。这个我觉得普及度目前来看还比较低，不排除有纯动画引擎支持而提高<br>4）(网页)JS动画库(实现了tween,easing function和timeline的)。<br>5）基于Canvas/WebGL实现动画效果的游戏引擎或动画库<br>6）骨骼动画。国内一般龙骨用的多，国外是Spine。这个一般是以Canvas/WebGL的方式来呈现。</li>
-</ol>
-<h4 id="小实践"><a href="#小实践" class="headerlink" title="小实践"></a>小实践</h4><p>引入pixi</p>
-<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.8.2/pixi.min.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
-<p>或者npm引入</p>
-<pre class=" language-shell"><code class="language-shell">npm install pixi.js</code></pre>
-<h4 id="一些pixi例子"><a href="#一些pixi例子" class="headerlink" title="一些pixi例子"></a>一些pixi例子</h4><p><a href="https://link.segmentfault.com/?enc=o5FSl%2FPTAzqrsEFUHtx3gw%3D%3D.GQVDVbEJ1n%2B6gwpoXcSkERwvqilv4Scno5dDVx0gdFTb9oodnt7gpvgM8KxQ5z%2BB" target="_blank" rel="noopener">Run Pixie Run</a></p>
+<p>因为 Pixi 用 WebGL 和 GPU 去渲染图像，所以图像需要转化成 GPU 可以处理的格式。可以被 GPU 处理的图像被称作 纹理 。在你让精灵显示图片之前，需要将普通的图片转化成 WebGL 纹理。</p>
+<p>为了让所有工作执行的<strong>快速有效率</strong>，Pixi会自动使用 纹理缓存 来存储和引用所有你的精灵需要的纹理。纹理的名称字符串就是图像的地址。这意味着如果你有从<code>&quot;images/cat.png&quot;</code> 加载的图像(注意是图像，不会把json也给你存进来)，我们可以在纹理缓存中这样找到他：</p>
+<pre class=" language-javascript"><code class="language-javascript">PIXI<span class="token punctuation">.</span>utils<span class="token punctuation">.</span>TextureCache<span class="token punctuation">[</span><span class="token string">"images/logo.png"</span><span class="token punctuation">]</span><span class="token punctuation">;</span></code></pre>
+<p>那该如何将它转化成纹理？那就是是用Pixi已经构建好的<code>loader</code>对象（下方有loader的使用）,通过loader加载过的图片，都可以在PIXI.utils.TextureCache中找到</p>
+<p><strong>PIXI.Application</strong> 会自动选择使用 <strong>Canvas 或者是 WebGL</strong> 来渲染图形，这取决于您的浏览器支持情况</p>
+<p>我们通常使用Pixi提供的<code>Application</code>方法来创建一个实例应用（app），它能<strong>自动</strong>创建我们等下讲到的renderer，ticker 和container、loader</p>
+<blockquote>
+<p>注意：pixi从v3到v5，再到v7，关于loader的语法变动很多，大家需要注意网上学习的语法是哪个版本的，比如v5是没有的loader是没有on来监听事件的，v7甚至没有loader</p>
+</blockquote>
+<p>Application option:</p>
+<table>
+<thead>
+<tr>
+<th><code>autoStart</code></th>
+<th>布尔值</th>
+<th>真的</th>
+<th>选修的构建完成后自动开始渲染。 <strong>注意</strong>：将此参数设置为 false 不会停止共享代码，即使您将 options.sharedTicker 设置为 true 以防它已经启动。自己阻止吧。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>width</code></td>
+<td>数字</td>
+<td>800</td>
+<td>选修的渲染器视图的宽度。</td>
+</tr>
+<tr>
+<td><code>height</code></td>
+<td>数字</td>
+<td>600</td>
+<td>选修的渲染器视图的高度。</td>
+</tr>
+<tr>
+<td><code>view</code></td>
+<td>HTML画布元素</td>
+<td></td>
+<td>选修的用作视图的画布，可选。</td>
+</tr>
+<tr>
+<td><code>transparent</code></td>
+<td>布尔值</td>
+<td>错误的</td>
+<td>选修的如果渲染视图是透明的。</td>
+</tr>
+<tr>
+<td><code>autoDensity</code></td>
+<td>布尔值</td>
+<td>错误的</td>
+<td>选修的以 CSS 像素为单位调整渲染器视图的大小，以允许 1 以外的分辨率。</td>
+</tr>
+<tr>
+<td><code>antialias</code></td>
+<td>布尔值</td>
+<td>错误的</td>
+<td>选修的设置抗锯齿</td>
+</tr>
+<tr>
+<td><code>preserveDrawingBuffer</code></td>
+<td>布尔值</td>
+<td>错误的</td>
+<td>选修的启用绘图缓冲区保存，如果您需要在 WebGL 上下文中调用 toDataUrl，请启用此功能。</td>
+</tr>
+<tr>
+<td><code>resolution</code></td>
+<td>数字</td>
+<td>1个</td>
+<td>选修的渲染器的分辨率/设备像素比，视网膜将为 2。</td>
+</tr>
+<tr>
+<td><code>forceCanvas</code></td>
+<td>布尔值</td>
+<td>错误的</td>
+<td>选修的阻止选择 WebGL 渲染器，即使存在，此选项仅在使用<strong>pixi.js-legacy</strong>或<strong>@pixi/canvas-renderer</strong>模块时可用，否则将被忽略。</td>
+</tr>
+<tr>
+<td><code>backgroundColor</code></td>
+<td>数字</td>
+<td>0x000000</td>
+<td>选修的渲染区域的背景颜色（如果不透明则显示）。</td>
+</tr>
+<tr>
+<td><code>clearBeforeRender</code></td>
+<td>布尔值</td>
+<td>真的</td>
+<td>选修的这会设置渲染器是否会在新的渲染通道之前清除画布。</td>
+</tr>
+<tr>
+<td><code>powerPreference</code></td>
+<td>细绳</td>
+<td></td>
+<td>选修的传递给 webgl 上下文的参数，对于具有双显卡的设备设置为“高性能”。<strong>（仅限 WebGL）</strong>。</td>
+</tr>
+<tr>
+<td><code>sharedTicker</code></td>
+<td>布尔值</td>
+<td>错误的</td>
+<td>选修的<code>true</code>使用 PIXI.Ticker.shared，<code>false</code>创建新的代码。如果设置为 false，则您无法将处理程序注册为在共享代码上运行的任何内容之前发生。系统代码将始终在共享代码和应用程序代码之前运行。</td>
+</tr>
+<tr>
+<td><code>sharedLoader</code></td>
+<td>布尔值</td>
+<td>错误的</td>
+<td>选修的<code>true</code>使用 PIXI.Loader.shared，<code>false</code>创建新的 Loader。</td>
+</tr>
+<tr>
+<td><code>resizeTo</code></td>
+<td>窗口 | HTML元素</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>application还有个销毁的方法：</p>
+<pre class=" language-js"><code class="language-js">app<span class="token punctuation">.</span><span class="token function">destroy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="2-loader"><a href="#2-loader" class="headerlink" title="2.loader"></a>2.loader</h4><p>类似于threejs的loader，threejs的loader种类繁多，但是pixijs的loader只有一种，是一个用于加载资源的东西，由 Chad Engler 从 Resource Loader 派生而来，用于加载资源，传入2个参数则可以设置别名</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> PIXI <span class="token keyword">from</span> <span class="token string">'pixi.js'</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> loader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PIXI<span class="token punctuation">.</span>Loader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+loader<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">'bunny'</span><span class="token punctuation">,</span> <span class="token string">'data/bunny.png'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">'images/logo.png'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">'spaceship'</span><span class="token punctuation">,</span> <span class="token string">'assets.json'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"logo"</span><span class="token punctuation">,</span> <span class="token string">"images/logo.png"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>init<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">(</span>loader<span class="token punctuation">,</span> resources<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// 以指定名稱的方式去取用 Texture Cache</span>
+  <span class="token keyword">var</span> sprite <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PIXI<span class="token punctuation">.</span>Sprite</span><span class="token punctuation">(</span>loader<span class="token punctuation">.</span>resources<span class="token punctuation">.</span>logo<span class="token punctuation">.</span>texture<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token keyword">var</span> sprite <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PIXI<span class="token punctuation">.</span>Sprite</span><span class="token punctuation">(</span>resources<span class="token punctuation">.</span>logo<span class="token punctuation">.</span>texture<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">//或者这样</span>
+  <span class="token keyword">var</span> sprite2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PIXI<span class="token punctuation">.</span>Sprite</span><span class="token punctuation">(</span>loader<span class="token punctuation">.</span>resources<span class="token punctuation">[</span><span class="token string">'spaceship'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>texture<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>add也可以传入数组</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> app <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PIXI<span class="token punctuation">.</span>Application</span><span class="token punctuation">(</span><span class="token punctuation">{</span> width<span class="token punctuation">:</span> <span class="token number">256</span><span class="token punctuation">,</span> height<span class="token punctuation">:</span> <span class="token number">256</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+app<span class="token punctuation">.</span>loader
+  <span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+  <span class="token string">"images/imageOne.png"</span><span class="token punctuation">,</span>
+  <span class="token string">"images/imageTwo.png"</span><span class="token punctuation">,</span>
+  <span class="token string">"images/imageThree.png"</span>
+<span class="token punctuation">]</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span><span class="token punctuation">(</span>loader<span class="token punctuation">,</span> res<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>loader <span class="token operator">===</span> app<span class="token punctuation">.</span>loader<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//true</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><img src="/2020/07/31/canvas/loader.png" alt></p>
+<p>关于loader还有一些监听事件</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//可取得下載進度</span>
+loader<span class="token punctuation">.</span>onProgress<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//載入檔案錯誤時</span>
+loader<span class="token punctuation">.</span>onError<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span> e<span class="token punctuation">,</span> error<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//每一次加载的回调</span>
+loader<span class="token punctuation">.</span>onLoad<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">(</span>e<span class="token punctuation">,</span> target<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//全部加载完成后回调</span>
+loader<span class="token punctuation">.</span>onComplete<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h5 id="V7-and-loader"><a href="#V7-and-loader" class="headerlink" title="V7 and loader"></a>V7 and loader</h5><p>pixi团队一直想要删除loader，因为它的遗留方法（例如，XMLHttpRequest），是从 <a href="https://github.com/englercj/resource-loader" target="_blank" rel="noopener">resource-loader</a> 衍生出来的，Loader 最初的设计灵感主要是由 Flash/AS3 驱动的，现在看来已经过时了。我们希望从新的迭代中获得一些东西：静态加载、使用 Workers 加载、后台加载、基于 Promise、更少的缓存层。这是一个简单的例子，说明这将如何改变：</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> Loader<span class="token punctuation">,</span> Sprite <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'pixi.js'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> loader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Loader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+loader<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">'background'</span><span class="token punctuation">,</span> <span class="token string">'path/to/assets/background.jpg'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+loader<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span><span class="token punctuation">(</span>loader<span class="token punctuation">,</span> resources<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> image <span class="token operator">=</span> Sprite<span class="token punctuation">.</span><span class="token keyword">from</span><span class="token punctuation">(</span>resources<span class="token punctuation">.</span>background<span class="token punctuation">.</span>texture<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>现在变成：</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> Assets<span class="token punctuation">,</span> Sprite <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'pixi.js'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> texture <span class="token operator">=</span> <span class="token keyword">await</span> Assets<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span><span class="token string">'path/to/assets/background.jpg'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> image <span class="token operator">=</span> Sprite<span class="token punctuation">.</span><span class="token keyword">from</span><span class="token punctuation">(</span>texture<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h5 id="删除loader缓存资源"><a href="#删除loader缓存资源" class="headerlink" title="删除loader缓存资源"></a>删除loader缓存资源</h5><p>正常我们将资源从stage移除之后，utils.TextureCache依然会存在loader加载过的资源缓存</p>
+<p>通过</p>
+<pre class=" language-js"><code class="language-js">sprite<span class="token punctuation">.</span><span class="token function">destroy</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>资源依然存在。</p>
+<p>真正删除需要：</p>
+<pre class=" language-js"><code class="language-js">sprite<span class="token punctuation">.</span><span class="token function">destroy</span><span class="token punctuation">(</span><span class="token punctuation">{</span>texture<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> baseTexture<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><img src="/2020/07/31/canvas/destroy.png" alt></p>
+<p>移除<strong>TextureCache</strong>、<strong>BaseTextureCache</strong> 纹理，并且会从stage消失</p>
+<p>还有个children选项，若 <strong>children</strong> 设定为 <strong>true</strong> 時，會將 <strong>destroy()</strong> 的其他屬性如 <strong>texture: true</strong> 與 <strong>baseTexture: true</strong> 再傳入子物件、子孙物件</p>
+<p><code>PIXI.BaseTexture</code>：<br>纹理存储表示图像的信息。所有纹理都有一个基础纹理。</p>
+<p><code>PIXI.Texture</code>：<br>纹理存储表示图像或图像的一部分的信息。它不能直接添加到显示列表中。而是将其用作 Sprite 的纹理。如果没有提供框架，则使用整个图像。</p>
+<p><code>PIXI.Texture</code> 是对 <code>PIXI.BaseTexture</code> 的引用</p>
+<p><code>sprite.destroy</code> - 将销毁精灵，使 PIXI.Texture 和 PIXI.BaseTexture 保持不变<br><code>sprite.destroy(true);</code> - 将破坏精灵和 PIXI.Texture；PIXI.BaseTexture 保持不变<br><code>sprite.destroy(true, true);</code> - 将销毁精灵、PIXI.Texture 和 PIXI.BaseTexture</p>
+<p>通常，您不希望每次调用 addSprite() 时都创建 PIXI.Texture 并在 removeSprite() 中销毁它。即使这是在 Pixi 内部处理的并且没有创建重复的纹理。<br>提前创建你的纹理，将它们存储到数组中并在需要时选择一个。在没有其他精灵使用它时销毁 PIXI.Texture，并在完全完成后销毁 PIXI.BaseTexture。</p>
+<h4 id="3-设置精灵属性"><a href="#3-设置精灵属性" class="headerlink" title="3.设置精灵属性"></a>3.设置精灵属性</h4><p>比如我上面加载了一个sprite，可以设置大小、缩放、位置</p>
+<pre class=" language-js"><code class="language-js">sprite<span class="token punctuation">.</span>position<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">)</span>
+sprite<span class="token punctuation">.</span>x <span class="token operator">=</span> sprite<span class="token punctuation">.</span>x <span class="token operator">+</span> <span class="token number">10</span>  <span class="token comment" spellcheck="true">// 可以对 x、y 的某一项单独设置</span>
+
+<span class="token comment" spellcheck="true">// 缩放</span>
+sprite<span class="token punctuation">.</span>scale<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span>num<span class="token punctuation">,</span> num<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// 大小</span>
+sprite<span class="token punctuation">.</span>width <span class="token operator">=</span> sprite<span class="token punctuation">.</span>width <span class="token operator">+</span> <span class="token number">10</span>
+<span class="token comment" spellcheck="true">// 旋转</span>
+sprite<span class="token punctuation">.</span>rotation <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">0.1</span></code></pre>
+<h4 id="4-pixijs的事件"><a href="#4-pixijs的事件" class="headerlink" title="4.pixijs的事件"></a>4.pixijs的事件</h4><p>pixijs的两种渲染模式，都不是以dom结构为基础（可以联想到canvas），所以需要使用它内置的事件：</p>
+<ul>
+<li>pointerdown：类似于 mousedown。</li>
+<li>pointerup：类似于 mouseup。</li>
+<li>pointerover：类似于 mouseover。</li>
+<li>pointerout：类似于 mouseout。</li>
+<li>pointermove：类似于 mousemove。</li>
+</ul>
+<p>现在我们给sprite添加事件</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 第一步：设置元素为可交互的    </span>
+cat<span class="token punctuation">.</span>interactive <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 第二部：监听对应的事件</span>
+cat<span class="token punctuation">.</span><span class="token function">addListener</span><span class="token punctuation">(</span><span class="token string">'pointerdown'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    cat<span class="token punctuation">.</span>alpha <span class="token operator">=</span> <span class="token number">0.5</span> <span class="token comment" spellcheck="true">//类似CSS3滤镜filter</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>我们也可以通过代码来触发事件</p>
+<pre class=" language-js"><code class="language-js">cat<span class="token punctuation">.</span><span class="token function">emit</span><span class="token punctuation">(</span><span class="token string">'pointerdown'</span><span class="token punctuation">)</span></code></pre>
+<h4 id="5-pixijs绘制图形"><a href="#5-pixijs绘制图形" class="headerlink" title="5.pixijs绘制图形"></a>5.pixijs绘制图形</h4><p>熟悉canvas的同学都知道，canvas可以利用 <code>fillRect</code>、<code>moveTo</code>、<code>lineTo</code>等随喜所欲画一些简单的矢量图形，pixijs也不例外</p>
+<p>其中<code>beginFill</code>、<code>endFill</code>可以理解为canvas的 <code>beginPath</code>、<code>stroke</code>是一个道理</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//画一个矩形</span>
+<span class="token keyword">let</span> rectangle <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PIXI<span class="token punctuation">.</span>Graphics</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 外边框的颜</span>
+rectangle<span class="token punctuation">.</span><span class="token function">lineStyle</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">0xFF3300</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 给矩形的内部填充颜色</span>
+rectangle<span class="token punctuation">.</span><span class="token function">beginFill</span><span class="token punctuation">(</span><span class="token number">0x66CCcc</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 绘制矩形。它的四个参数是 x, y, width, height</span>
+rectangle<span class="token punctuation">.</span><span class="token function">drawRect</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">64</span><span class="token punctuation">,</span> <span class="token number">64</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 结束绘制</span>
+rectangle<span class="token punctuation">.</span><span class="token function">endFill</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 创建一个半径为32px的圆</span>
+<span class="token keyword">const</span> circle <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Graphics</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+circle<span class="token punctuation">.</span><span class="token function">beginFill</span><span class="token punctuation">(</span><span class="token number">0xfb6a8f</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+circle<span class="token punctuation">.</span><span class="token function">drawCircle</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">32</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//x\y\半径</span>
+circle<span class="token punctuation">.</span><span class="token function">endFill</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="6-给容器添加元素"><a href="#6-给容器添加元素" class="headerlink" title="6.给容器添加元素"></a>6.给容器添加元素</h4><p>和threejs一样（threejs是往scene里添加东西），我们做好的元素，要往PIXI的容器（container）里面加，然后再通过，才能显示到屏幕上</p>
+<p><code>app.stage</code>是一个pixijs<code>Container</code>的实例，作为最底层的舞台(stage)，所有要渲染的图形都应放在它的内部</p>
+<p>我们可以选择直接添加在pixi的app.stage上，也可以创建一个自定义的container，然后再添加到app.stage上（自定义container好处在于，比如说修改container的透明度，位于其中的子节点，都会受到影响）</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 自定义Container</span>
+<span class="token keyword">const</span> myContainer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Container</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 相对于根节点偏移</span>
+myContainer<span class="token punctuation">.</span>position<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token number">40</span><span class="token punctuation">,</span> <span class="token number">40</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+myContainer<span class="token punctuation">.</span><span class="token function">addChild</span><span class="token punctuation">(</span>rectangle<span class="token punctuation">)</span><span class="token punctuation">;</span>
+app<span class="token punctuation">.</span>stage<span class="token punctuation">.</span><span class="token function">addChild</span><span class="token punctuation">(</span>myContainer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+document<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>app<span class="token punctuation">.</span>view<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>实际上这里的app.view就是app.renderer.view，打印出来是一个canvas</p>
+<p><img src="/2020/07/31/canvas/pixijs.png" alt></p>
+<h4 id="7-渲染器Renderer"><a href="#7-渲染器Renderer" class="headerlink" title="7.渲染器Renderer"></a>7.渲染器Renderer</h4><p><code>app.renderer</code>是一个<code>Renderer</code>的实例，熟悉threejs的同学应该不陌生，如果WebGL 可以用，那么application自带的就是一个Renderer，否则为一个CanvasRenderer，它将场景及其所有内容绘制到支持 WebGL 的画布上。每当我们的元素变动，就需要重新渲染，然后我们就可以看到动画效果</p>
+<p>renderer <a href="https://pixijs.download/v5.3.9/docs/PIXI.Renderer.html" target="_blank" rel="noopener">PIXI.Renderer</a> | <a href="https://pixijs.download/v5.3.9/docs/PIXI.CanvasRenderer.html" target="_blank" rel="noopener">PIXI.CanvasRenderer</a></p>
+<pre class=" language-scss"><code class="language-scss"><span class="token comment" spellcheck="true">// 把画布重新渲染为500*500大小</span>
+app<span class="token number">.</span>renderer<span class="token number">.</span><span class="token function">resize</span><span class="token punctuation">(</span><span class="token number">500</span>, <span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 渲染一个容器</span>
+const container = new <span class="token function">Container</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+app<span class="token number">.</span>renderer<span class="token number">.</span><span class="token function">render</span><span class="token punctuation">(</span>container<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>通过打印renderer的type属性可以查看他的类型</p>
+<pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>app<span class="token punctuation">.</span>renderer<span class="token punctuation">.</span>type<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<table>
+<thead>
+<tr>
+<th align="left">渲染模式</th>
+<th align="left">取值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">UNKNOWN</td>
+<td align="left">0</td>
+</tr>
+<tr>
+<td align="left">WEBGL</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">CANVAS</td>
+<td align="left">2</td>
+</tr>
+</tbody></table>
+<p>改变容器(渲染器)的底色</p>
+<pre class=" language-js"><code class="language-js">app<span class="token punctuation">.</span>renderer<span class="token punctuation">.</span>backgroundColor <span class="token operator">=</span> <span class="token number">0x061639</span><span class="token punctuation">;</span></code></pre>
+<p><img src="/2020/07/31/canvas/blue.png" alt></p>
+<p>要更改画布的大小，请使用<code>renderer</code>的<code>resize</code>方法，并提供任何新的<code>width</code>和<code>height</code>值。但是，为了确保画布的大小调整到与分辨率匹配，请将<code>autoResize</code>设置为<code>true</code>。</p>
+<pre class=" language-js"><code class="language-js">app<span class="token punctuation">.</span>renderer<span class="token punctuation">.</span>autoResize <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+app<span class="token punctuation">.</span>renderer<span class="token punctuation">.</span><span class="token function">resize</span><span class="token punctuation">(</span><span class="token number">512</span><span class="token punctuation">,</span> <span class="token number">512</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="8-Ticker"><a href="#8-Ticker" class="headerlink" title="8.Ticker"></a>8.Ticker</h4><p><code>Ticker</code>有点类似前端的<code>requestAnimationFrame</code>，当然大部分情况，我们也可以用 <code>requestAnimationFrame</code>来替代Ticker</p>
+<p>在pixi源码可以看到，我们在注册application的时候，application会在初始化时注入ticker插件（<code>Application.registerPlugin(TickerPlugin);</code>）</p>
+<p>他还会默认帮我们把autoStart干成true</p>
+<p><img src="/2020/07/31/canvas/autostart.png" alt></p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 自定义ticker</span>
+<span class="token keyword">const</span> ticker <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Ticker</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 每次屏幕刷新重新渲染，否则只会渲染第一帧</span>
+ticker<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  chanziAnimate<span class="token punctuation">.</span>x <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">gameLoop</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  chanziAnimate<span class="token punctuation">.</span>x <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+  renderer<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>stage<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 重新渲染,如果是使用application初始化，可以忽略这一行，因为application.ticker在不断执行</span>
+  <span class="token function">requestAnimationFrame</span><span class="token punctuation">(</span>gameLoop<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token function">requestAnimationFrame</span><span class="token punctuation">(</span>gameLoop<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>尝试一下吧～<a href="https://codesandbox.io/s/elated-wind-5j60fu?file=/src/MoveDemo.js" target="_blank" rel="noopener">https://codesandbox.io/s/elated-wind-5j60fu?file=/src/MoveDemo.js</a></p>
+<p><code>Ticker</code>可以实现简单的动画，但如果我们希望实现一些复杂效果，则需要自己编写很多代码，这时就可以选择一个兼容<code>pixi</code>的动画库。市面上比较常见的动画库有：<a href="https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Ftweenjs%2Ftween.js">Tween.js</a>，<a href="https://link.juejin.cn/?target=https%3A%2F%2Fwww.tweenmax.com.cn%2Fstart%2Finit%2F">TweenMax</a></p>
+<p>如果你不存在需要持续动画渲染的功能，可以选择关闭app.ticker的启动：</p>
+<pre class=" language-js"><code class="language-js">app<span class="token punctuation">.</span>ticker<span class="token punctuation">.</span><span class="token function">stop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//等到需要时再渲染：</span>
+app<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><h5 id="图片合成"><a href="#图片合成" class="headerlink" title="图片合成"></a>图片合成</h5><p>前端有时会把多张图片合并成一张图片（雪碧图），而不是一张一张去加载。。通过设置<code>background-position</code>来显示不同的图片。<code>pixi.js</code>也有类似的技术，我们可以利用<a href="https://link.juejin.cn?target=https%3A%2F%2Fwww.codeandweb.com%2Ftexturepacker">Texture Packer</a>软件，把多张图片合并成一张图片，合并的同时，软件会生成一份<code>json</code>配置文件，记录了每张图片的相对位置。</p>
+<p>具体教程见<a href="https://www.codeandweb.com/texturepacker/tutorials/pixijs?mtm_campaign=inapp&mtm_kwd=texturepacker" target="_blank" rel="noopener">这里</a></p>
+<p>首先下载 -&gt; 拖动所需图片文件至texure packer，他将会自动生成</p>
+<p><img src="/2020/07/31/canvas/texture.png" alt></p>
+<p>制作动画：</p>
+<p>复选右边的图片，然后点击预览动画就可以看到图片连续起来的动画效果</p>
+<p><img src="/2020/07/31/canvas/anima.png" alt></p>
+<p>然后点击发布精灵表</p>
+<p><img src="/2020/07/31/canvas/publish.png" alt></p>
+<p>就会对应生成一个json文件（记录每个图像名字、大小、位置）和一个png文件（雪碧图）</p>
+<h5 id="spritesheet"><a href="#spritesheet" class="headerlink" title="spritesheet"></a>spritesheet</h5><p><code>Sritesheets</code>：<a href="https://pixijs.io/guides/basics/sprite-sheets.html" target="_blank" rel="noopener">https://pixijs.io/guides/basics/sprite-sheets.html</a></p>
+<p>一般spritesheet用于是一张大的雪碧图（png），并且配合上一个json文件，json文件记录了雪碧图每个图片的位置以及其他信息</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">import</span> <span class="token punctuation">{</span> Application<span class="token punctuation">,</span> Container<span class="token punctuation">,</span> Sprite<span class="token punctuation">,</span> Graphics<span class="token punctuation">,</span> Loader<span class="token punctuation">,</span> Spritesheet <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'pixi.js'</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// myjson记录了每张图片的相对位置</span>
+<span class="token keyword">import</span> myjson <span class="token keyword">from</span> <span class="token string">'./assets/treasureHunter.json'</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// mypng里面有多张图片</span>
+<span class="token keyword">import</span> mypng <span class="token keyword">from</span> <span class="token string">'./assets/treasureHunter.png'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> loader <span class="token operator">=</span> Loader<span class="token punctuation">.</span>shared<span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Application</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  width<span class="token punctuation">:</span> <span class="token number">300</span><span class="token punctuation">,</span>
+  height<span class="token punctuation">:</span> <span class="token number">300</span><span class="token punctuation">,</span>
+  antialias<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  transparent<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+  resolution<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  backgroundColor<span class="token punctuation">:</span> <span class="token number">0x1d9ce0</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+document<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>app<span class="token punctuation">.</span>view<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+loader
+<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">'mypng'</span><span class="token punctuation">,</span> mypng<span class="token punctuation">)</span>
+<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>setup<span class="token punctuation">)</span>
+
+<span class="token keyword">function</span> <span class="token function">setup</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> texture <span class="token operator">=</span> loader<span class="token punctuation">.</span>resources<span class="token punctuation">[</span><span class="token string">"mypng"</span><span class="token punctuation">]</span><span class="token punctuation">.</span>texture<span class="token punctuation">.</span>baseTexture<span class="token punctuation">;</span>
+  <span class="token keyword">const</span> sheet <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Spritesheet</span><span class="token punctuation">(</span>texture<span class="token punctuation">,</span> myjson<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>需要注意的是，通过spritesheet加载完成后，有一些属性是为空的，所以所以我们需要等待加载完成去执行一些操作的话，需要等待spritesheet加载完成后（异步），在进行操作，这时需要用的哦它的prase方法</p>
+<pre class=" language-js"><code class="language-js">sheet<span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span><span class="token punctuation">(</span>textures<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// mypng里面的一张叫treasure.png的图片</span>
+  <span class="token keyword">const</span> treasure <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Sprite</span><span class="token punctuation">(</span>textures<span class="token punctuation">[</span><span class="token string">"treasure.png"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  treasure<span class="token punctuation">.</span>position<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// mypng里面的一张叫blob.png的图片</span>
+  <span class="token keyword">const</span> blob <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Sprite</span><span class="token punctuation">(</span>textures<span class="token punctuation">[</span><span class="token string">"blob.png"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  blob<span class="token punctuation">.</span>position<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  app<span class="token punctuation">.</span>stage<span class="token punctuation">.</span><span class="token function">addChild</span><span class="token punctuation">(</span>treasure<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  app<span class="token punctuation">.</span>stage<span class="token punctuation">.</span><span class="token function">addChild</span><span class="token punctuation">(</span>blob<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Texture Packer要收费的，免费版可能有水印（刚开始会送你7天pro），这里有个免费版的Texture Packer可以看一下：</p>
+<p><a href="http://free-tex-packer.com/download/" target="_blank" rel="noopener">http://free-tex-packer.com/download/</a></p>
+<h5 id="AnimatedSprite"><a href="#AnimatedSprite" class="headerlink" title="AnimatedSprite"></a>AnimatedSprite</h5><p>可以看成一个会动的Sprite，png -&gt; apng；Sprite -&gt; AnimatedSprite，AnimatedSprite接受一个图像数组，按照数组顺序播放图像，然后我们就可以看到“动起来的效果”</p>
+<p>传入2个参数</p>
+<ul>
+<li>textures</li>
+<li>autoUpdate，默认为true，采用PIXI.Ticker来更新动画时间</li>
+</ul>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> AnimatedSprite<span class="token punctuation">,</span> Texture <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'pixi.js'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> alienImages <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token string">'image_sequence_01.png'</span><span class="token punctuation">,</span>
+    <span class="token string">'image_sequence_02.png'</span><span class="token punctuation">,</span>
+    <span class="token string">'image_sequence_03.png'</span><span class="token punctuation">,</span>
+    <span class="token string">'image_sequence_04.png'</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> textureArray <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">4</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">const</span> texture <span class="token operator">=</span> Texture<span class="token punctuation">.</span><span class="token keyword">from</span><span class="token punctuation">(</span>alienImages<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    textureArray<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>texture<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> animatedSprite <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">AnimatedSprite</span><span class="token punctuation">(</span>textureArray<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>当然，你也可以选择在图片合成工具的texurePacker里，设置图片名称，让他自动帮你生成动画：</p>
+<p><img src="/2020/07/31/canvas/auto.png" alt></p>
+<p>此时通过spritesheet实例化生成的精灵表中，可以看到有animations属性（一个图片集数组），我们直接把它放到AnimatedSprite，就是一个动画精灵了</p>
+<pre class=" language-js"><code class="language-js">app<span class="token punctuation">.</span>loader<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"chanziPng"</span><span class="token punctuation">,</span> chanziPng<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span><span class="token keyword">async</span> <span class="token punctuation">(</span>loader<span class="token punctuation">,</span> resources<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> chanziSheet <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PIXI<span class="token punctuation">.</span>Spritesheet</span><span class="token punctuation">(</span>
+    resources<span class="token punctuation">[</span><span class="token string">"chanziPng"</span><span class="token punctuation">]</span><span class="token punctuation">.</span>texture<span class="token punctuation">,</span>
+    chanzi
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">await</span> chanziSheet<span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// 创建动画雪碧</span>
+  <span class="token keyword">const</span> chanziAnimate <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PIXI<span class="token punctuation">.</span>AnimatedSprite</span><span class="token punctuation">(</span>
+    chanziSheet<span class="token punctuation">.</span>animations<span class="token punctuation">[</span><span class="token string">"ani"</span><span class="token punctuation">]</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// 设置动画时间</span>
+  chanziAnimate<span class="token punctuation">.</span>animationSpeed <span class="token operator">=</span> <span class="token number">0.05</span><span class="token punctuation">;</span>
+  chanziAnimate<span class="token punctuation">.</span><span class="token function">play</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  app<span class="token punctuation">.</span>stage<span class="token punctuation">.</span><span class="token function">addChild</span><span class="token punctuation">(</span>chanziAnimate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>尝试一下：<a href="https://codesandbox.io/s/elated-wind-5j60fu?file=/src/Component.js" target="_blank" rel="noopener">https://codesandbox.io/s/elated-wind-5j60fu?file=/src/Component.js</a></p>
+<h5 id="z-index"><a href="#z-index" class="headerlink" title="z-index"></a>z-index</h5><p>有时候我们需要对一些元素层级来定位，决定元素的层次优先级，我们可以先开启</p>
+<p><code>PIXI.settings.SORTABLE_CHILDREN</code>：设置容器属性“sortableChildren”的默认值。如果设置为 true，容器将在调用 updateTransform() 时按 zIndex 值对其子项进行排序，或者在调用 sortChildren() 时手动排序。</p>
+<pre class=" language-js"><code class="language-js">PIXI<span class="token punctuation">.</span>settings<span class="token punctuation">.</span>SORTABLE_CHILDREN <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span></code></pre>
+<p>此时我们的 <code>sprite.zIndex = xx;</code>就可以生效了</p>
+<h5 id="一些pixi例子"><a href="#一些pixi例子" class="headerlink" title="一些pixi例子"></a>一些pixi例子</h5><p><a href="https://link.segmentfault.com/?enc=o5FSl%2FPTAzqrsEFUHtx3gw%3D%3D.GQVDVbEJ1n%2B6gwpoXcSkERwvqilv4Scno5dDVx0gdFTb9oodnt7gpvgM8KxQ5z%2BB" target="_blank" rel="noopener">Run Pixie Run</a></p>
 <p><a href="https://link.segmentfault.com/?enc=PoWTuwUVvw86vIQgTXDBbg%3D%3D.Ah4gjIrIMtUsHkVBx0DCULWb2EX%2Ff%2Fdy6hv4iJKUgOA%3D" target="_blank" rel="noopener">WASTE INVADERS</a></p>
+<p><a href="https://bbs.huaweicloud.com/blogs/293024" target="_blank" rel="noopener">宝可梦实战</a>（通过TexturePacker实现动画）</p>
+<p><a href="https://blog.csdn.net/SongD1114/article/details/123945498" target="_blank" rel="noopener">碰撞检测案例</a>(飞机大战小游戏) </p>
+<p><a href="https://blog.csdn.net/panchuanpeng/article/details/109596380" target="_blank" rel="noopener">另一个飞机大战github</a></p>
+<p>一些资源网站：</p>
+<p><a href="https://www.aigei.com/s?q=%E5%8F%A3%E8%A2%8B%E5%A6%96%E6%80%AA" target="_blank" rel="noopener">爱给网</a> (精灵图，场景图)</p>
+<h5 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h5><p><a href="https://pixijs.com/" target="_blank" rel="noopener">PixiJs</a></p>
+<p><a href="https://juejin.cn/post/7128785645140443143" target="_blank" rel="noopener">PixiJS - 最快、最灵活的 2D WebGL 渲染引擎</a></p>
+<p><a href="https://juejin.cn/post/6844904020939636744" target="_blank" rel="noopener">PixiJS基础教程</a></p>
+<p><a href="https://github.com/pixijs/pixijs/wiki/v7-Migration-Guide" target="_blank" rel="noopener">Pixi v7迁移</a></p>
+<p><a href="https://github.com/Zainking/LearningPixi#application" target="_blank" rel="noopener">一个老版本的pixi教程</a></p>
 <h2 id="fabricjs"><a href="#fabricjs" class="headerlink" title="fabricjs"></a>fabricjs</h2><p><a href="https://link.juejin.cn/?target=http%3A%2F%2Ffabricjs.com%2F">Fabric.js</a> 是一个强大的H5 canvas框架，在原生canvas之上提供了交互式对象模型，通过简洁的api就可以在画布上进行丰富的操作。它也是一个<strong>SVG-to-canvas 解析器</strong>。</p>
 
             </div>
@@ -1274,7 +1693,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">352.3k</span>&nbsp;字
+                class="white-color">359.2k</span>&nbsp;字
             
             
             

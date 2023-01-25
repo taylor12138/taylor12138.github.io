@@ -507,6 +507,7 @@
 
 <span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>当微应用信息注册完之后，一旦浏览器的 url 发生变化，便会自动触发 qiankun 的匹配逻辑，所有 activeRule 规则匹配上的微应用就会被插入到指定的 container 中，同时依次调用微应用暴露出的生命周期钩子。</p>
+<p><code>registerMicroApps(apps, lifeCycles?)</code>：<a href="https://qiankun.umijs.org/zh/api#registermicroappsapps-lifecycles" target="_blank" rel="noopener">https://qiankun.umijs.org/zh/api#registermicroappsapps-lifecycles</a></p>
 <p>如果不想要用url控制子应用的加载，可以选择手动加载完毕</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> loadMicroApp <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'qiankun'</span><span class="token punctuation">;</span>
 
@@ -598,7 +599,7 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 <p>webpack 暴露了一个名为 <code>__webpack_public_path__</code> 的全局变量。所以在应用程序的 entry point 中，可以直接如下设置：</p>
 <pre class=" language-js"><code class="language-js">__webpack_public_path__ <span class="token operator">=</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span>ASSET_PATH<span class="token punctuation">;</span></code></pre>
 <p>对于无 <code>webpack</code> 构建的子应用项目，直接将 <code>lifecycles</code> 挂载到 <code>window</code> 上即可。</p>
-<h4 id="小细节"><a href="#小细节" class="headerlink" title="小细节"></a>小细节</h4><p>在qiankun环境中，我们可以得到 <code>window.__POWERED_BY_QIANKUN__)</code>这个值，为true，通常用来判断子应用是否为乾坤环境</p>
+<h4 id="window-POWERED-BY-QIANKUN"><a href="#window-POWERED-BY-QIANKUN" class="headerlink" title="window.__POWERED_BY_QIANKUN__"></a><code>window.__POWERED_BY_QIANKUN__</code></h4><p>在qiankun环境中，我们可以得到 <code>window.__POWERED_BY_QIANKUN__)</code>这个值，为true，通常用来判断子应用是否为乾坤环境</p>
 <h4 id="展开说说"><a href="#展开说说" class="headerlink" title="展开说说"></a>展开说说</h4><p>React微应用项目</p>
 <p>以 <code>create react app</code> 生成的 <code>react 16</code> 项目为例，搭配 <code>react-router-dom</code> 5.x。</p>
 <ol>
@@ -1130,32 +1131,31 @@ actions<span class="token punctuation">.</span><span class="token function">offG
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/09/22/qiankun-shi-zhan/">
+                <a href="/2023/01/05/react-de-yi-xie-gong-ju/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="qiankun实战">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="React的一些工具">
                         
-                        <span class="card-title">qiankun实战</span>
+                        <span class="card-title">React的一些工具</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.qiankun快速上手快速上手：https://qiankun.umijs.org/zh/guide/getting-started
-主应用in 主应用，要完成对微应用的注册：
-yarn add qiankun # 或者 npm i q
+                            普通动画用 transition 只能做一些简单的动画，稍微复杂的动画可以使用keyframes：
+.show{ animation:show-item 2s ease-in forwards; }
+.hide{ animation:hid
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-09-22
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2023-01-05
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1168,7 +1168,6 @@ yarn add qiankun # 或者 npm i q
                         </span>
                     </div>
                 </div>
-
                 
             </div>
         </div>
@@ -1369,7 +1368,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">352.3k</span>&nbsp;字
+                class="white-color">359.2k</span>&nbsp;字
             
             
             

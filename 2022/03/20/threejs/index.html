@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.3k
+                    8.7k
                 </div>
                 
 
@@ -487,11 +487,29 @@
             <div id="articleContent">
                 <h2 id="1-threejs简介"><a href="#1-threejs简介" class="headerlink" title="1.threejs简介"></a>1.threejs简介</h2><h4 id="WebGL"><a href="#WebGL" class="headerlink" title="WebGL"></a>WebGL</h4><p>WebGL（全写Web Graphics Library）字面意义理解就是web图像库.是一种3D绘图协议，种绘图技术标准允许把JavaScript和OpenGL ES 2.0结合在一起，通过增加OpenGL ES 2.0的一个JavaScript绑定</p>
 <p>当然也可以说是一个负责图形处理的JavaScript API，可在任何兼容的Web浏览器中渲染高性能的交互式3D和2D图形，而无需使用插件.总结一句话,“webgl是一个专门计算或渲染3D图像的javascriptAPI也可以称之为专门处理3D图像的一种javaScript技术”．</p>
+<p>WEBGL VS canvas VS SVG</p>
+<ul>
+<li>SVG:本身會變成瀏覽器 DOM。優點是方便交互，缺點是因為每一個 SVG 元素都是一個 DOM 元素，繪製或移動一個 SVG 元素，瀏覽器都需要重新繪製、渲染頁面</li>
+<li>canvas: 不涉及 DOM 元素，和 SVG 繪製的元素相比，交互性差，但也正因如此，在元素自身的動畫特效上不受 DOM 位置限制，在瀏覽器性能（載入速度）上比 SVG 更佳。</li>
+<li>WebGL:WebGL 通過 WebGL JS API 連接 Javascript 和 GPU 編譯程序。GPU 繪圖的渲染大部分在 GPU 上進行，對瀏覽器壓力減小，性能幾個量級地提高，使 WebGL 成為瀏覽器內的3D渲染、大數據可視化唯一的選擇。</li>
+</ul>
 <h4 id="threejs概述"><a href="#threejs概述" class="headerlink" title="threejs概述"></a>threejs概述</h4><p>随着WebGL在2011年推出之后，3d技术正式向高级编程语言js敞开大门</p>
 <p>threejs是基于原生webGL封装运行的三维引擎，在所有webGL引擎中，threejs是国内资料最多，使用最广泛的三维引擎</p>
 <p>官网：<a href="https://threejs.org/" target="_blank" rel="noopener">https://threejs.org/</a></p>
 <p>GitHub：<a href="https://github.com/mrdoob/three.js" target="_blank" rel="noopener">https://github.com/mrdoob/three.js</a></p>
-<p>一个炫酷的threejs网站推荐<a href="https://lusion.co/" target="_blank" rel="noopener">https://lusion.co/</a></p>
+<p>一个炫酷的threejs网站推荐<a href="https://lusion.co/；当然官网也有很多threejs的案例网站" target="_blank" rel="noopener">https://lusion.co/；当然官网也有很多threejs的案例网站</a></p>
+<p>threejs教学：</p>
+<ul>
+<li><p><a href="https://threejs.org/manual/#en/fundamentals" target="_blank" rel="noopener">Three.js Fundamentals</a></p>
+</li>
+<li><p><a href="https://threejs-journey.xyz/" target="_blank" rel="noopener">Three.js Journey</a></p>
+</li>
+<li><p><a href="https://www.packtpub.com/web-development/learn-threejs-third-edition" target="_blank" rel="noopener">Learn Three.js</a></p>
+</li>
+<li><p><a href="https://www.amazon.co.jp/初めてのThree-js-第2版-_WebGLのためのJavaScript-3Dライブラリ-Dirksen/dp/4873117704/" target="_blank" rel="noopener">初めてのThree.js</a></p>
+</li>
+<li><h6 id="法国threejs高级开发工程师Bruno-Simon的教学视频"><a href="#法国threejs高级开发工程师Bruno-Simon的教学视频" class="headerlink" title="法国threejs高级开发工程师Bruno Simon的教学视频"></a>法国threejs高级开发工程师Bruno Simon的教学视频</h6></li>
+</ul>
 <p>threejs程序结构</p>
 <ul>
 <li>场景<ul>
@@ -512,7 +530,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="图片要求"><a href="#图片要求" class="headerlink" title="图片要求"></a>图片要求</h4><p>threejs用到的一些图，需要图片本身要调节光亮（使用HDR的图片）</p>
+<h4 id="图片要求"><a href="#图片要求" class="headerlink" title="图片要求"></a>图片要求</h4><p>threejs用到的一些图，出了一些普通图片，还有时候需要可以本身要调节光亮的图片（使用HDR的图片）</p>
 <p>HDR图：高动态范围图像(High-Dynamic Range，简称HDR)，相比普通的图像，可以提供更多的动态范围和图像细节，根据不同的曝光时间的LDR(Low-Dynamic Range)图像，利用每个曝光时间相对应最佳细节的LDR图像来合成最终HDR图像，能够更好的反映出真实环境中的视觉效果。</p>
 <p>这里有个HDR图推荐网址：<a href="https://polyhaven.com/" target="_blank" rel="noopener">https://polyhaven.com/</a></p>
 <h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>项目中安装</p>
@@ -549,13 +567,13 @@ document<span class="token punctuation">.</span>body<span class="token punctuati
 <p>让当前相机指向场景中心，这里的参数必须传入一个position</p>
 </li>
 </ul>
-<p>除此之外，还有另外一个摄像机</p>
-<p>正交相机（<code>OrthographicCamera</code>）</p>
+<h5 id="其他相机"><a href="#其他相机" class="headerlink" title="其他相机"></a>其他相机</h5><p>正交相机（<code>OrthographicCamera</code>）</p>
 <p><code>OrthographicCamera( left : Number, right : Number, top : Number, bottom : Number, near : Number, far : Number )</code></p>
 <p>left — 摄像机视左边界。<br>right — 摄像机视右边界。<br>top — 摄像机视上边界。<br>bottom — 摄像机视下边界。<br>near — 摄像机近端距离。<br>far — 摄像机远端距离。</p>
 <p>这一摄像机使用<a href="https://en.wikipedia.org/wiki/Orthographic_projection" target="_blank" rel="noopener">orthographic projection</a>（正交投影）来进行投影。</p>
 <p>在这种投影模式下，无论物体距离相机距离远或者近，在最终渲染的图片中物体的大小都保持不变。</p>
 <p>这对于渲染2D场景或者UI元素是非常有用的。</p>
+<p>想了解更多相机 <a href="https://threejs.org/docs/index.html?q=Camera#api/zh/cameras/OrthographicCamera" target="_blank" rel="noopener">看这里</a></p>
 <h4 id="渲染器"><a href="#渲染器" class="headerlink" title="渲染器"></a>渲染器</h4><pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//可以设置抗锯齿 antialias</span>
 <span class="token keyword">const</span> renderer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>WebGLRenderer</span><span class="token punctuation">(</span><span class="token punctuation">{</span> antialias<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">//设置像素比,window.devicePixelRatio为当前浏览器的像素比</span>
@@ -580,12 +598,12 @@ renderer<span class="token punctuation">.</span><span class="token function">set
 renderer<span class="token punctuation">.</span>toneMapping <span class="token operator">=</span> THREE<span class="token punctuation">.</span>ACESFilmicToneMapping<span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">//调节曝光程度</span>
 renderer<span class="token punctuation">.</span>toneMappingExposure <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span></code></pre>
-<h2 id="3-场景"><a href="#3-场景" class="headerlink" title="3.场景"></a>3.场景</h2><pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> scene <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Scene</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<h4 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h4><pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> scene <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Scene</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
 <p>将xx添加入场景</p>
 <pre class=" language-js"><code class="language-js">scene<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>xx<span class="token punctuation">)</span></code></pre>
 <p>将xx移除场景</p>
 <pre class=" language-js"><code class="language-js">scene<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>xx<span class="token punctuation">)</span></code></pre>
-<h4 id="场景内部方法"><a href="#场景内部方法" class="headerlink" title="场景内部方法"></a>场景内部方法</h4><ul>
+<h5 id="场景内部方法"><a href="#场景内部方法" class="headerlink" title="场景内部方法"></a>场景内部方法</h5><ul>
 <li><p><code>.background(Object)</code></p>
 <p>若不为空，在渲染场景的时候将设置背景，且背景总是首先被渲染的。 可以设置一个用于的“clear”的Color（颜色）、一个覆盖canvas的Texture（纹理）， 或是 a cubemap as a CubeTexture or an equirectangular as a Texture。默认值为null。</p>
 <p>当然也可以使用threejs的<code>Color</code></p>
@@ -630,11 +648,11 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>如果不为空，它将强制场景中的<strong>每个物体</strong>使用这里的材质来渲染。默认值为null。</p>
 </li>
 </ul>
-<h4 id="纹理图加载"><a href="#纹理图加载" class="headerlink" title="纹理图加载"></a><strong>纹理图加载</strong></h4><p><code>TextureLoader</code>：加载texture的一个类。 内部使用ImageLoader来加载文件。</p>
+<h5 id="纹理图加载"><a href="#纹理图加载" class="headerlink" title="纹理图加载"></a><strong>纹理图加载</strong></h5><p><code>TextureLoader</code>：加载texture的一个类。 内部使用ImageLoader来加载文件。</p>
 <p><code>.load ( url : String, onLoad : Function, onProgress : Function, onError : Function ) : Texture</code></p>
 <p>url — 文件的URL或者路径，也可以为 <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs" target="_blank" rel="noopener">Data URI</a>.<br>onLoad — 加载完成时将调用。回调参数为将要加载的texture.<br>onProgress — 将在加载过程中进行调用。参数为XMLHttpRequest实例，实例包含total和loaded字节。<br>onError — 在加载错误时被调用。</p>
 <p>从给定的URL开始加载并将完全加载的texture传递给onLoad。该方法还返回一个新的纹理对象，该纹理对象可以直接用于材质创建。 如果采用此方法，一旦相应的加载过程完成，纹理可能会在场景中出现。</p>
-<h4 id="纹理背景"><a href="#纹理背景" class="headerlink" title="纹理背景"></a><strong>纹理背景</strong></h4><p>jpg贴图纹理（材质）</p>
+<h5 id="纹理背景"><a href="#纹理背景" class="headerlink" title="纹理背景"></a><strong>纹理背景</strong></h5><p>jpg贴图纹理（材质）</p>
 <ul>
 <li><p><code>.map : Texture</code></p>
 <p>颜色贴图。默认为null。</p>
@@ -667,6 +685,12 @@ console<span class="token punctuation">.</span><span class="token function">log<
         <span class="token keyword">this</span><span class="token punctuation">.</span>scene<span class="token punctuation">.</span>environment <span class="token operator">=</span> texture<span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
+<h2 id="3-几个比较重要的类"><a href="#3-几个比较重要的类" class="headerlink" title="3.几个比较重要的类"></a>3.几个比较重要的类</h2><h4 id="Mesh：网格"><a href="#Mesh：网格" class="headerlink" title="Mesh：网格"></a>Mesh：网格</h4><p>表示基于以三角形为<a href="https://en.wikipedia.org/wiki/Polygon_mesh" target="_blank" rel="noopener">polygon mesh</a>（多边形网格）的物体的类。 同时也作为其他类的基类，例如<a href="https://threejs.org/docs/index.html#api/zh/objects/SkinnedMesh" target="_blank" rel="noopener">SkinnedMesh</a>。</p>
+<p>代码示例</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> geometry <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>BoxGeometry</span><span class="token punctuation">(</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//生成一个立方体</span>
+<span class="token keyword">const</span> material <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>MeshBasicMaterial</span><span class="token punctuation">(</span><span class="token punctuation">{</span> color<span class="token punctuation">:</span> <span class="token number">0xffff00</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//创建一个材质material</span>
+<span class="token keyword">const</span> mesh <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Mesh</span><span class="token punctuation">(</span> geometry<span class="token punctuation">,</span> material <span class="token punctuation">)</span><span class="token punctuation">;</span> scene<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span> mesh <span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>你可以理解他为一个蕾丝pixi的sprite，但是它由一个物体（geometry） + 材料（material） 合成的，比如一颗木头就是由一个圆柱体 + 木材质合成的</p>
 <h2 id="4-实践"><a href="#4-实践" class="headerlink" title="4.实践"></a>4.实践</h2><h4 id="小实践"><a href="#小实践" class="headerlink" title="小实践"></a>小实践</h4><p>（场景+阴影+小立方体）</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> scene <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Scene</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> camera <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>PerspectiveCamera</span><span class="token punctuation">(</span><span class="token number">75</span><span class="token punctuation">,</span> window<span class="token punctuation">.</span>innerWidth <span class="token operator">/</span> window<span class="token punctuation">.</span>innerHeight<span class="token punctuation">,</span> <span class="token number">0.1</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -732,7 +756,7 @@ document<span class="token punctuation">.</span>body<span class="token punctuati
 renderer<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>scene<span class="token punctuation">,</span> camera<span class="token punctuation">)</span></code></pre>
 <h4 id="小实践推荐网站"><a href="#小实践推荐网站" class="headerlink" title="小实践推荐网站"></a>小实践推荐网站</h4><p><a href="https://github.com/JChehe/blog/issues/44" target="_blank" rel="noopener">https://github.com/JChehe/blog/issues/44</a>  一个换肤小椅子作为实践</p>
 <p><a href="https://github.com/JChehe/blog/issues/45" target="_blank" rel="noopener">https://github.com/JChehe/blog/issues/45</a> 3d任务交互（进阶版）</p>
-<h4 id="材质"><a href="#材质" class="headerlink" title="材质"></a>材质</h4><ul>
+<h4 id="材质（material）介绍"><a href="#材质（material）介绍" class="headerlink" title="材质（material）介绍"></a>材质（material）介绍</h4><ul>
 <li><p>MeshBasicMaterial：一个以简单着色（平面或线框）方式来绘制几何体的材质。这种材质不受光照的影响。（最佳性能）</p>
 </li>
 <li><p>深度网格材质(MeshDepthMaterial)：一种按深度绘制几何体的材质。深度基于相机远近平面。白色最近，黑色最远。</p>
@@ -831,19 +855,6 @@ renderer<span class="token punctuation">.</span><span class="token function">ren
 </ul>
 <p>删除模型：</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">this</span><span class="token punctuation">.</span>model <span class="token operator">&amp;&amp;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>model<span class="token punctuation">.</span><span class="token function">removeFromParent</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
-<p>模型加载进度</p>
-<pre class=" language-js"><code class="language-js"><span class="token function">setModel</span><span class="token punctuation">(</span>modelName<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 由于添加模型是异步操作，所以可以封装一个promise给它</span>
-    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span>res<span class="token punctuation">,</span> rej<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">//public/gltf/模型文件</span>
-        <span class="token keyword">const</span> loader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GLTFLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setPath</span><span class="token punctuation">(</span><span class="token string">"gltf/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        loader<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>modelName<span class="token punctuation">,</span> <span class="token punctuation">(</span>gltf<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-            <span class="token comment" spellcheck="true">//...</span>
-        <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'模型加载进度'</span><span class="token punctuation">,</span> <span class="token punctuation">)</span>
-        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
 <h4 id="添加模型阴影"><a href="#添加模型阴影" class="headerlink" title="添加模型阴影"></a>添加模型阴影</h4><p>在初始化renderer的时候先设置</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">this</span><span class="token punctuation">.</span>renderer<span class="token punctuation">.</span>shadowMap<span class="token punctuation">.</span>enabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span></code></pre>
 <ul>
@@ -1782,7 +1793,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">352.3k</span>&nbsp;字
+                class="white-color">359.2k</span>&nbsp;字
             
             
             

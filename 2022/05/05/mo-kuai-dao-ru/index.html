@@ -630,6 +630,9 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token keyword">const</span> img <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"img"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 img<span class="token punctuation">.</span>src <span class="token operator">=</span> imgSrc<span class="token punctuation">;</span>
 document<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>img<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>还可以动态导入：</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token punctuation">{</span> origin<span class="token punctuation">:</span> originPath<span class="token punctuation">,</span> path <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`./path</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>assetId<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">.json`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//...</span></code></pre>
 <h4 id="不构建直接引用NPM包"><a href="#不构建直接引用NPM包" class="headerlink" title="不构建直接引用NPM包"></a>不构建直接引用NPM包</h4><p>当 <code>ES Module</code> 最开始作为一种新的 <code>JS</code> 模块化方案被引入的候，<code>import</code> 语句中需要指定相对路径或绝对路径。</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> dayjs <span class="token keyword">from</span> <span class="token string">"https://cdn.skypack.dev/dayjs@1.10.7"</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// ES modules</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">dayjs</span><span class="token punctuation">(</span><span class="token string">"2022-08-12"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"YYYY-MM-DD"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
@@ -1178,7 +1181,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">352.3k</span>&nbsp;字
+                class="white-color">359.2k</span>&nbsp;字
             
             
             

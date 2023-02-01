@@ -677,6 +677,22 @@ btn500<span class="token punctuation">.</span><span class="token function">addEv
 btn800<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token function">animate</span><span class="token punctuation">(</span>div<span class="token punctuation">,</span> <span class="token number">800</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<h2 id="6-双击进入全屏"><a href="#6-双击进入全屏" class="headerlink" title="6.双击进入全屏"></a>6.双击进入全屏</h2><p>这可以在很多浏览器中适用，但是 it won’t work in Safari。。</p>
+<pre class=" language-js"><code class="language-js">window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"dblclick"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>document<span class="token punctuation">.</span>fullscreenElement<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    canvas<span class="token punctuation">.</span><span class="token function">requestFullscreen</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    document<span class="token punctuation">.</span><span class="token function">exitFullscreen</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>需要适配一下：</p>
+<pre class=" language-js"><code class="language-js">window<span class="token punctuation">.</span><span class="token function">addEventLisnter</span><span class="token punctuation">(</span><span class="token string">'dblclick'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>document<span class="token punctuation">.</span>fullscreenElement<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        canvas<span class="token punctuation">.</span><span class="token function">requestFullscreem</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token string">''</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        document<span class="token punctuation">.</span><span class="token function">exitFullscreen</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <h1 id="移动端"><a href="#移动端" class="headerlink" title="移动端"></a>移动端</h1><p>移动端兼容性较好，我们不需要考虑以前js的兼容问题，可以放心使用原生的JS书写，但是移动端也有自己独特的地方，如touch事件等</p>
 <h2 id="1-touch事件"><a href="#1-touch事件" class="headerlink" title="1.touch事件"></a>1.touch事件</h2><p>响应用户手指对屏幕的操作</p>
 <p><code>touchstart</code>  手指触摸到一个dom元素  （像<code>mousedown</code>）</p>
@@ -1446,7 +1462,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">359.2k</span>&nbsp;字
+                class="white-color">363k</span>&nbsp;字
             
             
             

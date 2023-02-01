@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.6k
+                    6.9k
                 </div>
                 
 
@@ -639,6 +639,13 @@ C
 <p>执行 requestAnimationFrame callback 是 UI Render 的其中一步。</p>
 <p>如果浏览器试图实现 60Hz 的刷新率，那么 UI Render 只需要每秒执行 60 次（每 16.7 ms）。如果浏览器发现『顶层浏览器上下文』无法维持住这个频率，可能会下调到可维持的 30Hz，而不是掉帧。（本规范并不对何时进行 render 做任何规定。）类似的，如果一个顶层浏览器上下文在后台运行，用户代理可能决定将该页面的刷新率降到 4Hz，甚至更低。</p>
 <p>由于规范没有做约定，所以浏览器在 render 策略上有充分的自主性。既有可能出现每一轮 eventloop 后都 render 的现象，也有可能出现几十轮 eventloop 都不 render 的情况。</p>
+<h4 id="performance-now"><a href="#performance-now" class="headerlink" title="performance.now()"></a>performance.now()</h4><p><strong><code>performance.now()</code></strong> 方法返回一个精确到毫秒的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/DOMHighResTimeStamp" target="_blank" rel="noopener"><code>DOMHighResTimeStamp</code></a>。</p>
+<p><strong>警告：</strong> 这个时间戳实际上并不是高精度的。为了降低像<a href="https://spectreattack.com/" target="_blank" rel="noopener">Spectre</a>这样的安全威胁，各类浏览器对该类型的值做了不同程度上的四舍五入处理。（Firefox 从 Firefox 59 开始四舍五入到 2 毫秒精度）一些浏览器还可能对这个值作稍微的随机化处理。这个值的精度在未来的版本中可能会再次改善；浏览器开发者还在调查这些时间测定攻击和如何更好的缓解这些攻击。</p>
+<p>它和Date.now()不同的点：</p>
+<ol>
+<li>和 JavaScript 中其他可用的时间类函数（比如<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Date/now" target="_blank" rel="noopener"><code>Date.now</code></a>）不同的是，<code>window.performance.now()</code>返回的时间戳没有被限制在一毫秒的精确度内，相反，它们以浮点数的形式表示时间，精度最高可达微秒级。</li>
+<li>另外一个不同点是，<code>window.performance.now()</code>是以一个恒定的速率慢慢增加的，它不会受到系统时间的影响（系统时钟可能会被手动调整或被 NTP 等软件篡改）。另外，<code>performance.timing.navigationStart + performance.now()</code> 约等于 <code>Date.now()</code>。</li>
+</ol>
 <h2 id="5-JS执行队列"><a href="#5-JS执行队列" class="headerlink" title="5.JS执行队列"></a>5.JS执行队列</h2><p><strong>JS原先是单线程</strong>，也就是说同一时间只能做一件事，但是单线程就意味着，所有任务需要排队，钱一个任务结束后，才能执行下一个任务，如果JS执行时间过长，就会造成页面的渲染不连贯，导致页面渲染加载阻塞</p>
 <p><strong>多线程</strong>十分强大，但是多线程同步比较复杂，并且危险，稍有不慎就会崩溃死锁 &amp; 造成大量并发问题</p>
 <p>而传统上，JS旨在用于简短，快速运行的代码片段，作为浏览器脚本语言，主要用途是与用户互动，以及操作DOM，所以JS比较适合单线程</p>
@@ -1106,20 +1113,20 @@ btn<span class="token punctuation">.</span><span class="token function">addEvent
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/03/05/whistle/">
+                <a href="/2022/03/05/websocket/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="whistle">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="websocket">
                         
-                        <span class="card-title">whistle</span>
+                        <span class="card-title">websocket</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Whislte概述Whistle 是一个基于 Node 实现的跨平台 Web 调试代理工具。
-和其他抓包软件，如 Charles、Fiddler 一样，它可以查看、修改 HTTP、HTTPS、Websocket 的请求、响应，也可以作为 H
+                            1.WebSocket概括WebSocket 是 HTML5 开始提供的一种在单个 TCP 连接上进行全双工通讯的协议，是一个持久化的协议。
+WebSocket 使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推送数据。
                         
                     </div>
                     <div class="publish-info">
@@ -1330,7 +1337,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">359.2k</span>&nbsp;字
+                class="white-color">363k</span>&nbsp;字
             
             
             

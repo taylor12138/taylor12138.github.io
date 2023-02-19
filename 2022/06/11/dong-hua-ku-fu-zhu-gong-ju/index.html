@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="React的一些工具, Hexo">
+    <meta name="keywords" content="动画库辅助工具, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>React的一些工具 | Hexo</title>
+    <title>动画库辅助工具 | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">React的一些工具</h1>
+                    <h1 class="description center-align post-title">动画库辅助工具</h1>
                 </div>
             </div>
         </div>
@@ -459,7 +459,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2023-01-05
+                    2022-06-11
                 </div>
                 
 
@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    847
+                    725
                 </div>
                 
 
@@ -485,153 +485,161 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="普通动画"><a href="#普通动画" class="headerlink" title="普通动画"></a>普通动画</h2><p>用 transition 只能做一些简单的动画，稍微复杂的动画可以使用keyframes：</p>
-<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.show</span></span><span class="token punctuation">{</span> <span class="token property">animation</span><span class="token punctuation">:</span>show-item <span class="token number">2</span>s ease-in forwards<span class="token punctuation">;</span> <span class="token punctuation">}</span>
-<span class="token selector"><span class="token class">.hide</span></span><span class="token punctuation">{</span> <span class="token property">animation</span><span class="token punctuation">:</span>hide-item <span class="token number">2</span>s ease-in forwards<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+                <h2 id="dat-GUI"><a href="#dat-GUI" class="headerlink" title="dat.GUI"></a>dat.GUI</h2><p>由于在2d、3d动画中，我们失去了dom结构（canvas），所以我需要特殊的debug工具。</p>
+<p>推荐dat.GUI，它同样可以适用于pixijs ，它可以控制每一个区块来debug，通过一个ui界面，慢慢调节成我们想要的参数</p>
+<p>github地址：<a href="https://github.com/dataarts/dat.gui" target="_blank" rel="noopener">https://github.com/dataarts/dat.gui</a></p>
+<p>api文档：<a href="https://github.com/dataarts/dat.gui/blob/master/API.md" target="_blank" rel="noopener">https://github.com/dataarts/dat.gui/blob/master/API.md</a></p>
+<pre class=" language-sh"><code class="language-sh">npm i dat.gui</code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> dat <span class="token keyword">from</span> <span class="token string">'dat.gui'</span>
 
-<span class="token atrule"><span class="token rule">@keyframes</span> hide-item</span><span class="token punctuation">{</span>
-    <span class="token selector">0% </span><span class="token punctuation">{</span>
-        <span class="token property">opacity</span><span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">;</span>
-        <span class="token property">color</span><span class="token punctuation">:</span>yellow<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token selector">50%</span><span class="token punctuation">{</span>
-        <span class="token property">opacity</span><span class="token punctuation">:</span> <span class="token number">0.5</span> <span class="token punctuation">;</span>
-        <span class="token property">color</span><span class="token punctuation">:</span>red<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token selector">100%</span><span class="token punctuation">{</span>
-        <span class="token property">opacity</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">;</span>
-        <span class="token property">color</span><span class="token punctuation">:</span> green<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-<span class="token atrule"><span class="token rule">@keyframes</span> show-item</span><span class="token punctuation">{</span>
-    <span class="token selector">0% </span><span class="token punctuation">{</span>
-        <span class="token property">opacity</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">;</span>
-        <span class="token property">color</span><span class="token punctuation">:</span>yellow<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token selector">50%</span><span class="token punctuation">{</span>
-        <span class="token property">opacity</span><span class="token punctuation">:</span> <span class="token number">0.5</span> <span class="token punctuation">;</span>
-        <span class="token property">color</span><span class="token punctuation">:</span>red<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token selector">100%</span><span class="token punctuation">{</span>
-        <span class="token property">opacity</span><span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">;</span>
-        <span class="token property">color</span><span class="token punctuation">:</span> green<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
+<span class="token keyword">const</span> gui <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">dat<span class="token punctuation">.</span>GUI</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>然后我们在右上方就可以看到这个</p>
+<p><img src="/2022/06/11/dong-hua-ku-fu-zhu-gong-ju/datgui.png" alt></p>
+<p>然后给我们的gui添加我们要调节的物体和属性</p>
+<ul>
+<li><p>gui.add(object, property, [min], [max], [step]) ⇒ <a href="https://github.com/dataarts/dat.gui/blob/master/API.md#Controller" target="_blank" rel="noopener"><code>Controller</code></a></p>
+<p>给gui增加一个控制器，用来调节对象的属性，如果填入最后三个参数，UI就会变成一个进度条，方便调节</p>
+</li>
+</ul>
+<p><strong>Kind</strong>: instance method of <a href="https://github.com/dataarts/dat.gui/blob/master/API.md#GUI" target="_blank" rel="noopener"><code>GUI</code></a><br><strong>Returns</strong>: <a href="https://github.com/dataarts/dat.gui/blob/master/API.md#Controller" target="_blank" rel="noopener"><code>Controller</code></a> - The controller that was added to the GUI.</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>object</td>
+<td><code>Object</code></td>
+<td>调节的对象</td>
+</tr>
+<tr>
+<td>property</td>
+<td><code>String</code></td>
+<td>想要改变的属性名称</td>
+</tr>
+<tr>
+<td>[min]（可选）</td>
+<td><code>Number</code></td>
+<td><em>最小值</em></td>
+</tr>
+<tr>
+<td>[max]（可选）</td>
+<td><code>Number</code></td>
+<td><em>最大值</em></td>
+</tr>
+<tr>
+<td>[step]（可选）</td>
+<td><code>Number</code></td>
+<td><em>间隔</em></td>
+</tr>
+</tbody></table>
+<h4 id="API"><a href="#API" class="headerlink" title="API"></a>API</h4><h5 id="add"><a href="#add" class="headerlink" title="add"></a>add</h5><ul>
+<li><p>gui.add(object, property, [min], [max], [step]) ⇒ <a href="https://github.com/dataarts/dat.gui/blob/master/API.md#Controller" target="_blank" rel="noopener"><code>Controller</code></a></p>
+<p>给gui增加一个控制器，用来调节对象的属性，如果填入最后三个参数，UI就会变成一个进度条，方便调节</p>
+</li>
+</ul>
+<p><strong>Kind</strong>: instance method of <a href="https://github.com/dataarts/dat.gui/blob/master/API.md#GUI" target="_blank" rel="noopener"><code>GUI</code></a><br><strong>Returns</strong>: <a href="https://github.com/dataarts/dat.gui/blob/master/API.md#Controller" target="_blank" rel="noopener"><code>Controller</code></a> - The controller that was added to the GUI.</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>object</td>
+<td><code>Object</code></td>
+<td>调节的对象</td>
+</tr>
+<tr>
+<td>property</td>
+<td><code>String</code></td>
+<td>想要改变的属性名称</td>
+</tr>
+<tr>
+<td>[min]（可选）</td>
+<td><code>Number</code></td>
+<td><em>最小值</em></td>
+</tr>
+<tr>
+<td>[max]（可选）</td>
+<td><code>Number</code></td>
+<td><em>最大值</em></td>
+</tr>
+<tr>
+<td>[step]（可选）</td>
+<td><code>Number</code></td>
+<td><em>间隔</em></td>
+</tr>
+</tbody></table>
+<p>以下例子，就是我往gui添加一个threejs的mesh，对其属性进行修改</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//创建正方体</span>
+<span class="token keyword">const</span> geometry <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>BoxGeometry</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> material <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>MeshBasicMaterial</span><span class="token punctuation">(</span><span class="token punctuation">{</span> color<span class="token punctuation">:</span> <span class="token string">"red"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> cube <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Mesh</span><span class="token punctuation">(</span>geometry<span class="token punctuation">,</span> material<span class="token punctuation">)</span><span class="token punctuation">;</span>
+cube<span class="token punctuation">.</span>position<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+scene<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>cube<span class="token punctuation">)</span><span class="token punctuation">;</span>
+obj <span class="token operator">=</span> <span class="token punctuation">{</span>
+  action<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'action'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
-<p>当然，React也有它好的套件：<br>就叫做 <code>react-transition-group</code></p>
-<pre class=" language-shell"><code class="language-shell">npm install react-transition-group --save</code></pre>
-<p><a href="https://reactcommunity.org/react-transition-group/css-transition" target="_blank" rel="noopener">官方文档</a></p>
-<p>它有三个核心套件：</p>
-<ul>
-<li>Transition</li>
-<li>CSSTransition</li>
-<li>TransitionGroup</li>
-</ul>
-<h2 id="CSSTransition"><a href="#CSSTransition" class="headerlink" title="CSSTransition"></a>CSSTransition</h2><pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> CSSTransition <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-transition-group'</span></code></pre>
-<pre class=" language-js"><code class="language-js"><span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> <span class="token punctuation">(</span>
-        <span class="token operator">&lt;</span><span class="token operator">></span>
-            <span class="token operator">&lt;</span>CSSTransition
-                <span class="token keyword">in</span><span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>isShow<span class="token punctuation">}</span>   <span class="token comment" spellcheck="true">// 用户判断是否出现的状态</span>
-                timeout<span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">2000</span><span class="token punctuation">}</span>           <span class="token comment" spellcheck="true">// 动画持续时间</span>
-                classNames<span class="token operator">=</span><span class="token string">"boss-text"</span>   <span class="token comment" spellcheck="true">// 防止重复，可以理解成 namespace</span>
-            <span class="token operator">></span>
-                <span class="token operator">&lt;</span>div<span class="token operator">></span>BOSS <span class="token operator">-</span> king<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
-            <span class="token operator">&lt;</span><span class="token operator">/</span>CSSTransition<span class="token operator">></span>
-            <span class="token operator">&lt;</span>div<span class="token operator">></span>
-                <span class="token operator">&lt;</span>button onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>toToggle<span class="token punctuation">}</span><span class="token operator">></span>召喚「風魚」 <span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">></span>
-            <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
-        <span class="token operator">&lt;</span><span class="token operator">/</span><span class="token operator">></span>
-    <span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
-<p>再看看官方文件說明可以知道，我们接下来就可以编写css属性了</p>
-<p>在组件出现、进入、退出或完成过渡时应用于组件的动画类名。可以提供单个名称，每个阶段都将添加后缀，例如<code>classNames=&quot;fade&quot;</code>applys：</p>
-<ul>
-<li><code>fade-appear</code>, <code>fade-appear-active</code>,<code>fade-appear-done</code></li>
-<li><code>fade-enter</code>, <code>fade-enter-active</code>,<code>fade-enter-done</code></li>
-<li><code>fade-exit</code>, <code>fade-exit-active</code>,<code>fade-exit-done</code></li>
-</ul>
-<p>举个例子：</p>
-<ul>
-<li>namespace-enter: 进入前的样式 / 初始值</li>
-<li>namespace-enter-active：动画开始直到完成的css</li>
-<li>namespace-enter-done：完成时css</li>
-<li>namespace-exit：退出之前CSS </li>
-<li>namespace-exit-active：退出动画直到完成時之前的的 CSS 。</li>
-<li>namespace-exit-done：退出完成時的 CSS 。</li>
-</ul>
-<p>现在我们不用自己编写 / 管理classname啦🥵～</p>
-<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.boss-text-enter</span></span><span class="token punctuation">{</span>
-    <span class="token property">opacity</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-<span class="token selector"><span class="token class">.boss-text-enter-active</span></span><span class="token punctuation">{</span>
-    <span class="token property">opacity</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">;</span>
-    <span class="token property">transition</span><span class="token punctuation">:</span> opacity <span class="token number">2000</span>ms<span class="token punctuation">;</span>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//gui会自动根据你添加的属性类型，给你转换成相对的调节方式，比如number为进度条、boolean为checkbox</span>
+gui<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>cube<span class="token punctuation">.</span>position<span class="token punctuation">,</span> <span class="token string">"y"</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">0.1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+gui<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>cube<span class="token punctuation">,</span> <span class="token string">'visible'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+gui<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>cube<span class="token punctuation">.</span>position<span class="token punctuation">,</span> <span class="token string">"x"</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">0.1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+gui<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>cube<span class="token punctuation">.</span>position<span class="token punctuation">,</span> <span class="token string">"z"</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">0.1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+你甚至可以添加一个方法，此时gui就会生成一个点击选项，点击后就会调用obj的action方法
+gui<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span> <span class="token string">"action"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><img src="/2022/06/11/dong-hua-ku-fu-zhu-gong-ju/action.png" alt></p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//当然也可以用链式调用的形式</span>
+gui
+  <span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>cube<span class="token punctuation">.</span>position<span class="token punctuation">,</span> <span class="token string">"y"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">step</span><span class="token punctuation">(</span><span class="token number">0.01</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation">(</span><span class="token string">'cube的y轴位置'</span><span class="token punctuation">)</span></code></pre>
+<h5 id="addColor"><a href="#addColor" class="headerlink" title="addColor"></a>addColor</h5><p>但是尽管如此智能，但GUI无法识别你的color属性是一个color，所以有一个addColor API</p>
+<p>gui.addColor(object, property) ⇒ <a href="https://github.com/dataarts/dat.gui/blob/master/API.md#Controller" target="_blank" rel="noopener"><code>Controller</code></a></p>
+<p><strong>Kind</strong>: instance method of <a href="https://github.com/dataarts/dat.gui/blob/master/API.md#GUI" target="_blank" rel="noopener"><code>GUI</code></a><br><strong>Returns</strong>: <a href="https://github.com/dataarts/dat.gui/blob/master/API.md#Controller" target="_blank" rel="noopener"><code>Controller</code></a> - The controller that was added to the GUI.</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>object</td>
+</tr>
+<tr>
+<td>property</td>
+</tr>
+</tbody></table>
+<p>案例：</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> palette <span class="token operator">=</span> <span class="token punctuation">{</span>
+  color1<span class="token punctuation">:</span> <span class="token string">'#FF0000'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// CSS string</span>
+  color2<span class="token punctuation">:</span> <span class="token punctuation">[</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">128</span><span class="token punctuation">,</span> <span class="token number">255</span> <span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// RGB array</span>
+  color3<span class="token punctuation">:</span> <span class="token punctuation">[</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">128</span><span class="token punctuation">,</span> <span class="token number">255</span><span class="token punctuation">,</span> <span class="token number">0.3</span> <span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// RGB with alpha</span>
+  color4<span class="token punctuation">:</span> <span class="token punctuation">{</span> h<span class="token punctuation">:</span> <span class="token number">350</span><span class="token punctuation">,</span> s<span class="token punctuation">:</span> <span class="token number">0.9</span><span class="token punctuation">,</span> v<span class="token punctuation">:</span> <span class="token number">0.3</span> <span class="token punctuation">}</span> <span class="token comment" spellcheck="true">// Hue, saturation, value</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+gui<span class="token punctuation">.</span><span class="token function">addColor</span><span class="token punctuation">(</span>palette<span class="token punctuation">,</span> <span class="token string">'color1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+gui<span class="token punctuation">.</span><span class="token function">addColor</span><span class="token punctuation">(</span>palette<span class="token punctuation">,</span> <span class="token string">'color2'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+gui<span class="token punctuation">.</span><span class="token function">addColor</span><span class="token punctuation">(</span>palette<span class="token punctuation">,</span> <span class="token string">'color3'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+gui<span class="token punctuation">.</span><span class="token function">addColor</span><span class="token punctuation">(</span>palette<span class="token punctuation">,</span> <span class="token string">'color4'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//环境光</span>
+<span class="token keyword">const</span> intensity <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> light <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>AmbientLight</span><span class="token punctuation">(</span>lightParams<span class="token punctuation">.</span>color<span class="token punctuation">,</span> intensity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+scene<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>light<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>light<span class="token punctuation">.</span>color<span class="token punctuation">,</span> <span class="token string">"color"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-<span class="token punctuation">}</span>
-<span class="token selector"><span class="token class">.boss-text-enter-done</span></span><span class="token punctuation">{</span>
-    <span class="token property">opacity</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-<span class="token selector"><span class="token class">.boss-text-exit</span></span><span class="token punctuation">{</span>
-    <span class="token property">opacity</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-<span class="token selector"><span class="token class">.boss-text-exit-active</span></span><span class="token punctuation">{</span>
-    <span class="token property">opacity</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
-    <span class="token property">transition</span><span class="token punctuation">:</span> opacity <span class="token number">2000</span>ms<span class="token punctuation">;</span>
-
-<span class="token punctuation">}</span>
-<span class="token selector"><span class="token class">.boss-text-exit-done</span></span><span class="token punctuation">{</span>
-    <span class="token property">opacity</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
-<h4 id="几个回调"><a href="#几个回调" class="headerlink" title="几个回调"></a>几个回调</h4><h5 id="onEnter"><a href="#onEnter" class="headerlink" title="onEnter"></a>onEnter</h5><p><Transition>组件的回调函数，当组件enter或appear时会立即调用。</Transition></p>
-<p>type: Function(node: HtmlElement, isAppearing: bool)</p>
-<h5 id="onEntering"><a href="#onEntering" class="headerlink" title="onEntering"></a>onEntering</h5><p>也是一个过渡组件的回调函数，当组件enter-active或appear-active时，立即调用此函数</p>
-<p>type: Function(node: HtmlElement, isAppearing: bool)</p>
-<h5 id="onEntered"><a href="#onEntered" class="headerlink" title="onEntered"></a>onEntered</h5><p>同样是回调函数，当组件的enter,appearclassName被移除时，意即调用此函数</p>
-<p>type: Function(node: HtmlElement, isAppearing: bool)</p>
-<h5 id="onExit"><a href="#onExit" class="headerlink" title="onExit"></a>onExit</h5><p>当组件应用exit类名时，调用此函数</p>
-<p>type: Function(node: HtmlElement)</p>
-<h5 id="onExiting"><a href="#onExiting" class="headerlink" title="onExiting"></a>onExiting</h5><p>当组件应用exit-active类名时，调用此函数</p>
-<p>type: Function(node: HtmlElement)</p>
-<h5 id="onExited"><a href="#onExited" class="headerlink" title="onExited"></a>onExited</h5><p>当组件exit类名被移除，且添加了exit-done类名时，调用此函数</p>
-<p>type: Function(node: HtmlElement)</p>
-<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p><code>mountOnEnter</code>：&lt;bool = false&gt;，默认情况子组件与transtion组件一起加载(也就是说即使in属性为false，组件也会先以隐藏状态(exited)正常加载)，当mountOnEnter 为true时，会在第一次in属性为true时加载子组件</p>
-<p><code>unmountOnExit</code>：&lt;bool = false&gt;，在元素退场时，自动把DOM也删除，这是以前用CSS动画没办法做到的。在过渡结束后卸载组件, 测试发现这里确实卸载了子组件生成的dom节点，但是并不会触发componentWillUnmount钩子，在子组件重新进入entered状态时也不会重新触发componentDidMount等创建阶段钩子</p>
-<h2 id="react-canvas-draw"><a href="#react-canvas-draw" class="headerlink" title="react-canvas-draw"></a><strong><a href="https://github.com/embiem/react-canvas-draw" target="_blank" rel="noopener">react-canvas-draw</a></strong></h2><p>一个canvas绘画组件</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> CanvasDraw <span class="token keyword">from</span> <span class="token string">'react-canvas-draw'</span><span class="token punctuation">;</span></code></pre>
-<pre class=" language-jsx"><code class="language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>CanvasDraw</span>
-  <span class="token attr-name">brushRadius</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token number">5</span><span class="token punctuation">}</span></span>
-  <span class="token attr-name">brushColor</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>#fad54b<span class="token punctuation">"</span></span>
-  <span class="token attr-name">ref</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>saveableCanvas<span class="token punctuation">}</span></span>
-  <span class="token attr-name">onChange</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>onChange<span class="token punctuation">}</span></span>
-  <span class="token attr-name">backgroundColor</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>transparent<span class="token punctuation">"</span></span>
-  <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>draw-canvas-wrap<span class="token punctuation">"</span></span>
-  <span class="token attr-name">hideInterface</span>
-  <span class="token attr-name">hideGrid</span> <span class="token punctuation">/></span></span></code></pre>
-<pre class=" language-js"><code class="language-js">  <span class="token keyword">static</span> defaultProps <span class="token operator">=</span> <span class="token punctuation">{</span>
-    onChange<span class="token punctuation">:</span> <span class="token keyword">null</span>
-    loadTimeOffset<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
-    lazyRadius<span class="token punctuation">:</span> <span class="token number">30</span><span class="token punctuation">,</span>        <span class="token comment" spellcheck="true">//拖拽点距离鼠标的距离</span>
-    brushRadius<span class="token punctuation">:</span> <span class="token number">12</span><span class="token punctuation">,</span>       <span class="token comment" spellcheck="true">//线条粗度</span>
-    brushColor<span class="token punctuation">:</span> <span class="token string">"#444"</span><span class="token punctuation">,</span>    <span class="token comment" spellcheck="true">//线条颜色</span>
-    catenaryColor<span class="token punctuation">:</span> <span class="token string">"#0a0302"</span><span class="token punctuation">,</span>
-    gridColor<span class="token punctuation">:</span> <span class="token string">"rgba(150,150,150,0.17)"</span><span class="token punctuation">,</span>
-    hideGrid<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
-    canvasWidth<span class="token punctuation">:</span> <span class="token number">400</span><span class="token punctuation">,</span>
-    canvasHeight<span class="token punctuation">:</span> <span class="token number">400</span><span class="token punctuation">,</span>
-    disabled<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
-    imgSrc<span class="token punctuation">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
-    saveData<span class="token punctuation">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
-    immediateLoading<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
-    hideInterface<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
-    gridSizeX<span class="token punctuation">:</span> <span class="token number">25</span><span class="token punctuation">,</span>
-    gridSizeY<span class="token punctuation">:</span> <span class="token number">25</span><span class="token punctuation">,</span>
-    gridLineWidth<span class="token punctuation">:</span> <span class="token number">0.5</span><span class="token punctuation">,</span>
-    hideGridX<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
-    hideGridY<span class="token punctuation">:</span> <span class="token boolean">false</span>
-    enablePanAndZoom<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
-    mouseZoomFactor<span class="token punctuation">:</span> <span class="token number">0.01</span><span class="token punctuation">,</span>
-    zoomExtents<span class="token punctuation">:</span> <span class="token punctuation">{</span> min<span class="token punctuation">:</span> <span class="token number">0.33</span><span class="token punctuation">,</span> max<span class="token punctuation">:</span> <span class="token number">3</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<span class="token comment" spellcheck="true">//由于threejs里的color不能直接通过属性赋值更改，必须通过set方法，所以这里用onchange来监听更改light的color</span>
+gui<span class="token punctuation">.</span><span class="token function">addColor</span><span class="token punctuation">(</span>lightParams<span class="token punctuation">,</span> <span class="token string">"color"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">onChange</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  light<span class="token punctuation">.</span>color<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span>lightParams<span class="token punctuation">.</span>color<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 
             </div>
             <hr/>
@@ -657,7 +665,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2023/01/05/react-de-yi-xie-gong-ju/">https://taylor12138.github.io/2023/01/05/react-de-yi-xie-gong-ju/</a>
+                    <a href="https://taylor12138.github.io/2022/06/11/dong-hua-ku-fu-zhu-gong-ju/">https://taylor12138.github.io/2022/06/11/dong-hua-ku-fu-zhu-gong-ju/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -860,32 +868,33 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2023/01/05/react-de-yi-xie-gong-ju/">
+                <a href="/2022/06/19/dom/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="React的一些工具">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="DOM">
                         
-                        <span class="card-title">React的一些工具</span>
+                        <span class="card-title">DOM</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            普通动画用 transition 只能做一些简单的动画，稍微复杂的动画可以使用keyframes：
-.show{ animation:show-item 2s ease-in forwards; }
-.hide{ animation:hid
+                            DOM基础DOM：文档对象模型，是一个应用编程接口API
+W3C已经定义了一系列的dom接口，可以改变网页内容、结构、样式
+文档：一个页面就是一个文档，用document表示
+元素：页面内的所有标签都是元素，用element表示
+节点：网页
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-01-05
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-06-19
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -898,7 +907,6 @@
                         </span>
                     </div>
                 </div>
-
                 
             </div>
         </div>
@@ -909,26 +917,27 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/09/22/qiankun-shi-zhan/">
+                <a href="/2022/06/11/bian-yi-xiang-guan/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="qiankun实战">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="编译相关">
                         
-                        <span class="card-title">qiankun实战</span>
+                        <span class="card-title">编译相关</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.qiankun快速上手快速上手：https://qiankun.umijs.org/zh/guide/getting-started
-主应用in 主应用，要完成对微应用的注册：
-yarn add qiankun # 或者 npm i q
+                            Monaco EditorMonaco Editor 是一款开源的在线代码编辑器。它是 VSCode 的浏览器版本
+使用npm install monaco-editor
+新建一个base文件夹，里面装着三件套
+html + js + cs
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-09-22
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-06-11
                             </span>
                         <span class="publish-author">
                             

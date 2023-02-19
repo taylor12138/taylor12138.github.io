@@ -791,6 +791,12 @@ module<span class="token punctuation">.</span>exports <span class="token operato
     <span class="token punctuation">]</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span></code></pre>
+<ul>
+<li>babel：<ul>
+<li>useBuiltIns，看<a href="https://blog.hhking.cn/2019/04/02/babel-v7-update/" target="_blank" rel="noopener">这里</a></li>
+</ul>
+</li>
+</ul>
 <p>当然，现在babel的配置看起来十分冗长，我们可以创建一个babel.config.js / babel.config.json 将babel配置信息放在一个独立的文件中</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//babel.config.js</span>
 module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
@@ -820,6 +826,14 @@ module<span class="token punctuation">.</span>exports <span class="token operato
     <span class="token punctuation">}</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">]</span></code></pre>
+<p>babel后部分浏览器仍然不支持箭头函数，是因为webpack5打包文件默认输出形式就是箭头函数，用以下配置解决即可</p>
+<pre class=" language-js"><code class="language-js">output<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        filename<span class="token punctuation">:</span> <span class="token string">'js/bundle.js'</span><span class="token punctuation">,</span>
+        path<span class="token punctuation">:</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'dist'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        environment<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            arrowFunction<span class="token punctuation">:</span> <span class="token boolean">false</span>
+        <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
 <h5 id="2-regeneratorRuntime"><a href="#2-regeneratorRuntime" class="headerlink" title="(2)regeneratorRuntime"></a>(2)regeneratorRuntime</h5><p>在编译js代码将es6语法转化未es5语法时，有可能报错误</p>
 <p>比如：regeneratorRuntime is not defined</p>
 <p>regeneratorRuntime是webpack打包生成的全局辅助函数，由babel生成，用于兼容await、async语法</p>
@@ -2058,7 +2072,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">363k</span>&nbsp;字
+                class="white-color">365.5k</span>&nbsp;字
             
             
             

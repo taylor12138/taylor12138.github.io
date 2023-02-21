@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9.8k
+                    10k
                 </div>
                 
 
@@ -727,7 +727,7 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">]</span><span class="token punctuation">,</span></code></pre>
-<h4 id="处理ES6语法"><a href="#处理ES6语法" class="headerlink" title="处理ES6语法"></a>处理ES6语法</h4><p>如果希望将ES6语法转化成ES5语法，我们可以使用babel对应的loader，配置打包得到新的js文件</p>
+<h4 id="处理ES6语法：babel"><a href="#处理ES6语法：babel" class="headerlink" title="处理ES6语法：babel"></a>处理ES6语法：babel</h4><p>如果希望将ES6语法转化成ES5语法，我们可以使用babel对应的loader，配置打包得到新的js文件</p>
 <pre class=" language-shell"><code class="language-shell">npm install -D babel-loader @babel/core @babel/preset-env</code></pre>
 <ul>
 <li>@babel/core<ul>
@@ -743,7 +743,7 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 </ul>
 </li>
 </ul>
-<p>其实还可以装一个<code>core-js</code>，<code>core-js</code>用来使老版本的浏览器支持新版ES语法（比如老版本没有Promise，它会给你引进去coreJs库里的Promise函数），然后按需加载可以使用到的 <code>core-js</code> 部分</p>
+<p>其实还可以配置一个<code>core-js</code>，<code>core-js</code>用来使老版本的浏览器支持新版ES语法（比如老版本没有Promise，它会给你引进去coreJs库里的Promise函数），然后按需加载可以使用到的 <code>core-js</code> 部分</p>
 <p>（如果想要不依赖webpack，单独使用babel，可以再安装一个@babel/cli ，可以让我们在命令行使用babel，去到babel的<a href="babeljs.io">官网</a>查看命令）</p>
 <p>配置：</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'path'</span><span class="token punctuation">)</span>
@@ -792,8 +792,12 @@ module<span class="token punctuation">.</span>exports <span class="token operato
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span></code></pre>
 <ul>
-<li>babel：<ul>
-<li>useBuiltIns，看<a href="https://blog.hhking.cn/2019/04/02/babel-v7-update/" target="_blank" rel="noopener">这里</a></li>
+<li><p>@babel/preset-env：</p>
+<ul>
+<li><p>entry，通过手动，在文件入口全量导入</p>
+</li>
+<li><p>useBuiltIns，按需导入，看<a href="https://blog.hhking.cn/2019/04/02/babel-v7-update/" target="_blank" rel="noopener">这里</a></p>
+</li>
 </ul>
 </li>
 </ul>
@@ -805,7 +809,13 @@ module<span class="token punctuation">.</span>exports <span class="token operato
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <p>然后在webpack.config.js里的rules里直接use <code>babel-loader</code>即可</p>
-<h5 id="1-Babel-插入了辅助代码"><a href="#1-Babel-插入了辅助代码" class="headerlink" title="(1)Babel 插入了辅助代码"></a><strong>(1)Babel 插入了辅助代码</strong></h5><p><strong>Babel 在每个文件都插入了辅助代码，使代码体积过大！</strong></p>
+<p>但是使用preset-env有部分缺点</p>
+<ul>
+<li>如果使用新特性，往往是通过基础库(如 core-js)往全局环境添加 Polyfill，如果是开发应用没有任何问题，如果是开发第三方工具库，则很可能会对<strong>全局空间造成污染</strong>。</li>
+<li>很多工具函数的实现代码会在许多文件中重复出现，造成<strong>文件体积冗余</strong>。</li>
+</ul>
+<p>因此接下来介绍<code>transform-runtime</code>方案</p>
+<h4 id="transform-runtime"><a href="#transform-runtime" class="headerlink" title="transform-runtime"></a>transform-runtime</h4><h5 id="1-Babel-插入了辅助代码"><a href="#1-Babel-插入了辅助代码" class="headerlink" title="(1)Babel 插入了辅助代码"></a><strong>(1)Babel 插入了辅助代码</strong></h5><p><strong>Babel 在每个文件都插入了辅助代码，使代码体积过大！</strong></p>
 <p>Babel 对一些公共方法使用了非常小的辅助代码，比如 <code>_extend</code>。默认情况下会被添加到每一个需要它的文件中。</p>
 <p>你可以引入 Babel runtime 作为一个独立模块，来避免重复引入。</p>
 <p>下面的配置禁用了 Babel 自动对每个文件的 runtime 注入，而是引入 <code>@babel/plugin-transform-runtime</code> 并且使所有辅助代码从这里引用。</p>
@@ -865,7 +875,7 @@ npm i --save-dev @babel/plugin-transform-runtime</code></pre>
     <span class="token punctuation">]</span><span class="token punctuation">,</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
-<h5 id><a href="#" class="headerlink" title></a></h5><h5 id="3-babel优化"><a href="#3-babel优化" class="headerlink" title="(3)babel优化"></a>(3)babel优化</h5><p>影响打包效率的loader首当其冲必属 Babel 了</p>
+<h5 id="3-babel优化"><a href="#3-babel优化" class="headerlink" title="(3)babel优化"></a>(3)babel优化</h5><p>影响打包效率的loader首当其冲必属 Babel 了</p>
 <p>我们可以控制babel文件搜索范围，只转换指定文件夹下的代码，去除没必要转换的部分，比如node_modules</p>
 <pre class=" language-js"><code class="language-js">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
   module<span class="token punctuation">:</span> <span class="token punctuation">{</span>
@@ -1610,7 +1620,7 @@ runtime.725a1a51ede5ae0cfde0.js   1.42 KiB       2  <span class="token punctuati
 Entrypoint main <span class="token operator">=</span> runtime.725a1a51ede5ae0cfde0.js vendors.55e79e5927a639d21a1b.js main.ad717f2466ce655fff5c.js
 <span class="token punctuation">..</span>.</code></pre>
 <p>我们可以看到，这两次构建中，<code>vendor</code> bundle 文件名称，都是 <code>55e79e5927a639d21a1b</code>。</p>
-<h2 id="-1"><a href="#-1" class="headerlink" title></a></h2><h4 id="提高解析速度"><a href="#提高解析速度" class="headerlink" title="提高解析速度"></a>提高解析速度</h4><p>解析</p>
+<h2 id><a href="#" class="headerlink" title></a></h2><h4 id="提高解析速度"><a href="#提高解析速度" class="headerlink" title="提高解析速度"></a>提高解析速度</h4><p>解析</p>
 <p>以下步骤可以提高解析速度：</p>
 <ul>
 <li>减少 <code>resolve.modules</code>, <code>resolve.extensions</code>, <code>resolve.mainFiles</code>, <code>resolve.descriptionFiles</code> 中条目数量，因为他们会增加文件系统调用的次数。</li>
@@ -2072,7 +2082,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">365.5k</span>&nbsp;字
+                class="white-color">365.7k</span>&nbsp;字
             
             
             

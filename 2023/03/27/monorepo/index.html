@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Vite, Hexo">
+    <meta name="keywords" content="Monorepo, Hexo">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Vite | Hexo</title>
+    <title>Monorepo | Hexo</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Vite</h1>
+                    <h1 class="description center-align post-title">Monorepo</h1>
                 </div>
             </div>
         </div>
@@ -443,15 +443,6 @@
                 </div>
                 <div class="col s5 right-align">
                     
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                前端
-                            </a>
-                        
-                    </div>
-                    
                 </div>
             </div>
 
@@ -459,7 +450,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-11-14
+                    2023-03-27
                 </div>
                 
 
@@ -468,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    670
+                    1k
                 </div>
                 
 
@@ -485,72 +476,67 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="Vite概述"><a href="#Vite概述" class="headerlink" title="Vite概述"></a>Vite概述</h2><p>Webpack是前端使用最多的构建工具，但是除了webpack还有一些其他的构建工具，比如rollup、parcel、gulp、vite</p>
-<p> <em>Vite</em> 是 vue 的作者尤雨溪在开发 vue3.0 的时候开发的一个基于原生 <strong>ES-Module</strong> 的前端构建工具</p>
-<p>Vite官方的定位：下一代前端开发和构建工具</p>
-<p>他主要由两部分组成</p>
-<ul>
-<li>一个开发服务器，它基于原生ES模块提供了丰富的内建功能，HMR速度非常快</li>
-<li>一套构建指令，它使用rollup打开我们的代码，并且它是预配置的，输出生成环境优化过的静态资源</li>
+                <h2 id="monorepo"><a href="#monorepo" class="headerlink" title="monorepo"></a>monorepo</h2><p>一个 monorepo 是一个代码库中许多不同应用程序和包的集合。</p>
+<p>用于替代<strong>polyrepo</strong>方案，你可以理解为 <code>monorepo</code> 就是将制定的都项目移动到一个存储库中，这些项目可以相互依赖，因此它们可以共享代码。并且几乎不需要包管理器，毕竟所有模块都托管在同一个存储库中</p>
+<h4 id="在polyrepo中"><a href="#在polyrepo中" class="headerlink" title="在polyrepo中"></a>在polyrepo中</h4><p>假设您拥有三个独立的存储库 - <code>app</code>、<code>docs</code>和<code>shared-utils</code>。和<code>app</code>都<code>docs</code>依赖于<code>shared-utils</code>，它作为一个包发布在 npm 上。</p>
+<p>此时 <code>shared-utils</code> 出现严重问题，但是你的 <code>app</code>、<code>docs</code> 都依赖了   <code>shared-utils</code>  ，此时你需要：</p>
+<ol>
+<li>提交<code>shared-utils</code>修复错误</li>
+<li>运行一个<code>publish</code>任务<code>shared-utils</code>发布到 npm</li>
+<li>升级 <code>app</code> 的依赖版本</li>
+<li>升级 <code>docs</code> 的依赖版本</li>
+<li>重新部署 <code>docs</code>、<code>app</code> 项目</li>
+</ol>
+<p>感觉流程是不是比较长.</p>
+<h4 id="在monorepo中"><a href="#在monorepo中" class="headerlink" title="在monorepo中"></a>在monorepo中</h4><p>遇到以上问题，你只需</p>
+<ol>
+<li>提交<code>shared-utils</code>修复错误</li>
+<li>重新部署 <code>docs</code>、<code>app</code> 项目</li>
+</ol>
+<p><img src="/2023/03/27/monorepo/m1.png" alt></p>
+<h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
+<li><strong>可见性</strong>：每个人都可以看到其他人的代码。此属性可以带来更好的协作和跨团队的贡献——不同团队中的开发人员可以修复代码中你甚至不知道存在的错误。</li>
+<li><strong>更简单的依赖管理</strong>：共享依赖是微不足道的。几乎不需要包管理器，因为所有模块都托管在同一个存储库中。</li>
+<li><strong>单一事实来源</strong>：每个依赖的一个版本意味着没有版本冲突，也没有依赖地狱。</li>
+<li><strong>一致性</strong>：当您将所有代码库放在一个地方时，执行代码质量标准和统一风格会更容易。</li>
+<li><strong>共享时间表</strong>：API 或共享库中的重大更改会立即公开，迫使不同的团队提前沟通并联合起来。每个人都投入精力跟上变化。</li>
+<li><strong>原子提交</strong>：原子提交使大规模重构更容易。开发人员可以在一次提交中更新多个包或项目。</li>
+<li><strong>隐式 CI</strong>：<a href="https://semaphoreci.com/continuous-integration" target="_blank" rel="noopener">持续集成</a>得到保证，因为所有代码都已经统一在一个地方。</li>
+<li><strong>统一 CI/CD</strong>：您可以对存储库中的每个项目使用相同的<a href="https://semaphoreci.com/cicd" target="_blank" rel="noopener">CI/CD部署过程。</a></li>
+<li><strong>统一构建过程</strong>：我们可以为 repo 中的每个应用程序使用共享<a href="https://semaphoreci.com/blog/build-stage" target="_blank" rel="noopener">构建过程。</a></li>
 </ul>
-<p>Vite初衷就是依赖浏览器本身就识别的依赖关系直接将js解析呈现，而不考虑其他</p>
-<p>但是缺点就是：</p>
-<ul>
-<li>某些文件浏览器无法识别，如ts、vue文件</li>
-<li>如果包依赖太多，会发送过多的网络请求</li>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li><strong>性能不佳</strong>：monorepos 难以扩展。像这样的命令<code>git blame</code>可能会花费不合理的长时间，IDE 开始滞后并且生产力受到影响，并且在每次提交时测试整个 repo 变得不可行。</li>
+<li><strong>损坏的 main/master</strong>：损坏的 master 会影响在 monorepo 中工作的每个人。这可以被视为灾难性的，也可以被视为保持测试清洁和最新的良好动机。</li>
+<li><strong>学习曲线</strong>：如果存储库跨越许多紧密耦合的项目，新开发人员的学习曲线会更陡峭。</li>
+<li><strong>大量数据</strong>：monorepos 可以达到庞大的数据量和每天的提交量。</li>
+<li><strong>所有权</strong>：维护文件的所有权更具挑战性，因为像 Git 或 Mercurial 这样的系统没有内置的目录权限。（但是有解决方式）</li>
+<li><strong>代码审查</strong>：通知会变得非常嘈杂。例如，GitHub 的通知设置有限，不适合大量的拉取请求和代码审查。</li>
+<li><strong>更多的考虑</strong>：迁移到 monorepo 需要您重新考虑如何进行持续集成。毕竟，您不再构建单个应用程序。您只是在构建受您的更改影响的东西。</li>
 </ul>
-<p>Vite将基于原生浏览器的特点，解决以上缺点</p>
-<h2 id="Vite安装和使用"><a href="#Vite安装和使用" class="headerlink" title="Vite安装和使用"></a>Vite安装和使用</h2><p>Node版本 &gt;= 12版本</p>
-<p>安装一个完整的项目(直接上脚手架)</p>
-<pre class=" language-shell"><code class="language-shell">npm init @vitejs/app</code></pre>
-<p>相当于</p>
-<pre class=" language-shell"><code class="language-shell">npm i @vuejs/create-app
-create-app</code></pre>
-<p>或者入门的话老师推荐先安装vite工具</p>
-<pre class=" language-shell"><code class="language-shell">npm install vite -g</code></pre>
-<p>or</p>
-<pre class=" language-shell"><code class="language-shell">npm i vite -D</code></pre>
-<p>开启vite服务器使用：</p>
-<pre class=" language-shell"><code class="language-shell">npx vite</code></pre>
-<p>vite打包</p>
-<pre class=" language-shell"><code class="language-shell">npx vite build</code></pre>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>没有像webpack一样的loader，比如要使用less文件，直接</p>
-<pre class=" language-shell"><code class="language-shell">npm install less -D</code></pre>
-<p>重新跑vite即可</p>
-<p>vite默认支持TS</p>
-<p>vite服务器内部Connect会对我们的请求做转发，完成less -&gt; js、ts -&gt; js，然后浏览器得到编译后的js代码</p>
-<p>Vite1搭建的服务器为koa，而Vite2搭建的服务器为connect</p>
-<h4 id="Vite对Vue的支持"><a href="#Vite对Vue的支持" class="headerlink" title="Vite对Vue的支持"></a>Vite对Vue的支持</h4><p>Vue3单文件组件支持： @vitejs/plugin-vue</p>
-<p>Vue3 JSX支持： @vite/plugin-vue-jsx</p>
-<p>Vue 2支持：underfin/vite-plugin-vue2</p>
-<p>比如加入vue3的支持(@vue/complier-sfc负责编译vue文件)</p>
-<pre class=" language-shell"><code class="language-shell">npm i @vitejs/plugin-vue -D
-npm i @vue/complier-sfc -D</code></pre>
-<p>vite的配置</p>
-<p>在目录下新建vite.config.js文件，并将配置文件导出</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> vue <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'@vitejs/plugin-vue'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
-    plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>
-        <span class="token function">vue</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-    <span class="token punctuation">]</span>
+<h2 id="运作模式"><a href="#运作模式" class="headerlink" title="运作模式"></a>运作模式</h2><p>monorepo 的主要构建块是<a href="https://turbo.build/repo/docs/handbook/workspaces" target="_blank" rel="noopener">workspace</a>。您构建的每个应用程序和包都将位于自己的工作区中，并带有自己的<code>package.json</code>. 正如您将从我们的指南中了解到的，工作空间可以<strong>相互依赖</strong>，这意味着您的<code>docs</code>工作空间可以依赖于<code>shared-utils</code>：</p>
+<p>npm：</p>
+<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"dependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"shared-utils"</span><span class="token operator">:</span> <span class="token string">"*"</span>
+  <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
-<h4 id="ESBuild"><a href="#ESBuild" class="headerlink" title="ESBuild"></a>ESBuild</h4><p>它和babel有点像，而Vite就是基于ESBuild的</p>
-<p>ESBuild特点</p>
-<ul>
-<li>超快构建速度，并且不需要缓存（babel有做缓存）<ul>
-<li>使用Go语言，无需转字节码，直接转机器码</li>
-<li>充分利用CPU多内核，尽可能让它们饱和运行</li>
-<li>ESBuild所有内容都是从零开始编写，一开始就考虑了诸多性能问题</li>
-<li>等等</li>
-</ul>
-</li>
-<li>支持ES6的Tree Shaking（比如还有函数没用过，会进行删除）</li>
-<li>支持Go、JavaScript的API</li>
-<li>支持Typescript、JSX等语法编译</li>
-<li>支持SourceMap</li>
-<li>支持代码压缩</li>
-<li>支持拓展其他插件</li>
-</ul>
+<p>yarn：</p>
+<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"dependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"shared-utils"</span><span class="token operator">:</span> <span class="token string">"*"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>pnpm</p>
+<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"dependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"shared-utils"</span><span class="token operator">:</span> <span class="token string">"workspace:*"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>参考：</p>
+<p><a href="https://turbo.build/repo/docs/handbook/what-is-a-monorepo" target="_blank" rel="noopener">what is monorepo</a></p>
+<p><a href="https://semaphoreci.com/blog/what-is-monorepo" target="_blank" rel="noopener">What is monorepo? (and should you use it?)</a></p>
+<p><a href="https://blog.nrwl.io/misconceptions-about-monorepos-monorepo-monolith-df1250d4b03c" target="_blank" rel="noopener">Misconceptions about Monorepos: Monorepo != Monolith</a></p>
 
             </div>
             <hr/>
@@ -576,7 +562,7 @@ module<span class="token punctuation">.</span>exports <span class="token operato
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://taylor12138.github.io/2021/11/14/vite/">https://taylor12138.github.io/2021/11/14/vite/</a>
+                    <a href="https://taylor12138.github.io/2023/03/27/monorepo/">https://taylor12138.github.io/2023/03/27/monorepo/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -783,37 +769,30 @@ module<span class="token punctuation">.</span>exports <span class="token operato
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/11/20/shu-ju-jie-gou/">
+                <a href="/2023/03/27/swc/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="数据结构">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="SWC">
                         
-                        <span class="card-title">数据结构</span>
+                        <span class="card-title">SWC</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            线性结构线性结构作为最常用的数据结构，其特点是数据元素之间存在一对一的线性关系
-比如数组、链表
-非线性结构一般未一对多的形式
-比如树、多维数组、图结构
-双向链表双向链表，又稱為双链表，是链表的一种，它的每个数据结点中都有两个指针，分别指向直
+                            SWCSWC 是一个可扩展的基于 Rust 的平台，用于下一代快速开发工具
+SWC 可用于编译和捆绑。对于编译，它使用现代 JavaScript 功能获取 JavaScript / TypeScript 文件，并输出所有主要浏览器都支持的有
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-11-20
+                            <i class="far fa-clock fa-fw icon-date"></i>2023-03-27
                         </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/personal/" class="post-category">
-                                    personal
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Hello
                             
                         </span>
                     </div>
@@ -828,30 +807,25 @@ module<span class="token punctuation">.</span>exports <span class="token operato
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/11/05/vue3-shang/">
+                <a href="/2023/03/01/vite/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Vue3(上)">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Vite">
                         
-                        <span class="card-title">Vue3(上)</span>
+                        <span class="card-title">Vite</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.Vue3 Start他在介绍中表明的是：
-
-更小、更快、更易维护，一些命令的变化。
-3.0 新加入了 TypeScript 以及 PWA 的支持
-支持了 composiiton API
-vdom的对比算法更新，只更新绑定了动态数据部分
-
+                            Vite概述Webpack是前端使用最多的构建工具，但是除了webpack还有一些其他的构建工具，比如rollup、parcel、gulp、vite
+ Vite 是 vue 的作者尤雨溪在开发 vue3.0 的时候开发的一个基于原生 ES-
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-05
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-01
                             </span>
                         <span class="publish-author">
                             
@@ -1014,7 +988,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">365.7k</span>&nbsp;字
+                class="white-color">371.8k</span>&nbsp;字
             
             
             

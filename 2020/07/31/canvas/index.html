@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.2k
+                    6.8k
                 </div>
                 
 
@@ -836,20 +836,20 @@ document<span class="token punctuation">.</span>body<span class="token punctuati
 <tr>
 <th><code>autoStart</code></th>
 <th>布尔值</th>
-<th>真的</th>
+<th>default</th>
 <th>选修的构建完成后自动开始渲染。 <strong>注意</strong>：将此参数设置为 false 不会停止共享代码，即使您将 options.sharedTicker 设置为 true 以防它已经启动。自己阻止吧。</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>width</code></td>
 <td>数字</td>
-<td>800</td>
+<td></td>
 <td>选修的渲染器视图的宽度。</td>
 </tr>
 <tr>
 <td><code>height</code></td>
 <td>数字</td>
-<td>600</td>
+<td></td>
 <td>选修的渲染器视图的高度。</td>
 </tr>
 <tr>
@@ -861,37 +861,37 @@ document<span class="token punctuation">.</span>body<span class="token punctuati
 <tr>
 <td><code>transparent</code></td>
 <td>布尔值</td>
-<td>错误的</td>
+<td>False</td>
 <td>选修的如果渲染视图是透明的。</td>
 </tr>
 <tr>
 <td><code>autoDensity</code></td>
 <td>布尔值</td>
-<td>错误的</td>
+<td>False</td>
 <td>选修的以 CSS 像素为单位调整渲染器视图的大小，以允许 1 以外的分辨率。</td>
 </tr>
 <tr>
 <td><code>antialias</code></td>
 <td>布尔值</td>
-<td>错误的</td>
+<td>False</td>
 <td>选修的设置抗锯齿</td>
 </tr>
 <tr>
 <td><code>preserveDrawingBuffer</code></td>
 <td>布尔值</td>
-<td>错误的</td>
+<td>False</td>
 <td>选修的启用绘图缓冲区保存，如果您需要在 WebGL 上下文中调用 toDataUrl，请启用此功能。</td>
 </tr>
 <tr>
 <td><code>resolution</code></td>
 <td>数字</td>
-<td>1个</td>
+<td>1</td>
 <td>选修的渲染器的分辨率/设备像素比，视网膜将为 2，移动端一般要根据<code>window.devicePixelRatio</code> 来。</td>
 </tr>
 <tr>
 <td><code>forceCanvas</code></td>
 <td>布尔值</td>
-<td>错误的</td>
+<td>False</td>
 <td>选修的阻止选择 WebGL 渲染器，即使存在，此选项仅在使用<strong>pixi.js-legacy</strong>或<strong>@pixi/canvas-renderer</strong>模块时可用，否则将被忽略。</td>
 </tr>
 <tr>
@@ -903,7 +903,7 @@ document<span class="token punctuation">.</span>body<span class="token punctuati
 <tr>
 <td><code>clearBeforeRender</code></td>
 <td>布尔值</td>
-<td>真的</td>
+<td>True</td>
 <td>选修的这会设置渲染器是否会在新的渲染通道之前清除画布。</td>
 </tr>
 <tr>
@@ -915,13 +915,13 @@ document<span class="token punctuation">.</span>body<span class="token punctuati
 <tr>
 <td><code>sharedTicker</code></td>
 <td>布尔值</td>
-<td>错误的</td>
+<td>False</td>
 <td>选修的<code>true</code>使用 PIXI.Ticker.shared，<code>false</code>创建新的代码。如果设置为 false，则您无法将处理程序注册为在共享代码上运行的任何内容之前发生。系统代码将始终在共享代码和应用程序代码之前运行。</td>
 </tr>
 <tr>
 <td><code>sharedLoader</code></td>
 <td>布尔值</td>
-<td>错误的</td>
+<td>False</td>
 <td>选修的<code>true</code>使用 PIXI.Loader.shared，<code>false</code>创建新的 Loader。</td>
 </tr>
 <tr>
@@ -932,7 +932,53 @@ document<span class="token punctuation">.</span>body<span class="token punctuati
 </tr>
 </tbody></table>
 <p>application还有个销毁的方法：</p>
-<pre class=" language-js"><code class="language-js">app<span class="token punctuation">.</span><span class="token function">destroy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<ul>
+<li>（removeView，stageOptions）</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><code>removeView</code></th>
+<th>布尔值</th>
+<th>&lt;可选&gt;</th>
+<th>错误的</th>
+<th>自动从 DOM 中移除画布。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>stageOptions</code></td>
+<td>对象 | 布尔值</td>
+<td>&lt;可选&gt;</td>
+<td></td>
+<td>选项参数。布尔值将表现得好像所有选项都已设置为该值</td>
+</tr>
+<tr>
+<td><code>stageOptions.children</code></td>
+<td>布尔值</td>
+<td>&lt;可选&gt;</td>
+<td>错误的</td>
+<td>如果设置为 true，所有的孩子也将调用他们的 destroy 方法。’stageOptions’ 将传递给那些调用。</td>
+</tr>
+<tr>
+<td><code>stageOptions.texture</code></td>
+<td>布尔值</td>
+<td>&lt;可选&gt;</td>
+<td>错误的</td>
+<td>如果 stageOptions.children 设置为 true，则仅用于子 Sprites。它是否应该破坏子精灵的纹理</td>
+</tr>
+<tr>
+<td><code>stageOptions.baseTexture</code></td>
+<td>布尔值</td>
+<td>&lt;可选&gt;</td>
+<td>错误的</td>
+<td>如果 stageOptions.children 设置为 true，则仅用于子 Sprites。它是否应该破坏子精灵的基础纹理</td>
+</tr>
+</tbody></table>
+<pre class=" language-js"><code class="language-js">app<span class="token punctuation">.</span><span class="token function">destroy</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>application滑动问题：</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 可滑动</span>
+app<span class="token punctuation">.</span>renderer<span class="token punctuation">.</span>view<span class="token punctuation">.</span>style<span class="token punctuation">.</span>touchAction <span class="token operator">=</span> <span class="token string">'auto'</span><span class="token punctuation">;</span>
+app<span class="token punctuation">.</span>renderer<span class="token punctuation">.</span>plugins<span class="token punctuation">.</span>interaction<span class="token punctuation">.</span>autoPreventDefault <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span></code></pre>
 <h4 id="2-loader"><a href="#2-loader" class="headerlink" title="2.loader"></a>2.loader</h4><p>类似于threejs的loader，threejs的loader种类繁多，但是pixijs的loader只有一种，是一个用于加载资源的东西，由 Chad Engler 从 Resource Loader 派生而来，用于加载资源，传入2个参数则可以设置别名</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> PIXI <span class="token keyword">from</span> <span class="token string">'pixi.js'</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> loader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PIXI<span class="token punctuation">.</span>Loader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -1001,6 +1047,8 @@ loader<span class="token punctuation">.</span><span class="token function">load<
 <p><code>PIXI.Texture</code> 是对 <code>PIXI.BaseTexture</code> 的引用</p>
 <p><code>sprite.destroy</code> - 将销毁精灵，使 PIXI.Texture 和 PIXI.BaseTexture 保持不变<br><code>sprite.destroy(true);</code> - 将破坏精灵和 PIXI.Texture；PIXI.BaseTexture 保持不变<br><code>sprite.destroy(true, true);</code> - 将销毁精灵、PIXI.Texture 和 PIXI.BaseTexture</p>
 <p>通常，您不希望每次调用 addSprite() 时都创建 PIXI.Texture 并在 removeSprite() 中销毁它。即使这是在 Pixi 内部处理的并且没有创建重复的纹理。<br>提前创建你的纹理，将它们存储到数组中并在需要时选择一个。在没有其他精灵使用它时销毁 PIXI.Texture，并在完全完成后销毁 PIXI.BaseTexture。</p>
+<p>并且通常不太建议销毁 Texture，因为：销毁 PIXI.Texture 不会释放内存，它只会使纹理无效并将其从图像缓存中删除，因此其他精灵将无法使用它。我真的不知道什么时候必须调用它<img src="https://www.html5gamedevs.com/uploads/emoticons/default_smile.png" alt=":)"></p>
+<p>销毁 PIXI.BaseTexture 会释放绑定到它的 WebGL 对象。为您使用的动态纹理或不再需要的一些静态调用它。</p>
 <h4 id="3-设置精灵属性"><a href="#3-设置精灵属性" class="headerlink" title="3.设置精灵属性"></a>3.设置精灵属性</h4><p>比如我上面加载了一个sprite，可以设置大小、缩放、位置</p>
 <pre class=" language-js"><code class="language-js">sprite<span class="token punctuation">.</span>position<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">)</span>
 sprite<span class="token punctuation">.</span>x <span class="token operator">=</span> sprite<span class="token punctuation">.</span>x <span class="token operator">+</span> <span class="token number">10</span>  <span class="token comment" spellcheck="true">// 可以对 x、y 的某一项单独设置</span>
@@ -1011,6 +1059,18 @@ sprite<span class="token punctuation">.</span>scale<span class="token punctuatio
 sprite<span class="token punctuation">.</span>width <span class="token operator">=</span> sprite<span class="token punctuation">.</span>width <span class="token operator">+</span> <span class="token number">10</span>
 <span class="token comment" spellcheck="true">// 旋转</span>
 sprite<span class="token punctuation">.</span>rotation <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">0.1</span></code></pre>
+<p><strong>mask</strong></p>
+<p>为 displayObject 设置掩码。蒙版是一种对象，它将对象的可见性限制为应用于它的蒙版的形状。在 PixiJS 中，常规掩码必须是 <a href="https://pixijs.download/release/docs/PIXI.Graphics.html" target="_blank" rel="noopener">PIXI.Graphics</a>或<a href="https://pixijs.download/release/docs/PIXI.Sprite.html" target="_blank" rel="noopener">PIXI.Sprite</a>对象。这允许在画布中更快地进行遮罩，因为它使用形状剪裁。</p>
+<p>你可以直接理解为就是蒙版。裁剪的时候用到它</p>
+<pre class=" language-js"><code class="language-js"> <span class="token keyword">import</span> <span class="token punctuation">{</span> Graphics<span class="token punctuation">,</span> Sprite <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'pixi.js'</span><span class="token punctuation">;</span>
+
+ <span class="token keyword">const</span> graphics <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Graphics</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ graphics<span class="token punctuation">.</span><span class="token function">beginFill</span><span class="token punctuation">(</span><span class="token number">0xFF3300</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ graphics<span class="token punctuation">.</span><span class="token function">drawRect</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">250</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ graphics<span class="token punctuation">.</span><span class="token function">endFill</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+ <span class="token keyword">const</span> sprite <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Sprite</span><span class="token punctuation">(</span>texture<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ sprite<span class="token punctuation">.</span>mask <span class="token operator">=</span> graphics<span class="token punctuation">;</span></code></pre>
 <h4 id="4-pixijs的事件"><a href="#4-pixijs的事件" class="headerlink" title="4.pixijs的事件"></a>4.pixijs的事件</h4><p>pixijs的两种渲染模式，都不是以dom结构为基础（可以联想到canvas），所以需要使用它内置的事件：</p>
 <ul>
 <li>pointerdown：类似于 mousedown。</li>
@@ -1110,7 +1170,9 @@ ticker<span class="token punctuation">.</span><span class="token function">add</
 <span class="token punctuation">}</span>
 <span class="token function">requestAnimationFrame</span><span class="token punctuation">(</span>gameLoop<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>尝试一下吧～<a href="https://codesandbox.io/s/elated-wind-5j60fu?file=/src/MoveDemo.js" target="_blank" rel="noopener">https://codesandbox.io/s/elated-wind-5j60fu?file=/src/MoveDemo.js</a></p>
-<p><code>Ticker</code>可以实现简单的动画，但如果我们希望实现一些复杂效果，则需要自己编写很多代码，这时就可以选择一个兼容<code>pixi</code>的动画库。市面上比较常见的动画库有：<a href="https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Ftweenjs%2Ftween.js">Tween.js</a>，<a href="https://link.juejin.cn/?target=https%3A%2F%2Fwww.tweenmax.com.cn%2Fstart%2Finit%2F">TweenMax</a></p>
+<p><code>Ticker</code>可以实现简单的动画，但如果我们希望实现一些复杂效果，则需要自己编写很多代码，这时就可以选择一个兼容<code>pixi</code>的动画库。市面上比较常见的动画库有：<a href="https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Ftweenjs%2Ftween.js">Tween.js</a>，<a href="https://link.juejin.cn/?target=https%3A%2F%2Fwww.tweenmax.com.cn%2Fstart%2Finit%2F">TweenMax</a>（它包括了<em>GreenSock</em>动画平台的大部分核心功能）</p>
+<p>chatGPT:</p>
+<p>总的来说，TweenMax 更加强大，而 TweenJS 更加轻量级。TweenMax 的学习曲线可能会比 TweenJS 更陡峭，但是它可以提供更多的控制和功能。如果您需要一个全面的动画库，或者需要创建复杂的动画效果，那么 TweenMax 可能是更好的选择。如果您只需要简单的 Tween 功能，并且希望使用更轻量级的库，那么 TweenJS 可能更适合您。</p>
 <p>如果你不存在需要持续动画渲染的功能，可以选择关闭app.ticker的启动：</p>
 <pre class=" language-js"><code class="language-js">app<span class="token punctuation">.</span>ticker<span class="token punctuation">.</span><span class="token function">stop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">//等到需要时再渲染：</span>
@@ -1693,7 +1755,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">365.7k</span>&nbsp;字
+                class="white-color">371.8k</span>&nbsp;字
             
             
             

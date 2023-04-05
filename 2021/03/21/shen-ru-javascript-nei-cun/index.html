@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.7k
+                    2.9k
                 </div>
                 
 
@@ -606,6 +606,14 @@ a1<span class="token punctuation">.</span>author <span class="token operator">=<
 <p>6、nginx无法访问缓存服务，redis和源服务，只能基于本地缓存提供服务，但是缓存过期后，没有数据提供</p>
 <p>7、网站崩溃</p>
 <h4 id="产生原因"><a href="#产生原因" class="headerlink" title="产生原因"></a>产生原因</h4><p>1、例如 “缓存并发”，“缓存穿透”，“缓存颠簸” 等问题，这些问题也可能会被恶意攻击者所利用。</p>
+<ul>
+<li><p>缓存穿透</p>
+<p>指查询一个缓存和数据库都没有的数据，例如我们数据库的id都是从1开始自增的，如果传入的参数为-1或者特别大不存在的数据，就会每次都去查询数据库，而每次查询都是空，每次又都不会进行缓存</p>
+</li>
+<li><p>缓存击穿</p>
+<p>指一个key非常热点，在不停的扛着大并发，大并发集中对这一个点进行访问，当这个key在失效的瞬间，持续的大并发就穿破缓存，直接请求数据库</p>
+</li>
+</ul>
 <p>2、例如 某个时间点内，系统预加载的缓存周期性集中失效了，例如：我们设置缓存时采用了相同的过期时间，在同一时刻出现大面积的缓存过期。</p>
 <p>解决方法：可以通过设置不同的过期时间，来错开缓存过期，从而避免缓存集中失效。</p>
 <h4 id="预防和解决"><a href="#预防和解决" class="headerlink" title="预防和解决"></a>预防和解决</h4><ul>
@@ -1079,7 +1087,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">365.7k</span>&nbsp;字
+                class="white-color">371.8k</span>&nbsp;字
             
             
             

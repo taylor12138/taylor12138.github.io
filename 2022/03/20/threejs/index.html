@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    13.3k
+                    13.6k
                 </div>
                 
 
@@ -531,7 +531,7 @@
 </li>
 </ul>
 <h4 id="笔者感受"><a href="#笔者感受" class="headerlink" title="笔者感受"></a>笔者感受</h4><p>感觉threejs很灵活，像js一样，又很细致，你可以灵活把一个物品拆分成许多个单独的节点，你甚至可以把一根手指拆成三个节点，对其进行不同曲率对应的rotation计算，换算下来一只手都可以有几十甚至几百个节点来操控。这里有一个坦克的例子：<a href="https://threejs.org/manual/#zh/scenegraph" target="_blank" rel="noopener">https://threejs.org/manual/#zh/scenegraph</a></p>
-<p>细的缺点就是麻烦，没有封装好的东西，灵活和便捷总是相对的</p>
+<p>细的缺点就是麻烦，没有封装好的东西，灵活和便捷总是相对的，并且还需要一些图形学的知识</p>
 <h4 id="图片要求"><a href="#图片要求" class="headerlink" title="图片要求"></a>图片要求</h4><p>threejs用到的一些图，出了一些普通图片，还有时候需要可以本身要调节光亮的图片（使用HDR的图片）</p>
 <p>HDR图：高动态范围图像(High-Dynamic Range，简称HDR)，相比普通的图像，可以提供更多的动态范围和图像细节，根据不同的曝光时间的LDR(Low-Dynamic Range)图像，利用每个曝光时间相对应最佳细节的LDR图像来合成最终HDR图像，能够更好的反映出真实环境中的视觉效果。</p>
 <p>这里有个HDR图推荐网址：<a href="https://polyhaven.com/" target="_blank" rel="noopener">https://polyhaven.com/</a></p>
@@ -635,7 +635,7 @@ renderer<span class="token punctuation">.</span><span class="token function">set
 <span class="token punctuation">}</span></code></pre>
 </li>
 </ul>
-<p>但是有一个缺陷：当你帧数越高，此时动画越快，为此我们需要做一些策略：通过时间调节我们的frame rate</p>
+<p>但是有一个缺陷：当你帧数越高（不同手机表现不同），此时动画越快，为此我们需要做一些策略：通过时间调节我们的frame rate</p>
 <p>方法一：本地时间</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> time <span class="token operator">=</span> Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token function">renderFn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -949,7 +949,7 @@ positionArr<span class="token punctuation">[</span><span class="token number">8<
 
 <span class="token comment" spellcheck="true">//第二种创建方式</span>
 <span class="token keyword">const</span> positionArr2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Float32Array</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h4 id="BufferAttribute"><a href="#BufferAttribute" class="headerlink" title="BufferAttribute"></a>BufferAttribute</h4><p>这个类用于存储与<a href="https://threejs.org/docs/index.html#api/zh/core/BufferGeometry" target="_blank" rel="noopener">BufferGeometry</a>相关联的 attribute（例如顶点位置向量（position），面片索引，法向量，颜色值，UV坐标（uv）以及任何自定义 attribute ）。 利用 BufferAttribute，可以更高效的向GPU传递数据。</p>
+<h4 id="BufferAttribute"><a href="#BufferAttribute" class="headerlink" title="BufferAttribute"></a>BufferAttribute</h4><p>这个类用于存储与<a href="https://threejs.org/docs/index.html#api/zh/core/BufferGeometry" target="_blank" rel="noopener">BufferGeometry</a>相关联的 attribute（例如顶点位置向量（position），面片索引，法向量（normal），颜色值（color），UV坐标（uv）以及任何自定义 attribute ）。 利用 BufferAttribute，可以更高效的向GPU传递数据。</p>
 <p>构造函数</p>
 <p><code>BufferAttribute( array : TypedArray, itemSize : Integer, normalized : Boolean )</code></p>
 <ul>
@@ -958,11 +958,94 @@ positionArr<span class="token punctuation">[</span><span class="token number">8<
 <li>normalized – (可选) 指明缓存中的数据如何与GLSL代码中的数据对应。例如，如果array是 UInt16Array类型，且normalized的值是 true，则队列中的值将会从 0 - +65535 映射为 GLSL 中的 0.0f - +1.0f。 如果array是 Int16Array (有符号)，则值将会从 -32768 - +32767 映射为 -1.0f - +1.0f。若 normalized 的值为 false，则数据映射不会归一化，而会直接映射为 float 值，例如，32767 将会映射为 32767.0f.</li>
 </ul>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> positionArrtribute <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>BufferAttribute</span><span class="token punctuation">(</span>positionArr<span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//positionArr为上方的Float32Array</span></code></pre>
-<h4 id="uv"><a href="#uv" class="headerlink" title="uv"></a>uv</h4><p>uv坐标可以理解为纹理坐标，像前端精灵图一样，每一块·都会有对应的位置</p>
+<p>因此，如果你要直接修改BufferAttribute，必须通过<code>setAttribute</code>的形式添加，并且传入 Float32Array 数组，详情可以看 下面 <strong>Geometry</strong> 部分</p>
+<h4 id="UV"><a href="#UV" class="headerlink" title="UV"></a>UV</h4><p>uv坐标可以理解为纹理坐标，像前端精灵图一样，每一块·都会有对应的位置</p>
 <p>这里引用<strong>Bruno Simon</strong> 的两张图表现texutre对应的平面坐标（二维uv位置， 在<code>BufferAttribute</code>中它的itemSize为2）</p>
 <p><img src="/2022/03/20/threejs/uv.png" alt></p>
 <p><img src="/2022/03/20/threejs/uv2.png" alt></p>
-<h2 id="4-实践"><a href="#4-实践" class="headerlink" title="4.实践"></a>4.实践</h2><h4 id="小实践"><a href="#小实践" class="headerlink" title="小实践"></a>小实践</h4><p>（场景+阴影+小立方体）</p>
+<p>设置uv</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//创建缓冲几何</span>
+<span class="token keyword">const</span> geometry <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>BufferGeometry</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> material <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>MeshStandardMaterial</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+material<span class="token punctuation">.</span>map <span class="token operator">=</span> xxTexture<span class="token punctuation">;</span>
+<span class="token keyword">const</span> mesh <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Mesh</span><span class="token punctuation">(</span>geometry<span class="token punctuation">,</span> material<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//通过setAttribute，传入一个BufferAttribute</span>
+<span class="token comment" spellcheck="true">//记住这里是二维的</span>
+geometry<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">"uv2"</span><span class="token punctuation">,</span> <span class="token function">BufferAttribute</span><span class="token punctuation">(</span>mesh<span class="token punctuation">.</span>geometry<span class="token punctuation">.</span>attributes<span class="token punctuation">.</span>uv<span class="token punctuation">.</span>array<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="Normals"><a href="#Normals" class="headerlink" title="Normals"></a>Normals</h4><p>normals表示的是法向量，一般和光照、反射、折射有关</p>
+<p><img src="/2022/03/20/threejs/normal.png" alt></p>
+<p><img src="/2022/03/20/threejs/normals2.png" alt></p>
+<p>比如在图片里，我们可以看到如果光照按照左上到右下的角度射进来，左上半球是有光照反应的，右下是逐渐变暗的，并且右下角会随之产生阴影，此时我们还能看到左上能形成反射的向量角度,</p>
+<h2 id="4-实践"><a href="#4-实践" class="headerlink" title="4.实践"></a>4.实践</h2><h4 id="几何（Geometry）介绍"><a href="#几何（Geometry）介绍" class="headerlink" title="几何（Geometry）介绍"></a>几何（Geometry）介绍</h4><blockquote>
+<p>目前为止，threejs已删除之前有的Geometry，用的都是以BufferGeometry为基类的Geometry</p>
+<p><a href="https://github.com/mrdoob/three.js/wiki/Migration-Guide#r124--r125" target="_blank" rel="noopener">https://github.com/mrdoob/three.js/wiki/Migration-Guide#r124--r125</a></p>
+</blockquote>
+<p><img src="/2022/03/20/threejs/no.png" alt></p>
+<p><a href="https://threejs.org/docs/?q=geometry#api/zh/geometries/BoxGeometry" target="_blank" rel="noopener">官网介绍</a></p>
+<p>用的比较多的<a href="https://threejs.org/docs/api/zh/geometries/BoxGeometry.html" target="_blank" rel="noopener">Box<strong>Geometry</strong></a>、<a href="https://threejs.org/docs/api/zh/geometries/PlaneGeometry.html" target="_blank" rel="noopener">Plane<strong>Geometry</strong></a> 、<a href="https://threejs.org/docs/examples/zh/geometries/TextGeometry.html" target="_blank" rel="noopener">Text<strong>Geometry</strong></a>（TextGeometry生成网格前需要先加载 3D 字体数据。 数据的加载是异步的，所以在尝试创建几何体前需要等待。通过将字体加载 Promise 化）</p>
+<p>一些大佬甚至可以靠 <a href="https://threejs.org/docs/api/zh/geometries/ShapeGeometry.html" target="_blank" rel="noopener">Shape<strong>Geometry</strong></a> 或者是创建一个empty BufferGeometry改造成自己想要的形状</p>
+<p>如果绘制一些像 <a href="https://threejs.org/docs/#api/zh/geometries/PlaneGeometry" target="_blank" rel="noopener"><code>PlaneGeometry</code></a> 和 <a href="https://threejs.org/docs/#api/zh/geometries/ShapeGeometry" target="_blank" rel="noopener"><code>ShapeGeometry</code></a> 这样的二维图形，没有内部, 如果不设置 <code>side: THREE.DoubleSide</code>，当从反面看时它们会消失。</p>
+<p><strong>BufferGeometry</strong></p>
+<p>在之前有个Geometry，一直和BufferGeometry进行对比：</p>
+<ul>
+<li><p>基于 <a href="https://threejs.org/docs/#api/zh/core/BufferGeometry" target="_blank" rel="noopener"><code>BufferGeometry</code></a> 的图元是面向性能的类型。 几何体的顶点是直接生成为一个高效的类型数组形式，可以被上传到 GPU 进行渲染。 这意味着它们能更快的启动，占用更少的内存。但如果想修改数据，就需要复杂的编程。</p>
+</li>
+<li><p>基于 <code>Geometry</code> 的图元更灵活、更易修改（建立在bufferGeometry之上封装好的api）。 它们根据 JavaScript 的类而来，像 <a href="https://threejs.org/docs/#api/zh/math/Vector3" target="_blank" rel="noopener"><code>Vector3</code></a> 是 3D 的点，<a href="https://threejs.org/docs/#api/zh/core/Face3" target="_blank" rel="noopener"><code>Face3</code></a> 是三角形。 它们需要更多的内存，在能够被渲染前，Three.js 会将它们转换成相应的 <a href="https://threejs.org/docs/#api/zh/core/BufferGeometry" target="_blank" rel="noopener"><code>BufferGeometry</code></a> 表现形式。</p>
+<p>举个简单的例子，<a href="https://threejs.org/docs/#api/zh/core/BufferGeometry" target="_blank" rel="noopener"><code>BufferGeometry</code></a> 不能轻松的添加新的顶点。 使用顶点的数量在创建时就定好了，相应的创建存储，填充顶点数据。 但用 <code>Geometry</code> 你就能随时添加顶点。</p>
+</li>
+</ul>
+<p>总结就是：消耗性能的地方最好用BufferGeometry(比如说烟、雾、雪、雨之类的)，但是BufferGeometry用起来很麻烦，普遍的地方正常用Geometry就好了</p>
+<p>案例：<a href="https://threejs.org/examples/#webgl_buffergeometry" target="_blank" rel="noopener">https://threejs.org/examples/#webgl_buffergeometry</a> （上万的粒子效果仍然特别流畅）</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//创建缓冲几何</span>
+<span class="token keyword">const</span> geometry <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>BufferGeometry</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//通过setAttribute，传入一个BufferAttribute</span>
+geometry<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">"position"</span><span class="token punctuation">,</span> positionArrtribute<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> material <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>MeshBasicMaterial</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  color<span class="token punctuation">:</span> <span class="token number">0xff0000</span><span class="token punctuation">,</span>
+  wireframe<span class="token punctuation">:</span> <span class="token boolean">true</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> mesh <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Mesh</span><span class="token punctuation">(</span>geometry<span class="token punctuation">,</span> material<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>geometry<span class="token punctuation">.</span>attributes<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">/*
+{ 
+  position: Float32BufferAttribute
+  normal: Float32BufferAttribute
+  uv: Float32BufferAttribute
+}
+*/</span></code></pre>
+<h4 id="材质（material）介绍"><a href="#材质（material）介绍" class="headerlink" title="材质（material）介绍"></a>材质（material）介绍</h4><ul>
+<li><p><code>MeshBasicMaterial</code>：一个以简单着色（平面或线框）方式来绘制几何体的材质。这种材质不受光照的影响。（最佳性能）</p>
+</li>
+<li><p><code>MeshDepthMaterial</code>（深度网格材质）：一种按深度绘制几何体的材质。深度基于相机远近平面。白色最近，黑色最远。</p>
+</li>
+<li><p><code>MeshMatcapMaterial</code>：<code>MeshMatcapMaterial</code> 不对灯光作出反应。 它将会投射阴影到一个接受阴影的物体上(and shadow clipping works)，但不会产生自身阴影或是接受阴影。<a href="https://github.com/nidorx/matcaps" target="_blank" rel="noopener">mapcat材质大全</a></p>
+</li>
+<li><p><code>MeshToonMaterial</code>：一种实现<strong>卡通</strong>着色的材质。</p>
+</li>
+<li><p><code>MeshNormalMaterial</code>：一种把法向量映射到RGB颜色的材质。（有点赛博朋克、宇宙色彩系列的风格）</p>
+</li>
+<li><p><code>MeshLambertMaterial</code>：一种非光泽表面的材质，没有镜面高光。该材质使用基于非物理的<a href="https://en.wikipedia.org/wiki/Lambertian_reflectance" target="_blank" rel="noopener">Lambertian</a>模型来计算反射率。 这可以很好地模拟一些表面（例如未经处理的木材或石材），但不能模拟具有镜面高光的光泽表面（例如涂漆木材）。</p>
+</li>
+<li><p><code>MeshPhongMaterial</code>：一种用于具有镜面高光的光泽表面的材质。该材质使用非物理的<a href="https://en.wikipedia.org/wiki/Blinn-Phong_shading_model" target="_blank" rel="noopener">Blinn-Phong</a>模型来计算反射率。 与<code>MeshLambertMaterial</code>中使用的Lambertian模型不同，该材质可以模拟具有镜面高光的光泽表面（例如涂漆木材）。（观感更佳）</p>
+</li>
+<li><p><code>MeshStandardMaterial</code>：一种基于物理的标准材质，使用Metallic-Roughness工作流程。</p>
+<p>基于物理的渲染（PBR）最近已成为许多3D应用程序的<strong>标准</strong>，例如<a href="https://blogs.unity3d.com/2014/10/29/physically-based-shading-in-unity-5-a-primer/" target="_blank" rel="noopener">Unity</a>， <a href="https://docs.unrealengine.com/latest/INT/Engine/Rendering/Materials/PhysicallyBased/" target="_blank" rel="noopener">Unreal</a>和 <a href="http://area.autodesk.com/blogs/the-3ds-max-blog/what039s-new-for-rendering-in-3ds-max-2017" target="_blank" rel="noopener">3D Studio Max</a>。</p>
+<p>在实践中，该材质提供了比MeshLambertMaterial 或MeshPhongMaterial <strong>更精确和逼真的结果</strong>，代价是计算成本更高。</p>
+</li>
+<li><p><code>MeshPhysicalMaterial</code>：（最耗费性能）</p>
+<p>MeshStandardMaterial的扩展，提供了更高级的基于物理的渲染属性：</p>
+<ul>
+<li><strong>Clearcoat:</strong> 有些类似于车漆，碳纤，被水打湿的表面的材质需要在面上再增加一个透明的，具有一定反光特性的面。而且这个面说不定有一定的起伏与粗糙度。Clearcoat可以在不需要重新创建一个透明的面的情况下做到类似的效果。</li>
+<li><strong>基于物理的透明度</strong>:.opacity属性有一些限制:在透明度比较高的时候，反射也随之减少。使用基于物理的透光性.transmission属性可以让一些很薄的透明表面，例如玻璃，变得更真实一些。</li>
+<li><strong>高级光线反射:</strong> 为非金属材质提供了更多更灵活的光线反射。</li>
+</ul>
+<p>物理网格材质使用了更复杂的着色器功能，所以在每个像素的渲染都要比three.js中的其他材质更费性能，大部分的特性是默认关闭的，需要手动开启，每开启一项功能在开启的时候才会更耗性能。请注意，为获得最佳效果，您在使用此材质时应始终指定environment map。</p>
+</li>
+</ul>
+<p>通过</p>
+<pre class=" language-js"><code class="language-js">material<span class="token punctuation">.</span>wireframe <span class="token operator">=</span> <span class="token boolean">true</span></code></pre>
+<p>还可以查看顶点相关信息</p>
+<h4 id="小实践"><a href="#小实践" class="headerlink" title="小实践"></a>小实践</h4><p>（场景+阴影+小立方体）</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> scene <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Scene</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> camera <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>PerspectiveCamera</span><span class="token punctuation">(</span><span class="token number">75</span><span class="token punctuation">,</span> window<span class="token punctuation">.</span>innerWidth <span class="token operator">/</span> window<span class="token punctuation">.</span>innerHeight<span class="token punctuation">,</span> <span class="token number">0.1</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">//一般可以设置为75°、45°的角度等</span>
@@ -1025,68 +1108,6 @@ document<span class="token punctuation">.</span>body<span class="token punctuati
 renderer<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>scene<span class="token punctuation">,</span> camera<span class="token punctuation">)</span></code></pre>
 <h4 id="小实践推荐网站"><a href="#小实践推荐网站" class="headerlink" title="小实践推荐网站"></a>小实践推荐网站</h4><p><a href="https://github.com/JChehe/blog/issues/44" target="_blank" rel="noopener">https://github.com/JChehe/blog/issues/44</a>  一个换肤小椅子作为实践</p>
 <p><a href="https://github.com/JChehe/blog/issues/45" target="_blank" rel="noopener">https://github.com/JChehe/blog/issues/45</a> 3d任务交互（进阶版）</p>
-<h4 id="几何（Geometry）介绍"><a href="#几何（Geometry）介绍" class="headerlink" title="几何（Geometry）介绍"></a>几何（Geometry）介绍</h4><blockquote>
-<p>目前为止，threejs已删除之前有的Geometry，用的都是以BufferGeometry为基类的Geometry</p>
-</blockquote>
-<p><a href="https://threejs.org/docs/?q=geometry#api/zh/geometries/BoxGeometry" target="_blank" rel="noopener">官网介绍</a></p>
-<p>用的比较多的<a href="https://threejs.org/docs/api/zh/geometries/BoxGeometry.html" target="_blank" rel="noopener">Box<strong>Geometry</strong></a>、<a href="https://threejs.org/docs/api/zh/geometries/PlaneGeometry.html" target="_blank" rel="noopener">Plane<strong>Geometry</strong></a> 、<a href="https://threejs.org/docs/examples/zh/geometries/TextGeometry.html" target="_blank" rel="noopener">Text<strong>Geometry</strong></a>（TextGeometry生成网格前需要先加载 3D 字体数据。 数据的加载是异步的，所以在尝试创建几何体前需要等待。通过将字体加载 Promise 化）</p>
-<p>一些大佬甚至可以靠 <a href="https://threejs.org/docs/api/zh/geometries/ShapeGeometry.html" target="_blank" rel="noopener">Shape<strong>Geometry</strong></a> 或者是创建一个empty BufferGeometry改造成自己想要的形状</p>
-<p>如果绘制一些像 <a href="https://threejs.org/docs/#api/zh/geometries/PlaneGeometry" target="_blank" rel="noopener"><code>PlaneGeometry</code></a> 和 <a href="https://threejs.org/docs/#api/zh/geometries/ShapeGeometry" target="_blank" rel="noopener"><code>ShapeGeometry</code></a> 这样的二维图形，没有内部, 如果不设置 <code>side: THREE.DoubleSide</code>，当从反面看时它们会消失。</p>
-<p><strong>BufferGeometry</strong></p>
-<p>在之前又个Geometry，一直和BufferGeometry进行对比：</p>
-<ul>
-<li><p>基于 <a href="https://threejs.org/docs/#api/zh/core/BufferGeometry" target="_blank" rel="noopener"><code>BufferGeometry</code></a> 的图元是面向性能的类型。 几何体的顶点是直接生成为一个高效的类型数组形式，可以被上传到 GPU 进行渲染。 这意味着它们能更快的启动，占用更少的内存。但如果想修改数据，就需要复杂的编程。</p>
-</li>
-<li><p>基于 <code>Geometry</code> 的图元更灵活、更易修改（建立在bufferGeometry之上封装好的api）。 它们根据 JavaScript 的类而来，像 <a href="https://threejs.org/docs/#api/zh/math/Vector3" target="_blank" rel="noopener"><code>Vector3</code></a> 是 3D 的点，<a href="https://threejs.org/docs/#api/zh/core/Face3" target="_blank" rel="noopener"><code>Face3</code></a> 是三角形。 它们需要更多的内存，在能够被渲染前，Three.js 会将它们转换成相应的 <a href="https://threejs.org/docs/#api/zh/core/BufferGeometry" target="_blank" rel="noopener"><code>BufferGeometry</code></a> 表现形式。</p>
-<p>举个简单的例子，<a href="https://threejs.org/docs/#api/zh/core/BufferGeometry" target="_blank" rel="noopener"><code>BufferGeometry</code></a> 不能轻松的添加新的顶点。 使用顶点的数量在创建时就定好了，相应的创建存储，填充顶点数据。 但用 <code>Geometry</code> 你就能随时添加顶点。</p>
-</li>
-</ul>
-<p>总结就是：消耗性能的地方最好用BufferGeometry(比如说烟、雾、雪、雨之类的)，但是BufferGeometry用起来很麻烦，普遍的地方正常用Geometry就好了</p>
-<p>案例：<a href="https://threejs.org/examples/#webgl_buffergeometry" target="_blank" rel="noopener">https://threejs.org/examples/#webgl_buffergeometry</a> （上万的粒子效果仍然特别流畅）</p>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//创建缓冲几何</span>
-<span class="token keyword">const</span> geometry <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>BufferGeometry</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">//通过setAttribute，传入一个BufferAttribute</span>
-geometry<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">"position"</span><span class="token punctuation">,</span> positionArrtribute<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> material <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>MeshBasicMaterial</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  color<span class="token punctuation">:</span> <span class="token number">0xff0000</span><span class="token punctuation">,</span>
-  wireframe<span class="token punctuation">:</span> <span class="token boolean">true</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> mesh <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>Mesh</span><span class="token punctuation">(</span>geometry<span class="token punctuation">,</span> material<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>geometry<span class="token punctuation">.</span>attributes<span class="token punctuation">)</span>
-<span class="token comment" spellcheck="true">/*
-{ 
-  position: Float32BufferAttribute
-  normal: Float32BufferAttribute
-  uv: Float32BufferAttribute
-}
-*/</span></code></pre>
-<h4 id="材质（material）介绍"><a href="#材质（material）介绍" class="headerlink" title="材质（material）介绍"></a>材质（material）介绍</h4><ul>
-<li><p>MeshBasicMaterial：一个以简单着色（平面或线框）方式来绘制几何体的材质。这种材质不受光照的影响。（最佳性能）</p>
-</li>
-<li><p>深度网格材质(MeshDepthMaterial)：一种按深度绘制几何体的材质。深度基于相机远近平面。白色最近，黑色最远。</p>
-</li>
-<li><p>MeshToonMaterial：一种实现<strong>卡通</strong>着色的材质。</p>
-</li>
-<li><p>法线网格材质(MeshNormalMaterial)：一种把法向量映射到RGB颜色的材质。（有点赛博朋克、宇宙色彩系列的风格）</p>
-</li>
-<li><p>Lambert网格材质(MeshLambertMaterial)：一种非光泽表面的材质，没有镜面高光。该材质使用基于非物理的<a href="https://en.wikipedia.org/wiki/Lambertian_reflectance" target="_blank" rel="noopener">Lambertian</a>模型来计算反射率。 这可以很好地模拟一些表面（例如未经处理的木材或石材），但不能模拟具有镜面高光的光泽表面（例如涂漆木材）。</p>
-</li>
-<li><p>Phong网格材质(MeshPhongMaterial)：一种用于具有镜面高光的光泽表面的材质。该材质使用非物理的<a href="https://en.wikipedia.org/wiki/Blinn-Phong_shading_model" target="_blank" rel="noopener">Blinn-Phong</a>模型来计算反射率。 与MeshLambertMaterial中使用的Lambertian模型不同，该材质可以模拟具有镜面高光的光泽表面（例如涂漆木材）。（观感更佳）</p>
-</li>
-<li><p>标准网格材质(MeshStandardMaterial)：一种基于物理的标准材质，使用Metallic-Roughness工作流程。</p>
-<p>基于物理的渲染（PBR）最近已成为许多3D应用程序的<strong>标准</strong>，例如<a href="https://blogs.unity3d.com/2014/10/29/physically-based-shading-in-unity-5-a-primer/" target="_blank" rel="noopener">Unity</a>， <a href="https://docs.unrealengine.com/latest/INT/Engine/Rendering/Materials/PhysicallyBased/" target="_blank" rel="noopener">Unreal</a>和 <a href="http://area.autodesk.com/blogs/the-3ds-max-blog/what039s-new-for-rendering-in-3ds-max-2017" target="_blank" rel="noopener">3D Studio Max</a>。</p>
-<p>在实践中，该材质提供了比MeshLambertMaterial 或MeshPhongMaterial <strong>更精确和逼真的结果</strong>，代价是计算成本更高。</p>
-</li>
-<li><p>物理网格材质(MeshPhysicalMaterial)：（最耗费性能）</p>
-<p>MeshStandardMaterial的扩展，提供了更高级的基于物理的渲染属性：</p>
-<ul>
-<li><strong>Clearcoat:</strong> 有些类似于车漆，碳纤，被水打湿的表面的材质需要在面上再增加一个透明的，具有一定反光特性的面。而且这个面说不定有一定的起伏与粗糙度。Clearcoat可以在不需要重新创建一个透明的面的情况下做到类似的效果。</li>
-<li><strong>基于物理的透明度</strong>:.opacity属性有一些限制:在透明度比较高的时候，反射也随之减少。使用基于物理的透光性.transmission属性可以让一些很薄的透明表面，例如玻璃，变得更真实一些。</li>
-<li><strong>高级光线反射:</strong> 为非金属材质提供了更多更灵活的光线反射。</li>
-</ul>
-<p>物理网格材质使用了更复杂的着色器功能，所以在每个像素的渲染都要比three.js中的其他材质更费性能，大部分的特性是默认关闭的，需要手动开启，每开启一项功能在开启的时候才会更耗性能。请注意，为获得最佳效果，您在使用此材质时应始终指定environment map。</p>
-</li>
-</ul>
 <h2 id="5-控制器"><a href="#5-控制器" class="headerlink" title="5.控制器"></a>5.控制器</h2><p>这里说的控制器，不如说是相机的控制器，一般来说我们可以通过设置控制器，控制镜头，或者其他物体进行变换</p>
 <p>这里示范一个轨道控制器(最常用)</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//导入控制器，轨道控制器（围绕物体查看）</span>
@@ -1999,20 +2020,20 @@ gsap<span class="token punctuation">.</span><span class="token function">to</spa
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/03/05/whistle/">
+                <a href="/2022/03/05/websocket/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="whistle">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="websocket">
                         
-                        <span class="card-title">whistle</span>
+                        <span class="card-title">websocket</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Whislte概述Whistle 是一个基于 Node 实现的跨平台 Web 调试代理工具。
-和其他抓包软件，如 Charles、Fiddler 一样，它可以查看、修改 HTTP、HTTPS、Websocket 的请求、响应，也可以作为 H
+                            1.WebSocket概括WebSocket 是 HTML5 开始提供的一种在单个 TCP 连接上进行全双工通讯的协议，是一个持久化的协议。
+WebSocket 使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推送数据。
                         
                     </div>
                     <div class="publish-info">
@@ -2180,7 +2201,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">365.7k</span>&nbsp;字
+                class="white-color">371.8k</span>&nbsp;字
             
             
             

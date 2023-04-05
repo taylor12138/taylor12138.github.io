@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.5k
+                    7.8k
                 </div>
                 
 
@@ -635,6 +635,31 @@ xhr<span class="token punctuation">.</span><span class="token function">send</sp
 <p>1.先把服务器对当前页面的post请求改成all，这样可以接受任意类型的请求</p>
 <p><code>app.post(url, callback)</code> =&gt; <code>app.all(url, callback)</code></p>
 <p>2.请求里设置 <code>res.setHeader(&#39;Access-Control-Allow-Headers&#39;, &#39;*&#39;);</code></p>
+<h4 id="Content-Type"><a href="#Content-Type" class="headerlink" title="Content-Type"></a>Content-Type</h4><p>Content-Type（内容类型），一般是指网页中存在的 Content-Type，用于定义网络文件的类型和网页的编码，决定浏览器将以什么形式、什么编码读取这个文件，一般用于表明该请求的数据类型</p>
+<p>常见的媒体格式类型如下：</p>
+<ul>
+<li>text/html ： HTML格式</li>
+<li>text/plain ：纯文本格式</li>
+<li>text/xml ： XML格式</li>
+<li>image/gif ：gif图片格式</li>
+<li>image/jpeg ：jpg图片格式</li>
+<li>image/png：png图片格式</li>
+</ul>
+<p>以application开头的媒体格式类型：</p>
+<ul>
+<li>application/xhtml+xml ：XHTML格式</li>
+<li>application/xml： XML数据格式</li>
+<li>application/atom+xml ：Atom XML聚合格式</li>
+<li>application/json： JSON数据格式</li>
+<li>application/pdf：pdf格式</li>
+<li>application/msword ： Word文档格式</li>
+<li>application/octet-stream ： 二进制流数据（如常见的文件下载）</li>
+<li>application/x-www-form-urlencoded ：<code>&lt;form encType=&quot;&quot;&gt;</code>中默认的<code>encType</code>，form表单数据被编码为key/value格式发送到服务器（表单默认的提交数据的格式）<strong>使用与 URL 参数相同的编码</strong></li>
+</ul>
+<p>另外一种常见的媒体格式是上传文件之时使用的：</p>
+<ul>
+<li>multipart/form-data ： 需要在表单中进行文件上传时，就需要使用该格式，否则和<code>x-www-form-urlencoded</code> 差不多</li>
+</ul>
 <h4 id="响应json数据"><a href="#响应json数据" class="headerlink" title="响应json数据"></a>响应json数据</h4><p>保存在json文件的是json字符串</p>
 <p><code>JSON.stringify(对象)</code>     JavaScript 值(对象或数组)转换为 JSON 字符串</p>
 <p><code>JSON.parse(data)</code>            字符转对象</p>
@@ -915,7 +940,7 @@ instance<span class="token punctuation">.</span>interceptors<span class="token p
 <p>init：可选的配置项</p>
 <blockquote>
 <p>注意：使用fetch必须定义 Content-Type（axios就不用），用json格式就要设置 ‘application/json’</p>
-<p>application/json： 一种传输格式，在postman看到格式内容是raw的就是</p>
+<p>application/json： 一种传输格式，在postman看到格式内容是raw的一般就是json格式的，raw指的是不会对其进行任何类型的更改</p>
 </blockquote>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> payload <span class="token operator">=</span> JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
     foo<span class="token punctuation">:</span> <span class="token string">'bar'</span>
@@ -1109,7 +1134,7 @@ app<span class="token punctuation">.</span><span class="token keyword">get</span
 <p><code>setHeader(&quot;允许跨域响应头&quot;, &quot;*&quot;);</code></p>
 <p>设置允许跨域的响应头，它们的格式分别所代表的含义是</p>
 <p>1.origin 参数的值指定了允许访问该资源的外域 URI，可以指定该字段的值为通配符（*），表示允许来自所有域的请求。</p>
-<pre class=" language-text"><code class="language-text">Access-Control-Allow-Origin: <origin> | *</code></pre>
+<pre class=" language-text"><code class="language-text">Access-Control-Allow-Origin: <origin> | *</origin></code></pre>
 <p>2.指明了实际请求所允许使用的 HTTP 方法。</p>
 <pre><code>Access-Control-Allow-Methods: &lt;method&gt;[, &lt;method&gt;]*</code></pre><p>3.指明了实际请求中允许携带的首部字段。</p>
 <pre><code>Access-Control-Allow-Headers: &lt;field-name&gt;[, &lt;field-name&gt;]*</code></pre><p>4.表示是否允许发送Cookie。<strong>默认情况下，Cookie不包括在CORS请求之中</strong>，也就是说，不能发送和接受cookie。设为<code>true</code>，即表示服务器明确许可，Cookie可以包含在请求中，一起发给服务器。这个值也只能设为<code>true</code>，如果服务器不要浏览器发送Cookie，删除该字段即可。</p>
@@ -1656,7 +1681,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">365.7k</span>&nbsp;字
+                class="white-color">371.8k</span>&nbsp;字
             
             
             

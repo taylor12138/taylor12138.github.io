@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.1k
+                    6.1k
                 </div>
                 
 
@@ -903,71 +903,7 @@ event<span class="token punctuation">.</span><span class="token function">emit</
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> ret <span class="token operator">=</span> template<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token string">'hello {{ name }}'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
     name<span class="token punctuation">:</span> <span class="token string">'Jack'</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
-<h2 id="7-SSR渲染"><a href="#7-SSR渲染" class="headerlink" title="7.SSR渲染"></a>7.SSR渲染</h2><h4 id="SSR简介"><a href="#SSR简介" class="headerlink" title="SSR简介"></a>SSR简介</h4><p>SSR：server side render</p>
-<p>当前端为vue、react这种spa应用时，非常不利于SEO，各种路由的跳转也变得复杂，并且在首屏渲染时间上也花费了大量时间。<strong>在整体架构部署上，还需要利用各种web服务（如ngxin），这点很麻烦</strong></p>
-<p>服务端将我们需要的HTML文本组装好，并返回给浏览器，这个HTML文本被浏览器解析之后，<strong>不需要经过 JavaScript 脚本的执行</strong>，即可直接构建出希望的 DOM 树并展示到页面中。这个服务端组装HTML的过程，叫做服务端渲染。</p>
-<p>SSR优势</p>
-<ul>
-<li>更利于SEO。</li>
-<li>更利于首屏渲染，即白屏时长更短</li>
-<li>服务端在内网进行请求，数据响应速度快<ul>
-<li>需要特别说明的一点是数据请求，无论是 SSR 还是 CSR，都是常规的 fetch 请求，主要的区别在于网络环境，理论上 SSR 的请求是服务器内部的（之间的），必须要优于 CSR 的公网请求，否则 SSR 的优化效果就会大大降低。另外，SSR 还需要注意控制请求的超时时间，做好降级，否则用户看到的会是一个比 CSR “更白的白屏”。</li>
-</ul>
-</li>
-</ul>
-<p><img src="/2022/05/05/nodejs/SSR1.jpg" alt></p>
-<p><img src="/2022/05/05/nodejs/SSR2.jpg" alt></p>
-<p>我们可以看见服务端渲染中间少了两个步骤</p>
-<p>SSR劣势</p>
-<ul>
-<li><p>相对于仅仅需要提供静态文件的服务器，SSR中使用的渲染程序自然会占用更多的CPU和内存资源。</p>
-</li>
-<li><p>一些常用的浏览器API可能无法正常使用，比如<code>window</code>、<code>docment</code>和<code>alert</code>等，如果使用的话需要对运行的环境加以判断。</p>
-</li>
-<li><p>开发调试会有一些麻烦，因为涉及了浏览器及服务器，对于SPA的一些组件的生命周期的管理会变得复杂。</p>
-</li>
-<li><p>可能会由于某些因素导致服务器端渲染的结果与浏览器端的结果不一致。</p>
-</li>
-<li><p>FID性能可能会有问题：<a href="https://keenwon.com/better-react-ssr/" target="_blank" rel="noopener">这里</a>有介绍说明</p>
-</li>
-</ul>
-<h4 id="重新认识服务端渲染"><a href="#重新认识服务端渲染" class="headerlink" title="重新认识服务端渲染"></a>重新认识服务端渲染</h4><p>现在的服务端渲染和过去的服务端渲染完全是两码事</p>
-<ol>
-<li><p><strong>Web1.0</strong>时期，在没有AJAX的时候，也就是web1.0时代，几乎所有应用都是服务端渲染，浏览器接收请求后，到数据库查询数据，将数据丢到后端的组件模板（php、asp、jsp等）中，并渲染成HTML片段，然后浏览器拿到的是一个完整的HTML，然后渲染页面，过程没有任何JavaScript代码的参与。。</p>
-<ul>
-<li><p>这样做的缺点是：每一次更新都要请求后，让服务端查一次数据库，重新组装html返回</p>
-</li>
-<li><p>代码混杂，难以维护（jsp、php）</p>
-<p><img src="/2022/05/05/nodejs/SSR3.jpg" alt></p>
-</li>
-</ul>
-</li>
-<li><p>前后端分离时代，SPA模式出现，前端团队接管页面渲染，后端团队仅负责数据查询和API</p>
-<p><img src="/2022/05/05/nodejs/SSR4.jpg" alt></p>
-</li>
-<li><p>随着SPA的发展，弊端也逐渐暴露：JS脚本的臃肿，SEO的退化</p>
-<p>此时后端渲染再次出现，但不同的是连接口导向 </p>
-<p>浏览器 &lt;-&gt; 前端服务器 &lt;-&gt; 后端服务器 </p>
-<p>其实也可以看作加入了nodejs中间件，这个中间件作为伪“服务端”，由这个前端服务器组装一个携带了具体数据的HTML文本，并且返回给浏览器。</p>
-<p>但是！值得一提的是，<strong>浏览器加载并执行 JavaScript 脚本</strong>，（这个是之前服务端渲染不会的做）给页面上的元素绑定事件，让页面变得可交互，当用户与浏览器页面进行交互，如跳转到下一个页面时，浏览器会执行 JavaScript 脚本，向后端服务器请求数据，获取完数据之后再次执行 JavaScript 代码动态渲染页面。</p>
-<p><img src="/2022/05/05/nodejs/SSR5.jpg" alt></p>
-</li>
-</ol>
-<p>使用了服务端渲染之后，你还要实现同构！即一份代码，既可以客户端渲染，也可以服务端渲染。</p>
-<p>因为这时你要用到两种页面渲染：</p>
-<ul>
-<li>前端服务器通过请求后端服务器获取数据并组装HTML返回给浏览器，浏览器直接解析HTML后渲染页面（首屏渲染）</li>
-<li>浏览器完成事件绑定，在交互过程中，请求新的数据并动态更新渲染页面（交互渲染）</li>
-</ul>
-<h4 id="SSG"><a href="#SSG" class="headerlink" title="SSG"></a>SSG</h4><p>但是一般来说，首屏一般不会对内容产生什么修改，但是数以万计的访客打开网站时候，都要进行数据库查询吗？这无疑会导致数据库后端的重复开销，而解决问题的方法是：</p>
-<p>（SSG）将后端渲染的HTML缓存，这份缓存作为静态内容，也更容易被推送至CDN，实现全国甚至全球加速；即使需要修改内容，也可以重新生成静态内容，再更新cdn内容的方式轻松应对</p>
-<p>你可以理解为构建时请求数据 + 填入</p>
-<p>缺点：所有用户看到的都是同一个页面，无法生成用户相关内容，并且对于百万级、千万级、亿级页面的大型网站而言，一旦有数据改动，要进行一次全部页面的渲染，需要的时间可能是按小时甚至按天计的，这是不可接受的。</p>
-<p>参考</p>
-<p><a href="https://www.zhihu.com/question/59578433/answer/332545815" target="_blank" rel="noopener">https://www.zhihu.com/question/59578433/answer/332545815</a> </p>
-<p><a href="https://github.com/yacan8/blog/issues/30" target="_blank" rel="noopener">https://github.com/yacan8/blog/issues/30</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/341229054" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/341229054</a></p>
-<h2 id="8-Path"><a href="#8-Path" class="headerlink" title="8.Path"></a>8.Path</h2><p>Path是一个核心模块 <code>var path = require(&#39;path&#39;)</code></p>
+<h2 id="7-Path"><a href="#7-Path" class="headerlink" title="7.Path"></a>7.Path</h2><p>Path是一个核心模块 <code>var path = require(&#39;path&#39;)</code></p>
 <p><code>path.basename(path[,ext])</code> 获取给定路径当中文件名部分，第二个参数可以用来去除指定的后缀名</p>
 <pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">basename</span><span class="token punctuation">(</span><span class="token string">'c:/a/b/c/index.js'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>          <span class="token comment" spellcheck="true">//index.js</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">basename</span><span class="token punctuation">(</span><span class="token string">'c:/a/b/c/index.js'</span><span class="token punctuation">,</span> <span class="token string">'.js'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//index</span>
@@ -989,7 +925,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//express框架公开指定目录</span>
 app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">'/node_modules/'</span><span class="token punctuation">,</span> express<span class="token punctuation">.</span><span class="token keyword">static</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'./node_modules/'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p><strong>特殊</strong> ：模块中的路径标识（比如：<code>require(&#39;./a.js&#39;)</code>）是相对于当前文件模块，不受到node命令所处路径影响</p>
-<h2 id="9-其他"><a href="#9-其他" class="headerlink" title="9.其他"></a>9.其他</h2><p>进程为我们程序的运行提供一个必备的环境（<strong>进程是资源分配的最小单位</strong>）</p>
+<h2 id="8-其他"><a href="#8-其他" class="headerlink" title="8.其他"></a>8.其他</h2><p>进程为我们程序的运行提供一个必备的环境（<strong>进程是资源分配的最小单位</strong>）</p>
 <p>线程是计算机中最小的计算单位，线程负责执行保存到进程中的程序（<strong>线程是CPU调度的最小单位</strong>）</p>
 <p>JS、浏览器、nodejs是单线程</p>
 <h4 id="修改完自动重启服务器"><a href="#修改完自动重启服务器" class="headerlink" title="修改完自动重启服务器"></a>修改完自动重启服务器</h4><p>我们这里可以使用一个第三方工具：<code>nodemon</code>来帮我们解决修改代码重启服务器问题</p>
@@ -1043,45 +979,6 @@ npm install <span class="token operator">--</span>global nodemon</code></pre>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">$</span><span class="token punctuation">(</span>ele<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">attr</span><span class="token punctuation">(</span><span class="token string">"属性名"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">$</span><span class="token punctuation">(</span>ele<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
-<h2 id="10-Island"><a href="#10-Island" class="headerlink" title="10.Island"></a>10.Island</h2><p>SSR 的页面会第一时间呈现给用户，但是只有当 js 加载完毕，执行完毕后，功能才是真正可用的：</p>
-<ul>
-<li>功能方面：用户看到了但是不能操作</li>
-<li>性能方面：大量 js 在页面加载完成后集中的解析、执行，FID 必然受到影响</li>
-</ul>
-<p>这就是 Progressive Hydration 和 Islands Architecture 要解决的问题。但实际上，某些场景下 SSG + CSR 才是更好的选择。</p>
-<p>明白了SSR、CSR两者的优势劣势之后，Islands Architecture 框架的概念在于</p>
-<ul>
-<li>与客户端渲染（CSR）相当的交互性</li>
-<li>与服务端渲染（SSR）相媲美的 SEO 优势</li>
-</ul>
-<p>你可以理解为客户端负责交互JS（降低 后的JS 体积），服务端负责SSR静态相关的进行渲染，二者结合</p>
-<p>Island优点：</p>
-<ol>
-<li><strong>性能</strong>：降低客户端 JS 代码的体积。加载的代码，仅包含交互式组件所需的 JS，这比为整个页面重新创建 Virtual DOM，并重新 hydrate 页面上的所有元素所需的 JS 要少得多。较小的 JS 会带来更快的页面加载和交互时间 (TTI)。</li>
-</ol>
-<blockquote>
-<p>Astro 与使用 Next.js 和 Nuxt.js 创建的文档网站<a href="https://docs.astro.build/docs/en/comparing-astro-vs-other-tools" target="_blank" rel="noopener">相比</a>，JS 代码减少了 83%。<a href="https://divriots.com/blog/our-experience-with-astro/" target="_blank" rel="noopener">其他用户</a>也反馈了使用 Astro 的性能改进。</p>
-<p><img src="https://keenwon.com/assets/image/880e03d0.png" alt="img"></p>
-<p>（图片来自 <a href="https://divriots.com/blog/our-experience-with-astro/）" target="_blank" rel="noopener">https://divriots.com/blog/our-experience-with-astro/）</a></p>
-</blockquote>
-<ol>
-<li><strong>SEO</strong>：由于所有静态内容经过服务端渲染，所以页面对 SEO 场景是友好的</li>
-<li><strong>关键内容优先</strong>：用户几乎可以立即获得关键内容（尤其是博客、新闻文章和产品类的页面）。在关键内容逐渐可用后，可交互的次要功能也是必须的。</li>
-<li><strong>可访问性</strong>：使用标准静态 HTML 链接导航，有助于提高网站的可访问性（Accessibility）。</li>
-<li><strong>基于组件</strong>：该架构具有基于组件的架构的所有优点，如：可重用、可维护。</li>
-</ol>
-<p>IsLand缺点：</p>
-<p>尽管有这些优势，但该概念仍处于初期阶段。“有限的支持”导致了一些缺点：</p>
-<ol>
-<li>开发人员实现 Islands 的唯一选择，是使用少数可用的框架之一，或自己实现架构。将现有站点迁移到 Astro 或 Marko 需要额外的工作量。</li>
-<li>除了 Jason 最初的文章外，几乎没有更多的信息。</li>
-<li>有一些新框架声称支持 Islands Architecture，因此筛选出适合你的架构会更难。</li>
-<li>该架构不适合复杂交互页面，例如可能需要数千个 Islands 的社交应用。</li>
-</ol>
-<p>详情：</p>
-<p><a href="https://keenwon.com/islands-architecture-2/#%E5%8A%A8%E6%80%81%E7%BB%84%E4%BB%B6%E7%9A%84-islands" target="_blank" rel="noopener">Islands Architecture</a></p>
-<p><a href="https://keenwon.com/islands-architecture-1/" target="_blank" rel="noopener">Islands Architecture续</a></p>
-<p><a href="https://keenwon.com/better-react-ssr/" target="_blank" rel="noopener">更好的 React SSR</a></p>
 
             </div>
             <hr/>
@@ -1534,7 +1431,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">371.8k</span>&nbsp;字
+                class="white-color">386.2k</span>&nbsp;字
             
             
             

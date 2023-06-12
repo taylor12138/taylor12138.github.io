@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.3k
+                    3.4k
                 </div>
                 
 
@@ -651,6 +651,11 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token punctuation">}</span>
 </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
 <p>我们将写好的importmap放在文档中第一个 <code>&lt;script type=&quot;module&quot;&gt;</code> 标签之前</p>
+<p>然后可以直接写</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript">
+  <span class="token keyword">import</span> dayjs <span class="token keyword">from</span> <span class="token string">'dayjs'</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>dayjs<span class="token punctuation">)</span>
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
 <p>另外，<code>importmap</code> 中声明的包并不一定意味着它一定会被浏览器加载。页面上的脚本没有使用到的任何模块都不会被浏览器加载，即便你在 <code>importmap</code> 中声明了它。</p>
 <p>我们甚至可以写一个映射表，在里面的importmap中指定我们的映射表(不过据说性能比较差)</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>importmap<span class="token punctuation">"</span></span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>importmap.json<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
@@ -697,6 +702,10 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>3.<code>CommonJS</code> 可以在运行时使用变量进行 require</p>
 <p>4.<code>require</code> 会将完整的 <code>exports</code> 对象引入，<code>import</code> 可以只 <code>import</code> 部分必要的内容，这也是为什么使用 <code>Tree Shaking</code> 时必须使用 ES6 模块 的写法。</p>
 <p>5.模块加载方式不同</p>
+<h4 id="ESM和Commonjs的趋势"><a href="#ESM和Commonjs的趋势" class="headerlink" title="ESM和Commonjs的趋势"></a>ESM和Commonjs的趋势</h4><p>其实有一个讨论帖，关于<code>pureEsm</code> 的概念： <a href="https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c" target="_blank" rel="noopener">github</a></p>
+<p>其实是主张仅提供esm产物的npm包，推动社区的发展。但是实质上需要面临一个问题：nodejs执行esm没问题，但是CommonJS中执行esm包是不行的，其根本原因在于 require 是同步加载的，而 ES 模块本身具有异步加载的特性，因此两者天然互斥，即我们无法 require 一个 ES 模块。</p>
+<p>所以对于底层的库最好同时带commonjs格式和esm格式</p>
+<p>而上层的库可以逐渐往pureEsm方向走</p>
 <h2 id="4-UMD"><a href="#4-UMD" class="headerlink" title="4.UMD"></a>4.UMD</h2><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>实现一个 UMD 模块，就要考虑现有的主流 javascript 模块规范了，如 CommonJS, AMD, CMD 等。那么如何才能同时满足这几种规范呢</p>
 <p>首先要想到，模块最终是要导出一个对象，函数，或者变量。 而不同的模块规范，关于模块导出这部分的定义是完全不一样的。 因此，我们需要一种过渡机制。</p>
 <p>（当然你也可以理解为umd是作为一个适配CommonJS、amd、cmd的一个过渡的自动适配函数）</p>
@@ -1184,7 +1193,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">371.8k</span>&nbsp;字
+                class="white-color">386.2k</span>&nbsp;字
             
             
             

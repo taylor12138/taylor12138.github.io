@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.7k
+                    5.7k
                 </div>
                 
 
@@ -530,6 +530,10 @@
 <p>npm5之后设置为1，</p>
 <p>以前的 lock 格式仍然支持并被识别为版本 <code>0</code> 。</p>
 <p>而后来从 NPM 7 发布以来，一个新的 <code>package-lock.json</code> 文件被重新生成为不同的结构。从 <code>lockfileVersion</code> 1 到 2，从而兼容npm 6用户，并且不再忽略 <code>yarn.lock</code></p>
+<h4 id="符号"><a href="#符号" class="headerlink" title="符号"></a>符号</h4><pre class=" language-json"><code class="language-json"><span class="token property">"@music/mobile-toast"</span><span class="token operator">:</span> <span class="token string">"～2.1.13"</span><span class="token punctuation">,</span>
+<span class="token property">"@music/mobile-url"</span><span class="token operator">:</span> <span class="token string">"^4.0.6"</span><span class="token punctuation">,</span></code></pre>
+<p>1.^插入符号<br>        他将会把当前库的版本更新到当前主版本（也就是第一位数字）中最新的版本。放到我们的例子中就是：”axios”: “^0.18.0”, 这个库会去匹配0.x.x中最新的版本，但是他不会自动更新到1.0.0。</p>
+<p>2.<del>波浪符号<br>        他会更新到当前次版本号（也就是中间的那位数字）中最新的版本。放到我们的例子中就是：”cross-env”: “</del>5.2.0”，这个库会去匹配更新到5.2.x的最新版本，如果出了一个新的版本为5.3.0，则不会自动升级。波浪符号是曾经npm安装时候的默认符号，现在已经变为了插入符号。</p>
 <h3 id="NPM命令"><a href="#NPM命令" class="headerlink" title="NPM命令"></a>NPM命令</h3><h4 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h4><p>（Node Package Manager）</p>
 <p>CommonJS包规范时理论，NPM是其中一种实践，是Node包管理器</p>
 <p>对于Node而言，NPM帮助其完成第三方模块的发布，安装和依赖（A-&gt;B-&gt;C，下载C直接A, B也下），借助NPM，Node与第三方模块之间形成良好的一个生态系统（安装了node以后，自带安装npm）</p>
@@ -537,6 +541,7 @@
 <p><code>npm -v</code> 查看版本  （或者<code>包名 --version</code>）</p>
 <p><code>npm</code> 帮助说明</p>
 <p><code>npm search 包名</code> 搜索包</p>
+<p><code>npm why xxx --long</code> 查看当前项目对xxx包的依赖关系</p>
 <p><strong>安装</strong></p>
 <p><code>npm install</code> 下载当前项目所依赖的包（根据package.json配置里的依赖下载）</p>
 <p><code>npm install 包名</code> / <code>npm i 包名</code> 当前目录安装包（可以先创建一个文件夹）（尾部加<code>--save</code>，则为生产环境时依赖，则添加到当前<code>package.json</code>的依赖里）</p>
@@ -553,10 +558,13 @@
 
 npm i module_name  -D  =&gt; npm install module_name --save-dev   写入到 devDependencies 对象
 
-npm i module_name  -g  全局安装</code></pre><p><strong>配置</strong></p>
-<p>通过 <code>npm config set</code> 进行npm的配置</p>
+npm i module_name  -g  全局安装
+
+npm i module_name@latest  安装最新版本</code></pre><h4 id="镜像源"><a href="#镜像源" class="headerlink" title="镜像源"></a>镜像源</h4><p>通过 <code>npm config set</code> 进行npm的配置</p>
 <p>比如配置镜像源</p>
-<pre><code>npm config set 包名:registry 配置的网址    # 指定 包名 走 配置的网址写的镜像源</code></pre><h4 id="npm5以后的–save"><a href="#npm5以后的–save" class="headerlink" title="npm5以后的–save"></a>npm5以后的–save</h4><p>在版本 5 之前，NPM 只是<code>node_modules</code>默认安装了一个包。当您尝试为您的应用程序/模块安装依赖项时，您需要先安装它们，然后将它们（连同适当的版本号）添加到<code>dependencies</code>您的<code>package.json</code>.</p>
+<pre><code>npm config set 包名:registry 配置的网址    # 指定 包名 走 配置的网址写的镜像源</code></pre><p>查看当前源</p>
+<pre class=" language-shell"><code class="language-shell">npm config list </code></pre>
+<h4 id="npm5以后的–save"><a href="#npm5以后的–save" class="headerlink" title="npm5以后的–save"></a>npm5以后的–save</h4><p>在版本 5 之前，NPM 只是<code>node_modules</code>默认安装了一个包。当您尝试为您的应用程序/模块安装依赖项时，您需要先安装它们，然后将它们（连同适当的版本号）添加到<code>dependencies</code>您的<code>package.json</code>.</p>
 <p>该<code>--save</code>选项指示 NPM 自动将包包含在<code>dependencies</code>您的部分中<code>package.json</code>，从而为您节省了额外的步骤。</p>
 <p>此外，还有一些补充选项<code>--save-dev</code>，<code>--save-optional</code>它们分别将包保存在<code>devDependencies</code>和下<code>optionalDependencies</code>。这在安装仅开发包（如<code>grunt</code>测试库）时很有用。</p>
 <p>但是</p>
@@ -585,7 +593,9 @@ npm i module_name  -g  全局安装</code></pre><p><strong>配置</strong></p>
 <p><strong>后期</strong>：为了解决 <code>npm install</code> 的不确定性问题，在 <code>npm 5.x</code> 版本新增了 <code>package-lock.json</code> 文件，而安装方式还沿用了 <code>npm 3.x</code> 的扁平化的方式。</p>
 <p><code>package-lock.json</code> 的作用是锁定依赖结构，即只要你目录下有 <code>package-lock.json</code> 文件，那么你每次执行 <code>npm install</code> 后生成的 <code>node_modules</code> 目录结构一定是完全相同、一一对应的。</p>
 <p>并且， <code>package-lock.json</code> 中已经缓存了每个包的具体版本和下载链接，不需要再去远程仓库进行查询，然后直接进入文件完整性校验环节，减少了大量网络请求。</p>
-<p>所以总结起来 npm i 的流程是：</p>
+<p>但是仍然存在部分缺陷</p>
+<p>平铺式的算法的复杂性，以及Phantom（所以项目中可以非法访问没有声明过依赖的包，因为该包可能是作为依赖的依赖）、性能和安全问题</p>
+<h4 id="npm-i-的流程"><a href="#npm-i-的流程" class="headerlink" title="npm i 的流程"></a>npm i 的流程</h4><p>所以总结起来 npm i 的流程是：</p>
 <ol>
 <li><p>检查<code>.npmrc</code> 文件（<code>npm running cnfiguration</code>, 即npm运行时配置文件），从项目级的 <code>.npmrc</code>  -&gt; 用户级的<code>.npmrc</code>  -&gt;  全局的 <code>.npmrc</code> （有点DNS查询的感觉</p>
 </li>
@@ -643,11 +653,10 @@ npm i module_name  -g  全局安装</code></pre><p><strong>配置</strong></p>
 </li>
 <li>存在缓存：将缓存按照依赖结构解压到 <code>node_modules</code></li>
 </ul>
-<p>参考：<a href="http://www.conardli.top/blog/article/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96-%E5%89%96%E6%9E%90npm%E7%9A%84%E5%8C%85%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6%EF%BC%88%E5%AE%8C%E6%95%B4%E7%89%88%EF%BC%89.html#%E4%B8%80%E3%80%81%E5%89%96%E6%9E%90-package-json" target="_blank" rel="noopener">http://www.conardli.top/blog/article/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96-%E5%89%96%E6%9E%90npm%E7%9A%84%E5%8C%85%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6%EF%BC%88%E5%AE%8C%E6%95%B4%E7%89%88%EF%BC%89.html#%E4%B8%80%E3%80%81%E5%89%96%E6%9E%90-package-json</a></p>
-<h4 id="被讨厌了的npm"><a href="#被讨厌了的npm" class="headerlink" title="被讨厌了的npm"></a>被讨厌了的npm</h4><p>2020 年 10 月 30 日： <a href="https://blog.bitsrc.io/npm-clients-that-are-better-than-the-original-cd54ed0f5fe7" target="_blank" rel="noopener">https://blog.bitsrc.io/npm-clients-that-are-better-than-the-original-cd54ed0f5fe7</a></p>
+<h4 id="被讨厌了的npm"><a href="#被讨厌了的npm" class="headerlink" title="被讨厌了的npm"></a>被讨厌了的npm</h4><p><a href="https://blog.bitsrc.io/npm-clients-that-are-better-than-the-original-cd54ed0f5fe7" target="_blank" rel="noopener">NPM Clients That Are Better Than The Original</a></p>
 <h4 id="npm7"><a href="#npm7" class="headerlink" title="npm7"></a>npm7</h4><p>2020年10月13日是npm CLI团队的快乐星期二，经过几个月的努力，npm CLI团队正式发布了 <code>npm@7.0.0</code>。</p>
 <ul>
-<li><p>工作区：它支持在一个顶级的根包中管理多个包（Yarn和Pnpm以相同的名称实现类似的功能）。它是什么？你可以将它视为在预定义和通用上下文内的项目之间共享软件包的一种方式。，但是并不是说软件包是完全通用的，或者所有内容都要放进同一个下载位置。这个方案确实可以解决一遍又一遍地复制模块的麻烦，还能让你控制我们的模块要共享给哪些项目。</p>
+<li><p>工作区（重复安装问题）：它支持在一个顶级的根包中管理多个包（Yarn和Pnpm以相同的名称实现类似的功能）。它是什么？你可以将它视为在预定义和通用上下文内的项目之间共享软件包的一种方式。，但是并不是说软件包是完全通用的，或者所有内容都要放进同一个下载位置。这个方案确实可以解决一遍又一遍地复制模块的麻烦，还能让你控制我们的模块要共享给哪些项目。</p>
 <p>有了工作区以后，你就可以明确地告诉 NPM，你的程序包将存放在何处。并且由于新版客户端可以感知工作区，因此它会正确安装依赖项，而不会复制那些通用的依赖。</p>
 </li>
 <li><p>同级项依赖：在之前的版本(<code>npm v6</code>)中，npm默认不安装同级项依赖，这使得开发人员不得不自己安装和管理同级项依赖关系（比如React15和React16）。而现在，NPM 现在将完成开发人员的工作并帮助后者决定是否应该安装该对等依赖项</p>
@@ -674,6 +683,7 @@ npm i module_name  -g  全局安装</code></pre><p><strong>配置</strong></p>
 </li>
 </ul>
 <p>参考链接：<a href="https://blog.bitsrc.io/npm-7-this-is-what-i-call-an-update-de17a34ab787" target="_blank" rel="noopener">https://blog.bitsrc.io/npm-7-this-is-what-i-call-an-update-de17a34ab787</a></p>
+<h4 id="其他的选择"><a href="#其他的选择" class="headerlink" title="其他的选择"></a>其他的选择</h4><p><a href="https://blog.bitsrc.io/npm-clients-that-are-better-than-the-original-cd54ed0f5fe7" target="_blank" rel="noopener">NPM Clients That Are Better Than The Original</a></p>
 <h2 id="3-管理Node版本"><a href="#3-管理Node版本" class="headerlink" title="3.管理Node版本"></a>3.管理Node版本</h2><p>可以使用nvm进行包管理，随时切换node版本</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 设置 node 安装源</span>
 nvm node_mirror https<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>npm<span class="token punctuation">.</span>taobao<span class="token punctuation">.</span>org<span class="token operator">/</span>mirrors<span class="token regex">/node/</span>
@@ -727,38 +737,62 @@ v0.12.8</code></pre>
 <p>下载同yarn：</p>
 <pre class=" language-shell"><code class="language-shell">npm install -g pnpm</code></pre>
 <p>从结果上来看，它具有以下优势：</p>
+<ol>
+<li><p>安装速度块</p>
+<ol>
+<li>依赖解析。 仓库中没有的依赖都被识别并获取到仓库。</li>
+<li>目录结构计算。 <code>node_modules</code> 目录结构是根据依赖计算出来的。</li>
+<li>链接依赖项。 所有以前安装过的依赖项都会直接从仓库中获取并链接到 <code>node_modules</code>。</li>
+</ol>
+</li>
+<li><p>极其简洁的node_modules目录（非扁平的 node_modules）</p>
+<p><img src="/2021/01/31/npm-xiao-jie/NPM%E5%B0%8F%E8%A7%A3/pnpm.png" alt></p>
+</li>
+<li><p>能极大的降低磁盘空间的占用：使用 npm 时，依赖每次被不同的项目使用，都会重复安装一次。  而在使用 pnpm 时，依赖会被存储在内容可寻址的存储中，所以：</p>
+<ol>
+<li>如果你用到了某依赖项的不同版本，只会将不同版本间有差异的文件添加到仓库。 例如，如果某个包有100个文件，而它的新版本只改变了其中1个文件。那么 <code>pnpm update</code> 时只会向存储中心额外添加1个新文件，而不会因为仅仅一个文件的改变复制整新版本包的内容。</li>
+<li>所有文件都会存储在硬盘上的某一位置。 当软件包被被安装时，包里的文件会<strong>硬链接</strong>到这一位置，而不会占用额外的磁盘空间。 这允许你跨项目地共享同一版本的依赖。</li>
+</ol>
+</li>
+<li><p>对<strong>monorepo</strong>支持</p>
 <ul>
-<li>目前，安装效率高于npm和yarn的最新版</li>
-<li>极其简洁的node_modules目录</li>
-<li>避免了开发时使用间接依赖的问题</li>
-<li>能极大的降低磁盘空间的占用</li>
-<li>对<strong>monorepo</strong>支持<ul>
 <li>Monorepo 可以一定程度解决重复安装和修改困难的问题，但需要走本地编译</li>
 </ul>
 </li>
-</ul>
-<p>优势来源： pnpm 使用<strong>符号链接和硬链接</strong>（Hard Link），它会在全局的 store 目录里存储项目 <code>node_modules</code> 文件的 <code>hard links</code> </p>
+<li><p>安全性高，项目无法非法访问未声明的依赖（比如项目A依赖B包，B包依赖C包，此时是项目A无法使用C包）</p>
 <ul>
-<li><p>一个<strong>硬链接</strong>是一个<a href="https://en.wikipedia.org/wiki/Directory_entry" target="_blank" rel="noopener">目录条目</a>，一个名字与关联<a href="https://en.wikipedia.org/wiki/Computer_file" target="_blank" rel="noopener">文件</a>的<a href="https://en.wikipedia.org/wiki/File_system" target="_blank" rel="noopener">文件系统</a>。所有<a href="https://en.wikipedia.org/wiki/Directory_(computing)" target="_blank" rel="noopener">基于目录的</a>文件系统必须至少有一个硬链接，为每个文件提供原始名称</p>
+<li><img src="/2021/01/31/npm-xiao-jie/NPM%E5%B0%8F%E8%A7%A3/pnpm2.png" alt></li>
+</ul>
+</li>
+</ol>
+<h4 id="符号链接和硬链接"><a href="#符号链接和硬链接" class="headerlink" title="符号链接和硬链接"></a>符号链接和硬链接</h4><p> pnpm 使用<strong>符号链接和硬链接</strong>（Hard Link），它会在全局的 store 目录里存储项目 <code>node_modules</code> 文件的 <code>hard links</code> </p>
+<ul>
+<li><p>一个<strong>硬链接</strong>是一个<a href="https://en.wikipedia.org/wiki/Directory_entry" target="_blank" rel="noopener">目录条目</a>，一个名字与关联<a href="https://en.wikipedia.org/wiki/Computer_file" target="_blank" rel="noopener">文件</a>的<a href="https://en.wikipedia.org/wiki/File_system" target="_blank" rel="noopener">文件系统</a>（文件别名）。所有<a href="https://en.wikipedia.org/wiki/Directory_(computing)" target="_blank" rel="noopener">基于目录的</a>文件系统必须至少有一个硬链接，为每个文件提供原始名称</p>
 <p>硬链接指通过索引节点来进行连接。在Linux的文件系统中，保存在磁盘分区中的文件不管是什么类型都给它分配一个编号，称为索引节点号(Inode Index)。在Linux中，多个文件名指向同一索引节点是存在的</p>
+<p>只有删除了源文件和所有对应的硬链接文件，文件实体才会被删除</p>
 <p>一个优势例子来源于知乎</p>
-<p><a href="https://zhuanlan.zhihu.com/p/404784010" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/404784010</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/352437367" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/352437367</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/404784010" target="_blank" rel="noopener">Pnpm: 最先进的包管理工具</a></p>
 <p>例如项目里面有个 1MB 的依赖 a，在 pnpm 中，看上去这个 a 依赖同时占用了 1MB 的 node_modules 目录以及全局 store 目录 1MB 的空间(加起来是 2MB)，但因为 <code>hard link</code> 的机制使得两个目录下相同的 1MB 空间能从两个不同位置进行寻址，因此实际上这个 a 依赖只用占用 1MB 的空间，而不是 2MB。</p>
 </li>
 </ul>
 <ul>
 <li><p>软链接</p>
-<p>符号连接（Symbolic Link），也叫软连接。软链接文件有类似于Windows的快捷方式。它实际上是一个特殊的文件。在符号连接中，文件实际上是一个文本文件，其中包含的有另一文件的位置信息。</p>
-<p>不论是硬连结或软链结都不会将原本的档案复制一份，只会占用非常少量的磁碟空间。</p>
+<p>符号连接（Symbolic Link），也叫软连接。软链接文件有类似于Windows的快捷方式（文件路径指向）。它实际上是一个特殊的文件。在符号连接中，文件实际上是一个文本文件，其中包含的有另一文件的位置信息。</p>
+<p>不论是硬链接或软链接都不会将原本的档案复制一份，只会占用非常少量的磁碟空间。</p>
 </li>
 </ul>
-<h2 id="6-npm发包"><a href="#6-npm发包" class="headerlink" title="6.npm发包"></a>6.npm发包</h2><p>在官网注册账号</p>
-<p>然后再本地项目命令行输入</p>
-<pre class=" language-shell"><code class="language-shell">npm config get registry</code></pre>
-<p>确保是这个网址 <a href="https://registry.npmjs.org/" target="_blank" rel="noopener">https://registry.npmjs.org/</a></p>
-<p>然后</p>
-<pre class=" language-shell"><code class="language-shell">npm adduser</code></pre>
+<h4 id="软、硬链接最根本的区别"><a href="#软、硬链接最根本的区别" class="headerlink" title="软、硬链接最根本的区别"></a>软、硬链接最根本的区别</h4><p>原理上，硬链接和源文件的inode节点号相同，两者互为硬链接。软连接和源文件的<strong>inode节点号</strong>不同，进而指向的block也不同，软连接block中存放了源文件的路径名。 实际上，硬链接和源文件是同一份文件，而软连接是独立的文件，类似于快捷方式，存储着源文件的位置信息便于指向。 </p>
+<pre><code>源文件 -&gt; 物理硬盘一个区块
+硬链接 -&gt; 物理硬盘一个区块
+软链接 -&gt; 源文件路径</code></pre><p>也就是说，删除源文件，不影响硬链接的访问，但是软连接实际上保存了一个源文件的访问路径，所以会影响软链接的访问</p>
+<p>使用限制：</p>
+<p>使用限制上，不能对目录创建硬链接，不能对不同文件系统创建硬链接，不能对不存在的文件创建硬链接；可以对目录创建软连接，可以跨文件系统创建软连接，可以对不存在的文件创建软连接。</p>
+<h2 id="6-npm发包"><a href="#6-npm发包" class="headerlink" title="6.npm发包"></a>6.npm发包</h2><p>首先在github上新建项目，clone下来后 <code>npm init -y</code>，push完后我们就可以发包啦</p>
+<p>在官网注册账号</p>
+<p>需要切换npm源</p>
+<p>如果是淘宝源、或者公司的源，需要在本地项目命令行输入（后面我们记得切回去，以免影响我们的日常使用）</p>
+<pre class=" language-shell"><code class="language-shell">npm set registry https://registry.npmjs.org/</code></pre>
+<pre class=" language-shell"><code class="language-shell">npm login</code></pre>
 <p>在本地和npm官网的账户连接</p>
 <p>在<code>package.json</code>确保包名全球唯一，也就是name唯一，且main的值为我们打包的文件，因为读取的时候会根据main读取对应的文件</p>
 <pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
@@ -769,6 +803,10 @@ v0.12.8</code></pre>
   <span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
     <span class="token property">"test"</span><span class="token operator">:</span> <span class="token string">"echo \"Error: no test specified\" &amp;&amp; exit 1"</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  //要发布到npm的文件
+  <span class="token property">"files"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token string">"lib"</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
   <span class="token property">"keywords"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
   <span class="token property">"author"</span><span class="token operator">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
   <span class="token property">"license"</span><span class="token operator">:</span> <span class="token string">"ISC"</span><span class="token punctuation">,</span>
@@ -779,6 +817,9 @@ v0.12.8</code></pre>
 <span class="token punctuation">}</span></code></pre>
 <p>发布</p>
 <pre class=" language-shell"><code class="language-shell">npm publish</code></pre>
+<p>发包后无法获取最新版本时，请检查是否修改了src下文件，不然可能无法获取到最新latest包</p>
+<p>并且确保package.json不能为 <code>type:module</code> (则以.js结尾或没有任何扩展名的文件将作为ES模块进行加载。默认是走<code>type: commonjs</code>)</p>
+<p><img src="/2021/01/31/npm-xiao-jie/NPM%E5%B0%8F%E8%A7%A3/module.png" alt></p>
 <h2 id="7-npm-link"><a href="#7-npm-link" class="headerlink" title="7.npm link"></a>7.npm link</h2><p><code>npm install</code>可以把发布在npmjs平台上的模块包下载到本地</p>
 <p>但是对于未发布的包，我们无法测试使用（你可以在本地改源码，但是别人测试的时候下载你的仓库文件，然后 <code>npm i</code>，就不知道要不要改源码了 ），此时我们可以使用<code>npm link</code></p>
 <p><code>npm link</code>可以帮助我们模拟包安装后的状态，它会在系统中做一个快捷方式映射，让本地的包就好像install过一样，可以直接使用。在MAC中，我们在终端可以直接敲命令，其实是在执行<code>/xxx</code>目录下的脚本</p>
@@ -799,7 +840,10 @@ npm unlink xx-module</code></pre>
 <p>2）解除模块的全局链接</p>
 <pre class=" language-shell"><code class="language-shell">cd xxx/xxx/xx-module
 npm unlink xx-module</code></pre>
-<p>参考：<a href="https://www.jianshu.com/p/aaa7db89a5b2" target="_blank" rel="noopener">https://www.jianshu.com/p/aaa7db89a5b2</a></p>
+<p>参考：</p>
+<p><a href="https://www.jianshu.com/p/aaa7db89a5b2" target="_blank" rel="noopener">npm link的使用</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/553199008" target="_blank" rel="noopener">用一个实例简单介绍什么是pnpm</a></p>
+<p><a href="https://blog.bitsrc.io/npm-7-this-is-what-i-call-an-update-de17a34ab787" target="_blank" rel="noopener">NPM 7: This Is What I Call An Update</a></p>
 
             </div>
             <hr/>
@@ -1261,7 +1305,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">371.8k</span>&nbsp;字
+                class="white-color">386.2k</span>&nbsp;字
             
             
             

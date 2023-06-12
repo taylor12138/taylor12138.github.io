@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.9k
+                    2.2k
                 </div>
                 
 
@@ -485,10 +485,22 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="1-Blob"><a href="#1-Blob" class="headerlink" title="1.Blob"></a>1.Blob</h2><p>blob数据类型以随机存取块的形式存储任何种类的二进制数据；二进制数据通常由已保存的电子表格、程序装入模块和数字化声音模式等等组成，也就是说它通常用于存储大文件</p>
+                <h2 id="1-Blob"><a href="#1-Blob" class="headerlink" title="1.Blob"></a>1.Blob</h2><p>blob数据类型以随机存取块的形式存储任何种类的二进制数据；二进制数据通常由已保存的电子表格、程序装入模块和数字化声音模式等等组成，也就是说它通常用于存储大文件，通常用来读写文件，比如一个图片文件的内容就可以通过Blob 对象读写</p>
 <p>在Web中，Blob类型的对象表示<strong>不可变的类似文件对象的原始数据</strong>，通俗点说，就是Blob对象是二进制数据，但它是类似文件对象的二进制数据，因此可以像操作File对象一样操作Blob对象，实际上，<strong>File继承自Blob</strong>（文件对象）。</p>
+<p>构造函数</p>
+<ul>
+<li><p><em>array</em> 是一个由<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer" target="_blank" rel="noopener"><code>ArrayBuffer</code></a>, <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" target="_blank" rel="noopener"><code>ArrayBufferView</code></a>, <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob" target="_blank" rel="noopener"><code>Blob</code></a>, <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank" rel="noopener"><code>DOMString</code></a> 等对象构成的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array" target="_blank" rel="noopener"><code>Array</code></a> ，或者其他类似对象的混合体，它将会被放进 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob" target="_blank" rel="noopener"><code>Blob</code></a>。DOMStrings 会被编码为 UTF-8。</p>
+</li>
+<li><p>options（可选）</p>
+<p>它可能会指定如下两个属性：</p>
+<ul>
+<li><code>type</code>，默认值为 <code>&quot;&quot;</code>，它代表了将会被放入到 blob 中的数组内容的 MIME 类型。</li>
+<li><code>endings</code>，默认值为<code>&quot;transparent&quot;</code>，用于指定包含行结束符<code>\n</code>的字符串如何被写入。它是以下两个值中的一个：<code>&quot;native&quot;</code>，代表行结束符会被更改为适合宿主操作系统文件系统的换行符，或者 <code>&quot;transparent&quot;</code>，代表会保持 blob 中保存的结束符不变 非标准</li>
+</ul>
+</li>
+</ul>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> blob <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Blob</span><span class="token punctuation">(</span><span class="token punctuation">[</span>typedArray<span class="token punctuation">.</span>buffer<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>type<span class="token punctuation">:</span> <span class="token string">'application/octet-stream'</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 传入一个合适的 MIME 类型</span>
-<span class="token keyword">let</span> blob2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Blob</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"my name is martin"</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token punctuation">{</span>type<span class="token punctuation">:</span><span class="token string">"application/json"</span><span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<span class="token keyword">let</span> blob2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Blob</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"image/jpeg"</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token punctuation">{</span>type<span class="token punctuation">:</span><span class="token string">"application/json"</span><span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <p>使用字符串构造一个blob对象</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> debug <span class="token operator">=</span> <span class="token punctuation">{</span>hello<span class="token punctuation">:</span> <span class="token string">"world"</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token keyword">var</span> blob <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Blob</span><span class="token punctuation">(</span><span class="token punctuation">[</span>JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>debug<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>type <span class="token punctuation">:</span> <span class="token string">'application/json'</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
@@ -496,7 +508,7 @@
 <li>第一个参数是数组，数组元素可以是字符串或二进制文件，用来表示Blob实例对象的数据内容。</li>
 <li>第二个参数是配置对象，但是目前该对象只有一个type属性可提供配置，它的值是一个字符串，表示数据的MIME类型，默认是空字符串，关于MIME类型分类，可以参照以下这张表：</li>
 </ul>
-<p>此时前端可以将Blob数据转换为url下载地址</p>
+<h4 id="blob2url"><a href="#blob2url" class="headerlink" title="blob2url"></a>blob2url</h4><p>此时前端可以将Blob数据转换为url下载地址</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">downBlob</span><span class="token punctuation">(</span>blobData<span class="token punctuation">:</span> Blob<span class="token punctuation">,</span> fileName<span class="token punctuation">:</span> string<span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token comment" spellcheck="true">// 下载地址</span>
   <span class="token keyword">const</span> downUrl <span class="token operator">=</span> window<span class="token punctuation">.</span>URL<span class="token punctuation">.</span><span class="token function">createObjectURL</span><span class="token punctuation">(</span>blobData<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -511,6 +523,16 @@
   a<span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   a<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   window<span class="token punctuation">.</span>URL<span class="token punctuation">.</span><span class="token function">revokeObjectURL</span><span class="token punctuation">(</span>downUrl<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 释放掉blob对象</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="url2blob"><a href="#url2blob" class="headerlink" title="url2blob"></a>url2blob</h4><p>对于canvas生成的base64 url，也就是Data URL 格式的图片数据，为了进一步减少传输的数据量，我们可以把它转换为 Blob 对象，再传给服务端</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">dataUrlToBlob</span><span class="token punctuation">(</span>base64<span class="token punctuation">,</span> mimeType<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> bytes <span class="token operator">=</span> window<span class="token punctuation">.</span><span class="token function">atob</span><span class="token punctuation">(</span>base64<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">","</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">let</span> ab <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayBuffer</span><span class="token punctuation">(</span>bytes<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">let</span> ia <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Uint8Array</span><span class="token punctuation">(</span>ab<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> bytes<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ia<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> bytes<span class="token punctuation">.</span><span class="token function">charCodeAt</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Blob</span><span class="token punctuation">(</span><span class="token punctuation">[</span>ab<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> mimeType <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <h4 id="URL-createObjectURL"><a href="#URL-createObjectURL" class="headerlink" title="URL.createObjectURL"></a>URL.createObjectURL</h4><p><code>URL.createObjectURL()</code> 静态方法会创建一个 DOMString，其中包含一个表示参数中给出的对象的URL。这个 URL 的<a href="https://so.csdn.net/so/search?q=生命周期&spm=1001.2101.3001.7020" target="_blank" rel="noopener">生命周期</a>和创建它的窗口中的 document 绑定。这个新的URL 对象表示指定的 File 对象或 Blob 对象。</p>
 <ul>
@@ -1176,7 +1198,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">371.8k</span>&nbsp;字
+                class="white-color">386.2k</span>&nbsp;字
             
             
             

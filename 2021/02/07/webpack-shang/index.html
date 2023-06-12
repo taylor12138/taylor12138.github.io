@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.2k
+                    5.4k
                 </div>
                 
 
@@ -566,8 +566,39 @@ module<span class="token punctuation">.</span>exports <span class="token operato
         filename<span class="token punctuation">:</span> <span class="token string">'bundle.js'</span>        <span class="token comment" spellcheck="true">//打包后的文件名</span>
         clean<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>                 <span class="token comment" spellcheck="true">// 在生成文件之前清空 output 目录</span>
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    library<span class="token punctuation">:</span> <span class="token string">'myLib'</span><span class="token punctuation">,</span>                <span class="token comment" spellcheck="true">//如果要打包的是自己创建的方法库，请配置上这个</span>
+    library<span class="token punctuation">:</span> <span class="token string">'myLib'</span><span class="token punctuation">,</span>                <span class="token comment" spellcheck="true">//如果要打包的是自己创建的方法库，请配置上library</span>
 <span class="token punctuation">}</span></code></pre>
+<h5 id="打包成库"><a href="#打包成库" class="headerlink" title="打包成库"></a>打包成库</h5><p>打包成库记得要配置上library</p>
+<pre class=" language-js"><code class="language-js">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">//...</span>
+  output<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    path<span class="token punctuation">:</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'dist'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    filename<span class="token punctuation">:</span> <span class="token string">'webpack-numbers.js'</span><span class="token punctuation">,</span>
+    library<span class="token punctuation">:</span> <span class="token string">"webpackNumbers"</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span></code></pre>
+<p>但是此时只能作为esm模块被使用，只能通过被 script 标签引用而发挥作用，它不能运行在 CommonJS、AMD、Node.js 等环境中。</p>
+<p>作为一个库作者，我们希望它能够兼容不同的环境</p>
+<p>我们更新 <code>output.library</code> 配置项，将其 <code>type</code> 设置为 <a href="https://webpack.docschina.org/configuration/output/#type-umd" target="_blank" rel="noopener"><code>&#39;umd&#39;</code></a>：</p>
+<pre class=" language-diff"><code class="language-diff"> const path = require('path');
+
+ module.exports = {
+   entry: './src/index.js',
+   output: {
+     path: path.resolve(__dirname, 'dist'),
+     filename: 'webpack-numbers.js',
+<span class="token deleted">-    library: 'webpackNumbers',</span>
+<span class="token inserted">+    library: {</span>
+<span class="token inserted">+      name: 'webpackNumbers',</span>
+<span class="token inserted">+      type: 'umd',</span>
+<span class="token inserted">+    },</span>
+   },
+ };</code></pre>
+<p>type类型：</p>
+<p><code>&quot;var&quot; | &quot;module&quot; | &quot;assign&quot; | &quot;assign-properties&quot; | &quot;this&quot; | &quot;window&quot; | &quot;self&quot; | &quot;global&quot; | &quot;commonjs&quot; | &quot;commonjs2&quot; | &quot;commonjs-module&quot; | &quot;commonjs-static&quot; | &quot;amd&quot; | &quot;amd-require&quot; | &quot;umd&quot; | &quot;umd2&quot; | &quot;jsonp&quot; | &quot;system&quot; | string</code></p>
+<blockquote>
+<p>输出 ES 模块(module)。请确保事先启用 <a href="https://webpack.docschina.org/configuration/experiments/" target="_blank" rel="noopener">experiments.outputModule</a>。</p>
+</blockquote>
 <h5 id="source-map"><a href="#source-map" class="headerlink" title="source-map"></a>source-map</h5><p>关于webpack.config.js配置中devtool的设置，默认值为 eval（最好性能）</p>
 <table>
 <thead>
@@ -739,186 +770,6 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">]</span><span class="token punctuation">,</span></code></pre>
-<h4 id="处理ES6语法：babel"><a href="#处理ES6语法：babel" class="headerlink" title="处理ES6语法：babel"></a>处理ES6语法：babel</h4><p>如果希望将ES6语法转化成ES5语法，我们可以使用babel对应的loader，配置打包得到新的js文件</p>
-<pre class=" language-shell"><code class="language-shell">npm install -D babel-loader @babel/core @babel/preset-env</code></pre>
-<ul>
-<li>@babel/core<ul>
-<li>babel的核心工具</li>
-</ul>
-</li>
-<li>@babel/preset-env<ul>
-<li>babel的预定义环境</li>
-</ul>
-</li>
-<li>@babel-loader<ul>
-<li>babel在webpack中的加载器</li>
-</ul>
-</li>
-</ul>
-<p>其实还可以配置一个<code>core-js</code>，<code>core-js</code>用来使老版本的浏览器支持新版ES语法（比如老版本没有Promise，它会给你引进去coreJs库里的Promise函数），然后按需加载可以使用到的 <code>core-js</code> 部分</p>
-<blockquote>
-<p>如果 <code>@babel/core</code> or <code>@babel/plugin-transform-regenerator</code> 版本 小于 <code>7.18.0</code>，你需要加载  <a href="https://github.com/facebook/regenerator/tree/main/packages/runtime" target="_blank" rel="noopener"><code>regenerator runtime</code></a> 来加载 core-js/stable， 如果 你用了 <code>@babel/preset-env</code>‘s <code>useBuiltIns: &quot;usage&quot;</code> option or <code>@babel/plugin-transform-runtime</code>. 则会自动加载  core-js/stable</p>
-</blockquote>
-<p>配置：</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'path'</span><span class="token punctuation">)</span>
-
-module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
-  entry<span class="token punctuation">:</span> <span class="token string">"./src/index.ts"</span><span class="token punctuation">,</span>
-  output<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-    path<span class="token punctuation">:</span> path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'dist'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-    filename<span class="token punctuation">:</span> <span class="token string">'bundle.js'</span>
-  <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  module<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 指定加载规则</span>
-    rules<span class="token punctuation">:</span> <span class="token punctuation">[</span>
-      <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">//这里使用TypeScript</span>
-        test<span class="token punctuation">:</span> <span class="token regex">/\.ts$/</span><span class="token punctuation">,</span><span class="token comment" spellcheck="true">// test指定规则生效的文件,以ts结尾的图片</span>
-        exclude<span class="token punctuation">:</span> <span class="token regex">/node_modules/</span><span class="token punctuation">,</span>
-        use<span class="token punctuation">:</span> <span class="token punctuation">[</span>
-          <span class="token punctuation">{</span>
-            loader<span class="token punctuation">:</span> <span class="token string">"babel-loader"</span><span class="token punctuation">,</span>
-            options<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-              presets<span class="token punctuation">:</span> <span class="token punctuation">[</span>
-                <span class="token punctuation">[</span>
-                  <span class="token string">'@babel/preset-env'</span><span class="token punctuation">,</span>
-                  <span class="token punctuation">{</span>
-                    <span class="token comment" spellcheck="true">// 要兼容的目标浏览器</span>
-                    targets<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-                      <span class="token string">"chrome"</span><span class="token punctuation">:</span> <span class="token string">"58"</span><span class="token punctuation">,</span>
-                      <span class="token string">"ie"</span><span class="token punctuation">:</span> <span class="token string">"8"</span>
-                    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-                    <span class="token comment" spellcheck="true">// corejs版本</span>
-                    <span class="token string">"corejs"</span><span class="token punctuation">:</span> <span class="token string">"3"</span><span class="token punctuation">,</span>
-                    <span class="token comment" spellcheck="true">// 使用corejs的方式，按需加载</span>
-                    <span class="token string">"useBuiltIns"</span><span class="token punctuation">:</span> <span class="token string">"usage"</span>
-                  <span class="token punctuation">}</span>
-                <span class="token punctuation">]</span>
-              <span class="token punctuation">]</span>
-            <span class="token punctuation">}</span>
-          <span class="token punctuation">}</span><span class="token punctuation">,</span>
-          <span class="token comment" spellcheck="true">// 如果使用typescript的loader，要把ts-lodaer放下方，babel-loader放上方</span>
-          <span class="token comment" spellcheck="true">// webpack从后往前执行，所以必须要先执行ts -> Js转换，再执行js兼容性的转换</span>
-          <span class="token string">'ts-loader'</span>
-        <span class="token punctuation">]</span><span class="token punctuation">,</span>
-      <span class="token punctuation">}</span>
-    <span class="token punctuation">]</span>
-  <span class="token punctuation">}</span><span class="token punctuation">,</span>
-<span class="token punctuation">}</span></code></pre>
-<ul>
-<li><p>@babel/preset-env：</p>
-<ul>
-<li><p>useBuiltIns</p>
-<ul>
-<li><p>默认false，不会有任何 polyfill 被添加进来</p>
-</li>
-<li><p>entry，只针对项目入口文件处全局注入的<code>core-js</code>进行优化转换，但是只针对<code>core-js@3</code>版本</p>
-</li>
-<li><p>usage，按需导入，效果比 entry 好（体积小，可以看 <a href="https://icodex.me/docs/engineer/webpack%E4%BC%98%E5%8C%96/webpack%E4%BC%98%E5%8C%96%EF%BC%882%EF%BC%89/" target="_blank" rel="noopener">这里</a>）</p>
-</li>
-</ul>
-</li>
-<li><p>corejs</p>
-<ul>
-<li>安装完<code>core-js</code>后还需要在<code>@babel-preset-env</code>中指定其版本，如果开启<code>useBuiltIns</code>，默认为<code>2.0</code>版本，这里肯定要改成<code>3.0+</code>的，因为<code>3.0</code>的<code>core-js</code>改进很大。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>当然，现在babel的配置看起来十分冗长，我们可以创建一个babel.config.js / babel.config.json 将babel配置信息放在一个独立的文件中</p>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//babel.config.js</span>
-module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
-    preset<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-        <span class="token string">"@babel/preset-env"</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
-<p>然后在webpack.config.js里的rules里直接use <code>babel-loader</code>即可</p>
-<p>但是使用preset-env有部分缺点</p>
-<ul>
-<li>如果使用新特性，往往是通过基础库(如 core-js)往全局环境添加 Polyfill，如果是开发应用没有任何问题，如果是开发第三方工具库，则很可能会对<strong>全局空间造成污染</strong>。</li>
-<li>很多工具函数的实现代码会在许多文件中重复出现，造成<strong>文件体积冗余</strong>。</li>
-</ul>
-<p>因此接下来介绍<code>transform-runtime</code>方案</p>
-<h4 id="transform-runtime"><a href="#transform-runtime" class="headerlink" title="transform-runtime"></a>transform-runtime</h4><h5 id="1-Babel-插入了辅助代码"><a href="#1-Babel-插入了辅助代码" class="headerlink" title="(1)Babel 插入了辅助代码"></a><strong>(1)Babel 插入了辅助代码</strong></h5><p><strong>Babel 在每个文件都插入了辅助代码，使代码体积过大！</strong></p>
-<p>Babel 对一些公共方法使用了非常小的辅助代码，比如 <code>_extend</code>。默认情况下会被添加到每一个需要它的文件中。</p>
-<p>你可以引入 Babel runtime 作为一个独立模块，来避免重复引入。</p>
-<p>下面的配置禁用了 Babel 自动对每个文件的 runtime 注入，而是引入 <code>@babel/plugin-transform-runtime</code> 并且使所有辅助代码从这里引用。</p>
-<p>更多信息请查看 <a href="https://babel.docschina.org/docs/en/babel-plugin-transform-runtime/" target="_blank" rel="noopener">文档</a>。</p>
-<p><strong>注意</strong>：你必须执行 <code>npm install -D @babel/plugin-transform-runtime</code> 来把它包含到你的项目中，然后使用 <code>npm install @babel/runtime</code> 把 <code>@babel/runtime</code> 安装为一个依赖。</p>
-<pre class=" language-javascript"><code class="language-javascript">rules<span class="token punctuation">:</span> <span class="token punctuation">[</span>
-  <span class="token comment" spellcheck="true">// 'transform-runtime' 插件告诉 Babel</span>
-  <span class="token comment" spellcheck="true">// 要引用 runtime 来代替注入。</span>
-  <span class="token punctuation">{</span>
-    test<span class="token punctuation">:</span> <span class="token regex">/\.m?js$/</span><span class="token punctuation">,</span>
-    exclude<span class="token punctuation">:</span> <span class="token regex">/(node_modules|bower_components)/</span><span class="token punctuation">,</span>
-    use<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-      loader<span class="token punctuation">:</span> <span class="token string">'babel-loader'</span><span class="token punctuation">,</span>
-      options<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-        presets<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'@babel/preset-env'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-        plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'@babel/plugin-transform-runtime'</span><span class="token punctuation">]</span>
-      <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">]</span></code></pre>
-<p>babel后部分浏览器仍然不支持箭头函数，是因为webpack5打包文件默认输出形式就是箭头函数，用以下配置解决即可</p>
-<pre class=" language-js"><code class="language-js">output<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-        filename<span class="token punctuation">:</span> <span class="token string">'js/bundle.js'</span><span class="token punctuation">,</span>
-        path<span class="token punctuation">:</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'dist'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-        environment<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-            arrowFunction<span class="token punctuation">:</span> <span class="token boolean">false</span>
-        <span class="token punctuation">}</span>
-<span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
-<h5 id="2-regeneratorRuntime"><a href="#2-regeneratorRuntime" class="headerlink" title="(2)regeneratorRuntime"></a>(2)regeneratorRuntime</h5><p>在编译js代码将es6语法转化未es5语法时，有可能报错误</p>
-<p>比如：regeneratorRuntime is not defined</p>
-<p>regeneratorRuntime是webpack打包生成的全局辅助函数，由babel生成，用于兼容await、async语法</p>
-<p>出现这个错误需要我们用 <code>@babel/plugin-transform-runtime</code> 的形式添加babel</p>
-<pre class=" language-shell"><code class="language-shell">#这个包包含了regeneratorRuntime，运行时需要
-npm i --save @babel/runtime
-#这个插件会在需要regeneratorRuntime的时候自动导包，编译时需要
-npm i --save-dev @babel/plugin-transform-runtime</code></pre>
-<p><a href="https://babeljs.io" target="_blank" rel="noopener">更多参考</a></p>
-<p>然后在webpack配置文件中进行设置</p>
-<pre class=" language-js"><code class="language-js">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">//...</span>
-  module<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 指定加载规则</span>
-    rules<span class="token punctuation">:</span> <span class="token punctuation">[</span>
-      <span class="token punctuation">{</span>
-        test<span class="token punctuation">:</span> <span class="token regex">/\.js$/i</span><span class="token punctuation">,</span>
-        exclude<span class="token punctuation">:</span> <span class="token regex">/node_modules/</span><span class="token punctuation">,</span>
-        use<span class="token punctuation">:</span> <span class="token punctuation">[</span>
-          <span class="token punctuation">{</span>
-            loader<span class="token punctuation">:</span> <span class="token string">"babel-loader"</span><span class="token punctuation">,</span>
-            options<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-              presets<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token string">"@babel/preset-env"</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-              plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token string">"@babel/plugin-transform-runtime"</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-            <span class="token punctuation">}</span><span class="token punctuation">,</span>
-          <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        <span class="token punctuation">]</span><span class="token punctuation">,</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token punctuation">]</span><span class="token punctuation">,</span>
-  <span class="token punctuation">}</span><span class="token punctuation">,</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
-<h5 id="3-babel优化"><a href="#3-babel优化" class="headerlink" title="(3)babel优化"></a>(3)babel优化</h5><p>影响打包效率的loader首当其冲必属 Babel 了</p>
-<p>我们可以控制babel文件搜索范围，只转换指定文件夹下的代码，去除没必要转换的部分，比如node_modules</p>
-<pre class=" language-js"><code class="language-js">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
-  module<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-    rules<span class="token punctuation">:</span> <span class="token punctuation">[</span>
-      <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">// js 文件才使用 babel</span>
-        test<span class="token punctuation">:</span> <span class="token regex">/\.js$/</span><span class="token punctuation">,</span>
-        loader<span class="token punctuation">:</span> <span class="token string">'babel-loader'</span><span class="token punctuation">,</span>
-        <span class="token comment" spellcheck="true">// 只在 src 文件夹下查找</span>
-        include<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token function">resolve</span><span class="token punctuation">(</span><span class="token string">'src'</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-        <span class="token comment" spellcheck="true">// 不会去查找的路径</span>
-        exclude<span class="token punctuation">:</span> <span class="token regex">/node_modules/</span>
-      <span class="token punctuation">}</span>
-    <span class="token punctuation">]</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
-<h5 id="4-babel原理"><a href="#4-babel原理" class="headerlink" title="(4)babel原理"></a><strong>(4)babel</strong>原理</h5><p>babel就是从一种源代码转换为另外一种源代码，或者把babel看成一种编译器</p>
-<p><a href="https://juejin.cn/post/7078482623387402271#comment" target="_blank" rel="noopener">https://juejin.cn/post/7078482623387402271#comment</a></p>
 <h4 id="处理Vue"><a href="#处理Vue" class="headerlink" title="处理Vue"></a>处理Vue</h4><p>引入Vue.js 首先在项目中使用Vue.js，需要先通过npm安装Vue</p>
 <pre class=" language-shell"><code class="language-shell">npm install vue --save</code></pre>
 <p>但是，vue在最终构建发布版本时，会构建两类版本，分别是 </p>
@@ -992,9 +843,24 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
 <p>postcss-preset-env，它可以帮助我们将一些现代的CSS特型转化大多浏览器都认识的CSS，并且根据目标浏览器或运行时的环境添加所需polyfill，也包括会自动帮我们添加autoprefixer</p>
 <pre class=" language-shell"><code class="language-shell">npm i -D postcss postcss-loader postcss-preset-env</code></pre>
+<p>Autoprefixer 使用<a href="https://github.com/browserslist/browserslist" target="_blank" rel="noopener">Browserslist</a>，因此您可以使用类似的查询指定您想要在项目中定位的浏览器<code>&gt; 5%</code> （请参阅<a href="https://github.com/browserslist/browserslist#best-practices" target="_blank" rel="noopener">最佳实践</a>）。</p>
+<p>提供浏览器的最佳方式是<code>.browserslistrc</code>在您的项目根目录中添加一个文件，或者通过<code>browserslist</code>向您的<code>package.json</code>.</p>
+<p>我们建议使用这些选项而不是将选项传递给 Autoprefixer，以便配置可以与其他工具共享，例如<a href="https://github.com/babel/babel/tree/master/packages/babel-preset-env" target="_blank" rel="noopener">babel-preset-env</a>和 <a href="https://stylelint.io/" target="_blank" rel="noopener">Stylelint</a>。</p>
+<p>有关查询、浏览器名称、配置格式和默认值，请参阅<a href="https://github.com/browserslist/browserslist#queries" target="_blank" rel="noopener">Browserslist 文档。</a></p>
 <h4 id="优化的Loader"><a href="#优化的Loader" class="headerlink" title="优化的Loader"></a>优化的Loader</h4><p><strong>HappyPack</strong>：受限于 Node 是单线程运行的，所以 Webpack 在打包的过程中也是单线程的，特别是在执行 Loader 的时候，长时间编译的任务很多，这样就会导致等待的情况，然而HappyLoader可以将Loader单行转换为并行</p>
 <p><strong>eslint-loader</strong>：通过 ESLint 检查 JavaScript 代码（This loader has been deprecated. Please use eslint-webpack-plugin）</p>
 <p><strong>EslintWebpackPlugin</strong>：应用于webpack5的eslint</p>
+<h4 id="打开-webpack-文件缓存调试日志的方法"><a href="#打开-webpack-文件缓存调试日志的方法" class="headerlink" title="打开 webpack 文件缓存调试日志的方法"></a>打开 webpack 文件缓存调试日志的方法</h4><pre class=" language-js"><code class="language-js">tools<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    webpackChain<span class="token punctuation">:</span> <span class="token punctuation">(</span>chain<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        chain<span class="token punctuation">.</span><span class="token function">merge</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+            infrastructureLogging<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                level<span class="token punctuation">:</span> <span class="token string">'verbose'</span><span class="token punctuation">,</span>
+                colors<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+                debug<span class="token punctuation">:</span> <span class="token regex">/webpack\.cache/</span><span class="token punctuation">,</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <h2 id="3-plugin"><a href="#3-plugin" class="headerlink" title="3.plugin"></a>3.plugin</h2><p>plugin是插件的意思，通常用于对某个现有架构进行扩展</p>
 <p>使用：</p>
 <ul>
@@ -1091,7 +957,8 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 <p><strong>抽出style代码</strong></p>
 <p>使用<code>style-loader</code> 和 <code>css-loader</code>进行转换得到的代码，是直接放置在html中的，要想放置在另外一个文件，然后让打包后的html进行link引用，需要安装： <code>mini-css-extract-plugin</code>（需要webpack5以上版本）</p>
 <pre class=" language-shell"><code class="language-shell">npm i mini-css-extract-plugin -D</code></pre>
-<p>因为style-loader是将导出的样式添加到DOM，此时假如我们使用了style-loader，需要我们<strong>手动删除掉</strong></p>
+<p>因为style-loader是将导出的样式添加到DOM，此时假如我们使用了style-loader，需要我们</p>
+<p><strong>手动删除掉</strong></p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> MiniCssExtractPlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"mini-css-extract-plugin"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
   plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token keyword">new</span> <span class="token class-name">MiniCssExtractPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -1385,30 +1252,38 @@ module<span class="token punctuation">.</span>exports <span class="token operato
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/03/01/git-ji-ben-ming-ling-fu/">
+                <a href="/2021/02/07/webpack-xia/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="git基本命令符">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="webpack(下)">
                         
-                        <span class="card-title">git基本命令符</span>
+                        <span class="card-title">webpack(下)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            版本控制它是一种软件开发过程中，管理我们对文件、目录、或工程等内容的修改历史、方便我们查看更改历史记录，备份以便恢复以前的版本软件工程技术。简单来说就是用于管理多人协同开发项目的技术
-SVN：集中式版本控制、所有版本存在服务器上，需要连网才
+                            5.关于webpackWebpack缩小体积原理将多个模块依赖，转变成单个静态资源（js、css、jpg、png）
+
+打包，是指处理某些文件并将其输出为其他文件的能力。
+
+entry: 编译入口
+module: 模块，在 webpack 中
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-03-01
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-02-07
                         </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            Hello
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
+                                </a>
+                            
                             
                         </span>
                     </div>
@@ -1604,7 +1479,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">371.8k</span>&nbsp;字
+                class="white-color">386.2k</span>&nbsp;字
             
             
             

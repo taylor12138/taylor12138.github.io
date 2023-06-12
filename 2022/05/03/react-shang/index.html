@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    8.3k
+                    8.4k
                 </div>
                 
 
@@ -1231,9 +1231,13 @@ ul </span><span class="token punctuation">{</span>
 <h4 id="React内部配置代理跨域"><a href="#React内部配置代理跨域" class="headerlink" title="React内部配置代理跨域"></a>React内部配置代理跨域</h4><p><strong>(反向代理)</strong></p>
 <p>在src目录下<strong>新建一个setupProxy.js文件</strong> 在此文件中必须使用cjs的方式撰写（CommonJS），因为这个文件是要加到webpack配置里面的，而webpack用的是node语法</p>
 <pre class=" language-shell"><code class="language-shell">npm i http-proxy-middleware</code></pre>
+<blockquote>
+<p>实际上 <code>http-proxy-middleware</code> 也是开了一个exporess服务器，帮你做反向代理</p>
+</blockquote>
 <p>proxy内部选项介绍：</p>
 <ul>
-<li><p>第一个参数设置前缀名，比如设置了前缀名为<code>/api1</code>，遇到这个前缀的请求就会触发该代理配置，比如猫眼电影的请求示例</p>
+<li><p>第一个参数设置前缀名，比如设置了前缀名为<code>/api1</code>，也就是以<code>/api</code>开头，</p>
+<p>遇到这个前缀的请求就会触发该代理配置，比如猫眼电影的请求示例</p>
 <p>原本请求地址 ：<a href="https://i.maoyan.com/ajax/comingList?ci=91&amp;limit=10" target="_blank" rel="noopener">https://i.maoyan.com/ajax/comingList?ci=91&amp;limit=10</a>…. -&gt; 此时我们需要改成  <a href="/ajax/comingList?ci=91&limit=10">/ajax/comingList?ci=91&amp;limit=10</a>….，就会触发代理</p>
 <pre class=" language-js"><code class="language-js">axios<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'/ajax/mostExpected?limit=10&amp;offset=0&amp;token=&amp;optimus.........'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span> 
     <span class="token comment" spellcheck="true">//自动找本地域名 + /ajax</span>
@@ -1763,7 +1767,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">371.8k</span>&nbsp;字
+                class="white-color">386.2k</span>&nbsp;字
             
             
             

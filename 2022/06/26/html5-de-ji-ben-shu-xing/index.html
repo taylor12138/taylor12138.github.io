@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.8k
+                    5.3k
                 </div>
                 
 
@@ -678,21 +678,60 @@
 <span class="token comment" spellcheck="true">&lt;!-- 实质上都和div差不多，只是语义化了而已，主要针对搜索引擎
 但是在i9中，需要把这些元素转换成块级元素，所以移动端更喜欢使用这些标签--></span></code></pre>
 <h4 id="新增-lt-audio-gt-，-lt-video-gt"><a href="#新增-lt-audio-gt-，-lt-video-gt" class="headerlink" title="新增&lt;audio&gt;，&lt;video&gt;"></a>新增<code>&lt;audio&gt;</code>，<code>&lt;video&gt;</code></h4><p>新增<code>&lt;audio&gt;</code>音频，<code>&lt;video&gt;</code>视频，抛弃flash等插件功能</p>
-<p>video尽量使用mp4格式，谷歌把音频，视频自动播放禁止了</p>
-<pre><code>&lt;video src=&quot;文件地址&quot; 
-autoplay=&quot;autoplay&quot;自动播放  谷歌需要添加muted=&quot;muted&quot;（静音播放）,才能实现自动播放
-controls=&quot;controls&quot;添加播放组件
-loop=&quot;loop&quot;循环播放
-poster=&quot;图片地址&quot;    视频封面显示图片
-&gt;&lt;/video&gt;
+<p>video尽量使用mp4格式，谷歌把音频，视频自动播放禁止了，audio和video属性用法差不多</p>
+<pre class=" language-html"><code class="language-html">&lt;video src="文件地址" 
+autoplay="autoplay"自动播放  谷歌需要添加muted="muted"（静音播放）,才能实现自动播放
+controls="controls"添加播放组件
+loop="loop"循环播放
+poster="图片地址"    视频封面显示图片
+><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>video</span><span class="token punctuation">></span></span>
 
 遇到不兼容的情况可以写成
-&lt;video width=&quot;320&quot; height=&quot;240&quot;&gt;
-    &lt;source src=&quot;&quot; type=&quot;video/mp4&quot;&gt;
-    &lt;source src=&quot;&quot; type=&quot;video/ogg&quot;&gt;
-&lt;/video&gt;</code></pre><pre><code>兼容问题同上
-&lt;audio src=&quot;文件地址&quot;&gt;&lt;/audio&gt;
-其功能性同video，如autoplay，loop，controls</code></pre><h4 id="新增input的类型"><a href="#新增input的类型" class="headerlink" title="新增input的类型"></a>新增input的类型</h4><pre><code>type=&quot;email&quot;    type=&quot;url&quot;   type=&quot;date&quot;  type=&quot;number&quot;
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>video</span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>320<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>240<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>source</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>video/mp4<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>source</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>video/ogg<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>video</span><span class="token punctuation">></span></span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> video <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'video'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+video<span class="token punctuation">.</span>crossOrigin <span class="token operator">=</span> <span class="token string">'anonymous'</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//自动播放</span>
+video<span class="token punctuation">.</span>autoplay <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//是否静音</span>
+video<span class="token punctuation">.</span>muted <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span></code></pre>
+<ul>
+<li><p>height</p>
+<p>视频显示区域的高度，单位是 <a href="https://drafts.csswg.org/css-values/#px" target="_blank" rel="noopener">CSS 像素</a>（仅限绝对值；<a href="https://html.spec.whatwg.org/multipage/embedded-content.html#dimension-attributes" target="_blank" rel="noopener">不支持百分比</a>）。</p>
+</li>
+<li><p>loop</p>
+<p>布尔属性；指定后，会在视频播放结束的时候，自动返回视频开始的地方，继续播放。</p>
+</li>
+<li><p>muted</p>
+<p>布尔属性，指明在视频中音频的默认设置。设置后，音频会初始化为静音。默认值是 false, 意味着视频播放的时候音频也会播放。</p>
+</li>
+<li><p>playsinline</p>
+<p>布尔属性，指明视频将内联（inline）播放，即在元素的播放区域内。请注意，没有此属性并不意味着视频始终是全屏播放的。</p>
+</li>
+<li><p>poster</p>
+<p>海报帧图片 URL，用于在视频处于下载中的状态时显示。如果未指定该属性，则在视频第一帧可用之前不会显示任何内容，然后将视频的第一帧会作为海报（poster）帧来显示。</p>
+</li>
+<li><p>preload</p>
+<p>该枚举属性旨在提示浏览器，作者认为在播放视频之前，加载哪些内容会达到最佳的用户体验。可能是下列值之一：</p>
+<ul>
+<li><code>none</code>: 表示不应该预加载视频。</li>
+<li><code>metadata</code>: 表示仅预先获取视频的元数据（例如长度）。</li>
+<li><code>auto</code>: 表示可以下载整个视频文件，即使用户不希望使用它。</li>
+<li><em>空字符串</em>: 和值为 <code>auto</code> 一致。每个浏览器的默认值都不相同，即使规范建议设置为 <code>metadata</code>。</li>
+</ul>
+</li>
+</ul>
+<h4 id="透明视频"><a href="#透明视频" class="headerlink" title="透明视频"></a>透明视频</h4><p>使用video并不能直接播放出透明视频</p>
+<p>需要用到动画（canvas（2个canvas）、webgl）来协同帮助</p>
+<p><img src="/2022/06/26/html5-de-ji-ben-shu-xing/Snipaste_2023-06-12_15-20-47.png" alt></p>
+<p>如上图所示，源素材向右扩充了一倍的像素，用来存储Alpha通道的数值，在客户端渲染的时候，直接使用右侧像素点的R值，除以255，就得到了0-1之间的alpha取值 例如第一个像素点， 红色：右侧的RGB值为(255,0,0) + 左侧的R值(128) ，混合之后的 RGBA = (255,0,0,128/255) ~= (255,0,0,0.5)</p>
+<p>客户端渲染</p>
+<p>客户端拿到视频轨道数据后，解码出每一帧图片，然后通过左边yuv+右边的yuv混合后再上屏，gl公式可理解为</p>
+<pre class=" language-js"><code class="language-js">gl_FragColor <span class="token operator">=</span> <span class="token function">vec4</span><span class="token punctuation">(</span> 
+<span class="token function">texture2D</span><span class="token punctuation">(</span>texture<span class="token punctuation">,</span> <span class="token function">vec2</span><span class="token punctuation">(</span>vUv<span class="token punctuation">.</span>x<span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">,</span> vUv<span class="token punctuation">.</span>y<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>rgb<span class="token punctuation">,</span> <span class="token function">texture2D</span><span class="token punctuation">(</span>texture<span class="token punctuation">,</span> <span class="token function">vec2</span><span class="token punctuation">(</span><span class="token number">0.5</span> <span class="token operator">+</span> vUv<span class="token punctuation">.</span>x<span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">,</span> vUv<span class="token punctuation">.</span>y<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>r <span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="新增input的类型"><a href="#新增input的类型" class="headerlink" title="新增input的类型"></a>新增input的类型</h4><pre><code>type=&quot;email&quot;    type=&quot;url&quot;   type=&quot;date&quot;  type=&quot;number&quot;
 type=&quot;search&quot;   type=&quot;tel&quot;(手机号码) 
 限制用户只能使用&quot;X&quot;类型
 
@@ -1207,7 +1246,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">371.8k</span>&nbsp;字
+                class="white-color">386.2k</span>&nbsp;字
             
             
             

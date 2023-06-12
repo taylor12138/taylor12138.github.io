@@ -535,7 +535,7 @@
 <tr>
 <td><code>Math.random()</code></td>
 <td></td>
-<td>返回一个浮点数,  伪随机数在范围从<strong>0到</strong>小于<strong>1</strong>，实践：实现</td>
+<td>返回一个浮点数,  伪随机数在范围从<strong>0到</strong>小于<strong>1</strong></td>
 </tr>
 <tr>
 <td><code>Math.sqrt(x)</code></td>
@@ -860,10 +860,11 @@ console<span class="token punctuation">.</span><span class="token function">log<
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Object<span class="token punctuation">.</span><span class="token function">is</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//false</span>
 
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Object<span class="token punctuation">.</span><span class="token function">is</span><span class="token punctuation">(</span><span class="token number">NaN</span><span class="token punctuation">,</span> <span class="token number">NaN</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//true</span></code></pre>
-<h4 id="Object-assgin"><a href="#Object-assgin" class="headerlink" title="Object.assgin()"></a><strong>Object.assgin()</strong></h4><p><code>Object.assign()</code> 方法用于将所有可枚举属性的值从一个或多个源对象分配到目标对象。它将返回目标对象。</p>
+<h4 id="Object-assgin"><a href="#Object-assgin" class="headerlink" title="Object.assgin()"></a><strong>Object.assgin()</strong></h4><p><code>Object.assign()</code> 方法用于将所有可枚举属性的值从<strong>一个</strong>   或.  <strong>多个</strong>. 源对象分配到目标对象。它将返回目标对象。</p>
 <p><code>Object.assign</code> 方法只会拷贝源对象自身的并且可枚举的属性到目标对象(浅拷贝)</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> target <span class="token operator">=</span> <span class="token punctuation">{</span> a<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> b<span class="token punctuation">:</span> <span class="token number">2</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> source <span class="token operator">=</span> <span class="token punctuation">{</span> b<span class="token punctuation">:</span> <span class="token number">4</span><span class="token punctuation">,</span> c<span class="token punctuation">:</span> <span class="token number">5</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> source2 <span class="token operator">=</span> <span class="token punctuation">{</span> d<span class="token punctuation">:</span> <span class="token number">4</span><span class="token punctuation">,</span> e<span class="token punctuation">:</span> <span class="token number">5</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
 
 <span class="token keyword">const</span> returnedTarget <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">assign</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span> source<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
@@ -874,7 +875,10 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token comment" spellcheck="true">// expected output: Object { a: 1, b: 4, c: 5 }</span>
 
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>source<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">// expected output: Object { b: 4, c: 5 }</span></code></pre>
+<span class="token comment" spellcheck="true">// expected output: Object { b: 4, c: 5 }</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Object<span class="token punctuation">.</span><span class="token function">assign</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> source<span class="token punctuation">,</span> source2<span class="token punctuation">,</span> target<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">//{ b: 4, c: 5, d: 4, e: 5, a: 1 }</span></code></pre>
 <h4 id="对象和数组的属性名"><a href="#对象和数组的属性名" class="headerlink" title="对象和数组的属性名"></a>对象和数组的属性名</h4><p>在对象中，属性名永远是字符串，如果你使用字符串以外的其他值作为属性名，它首先会被转化为一个字符串，即使是数字也不例外。虽然数组下标中使用的确实是数字，但是在对象属性命中数字会被转化为字符串，所以不要搞混对象和数组中数字的用法。</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
 obj<span class="token punctuation">[</span><span class="token boolean">true</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"foo"</span><span class="token punctuation">;</span>
@@ -1529,7 +1533,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">371.8k</span>&nbsp;字
+                class="white-color">386.2k</span>&nbsp;字
             
             
             

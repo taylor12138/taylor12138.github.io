@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    327
+                    1.3k
                 </div>
                 
 
@@ -485,13 +485,61 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="WebAssembly"><a href="#WebAssembly" class="headerlink" title="WebAssembly"></a>WebAssembly</h2><p>mdn上的解释：WebAssembly是一种新的编码方式，可以在现代的网络浏览器中运行 － 它是一种低级的类汇编语言，具有紧凑的二进制格式，可以接近原生的性能运行，并为诸如C / C ++等语言提供一个编译目标，以便它们可以在Web上运行。它也被设计为可以与JavaScript共存，允许两者一起工作。</p>
-<p>知乎上的解释：wasm类似于一个跨平台的C语言，但是出于安全因素加了一些限制，比如不能内嵌汇编，不能任意跳转，其抽象<br>程度类似于C语言，所以VM,JIT,AOT都很好做，而且做的也可以很轻量级。</p>
-<p>由于跨平台特性，一旦生成了字节码以后可以预计将来十年，二十年依然可以跑起来。<br>这一点其实很重要，现在的软件构件系统太复杂了，一旦软件的作者不再维护了，已有的软件大概率就被废弃了。<br>编译输出成wasm以后，它的软件寿命会大大延长。</p>
-<p>阅读推荐：<strong>很棒的 WebAssembly 应用程序的精选列表</strong></p>
-<p><a href="https://github.com/mcuking/Awesome-WebAssembly-Applications/blob/master/README.md" target="_blank" rel="noopener">https://github.com/mcuking/Awesome-WebAssembly-Applications/blob/master/README.md</a></p>
-<p>业务场景</p>
-<p><a href="https://www.zhihu.com/question/362649730/answer/1089891082" target="_blank" rel="noopener">https://www.zhihu.com/question/362649730/answer/1089891082</a></p>
+                <h2 id="WebAssembly"><a href="#WebAssembly" class="headerlink" title="WebAssembly"></a>WebAssembly</h2><p>webasembly是一种新型代码，它提供了一种以接近本机的速度在 Web 上运行以多种语言编写的代码的方法，客户端应用程序可以在 Web 上运行，比如可以在浏览器跑C/C++代码</p>
+<h2 id="asm-js"><a href="#asm-js" class="headerlink" title="asm.js"></a>asm.js</h2><p>2012年，Mozilla 的工程师 <a href="https://github.com/kripken" target="_blank" rel="noopener">Alon Zakai</a>做了一个编译器项目 <a href="https://github.com/kripken/emscripten" target="_blank" rel="noopener">Emscripten</a>。这个编译器可以将 C / C++ 代码编译成 JS 代码，但不是普通的 JS，而是一种叫做 <a href="http://asmjs.org/" target="_blank" rel="noopener">asm.js</a> 的 JavaScript 变体。</p>
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>C / C++ 编译成 JS 有两个最大的困难。</p>
+<blockquote>
+<ul>
+<li>C / C++ 是静态类型语言，而 JS 是动态类型语言。</li>
+<li>C / C++ 是手动内存管理，而 JS 依靠垃圾回收机制。</li>
+</ul>
+</blockquote>
+<p><strong>asm.js 就是为了解决这两个问题而设计的：它的变量一律都是静态类型，并且取消垃圾回收机制。</strong>除了这两点，它与 JavaScript 并无差异，也就是说，asm.js 是 JavaScript 的一个严格的子集，只能使用后者的一部分语法。</p>
+<p>所以可以看到 ts 是 js的超集，asm.js是js的子集</p>
+<h4 id="速度快"><a href="#速度快" class="headerlink" title="速度快"></a>速度快</h4><p>并且一旦 JS 引擎发现运行的是 asm.js，就知道这是经过优化的代码，可以跳过语法分析这一步，直接转成汇编语言。另外，浏览器还会调用 WebGL 通过 GPU 执行 asm.js，即 asm.js 的执行引擎与普通的 JavaScript 脚本不同。这些都是 asm.js 运行较快的原因。据称，asm.js 在浏览器里的运行速度，大约是原生代码的50%左右。</p>
+<h4 id="Emscripten"><a href="#Emscripten" class="headerlink" title="Emscripten"></a>Emscripten</h4><p>虽然 asm.js 可以手写，但是它从来就是编译器的目标语言，要通过编译产生。目前，生成 asm.js 的主要工具是 <a href="http://emscripten.org/" target="_blank" rel="noopener">Emscripten</a>。</p>
+<p>如果要获得asm.js的文件，可以通过学习Emscripten，并用Emscripten便衣你要转换的C/C++文件即可</p>
+<p><strong>安装Emscripten</strong></p>
+<p>看<a href="https://emscripten.org/docs/getting_started/downloads.html" target="_blank" rel="noopener">这里</a></p>
+<p>使用</p>
+<p>创建一个c文件</p>
+<pre class=" language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"hello world"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> 
+</code></pre>
+<pre class=" language-sh"><code class="language-sh">emcc hello.c -s WASM=1 -o hello.html</code></pre>
+<p>此时可以看到hello.html、hello.css、hello.js文件</p>
+<pre class=" language-sh"><code class="language-sh">emcc hello.c -s WASM=1 -o hello.wasm</code></pre>
+<p>此时可以看到hello.wasm文件</p>
+<h5 id="编译相关"><a href="#编译相关" class="headerlink" title="编译相关"></a>编译相关</h5><p>以<code>asm.js</code>为编译目标时，C/C代码被编译为.js文件；以WebAssembly为编译目标时，C/C代码被编译为.wasm文件及对应的.js胶水代码文件。两种编译目标从应用角度来说差别不大——它们使用的内存模型、函数导出规则、JavaScript与C相互调用的方法等都是一致的。我们在实际使用中遇到的主要区别在于模块加载的同步和异步：当编译目标为<code>asm.js</code>时，由于C/C++代码被完全转换成了<code>asm.js</code>（JavaScript子集），因此可以认为模块是同步加载的；而以WebAssembly为编译目标时，由于WebAssembly的实例化方法本身是异步指令，因此模块加载为异步加载。以<code>asm.js</code>为目标的工程切换至WebAssembly时，容易发生Emscritpen运行时未就绪时调用了Module功能的问题，需要按照1.3.3的方法予以规避。</p>
+<p>自1.38.1起，Emscripten默认的编译目标切换为WebAssembly。如果仍然需要以<code>asm.js</code>为编译目标，只需要在调用<code>emcc</code>时添加<code>-s WASM=0</code>参数，例如：</p>
+<pre><code>&gt; emcc hello.cc -s WASM=0 -o hello_asm.js</code></pre><p>WebAssembly是二进制格式，体积小、执行效率高是其先天优势。作为比较，上述命令生成的<code>hello_asm.js</code>约300KB，而WebAssembly版本的<code>hello.js</code>与<code>hello.wasm</code>加在一起还不到150KB。在兼容性允许的情况下，应尽量使用WebAssembly作为编译目标。</p>
+<ul>
+<li>-o：编译后的文件</li>
+<li>-O1、-O2、-O3、-Oz、-Os、-g 等：编译优化，具体可参考 Emscripten 官网相关章节；（压缩代码）</li>
+</ul>
+<h5 id="编译参数"><a href="#编译参数" class="headerlink" title="编译参数"></a>编译参数</h5><p>-s WASM=1 (0/1/2)</p>
+<ul>
+<li><p>WASM=0生成asm.js格式(适用于WebAssembly不支持的情况)</p>
+</li>
+<li><p>WASM=1生成包含wasm格式</p>
+</li>
+<li><p>WASM=2 asm.js与wasm格式均生成，添加支持判定，优先使用wasm格式。</p>
+</li>
+</ul>
+<p>更多参数看：</p>
+<p>csdn文章：<a href="https://blog.csdn.net/wngzhem/article/details/105192706" target="_blank" rel="noopener">Emscripten 编译器(emcc) 命令总结</a></p>
+<p>知乎文章：<a href="https://zhuanlan.zhihu.com/p/608244339" target="_blank" rel="noopener">emscripten 编译参数</a></p>
+<p>野文章(参数在网页下方)：<a href="https://www.infoq.cn/article/f6ai8wulyij4b3co7lvf" target="_blank" rel="noopener">从 0 开始快速上手 WebAssembly：Emscripten 使用入门</a></p>
+<p>官网：<a href="https://emcc.zcopy.site/docs/compiling/webassembly/#compiler-output" target="_blank" rel="noopener">编译为WebAssembly</a>、<a href="https://emcc.zcopy.site/docs/optimizing/optimizing-code/" target="_blank" rel="noopener">代码优化</a></p>
+<h4 id="和wasm的对比"><a href="#和wasm的对比" class="headerlink" title="和wasm的对比"></a>和wasm的对比</h4><p>如果你对 JS 比较了解，可能知道还有一种叫做 WebAssembly 的技术，也能将 C / C++ 转成 JS 引擎可以运行的代码。那么它与 asm.js 有何区别呢？</p>
+<p>回答是，两者的功能基本一致，就是转出来的代码不一样：asm.js 是文本，WebAssembly 是二进制字节码，因此运行速度更快、体积更小。从长远来看，WebAssembly 的前景更光明。</p>
+<p>但是，这并不意味着 asm.js 肯定会被淘汰，因为它有两个优点：首先，它是文本，人类可读，比较直观；其次，所有浏览器都支持 asm.js，不会有兼容性问题。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/mcuking/Awesome-WebAssembly-Applications/blob/master/README.md" target="_blank" rel="noopener">阅读推荐：<strong>很棒的 WebAssembly 应用程序的精选列表</strong></a></p>
+<p><a href="https://www.ruanyifeng.com/blog/2017/09/asmjs_emscripten.html" target="_blank" rel="noopener">asm.js 和 Emscripten 入门教程</a></p>
+<p><a href="https://www.cntofu.com/book/150/zh/ch1-quick-guide/ch1-04-compile.md" target="_blank" rel="noopener">C/C++面向WebAssembly编程 </a></p>
 
             </div>
             <hr/>
@@ -950,7 +998,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">371.8k</span>&nbsp;字
+                class="white-color">386.2k</span>&nbsp;字
             
             
             

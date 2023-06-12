@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.8k
+                    7.6k
                 </div>
                 
 
@@ -566,14 +566,93 @@ ctx<span class="token punctuation">.</span><span class="token function">arc</spa
 </ul>
 <p>所有的变换，包括fillStyle、strokeStyle属性，都会一直保留在上下文中，直到再次修改他们。虽然没有办法明确地将所有之都重置为默认值，但是有两个方法可以帮我们跟踪变化：<code>save()</code>被调用之后，，当前时刻的所有设置会放到一个暂存栈中，之后调用 <code>restore()</code>方法可以取出并恢复之前保存的设置。</p>
 <p>记住保存的是上下文的设置和变换，并没有保存上下文的内容。</p>
-<h5 id="绘制图像"><a href="#绘制图像" class="headerlink" title="绘制图像"></a><strong>绘制图像</strong></h5><pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> img <span class="token operator">=</span> document<span class="token punctuation">.</span>imges<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<h3 id="绘制图像"><a href="#绘制图像" class="headerlink" title="绘制图像"></a><strong>绘制图像</strong></h3><blockquote>
+<p>或者可以使用 <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob" target="_blank" rel="noopener"><code>canvas.toBlob</code></a></p>
+</blockquote>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> img <span class="token operator">=</span> document<span class="token punctuation">.</span>imges<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 context<span class="token punctuation">.</span><span class="token function">drawImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span></code></pre>
 <p><code>drawImage(图像, 绘制目标的x坐标, 绘制目标的y坐标)</code></p>
 <p><code>drawImage(图像, 绘制目标的x坐标, 绘制目标的y坐标, 目标宽度, 目标高度)</code></p>
 <p><code>toDataURL</code> 转换图片为dataURL，一般使用为：</p>
 <pre class=" language-js"><code class="language-js">canvas<span class="token punctuation">.</span><span class="token function">getContent</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">drawImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> widht<span class="token punctuation">,</span> height<span class="token punctuation">)</span>
 <span class="token keyword">const</span> dataUrl <span class="token operator">=</span> canvas<span class="token punctuation">.</span><span class="token function">toDataURL</span><span class="token punctuation">(</span><span class="token string">'image/png'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p>或者将当前canvas转化成一个图像</p>
+<h4 id="（1）usage"><a href="#（1）usage" class="headerlink" title="（1）usage"></a>（1）usage</h4><p>在画布上定位图像：</p>
+<table>
+<thead>
+<tr>
+<th align="left">JavaScript 语法：</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><em>context</em>.drawImage(<em>img,x,y</em>);</td>
+<td>在画布上定位图像</td>
+</tr>
+<tr>
+<td align="left"><em>context</em>.drawImage(<em>img,x,y,width,height</em>);</td>
+<td>在画布上定位图像，并规定图像的宽度和高度：</td>
+</tr>
+<tr>
+<td align="left"><em>context</em>.drawImage(<em>img,sx,sy,swidth,sheight,x,y,width,height</em>);</td>
+<td>剪切图像，并在画布上定位被剪切的部分</td>
+</tr>
+</tbody></table>
+<p>参数值</p>
+<table>
+<thead>
+<tr>
+<th align="left">参数</th>
+<th align="left">描述</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><em>img</em></td>
+<td align="left">规定要使用的图像、画布或视频。</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><em>sx</em></td>
+<td align="left">可选。开始剪切的 x 坐标位置。</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><em>sy</em></td>
+<td align="left">可选。开始剪切的 y 坐标位置。</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><em>swidth</em></td>
+<td align="left">可选。被剪切图像的宽度。</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><em>sheight</em></td>
+<td align="left">可选。被剪切图像的高度。</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><em>x</em></td>
+<td align="left">在画布上放置图像的 x 坐标位置。</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><em>y</em></td>
+<td align="left">在画布上放置图像的 y 坐标位置。</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><em>width</em></td>
+<td align="left">可选。要使用的图像的宽度（伸展或缩小图像）。</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><em>height</em></td>
+<td align="left">可选。要使用的图像的高度（伸展或缩小图像）。</td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="（2）转化成图像"><a href="#（2）转化成图像" class="headerlink" title="（2）转化成图像"></a>（2）转化成图像</h4><p>或者将当前canvas转化成一个图像</p>
 <pre class=" language-js"><code class="language-js"><span class="token operator">&lt;</span>canvas id<span class="token operator">=</span><span class="token string">"canvas"</span> width<span class="token operator">=</span><span class="token string">"5"</span> height<span class="token operator">=</span><span class="token string">"5"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>canvas<span class="token operator">></span></code></pre>
 <p>Copy to Clipboard</p>
 <p>可以用这样的方式获取一个 data-URL</p>
@@ -582,9 +661,19 @@ context<span class="token punctuation">.</span><span class="token function">draw
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>dataURL<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">// "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNby</span>
 <span class="token comment" spellcheck="true">// blAAAADElEQVQImWNgoBMAAABpAAFEI8ARAAAAAElFTkSuQmCC"</span></code></pre>
-<h5 id="获取图像信息"><a href="#获取图像信息" class="headerlink" title="获取图像信息"></a>获取图像信息</h5><p><strong><code>CanvasRenderingContext2D.getImageData()</code></strong> 返回一个<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/ImageData" target="_blank" rel="noopener"><code>ImageData</code></a>对象，用来描述 canvas 区域隐含的像素数据，这个区域通过矩形表示，起始点为<em>(sx, sy)、<em>宽为</em>sw、<em>高为</em>sh。</em></p>
+<p>或许你想要获取的是图像的帧数据</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> imageData <span class="token operator">=</span> ctx<span class="token punctuation">.</span><span class="token function">getImageData</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> width<span class="token punctuation">,</span> height<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> pixelData <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Uint8Array</span><span class="token punctuation">(</span>imageData<span class="token punctuation">.</span>data<span class="token punctuation">.</span>buffer<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>此时还能用upng进行压缩</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> UPNG <span class="token keyword">from</span> <span class="token string">'upng-js'</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//....</span>
+<span class="token keyword">const</span> pngData <span class="token operator">=</span> UPNG<span class="token punctuation">.</span><span class="token function">encode</span><span class="token punctuation">(</span><span class="token punctuation">[</span>pixelData<span class="token punctuation">]</span><span class="token punctuation">,</span> width <span class="token operator">*</span> scale<span class="token punctuation">,</span> height <span class="token operator">*</span> scale<span class="token punctuation">,</span> <span class="token number">256</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="（3）压缩图片质量"><a href="#（3）压缩图片质量" class="headerlink" title="（3）压缩图片质量"></a>（3）压缩图片质量</h4><pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> base64 <span class="token operator">=</span> canvas<span class="token punctuation">.</span><span class="token function">toDataURL</span><span class="token punctuation">(</span><span class="token string">'image/jpeg'</span><span class="token punctuation">,</span> quality<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><strong>type 可选</strong> 图片格式，默认为 image/png</p>
+<p><strong>encoderOptions 可选</strong> 在指定图片格式为 image/jpeg 或 image/webp的情况下，可以从 0 到 1 的区间内选择图片的质量。如果超出取值范围，将会使用默认值 0.92。其他参数会被忽略。 Chrome支持“image/webp”类型。</p>
+<h4 id="（4）获取图像信息"><a href="#（4）获取图像信息" class="headerlink" title="（4）获取图像信息"></a>（4）获取图像信息</h4><p><strong><code>CanvasRenderingContext2D.getImageData()</code></strong> 返回一个<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/ImageData" target="_blank" rel="noopener"><code>ImageData</code></a>对象，用来描述 canvas 区域隐含的像素数据，这个区域通过矩形表示，起始点为<em>(sx, sy)、<em>宽为</em>sw、<em>高为</em>sh。</em></p>
 <p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/getImageData#语法" target="_blank" rel="noopener">语法</a></p>
-<pre><code>ImageData ctx.getImageData(sx, sy, sw, sh);</code></pre><p>Copy to Clipboard</p>
+<pre><code>ctx.getImageData(sx, sy, sw, sh);</code></pre><p>Copy to Clipboard</p>
 <p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/getImageData#参数" target="_blank" rel="noopener">参数</a></p>
 <ul>
 <li><p><code>sx</code></p>
@@ -600,6 +689,37 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>将要被提取的图像数据矩形区域的高度。</p>
 </li>
 </ul>
+<h4 id="（5）画一个圆并且塞入图像"><a href="#（5）画一个圆并且塞入图像" class="headerlink" title="（5）画一个圆并且塞入图像"></a>（5）画一个圆并且塞入图像</h4><pre class=" language-js"><code class="language-js">ctx<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ctx<span class="token punctuation">.</span><span class="token function">beginPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ctx<span class="token punctuation">.</span><span class="token function">arc</span><span class="token punctuation">(</span>x <span class="token operator">+</span> radius<span class="token punctuation">,</span> y <span class="token operator">+</span> radius<span class="token punctuation">,</span> radius<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span> <span class="token operator">*</span> Math<span class="token punctuation">.</span>PI<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 画一个圆</span>
+ctx<span class="token punctuation">.</span><span class="token function">closePath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ctx<span class="token punctuation">.</span><span class="token function">clip</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+ctx<span class="token punctuation">.</span><span class="token function">drawImage</span><span class="token punctuation">(</span>userAvator<span class="token punctuation">,</span> x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> radius <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">,</span> radius <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="（6）canvas在高清屏幕的绘制"><a href="#（6）canvas在高清屏幕的绘制" class="headerlink" title="（6）canvas在高清屏幕的绘制"></a>（6）canvas在高清屏幕的绘制</h4><p>由于 canvas 不是矢量图，而是像图片一样是位图模式的。高 dpi 显示设备意味着每平方英寸有更多的像素。也就是说二倍屏，浏览器就会以2个像素点的宽度来渲染一个像素，该 canvas 在 Retina 屏幕下相当于占据了2倍的空间，相当于图片被放大了一倍，因此绘制出来的图片文字等会变模糊。</p>
+<p>我们可以先把所有的宽高比都设置成 * dpr</p>
+<p>比如设置canvas宽高（style）为 320px × 400px，则</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> dpr <span class="token operator">=</span> window<span class="token punctuation">.</span>devicePixelRatio <span class="token operator">||</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> MODAL_WIDTH <span class="token operator">=</span> <span class="token number">320</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> MODAL_HEIGHT <span class="token operator">=</span> <span class="token number">400</span><span class="token punctuation">;</span>
+
+myCanvas<span class="token punctuation">.</span>style<span class="token punctuation">.</span>width <span class="token operator">=</span> MODAL_WIDTH <span class="token operator">+</span> <span class="token string">'px'</span><span class="token punctuation">;</span>
+myCanvas<span class="token punctuation">.</span>style<span class="token punctuation">.</span>height <span class="token operator">=</span> MODAL_HEIGHT <span class="token operator">+</span> <span class="token string">'px'</span><span class="token punctuation">;</span>
+
+myCanvas<span class="token punctuation">.</span>width <span class="token operator">=</span> MODAL_WIDTH <span class="token operator">*</span> ratio<span class="token punctuation">;</span>
+myCanvas<span class="token punctuation">.</span>height <span class="token operator">=</span> MODAL_HEIGHT <span class="token operator">*</span> ratio<span class="token punctuation">;</span></code></pre>
+<p>绘制内部：</p>
+<p>方法1:</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> context <span class="token operator">=</span> myCanvas<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+context<span class="token punctuation">.</span>font <span class="token operator">=</span> <span class="token string">"36px Georgia"</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//一倍屏下18px字体</span>
+context<span class="token punctuation">.</span>fillStyle <span class="token operator">=</span> <span class="token string">"#999"</span><span class="token punctuation">;</span>
+context<span class="token punctuation">.</span><span class="token function">fillText</span><span class="token punctuation">(</span><span class="token string">"我是清晰的文字"</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token operator">*</span>ratio<span class="token punctuation">,</span> <span class="token number">50</span><span class="token operator">*</span>ratio<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">// 坐标位置乘以像素比</span></code></pre>
+<p>方法2:</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> context <span class="token operator">=</span> myCanvas<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+context<span class="token punctuation">.</span><span class="token function">scale</span><span class="token punctuation">(</span>ratio<span class="token punctuation">,</span> ratio<span class="token punctuation">)</span><span class="token punctuation">;</span>
+context<span class="token punctuation">.</span>font <span class="token operator">=</span> <span class="token string">"18px Georgia"</span><span class="token punctuation">;</span>
+context<span class="token punctuation">.</span>fillStyle <span class="token operator">=</span> <span class="token string">"#999"</span><span class="token punctuation">;</span>
+context<span class="token punctuation">.</span><span class="token function">fillText</span><span class="token punctuation">(</span><span class="token string">"我是清晰的文字"</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h4 id="小实战"><a href="#小实战" class="headerlink" title="小实战"></a>小实战</h4><p>画一个刮刮乐</p>
 <pre class=" language-html"><code class="language-html"><span class="token doctype">&lt;!DOCTYPE html></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
@@ -1071,6 +1191,20 @@ sprite<span class="token punctuation">.</span>rotation <span class="token operat
 
  <span class="token keyword">const</span> sprite <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Sprite</span><span class="token punctuation">(</span>texture<span class="token punctuation">)</span><span class="token punctuation">;</span>
  sprite<span class="token punctuation">.</span>mask <span class="token operator">=</span> graphics<span class="token punctuation">;</span></code></pre>
+<p>设置文本 + 文本局中 + 气泡外框</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 创建文本对象</span>
+<span class="token keyword">const</span> text <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string">'您好，这是一条弹幕消息！'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> fontSize<span class="token punctuation">:</span> <span class="token number">16</span><span class="token punctuation">,</span> fill<span class="token punctuation">:</span> <span class="token number">0xffffff</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+text<span class="token punctuation">.</span>anchor<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token number">0.5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 计算文本的长度</span>
+<span class="token keyword">const</span> textWidth <span class="token operator">=</span> text<span class="token punctuation">.</span>width<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 创建弹幕气泡对象</span>
+<span class="token keyword">const</span> bubble <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Graphics</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+bubble<span class="token punctuation">.</span><span class="token function">beginFill</span><span class="token punctuation">(</span><span class="token number">0x000000</span><span class="token punctuation">,</span> <span class="token number">0.8</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+bubble<span class="token punctuation">.</span><span class="token function">drawRoundedRect</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> textWidth <span class="token operator">+</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">,</span> <span class="token number">15</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+bubble<span class="token punctuation">.</span><span class="token function">endFill</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+text<span class="token punctuation">.</span>position<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span>bubble<span class="token punctuation">.</span>width <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span> bubble<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h4 id="4-pixijs的事件"><a href="#4-pixijs的事件" class="headerlink" title="4.pixijs的事件"></a>4.pixijs的事件</h4><p>pixijs的两种渲染模式，都不是以dom结构为基础（可以联想到canvas），所以需要使用它内置的事件：</p>
 <ul>
 <li>pointerdown：类似于 mousedown。</li>
@@ -1092,7 +1226,7 @@ cat<span class="token punctuation">.</span><span class="token function">addListe
 <p>其中<code>beginFill</code>、<code>endFill</code>可以理解为canvas的 <code>beginPath</code>、<code>stroke</code>是一个道理</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//画一个矩形</span>
 <span class="token keyword">let</span> rectangle <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PIXI<span class="token punctuation">.</span>Graphics</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">// 外边框的颜</span>
+<span class="token comment" spellcheck="true">// 外边框的颜色</span>
 rectangle<span class="token punctuation">.</span><span class="token function">lineStyle</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">0xFF3300</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">// 给矩形的内部填充颜色</span>
 rectangle<span class="token punctuation">.</span><span class="token function">beginFill</span><span class="token punctuation">(</span><span class="token number">0x66CCcc</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -1755,7 +1889,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">371.8k</span>&nbsp;字
+                class="white-color">386.2k</span>&nbsp;字
             
             
             

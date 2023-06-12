@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7k
+                    7.1k
                 </div>
                 
 
@@ -703,6 +703,14 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <h4 id="缓存过期策略"><a href="#缓存过期策略" class="headerlink" title="缓存过期策略"></a>缓存过期策略</h4><p>1、设置 Cache-Control: max-age=1000 。响应头中的 Date 经过 1000s 过期（比起首部字段<code>Expires</code>，会优先处理<code>s-maxage</code>或<code>max-age</code>。）（<code>Cache-Control</code>HTTP / 1.1通用头字段被用于为请求和响应缓存机制指定指令l）<br>2、设置 Expires 。此时间与本地时间(响应头中的 Date )对比，小于本地时间表示过期，由于本地时钟与服务器时钟无法保持一致，导致比较不精确，也就是说如果修改了本地时间，可能会造成缓存失效。（http1.0时代，Pragma也是1.0时代的产物）<br>3、如果以上均未设置，却设置了 Last-Modified ，浏览器隐式的设置资源过期时间为 (Date - Last-Modified) * 10% 缓存过期时间。</p>
 <p><strong>前端缓存图</strong>：</p>
 <p><img src="/2021/03/15/chao-wen-ben-chuan-shu-xie-yi-new/huancun.jpg" alt></p>
+<h4 id="添加虚拟参数，避免命中缓存"><a href="#添加虚拟参数，避免命中缓存" class="headerlink" title="添加虚拟参数，避免命中缓存"></a>添加虚拟参数，避免命中缓存</h4><p>有时候我们可能并不需要命中缓存，比如这个<a href="https://www.hacksoft.io/blog/handle-images-cors-error-in-chrome" target="_blank" rel="noopener">问题</a>，里面记录了关于第一个img在跨域缓存后，一直会报跨域的问题。</p>
+<p>解决方法是添加虚拟参数，比如</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> corsImageModified <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+corsImageModified<span class="token punctuation">.</span>crossOrigin <span class="token operator">=</span> <span class="token string">"Anonymous"</span><span class="token punctuation">;</span>
+corsImageModified<span class="token punctuation">.</span>src <span class="token operator">=</span> url <span class="token operator">+</span> <span class="token string">"?not-from-cache-please"</span><span class="token punctuation">;</span></code></pre>
+<p>亦或者是</p>
+<p><img src="/2021/03/15/chao-wen-ben-chuan-shu-xie-yi-new/fake.png" alt></p>
+<p>这将强制浏览器不使用以前的缓存图像，而是为图像发送新的GET请求，我们添加的 GET 参数无关紧要，只要生成的 URL 与初始（缓存）图像 URL 不同即可。</p>
 <h2 id="6-其他"><a href="#6-其他" class="headerlink" title="6.其他"></a>6.其他</h2><h4 id="范围请求"><a href="#范围请求" class="headerlink" title="范围请求"></a>范围请求</h4><p>假设你正在下载一个很大的文件，已经下了四分之三，忽然网络中断了，那下载就必须重头再来一遍。为了解决这个问题，需要一种可恢复的机制，即能从之前下载中断处恢复下载，要实现该功能，这就要用到范围请求。（前提是上一次请求到这一次请求时间段内，下载对象没有发生改变）</p>
 <p>当然，前提是服务器要支持<strong>范围请求</strong>，要支持这个功能，就必须加上这样一个响应头:</p>
 <pre class=" language-http"><code class="language-http"><span class="token header-name keyword">Accept-Ranges:</span> none</code></pre>
@@ -1245,7 +1253,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">371.8k</span>&nbsp;字
+                class="white-color">386.2k</span>&nbsp;字
             
             
             

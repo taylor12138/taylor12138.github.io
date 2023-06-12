@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    725
+                    922
                 </div>
                 
 
@@ -631,6 +631,9 @@ gui<span class="token punctuation">.</span><span class="token function">addColor
 gui<span class="token punctuation">.</span><span class="token function">addColor</span><span class="token punctuation">(</span>palette<span class="token punctuation">,</span> <span class="token string">'color3'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 gui<span class="token punctuation">.</span><span class="token function">addColor</span><span class="token punctuation">(</span>palette<span class="token punctuation">,</span> <span class="token string">'color4'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//环境光</span>
+<span class="token keyword">const</span> lightParams <span class="token operator">=</span> <span class="token punctuation">{</span>
+  color<span class="token punctuation">:</span> <span class="token number">0xffffff</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> intensity <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> light <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>AmbientLight</span><span class="token punctuation">(</span>lightParams<span class="token punctuation">.</span>color<span class="token punctuation">,</span> intensity<span class="token punctuation">)</span><span class="token punctuation">;</span>
 scene<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>light<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -640,6 +643,33 @@ console<span class="token punctuation">.</span><span class="token function">log<
 gui<span class="token punctuation">.</span><span class="token function">addColor</span><span class="token punctuation">(</span>lightParams<span class="token punctuation">,</span> <span class="token string">"color"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">onChange</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
   light<span class="token punctuation">.</span>color<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span>lightParams<span class="token punctuation">.</span>color<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>当然我们也可以写一个color gui类来帮我们设置颜色</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">class</span> <span class="token class-name">ColorGUIHelper</span> <span class="token punctuation">{</span>
+  <span class="token function">constructor</span><span class="token punctuation">(</span>object<span class="token punctuation">,</span> prop<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>object <span class="token operator">=</span> object<span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>prop <span class="token operator">=</span> prop<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">get</span> <span class="token function">value</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token template-string"><span class="token string">`#</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>object<span class="token punctuation">[</span><span class="token keyword">this</span><span class="token punctuation">.</span>prop<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">getHexString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">set</span> <span class="token function">value</span><span class="token punctuation">(</span>hexString<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>object<span class="token punctuation">[</span><span class="token keyword">this</span><span class="token punctuation">.</span>prop<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span>hexString<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> intensity <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> color <span class="token operator">=</span> <span class="token number">0xFFFFFF</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> light <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">THREE<span class="token punctuation">.</span>AmbientLight</span><span class="token punctuation">(</span>color<span class="token punctuation">,</span> intensity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> gui <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GUI</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+gui<span class="token punctuation">.</span><span class="token function">addColor</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ColorGUIHelper</span><span class="token punctuation">(</span>light<span class="token punctuation">,</span> <span class="token string">'color'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'value'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation">(</span><span class="token string">'color'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+gui<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>light<span class="token punctuation">,</span> <span class="token string">'intensity'</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">0.01</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h5 id="addFolder"><a href="#addFolder" class="headerlink" title="addFolder"></a>addFolder</h5><p>添加gui一个文件夹，方便分类和管理不同的属性，比如你想要控制球体A的x、y、z轴，也想要控制球体B的x、y、z轴，此时我们可以新建一个Folder，此时我们在folder下添加对应的属性即可</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">makeXYZGUI</span><span class="token punctuation">(</span>gui<span class="token punctuation">,</span> vector3<span class="token punctuation">,</span> name<span class="token punctuation">,</span> onChangeFn<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> folder <span class="token operator">=</span> gui<span class="token punctuation">.</span><span class="token function">addFolder</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  folder<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>vector3<span class="token punctuation">,</span> <span class="token string">'x'</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">onChange</span><span class="token punctuation">(</span>onChangeFn<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  folder<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>vector3<span class="token punctuation">,</span> <span class="token string">'y'</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">onChange</span><span class="token punctuation">(</span>onChangeFn<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  folder<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>vector3<span class="token punctuation">,</span> <span class="token string">'z'</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">onChange</span><span class="token punctuation">(</span>onChangeFn<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  folder<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
 
             </div>
             <hr/>
@@ -1100,7 +1130,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">371.8k</span>&nbsp;字
+                class="white-color">386.2k</span>&nbsp;字
             
             
             

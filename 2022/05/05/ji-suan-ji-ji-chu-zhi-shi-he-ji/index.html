@@ -459,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.2k
+                    3k
                 </div>
                 
 
@@ -506,16 +506,38 @@
 0001 0000-0010 FFFF | 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx</code></pre><p>UTF-8和Unicode</p>
 <p><code>严</code>的 Unicode码 是<code>4E25</code>，UTF-8 编码是<code>E4B8A5</code></p>
 <p>参考：<a href="https://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html《阮一峰的网络日志》" target="_blank" rel="noopener">https://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html《阮一峰的网络日志》</a></p>
+<h4 id="ArrayBuffer"><a href="#ArrayBuffer" class="headerlink" title="ArrayBuffer"></a>ArrayBuffer</h4><p>类型化数组ArrayBuffer<br>类型化数组的核心是一个名为ArrayBuffer的类型</p>
+<p>每个ArrayBuffer对象表示的只是内存中指定的字节数;<br>但不会指定这些字节用于保存什么类型的数据；<br>通过ArrayBuffer能做的，就是为了将来使用而分配一定数量的字节.</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 创建一个8-byte的ArrayBuffer</span>
+<span class="token keyword">var</span> b <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayBuffer</span><span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 创建一个b的引用，类型是Int32，起始位置在0，结束位置为缓冲区尾部</span>
+<span class="token keyword">var</span> v1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Int32Array</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 创建一个b的引用，类型是Uint8，起始位置在2，结束位置为缓冲区尾部</span>
+<span class="token keyword">var</span> v2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Uint8Array</span><span class="token punctuation">(</span>b<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 创建一个b的引用，类型是Int16，起始位置在2，总长度为2</span>
+<span class="token keyword">var</span> v3 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Int16Array</span><span class="token punctuation">(</span>b<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>(比如threejs常使用的<code>Float32Array</code>)</p>
+<h4 id="Uint8"><a href="#Uint8" class="headerlink" title="Uint8"></a>Uint8</h4><p><strong>uint8是8位无符号整型，uint16是16位无符号整型</strong> </p>
+<p>整型有无符号（unsigned）和有符号（signed）两种类型，在默认情况下声明的整型变量都是有符号的类型（char有点特别），如果需声明无符号类型的话就需要在类型前加上unsigned。<strong><em>在一些不可能取值为负数的时候，可以定义为unsigned\</em></strong>，在一些底层的嵌入式编程的数据一般都是无符号。</p>
+<p><img src="/2022/05/05/ji-suan-ji-ji-chu-zhi-shi-he-ji/uint.png" alt></p>
 <h2 id="命令窗口"><a href="#命令窗口" class="headerlink" title="命令窗口"></a>命令窗口</h2><p>有时候我们执行一些命令失败，但是往上有人是成功的，可能是当前终端不支持</p>
 <p>windows用户：powershell是微软用来替代cmd的，我们可以cmd和powershell轮流试一试命令的执行，搜索引擎上也有vscode中默认终端切换的方案；除此之外，coderwhy老师还推荐windows用户使用git bash敲命令，毕竟windows的终端没有linux、macos做得好，和操作系统的连接、内核好用</p>
-<h2 id="图形"><a href="#图形" class="headerlink" title="图形"></a>图形</h2><h4 id="Base64"><a href="#Base64" class="headerlink" title="Base64"></a>Base64</h4><p><strong>Base64</strong>（基底64）是一种基于64个可打印字符来表示<a href="https://zh.wikipedia.org/wiki/二进制" target="_blank" rel="noopener">二进制数据</a>的表示方法。由于 <code>log2 64 = 6</code> 所以每6个<a href="https://zh.wikipedia.org/wiki/位元" target="_blank" rel="noopener">比特</a>为一个单元，对应某个可打印字符。3个<a href="https://zh.wikipedia.org/wiki/字节" target="_blank" rel="noopener">字节</a>相当于24个比特，对应于4个Base64单元</p>
+<h2 id="图形"><a href="#图形" class="headerlink" title="图形"></a>图形</h2><h4 id="Base64"><a href="#Base64" class="headerlink" title="Base64"></a>Base64</h4><p><strong>Base64</strong>（基底64）是一种基于64个可打印字符来表示<a href="https://zh.wikipedia.org/wiki/二进制" target="_blank" rel="noopener">二进制数据</a>的表示方法，它是一种编码方式的名称。</p>
+<p>由于 <code>log2 64 = 6</code> 所以每6个<a href="https://zh.wikipedia.org/wiki/位元" target="_blank" rel="noopener">比特</a>为一个单元，对应某个可打印字符。3个<a href="https://zh.wikipedia.org/wiki/字节" target="_blank" rel="noopener">字节</a>相当于24个比特，对应于4个Base64单元</p>
 <p>当需要对二进制数据进行编码时，通常会使用 Base64 编码方案，尤其是当数据需要通过旨在处理文本的媒体进行存储和传输时。这种编码有助于确保数据在传输过程中保持完整而不被修改。Base64 常用于许多应用程序，包括通过 MIME 发送电子邮件，以及以 XML 或 JSON 格式存储复杂数据。</p>
-<h4 id="Base64Url"><a href="#Base64Url" class="headerlink" title="Base64Url"></a>Base64Url</h4><p>Base64编码可用于在<a href="https://zh.wikipedia.org/wiki/HTTP" target="_blank" rel="noopener">HTTP</a>环境下传递较长的标识信息。例如，在<a href="https://zh.wikipedia.org/wiki/Java" target="_blank" rel="noopener">Java</a><a href="https://zh.wikipedia.org/wiki/持久化" target="_blank" rel="noopener">持久化</a>系统<a href="https://zh.wikipedia.org/wiki/Hibernate" target="_blank" rel="noopener">Hibernate</a>中，就采用了Base64来将一个较长的唯一标识符（一般为128-bit的<a href="https://zh.wikipedia.org/wiki/UUID" target="_blank" rel="noopener">UUID</a>）编码为一个字符串，用作HTTP表单和HTTP GET <a href="https://zh.wikipedia.org/wiki/URL" target="_blank" rel="noopener">URL</a>中的参数。在其他应用程序中，也常常需要把二进制数据编码为适合放在URL（包括隐藏表单域）中的形式。此时，采用Base64编码不仅比较简短，同时也具有不可读性，即所编码的数据不会被人用肉眼所直接看到。</p>
-<p>然而，标准的Base64并不适合直接放在URL里传输，因为URL编码器会把标准Base64中的<code>/</code>和<code>+</code>字符变为形如<code>%XX</code>的形式，而这些<code>%</code>号在存入数据库时还需要再进行转换，因为<a href="https://zh.wikipedia.org/wiki/ANSI" target="_blank" rel="noopener">ANSI</a> <a href="https://zh.wikipedia.org/wiki/SQL" target="_blank" rel="noopener">SQL</a>中已将<code>%</code>号用作通配符。</p>
+<h4 id="Base64Url"><a href="#Base64Url" class="headerlink" title="Base64Url"></a>Base64Url</h4><p>在编写 HTML 网页时，对于一些简单图片，通常会选择将图片内容直接内嵌在网页中，从而减少不必要的网络请求，但是图片数据是二进制数据，该怎么嵌入呢？绝大多数现代浏览器都支持一种名为 <code>Data URLs</code> 的特性，允许使用 base64 对图片或其他文件的二进制数据进行编码，将其作为文本字符串嵌入网页中。</p>
+<p><strong>组成</strong></p>
+<p>前缀（<code>data:</code>）、指示数据类型的 MIME 类型、如果非文本则为可选的 <code>base64</code> 标记、数据本身：</p>
+<pre class=" language-ini"><code class="language-ini">data:[&lt;mediatype>][;base64],&lt;data></code></pre>
+<p><code>mediatype</code> 是个 MIME 类型的字符串，例如 “<code>image/jpeg</code>“ 表示 JPEG 图像文件。如果被省略，则默认值为 <code>text/plain;charset=US-ASCII</code>。如果数据是文本类型，你可以直接将文本嵌入（根据文档类型，使用合适的实体字符或转义字符）。如果是二进制数据，你可以将数据进行 base64 编码之后再进行嵌入。比如嵌入一张图片：</p>
+<pre class=" language-ini"><code class="language-ini">&lt;img alt<span class="token attr-value"><span class="token punctuation">=</span>"logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUg..."></span></code></pre>
 <p>HTML中，img的src和css样式的background-image都可以接受base64字符串，从而在页面上渲染出对应的图片</p>
 <p>再次我们先了解下base64的缺点</p>
 <ul>
-<li>转换之后字符串的体积一般会比原图更大，一般会多出接近3成的大小，反而“增重了”</li>
+<li>如果图片较大，图片的色彩层次比较丰富，则不适合使用这种方式，因为该图片经过 base64 编码后的字符串非常大，会明显增大 HTML 页面的大小，从而影响加载速度</li>
 <li>base64Url可能会被你的应用多次复用，本来浏览器可以直接从本地缓存取出的图片，换成base64Url，将造成应用中多个页面重复下载1.3倍大小的文本 约等于 流量消耗 * 13倍</li>
 <li>低版本浏览器兼容问题</li>
 <li>不利于开发者工具调试</li>
@@ -526,6 +548,23 @@
 </ul>
 <h4 id="JPG-vs-PNG"><a href="#JPG-vs-PNG" class="headerlink" title="JPG vs PNG"></a>JPG vs PNG</h4><p>这和普通的HTML差不多，JPG有损压缩，PNG有无损压缩，所以PNG的下载速度一般比较慢。但是，PNG支持透明度。PNG可能也适合作为非图像数据（non-image data）的格式，比如法线图，以及其他种类的非图像图，我们后面会介绍。</p>
 <p>请记住，在WebGL中JPG使用的内存并不比PNG少。参见上文。</p>
+<h4 id="BMP"><a href="#BMP" class="headerlink" title="BMP"></a>BMP</h4><p>BMP是英文全称为位图（Bitmap）的缩写，它是一种常见的图像文件格式。BMP格式是一种无损的图像文件格式，它以像素阵列的形式存储图像数据，每个像素都有自己的颜色信息。BMP文件可以包含彩色图像、灰度图像或黑白图像。</p>
+<p>BMP格式的文件大小相对较大，现在常用的图片格式往往采用压缩算法，如JPEG、PNG等，以减小文件大小并保持较好的图像质量。然而，BMP格式仍然在某些特定的应用领域中得到广泛使用，比如在一些图像处理软件、打印机和某些老旧的操作系统中。</p>
+<h4 id="PAG"><a href="#PAG" class="headerlink" title="PAG"></a>PAG</h4><p>PAG（Portable Animated Graphics）是腾讯自主研发的一套完整的动画工作流解决方案，助力于将 AE 动画方便快捷的应用于各平台终端。</p>
+<p>据官方的介绍，和lottie、SVGA等进行对比</p>
+<ul>
+<li><p>文件更小</p>
+</li>
+<li><p>AE特性全面支持</p>
+</li>
+<li><p>矢量动画渲染性能更好一点，但是内存当然也会占用更多一点</p>
+<p>还有(截止2023上半年)</p>
+<p><img src="/2022/05/05/ji-suan-ji-ji-chu-zhi-shi-he-ji/lottieandpag.png" alt></p>
+</li>
+</ul>
+<p>缺点：SDK接入体积大，兼容性较差，需要wasm或asm.js的支持，在app端的SDK 部分主要分为两个版本，一个是社区版，免费，一个是企业版，要收费，差异性挺大的，社区版不支持音频播放等，具体可以看<a href="https://pag.art/feature.html" target="_blank" rel="noopener">这里</a></p>
+<p>演示pag-web的官方<a href="https://github.com/libpag/pag-web" target="_blank" rel="noopener">demo</a></p>
+<p><a href="https://github.com/Tencent/libpag" target="_blank" rel="noopener">github地址</a></p>
 <h2 id="数据格式"><a href="#数据格式" class="headerlink" title="数据格式"></a>数据格式</h2><h4 id="json5"><a href="#json5" class="headerlink" title="json5"></a>json5</h4><p>json5是json文件的一种升级</p>
 <p>他支持：</p>
 <ul>
@@ -575,9 +614,12 @@
 <li><p>~/.bash_profile是什么？</p>
 <p>~/.bash_profile:每个用户都可使用该文件输入专用于自己使用的shell信息,当用户登录时,该文件仅仅执行一次!默认情况下,他设置一些环境变量,执行用户的.bashrc文件.</p>
 </li>
-<li><p>zshrc: 装了oh-my-zsh之后，启动时会运行zshrc而不是上面两个文件。另外它和Login Shell与no-Login Shell都没有关系，不管什么shell都会运行。</p>
+<li><p>zshrc: mac默认的shell改了，现在是zsh了，装了oh-my-zsh之后，启动时会运行zshrc而不是上面两个文件。另外它和Login Shell与no-Login Shell都没有关系，不管什么shell都会运行。</p>
 </li>
 </ul>
+<p>Mac可以通过</p>
+<pre class=" language-shell"><code class="language-shell">echo $0</code></pre>
+<p>查看当前用的是zsh还是bash</p>
 
             </div>
             <hr/>
@@ -1032,7 +1074,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">371.8k</span>&nbsp;字
+                class="white-color">386.2k</span>&nbsp;字
             
             
             

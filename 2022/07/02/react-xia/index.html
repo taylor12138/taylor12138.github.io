@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9.3k
+                    9.4k
                 </div>
                 
 
@@ -485,7 +485,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="11-Hooks"><a href="#11-Hooks" class="headerlink" title="11.Hooks"></a>11.Hooks</h2><p>React的Hook 是 16.8版本新增的特性/语法，可以让我们在函数式组件中使用state和其他React特性</p>
+                <h2 id="10-Hooks"><a href="#10-Hooks" class="headerlink" title="10.Hooks"></a>10.Hooks</h2><p>React的Hook 是 16.8版本新增的特性/语法，可以让我们在函数式组件中使用state和其他React特性</p>
 <p>函数式组件最主要没有上述功能的原因是没有实例对象，没有this（现在函数式组件是主流了）</p>
 <p>Hook主要是践行代数效应的思想（比如不使用async处理正常的函数（因为回将该函数变成一个promise），而是自定义语法以try、catch的理念将函数内部执行的无论同步、异步操作剥离出函数本身），长此以往，可能可以形成服务即组件的结果，从不同数据库，即不同的源获取，对应不同的单独组件</p>
 <h4 id="三个常用的Hook"><a href="#三个常用的Hook" class="headerlink" title="三个常用的Hook"></a>三个常用的Hook</h4><ul>
@@ -894,7 +894,16 @@ React<span class="token punctuation">.</span><span class="token function">useEff
 
 window<span class="token punctuation">.</span>app <span class="token operator">=</span> <span class="token function">schedule</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h4 id="react依赖项"><a href="#react依赖项" class="headerlink" title="react依赖项"></a>react依赖项</h4><p>对于react那些hooks的依赖项，要切实地填写（关乎到当前地hook会不会重新渲染），对于react的依赖尽可能写详细，比如我 <code>currentDay.index</code>写成了<code>currentDay</code>，重新渲染多了一次，useEffect，导致请求多发了一次</p>
-<h2 id="12-React拓展"><a href="#12-React拓展" class="headerlink" title="12.React拓展"></a>12.React拓展</h2><h4 id="setState使用方法"><a href="#setState使用方法" class="headerlink" title="setState使用方法"></a>setState使用方法</h4><p>方法一：传统的对象式setState（class）</p>
+<h4 id="React-Hooks存在的问题"><a href="#React-Hooks存在的问题" class="headerlink" title="React Hooks存在的问题"></a>React Hooks存在的问题</h4><ul>
+<li>hooks执行原理和原生js心智模型的差异</li>
+<li>不能条件式调用</li>
+<li>stale Clousure(过期闭包)心智负担</li>
+<li>必须手动声明useEffect依赖</li>
+<li>如何正确使用useEffect是个复杂的问题</li>
+<li>需要useMemo / useCallback 等手动优化</li>
+</ul>
+<p>详情：<a href="https://www.bilibili.com/video/BV1Rr4y1L7r3/?vd_source=a7271fb5733d8e87b30bac4ea32a461f" target="_blank" rel="noopener">尤雨溪前端趋势2022 的主题演讲</a></p>
+<h2 id="11-React拓展"><a href="#11-React拓展" class="headerlink" title="11.React拓展"></a>11.React拓展</h2><h4 id="setState使用方法"><a href="#setState使用方法" class="headerlink" title="setState使用方法"></a>setState使用方法</h4><p>方法一：传统的对象式setState（class）</p>
 <p><code>setState(stateChange, [callback])</code></p>
 <ul>
 <li>stateChange为状态改变对象（原state的key: 新的值）</li>
@@ -1277,7 +1286,7 @@ export default function Index() {
     isValidElement
 <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">isValidElement</span><span class="token punctuation">(</span>xxxx<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// true</span></code></pre>
-<h2 id="13-React优化"><a href="#13-React优化" class="headerlink" title="13.React优化"></a>13.React优化</h2><h4 id="PureComponent-amp-memo"><a href="#PureComponent-amp-memo" class="headerlink" title="PureComponent &amp; memo"></a>PureComponent &amp; memo</h4><p>问题一：执行<code>setState</code>的时候，即使state未发生改变，也会重新render（不过类式组件中redux的更新也由此得益）</p>
+<h2 id="12-React优化"><a href="#12-React优化" class="headerlink" title="12.React优化"></a>12.React优化</h2><h4 id="PureComponent-amp-memo"><a href="#PureComponent-amp-memo" class="headerlink" title="PureComponent &amp; memo"></a>PureComponent &amp; memo</h4><p>问题一：执行<code>setState</code>的时候，即使state未发生改变，也会重新render（不过类式组件中redux的更新也由此得益）</p>
 <p>问题二：React中使用父子组件嵌套时，父组件使用props传入state的状态，发生 setState 时state改变，setState触发 <code>render()</code>，而传入的props也随之改变，子组件也发生 <code>render()</code>；但是如果没有传入props，父组件发生 <code>render()</code>更新时，因为子组件也放在 <code>render()</code>里面，所以子组件即使没什么要改的地方，也不得不随着父组件一起 <code>render()</code>更新</p>
 <p>造成原因：</p>
 <ul>
@@ -1459,7 +1468,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <li>将方法传递给子组件的时候包一层useCallback</li>
 <li>自定义hook</li>
 </ul>
-<h2 id="14-React-17-18"><a href="#14-React-17-18" class="headerlink" title="14.React 17 | 18"></a>14.React 17 | 18</h2><p>新增特性一览（主要的，也可以说是我所关注的）</p>
+<h2 id="13-React-17-18"><a href="#13-React-17-18" class="headerlink" title="13.React 17 | 18"></a>13.React 17 | 18</h2><p>新增特性一览（主要的，也可以说是我所关注的）</p>
 <p>（1）在React 16和更早的版本中，React将对大多数事件执行<code>document.addEventListener()</code>。 React 17将在后调用<code>rootNode.addEventListener()</code>。（也就是将事件委托从 document 切换为 root）</p>
 <p>一张图明示两者的差异</p>
 <p><img src="/2022/07/02/react-xia/react17.jpg" alt>)（2) React 17支持新的JSX转换。我们还将对它支持到React 16.14.0，React 15.7.0和0.14.10。需要注意的是，这是完全选择启用的，您也不必使用它。之前的JSX转换的方式将继续存在，并且没有计划停止对其支持。</p>
@@ -1484,7 +1493,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>对于之前用于异步批处理的 <code>unstable_batchedUpdates</code>：</p>
 <p>这个 API 在 18 中仍然存在，但不再需要它了，因为批处理是自动发生的。我们不会在 18 中删除它，尽管在流行的库不再依赖于它的存在之后，它可能会在未来的主要版本中被删除。</p>
 <p><a href="https://juejin.cn/post/6998763055685304356" target="_blank" rel="noopener">https://juejin.cn/post/6998763055685304356</a></p>
-<h2 id="15-React其他"><a href="#15-React其他" class="headerlink" title="15.React其他"></a>15.React其他</h2><h4 id="Portal"><a href="#Portal" class="headerlink" title="Portal"></a>Portal</h4><p>Portal提供了一个最好的在父组件包含DOM结构层次外的DOM节点渲染组件的方法（说人话就是，把组件渲染到root之外），这里的container是指挂载的位置</p>
+<h2 id="14-React其他"><a href="#14-React其他" class="headerlink" title="14.React其他"></a>14.React其他</h2><h4 id="Portal"><a href="#Portal" class="headerlink" title="Portal"></a>Portal</h4><p>Portal提供了一个最好的在父组件包含DOM结构层次外的DOM节点渲染组件的方法（说人话就是，它有可以把组件渲染到root之外的能力），这里的container是指挂载的位置</p>
 <pre class=" language-js"><code class="language-js">ReactDOM<span class="token punctuation">.</span><span class="token function">createPortal</span><span class="token punctuation">(</span>child<span class="token punctuation">,</span> container<span class="token punctuation">)</span></code></pre>
 <p>应用场景：组件想要作为提示窗口覆盖整个窗口（fixed），但是可能因为父盒子使用了定位+z-index，导致了组件本身定位的z-index再大，也无法覆盖到全局</p>
 <p>此时在写组件时，我们将其写为Portal组件</p>
@@ -1956,7 +1965,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">386.2k</span>&nbsp;字
+                class="white-color">415.8k</span>&nbsp;字
             
             
             

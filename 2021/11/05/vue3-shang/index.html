@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.7k
+                    9.5k
                 </div>
                 
 
@@ -537,14 +537,277 @@
     children<span class="token punctuation">:</span> <span class="token string">"hello world"</span>
 <span class="token punctuation">}</span></code></pre>
 <p>它本质上是一个对象，作为一个对象而未转化为DOM，最大的好处在于多平台的适配</p>
-<h4 id="diff"><a href="#diff" class="headerlink" title="diff"></a>diff</h4><p>vue3的diff做了一点优化</p>
+<h4 id="diff"><a href="#diff" class="headerlink" title="diff"></a>diff</h4><p>参考：<a href="https://mp.weixin.qq.com/s/mFGT6szPzYuCaz1Rgvt9TQ" target="_blank" rel="noopener">聊聊 Vue 的双端 diff 算法</a></p>
+<p>旧的diff流程：</p>
+<ul>
+<li><p>使用key复用旧节点，<strong>通过移动节点代替创建。</strong>但是比如处理到第二个新的 vnode，发现它在旧的 vnode 数组中的下标为 4，说明本来就是在后面了，那就不需要移动了。反之，如果是 vnode 查找到的对应的旧的 vnode 在当前 index 之前才需要移动</p>
+<p>比如节点：ABCD -&gt; DABC，移动的是ABC，移动3次</p>
+</li>
+<li><p>新的 vnode 数组全部处理完后，旧的 vnode 数组可能还剩下一些不再需要的，那就删除掉</p>
+</li>
+</ul>
+<p>Vue2的diff流程：</p>
+<p>双端 diff</p>
+<p><img src="/2021/11/05/vue3-shang/diff1.png" alt></p>
+<ul>
+<li><p>头和尾的指针向中间移动，直到 oldStartIdx &lt;= oldEndIdx 并且 newStartIdx &lt;= newEndIdx，说明就处理完了全部的节点。</p>
+<p>每次对比下两个头指针指向的节点、两个尾指针指向的节点，头和尾指向的节点，是不是 key是一样的，也就是可复用的。</p>
+</li>
+</ul>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">while</span> <span class="token punctuation">(</span>oldStartIdx <span class="token operator">&lt;=</span> oldEndIdx <span class="token operator">&amp;&amp;</span> newStartIdx <span class="token operator">&lt;=</span> newEndIdx<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>oldStartVNode<span class="token punctuation">.</span>key <span class="token operator">===</span> newStartVNode<span class="token punctuation">.</span>key<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// 头头</span>
+    <span class="token function">patch</span><span class="token punctuation">(</span>oldStartVNode<span class="token punctuation">,</span> newStartVNode<span class="token punctuation">,</span> container<span class="token punctuation">)</span>
+    oldStartVNode <span class="token operator">=</span> oldChildren<span class="token punctuation">[</span><span class="token operator">++</span>oldStartIdx<span class="token punctuation">]</span>
+    newStartVNode <span class="token operator">=</span> newChildren<span class="token punctuation">[</span><span class="token operator">++</span>newStartIdx<span class="token punctuation">]</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>oldEndVNode<span class="token punctuation">.</span>key <span class="token operator">===</span> newEndVNode<span class="token punctuation">.</span>key<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token comment" spellcheck="true">//尾尾</span>
+    <span class="token function">patch</span><span class="token punctuation">(</span>oldEndVNode<span class="token punctuation">,</span> newEndVNode<span class="token punctuation">,</span> container<span class="token punctuation">)</span>
+    oldEndVNode <span class="token operator">=</span> oldChildren<span class="token punctuation">[</span><span class="token operator">--</span>oldEndIdx<span class="token punctuation">]</span>
+    newEndVNode <span class="token operator">=</span> newChildren<span class="token punctuation">[</span><span class="token operator">--</span>newEndIdx<span class="token punctuation">]</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>oldStartVNode<span class="token punctuation">.</span>key <span class="token operator">===</span> newEndVNode<span class="token punctuation">.</span>key<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token comment" spellcheck="true">//头尾，需要移动</span>
+    <span class="token function">patch</span><span class="token punctuation">(</span>oldStartVNode<span class="token punctuation">,</span> newEndVNode<span class="token punctuation">,</span> container<span class="token punctuation">)</span>
+    <span class="token function">insert</span><span class="token punctuation">(</span>oldStartVNode<span class="token punctuation">.</span>el<span class="token punctuation">,</span> container<span class="token punctuation">,</span> oldEndVNode<span class="token punctuation">.</span>el<span class="token punctuation">.</span>nextSibling<span class="token punctuation">)</span>
+
+    oldStartVNode <span class="token operator">=</span> oldChildren<span class="token punctuation">[</span><span class="token operator">++</span>oldStartIdx<span class="token punctuation">]</span>
+    newEndVNode <span class="token operator">=</span> newChildren<span class="token punctuation">[</span><span class="token operator">--</span>newEndIdx<span class="token punctuation">]</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>oldEndVNode<span class="token punctuation">.</span>key <span class="token operator">===</span> newStartVNode<span class="token punctuation">.</span>key<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token comment" spellcheck="true">//尾头，需要移动</span>
+    <span class="token function">patch</span><span class="token punctuation">(</span>oldEndVNode<span class="token punctuation">,</span> newStartVNode<span class="token punctuation">,</span> container<span class="token punctuation">)</span>
+    <span class="token function">insert</span><span class="token punctuation">(</span>oldEndVNode<span class="token punctuation">.</span>el<span class="token punctuation">,</span> container<span class="token punctuation">,</span> oldStartVNode<span class="token punctuation">.</span>el<span class="token punctuation">)</span>
+
+    oldEndVNode <span class="token operator">=</span> oldChildren<span class="token punctuation">[</span><span class="token operator">--</span>oldEndIdx<span class="token punctuation">]</span>
+    newStartVNode <span class="token operator">=</span> newChildren<span class="token punctuation">[</span><span class="token operator">++</span>newStartIdx<span class="token punctuation">]</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+
+    <span class="token comment" spellcheck="true">// 头尾没有找到可复用的节点</span>
+    <span class="token comment" spellcheck="true">// 那就在旧节点数组中找，找到了就把它移动过来，并且原位置置为 undefined。没找到的话就插入一个新的节点。</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>如果旧 vnode 的尾节点是新 vnode 的头结点，那就要把它移动到旧 vnode 的头结点的位置。</p>
+<p>此时减少了节点移动次数</p>
+<p>vue3的diff做了一点优化，它借鉴于Inferno、ivi框架</p>
 <p>对于diff算法来说，如果列表中有key，则执行 <code>patchKeyedChildren</code>方法；没有 key，执行 <code>patchUnkeyedChildren</code>方法</p>
-<p><code>patchUnkeyedChildren</code>函数：取较短的节点进行遍历，一一对比（patch）</p>
+<p><code>patchUnkeyedChildren</code>函数：取较短的节点进行遍历，一一对比（patch），如果不是之前的节点，就直接变，不会复用，少了就mount，多了就删除</p>
 <p><code>patchKeyedChildren</code>函数：从头开始while循环，让节点进行对比，节点类型不同直接break；</p>
-<p>然后从尾部开始while，让节点进行对比，不同直接跳出循环；</p>
-<p>然后判断是否新增节点，拿一个null和新节点进行patch，挂载一个新的节点；</p>
-<p>然后再判断如有仍残留旧节点，则进行删除（unmount）；</p>
-<p>最后处理中间乱序的节点，新建一个map哈希表，以key和节点作为键值对存储，使用key进行匹配、对比，最后等移动/删除/增加</p>
+<ol>
+<li><p>然后从头尾双端开始while，让头节点、尾节点进行对比，相同继续循环，不同直接跳出循环；（对应下面的1、2）</p>
+</li>
+<li><p>然后判断是否新增节点，在当前子序列适当位置插入，拿一个null和新节点进行patch，挂载一个新的节点；（对应下面的3）</p>
+</li>
+<li><p>然后再判断如有仍残留旧节点，则进行删除（unmount）；（对应下面的4）</p>
+</li>
+<li><p>最后处理中间乱序的节点，新建一个map哈希表，以key和节点作为键值对存储，使用key进行匹配、对比，确定<strong>最长连续的子序列</strong>，然后对新节点数组进行移动/删除/增加（对应下面5）</p>
+</li>
+</ol>
+<p>详情可以看这个<a href="https://juejin.cn/post/7277026974005608483?searchId=202310172028128AFC1DC4F3762D1D8C0A#heading-9" target="_blank" rel="noopener">解析</a></p>
+<p>尤大还很贴心，源码的注释比较明了</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span>
+<span class="token keyword">const</span> l2 <span class="token operator">=</span> c2<span class="token punctuation">.</span>length
+<span class="token keyword">let</span> e1 <span class="token operator">=</span> c1<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span> <span class="token comment" spellcheck="true">// prev ending index</span>
+<span class="token keyword">let</span> e2 <span class="token operator">=</span> l2 <span class="token operator">-</span> <span class="token number">1</span> <span class="token comment" spellcheck="true">// next ending index</span>
+
+<span class="token comment" spellcheck="true">// 1. sync from start</span>
+<span class="token comment" spellcheck="true">// (a b) c</span>
+<span class="token comment" spellcheck="true">// (a b) d e</span>
+<span class="token keyword">while</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;=</span> e1 <span class="token operator">&amp;&amp;</span> i <span class="token operator">&lt;=</span> e2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> n1 <span class="token operator">=</span> c1<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+  <span class="token keyword">const</span> n2 <span class="token operator">=</span> <span class="token punctuation">(</span>c2<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> optimized
+              <span class="token operator">?</span> <span class="token function">cloneIfMounted</span><span class="token punctuation">(</span>c2<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token keyword">as</span> VNode<span class="token punctuation">)</span>
+              <span class="token punctuation">:</span> <span class="token function">normalizeVNode</span><span class="token punctuation">(</span>c2<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isSameVNodeType</span><span class="token punctuation">(</span>n1<span class="token punctuation">,</span> n2<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//...</span>
+    <span class="token comment" spellcheck="true">//patch n1,n2</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token keyword">break</span>
+  <span class="token punctuation">}</span>
+  i<span class="token operator">++</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// 2. sync from end</span>
+<span class="token comment" spellcheck="true">// a (b c)</span>
+<span class="token comment" spellcheck="true">// d e (b c)</span>
+<span class="token keyword">while</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;=</span> e1 <span class="token operator">&amp;&amp;</span> i <span class="token operator">&lt;=</span> e2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> n1 <span class="token operator">=</span> c1<span class="token punctuation">[</span>e1<span class="token punctuation">]</span>
+  <span class="token keyword">const</span> n2 <span class="token operator">=</span> <span class="token punctuation">(</span>c2<span class="token punctuation">[</span>e2<span class="token punctuation">]</span> <span class="token operator">=</span> optimized
+              <span class="token operator">?</span> <span class="token function">cloneIfMounted</span><span class="token punctuation">(</span>c2<span class="token punctuation">[</span>e2<span class="token punctuation">]</span> <span class="token keyword">as</span> VNode<span class="token punctuation">)</span>
+              <span class="token punctuation">:</span> <span class="token function">normalizeVNode</span><span class="token punctuation">(</span>c2<span class="token punctuation">[</span>e2<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isSameVNodeType</span><span class="token punctuation">(</span>n1<span class="token punctuation">,</span> n2<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//...</span>
+    <span class="token comment" spellcheck="true">//patch n1,n2</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token keyword">break</span>
+  <span class="token punctuation">}</span>
+  e1<span class="token operator">--</span>
+  e2<span class="token operator">--</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// 3. common sequence + mount</span>
+<span class="token comment" spellcheck="true">// (a b)</span>
+<span class="token comment" spellcheck="true">// (a b) c</span>
+<span class="token comment" spellcheck="true">// i = 2, e1 = 1, e2 = 2</span>
+<span class="token comment" spellcheck="true">// (a b)</span>
+<span class="token comment" spellcheck="true">// c (a b)</span>
+<span class="token comment" spellcheck="true">// i = 0, e1 = -1, e2 = 0</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">></span> e1<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;=</span> e2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> nextPos <span class="token operator">=</span> e2 <span class="token operator">+</span> <span class="token number">1</span>
+    <span class="token keyword">const</span> anchor <span class="token operator">=</span> nextPos <span class="token operator">&lt;</span> l2 <span class="token operator">?</span> <span class="token punctuation">(</span>c2<span class="token punctuation">[</span>nextPos<span class="token punctuation">]</span> <span class="token keyword">as</span> VNode<span class="token punctuation">)</span><span class="token punctuation">.</span>el <span class="token punctuation">:</span> parentAnchor
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;=</span> e2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token function">patch</span><span class="token punctuation">(</span>
+        <span class="token keyword">null</span><span class="token punctuation">,</span>
+        <span class="token punctuation">(</span>c2<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> optimized
+         <span class="token operator">?</span> <span class="token function">cloneIfMounted</span><span class="token punctuation">(</span>c2<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token keyword">as</span> VNode<span class="token punctuation">)</span>
+         <span class="token punctuation">:</span> <span class="token function">normalizeVNode</span><span class="token punctuation">(</span>c2<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        container<span class="token punctuation">,</span>
+        anchor<span class="token punctuation">,</span>
+        parentComponent<span class="token punctuation">,</span>
+        parentSuspense<span class="token punctuation">,</span>
+        isSVG<span class="token punctuation">,</span>
+        slotScopeIds<span class="token punctuation">,</span>
+        optimized
+      <span class="token punctuation">)</span>
+      i<span class="token operator">++</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// 4. common sequence + unmount</span>
+<span class="token comment" spellcheck="true">// (a b) c</span>
+<span class="token comment" spellcheck="true">// (a b)</span>
+<span class="token comment" spellcheck="true">// i = 2, e1 = 2, e2 = 1</span>
+<span class="token comment" spellcheck="true">// a (b c)</span>
+<span class="token comment" spellcheck="true">// (b c)</span>
+<span class="token comment" spellcheck="true">// i = 0, e1 = 0, e2 = -1</span>
+<span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">></span> e2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">while</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;=</span> e1<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">unmount</span><span class="token punctuation">(</span>c1<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> parentComponent<span class="token punctuation">,</span> parentSuspense<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+    i<span class="token operator">++</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// 5. unknown sequence</span>
+<span class="token comment" spellcheck="true">// [i ... e1 + 1]: a b [c d e] f g</span>
+<span class="token comment" spellcheck="true">// [i ... e2 + 1]: a b [e d c h] f g</span>
+<span class="token comment" spellcheck="true">// i = 2, e1 = 4, e2 = 5</span>
+<span class="token keyword">else</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> s1 <span class="token operator">=</span> i <span class="token comment" spellcheck="true">// prev starting index</span>
+  <span class="token keyword">const</span> s2 <span class="token operator">=</span> i <span class="token comment" spellcheck="true">// next starting index</span>
+
+  <span class="token comment" spellcheck="true">// 5.1 build key:index map for newChildren</span>
+  <span class="token keyword">const</span> keyToNewIndexMap<span class="token punctuation">:</span> Map<span class="token operator">&lt;</span>string <span class="token operator">|</span> number <span class="token operator">|</span> symbol<span class="token punctuation">,</span> number<span class="token operator">></span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Map</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> s2<span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> e2<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> nextChild <span class="token operator">=</span> <span class="token punctuation">(</span>c2<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> optimized
+                       <span class="token operator">?</span> <span class="token function">cloneIfMounted</span><span class="token punctuation">(</span>c2<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token keyword">as</span> VNode<span class="token punctuation">)</span>
+                       <span class="token punctuation">:</span> <span class="token function">normalizeVNode</span><span class="token punctuation">(</span>c2<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>nextChild<span class="token punctuation">.</span>key <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>__DEV__ <span class="token operator">&amp;&amp;</span> keyToNewIndexMap<span class="token punctuation">.</span><span class="token function">has</span><span class="token punctuation">(</span>nextChild<span class="token punctuation">.</span>key<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">warn</span><span class="token punctuation">(</span>
+          <span class="token template-string"><span class="token string">`Duplicate keys found during update:`</span></span><span class="token punctuation">,</span>
+          JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>nextChild<span class="token punctuation">.</span>key<span class="token punctuation">)</span><span class="token punctuation">,</span>
+          <span class="token template-string"><span class="token string">`Make sure keys are unique.`</span></span>
+        <span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+      keyToNewIndexMap<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span>nextChild<span class="token punctuation">.</span>key<span class="token punctuation">,</span> i<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">// 5.2 loop through old children left to be patched and try to patch</span>
+  <span class="token comment" spellcheck="true">// matching nodes &amp; remove nodes that are no longer present</span>
+  <span class="token keyword">let</span> j
+  <span class="token keyword">let</span> patched <span class="token operator">=</span> <span class="token number">0</span>
+  <span class="token keyword">const</span> toBePatched <span class="token operator">=</span> e2 <span class="token operator">-</span> s2 <span class="token operator">+</span> <span class="token number">1</span>
+  <span class="token keyword">let</span> moved <span class="token operator">=</span> <span class="token boolean">false</span>
+  <span class="token comment" spellcheck="true">// used to track whether any node has moved</span>
+  <span class="token keyword">let</span> maxNewIndexSoFar <span class="token operator">=</span> <span class="token number">0</span>
+  <span class="token comment" spellcheck="true">// works as Map&lt;newIndex, oldIndex></span>
+  <span class="token comment" spellcheck="true">// Note that oldIndex is offset by +1</span>
+  <span class="token comment" spellcheck="true">// and oldIndex = 0 is a special value indicating the new node has</span>
+  <span class="token comment" spellcheck="true">// no corresponding old node.</span>
+  <span class="token comment" spellcheck="true">// used for determining longest stable subsequence</span>
+  <span class="token keyword">const</span> newIndexToOldIndexMap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Array</span><span class="token punctuation">(</span>toBePatched<span class="token punctuation">)</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> toBePatched<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> newIndexToOldIndexMap<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span>
+
+  <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> s1<span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> e1<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> prevChild <span class="token operator">=</span> c1<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>patched <span class="token operator">>=</span> toBePatched<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// all new children have been patched so this can only be a removal</span>
+      <span class="token function">unmount</span><span class="token punctuation">(</span>prevChild<span class="token punctuation">,</span> parentComponent<span class="token punctuation">,</span> parentSuspense<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+      <span class="token keyword">continue</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">let</span> newIndex
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>prevChild<span class="token punctuation">.</span>key <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      newIndex <span class="token operator">=</span> keyToNewIndexMap<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span>prevChild<span class="token punctuation">.</span>key<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// key-less node, try to locate a key-less node of the same type</span>
+      <span class="token keyword">for</span> <span class="token punctuation">(</span>j <span class="token operator">=</span> s2<span class="token punctuation">;</span> j <span class="token operator">&lt;=</span> e2<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>
+          newIndexToOldIndexMap<span class="token punctuation">[</span>j <span class="token operator">-</span> s2<span class="token punctuation">]</span> <span class="token operator">===</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span>
+          <span class="token function">isSameVNodeType</span><span class="token punctuation">(</span>prevChild<span class="token punctuation">,</span> c2<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token keyword">as</span> VNode<span class="token punctuation">)</span>
+        <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          newIndex <span class="token operator">=</span> j
+          <span class="token keyword">break</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>newIndex <span class="token operator">===</span> undefined<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token function">unmount</span><span class="token punctuation">(</span>prevChild<span class="token punctuation">,</span> parentComponent<span class="token punctuation">,</span> parentSuspense<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      newIndexToOldIndexMap<span class="token punctuation">[</span>newIndex <span class="token operator">-</span> s2<span class="token punctuation">]</span> <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>newIndex <span class="token operator">>=</span> maxNewIndexSoFar<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        maxNewIndexSoFar <span class="token operator">=</span> newIndex
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        moved <span class="token operator">=</span> <span class="token boolean">true</span>
+      <span class="token punctuation">}</span>
+      <span class="token function">patch</span><span class="token punctuation">(</span>
+        prevChild<span class="token punctuation">,</span>
+        c2<span class="token punctuation">[</span>newIndex<span class="token punctuation">]</span> <span class="token keyword">as</span> VNode<span class="token punctuation">,</span>
+        container<span class="token punctuation">,</span>
+        <span class="token keyword">null</span><span class="token punctuation">,</span>
+        parentComponent<span class="token punctuation">,</span>
+        parentSuspense<span class="token punctuation">,</span>
+        isSVG<span class="token punctuation">,</span>
+        slotScopeIds<span class="token punctuation">,</span>
+        optimized
+      <span class="token punctuation">)</span>
+      patched<span class="token operator">++</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">// 5.3 move and mount</span>
+  <span class="token comment" spellcheck="true">// generate longest stable subsequence only when nodes have moved</span>
+  <span class="token keyword">const</span> increasingNewIndexSequence <span class="token operator">=</span> moved
+  <span class="token operator">?</span> <span class="token function">getSequence</span><span class="token punctuation">(</span>newIndexToOldIndexMap<span class="token punctuation">)</span>
+  <span class="token punctuation">:</span> EMPTY_ARR
+  j <span class="token operator">=</span> increasingNewIndexSequence<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span>
+  <span class="token comment" spellcheck="true">// looping backwards so that we can use last patched node as anchor</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> toBePatched <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">>=</span> <span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">--</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> nextIndex <span class="token operator">=</span> s2 <span class="token operator">+</span> i
+    <span class="token keyword">const</span> nextChild <span class="token operator">=</span> c2<span class="token punctuation">[</span>nextIndex<span class="token punctuation">]</span> <span class="token keyword">as</span> VNode
+    <span class="token keyword">const</span> anchor <span class="token operator">=</span>
+          nextIndex <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">&lt;</span> l2 <span class="token operator">?</span> <span class="token punctuation">(</span>c2<span class="token punctuation">[</span>nextIndex <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token keyword">as</span> VNode<span class="token punctuation">)</span><span class="token punctuation">.</span>el <span class="token punctuation">:</span> parentAnchor
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>newIndexToOldIndexMap<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// mount new</span>
+      <span class="token function">patch</span><span class="token punctuation">(</span>
+        <span class="token keyword">null</span><span class="token punctuation">,</span>
+        nextChild<span class="token punctuation">,</span>
+        container<span class="token punctuation">,</span>
+        anchor<span class="token punctuation">,</span>
+        parentComponent<span class="token punctuation">,</span>
+        parentSuspense<span class="token punctuation">,</span>
+        isSVG<span class="token punctuation">,</span>
+        slotScopeIds<span class="token punctuation">,</span>
+        optimized
+      <span class="token punctuation">)</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>moved<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// move if:</span>
+      <span class="token comment" spellcheck="true">// There is no stable subsequence (e.g. a reverse)</span>
+      <span class="token comment" spellcheck="true">// OR current node is not among the stable sequence</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>j <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token operator">||</span> i <span class="token operator">!==</span> increasingNewIndexSequence<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">move</span><span class="token punctuation">(</span>nextChild<span class="token punctuation">,</span> container<span class="token punctuation">,</span> anchor<span class="token punctuation">,</span> MoveType<span class="token punctuation">.</span>REORDER<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        j<span class="token operator">--</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <h4 id="render的优化"><a href="#render的优化" class="headerlink" title="render的优化"></a>render的优化</h4><p>1.对于不会改动的静态节点，会进行作用域的提升</p>
 <p>2.只对动态的节点进行diff算法（将动态的节点的数据放入dynamicChildren，diff的时候执行<code>patchBlockChildren</code>函数）</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">></span></span>
@@ -1223,6 +1486,47 @@ export default {
   },
 };
 </script></code></pre>
+<h4 id="Vue-Reactivity-Transfrom"><a href="#Vue-Reactivity-Transfrom" class="headerlink" title="Vue Reactivity Transfrom"></a>Vue Reactivity Transfrom</h4><blockquote>
+<p>该功能已经废弃，可以作为了解</p>
+</blockquote>
+<p>已废弃的实验性功能</p>
+<p>响应性语法糖曾经是一个实验性功能，且已被废弃，请阅读<a href="https://github.com/vuejs/rfcs/discussions/369#discussioncomment-5059028" target="_blank" rel="noopener">废弃原因</a>。</p>
+<p>总结出来就是：</p>
+<ul>
+<li>丢失<code>.value</code>使得更难进行依赖追踪，心理开销（mental overhead）变得更加明显，特别是如果语法也在 SFC 之外使用，并且在SFC内外使用可能会出现不一致</li>
+<li>写法上容易和refs混淆，特别是外部函数期望使用<code>$refs</code></li>
+<li>最重要的是，潜在的碎片化风险。尽管这显然是选择加入的，但一些用户对该提案表示强烈反对，原因是他们担心他们将不得不使用不同的代码库，其中一些人选择使用它，而另一些人则没有。这是一个合理的问题，因为反应性转换需要一种不同的心智模型来扭曲JavaScript语义（变量赋值能够触发反应效应）。</li>
+</ul>
+<p>在未来的一个小版本更新中，它将会从 Vue core 中被移除。</p>
+<ul>
+<li>想要摆脱它的话，请查看这个<a href="https://github.com/edison1105/drop-reactivity-transform" target="_blank" rel="noopener">命令行工具</a>，它可以自动完成这一过程。</li>
+<li>如需继续使用，请通过 <a href="https://vue-macros.sxzz.moe/features/reactivity-transform.html" target="_blank" rel="noopener">Vue Macros</a> 插件。</li>
+</ul>
+<p>ref vs. 响应式变量，有点Svelte的感觉在里面</p>
+<p>自从引入组合式 API 的概念以来，一个主要的未解决的问题就是 ref 和响应式对象到底用哪个。响应式对象存在解构丢失响应性的问题，而 ref 需要到处使用 <code>.value</code> 则感觉很繁琐，并且在没有类型系统的帮助时很容易漏掉 <code>.value</code>。</p>
+<p><a href="https://github.com/vuejs/core/tree/main/packages/reactivity-transform" target="_blank" rel="noopener">Vue 的响应性语法糖</a>是一个编译时的转换步骤，让我们可以像这样书写代码：</p>
+<p>vue</p>
+<pre class=" language-vue"><code class="language-vue"><script setup>
+let count = $ref(0)
+
+console.log(count)
+
+function increment() {
+  count++
+}
+</script>
+
+<template>
+  <button @click="increment">{{ count }}</button>
+</template></code></pre>
+<p>每一个会返回 ref 的响应式 API 都有一个相对应的、以 <code>$</code> 为前缀的宏函数。包括以下这些 API：</p>
+<ul>
+<li><a href="https://cn.vuejs.org/api/reactivity-core.html#ref" target="_blank" rel="noopener"><code>ref</code></a> -&gt; <code>$ref</code></li>
+<li><a href="https://cn.vuejs.org/api/reactivity-core.html#computed" target="_blank" rel="noopener"><code>computed</code></a> -&gt; <code>$computed</code></li>
+<li><a href="https://cn.vuejs.org/api/reactivity-advanced.html#shallowref" target="_blank" rel="noopener"><code>shallowRef</code></a> -&gt; <code>$shallowRef</code></li>
+<li><a href="https://cn.vuejs.org/api/reactivity-advanced.html#customref" target="_blank" rel="noopener"><code>customRef</code></a> -&gt; <code>$customRef</code></li>
+<li><a href="https://cn.vuejs.org/api/reactivity-utilities.html#toref" target="_blank" rel="noopener"><code>toRef</code></a> -&gt; <code>$toRef</code></li>
+</ul>
 <p><strong>toRefs</strong></p>
 <ul>
 <li><code>toRefs</code>：将 reactive对象中所有属性都转换为ref，建立链接</li>
@@ -2184,7 +2488,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">386.2k</span>&nbsp;字
+                class="white-color">415.8k</span>&nbsp;字
             
             
             

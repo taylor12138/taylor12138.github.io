@@ -537,7 +537,7 @@ app<span class="token punctuation">.</span><span class="token function">listen</
 <p>这里的 <code>app.get(&#39;/&#39;,(request, response)</code> 中的 / 是路径（当然可以写成<code>/路径名</code>  之类的），当客户端浏览器向服务器发送请求时，如果url的路径，也就是请求行的第二部分，它的路径对应该路径的话，就会执行这个回调函数里面的 代码，并且由response做出响应  </p>
 <p>以上步骤来简单构建一个服务端，提供ajax使用</p>
 <p>express的response方法一览</p>
-<p><img src="/2021/01/31/express/res.png" alt></p>
+<p><img src="/2021/01/31/express/Express/res.png" alt></p>
 <h4 id="基本路由"><a href="#基本路由" class="headerlink" title="基本路由"></a>基本路由</h4><p>服务器中get和post部分相当于路由表，帮你映射关系：</p>
 <pre class=" language-js"><code class="language-js">app
     <span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'/login'</span><span class="token punctuation">,</span> callback<span class="token punctuation">)</span>
@@ -597,6 +597,8 @@ app<span class="token punctuation">.</span><span class="token function">post</sp
 <p>body-parser被弃用后我们可以直接使用express自带的</p>
 <pre class=" language-js"><code class="language-js">app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>express<span class="token punctuation">.</span><span class="token function">urlencoded</span><span class="token punctuation">(</span><span class="token punctuation">{</span> extended<span class="token punctuation">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>express<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
+<p>注意识别请求的 <code>Content-Type</code>，像如果是 <code>Content-Type:text/plain;charset=UTF-8</code> 的话，express处理是用是对应text的中间件</p>
+<pre class=" language-js"><code class="language-js">app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>express<span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
 <h4 id="定制404页面"><a href="#定制404页面" class="headerlink" title="定制404页面"></a>定制404页面</h4><p>在挂载路由<code>app.use(router);</code>之后增加</p>
 <p><code>app.use(function(req, res) =&gt; {})</code>处理404页面，所有未处理的请求路径都会跑到这里</p>
 <h4 id="express操作cookie"><a href="#express操作cookie" class="headerlink" title="express操作cookie"></a>express操作cookie</h4><p>不需要任何第三方的库</p>
@@ -1519,7 +1521,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">386.2k</span>&nbsp;字
+                class="white-color">415.8k</span>&nbsp;字
             
             
             

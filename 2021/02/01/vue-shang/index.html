@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    10.1k
+                    9.5k
                 </div>
                 
 
@@ -515,39 +515,6 @@
 </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
 <h4 id="Vue和MVVM"><a href="#Vue和MVVM" class="headerlink" title="Vue和MVVM"></a>Vue和MVVM</h4><p>前提请记住：在官方文档中写道，虽然Vue并没有完全遵循MVVM模型，但是Vue的设计也受到了它的启发，因此在文档中经常会使用VM这个变量名表示Vue的实例。</p>
 <p>Vue可以通过ref可以拿到dom对象，通过ref直接去操作视图。这一点上，违背了MVVM。</p>
-<h4 id="MVVM-模式"><a href="#MVVM-模式" class="headerlink" title="MVVM 模式"></a><strong>MVVM 模式</strong></h4><p>顾名思义即 <code>Model-View-ViewModel</code> 模式，最标志性的特性就是 <strong>数据绑定</strong> ，操作数据 = 操作视图，操作DOM</p>
-<p>以 <code>Vue</code> 框架来举例，<code>ViewModel</code> 就是组件的实例。View 就是模板，Model 的话在引入 <code>Vuex</code> 的情况下是完全可以和组件分离的。</p>
-<ul>
-<li>Model 层: 仅仅关注数据本身，对应数据层的域模型，它主要做域模型的同步。通过 Ajax/fetch 等 API 完成客户端和服务端业务 Model 的同步</li>
-<li>View 层:作为视图模板存在（template）， 数据绑定的声明、 指令的声明、 事件绑定的声明。</li>
-<li>ViewModel 层（vue）:把 View 需要的数据暴露，并为 View 层的 数据绑定声明、 指令声明、 事件绑定声明 <strong>负责</strong></li>
-</ul>
-<p>VM（Virtual DOM）除了提高性能，最大的优势还是在于：</p>
-<ol>
-<li>将 Virtual DOM 作为一个兼容层，让我们还能对接非 Web 端的系统，实现<strong>跨端开发。</strong></li>
-<li>同样的，通过 Virtual DOM 我们可以渲染到其他的平台，比如实现 SSR、同构渲染等等。</li>
-<li>实现组件的高度抽象化</li>
-</ol>
-<p><img src="/2021/02/01/vue-shang/Vue_MVVM.jpg" alt></p>
-<p><img src="/2021/02/01/vue-shang/Vue_MVVM2.jpg" alt></p>
-<p>MVVM是MVC的改进版，<strong>MVC</strong>中的<strong>M</strong>就是单纯的从网络获取回来的数据模型，<strong>V</strong>指的我们的视图界面，而<strong>C</strong>就是我们的ViewController。</p>
-<ul>
-<li><p>MVC的通信方式时单向的，view -&gt; controller -&gt; model -&gt; view</p>
-</li>
-<li><p>控制器（Controller）- 控制器是模型和视图之间的纽带，接收View传来的用户事件并且传递给Model，同时利用从Model传来的最新模型控制更新View.</p>
-</li>
-</ul>
-<p>ViewModel充当了一个UI适配器的角色，也就是说View中每个UI元素都应该在ViewModel找到与之对应的属性。除此之外，从Controller抽离出来的与UI有关的逻辑都放在了ViewModel中，这样就减轻了Controller的负担。</p>
-<p>MVC缺点：</p>
-<ul>
-<li>不适合小、中型项目</li>
-<li>增加结构、实现复杂性</li>
-<li>视图（view）和控制器（controller）过于紧密的连接</li>
-<li>视图（view）对模式数据的低效访问</li>
-<li>一般的高级界面工具或构造器不支持该模式</li>
-</ul>
-<p>face的Flux架构就有点像MVC，可以参考一下千锋教育老师的图（redux只是flux的其中一种实现方式）</p>
-<p><img src="/2021/02/01/vue-shang/flux.png" alt></p>
 <h2 id="2-基础语法"><a href="#2-基础语法" class="headerlink" title="2.基础语法"></a>2.基础语法</h2><p>Vue对象传入的option：</p>
 <ul>
 <li>el：决定Vue对象挂载在哪个元素上</li>
@@ -1601,20 +1568,24 @@ methods<span class="token punctuation">:</span> <span class="token punctuation">
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/02/07/webpack-zhong/">
+                <a href="/2021/02/07/webpack-xia/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="webpack(中)">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="webpack(下)">
                         
-                        <span class="card-title">webpack(中)</span>
+                        <span class="card-title">webpack(下)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            4.其他webpack开发环境的开发模式1. watch模式该模式下，webpack会实时侦测我们的js文件变化，在webpack依赖图的所有文件，只要有一个发生了更新，那么代码将被重新编译
-但如果使用下方搭建服务，则没必要开启这个watc
+                            5.关于webpackWebpack缩小体积原理将多个模块依赖，转变成单个静态资源（js、css、jpg、png）
+
+打包，是指处理某些文件并将其输出为其他文件的能力。
+
+entry: 编译入口
+module: 模块，在 webpack 中
                         
                     </div>
                     <div class="publish-info">
@@ -1830,7 +1801,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">386.2k</span>&nbsp;字
+                class="white-color">415.8k</span>&nbsp;字
             
             
             

@@ -459,7 +459,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.4k
+                    2.7k
                 </div>
                 
 
@@ -597,6 +597,39 @@ git checkout -b 命名(feat/v1.21)    #新建分支feat/v1.21</code></pre>
 <pre class=" language-shell"><code class="language-shell">git config --global http.proxy 127.0.0.1:7890 为全局的 git 项目都设置代理
 git config --local http.proxy 127.0.0.1:7890 为某个 git 项目单独设置代理</code></pre>
 <p>结果：成功</p>
+<h2 id="Package-json版本号"><a href="#Package-json版本号" class="headerlink" title="Package.json版本号"></a>Package.json版本号</h2><p>一般package.json依赖配置如下</p>
+<pre class=" language-js"><code class="language-js"><span class="token string">"dependencies"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">"xxx"</span><span class="token punctuation">:</span> <span class="token string">"~1.3.7"</span><span class="token punctuation">,</span>
+    <span class="token string">"yyy"</span><span class="token punctuation">:</span> <span class="token string">"^1.19.0"</span><span class="token punctuation">,</span>
+    <span class="token string">"zzz"</span><span class="token punctuation">:</span> <span class="token string">"&lt;1.0.2"</span>
+  <span class="token punctuation">}</span></code></pre>
+<p>其中依赖名前会加上，例如 <code>~ ^ &gt;= &lt; + *</code> 这些符号</p>
+<blockquote>
+<p>主版本号.次版本号.修补版本号 <strong>major.minor.patch</strong></p>
+</blockquote>
+<ul>
+<li>patch：修复bug，兼容老版本</li>
+<li>minor：新增功能，兼容老版本</li>
+<li>major：新的架构调整，不兼容老版本</li>
+</ul>
+<ol>
+<li><p><code>~version</code><br> 大概匹配某个版本</p>
+<p>如果minor版本号指定了，那么minor版本号不变，而patch版本号任意</p>
+<p>如果minor和patch版本号未指定，那么minor和patch版本号任意</p>
+<p>如：~1.1.2，表示&gt;=1.1.2 &lt;1.2.0，可以是1.1.2，1.1.3，1.1.4，…，1.1.n</p>
+<p>如：~1.1，表示&gt;=1.1.0 &lt;1.2.0，可以是同上</p>
+<p>如：~1，表示&gt;=1.0.0 &lt;2.0.0，可以是1.0.0，1.0.1，1.0.2，…，1.0.n，1.1.n，1.2.n，…，1.n.n</p>
+</li>
+<li><p><code>^version</code></p>
+<blockquote>
+<p>兼容某个版本</p>
+<p>版本号中最左边的非0数字的右侧可以任意</p>
+<p>如果缺少某个版本号，则这个版本号的位置可以任意 如：^1.1.2 ，表示&gt;=1.1.2 &lt;2.0.0，可以是1.1.2，1.1.3，…，1.1.n，1.2.n，…，1.n.n</p>
+</blockquote>
+<p>如：^0.2.3 ，表示&gt;=0.2.3 &lt;0.3.0，可以是0.2.3，0.2.4，…，0.2.n</p>
+<p>如：^0.0，表示 &gt;=0.0.0 &lt;0.1.0，可以是0.0.0，0.0.1，…，0.0.n</p>
+</li>
+</ol>
 <h2 id="git代码提交规范工具husky"><a href="#git代码提交规范工具husky" class="headerlink" title="git代码提交规范工具husky"></a>git代码提交规范工具husky</h2><p>如果想要在提交之前（git commit），让eslint做一次 eslint fix，我们可以使用husky工具</p>
 <p>你一可以他把看成一个关于git 的 eslint</p>
 <p>husky是一个git hook工具，可以帮助我们触发git 提交的各个阶段，pre-commit、commit-msg、pre-push</p>
@@ -1087,7 +1120,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">386.2k</span>&nbsp;字
+                class="white-color">415.8k</span>&nbsp;字
             
             
             

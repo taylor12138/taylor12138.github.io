@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.6k
+                    8.2k
                 </div>
                 
 
@@ -490,7 +490,7 @@
 <span class="token keyword">if</span><span class="token punctuation">(</span>drawing<span class="token punctuation">.</span>getContext<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token comment" spellcheck="true">//...</span>
 <span class="token punctuation">}</span></code></pre>
-<h4 id="2D绘图"><a href="#2D绘图" class="headerlink" title="2D绘图"></a>2D绘图</h4><p>2D上下文的坐标原点（0，0）在canvas标签的左上角，x向右增长，y向下增长</p>
+<h4 id="2D绘图"><a href="#2D绘图" class="headerlink" title="2D绘图"></a>2D绘图</h4><p>drawText2D上下文的坐标原点（0，0）在canvas标签的左上角，x向右增长，y向下增长</p>
 <h5 id="矩形"><a href="#矩形" class="headerlink" title="矩形"></a><strong>矩形</strong></h5><p><code>fillRect</code>、<code>strokeRect</code>、<code>clearRect</code>接收4个参数，分别为x坐标、y坐标、矩形宽度、高度</p>
 <p><code>fillRect</code>: 绘制矩形 + 填充</p>
 <p><code>strokeRect</code>: 绘制非实星填充</p>
@@ -574,7 +574,7 @@ context<span class="token punctuation">.</span><span class="token function">draw
 <p><code>drawImage(图像, 绘制目标的x坐标, 绘制目标的y坐标)</code></p>
 <p><code>drawImage(图像, 绘制目标的x坐标, 绘制目标的y坐标, 目标宽度, 目标高度)</code></p>
 <p><code>toDataURL</code> 转换图片为dataURL，一般使用为：</p>
-<pre class=" language-js"><code class="language-js">canvas<span class="token punctuation">.</span><span class="token function">getContent</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">drawImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> widht<span class="token punctuation">,</span> height<span class="token punctuation">)</span>
+<pre class=" language-js"><code class="language-js">canvas<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">drawImage</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> width<span class="token punctuation">,</span> height<span class="token punctuation">)</span>
 <span class="token keyword">const</span> dataUrl <span class="token operator">=</span> canvas<span class="token punctuation">.</span><span class="token function">toDataURL</span><span class="token punctuation">(</span><span class="token string">'image/png'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h4 id="（1）usage"><a href="#（1）usage" class="headerlink" title="（1）usage"></a>（1）usage</h4><p>在画布上定位图像：</p>
 <table>
@@ -1413,6 +1413,39 @@ loader
 <p><code>PIXI.settings.SORTABLE_CHILDREN</code>：设置容器属性“sortableChildren”的默认值。如果设置为 true，容器将在调用 updateTransform() 时按 zIndex 值对其子项进行排序，或者在调用 sortChildren() 时手动排序。</p>
 <pre class=" language-js"><code class="language-js">PIXI<span class="token punctuation">.</span>settings<span class="token punctuation">.</span>SORTABLE_CHILDREN <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span></code></pre>
 <p>此时我们的 <code>sprite.zIndex = xx;</code>就可以生效了</p>
+<p>但是目前更新版本已废弃⚠️</p>
+<p>使用：<code>sortableChildren</code></p>
+<pre class=" language-js"><code class="language-js">app<span class="token punctuation">.</span>stage<span class="token punctuation">.</span>sortableChildren <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span></code></pre>
+<p>或者</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> container <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Container</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+container<span class="token punctuation">.</span>sortableChildren <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span></code></pre>
+<p>设置容器属性 <code>sortableChildren</code> 的默认值。如果设置为 true，则容器将在调用时 <code>updateTransform()</code> 按 zIndex 值对其子级进行排序，如果 <code>sortChildren()</code> 被调用，则手动对子项进行排序。</p>
+<p>这实际上改变了数组中元素的顺序，因此应被视为与其他解决方案（例如 PixiJS 层）相比性能不佳的基本解决方案。<br>另请注意，这可能不适用于该 <code>addChildAt()</code> 函数，因为排序可能会导致子项自动 <code>zIndex</code> 排序到另一个位置。</p>
+<ul>
+<li><p>Default Value: 默认值：</p>
+<p>false 假</p>
+</li>
+</ul>
+<h5 id="pixi-Text资源没有销毁问题"><a href="#pixi-Text资源没有销毁问题" class="headerlink" title="pixi Text资源没有销毁问题"></a>pixi Text资源没有销毁问题</h5><p>通过react -&gt; useEffect 创建pixi对象时，此时创建Text，Text会保存在utils中，组件销毁后重新创建，此时useEffect会重新执行，而Text它不像普通图片资源等，普通图片资源可以通过链接的形式有utils id 对应，而不会在utils中重复创建，而Text会重复创建。</p>
+<p>如果反复执行（来回切换tab而不断创建， 销毁react组件）useEffect，此时内存会囤积大量Text的texture，像这样：</p>
+<p><img src="/2020/07/31/canvas/q1.png" alt></p>
+<p>解决方法：</p>
+<p>方法1: useEffect，return时通过 <code>app.destroy(true, true)</code>,把所有缓存销毁</p>
+<p>方法2: 在constant中全局静态创建文字</p>
+<p>方法3: 文字通过图片的形式加载，不实用Text方法</p>
+<p>方法4（最好）：</p>
+<p>通过<code>app.destroy(true, { children: true })</code>的形式销毁，因为直接传true的话会把所有children下的baseTexture销毁（把图片资源也销毁了）</p>
+<p><img src="/2020/07/31/canvas/q2.png" alt="image-20231108205107393"></p>
+<h5 id="低帧数低端机动画速率问题"><a href="#低帧数低端机动画速率问题" class="headerlink" title="低帧数低端机动画速率问题"></a>低帧数低端机动画速率问题</h5><p>pixi的ticker使用的是requestAnimationFrame 向下兼容 setinterval，但是 requestAnimationFrame 的执行速率取决于手机的帧率，如果在不同刷新率的手机，会出现不一样速率的效果</p>
+<p>此时我们可以用Tweenjs做缓动动画，但是对于动画种类，动画数量比较多的情况，还得疯狂嵌套tweenjs动画，通过 <code>TweenA.chain(TweenB)</code> <code>TweenB.chain(TweenC)</code> 来执行动画，套娃起来可能有点稍微麻烦</p>
+<p>我们看下Tweenjs源码，实际上他们都是依赖 performance.now() 去换算执行时间，而不是直接通过ticker的执行速率</p>
+<p><img src="/2020/07/31/canvas/low.png" alt></p>
+<p><img src="/2020/07/31/canvas/low2.png" alt></p>
+<p>所以我们也可以通过每次执行ticker拿到performance.now去做timestamp的换算，去做动画</p>
+<p><strong>无法滑动问题</strong></p>
+<p>在手机上使用时，需要可以滚动页面。但是在游戏画布上滑动时并不能滚动页面，原因是pixi在默认情况下，会阻止所有事件的冒泡，并且会把画布的touch-action设置为none。</p>
+<p><strong>解决方法</strong></p>
+<pre class=" language-js"><code class="language-js">app<span class="token punctuation">.</span>view<span class="token punctuation">.</span>style<span class="token punctuation">.</span>touchAction <span class="token operator">=</span> <span class="token string">'auto'</span><span class="token punctuation">;</span></code></pre>
 <h5 id="一些pixi例子"><a href="#一些pixi例子" class="headerlink" title="一些pixi例子"></a>一些pixi例子</h5><p><a href="https://link.segmentfault.com/?enc=o5FSl%2FPTAzqrsEFUHtx3gw%3D%3D.GQVDVbEJ1n%2B6gwpoXcSkERwvqilv4Scno5dDVx0gdFTb9oodnt7gpvgM8KxQ5z%2BB" target="_blank" rel="noopener">Run Pixie Run</a></p>
 <p><a href="https://link.segmentfault.com/?enc=PoWTuwUVvw86vIQgTXDBbg%3D%3D.Ah4gjIrIMtUsHkVBx0DCULWb2EX%2Ff%2Fdy6hv4iJKUgOA%3D" target="_blank" rel="noopener">WASTE INVADERS</a></p>
 <p><a href="https://bbs.huaweicloud.com/blogs/293024" target="_blank" rel="noopener">宝可梦实战</a>（通过TexturePacker实现动画）</p>
@@ -1889,7 +1922,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">386.2k</span>&nbsp;字
+                class="white-color">415.8k</span>&nbsp;字
             
             
             

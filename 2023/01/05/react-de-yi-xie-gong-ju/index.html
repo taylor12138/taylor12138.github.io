@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    847
+                    1.3k
                 </div>
                 
 
@@ -632,6 +632,79 @@
     mouseZoomFactor<span class="token punctuation">:</span> <span class="token number">0.01</span><span class="token punctuation">,</span>
     zoomExtents<span class="token punctuation">:</span> <span class="token punctuation">{</span> min<span class="token punctuation">:</span> <span class="token number">0.33</span><span class="token punctuation">,</span> max<span class="token punctuation">:</span> <span class="token number">3</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
   <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<h2 id="路由转场"><a href="#路由转场" class="headerlink" title="路由转场"></a>路由转场</h2><h4 id="基本写法"><a href="#基本写法" class="headerlink" title="基本写法"></a>基本写法</h4><p>v5写法</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>TransitionGroup</span> <span class="token attr-name">className</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token string">'router-wrapper'</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>CSSTransition</span>
+    <span class="token attr-name">timeout</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token number">5000</span><span class="token punctuation">}</span></span>
+    <span class="token attr-name">classNames</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token string">'fade'</span><span class="token punctuation">}</span></span>
+    <span class="token attr-name">key</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>location<span class="token punctuation">.</span>pathname<span class="token punctuation">}</span></span>
+    <span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Switch</span> <span class="token attr-name">location</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>location<span class="token punctuation">}</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">exact</span> <span class="token attr-name">path</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token string">'/'</span><span class="token punctuation">}</span></span> <span class="token attr-name">component</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>HomePage<span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">exact</span> <span class="token attr-name">path</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token string">'/about'</span><span class="token punctuation">}</span></span> <span class="token attr-name">component</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>AboutPage<span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">exact</span> <span class="token attr-name">path</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token string">'/list'</span><span class="token punctuation">}</span></span> <span class="token attr-name">component</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>ListPage<span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">exact</span> <span class="token attr-name">path</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token string">'/detail'</span><span class="token punctuation">}</span></span> <span class="token attr-name">component</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>DetailPage<span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Switch</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>CSSTransition</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>TransitionGroup</span><span class="token punctuation">></span></span></code></pre>
+<p>v6写法</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">const</span> location <span class="token operator">=</span> <span class="token function">useLocation</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">//...</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>TransitionGroup</span> <span class="token attr-name">className</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token string">'router-wrapper'</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>CSSTransition</span>
+    <span class="token attr-name">timeout</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token number">5000</span><span class="token punctuation">}</span></span>
+    <span class="token attr-name">classNames</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token string">'fade'</span><span class="token punctuation">}</span></span>
+    <span class="token attr-name">key</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>location<span class="token punctuation">.</span>pathname<span class="token punctuation">}</span></span>
+    <span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Routes</span> <span class="token attr-name">location</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>location<span class="token punctuation">}</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">exact</span> <span class="token attr-name">path</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token string">'/'</span><span class="token punctuation">}</span></span> <span class="token attr-name">element</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>HomePage<span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">exact</span> <span class="token attr-name">path</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token string">'/about'</span><span class="token punctuation">}</span></span> <span class="token attr-name">element</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>AboutPage<span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">exact</span> <span class="token attr-name">path</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token string">'/list'</span><span class="token punctuation">}</span></span> <span class="token attr-name">element</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>ListPage<span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Route</span> <span class="token attr-name">exact</span> <span class="token attr-name">path</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token string">'/detail'</span><span class="token punctuation">}</span></span> <span class="token attr-name">element</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span>DetailPage<span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Routes</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>CSSTransition</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>TransitionGroup</span><span class="token punctuation">></span></span></code></pre>
+<p>注意，react-router官网上 Routes 中的 location 不是必填项，但是使用 TransitionGroup 进行转场的时候为了区分 前后路由组件，必须填写上 location，不然会此时会有fade-exit、fade-enter的组件都会是同一个路由组件</p>
+<p>感觉可能是内部用 useLocation 取的时候，取的是最新的 location，旧的location在 TransitionGroup / CSSTransition 阶段丢失</p>
+<p>源码：(传入location即为 <code>locationArg</code> )</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> locationFromContext <span class="token operator">=</span> <span class="token function">useLocation</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> location<span class="token punctuation">;</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>locationArg<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> _parsedLocationArg$pa<span class="token punctuation">;</span>
+
+  <span class="token keyword">let</span> parsedLocationArg <span class="token operator">=</span> <span class="token keyword">typeof</span> locationArg <span class="token operator">===</span> <span class="token string">"string"</span> <span class="token operator">?</span> <span class="token function">parsePath</span><span class="token punctuation">(</span>locationArg<span class="token punctuation">)</span> <span class="token punctuation">:</span> locationArg<span class="token punctuation">;</span>
+  <span class="token operator">!</span><span class="token punctuation">(</span>parentPathnameBase <span class="token operator">===</span> <span class="token string">"/"</span> <span class="token operator">||</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>_parsedLocationArg$pa <span class="token operator">=</span> parsedLocationArg<span class="token punctuation">.</span>pathname<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">?</span> <span class="token keyword">void</span> <span class="token number">0</span> <span class="token punctuation">:</span> _parsedLocationArg$pa<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span>parentPathnameBase<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">?</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span>NODE_ENV <span class="token operator">!==</span> <span class="token string">"production"</span> <span class="token operator">?</span> <span class="token function">UNSAFE_invariant</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token string">"When overriding the location using `&lt;Routes location>` or `useRoutes(routes, location)`, "</span> <span class="token operator">+</span> <span class="token string">"the location pathname must begin with the portion of the URL pathname that was "</span> <span class="token operator">+</span> <span class="token punctuation">(</span><span class="token string">"matched by all parent routes. The current pathname base is \""</span> <span class="token operator">+</span> parentPathnameBase <span class="token operator">+</span> <span class="token string">"\" "</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span><span class="token string">"but pathname \""</span> <span class="token operator">+</span> parsedLocationArg<span class="token punctuation">.</span>pathname <span class="token operator">+</span> <span class="token string">"\" was given in the `location` prop."</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">:</span> <span class="token function">UNSAFE_invariant</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span> <span class="token punctuation">:</span> <span class="token keyword">void</span> <span class="token number">0</span><span class="token punctuation">;</span>
+  location <span class="token operator">=</span> parsedLocationArg<span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+  location <span class="token operator">=</span> locationFromContext<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="转场坑点"><a href="#转场坑点" class="headerlink" title="转场坑点"></a>转场坑点</h4><p>一些路由转场的坑点在<a href="https://juejin.cn/post/6887471865720209415#heading-3" target="_blank" rel="noopener">这里</a>有记录，其中包括</p>
+<ul>
+<li>页面定位问题</li>
+<li>懒加载问题</li>
+<li>and so on</li>
+</ul>
+<p>其他坑点：</p>
+<ol>
+<li><p>包过的路由组件不能用 </p>
+<pre class=" language-html"><code class="language-html">&lt;>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token punctuation">/></span></span>
+&lt;/></code></pre>
+<p>这种形式包裹，因为此时csstransition 会把 样式塞到第一个div上，这时第二个div无法响应该css转场动画，需要这样调整</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
+</li>
+<li><p>路由组件之间高度不相等，可能会出现转场时留白的情况</p>
+<p><img src="/2023/01/05/react-de-yi-xie-gong-ju/_posts/React%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%A5%E5%85%B7/white.png" alt="white"></p>
+</li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://juejin.cn/post/6887471865720209415#heading-4" target="_blank" rel="noopener">彻底搞定react路由跳转动画的优化方案</a></p>
+<p><a href="https://juejin.cn/post/6844903818073899022" target="_blank" rel="noopener">一次react-router + react-transition-group实现转场动画的探索</a></p>
 
             </div>
             <hr/>
@@ -1088,7 +1161,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">386.2k</span>&nbsp;字
+                class="white-color">415.8k</span>&nbsp;字
             
             
             

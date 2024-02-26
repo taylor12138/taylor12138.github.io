@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.1k
+                    6.2k
                 </div>
                 
 
@@ -663,8 +663,18 @@ rs<span class="token punctuation">.</span><span class="token function">pipe</spa
 <h4 id="fs其他方法"><a href="#fs其他方法" class="headerlink" title="fs其他方法"></a>fs其他方法</h4><p><code>fs.existsSync(path)</code> 是否存在</p>
 <p><code>fs.stat(path, callback)</code> 文件状态（里面包含文件大小等信息）</p>
 <p><code>fs.readdir(path, [, option], callback)</code> 读取文件目录列表</p>
+<p><img src="/2022/05/05/nodejs/readdir.png" alt></p>
 <p><code>fs.readdir(path, [, option])</code>读取一个目录的目录结构</p>
 <p><code>fs.truncateSync(path, size)</code>  截断文件，将文件修改为指定大小</p>
+<p><code>fs.lstatSync( path, options )</code> 它返回一个fs.Stats对象，其中包含符号链接的详细信息。</p>
+<ul>
+<li><p>用 fs.Stats 还能判断是否是个文件：</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">const</span> stat <span class="token operator">=</span> fs<span class="token punctuation">.</span><span class="token function">lstatSync</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>dirPath<span class="token punctuation">,</span> item<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>stat<span class="token punctuation">.</span><span class="token function">isFile</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">//...</span>
+<span class="token punctuation">}</span></code></pre>
+</li>
+</ul>
 <h4 id="链式流"><a href="#链式流" class="headerlink" title="链式流"></a>链式流</h4><p>就是从一个输出流当中，读取数据，创建多个流来操作这个输出流数据的机制</p>
 <p>链式流一般来操作管道流</p>
 <p>常见的例子就是压缩和解压缩的例子</p>
@@ -979,6 +989,32 @@ npm install <span class="token operator">--</span>global nodemon</code></pre>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">$</span><span class="token punctuation">(</span>ele<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">attr</span><span class="token punctuation">(</span><span class="token string">"属性名"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">$</span><span class="token punctuation">(</span>ele<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<h4 id="nodejs-log"><a href="#nodejs-log" class="headerlink" title="nodejs log"></a>nodejs log</h4><p>nodejs在终端上log对象的美化工具：</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'express'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> pino <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'pino'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">const</span> logger <span class="token operator">=</span> <span class="token function">pino</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    transport<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        target<span class="token punctuation">:</span> <span class="token string">'pino-pretty'</span><span class="token punctuation">,</span>
+        options<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          colorize<span class="token punctuation">:</span> <span class="token boolean">true</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+
+app<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">3000</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'app is running at port!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>express<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>express<span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+app<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    logger<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span>JSON<span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>req<span class="token punctuation">.</span>body<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
 
             </div>
             <hr/>
@@ -1431,7 +1467,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">386.2k</span>&nbsp;字
+                class="white-color">415.8k</span>&nbsp;字
             
             
             

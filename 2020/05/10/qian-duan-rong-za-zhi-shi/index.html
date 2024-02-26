@@ -667,7 +667,7 @@ window<span class="token punctuation">.</span><span class="token function">addEv
 <p>在Firefox浏览器的<a href="https://support.mozilla.org/zh-CN/kb/隐私浏览" target="_blank" rel="noopener">用户隐私模式</a>，Service Worker不可用。</p>
 <ol>
 <li>注册Service Worker（通过 <code>.register</code>方法进行注册，通过 <code>.then</code>方法进行回调）</li>
-<li>监听install事件，缓存需要的文件</li>
+<li>监听install事件，缓存需要的文件（文件过大，或者一些404时，insall会报错，做好容错处理）</li>
 <li>拦截请求查看是否已经有需要的数据</li>
 </ol>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// index.js</span>
@@ -693,6 +693,8 @@ window<span class="token punctuation">.</span><span class="token function">addEv
   e<span class="token punctuation">.</span><span class="token function">waitUntil</span><span class="token punctuation">(</span>
     caches<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">'my-cache'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>cache<span class="token punctuation">)</span> <span class="token punctuation">{</span>
       <span class="token keyword">return</span> cache<span class="token punctuation">.</span><span class="token function">addAll</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'./index.html'</span><span class="token punctuation">,</span> <span class="token string">'./index.js'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//资源列表</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+       console<span class="token punctuation">.</span><span class="token function">warn</span><span class="token punctuation">(</span><span class="token string">'err'</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span>
   <span class="token punctuation">)</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
@@ -1330,7 +1332,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">386.2k</span>&nbsp;字
+                class="white-color">415.8k</span>&nbsp;字
             
             
             

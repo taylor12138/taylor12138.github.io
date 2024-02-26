@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.2k
+                    4.8k
                 </div>
                 
 
@@ -572,14 +572,21 @@
 <ul>
 <li>webapck5之后配置项上来看，webpack是比rollup少的，</li>
 <li>而且webpack5还自带terser各种代码压缩，都不用配置了，但是rollup还需要配置，截止2023.4.14为止，rollup已经更新至3.20版本，部分插件还不兼容rollup3.0（官方文档未更新，比如文档推荐用<code>rollup-plugin-terser</code>压缩，但是实际上有兼容问题，要用 原<code>terser</code>进行替代）</li>
-<li>而且rollup官方文档也比webpack逊色，而且rollup打包还需要更高版本的node支持，webpack5兼容node更好</li>
+<li>而且rollup官方文档也比webpack逊色（其实很想说，逊色很多..），而且rollup打包还需要更高版本的node支持，webpack5兼容node更好</li>
 </ul>
 <p>注意：如果你想用rollup打包commonjs，比如项目中用了lodash，那要走和webpack一样麻烦的配置流程，那还不如用webpack</p>
 <ul>
 <li>如果你需要 code-splitting，有很多 static assets，需要使用很多 CommonJS 依赖，使用 Webpack</li>
 <li>如果你的 codebase 是ES Module，写一些给其他人使用的代码或库，那么使用 Rollup</li>
 </ul>
-<h4 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h4><p>优点：</p>
+<p>本地安装rollup：</p>
+<pre><code>npm install rollup --save-dev</code></pre><p>安装完成后, Rollup 可以在项目的根目录中运行：</p>
+<pre><code>npx rollup --config</code></pre><p>安装完成后，通常会在 <code>package.json</code> 中添加一个单一的构建脚本，为所有贡献者提供方便的命令。例如：</p>
+<pre><code>{
+    &quot;scripts&quot;: {
+        &quot;build&quot;: &quot;rollup --config&quot;
+    }
+}</code></pre><h4 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h4><p>优点：</p>
 <ul>
 <li>兼容性无敌</li>
 <li>生态强大，插件、loader强大，灵活</li>
@@ -938,6 +945,113 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 <p><strong>插件顺序</strong></p>
 <p>如果是直接看全部插件种类的顺序则为</p>
 <p><img src="/2023/03/01/vite/vite-plugin-2.png" alt></p>
+<h4 id="Vite多页面配置解决方案"><a href="#Vite多页面配置解决方案" class="headerlink" title="Vite多页面配置解决方案"></a>Vite多页面配置解决方案</h4><p>1.<a href="https://juejin.cn/post/7128999848564981796" target="_blank" rel="noopener">https://juejin.cn/post/7128999848564981796</a></p>
+<p>2.<a href="https://www.fly63.com/article/detial/12038" target="_blank" rel="noopener">https://www.fly63.com/article/detial/12038</a></p>
+<p>这2篇都可以看下，不过vite的html插件没生效，可能是我用的vite4.4的缘故</p>
+<p>我才用的是方法2</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">import</span> <span class="token punctuation">{</span> defineConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vite'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> path <span class="token keyword">from</span> <span class="token string">'path'</span>
+<span class="token keyword">import</span> solidPlugin <span class="token keyword">from</span> <span class="token string">'vite-plugin-solid'</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// import devtools from 'solid-devtools/vite';</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">defineConfig</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//设置根目录地址</span>
+    root<span class="token punctuation">:</span><span class="token string">'src/pages'</span><span class="token punctuation">,</span>
+    plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+        <span class="token function">solidPlugin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    server<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        port<span class="token punctuation">:</span> <span class="token number">3001</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    build<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        target<span class="token punctuation">:</span> <span class="token string">'esnext'</span><span class="token punctuation">,</span>
+        rollupOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            input<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                main<span class="token punctuation">:</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'src/pages/index.html'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                demo1<span class="token punctuation">:</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'src/pages/demo1/index.html'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                demo2<span class="token punctuation">:</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'src/pages/demo2/index.html'</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            output<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                dir<span class="token punctuation">:</span> <span class="token string">'public'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    resolve<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 别名配置</span>
+        alias<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">'@assets'</span><span class="token punctuation">:</span> path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'src/assets'</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    css<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 预处理器配置项</span>
+        preprocessorOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          less<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            math<span class="token punctuation">:</span> <span class="token string">"always"</span><span class="token punctuation">,</span>
+          <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h4 id="Vite的兼容性问题-截止2023-7-26"><a href="#Vite的兼容性问题-截止2023-7-26" class="headerlink" title="Vite的兼容性问题(截止2023.7.26)"></a>Vite的兼容性问题(截止2023.7.26)</h4><p>兼容更低版本需要用@vitejs/plugin-legacy</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// vite.config.js</span>
+<span class="token keyword">import</span> legacy <span class="token keyword">from</span> <span class="token string">'@vitejs/plugin-legacy'</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token function">legacy</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      targets<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'defaults'</span><span class="token punctuation">,</span> <span class="token string">'not IE 11'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span></code></pre>
+<p><img src="/2023/03/01/vite/jianrong.png" alt></p>
+<h4 id="代码压缩"><a href="#代码压缩" class="headerlink" title="代码压缩"></a>代码压缩</h4><pre class=" language-shell"><code class="language-shell">npm add -D terser</code></pre>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">defineConfig</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    build<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        target<span class="token punctuation">:</span> <span class="token string">'esnext'</span><span class="token punctuation">,</span>
+        rollupOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            input<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                main<span class="token punctuation">:</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'src/pages/index.html'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                demo1<span class="token punctuation">:</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'src/pages/demo1/index.html'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                demo2<span class="token punctuation">:</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'src/pages/demo2/index.html'</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            output<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                dir<span class="token punctuation">:</span> <span class="token string">'public'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        minify<span class="token punctuation">:</span> <span class="token string">'terser'</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h4 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h4><p>vite中，我们的代码运行在浏览器环境中，是无法识别node代码的，所以用不了process.env(除非在vite.config文件中)</p>
+<p>根据环境变量选择配置</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> devConfig <span class="token keyword">from</span> <span class="token string">'./app.dev'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> onlineConfig <span class="token keyword">from</span> <span class="token string">'./app.production'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> testConfig <span class="token keyword">from</span> <span class="token string">'./app.test'</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'import.meta'</span><span class="token punctuation">,</span> <span class="token keyword">import</span><span class="token punctuation">.</span>meta<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'import.meta.env.DEV'</span><span class="token punctuation">,</span> <span class="token keyword">import</span><span class="token punctuation">.</span>meta<span class="token punctuation">.</span>env<span class="token punctuation">.</span>DEV<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// eslint-disable-next-line no-nested-ternary</span>
+<span class="token keyword">const</span> config <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> config<span class="token punctuation">;</span></code></pre>
+<p>设置某环境的专属环境变量</p>
+<p>首先，我们要确定下我们设置.env文件默认地址，默认是root（根目录），如果在vite.config修改了root地址的话，默认地址就是在修改后的地址下</p>
+<pre><code>.env                # 所有情况下都会加载
+.env.local          # 所有情况下都会加载，但会被 git 忽略
+.env.[mode]         # 只在指定模式下加载
+.env.[mode].local   # 只在指定模式下加载，但会被 git 忽略</code></pre><p>Vite dev默认mode：<strong>development</strong> </p>
+<p>Vite build默认mode：<strong>production</strong> </p>
+<p>如果想要修改mode，获得指定的专属环境变量</p>
+<pre class=" language-json"><code class="language-json"><span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+  <span class="token property">"dev"</span><span class="token operator">:</span> <span class="token string">"vite"</span><span class="token punctuation">,</span>
+  <span class="token property">"build"</span><span class="token operator">:</span> <span class="token string">"vite build"</span><span class="token punctuation">,</span>
+  <span class="token property">"buildtest"</span><span class="token operator">:</span> <span class="token string">"vite build --test"</span><span class="token punctuation">,</span>
+  <span class="token property">"buildstaging"</span><span class="token operator">:</span> <span class="token string">"vite build --staging"</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
+<p>此时指定的 <code>.env.test</code> / <code>.env.staging</code> 就会在对应模式下生效</p>
+<p>值得注意的是，对应的环境变量要加上VITE_前缀，目的是：</p>
+<p><img src="/2023/03/01/vite/vite_env.png" alt></p>
 <p>参考文章：</p>
 <p><a href="https://juejin.cn/post/7211909301866348604" target="_blank" rel="noopener">【译文】Vite是什么？为何推荐使用Vite代替Create React App？</a></p>
 <p><a href="https://juejin.cn/post/6918927987056312327" target="_blank" rel="noopener">ESbuild 介绍</a></p>
@@ -1396,7 +1510,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">386.2k</span>&nbsp;字
+                class="white-color">415.8k</span>&nbsp;字
             
             
             

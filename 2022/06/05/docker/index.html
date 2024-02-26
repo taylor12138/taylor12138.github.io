@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    614
+                    2.5k
                 </div>
                 
 
@@ -485,32 +485,85 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="Docker概述"><a href="#Docker概述" class="headerlink" title="Docker概述"></a>Docker概述</h2><h4 id="简要概述"><a href="#简要概述" class="headerlink" title="简要概述"></a>简要概述</h4><p>IT 软件中所说的 “Docker” ，是指容器化技术，用于支持创建和使用 <a href="https://www.redhat.com/zh/topics/containers" target="_blank" rel="noopener">Linux® 容器</a>。</p>
+                <h2 id="Docker概述"><a href="#Docker概述" class="headerlink" title="Docker概述"></a>Docker概述</h2><h4 id="1-简要概述"><a href="#1-简要概述" class="headerlink" title="1. 简要概述"></a>1. 简要概述</h4><p>IT 软件中所说的 “Docker” ，是指容器化技术，用于支持创建和使用 <a href="https://www.redhat.com/zh/topics/containers" target="_blank" rel="noopener">Linux® 容器</a>。</p>
 <p><a href="https://forums.docker.com/" target="_blank" rel="noopener">开源 Docker 社区</a>致力于改进这类技术，并免费提供给所有用户，使之获益。</p>
-<p>一般来说，比如我们写了一个web应用，如果朋友们要看/部署到远程服务器，，那么首先都需要配置相同的依赖（数据库啊之类的，甚至要保证操作系统的一致性），为了模拟完全相同的本地开发环境，我们可以使用虚拟机，但是虚拟机的缺点：</p>
+<h5 id="虚拟机"><a href="#虚拟机" class="headerlink" title="虚拟机"></a>虚拟机</h5><p>一般来说，比如我们写了一个web应用，如果朋友们要看/部署到远程服务器，那么首先都需要配置相同的依赖（数据库之类的，甚至要保证操作系统的一致性），不然会出现“我的机器可以跑，你的机器跑不了”的情况</p>
+<p>为了模拟完全相同的本地开发环境，我们可以使用虚拟机，但是虚拟机的缺点：</p>
 <ul>
-<li>虚拟机需要模拟硬件，运行整个操作系统，不但体积臃肿内存占高，程序性能也会受到影响</li>
+<li>虚拟机需要模拟硬件，运行整个操作系统，不但体积臃肿内存占高，程序性能也会受到影响（其实就是占体积..）</li>
 </ul>
+<h5 id="Linux-容器"><a href="#Linux-容器" class="headerlink" title="Linux 容器"></a>Linux 容器</h5><p><strong>Linux 容器不是模拟一个完整的操作系统，而是对进程进行隔离。</strong>或者说，在正常进程的外面套了一个<a href="https://link.juejin.cn?target=https%3A%2F%2Fopensource.com%2Farticle%2F18%2F1%2Fhistory-low-level-container-runtimes">保护层</a>。对于容器里面的进程来说，它接触到的各种资源都是虚拟的，从而实现与底层系统的隔离。</p>
+<p>由于容器是进程级别的，相比虚拟机有很多优势。</p>
+<p><strong>（1）启动快</strong></p>
+<p>容器里面的应用，直接就是底层系统的一个进程，而不是虚拟机内部的进程。所以，启动容器相当于启动本机的一个进程，而不是启动一个操作系统，速度就快很多。</p>
+<p><strong>（2）资源占用少</strong></p>
+<p>容器只占用需要的资源，不占用那些没有用到的资源；虚拟机由于是完整的操作系统，不可避免要占用所有资源。另外，多个容器可以共享资源，虚拟机都是独享资源。</p>
+<p><strong>（3）体积小</strong></p>
+<p>容器只要包含用到的组件即可，而虚拟机是整个操作系统的打包，所以容器文件比虚拟机文件要小很多。</p>
+<p>总之，容器有点像轻量级的虚拟机，能够提供虚拟化的环境，但是成本开销小得多。</p>
+<h5 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h5><p><strong>Docker 属于 Linux 容器的一种封装，提供简单易用的容器使用接口。</strong></p>
 <p>Docker在概念上和虚拟机十分相似，但是轻量很多，它不会去模拟底层硬件，只是为每个应用提供一个完全隔离的运行环境（类似于sandbox），我们可以在每个不同的环境配置不同的工具</p>
-<p>Image/镜像</p>
-<ul>
+<p>Docker 将应用程序与该程序的依赖，打包在一个文件里面。运行这个文件，就会生成一个虚拟容器。程序在这个虚拟容器里运行，就好像在真实的物理机上运行一样</p>
+<h5 id="Image-镜像"><a href="#Image-镜像" class="headerlink" title="Image/镜像"></a>Image/镜像</h5><ul>
 <li>类似于一个虚拟机快照，里面包含了你要部署的应用程序以及他关联的所有库</li>
 <li>通过镜像，我们可以创建许多不同的container容器，这里的容器就像一台台虚拟机，每个container独立运行</li>
 </ul>
+<p><strong>Docker 把应用程序及其依赖，打包在 image 文件里面。</strong>只有通过这个文件，才能生成 Docker 容器。image 文件可以看作是容器的模板。Docker 根据 image 文件生成容器的实例。同一个 image 文件，可以生成多个同时运行的容器实例。</p>
 <p>Dockerfile</p>
 <ul>
 <li>类似于一个自动化脚本，主要用来创建镜像（类比在虚拟机中安装操作系统和软件）</li>
 </ul>
-<h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><ul>
+<h4 id="2-其他概述"><a href="#2-其他概述" class="headerlink" title="2. 其他概述"></a>2. 其他概述</h4><h5 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h5><ul>
 <li>模块化</li>
 <li>层和镜像版本控制</li>
 <li>回滚</li>
 <li>快速部署</li>
 </ul>
-<h4 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h4><p>借助 Docker，您可将容器当做轻巧、模块化的虚拟机使用。同时，您还将获得高度的灵活性，从而实现对容器的高效创建、部署及复制，并能将其从一个环境顺利迁移至另一个环境，<a href="https://www.redhat.com/zh/topics/cloud-native-apps" target="_blank" rel="noopener">从而有助于您针对云来优化您的应用</a>。</p>
-<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p><strong>Docker</strong> 使用 <code>Google</code> 公司推出的 <a href="https://golang.google.cn/" target="_blank" rel="noopener">Go 语言</a> 进行开发实现</p>
+<h5 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h5><p>借助 Docker，您可将容器当做轻巧、模块化的虚拟机使用。同时，您还将获得高度的灵活性，从而实现对容器的高效创建、部署及复制，并能将其从一个环境顺利迁移至另一个环境，<a href="https://www.redhat.com/zh/topics/cloud-native-apps" target="_blank" rel="noopener">从而有助于您针对云来优化您的应用</a>。</p>
+<h5 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h5><p><strong>Docker</strong> 使用 <code>Google</code> 公司推出的 <a href="https://golang.google.cn/" target="_blank" rel="noopener">Go 语言</a> 进行开发实现</p>
 <p>Docker 技术使用<a href="https://www.redhat.com/zh/topics/linux/what-is-the-linux-kernel" target="_blank" rel="noopener"> Linux 内核</a>和内核功能（例如 <a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Resource_Management_Guide/ch01.html" target="_blank" rel="noopener">Cgroups</a> 和 <a href="https://lwn.net/Articles/528078/" target="_blank" rel="noopener">namespaces</a>）来分隔进程，以便各进程相互独立运行。这种独立性正是采用容器的目的所在；它可以独立运行多种进程、多个应用，更加充分地发挥基础设施的作用，同时保持各个独立系统的<a href="https://www.redhat.com/zh/topics/security" target="_blank" rel="noopener">安全性</a>。</p>
-<p>参考：<a href="https://www.bilibili.com/video/BV1s54y1n7Ev?from=search&amp;seid=15719185628407439607&amp;spm_id_from=333.337.0.0" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1s54y1n7Ev?from=search&amp;seid=15719185628407439607&amp;spm_id_from=333.337.0.0</a></p>
+<h4 id="3-Docker-compose"><a href="#3-Docker-compose" class="headerlink" title="3. Docker-compose"></a>3. Docker-compose</h4><p>Docker Compose <strong>是一个工具，你可以用来定义和分享多容器应用程序</strong>。 这意味着你可以使用一个单一的资源来运行一个有多个容器的项目。</p>
+<p>场景：</p>
+<p>Docker 帮助你在你的机器上快速建立一个开发环境。完成整个过程只需要几分钟时间。</p>
+<p>但是，让我们假设你被分配到一个项目上，该项目需要至少 10 个不同的服务处于运行状态来运行你的项目。例如，假设你的项目需要 Java 8、Node 14、MySQL、MongoDB、Ruby on rails、RabbitMQ 和其他。</p>
+<p>在这种情况下，你必须从 Docker 中单独提取所有这些镜像，并在其容器中启动所有这些镜像。在某些时候，一个进程可能依赖于另一个进程来运行。所以，你必须给它们排序。</p>
+<p>如果这是一个一次性的过程就好了。但是，不仅仅是一次——每天、每次你开始在你的项目上工作时——你都必须启动所有这些服务。</p>
+<p>这是一个乏味的过程，对吗？</p>
+<p>为了克服这个问题，Docker 引入了一个叫做多容器（Docker Compose）的概念。在学习 Docker Compose 之前，让我们快速了解一下如何在 Docker 中启动数据库主机。</p>
+<p>Compose 是用于定义和运行多容器 Docker 应用程序的工具。通过 Compose，您可以使用 YML 文件来配置应用程序需要的所有服务</p>
+<h2 id="Podman"><a href="#Podman" class="headerlink" title="Podman"></a>Podman</h2><p>Podman 是一个<strong>无守护进程（daemonless）</strong>的开源 Linux 原生工具</p>
+<p>旨在使用开放容器计划 （OCI） 容器和容器映像轻松查找、运行、构建、共享和部署应用程序。Podman 提供了一个命令行界面 （CLI），任何使用过 Docker 容器引擎的人都熟悉。大多数用户可以简单地将 Docker 别名化为 Podman（别名 docker=podman），而不会出现任何问题。与其他常见的容器引擎（Docker、CRI-O、containerd）类似，Podman 依赖于符合 OCI 标准的容器运行时（runc、crun、runv 等）与操作系统交互并创建正在运行的容器。这使得 Podman 创建的正在运行的容器与任何其他常见容器引擎创建的容器几乎没有区别。</p>
+<p>Podman中的容器可以以root或非root用户身份运行，所以其实更安全</p>
+<p>由于Podman没有守护程序来管理容器，Podman使用另一个服务管理器来管理所有的服务，并支持在后台运行容器，称为Systemd。</p>
+<h4 id="守护进程（-Daemon）"><a href="#守护进程（-Daemon）" class="headerlink" title="守护进程（ Daemon）"></a>守护进程（ Daemon）</h4><p>1、定义</p>
+<p>守护进程是运行在后台的一种特殊进程，它独立于控制终端并且周期性地执行某种任务或循环等待处理某些事件的发生；它不需要用户输入就能运行而且提供某种服务，不是对整个系统就是对某个用户程序提供服务。Linux系统的大多数服务器就是通过守护进程实现的。</p>
+<p>守护进程一般在系统启动时开始运行，除非强行终止，否则直到系统关机才随之一起停止运行；</p>
+<p>守护进程一般都以root用户权限运行，因为要使用某些特殊的端口（1-1024）或者资源；</p>
+<p>守护进程的父进程一般都是init进程，因为它真正的父进程在fork出守护进程后就直接退出了，所以守护进程都是孤儿进程，由init接管</p>
+<p>守护进程是非交互式程序，没有控制终端，所以任何输出，无论是向标准输出设备stdout还是标准出错设备stderr的输出都需要特殊处理。</p>
+<p>守护进程的名称通常以d结尾，比如sshd、xinetd、crond等</p>
+<p>2、作用</p>
+<p>1.守护进程是一个生存周期较长的进程，通常独立于控制终端并且周期性的执行某种任务或者等待处理某些待发生的事件</p>
+<p>2.大多数服务都是通过守护进程实现的</p>
+<p>3.关闭终端，相应的进程都会被关闭，而守护进程却能够突破这种限制</p>
+<p>Linux系统的大多数服务器就是通过守护进程实现的。常见的守护进程包括：</p>
+<ul>
+<li>系统日志进程syslogd、</li>
+<li>web服务器httpd、</li>
+<li>邮件服务器sendmail</li>
+<li>数据库服务器mysqld等。</li>
+</ul>
+<h4 id="一些命令"><a href="#一些命令" class="headerlink" title="一些命令"></a>一些命令</h4><p><strong>podman 机器初始化</strong></p>
+<pre><code>podman machine init [options] [name]</code></pre><p><strong>podman 启动虚拟机</strong></p>
+<pre><code>podman machine start [name]</code></pre><p><strong>podman 停止虚拟机</strong></p>
+<pre><code>podman machine stop [name]</code></pre><p><strong>通过外部 compose 提供程序运行 Compose 工作负载</strong></p>
+<p>podman compose 是围绕外部 compose 提供程序（如 docker-compose 或 podman-compose）的精简包装器。这意味着正在 <code>podman compose</code> 执行另一个工具，该工具实现 compose 功能，但以某种方式设置环境，让 compose 提供程序与本地 Podman 套接字透明地通信。指定的选项以及命令和参数将直接传递到撰写提供程序。</p>
+<p>默认的撰写提供程序是 <code>docker-compose</code> 和 <code>podman-compose</code> 。如果已安装， <code>docker-compose</code> 则优先</p>
+<pre><code>podman compose [options] [command [arg …]]</code></pre><p><strong>列出运行的容器</strong></p>
+<pre><code>$ podman ps -a</code></pre><p>参考：</p>
+<p><a href="https://www.bilibili.com/video/BV1s54y1n7Ev?from=search&amp;seid=15719185628407439607&amp;spm_id_from=333.337.0.0" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1s54y1n7Ev?from=search&amp;seid=15719185628407439607&amp;spm_id_from=333.337.0.0</a></p>
+<p><a href="https://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html" target="_blank" rel="noopener">Docker 入门教程-阮一峰</a></p>
+<p><a href="https://www.freecodecamp.org/chinese/news/what-is-docker-compose-how-to-use-it/" target="_blank" rel="noopener">Docker Compose 是什么？通过示例学习如何使用它</a></p>
 
             </div>
             <hr/>
@@ -966,7 +1019,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">386.2k</span>&nbsp;字
+                class="white-color">415.8k</span>&nbsp;字
             
             
             

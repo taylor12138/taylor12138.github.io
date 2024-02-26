@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.1k
+                    5.4k
                 </div>
                 
 
@@ -485,17 +485,36 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="React-Fiber"><a href="#React-Fiber" class="headerlink" title="React Fiber"></a>React Fiber</h2><h4 id="React-Fiber介绍"><a href="#React-Fiber介绍" class="headerlink" title="React Fiber介绍"></a>React Fiber介绍</h4><p>进程（Process）和线程（Thread），在计算机科学中还有一个概念叫做Fiber，英文含义就是“纤维”，意指比Thread更细的线，也就是比线程(Thread)控制得更精密的并发处理机制。</p>
+                <h2 id="React-Fiber"><a href="#React-Fiber" class="headerlink" title="React Fiber"></a>React Fiber</h2><blockquote>
+<p>前言：本着想一篇文章把fiber参透，但是发现越看越多，这篇还是作为小解，主要还是围绕着一些源码 + 思想概念去讲述</p>
+</blockquote>
+<h4 id="React-Fiber介绍"><a href="#React-Fiber介绍" class="headerlink" title="React Fiber介绍"></a>React Fiber介绍</h4><p>进程（Process）和线程（Thread），在计算机科学中还有一个概念叫做Fiber，英文含义就是“纤维”，意指比Thread更细的线，也就是比线程(Thread)控制得更精密的并发处理机制。</p>
 <p>然而虽然Fiber和React Fiber是两个不同的概念，但取名却有异曲同工之妙</p>
-<p>而官方解释到：<strong>React Fiber是对核心算法的一次重新实现</strong></p>
-<p>React 实现了一个<strong>虚拟堆栈帧</strong>。实际上，这个所谓的虚拟堆栈帧本质上是建立了多个包含节点和指针的链表数据结构。每一个节点就是一个 fiber 基本单元，这个对象存储了一定的组件相关的数据域信息。而指针的指向，则是串联起整个 fibers 树。重新自定义堆栈带来显而易见的优点是，可以将堆栈保留在内存中，在需要执行的时候执行它们，这使得暂停遍历和停止堆栈递归成为可能。</p>
-<p>所以我个人偏向理解fiber为一个工作单元（units of work）</p>
+<p><strong>React Fiber重新实现了一套核心算法</strong></p>
+<p>我们可以看到react包上react-reconciler的方法都变成fiber方法</p>
+<p>React 实现了一个<strong>虚拟堆栈帧</strong>，在每个element节点都会生成对应一个fiber node， 最后也就是形成了一个和虚拟dom tree整体结构类似的Fiber tree。</p>
+<p>但是具体虚拟dom之间和fiber之间的联系结构不一致</p>
+<p><img src="/2021/09/15/react-fiber/dom.png" alt></p>
+<p><img src="/2021/09/15/react-fiber/fibertree.png" alt></p>
+<p>实际上，这个所谓的虚拟堆栈帧本质上是建立了多个包含节点和指针的链表数据结构。每一个节点就是一个 fiber 基本单元，这个对象存储了一定的组件相关的数据域信息。</p>
+<p>而这种类型的指针指向，以一种<strong>非深度递归</strong>的形式则是串联起整个 fibers 树，减少了js调用栈（多层嵌套的递归会占用大量的 JS 调用栈）。</p>
+<p>重新自定义堆栈带来显而易见的优点是，可以将堆栈保留在内存中，在需要执行的时候执行它们，这使得暂停遍历和停止堆栈递归成为可能。</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>中断处<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+        <span class="token comment" spellcheck="true">&lt;!-- 未执行的节点 --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">></span></span>
+     <span class="token comment" spellcheck="true">&lt;!-- 未执行的节点 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
+<p>所以我个人偏向理解fiber为一个工作单元（units of work），以解决任务的优先权、任务的拆分、任务的调度时间</p>
 <p>fiber对象主要属性一览</p>
 <pre class=" language-js"><code class="language-js">Fiber <span class="token operator">=</span> <span class="token punctuation">{</span>
     <span class="token comment" spellcheck="true">// 标识 fiber 类型的标签，详情参看下述 WorkTag</span>
     tag<span class="token punctuation">:</span> WorkTag<span class="token punctuation">,</span>
 
-    <span class="token comment" spellcheck="true">// 节点的连接</span>
+    <span class="token comment" spellcheck="true">// // Fiber, 单链表</span>
     <span class="token comment" spellcheck="true">// 指向父节点</span>
     <span class="token keyword">return</span><span class="token punctuation">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
     <span class="token comment" spellcheck="true">// 指向子节点</span>
@@ -510,45 +529,180 @@
     memoizedProps<span class="token punctuation">:</span> any<span class="token punctuation">,</span>
     <span class="token comment" spellcheck="true">// 当前 state</span>
     memoizedState<span class="token punctuation">:</span> any<span class="token punctuation">,</span>
-    <span class="token comment" spellcheck="true">// Effect 类型，详情查看以下 effectTag</span>
-    effectTag<span class="token punctuation">:</span> SideEffectTag<span class="token punctuation">,</span>
-    <span class="token comment" spellcheck="true">// effect 节点指针，指向下一个 effect</span>
-    nextEffect<span class="token punctuation">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
-    <span class="token comment" spellcheck="true">// effect list 是单向链表，第一个 effect</span>
-    firstEffect<span class="token punctuation">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
-    <span class="token comment" spellcheck="true">// effect list 是单向链表，最后一个 effect</span>
-    lastEffect<span class="token punctuation">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
 
-    <span class="token comment" spellcheck="true">// 调度优先级相关</span>
-    <span class="token comment" spellcheck="true">// work 的过期时间，可用于标识一个 work 优先级顺序，在2020年5月，调度优先级策略经历了比较大的重构。以expirationTime属性为代表的优先级模型被lane取代</span>
-    expirationTime<span class="token punctuation">:</span> ExpirationTime<span class="token punctuation">,</span>
+    updateQueue <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    dependencies <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
 
-    <span class="token keyword">this</span><span class="token punctuation">.</span>lanes <span class="token operator">=</span> NoLanes<span class="token punctuation">;</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span>childLanes <span class="token operator">=</span> NoLanes<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// Effects</span>
+    flags <span class="token operator">=</span> NoFlags<span class="token punctuation">;</span>
+    subtreeFlags <span class="token operator">=</span> NoFlags<span class="token punctuation">;</span>
+    deletions <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+
+        lanes <span class="token operator">=</span> NoLanes<span class="token punctuation">;</span>
+      childLanes <span class="token operator">=</span> NoLanes<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">//调度算法</span>
+    expirationTimes <span class="token operator">=</span> <span class="token function">createLaneMap</span><span class="token punctuation">(</span>NoTimestamp<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
-<h4 id="React-Fiber出现缘由"><a href="#React-Fiber出现缘由" class="headerlink" title="React Fiber出现缘由"></a>React Fiber出现缘由</h4><p>fiber出现之前的React -&gt; </p>
-<p>当组件树很大的时候就会出现这种问题，因为更新过程是同步地一层组件套一层组件，逐渐深入的过程，在更新完所有组件之前不停止，而且很长时间不会返回。</p>
-<p>因为JavaScript单线程的特点，每个同步任务不能耗时太长，不然就会让程序不会对其他输入作出相应，React的更新过程就是犯了这个禁忌，而React Fiber就是要改变现状。</p>
+<h4 id="整体创建-更新流程调试"><a href="#整体创建-更新流程调试" class="headerlink" title="整体创建 / 更新流程调试"></a>整体创建 / 更新流程调试</h4><p>在初始化时createRoot -&gt; createContainer -&gt; createFiberRoot 创建一个基本的fiber root，后续更新采用workInProgress Root进行更新</p>
+<p>首先找到render函数（每次重新渲染）</p>
+<pre class=" language-ts"><code class="language-ts">ReactDOMHydrationRoot<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>render <span class="token operator">=</span> ReactDOMRoot<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>render <span class="token operator">=</span>
+  <span class="token keyword">function</span> <span class="token punctuation">(</span>children<span class="token punctuation">:</span> ReactNodeList<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//...</span>
+    <span class="token function">updateContainer</span><span class="token punctuation">(</span>children<span class="token punctuation">,</span> root<span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">updateContainer</span><span class="token punctuation">(</span>
+  element<span class="token punctuation">:</span> ReactNodeList<span class="token punctuation">,</span>
+  container<span class="token punctuation">:</span> OpaqueRoot<span class="token punctuation">,</span>
+  parentComponent<span class="token punctuation">:</span> <span class="token operator">?</span>React$Component<span class="token operator">&lt;</span><span class="token keyword">any</span><span class="token punctuation">,</span> <span class="token keyword">any</span><span class="token operator">></span><span class="token punctuation">,</span>
+  callback<span class="token punctuation">:</span> <span class="token operator">?</span><span class="token keyword">Function</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">:</span> Lane <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">//...</span>
+  <span class="token comment" spellcheck="true">//enqueueUpdate这里看起来就是创建了一个fiberRoot，也是一个fiber的updateQueue</span>
+  <span class="token keyword">const</span> root <span class="token operator">=</span> <span class="token function">enqueueUpdate</span><span class="token punctuation">(</span>current<span class="token punctuation">,</span> update<span class="token punctuation">,</span> lane<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>root <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//这边执行fiber的调度，并且夹杂了很多对当前fiberRoot是否等于workInProgressRoot时针对的的处理</span>
+    <span class="token function">scheduleUpdateOnFiber</span><span class="token punctuation">(</span>root<span class="token punctuation">,</span> current<span class="token punctuation">,</span> lane<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">entangleTransitions</span><span class="token punctuation">(</span>root<span class="token punctuation">,</span> current<span class="token punctuation">,</span> lane<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">return</span> lane<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p>当<code>root === workInProgressRoot</code>直接进入到 <code>prepareFreshStack</code> 函数： <code>scheduleUpdateOnFiber</code>  -&gt;  <code>prepareFreshStack</code></p>
+<p>并且在 <code>scheduleTaskForRootDuringMicrotask</code> 函数中会进行任务优先级划分（React事件优先级转换为Scheduler优先级），进行任务调度</p>
+</blockquote>
+<p>从<code>scheduleUpdateOnFiber</code> -&gt; <code>ensureRootIsScheduled</code>  -&gt; <code>scheduleTaskForRootDuringMicrotask</code>   -&gt;  <code>performConcurrentWorkOnRoot</code> -&gt; <code>renderRootSync</code> -&gt; <code>prepareFreshStack</code>，经过一个很长的链路之后，来到了<code>prepareFreshStack</code>，在这里主要用于创建workInProgress 根结点，也就是开始了 createWorkInProgress Tree的流程（包含createFiber）</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">function</span> <span class="token function">prepareFreshStack</span><span class="token punctuation">(</span>root<span class="token punctuation">:</span> FiberRoot<span class="token punctuation">,</span> lanes<span class="token punctuation">:</span> Lanes<span class="token punctuation">)</span><span class="token punctuation">:</span> Fiber <span class="token punctuation">{</span>
+  root<span class="token punctuation">.</span>finishedWork <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+  root<span class="token punctuation">.</span>finishedLanes <span class="token operator">=</span> NoLanes<span class="token punctuation">;</span>
+
+  <span class="token keyword">const</span> timeoutHandle <span class="token operator">=</span> root<span class="token punctuation">.</span>timeoutHandle<span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>timeoutHandle <span class="token operator">!==</span> noTimeout<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// The root previous suspended and scheduled a timeout to commit a fallback</span>
+    <span class="token comment" spellcheck="true">// state. Now that we have additional work, cancel the timeout.</span>
+    root<span class="token punctuation">.</span>timeoutHandle <span class="token operator">=</span> noTimeout<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// $FlowFixMe[incompatible-call] Complains noTimeout is not a TimeoutID, despite the check above</span>
+    <span class="token function">cancelTimeout</span><span class="token punctuation">(</span>timeoutHandle<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">const</span> cancelPendingCommit <span class="token operator">=</span> root<span class="token punctuation">.</span>cancelPendingCommit<span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>cancelPendingCommit <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    root<span class="token punctuation">.</span>cancelPendingCommit <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token function">cancelPendingCommit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">resetWorkInProgressStack</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  workInProgressRoot <span class="token operator">=</span> root<span class="token punctuation">;</span>
+  <span class="token keyword">const</span> rootWorkInProgress <span class="token operator">=</span> <span class="token function">createWorkInProgress</span><span class="token punctuation">(</span>root<span class="token punctuation">.</span>current<span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  workInProgress <span class="token operator">=</span> rootWorkInProgress<span class="token punctuation">;</span>
+  workInProgressRootRenderLanes <span class="token operator">=</span> renderLanes <span class="token operator">=</span> lanes<span class="token punctuation">;</span>
+  workInProgressSuspendedReason <span class="token operator">=</span> NotSuspended<span class="token punctuation">;</span>
+  workInProgressThrownValue <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+  workInProgressRootDidAttachPingListener <span class="token operator">=</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+  workInProgressRootExitStatus <span class="token operator">=</span> RootInProgress<span class="token punctuation">;</span>
+  workInProgressRootFatalError <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+  workInProgressRootSkippedLanes <span class="token operator">=</span> NoLanes<span class="token punctuation">;</span>
+  workInProgressRootInterleavedUpdatedLanes <span class="token operator">=</span> NoLanes<span class="token punctuation">;</span>
+  workInProgressRootRenderPhaseUpdatedLanes <span class="token operator">=</span> NoLanes<span class="token punctuation">;</span>
+  workInProgressRootPingedLanes <span class="token operator">=</span> NoLanes<span class="token punctuation">;</span>
+  workInProgressRootConcurrentErrors <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+  workInProgressRootRecoverableErrors <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+
+  <span class="token function">finishQueueingConcurrentUpdates</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>__DEV__<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ReactStrictModeWarnings<span class="token punctuation">.</span><span class="token function">discardPendingWarnings</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">return</span> rootWorkInProgress<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p>注意，如果中途触发了 exitStatus === RootFatalErrored 条件，也就是说 workInProgressRoot状态报错，出了点问题，也会自动刷新 <code>prepareFreshStack</code> 调用栈</p>
+</blockquote>
+<p>然后通过  <code>renderRootSync</code> 中的 <code>workLoopSync</code> 进行遍历整个链表调用 <code>performUnitOfWork</code>，不断更新 <code>workInProgress</code> </p>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">function</span> <span class="token function">performUnitOfWork</span><span class="token punctuation">(</span>unitOfWork<span class="token punctuation">:</span> Fiber<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">void</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// The current, flushed, state of this fiber is the alternate. Ideally</span>
+  <span class="token comment" spellcheck="true">// nothing should rely on this, but relying on it here means that we don't</span>
+  <span class="token comment" spellcheck="true">// need an additional field on the work in progress.</span>
+  <span class="token keyword">const</span> current <span class="token operator">=</span> unitOfWork<span class="token punctuation">.</span>alternate<span class="token punctuation">;</span>
+  <span class="token function">setCurrentDebugFiberInDEV</span><span class="token punctuation">(</span>unitOfWork<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">let</span> next<span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// 通过beginWork，根据不同的节点类型（如函数组件、类组件、html 标签、树的根节点等），调用不同的函数，来得到下一个将要处理的jsx                     </span>
+  <span class="token comment" spellcheck="true">// 结构（即 element），然后再将得到的 element 结构解析成 fiber 节点</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>enableProfilerTimer <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>unitOfWork<span class="token punctuation">.</span>mode <span class="token operator">&amp;</span> ProfileMode<span class="token punctuation">)</span> <span class="token operator">!==</span> NoMode<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">startProfilerTimer</span><span class="token punctuation">(</span>unitOfWork<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    next <span class="token operator">=</span> <span class="token function">beginWork</span><span class="token punctuation">(</span>current<span class="token punctuation">,</span> unitOfWork<span class="token punctuation">,</span> renderLanes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">stopProfilerTimerIfRunningAndRecordDelta</span><span class="token punctuation">(</span>unitOfWork<span class="token punctuation">,</span> <span class="token keyword">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    next <span class="token operator">=</span> <span class="token function">beginWork</span><span class="token punctuation">(</span>current<span class="token punctuation">,</span> unitOfWork<span class="token punctuation">,</span> renderLanes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">resetCurrentDebugFiberInDEV</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  unitOfWork<span class="token punctuation">.</span>memoizedProps <span class="token operator">=</span> unitOfWork<span class="token punctuation">.</span>pendingProps<span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>next <span class="token operator">===</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// If this doesn't spawn new work, complete the current work.</span>
+    <span class="token comment" spellcheck="true">// 走兄弟节点流程</span>
+    <span class="token function">completeUnitOfWork</span><span class="token punctuation">(</span>unitOfWork<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    workInProgress <span class="token operator">=</span> next<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  ReactCurrentOwner<span class="token punctuation">.</span>current <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>beginWork方法部分截图</p>
+<p>该函数用于</p>
+<ol>
+<li><p>初始化时根据 tag 创建不同fiber节点</p>
+</li>
+<li><p>更新时期，复用之前的current</p>
+</li>
+</ol>
+<p><img src="/2021/09/15/react-fiber/tree1.png" alt></p>
+<p>最后通过在react/packages/react-reconciler/src/ReactChildFiber.js 里的 <code>reconcileChildren</code> 函数（diff）算法对比更新节点</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">const</span> current <span class="token operator">=</span> newFiber<span class="token punctuation">.</span>alternate<span class="token punctuation">;</span></code></pre>
+<p>以此更新fiber节点</p>
+<h4 id="React-Fiber出现缘由"><a href="#React-Fiber出现缘由" class="headerlink" title="React Fiber出现缘由"></a>React Fiber出现缘由</h4><p>fiber出现之前的React 处理一次 setState()（首次渲染）时会有两个阶段：</p>
+<ul>
+<li><strong>调度阶段（Reconciler）</strong>：这个阶段React用新数据生成新的 Virtual DOM，遍历 Virtual DOM，然后通过 Diff 算法，快速找出需要更新的元素，放到更新队列中去。</li>
+<li><strong>渲染阶段（Renderer）</strong>：这个阶段 React 根据所在的渲染环境，遍历更新队列，将对应元素更新。在浏览器中，就是更新对应的 DOM 元素。</li>
+</ul>
+<p>然而该策略是需要深度优先遍历所有的 Virtual DOM 节点 + diff对比判断，并且要等整棵 Virtual DOM 计算完成之后，才将任务出栈释放主线程，在更新完所有组件之前不停止，而且很长时间不会返回。</p>
+<p>你也可以理解为这种深度遍历节点，生成新虚拟dom的执行是连贯的，并不中断的。</p>
+<p>因为JavaScript单线程的特点，每个同步任务不能耗时太长，不然就会让程序不会对其他输入作出相应，而React Fiber就是要解决这个问题。</p>
 <p>比如 JS引擎解析JS代码 -&gt; 样式布局 -&gt; 样式绘制</p>
-<p>当JS执行时间过长，超出了16.6ms（主流浏览器1000ms / 60帧），这次刷新就没有时间执行<strong>样式布局</strong>和<strong>样式绘制</strong>了。由此在同步工作而过程当中，可能无法绘制完全？！(图片源自卡佬的<a href="https://react.iamkasong.com/" target="_blank" rel="noopener">https://react.iamkasong.com/</a>)</p>
+<p>当JS执行时间过长，超出了16.6ms（主流浏览器1000ms / 60帧），这次刷新就没有时间执行<strong>样式布局</strong>和<strong>样式绘制</strong>了。由此在同步工作而过程当中，可能绘制成功，可能要等到下一个16.6ms才能绘制出来 (图片源自<a href="https://react.iamkasong.com/" target="_blank" rel="noopener">React技术揭秘</a>)</p>
 <p><img src="/2021/09/15/react-fiber/fault.jpg" alt></p>
-<p>然而解决同步更新整个巨大的DOM的方案，就是分片操作（内心os：让我想起了cpu的时间分片）</p>
-<p>把当前任务进行分片，每一个小片按照一定算法执行，这样子线程就不会被独占，让其他任务有可乘之机！</p>
+<p>然而需要解决</p>
+<ul>
+<li><p>第一：解决同步更新整个巨大的DOM的方案，就是分片操作（让我想起了cpu的时间分片）</p>
+<p>把当前任务进行分片，每一个小片按照Fiber本身的算法执行，这样子线程就不会被独占，让其他任务有时间去操作</p>
 <p>React Fiber把更新过程碎片化（分片数据结构维护的leader），每执行完一段更新过程，就把控制权交还给React负责任务协调的模块，看看有没有其他紧急任务要做，如果没有就继续去更新，如果有紧急任务，那就去做紧急任务。</p>
-<h4 id="React16架构"><a href="#React16架构" class="headerlink" title="React16架构"></a>React16架构</h4><p>React16架构可以分为三层（之前是只有两层，没有 Scheduler）：</p>
+<p>目前并发模式下分片时间段设置为5ms</p>
+</li>
+<li><p>第二：为了确保用户看到更新完全的dom，确保剩余时间能完成任务</p>
+</li>
+</ul>
+<p>这里插播一条知乎上<a href="https://www.zhihu.com/question/51542905/answer/2885101964" target="_blank" rel="noopener">cpu时间片</a>的概念</p>
+<p><strong>cpu时间片的概念</strong></p>
+<p>时间片即CPU分配给各个程序的时间，每个线程被分配一个时间段，称作它的时间片，即该进程允许运行的时间，使各个程序从表面上看是同时进行的。如果在时间片结束时进程还在运行，则CPU将被剥夺并分配给另一个进程。如果进程在时间片结束前阻塞或结束，则CPU当即进行切换。而不会造成CPU资源浪费。在宏观上：我们可以同时打开多个应用程序，每个程序<a href="https://www.zhihu.com/search?q=并行不悖&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra={" target="_blank" rel="noopener" sourcetype"%3a"answer"%2c"sourceid"%3a2885101964}">并行不悖</a>，同时运行。但在微观上：由于只有一个CPU，一次只能处理程序要求的一部分，如何处理公平，一种方法就是引入时间片，每个程序轮流执行。</p>
+<p><strong>系统中cpu时间片是多久</strong></p>
+<p>Windows 系统中线程轮转时间也就是时间片大约是20ms，如果某个线程所需要的时间小于20ms，那么不到20ms就会切换到其他线程;如果一个线程所需的时间超过20ms，系统也最多只给20ms，除非意外发生(那可能导致整个系统无响应)，而Linux/unix中则是5~800ms。</p>
+<h4 id="React16架构"><a href="#React16架构" class="headerlink" title="React16架构"></a>React16架构</h4><p>React16之后架构可以分为三层（之前是只有两层，没有 Scheduler）：</p>
 <ul>
 <li>Scheduler（调度器）—— 调度任务的优先级，高优任务优先进入<strong>Reconciler</strong></li>
 <li>Reconciler（协调器）—— 负责找出变化的组件</li>
 <li>Renderer（渲染器）—— 负责将变化的组件渲染到页面上</li>
 </ul>
-<p><code>Fiber</code>包含三层含义：</p>
+<p><code>Fiber</code>包含<a href="https://react.iamkasong.com/process/fiber.html#fiber%E7%9A%84%E8%B5%B7%E6%BA%90" target="_blank" rel="noopener">三层含义</a>：</p>
 <ol>
-<li>作为架构来说，之前<code>React15</code>的<code>Reconciler</code>采用递归的方式执行，数据保存在递归调用栈中，所以被称为<code>stack Reconciler</code>。<code>React16</code>的<code>Reconciler</code>基于<code>Fiber节点</code>实现，被称为<code>Fiber Reconciler</code>。</li>
+<li>作为架构来说，之前<code>React15</code>的<code>Reconciler</code>采用递归的方式执行，数据保存在递归调用栈中，所以被称为<code>stack Reconciler</code>。<code>React16</code>的<code>Reconciler</code>基于<code>Fiber节点</code>实现，被称为<code>Fiber Reconciler</code>，所以现在在源码中可以看到各种fiber实现的函数。</li>
 <li>作为静态的数据结构来说，每个<code>Fiber节点</code>对应一个<code>React element</code>，保存了该组件的类型（函数组件/类组件/原生组件…）、对应的DOM节点等信息。</li>
 <li>作为动态的工作单元来说，每个<code>Fiber节点</code>保存了本次更新中该组件改变的状态、要执行的工作（需要被删除/被插入页面中/被更新…）。</li>
 </ol>
-<h2 id="React-Fiber的影响"><a href="#React-Fiber的影响" class="headerlink" title="React Fiber的影响"></a>React Fiber的影响</h2><p>先说一下React的渲染过程</p>
-<h4 id="Render阶段"><a href="#Render阶段" class="headerlink" title="Render阶段"></a><strong>Render阶段</strong></h4><p>（1）Reconciliation Phase（Render阶段，低优先级）：React将更新应用于通过setState或render方法触发的组件，并确定需要在用户屏幕上做哪些更新–哪些节点需要插入，更新或删除（利用effectTag来标识，比如）</p>
+<h2 id="React-Fiber的影响"><a href="#React-Fiber的影响" class="headerlink" title="React Fiber的影响"></a>React Fiber的影响</h2><h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>fiber tree在初始阶段创建后不再通过本身修改更新，而是随之react更新，刷新工作栈时更新的是另外一个树：<code>workInProgress tree</code>，由此构成双缓冲树结构，然后再将current指向当前 <code>workInProgress tree</code>， 此时workInProgress tree 就是新的 fiber tree</p>
+<p>下面先说一下React的渲染过程</p>
+<h4 id="Render阶段"><a href="#Render阶段" class="headerlink" title="Render阶段"></a><strong>Render阶段</strong></h4><p>（1）Reconciliation Phase（Render阶段，低优先级）：React将更新应用于通过setState或render方法触发的组件，并确定需要在用户屏幕上做哪些更新–哪些节点需要插入，更新或删除（打上Flag，比如）</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// DOM需要插入到页面中</span>
 <span class="token keyword">export</span> <span class="token keyword">const</span> Placement <span class="token operator">=</span> <span class="token comment" spellcheck="true">/*                */</span> <span class="token number">0b00000000000010</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">// DOM需要更新</span>
@@ -557,15 +711,67 @@
 <span class="token keyword">export</span> <span class="token keyword">const</span> PlacementAndUpdate <span class="token operator">=</span> <span class="token comment" spellcheck="true">/*       */</span> <span class="token number">0b00000000000110</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">// DOM需要删除</span>
 <span class="token keyword">export</span> <span class="token keyword">const</span> Deletion <span class="token operator">=</span> <span class="token comment" spellcheck="true">/*                 */</span> <span class="token number">0b00000000001000</span><span class="token punctuation">;</span></code></pre>
-<p>哪些组件需要调用其生命周期方法。（找出需要更新哪些DOM）最终的这些更新信息被保存在一个叫effect list的fiber 节点树上，然后在这个阶段创建出<code>workInProgress Fiber Tree</code>。</p>
-<p>但是值得注意的是，首屏渲染时期，也就是mount时间段，<code>reconcileChildren</code>中调用的<code>mountChildFibers</code>不会为<code>Fiber</code>节点赋值<code>effectTag</code>，而是在 <code>completeWork</code>阶段当中创建 <code>fiber.stateNode</code>。因为首次渲染的时候毫无疑问整棵fiber树为空，则每个节点都会被赋值上，<code>Placement effectTag</code>，此时每个节点都会执行一次插入操作，效果是极低的，而只有<code>rootFiber</code>会赋值<code>Placement effectTag</code></p>
-<p><strong>在新生命周期图中</strong>render阶段被标记为纯的、没有副作用的，可能会被React暂停、终止或者重新执行。也就是说，React会根据产生的任务的优先级，安排任务的调度（schedule）。利用类似<code>requestIdleCallback</code>的原理在浏览器空闲阶段进行更新计算，而不会阻塞动画，事件等的执行。</p>
-<p>通俗来说，也就是讲我们想要做的操作，做什么任务，以及会调用到的生命周期方法作为信息保存在 <code>fiber</code>节点树上</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token comment" spellcheck="true">//打上去的时候大概这样</span>
+newFiber<span class="token punctuation">.</span>flags <span class="token operator">|</span><span class="token operator">=</span> Placement <span class="token operator">|</span> PlacementDEV<span class="token punctuation">;</span></code></pre>
+<p>哪些组件需要调用其生命周期方法，然后通过 <code>bubbleProperties</code> 方法， 将<code>Child Fiber</code>的<code>flag</code> 挂在当前<code>Fiber</code> 的 <code>subtreeFlags</code> 上（之前用时effectList），最后在这个阶段创建出<strong><code>workInProgress Fiber Tree</code></strong>。</p>
+<p>但是值得注意的是，首屏渲染时期，也就是mount时间段，<code>reconcileChildren</code>中调用的<code>mountChildFibers</code>不会为<code>Fiber</code>节点赋值<code>effectTag</code></p>
+<p>而只有<code>rootFiber</code>会赋值<code>Placement effectTag</code>，并且使用 <code>appendAllChildren</code> 一次性全部插入</p>
+<p>因为首次渲染的时候毫无疑问整棵fiber树为空，则每个节点都会被赋值上，<code>Placement effectTag</code>，此时每个节点都会执行一次插入操作，效果是极低的</p>
+<p><strong>在生命周期图中</strong>，render阶段被标记为纯的、没有副作用的，可能会被React暂停、终止或者重新执行。也就是说，React会根据产生的任务的优先级，安排任务的调度（schedule）。利用<code>setTimeout</code>在浏览器空闲阶段进行更新计算，而不会阻塞动画，事件等的执行，其中调度细节可以在  <code>scheduler</code> 这包看。</p>
+<p>也就是说，也我们想要做的操作，做什么任务，以及会调用到的生命周期方法作为信息保存在 <code>fiber</code>节点树上</p>
 <p>并且一次更新过程会分成多个分片完成，所以完全有可能一个更新任务还没有完成，就被另一个更高优先级的更新过程打断（比如用户交互的优先级 &gt; 数据请求），这时候，优先级高的更新任务会优先处理完，而低优先级更新任务所做的工作则会<strong>完全作废，然后等待机会重头再来</strong>。</p>
-<h4 id="Commit阶段"><a href="#Commit阶段" class="headerlink" title="Commit阶段"></a><strong>Commit阶段</strong></h4><p>（2）Commit Phase（Commit阶段，高优先级）：会遍历<code>effect list</code>，把所有更新都commit到DOM树上。在<code>pre-commit</code>阶段，主要是执行<code>getSnapshotBeforeUpdate</code>方法，可以获取当前DOM的快照（snap，详情可以收看新生命周期图中的 <code>getSnapshotBeforeUpdate</code> ），然后给需要卸载的组件执行<code>componentWillUnmount</code>方法。接着会把current fiber tree 替换为<code>workInProgress</code> fiber tree。最后执行DOM的插入、更新和删除（mutation阶段），给更新的组件执行<code>componentDidUpdate</code>，给插入的组件执行<code>componentDidMount</code>。</p>
-<p>这一阶段无法终止（一鼓作气，再而衰，三而竭地更新DOM，never打断）</p>
+<h4 id="Commit阶段"><a href="#Commit阶段" class="headerlink" title="Commit阶段"></a><strong>Commit阶段</strong></h4><p>（2）Commit Phase（Commit阶段，高优先级）：</p>
+<p>此时并不会再遍历fiber树了，这样就太低效了..</p>
+<p>而是会遍历<code>effect list</code>，把所有更新都commit到DOM树上。在<code>pre-commit</code>阶段，主要是执行<code>getSnapshotBeforeUpdate</code>方法</p>
+<p>可以获取当前DOM的快照（snap，详情可以收看新生命周期图中的 <code>getSnapshotBeforeUpdate</code> ）</p>
+<p>然后给需要卸载的组件执行<code>componentWillUnmount</code>方法。接着会把current fiber tree 替换为<code>workInProgress</code> fiber tree。最后执行DOM的插入、更新和删除（mutation阶段），给更新的组件执行<code>componentDidUpdate</code>，给插入的组件执行<code>componentDidMount</code>。</p>
+<h5 id="处理Effect-List-（subtreeEffect-List）"><a href="#处理Effect-List-（subtreeEffect-List）" class="headerlink" title="处理Effect List （subtreeEffect List）"></a>处理Effect List （subtreeEffect List）</h5><p>那么Effect List从哪里来呢？</p>
+<p>同样的，在我们之前提到的 <code>performUnitOfWork</code> 遍历函数中，有一个 <code>completeUnitOfWork</code> 函数，执行完毕后，会把每一个有副作用的 fiber （存在<code>effectTag</code>）筛选出来，最后构建生成一个只带副作用的 effect list 链表。</p>
+<p>不过在react 17之后，effect被弃用 <a href="https://github.com/facebook/react/pull/19673" target="_blank" rel="noopener">Issue</a>，替换为 subtreeTag</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">do</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// `flushPassiveEffects` will call `flushSyncUpdateQueue` at the end, which</span>
+  <span class="token comment" spellcheck="true">// means `flushPassiveEffects` will sometimes result in additional</span>
+  <span class="token comment" spellcheck="true">// passive effects. So we need to keep flushing in a loop until there are</span>
+  <span class="token comment" spellcheck="true">// no more pending effects.</span>
+  <span class="token comment" spellcheck="true">// TODO: Might be better if `flushPassiveEffects` did not automatically</span>
+  <span class="token comment" spellcheck="true">// flush synchronous work at the end, to avoid factoring hazards like this.</span>
+  <span class="token function">flushPassiveEffects</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">while</span> <span class="token punctuation">(</span>rootWithPendingPassiveEffects <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">flushRenderPhaseStrictModeWarningsInDEV</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//...</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>
+  <span class="token punctuation">(</span>finishedWork<span class="token punctuation">.</span>subtreeFlags <span class="token operator">&amp;</span> PassiveMask<span class="token punctuation">)</span> <span class="token operator">!==</span> NoFlags <span class="token operator">||</span>
+  <span class="token punctuation">(</span>finishedWork<span class="token punctuation">.</span>flags <span class="token operator">&amp;</span> PassiveMask<span class="token punctuation">)</span> <span class="token operator">!==</span> NoFlags
+<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>rootDoesHavePassiveEffects<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    rootDoesHavePassiveEffects <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+    pendingPassiveEffectsRemainingLanes <span class="token operator">=</span> remainingLanes<span class="token punctuation">;</span>
+    <span class="token function">scheduleCallback</span><span class="token punctuation">(</span>NormalSchedulerPriority<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token function">flushPassiveEffects</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">function</span> <span class="token function">commitBeforeMutationEffects_begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">while</span> <span class="token punctuation">(</span>nextEffect <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//....</span>
+    <span class="token comment" spellcheck="true">//可以防止无意义DFS</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>
+      <span class="token punctuation">(</span>fiber<span class="token punctuation">.</span>subtreeFlags <span class="token operator">&amp;</span> BeforeMutationMask<span class="token punctuation">)</span> <span class="token operator">!==</span> NoFlags <span class="token operator">&amp;&amp;</span>
+      child <span class="token operator">!==</span> <span class="token keyword">null</span>
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      child<span class="token punctuation">.</span><span class="token keyword">return</span> <span class="token operator">=</span> fiber<span class="token punctuation">;</span>
+      nextEffect <span class="token operator">=</span> child<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token function">commitBeforeMutationEffects_complete</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>重构之后，会将子节点的副作用冒泡到父节点的<code>SubtreeFlags</code>属性，详情可以看<a href="https://cloud.tencent.com/developer/article/1909391" target="_blank" rel="noopener">这里</a>， 主要体现为让子节点的flag通过树形结构冒泡到父节点</p>
+<p>原来的链表结构替换为树形结构主要服务于react 18的 <code>Suspense</code> 功能</p>
+<p>这一阶段无法终止（一鼓作气，再而衰，三而竭地更新DOM，不可中断）</p>
 <p>在 commit 阶段，work 执行总是同步的，这是因为在此阶段执行的工作将导致用户可见的更改。这就是为什么在 commit 阶段， React 需要一次性提交并完成这些工作的原因。</p>
-<p>进入到commit阶段的时候，会遍历<code>effect list</code></p>
+<p>进入到commit阶段的时候，会遍历带副作用的节点</p>
 <p>插入DOM -&gt; fiber节点上增加Placement的effect</p>
 <p>更新DOM -&gt; fiber节点上增加Update的effect</p>
 <p>删除DOM -&gt; fiber节点上增加Deletion的effect</p>
@@ -573,26 +779,26 @@
 <p>useEffect回调执行 -&gt;  fiber节点上增加Passive的effect</p>
 <p><img src="/2021/09/15/react-fiber/effect.jpg" alt></p>
 <p><img src="/2021/09/15/react-fiber/effect2.jpg" alt></p>
-<p>然后在render阶段 -&gt; commit阶段的时候，会传递一条effect链表，里面可能包含了Placement、Passive等</p>
-<p>commit阶段处理链表上的每个effect</p>
-<p>commit阶段有三个小段（全程都在遍历<code>effectList</code>）：</p>
+<p>commit阶段有三个小段：</p>
 <p>1.beforeMutation阶段</p>
 <ul>
 <li>处理<code>DOM节点</code>渲染/删除后的 <code>autoFocus</code>、<code>blur</code> 逻辑。</li>
 <li>调用<code>getSnapshotBeforeUpdate</code>生命周期钩子。</li>
-<li>调度<code>useEffect</code>。</li>
+<li>调度<code>useEffect</code>（未执行回调）。</li>
 </ul>
 <p>2.mutation阶段</p>
 <ul>
 <li>根据<code>ContentReset effectTag</code>重置文字节点</li>
-<li>更新<code>ref</code></li>
-<li>根据<code>effectTag</code>分别进行DOM的处理，增删改DOM，执行<code>useLayoutEffect hook</code>的销毁函数，执行 <code>componentWillUnmount</code>生命周期函数</li>
+<li><code>WorkInProgress</code> 上的 <code>Fiber</code> 渲染在浏览器上，也就是根据<code>effectTag</code>分别进行DOM的处理，增删改DOM</li>
+<li>如果是ScopeComponent，会更新 ref（safelyAttachRef）</li>
+<li>执行useLayoutEffect销毁函数（commitHookEffectListUnmount）</li>
 </ul>
 <p>3.layout阶段</p>
 <ul>
 <li>commitLayoutEffectOnFiber（调用生命周期钩子和<code>hook</code>相关操作）<ul>
 <li><code>componentDidMount</code>、<code>ComponentDidUpdate</code> </li>
-<li>执行<code>useLayoutEffect hook</code>的回调</li>
+<li>执行<code>useLayoutEffect hook</code>的回调（commitHookLayoutEffects）</li>
+<li>ref 的更新（safelyAttachRef）</li>
 </ul>
 </li>
 <li>commitAttachRef（赋值 ref）</li>
@@ -616,30 +822,97 @@
 <p>当 React 遍历 current 树时，它会为每一个存在的 fiber 节点创建了一个替代节点，这些替代节点形成 <code>workInProgress</code> 树，后续的变更在<code>workInProgress</code> 树上执行，当 <code>workInProgress</code> 树被提交后将会在 commit 阶段的某一子阶段被替换成为 <code>current</code> 树。</p>
 <p>每次状态更新都会产生新的<code>workInProgress Fiber树</code>，通过<code>current</code>与<code>workInProgress</code>的替换，完成<code>DOM</code>更新。</p>
 <p>多建一棵树是为了做缓存，保障构建和绘制的流畅性</p>
-<p><strong>Effect List</strong></p>
-<p>React 采用DFS，在 render 阶段遍历 fiber 树时，把每一个有副作用的 fiber 筛选出来，最后构建生成一个只带副作用的 effect list 链表。</p>
-<p>为什么有Effect List呢，因为Mount生命周期对应的是HooksDispatcherOnMount，里面有它自己的useState、useEffect；update生命周期对应的是HooksDispatcherOnUpdate，里面也有它自己的useState、useEffect，而其中他们的useEffect形成的链表就形成effect list</p>
-<p>这里有从fiber树到Effect List构建过程的视频 <a href="https://www.bilibili.com/video/av48384879/" target="_blank" rel="noopener">https://www.bilibili.com/video/av48384879/</a></p>
-<p>借用<code>React</code>团队成员<strong>Dan Abramov</strong>的话：<code>effectList</code>相较于<code>Fiber树</code>，就像圣诞树上挂的那一串彩灯。</p>
-<h4 id="分片更新的影响"><a href="#分片更新的影响" class="headerlink" title="分片更新的影响"></a>分片更新的影响</h4><p>这会导致啥?</p>
-<ul>
-<li>一次更新分成多个分片，所以完全有可能一个更新任务还没完成，就被高优先级的任务打断，从而之前的工作作废。<ul>
-<li>因此如果你使用的是类式组件（带生命周期函数），你会发现：<strong>在React Fiber中，不再是这样了，第一阶段中的生命周期函数（render阶段的生命周期函数）在一次加载和更新过程中可能会被多次调用！</strong></li>
-</ul>
-</li>
-</ul>
-<h2 id="React-Diff"><a href="#React-Diff" class="headerlink" title="React Diff"></a>React Diff</h2><p>正常的完全对比算法是O(n^3)</p>
-<p>React对diff的三个限制（优化）：</p>
+<h4 id="调度时间算法"><a href="#调度时间算法" class="headerlink" title="调度时间算法"></a>调度时间算法</h4><h5 id="ExpirationTime"><a href="#ExpirationTime" class="headerlink" title="ExpirationTime"></a>ExpirationTime</h5><p>expirationTime属性是调度优先级相关的到期时间</p>
+<p>work 的过期时间，可用于标识一个 work 优先级顺序。</p>
+<p>比如高 优先级任务 taskA 和低优先级任务 taskB，它们对应的延时分别为 0 和 500，如果它们的 currentTime 相同，那么 <code>taskA.expirationTime</code> 就比 <code>taskB.expirationTime</code> 大 500。</p>
+<p>React 实现批量更新的方式很容易理解，只要任务满足 <code>task.expirationTime &gt;= currentExecTaskTime</code> 即可。</p>
+<p>在事件处理函数或生命周期函数中实现批量更新，就是通过将任务设置为相同的 ExpirationTime。如此一来，这些任务将同时满足 <code>task.expirationTime &gt;= currentExecTaskTime</code> 并被执行。</p>
+<p>在 React 中，为防止某个 update 因为优先级的原因一直被打断而未能执行。React 会设置一个 ExpirationTime，当时间到了 ExpirationTime 的时候，如果某个 update 还未执行的话，React 将会强制执行该 update</p>
+<p>存在问题：</p>
+<p>taskA优先级大于taskB时，有2种调度方式</p>
 <ol>
-<li>只对比同层级节点</li>
-<li>元素类型改变之后，将本身及其子孙一同销毁</li>
-<li>通过key、prop保持diff的稳定性</li>
+<li>先执行 taskA 后执行 taskB。因为 taskA 无法完成，所以不会执行 taskB，结果为：页面卡住。</li>
+<li>taskA 和 taskB 一起执行。</li>
 </ol>
-<p>看完之后感觉和Vue的差不多，但是由于fiber是单链表，所以好像不能和Vue一样使用双指针的优化方案</p>
+<p>ExpirationTime 机制引起该问题的更深层次原因是，它耦合了任务的<strong>优先级</strong>和<strong>批量更新</strong>。当决定了需要执行的优先级（currentExecTaskTime）时，所有 <code>task.expirationTime &gt;= currentExecTaskTime</code> 的任务都将被执行。</p>
+<h5 id="lane"><a href="#lane" class="headerlink" title="lane"></a>lane</h5><p>在2020年5月，调度优先级策略经历了比较大的重构。以expirationTime属性为代表的优先级模型被lane取代，详情可以看ReactFiberLane的computeExpirationTime函数</p>
+<p>之前：</p>
+<pre class=" language-js"><code class="language-js">Fiber <span class="token operator">=</span> <span class="token punctuation">{</span>
+    expirationTime<span class="token punctuation">:</span> ExpirationTime<span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<p>现在：</p>
+<pre class=" language-js"><code class="language-js">Fiber <span class="token operator">=</span> <span class="token punctuation">{</span>
+    expirationTimes <span class="token operator">=</span> <span class="token function">createLaneMap</span><span class="token punctuation">(</span>NoTimestamp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<h5 id="（1）React中有三套优先级机制"><a href="#（1）React中有三套优先级机制" class="headerlink" title="（1）React中有三套优先级机制"></a>（1）React中有三套优先级机制</h5><ol>
+<li>React事件优先级</li>
+<li>Lane优先级</li>
+<li>Scheduler优先级</li>
+</ol>
+<p>React事件优先级</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token comment" spellcheck="true">// 离散事件优先级，例如：点击事件，input输入等触发的更新任务，优先级最高</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> DiscreteEventPriority<span class="token punctuation">:</span> EventPriority <span class="token operator">=</span> SyncLane<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 连续事件优先级，例如：滚动事件，拖动事件等，连续触发的事件</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> ContinuousEventPriority<span class="token punctuation">:</span> EventPriority <span class="token operator">=</span> InputContinuousLane<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 默认事件优先级，例如：setTimeout触发的更新任务</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> DefaultEventPriority<span class="token punctuation">:</span> EventPriority <span class="token operator">=</span> DefaultLane<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 闲置事件优先级，优先级最低</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> IdleEventPriority<span class="token punctuation">:</span> EventPriority <span class="token operator">=</span> IdleLane<span class="token punctuation">;</span></code></pre>
+<p>Lane优先级转换为React事件优先级：</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">lanesToEventPriority</span><span class="token punctuation">(</span>lanes<span class="token punctuation">:</span> Lanes<span class="token punctuation">)</span><span class="token punctuation">:</span> EventPriority <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// 找到优先级最高的lane</span>
+  <span class="token keyword">const</span> lane <span class="token operator">=</span> <span class="token function">getHighestPriorityLane</span><span class="token punctuation">(</span>lanes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">isHigherEventPriority</span><span class="token punctuation">(</span>DiscreteEventPriority<span class="token punctuation">,</span> lane<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> DiscreteEventPriority<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">isHigherEventPriority</span><span class="token punctuation">(</span>ContinuousEventPriority<span class="token punctuation">,</span> lane<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> ContinuousEventPriority<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">includesNonIdleWork</span><span class="token punctuation">(</span>lane<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> DefaultEventPriority<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> IdleEventPriority<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>React事件优先级转换为Scheduler优先级（Lane优先级转换为React事件优先级 -&gt; Scheduler优先级 ）</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token comment" spellcheck="true">//离散事件</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> ImmediatePriority <span class="token operator">=</span> Scheduler<span class="token punctuation">.</span>unstable_ImmediatePriority<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//用户block（交互）事件</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> UserBlockingPriority <span class="token operator">=</span> Scheduler<span class="token punctuation">.</span>unstable_UserBlockingPriority<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//正常事件</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> NormalPriority <span class="token operator">=</span> Scheduler<span class="token punctuation">.</span>unstable_NormalPriority<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//低级事件</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> LowPriority <span class="token operator">=</span> Scheduler<span class="token punctuation">.</span>unstable_LowPriority<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//空闲执行事件</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> IdlePriority <span class="token operator">=</span> Scheduler<span class="token punctuation">.</span>unstable_IdlePriority<span class="token punctuation">;</span></code></pre>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">switch</span> <span class="token punctuation">(</span><span class="token function">lanesToEventPriority</span><span class="token punctuation">(</span>nextLanes<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">case</span> DiscreteEventPriority<span class="token punctuation">:</span>
+    schedulerPriorityLevel <span class="token operator">=</span> ImmediateSchedulerPriority<span class="token punctuation">;</span>
+    <span class="token keyword">break</span><span class="token punctuation">;</span>
+  <span class="token keyword">case</span> ContinuousEventPriority<span class="token punctuation">:</span>
+    schedulerPriorityLevel <span class="token operator">=</span> UserBlockingSchedulerPriority<span class="token punctuation">;</span>
+    <span class="token keyword">break</span><span class="token punctuation">;</span>
+  <span class="token keyword">case</span> DefaultEventPriority<span class="token punctuation">:</span>
+    schedulerPriorityLevel <span class="token operator">=</span> NormalSchedulerPriority<span class="token punctuation">;</span>
+    <span class="token keyword">break</span><span class="token punctuation">;</span>
+  <span class="token keyword">case</span> IdleEventPriority<span class="token punctuation">:</span>
+    schedulerPriorityLevel <span class="token operator">=</span> IdleSchedulerPriority<span class="token punctuation">;</span>
+    <span class="token keyword">break</span><span class="token punctuation">;</span>
+  <span class="token keyword">default</span><span class="token punctuation">:</span>
+    schedulerPriorityLevel <span class="token operator">=</span> NormalSchedulerPriority<span class="token punctuation">;</span>
+    <span class="token keyword">break</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h5 id="（2）页面交互事件优先级"><a href="#（2）页面交互事件优先级" class="headerlink" title="（2）页面交互事件优先级"></a>（2）页面交互事件优先级</h5><p>由于react对事件监听都做了一层代理<code>addTrappedEventListener</code>，由此进来时会调用 getEventPriority 函数进行事件划分，然后得到对应的优先级（React事件优先级）</p>
+<p>然后接下来会根据获取到的事件的优先级分类，设置事件触发时拥有相对应优先级的回调函数</p>
+<h4 id="React-Diff"><a href="#React-Diff" class="headerlink" title="React Diff"></a>React Diff</h4><p>第一轮遍历，一一对比 vdom 和老的 fiber，如果可以复用就处理下一个节点，否则就结束遍历。</p>
+<p>如果所有的新的 vdom 处理完了，那就把剩下的老 fiber 节点删掉就行。</p>
+<p>如果还有 vdom 没处理，那就进行第二次遍历：</p>
+<p>第二轮遍历，把剩下的老 fiber 放到 map 里，遍历剩下的 vdom，从 map 里查找，如果找到了，就移动过来。</p>
+<p>第二轮遍历完了之后，把剩余的老 fiber 删掉，剩余的 vdom 新增。</p>
 <p>参考链接：</p>
-<p><a href="https://zhuanlan.zhihu.com/p/26027085" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/26027085</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/179934120" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/179934120</a></p>
-<p><a href="https://react.iamkasong.com/" target="_blank" rel="noopener">https://react.iamkasong.com/</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/179934120" target="_blank" rel="noopener">React Fiber 源码解析</a></p>
+<p> <a href="https://react.iamkasong.com/" target="_blank" rel="noopener">React技术揭秘</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/424967867" target="_blank" rel="noopener">「React Fiber」 详细解析</a></p>
+<p><a href="https://juejin.cn/post/6951206227418284063" target="_blank" rel="noopener">React 为什么使用 Lane 技术方案</a></p>
 
             </div>
             <hr/>
@@ -1096,7 +1369,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">386.2k</span>&nbsp;字
+                class="white-color">415.8k</span>&nbsp;字
             
             
             

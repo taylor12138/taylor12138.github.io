@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.7k
+                    6.2k
                 </div>
                 
 
@@ -790,7 +790,7 @@ v0.12.8</code></pre>
 <h2 id="6-npm发包"><a href="#6-npm发包" class="headerlink" title="6.npm发包"></a>6.npm发包</h2><p>首先在github上新建项目，clone下来后 <code>npm init -y</code>，push完后我们就可以发包啦</p>
 <p>在官网注册账号</p>
 <p>需要切换npm源</p>
-<p>如果是淘宝源、或者公司的源，需要在本地项目命令行输入（后面我们记得切回去，以免影响我们的日常使用）</p>
+<p>如果是淘宝源、或者公司的源，需要在本地项目命令行输入（后面我们记得切回公司的镜像源，以免影响我们的日常使用）</p>
 <pre class=" language-shell"><code class="language-shell">npm set registry https://registry.npmjs.org/</code></pre>
 <pre class=" language-shell"><code class="language-shell">npm login</code></pre>
 <p>在本地和npm官网的账户连接</p>
@@ -799,7 +799,10 @@ v0.12.8</code></pre>
   <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"名称"</span><span class="token punctuation">,</span>
   <span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"1.0.0"</span><span class="token punctuation">,</span>
   <span class="token property">"description"</span><span class="token operator">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
-  <span class="token property">"main"</span><span class="token operator">:</span> <span class="token string">"./dist/bundle.js"</span><span class="token punctuation">,</span>
+  //main文件路径
+  <span class="token property">"main"</span><span class="token operator">:</span> <span class="token string">"./dist/main.js"</span><span class="token punctuation">,</span>
+  //ts声明文件路径
+  <span class="token property">"typings"</span><span class="token operator">:</span> <span class="token string">"dist/main.d.ts"</span><span class="token punctuation">,</span>
   <span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
     <span class="token property">"test"</span><span class="token operator">:</span> <span class="token string">"echo \"Error: no test specified\" &amp;&amp; exit 1"</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
@@ -807,6 +810,7 @@ v0.12.8</code></pre>
   <span class="token property">"files"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
     <span class="token string">"lib"</span>
   <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  //关键词
   <span class="token property">"keywords"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
   <span class="token property">"author"</span><span class="token operator">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
   <span class="token property">"license"</span><span class="token operator">:</span> <span class="token string">"ISC"</span><span class="token punctuation">,</span>
@@ -844,6 +848,47 @@ npm unlink xx-module</code></pre>
 <p><a href="https://www.jianshu.com/p/aaa7db89a5b2" target="_blank" rel="noopener">npm link的使用</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/553199008" target="_blank" rel="noopener">用一个实例简单介绍什么是pnpm</a></p>
 <p><a href="https://blog.bitsrc.io/npm-7-this-is-what-i-call-an-update-de17a34ab787" target="_blank" rel="noopener">NPM 7: This Is What I Call An Update</a></p>
+<h2 id="8-更好的link：-yalc"><a href="#8-更好的link：-yalc" class="headerlink" title="8.更好的link： yalc"></a>8.更好的link： yalc</h2><p>对于一些公司内部包的link ，走npm link 可能有些问题，但是yalc就没问题，因为yalc直接走本地全局的link，并且可以快速切换为第三方npm 包 和本地包</p>
+<p>一些<a href="https://juejin.cn/post/7033400734746066957" target="_blank" rel="noopener">阅读链接：yalc: 可能是最好的前端link调试方案（已经非常谦虚了）</a></p>
+<p><a href="https://github.com/wclr/yalc" target="_blank" rel="noopener">github</a></p>
+<p>安装</p>
+<pre class=" language-shell"><code class="language-shell">npm i yalc -g
+# or
+yarn global add yalc</code></pre>
+<p>本地工具库</p>
+<pre class=" language-shell"><code class="language-shell">yalc publish</code></pre>
+<p>修改代码后更新 + 推送（试了下，有时只使用 yalc push 是不行的，无法更新，直接两个命令都加上就必更新）</p>
+<pre class=" language-shell"><code class="language-shell">yalc publish --push
+yalc push</code></pre>
+<p>本地要引入的项目</p>
+<pre class=" language-shell"><code class="language-shell">yalc add 包名</code></pre>
+<p>使用后移出项目</p>
+<pre class=" language-shell"><code class="language-shell">yalc remove 包名</code></pre>
+<h3 id="更多的其他用法"><a href="#更多的其他用法" class="headerlink" title="更多的其他用法"></a>更多的其他用法</h3><pre class=" language-csharp"><code class="language-csharp">yalc update good<span class="token operator">-</span>ui # 更新依赖
+yalc <span class="token keyword">remove</span> <span class="token operator">--</span>all # 移除当前包里的全部yalc依赖</code></pre>
+<h2 id="9-peerDependencies"><a href="#9-peerDependencies" class="headerlink" title="9.peerDependencies"></a>9.peerDependencies</h2><p><strong>peerDependencies</strong> 也是 package.json 中的一个属性，翻译过来<strong>是</strong>对等依赖的意思，其中的包在 npm install 时并不会被安装；打包项目时，其中的包也不会被打包进去。</p>
+<p>一般用于一些组件库，对齐一些react、vue版本</p>
+<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"devDependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"react"</span><span class="token operator">:</span> <span class="token string">"^16.12.0"</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"peerDependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"react"</span><span class="token operator">:</span> <span class="token string">">=16.0.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"react-dom"</span><span class="token operator">:</span> <span class="token string">">=16.0.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"prop-types"</span><span class="token operator">:</span> <span class="token string">">=15.6.0"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"dependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"@babel/runtime"</span><span class="token operator">:</span> <span class="token string">"^7.15.3"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>例如：</p>
+<pre class=" language-json"><code class="language-json"><span class="token property">"peerDependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+  <span class="token property">"echarts"</span><span class="token operator">:</span> <span class="token string">"^5.3.1"</span><span class="token punctuation">,</span>
+  <span class="token property">"vue"</span><span class="token operator">:</span> <span class="token string">"^3.2.25"</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
+<p>在 <code>npm</code> 库的开发过程中，使用到了 <code>vue和echarts</code> 这两个依赖库，将其放在了 <code>peerDependencies</code> 中，此时当前库进行打包的时候</p>
+<p><code>vue和echarts</code> 这两个库就不会被打包进去。但是使用这个 <code>npm</code> 库的用户，需要在自己的项目中额外安装 <code>vue和echarts</code> 这两个依</p>
+<p>库。</p>
 
             </div>
             <hr/>
@@ -1305,7 +1350,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">386.2k</span>&nbsp;字
+                class="white-color">415.8k</span>&nbsp;字
             
             
             

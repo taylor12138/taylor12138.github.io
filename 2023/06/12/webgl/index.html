@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.3k
+                    1.4k
                 </div>
                 
 
@@ -523,12 +523,17 @@
 <span class="token comment" spellcheck="true">//xxxxxx</span>
 </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
 <p>然后，我们通过对GLSL数据的上传，然后编译成。顶点/片元  着色器。</p>
+<p>创建着色器需要走三步：</p>
+<ul>
+<li>createShader： 创建着色器对象</li>
+<li>shaderSource： 提供数据源</li>
+<li>compileShader： 编译 -&gt; 生成着色器</li>
+</ul>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 创建着色器，gl为上下文，type指明是顶点着色器还是片段着色器，source即为源码</span>
   <span class="token keyword">function</span> <span class="token function">createShader</span><span class="token punctuation">(</span>gl<span class="token punctuation">,</span> type<span class="token punctuation">,</span> source<span class="token punctuation">)</span> <span class="token punctuation">{</span>
       <span class="token keyword">const</span> shader <span class="token operator">=</span> gl<span class="token punctuation">.</span><span class="token function">createShader</span><span class="token punctuation">(</span>type<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 创建着色器对象</span>
       gl<span class="token punctuation">.</span><span class="token function">shaderSource</span><span class="token punctuation">(</span>shader<span class="token punctuation">,</span> source<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 提供数据源</span>
-
-      gl<span class="token punctuation">.</span><span class="token function">compileShader</span><span class="token punctuation">(</span>shader<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      gl<span class="token punctuation">.</span><span class="token function">compileShader</span><span class="token punctuation">(</span>shader<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//编译 -> 生成着色器</span>
 
       <span class="token keyword">var</span> success <span class="token operator">=</span> gl<span class="token punctuation">.</span><span class="token function">getShaderParameter</span><span class="token punctuation">(</span>shader<span class="token punctuation">,</span> gl<span class="token punctuation">.</span>COMPILE_STATUS<span class="token punctuation">)</span><span class="token punctuation">;</span>
       <span class="token keyword">if</span> <span class="token punctuation">(</span>success<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -538,24 +543,25 @@
       <span class="token punctuation">}</span>
 
       <span class="token keyword">return</span> shader<span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-
-  <span class="token keyword">function</span> <span class="token function">initShaderProgram</span><span class="token punctuation">(</span>gl<span class="token punctuation">,</span> vsSource<span class="token punctuation">,</span> fsSource<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">const</span> vshader <span class="token operator">=</span> <span class="token function">createShader</span><span class="token punctuation">(</span>gl<span class="token punctuation">,</span> gl<span class="token punctuation">.</span>VERTEX_SHADER<span class="token punctuation">,</span> vsSource<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token keyword">const</span> fshader <span class="token operator">=</span> <span class="token function">createShader</span><span class="token punctuation">(</span>gl<span class="token punctuation">,</span> gl<span class="token punctuation">.</span>FRAGMENT_SHADER<span class="token punctuation">,</span> fsSource<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-      <span class="token keyword">const</span> shaderProgram <span class="token operator">=</span> gl<span class="token punctuation">.</span><span class="token function">createProgram</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 创建着色器程序</span>
-      gl<span class="token punctuation">.</span><span class="token function">attachShader</span><span class="token punctuation">(</span>shaderProgram<span class="token punctuation">,</span> vshader<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 链接着色器到对应的着色器程序中</span>
-      gl<span class="token punctuation">.</span><span class="token function">attachShader</span><span class="token punctuation">(</span>shaderProgram<span class="token punctuation">,</span> fshader<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      gl<span class="token punctuation">.</span><span class="token function">linkProgram</span><span class="token punctuation">(</span>shaderProgram<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 关联着色器程序到整个绘制对象中</span>
-
-      <span class="token keyword">var</span> success <span class="token operator">=</span> gl<span class="token punctuation">.</span><span class="token function">getProgramParameter</span><span class="token punctuation">(</span>program<span class="token punctuation">,</span> gl<span class="token punctuation">.</span>LINK_STATUS<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token keyword">if</span> <span class="token punctuation">(</span>success<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> shaderProgram<span class="token punctuation">;</span>
-      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">//一些处理</span>
-      <span class="token punctuation">}</span>
   <span class="token punctuation">}</span></code></pre>
+<p>然后把着色器链接(link)到着色程序中</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//初始化着色程序</span>
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">initShaderProgram</span><span class="token punctuation">(</span>gl<span class="token punctuation">,</span> vsSource<span class="token punctuation">,</span> fsSource<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> vshader <span class="token operator">=</span> <span class="token function">createShader</span><span class="token punctuation">(</span>gl<span class="token punctuation">,</span> gl<span class="token punctuation">.</span>VERTEX_SHADER<span class="token punctuation">,</span> vsSource<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> fshader <span class="token operator">=</span> <span class="token function">createShader</span><span class="token punctuation">(</span>gl<span class="token punctuation">,</span> gl<span class="token punctuation">.</span>FRAGMENT_SHADER<span class="token punctuation">,</span> fsSource<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">const</span> shaderProgram <span class="token operator">=</span> gl<span class="token punctuation">.</span><span class="token function">createProgram</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 创建着色器程序</span>
+  gl<span class="token punctuation">.</span><span class="token function">attachShader</span><span class="token punctuation">(</span>shaderProgram<span class="token punctuation">,</span> vshader<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 链接着色器到对应的着色器程序中</span>
+  gl<span class="token punctuation">.</span><span class="token function">attachShader</span><span class="token punctuation">(</span>shaderProgram<span class="token punctuation">,</span> fshader<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  gl<span class="token punctuation">.</span><span class="token function">linkProgram</span><span class="token punctuation">(</span>shaderProgram<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 关联着色器程序到整个绘制对象中</span>
+
+  <span class="token keyword">var</span> success <span class="token operator">=</span> gl<span class="token punctuation">.</span><span class="token function">getProgramParameter</span><span class="token punctuation">(</span>shaderProgram<span class="token punctuation">,</span> gl<span class="token punctuation">.</span>LINK_STATUS<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>success<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> shaderProgram<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//一些处理</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <h4 id="Basic-语法"><a href="#Basic-语法" class="headerlink" title="Basic 语法"></a>Basic 语法</h4><h5 id="（1）变量类型"><a href="#（1）变量类型" class="headerlink" title="（1）变量类型"></a>（1）变量类型</h5><ul>
 <li><p>属性（Attributes）和缓冲</p>
 <p>缓冲是发送到GPU的一些二进制数据序列，通常情况下缓冲数据包括位置，法向量，纹理坐标，顶点颜色值等。 你可以存储任何数据。我们可以理解为和threejs 的 attribute 类似</p>
@@ -851,30 +857,30 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2023/06/12/webgl/">
+                <a href="/2023/06/13/react-router/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="WebGL">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="React-Router">
                         
-                        <span class="card-title">WebGL</span>
+                        <span class="card-title">React-Router</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            WebGL简介WebGL是一种JavaScript API，用于在不使用外挂程式的情况下在任何相容的网页浏览器中呈现交互式2D和3D图形[3]。WebGL完全整合到浏览器的所有网页标准中，可将影像处理和效果的GPU加速使用方式当做网页Can
+                            React路由React和Vue一样，都是采取单页面富应用的方式配置网页（SPA），即单个页面通过路由的切换，展示不同的数据信息，
+而且改变url，依然是页面不发生整体刷新（只做页面的局部刷新），对于if else、switch不同的地方在
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-06-12
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2023-06-13
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -887,7 +893,6 @@
                         </span>
                     </div>
                 </div>
-
                 
             </div>
         </div>
@@ -1080,7 +1085,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">386.2k</span>&nbsp;字
+                class="white-color">415.8k</span>&nbsp;字
             
             
             
